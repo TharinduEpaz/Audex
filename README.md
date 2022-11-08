@@ -1,4 +1,4 @@
-# Epa-s-MVC-Framwork
+# Epa-s-MVC-Framework
 controller : user interaction 
 
 model : data and database/storing and retrieving data
