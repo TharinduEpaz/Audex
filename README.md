@@ -30,7 +30,6 @@ htaccess
 
 # Router
 
-![Screenshot 2022-11-08 at 12.12.19 PM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3c95c101-bb00-4203-8bb8-67986a01fffa/Screenshot_2022-11-08_at_12.12.19_PM.png)
 
 takes the URL and decides what to do with it
 
