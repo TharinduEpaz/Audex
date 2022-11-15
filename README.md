@@ -121,7 +121,87 @@ if(is_callable([$class_name,$method]){
 
 ---
 
-Dispatching in the framework
+### Dispatching in the framework
 
 - Routing = asking for directions
 - Dispatching = following those directions
+
+<aside>
+💡 Dispatch function inside the router php file is dedicated to this purpose
+
+</aside>
+
+---
+
+## Namespaces - good practice
+
+- works like a folder or a directory which is used to store php files with some classes
+- allows us to use more classes with the same name
+- PHP looks for classes relative to the current namespace
+- Classes without namespace is defined in the root namespace
+- if we have lot of separate classes there may be lot of require statements
+- 
+
+```php
+namespace App\core\products as Product;
+
+$product = new Product();
+```
+
+## Autoloading class files on demand
+
+using spl_autoloader
+
+- autoload function will the lass when the specific object is initiated with the new keyword
+- keep each class in a separate file, filename matching the class name
+- Folders matching the namespace
+- then the classes will be automatically loaded.
+
+```php
+spl_autoload_register(function ($classname){
+require "classname.php"
+}
+```
+
+---
+
+## The __call magic method
+
+<aside>
+💡 If the called function is a private function or the called function does not exist in the class the default function called __call will be automatically called
+
+</aside>
+
+```php
+private function __call($name,$parameters){}
+```
+
+### Action Filters
+
+Used to execute some code before or after the every action
+
+- Can be used to check the user is logged in or not
+- Can be used to write a message into log file
+- Can be used to set the language of the website etc.
+
+```php
+class posts{
+public function __call($name,$args){
+//run code before
+
+call_user_func_array([$this,"$nameAction"],$args);
+//run code after
+
+}
+
+public function indexAction(){}
+```
+
+### Organize Controllers in subdirectories
+
+ 
+
+<aside>
+💡 If you need to organize controllers in the files structure like App/Controllers/Admin/Index this will not work until you add new route and new modifications into the dispatch function (see vid 33)
+
+</aside>

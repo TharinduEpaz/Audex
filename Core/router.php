@@ -1,6 +1,6 @@
 <?php
 // Router class
-
+namespace Core;
 class router
 {
     //  Associative arrays are arrays that use named keys that you assign to them.
@@ -63,4 +63,66 @@ class router
     {
         return $this->params;
     }
+
+    public function dispatch($url){
+
+        $url = $this->removeQueryStringVariables($url);
+
+        if($this->match($url)){
+            //extracting the controller from the URL 
+            //controller will be a class name in the code
+            $controller = $this->params['controller'];
+            $controller = $this->convertToStudyCaps($controller);
+            //used to auto load the class file using namespace
+            $controller = "App\Controllers\\$controller";
+
+            if(class_exists($controller)){
+                //when creating the new controller the route parameters are passed to it. you can see the route paramenters in the action at the controller class
+                $controller_object = new $controller($this->params);
+                
+                $action = $this->params['action'];
+                $action = $this->convertToCamelCase($action);
+
+                if(is_callable([$controller_object,$action])){
+                    $controller_object->$action();
+                }
+                else{
+                    echo "No method named $action found inside the $controller controller class";
+                } 
+            }
+            else{
+                echo "There is no controller exists $controller";
+            }
+        }else{
+        echo " NO ROUTE MATCHED ERROR";
+        }
+    }
+
+    protected function convertToStudyCaps($word){
+        //Study Caps means the each starting letter of the class neme must nbe capital. this method will convert the controller name extracted from the url into a studly caps class name
+        //BUG POSSIBLE HERE
+        return str_replace(' ','',ucwords(str_replace('-',' ',$word)));
+    }
+
+    protected function convertToCamelCase($word){
+        return lcfirst($this->convertToStudyCaps($word));
+    }
+
+    //this function will extract query string variables from the given URL
+    protected function removeQueryStringVariables($url){
+        if($url != ''){
+
+            $parts = explode('&',$url,2);
+
+            if(strpos($parts[0], '=') === false){
+                $url = $parts[0];
+            }
+            else{
+                $url = '';
+            }
+        }
+        return $url;
+    }
+
+
 }
