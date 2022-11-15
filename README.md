@@ -2,7 +2,8 @@
 
 Why MVC is good?
 
-![Screenshot 2022-11-08 at 10.26.32 AM.png](MVC%20framework%20fe61796c0d32491e9fdd015d863fc169/Screenshot_2022-11-08_at_10.26.32_AM.png)
+![Screenshot 2022-11-15 at 3 43 19 PM](https://user-images.githubusercontent.com/89836213/201893124-aeed896b-4c2f-4505-81c5-684ee016523a.png)
+
 
 controller : user interaction 
 
@@ -43,7 +44,8 @@ Folder Structure
 
 # Router
 
-![Screenshot 2022-11-08 at 12.12.19 PM.png](MVC%20framework%20fe61796c0d32491e9fdd015d863fc169/Screenshot_2022-11-08_at_12.12.19_PM.png)
+![Screenshot 2022-11-08 at 12 12 19 PM](https://user-images.githubusercontent.com/89836213/201893220-a84b1c95-7e75-45d9-b54a-7bd0b8275138.png)
+
 
 - takes the URL and decides what to do with it
 - create a router.php file inside the core folder
