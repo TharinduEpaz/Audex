@@ -1,17 +1,17 @@
 # MVC framework
 
-Why MVC is good?
+## Why MVC is good?
 
 ![Screenshot 2022-11-15 at 3 43 19 PM](https://user-images.githubusercontent.com/89836213/201893124-aeed896b-4c2f-4505-81c5-684ee016523a.png)
 
 
-#controller -> user interaction 
+## controller -> user interaction 
 
-#model -> data and database/storing and retrieving data
+## model -> data and database/storing and retrieving data
 
-#views -> what users sees on screen (HTML)
+## views -> what users sees on screen (HTML)
 
-##why mvc?
+## why mvc?
 
 - Separation of concerns - code does stuff + code show stuff
 - easier code reuse
@@ -19,7 +19,7 @@ Why MVC is good?
 - secure code
 - developer specialization - front end and the backend developer specialization
 
-#Folder Structure
+## Folder Structure
 
 - App
     - Controllers
