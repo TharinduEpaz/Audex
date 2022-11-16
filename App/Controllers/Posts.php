@@ -22,11 +22,11 @@ class Posts extends \Core\Controller {
 
     protected function before()
     {
-        echo "before";
+       
     }
     protected function after()
     {
-        echo "after";
+        
     }
 }
 

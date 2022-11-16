@@ -44,3 +44,4 @@ $url = $_SERVER['QUERY_STRING'];
 // echo '</pre>';
 
 $router->dispatch($_SERVER['QUERY_STRING']); 
+

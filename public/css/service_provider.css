@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800&display=swap');
+
+.service-provider-profile{
+    background-color: #E5E9F7;
+    height: 90vh;
+    margin-left: 240px;
+    padding: 5vh;
+
+}
+.service-provider-profile .white-box{
+    background-color: white;
+    height:80vh;
+    border-radius: 30px;
+    padding: 40px;
+}
+
+.service-provider-profile .profile-title{
+    
+    display:flex;
+}
+
+.service-provider-profile .profile-title .profile-pic i{
+
+
+  margin-right: 20px;
+
+}
+
+.service-provider-profile .profile-title .name-rating{
+
+}
+
+.service-provider-profile .profile-title .name-rating #Name{
+    font-weight: 600;
+    font-size: 40px;
+}
+
+.service-provider-profile .profile-title .name-rating #profession{
+    font-weight: 300;
+    font-size: 20px;
+}
+
+
+.service-provider-profile .profile-title .name-rating .name{
+
+}
+
+.service-provider-profile .profile-title .name-rating .rating{
+
+}

@@ -2,19 +2,26 @@
 
 namespace App\Controllers;
 
+use \Core\View;
+
 class Home extends \Core\Controller {
 
-    public function index(){
-        echo "I am the index function at the Home Controller";
+    public function indexAction(){
+         View::render('Home/index.php');
+
     }
     protected function before()
     {
-        echo "before";
+   
     }
     protected function after()
     {
-        echo "after";
     }
+
+  
+      
+    
+
 }
 
 
