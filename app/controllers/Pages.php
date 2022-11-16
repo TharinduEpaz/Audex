@@ -1,16 +1,15 @@
 <?php
-    class Pages{
+    class Pages extends Controller{
 
         public function __construct(){
-            echo "pages loaded";
+            // echo "pages loaded";
         }
 
         public function index(){
-            echo 'Hi123';
+            $this->view('hello');
         }
 
-        public function hello($id){
-            echo 'Hi .'.$id;
+        public function hello(){
         }
         
     }
