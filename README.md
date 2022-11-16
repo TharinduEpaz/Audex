@@ -1,17 +1,24 @@
 # MVC framework
 
-## Why MVC is good?
+### Why MVC is good?
 
 ![Screenshot 2022-11-15 at 3 43 19 PM](https://user-images.githubusercontent.com/89836213/201893124-aeed896b-4c2f-4505-81c5-684ee016523a.png)
 
 
-## controller -> user interaction 
+### Controller
 
-## model -> data and database/storing and retrieving data
+- user interaction
 
-## views -> what users sees on screen (HTML)
+### Model
 
-## why mvc?
+- data and database/storing and retrieving data
+
+### Views
+
+- what users sees on screen (HTML)
+
+### why mvc?
+
 
 - Separation of concerns - code does stuff + code show stuff
 - easier code reuse
@@ -207,3 +214,39 @@ public function indexAction(){}
 💡 If you need to organize controllers in the files structure like App/Controllers/Admin/Index this will not work until you add new route and new modifications into the dispatch function (see vid 33)
 
 </aside>
+
+---
+
+# Views
+
+View can contain files HTML Json XML etc. View is used to render out the output of over framework. As a website. View file just shows data it contains HTML and a small amount of PHP. View has no knowledge about models or sessions. 
+
+## How to add new views on this framework
+
+1. Create a folder inside the App/Views folder
+2. Add index.php inside that View folder
+3. PHP file must contain the relevant HTML code
+4. Add the route to the public/index.php
+5. Add the controller named <filename.php> inside the App/Controllers folder
+6. Controller must have the correct indexAction function.
+
+*`Replace VIEW NAME with the necessary controller name`*
+
+```php
+<?php 
+
+namespace App\Controllers;
+
+use \Core\View;
+
+class <<VIEW NAME>> extends \Core\Controller {
+
+    public function indexAction(){
+         View::render('<<VIEW NAME>>/index.php');
+
+    }
+
+}
+
+?>
+```
