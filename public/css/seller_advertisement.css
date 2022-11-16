@@ -1,0 +1,98 @@
+.poster_advertisements{
+    display: block;
+    position: absolute;
+    left: 240px;
+    width: calc(100% - 240px);
+    height: 90vh;
+    padding:1% 1% 1% 1%;
+    background: #E5E9F7;
+  
+  }
+  .poster_advertisements h1{
+    text-align: center;
+    font-weight: 200;
+    margin-bottom: 2vh;
+  }
+  .header{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  
+  }
+  .header p{
+    padding: 0.5vh 0.5%;
+    text-align: center;
+    margin-right: 1%;
+    
+  }
+  .header img{
+    visibility: hidden;
+    
+  }
+  .one{
+    flex-basis: 50%;
+  }
+  .two{
+    flex-basis: 10%;
+  }
+  .three{
+    flex-basis: 10%;
+  }
+  .four{
+    flex-basis: 10%;
+  }
+  .five{
+    flex-basis: 10%;
+  }
+  .six{
+    flex-basis: 10%;
+  }
+  
+  .advertisements{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background:#CFCBFF;
+    border: 1px solid black;
+    margin-top: 1vh;
+    border-radius: 12px;
+  }
+  .advertisements p{
+    padding: 1.5vh 0.5%;
+    text-align: center;
+    margin-right: 1%;
+  
+    
+  }
+  .advertisements a{
+    text-decoration: underline;
+    padding: 1.5vh 0.5%;
+    text-align: center;
+    margin-right: 1%;
+  
+    
+  }
+  .advertisements .one{
+    text-align: left;
+    padding-left: 2%;
+  }
+  .image{
+    flex-basis: 8%;
+  
+  }
+  .image img{
+    width: 35px;
+    margin-left: 15%;
+    margin-top: 0.5vh;
+  }
+  @media (max-width:860px){
+    .poster_advertisements{
+        left: 70px;
+        width: calc(100% - 70px);
+        height: 100vh;
+      }
+  }
+  
+  
+  
+  
