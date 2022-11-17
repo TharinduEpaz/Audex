@@ -2,7 +2,7 @@
     class Users extends Controller{
 
         public function __construct(){
-            // echo "pages loaded";
+            $this->userModel = $this->model('User');
         }
         //register
         public function register(){
@@ -18,6 +18,7 @@
                     'second_name' =>trim($_POST['lname']),
                     'email' => trim($_POST['email']),
                     'phone' => trim($_POST['phone']),
+                    'user_type' => trim($_POST['type']),
                     'password' => trim($_POST['password']),
                     'first_name_err' => '',
                     'second_name_err' => '',
@@ -29,6 +30,11 @@
                 //Validate email
                 if(empty($data['email'])){
                     $data['email_err'] = 'Please enter email';
+                }else{
+                    //Check email
+                    if($this->userModel->findUserByEmail($data['email'])){
+                        $data['email_err'] = 'Email is already taken';
+                    }
                 }
                 //Validate first name
                 if(empty($data['first_name'])){
@@ -53,7 +59,17 @@
                 //Make sure errors are empty
                 if(empty($data['email_err']) && empty($data['first_name_err']) && empty($data['second_name_err']) && empty($data['phone_err']) && empty($data['password_err'])){
                     //Validated
-                    die('SUCCESS');
+
+                    //Hash password
+                    $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+                    //Register user
+                    if($this->userModel->register($data)){
+                        // flash('register_success', 'You are registered and can log in');
+                        redirect('users/login');
+                    }else{
+                        die('Something went wrong');
+                    }
                 }else{
                     //Load view with errors
                     $this->view('users/register', $data);
@@ -66,6 +82,7 @@
                     'second_name' => '',
                     'email' => '',
                     'phone' => '',
+                    'user_type' => '',
                     'password' => '',
                     'first_name_err' => '',
                     'second_name_err' => '',
