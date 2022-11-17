@@ -23,8 +23,8 @@
             <li><a href="#" class="nav_tags">Shop</a></li>
             <li><a href="#" class="nav_tags">Sound Engineers</a></li>
             <li><a href="#" class="nav_tags">Events</a></li>
-            <li><a href="login" class="nav_tags">Login</a></li>
-            <li><a href="register" class="nav_tags">Signup</a></li>
+            <li><a href="<?php echo URLROOT;?>/users/login" class="nav_tags">Login</a></li>
+            <li><a href="<?php echo URLROOT;?>/users/register" class="nav_tags">Signup</a></li>
 
         </ul>
     </nav>

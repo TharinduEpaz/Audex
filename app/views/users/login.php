@@ -29,32 +29,33 @@
     <div class="container">
         <div id="forms" class="form">
             <h1>Login</h1>
-            <!-- <?php
-                if(isset($errors) && !empty($errors)){
+            <?php
+                if(!empty($data['email_err']) || !empty($data['password_err'])  ){
                     echo '<div class="error">';
-                    foreach($errors as $error){
-                        echo '-'.$error.'<br>';
-                    }
+                        if(!empty($data['email_err'])){
+                            echo '*'.$data['email_err'].'<br>';
+                        }
+                        if(!empty($data['password_err'])){
+                            echo '*'.$data['password_err'].'<br>';
+                        }
+
                     echo '</div>';
                 }
-                if(isset($_GET['logout'])){
-                    echo '<div class="error">Successfully loged out</div>';
-                }
 
-            ?> -->
+            ?>
 
-            <form action="index.php" method="post" >
+            <form action="<?php echo URLROOT . '/users/login';?>" method="post" >
                 <div class="input">
                     <label for="">Email</label>
-                    <input type="email" name="email" placeholder="Enter email" required>
+                    <input type="email" name="email" placeholder="Enter email" value="<?php echo $data['email']?>" >
                 </div>
                 <div class="input">
                     <label for="">Password</label>
-                    <input type="password" name="password" placeholder="Enter password" required>
+                    <input type="password" name="password" placeholder="Enter password" value="<?php echo $data['password']?>" >
                 </div>
                 <div class="reg_now">
                     <p>Do not have an account?&nbsp&nbsp</p>
-                    <a href="register"> Register now</a>
+                    <a href="<?php echo URLROOT . '/users/register';?>"> Register now</a>
                 </div>
                 <a href="register.html" class="forgot">Forgot password</a>
                 <div class="submit">

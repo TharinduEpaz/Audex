@@ -12,7 +12,16 @@
                 'title' => 'Welcome!!!!!'
               ];
              
-              $this->view('index', $data);
+              $this->view('pages/index', $data);
+        }
+        public function login(){
+            // echo 'hi';
+
+            $data = [
+                'title' => 'Welcome!!!!!'
+              ];
+             
+              $this->view('login', $data);
         }
         
     }
