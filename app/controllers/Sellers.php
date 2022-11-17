@@ -1,18 +1,18 @@
 <?php
-    class Pages extends Controller{
+    class Sellers extends Controller{
 
         public function __construct(){
             // echo "pages loaded";
         }
 
-        public function index(){
+        public function advertisements(){
             // echo 'hi';
 
             $data = [
                 'title' => 'Welcome!!!!!'
               ];
              
-              $this->view('pages/index', $data);
+              $this->view('sellers/advertisements', $data);
         }
         
     }

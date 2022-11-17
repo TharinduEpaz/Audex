@@ -28,6 +28,14 @@
     </nav>
     <div class="container">
         <div id="forms" class="form">
+        <?php 
+        if(flash('register_success')){
+            echo '<div class="alert">';
+                flash('register_success');
+            echo '</div>';
+
+        }  
+            ?>
             <h1>Login</h1>
             <?php
                 if(!empty($data['email_err']) || !empty($data['password_err'])  ){

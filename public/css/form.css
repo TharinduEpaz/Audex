@@ -111,6 +111,13 @@ body {
     background-attachment: scroll; */
   
 }
+.alert{
+  background: #ff7373;
+    width: 100%;
+    text-align: center;
+    margin-top: 2%;
+    padding: 1% 1% 1% 10%;
+}
 .form h1{
     text-align: center;
 }
