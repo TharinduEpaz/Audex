@@ -23,7 +23,7 @@
             <li><a href="#" class="nav_tags">Shop</a></li>
             <li><a href="#" class="nav_tags">Sound Engineers</a></li>
             <li><a href="#" class="nav_tags">Events</a></li>
-            <li><a href="#" class="nav_tags">Login</a></li>
+            <li><a href="#" class="nav_tags">Sign up</a></li>
         </ul>
     </nav>
     <div class="container">
@@ -73,6 +73,6 @@
         </div>
     </div>
 </body>
-<script src="../js/form.js"></script>
+<script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>
 <!-- Closing the connection

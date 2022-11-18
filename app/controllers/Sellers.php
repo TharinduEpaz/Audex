@@ -2,17 +2,36 @@
     class Sellers extends Controller{
 
         public function __construct(){
-            // echo "pages loaded";
+            if(!isLoggedIn()){
+                redirect('users/login');
+            }
+
+            $this->sellerModel=$this->model('Seller');
         }
 
         public function advertisements(){
-            // echo 'hi';
+            //Get advertisements
+            $advertisements=$this->sellerModel->getadvertisements();
+
+
 
             $data = [
-                'title' => 'Welcome!!!!!'
+                'advertisements' => $advertisements
               ];
              
               $this->view('sellers/advertisements', $data);
+        }
+
+        //Add product
+        public function advertise(){
+            // echo 'hi';
+
+            $data = [
+                'title' => '',
+                'body'=>''
+              ];
+             
+              $this->view('sellers/advertise', $data);
         }
         
     }

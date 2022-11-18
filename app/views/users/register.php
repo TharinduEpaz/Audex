@@ -123,6 +123,6 @@
         </div>
     </div>
 </body>
-<script src="../js/form.js"></script>
+<script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>
 <!-- Closing the connection

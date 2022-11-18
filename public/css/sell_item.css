@@ -93,14 +93,16 @@
     background: #F01131;
     padding: 0.25% 1% 0.25% 1%;
     color: white;
-    border-radius: 10px;
+    border-radius: 12px;
     border: 1px solid #F01131;
     width: 10%;
+    font-size: 11pt;
+    font-weight: normal;
 }
 .cancel:hover{
     background: #5C4FEF;
     border: 1px solid #5C4FEF;
-
+    color: white;
 }
 @media (max-width:860px){
     .advertisement{

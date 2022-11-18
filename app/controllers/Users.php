@@ -166,11 +166,12 @@
         }
 
         public function createUserSession($user){
-            $_SESSION['user_id'] = $user->id;
+            //User loged in correctly
+            $_SESSION['user_id'] = $user->_id;
             $_SESSION['user_email'] = $user->email;
             $_SESSION['user_name'] = $user->first_name;
             $_SESSION['user_type'] = $user->user_type;
-            redirect('sellers/advertisements');
+            redirect('pages/index');
         }
 
         //Logout
@@ -183,14 +184,6 @@
             redirect('users/login');
         }
 
-        //Check if user is logged in
-        public function isLoggedIn(){
-            if(isset($_SESSION['user_id'])){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
+        
         
     }

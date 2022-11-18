@@ -24,15 +24,29 @@
             <li><a href="#" class="nav_tags">Shop</a></li>
             <li><a href="#" class="nav_tags">Sound Engineers</a></li>
             <li><a href="#" class="nav_tags">Events</a></li>
-            <li><a href="<?php echo URLROOT;?>/users/logout" class="nav_tags">Hi <?php echo $_SESSION['user_name']?></a></li>
+            
+            <?php if(isset($_SESSION['user_id'])){
+                echo '<div class="dropdown">';
+                    echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
+                    echo '<div id="myDropdown" class="dropdown-content">';
+                        echo '<a href="'.URLROOT . '/sellers/advertisements" class="nav_tags">Profile</a>';
+                        echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
+                    echo '</div>';
+                echo '</div> ';
+            }
+            else{
+                echo '<li><a href="'.URLROOT . '/users/login" class="nav_tags">Login</a></li>';
+                echo '<li><a href="'.URLROOT.'/users/register" class="nav_tags">Signup</a></li>';
+            }
+             ?>
         </ul>
     </nav>
     <div class="container">
         <div class="sidebar">
                 <a href="#"><i class="fas fa-qrcode"></i> <span>Dashboard</span></a>
                 <a href="#"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile Settings</span></a>
-                <a class="current" href="#"> <i class="fa fa-ad" aria-hidden="true"></i><span>Advertisements</span></a>
-                <a href="sell_item.php"> <i class="fa-solid fa-dollar-sign" aria-hidden="true"></i><span>Sell Item</span></a>
+                <a class="current" href="<?php echo URLROOT;?>/sellers/advertisements"> <i class="fa fa-ad" aria-hidden="true"></i><span>Advertisements</span></a>
+                <a href="<?php echo URLROOT;?>/sellers/advertise"> <i class="fa-solid fa-dollar-sign" aria-hidden="true"></i><span>Sell Item</span></a>
                 <a href="#"> <i class="fa fa-comments"></i><span>Messages</span></a>       
         </div>
         <div class="poster_advertisements">
@@ -49,22 +63,22 @@
                 <p class="six">Priview</p>
 
             </div>
-            <!-- <div class="advertisements"> -->
-                <!-- <img class="two" src="../img/Rectangle 100.png" alt="photo">
+            <?php foreach($data['advertisements'] as $advertisement): ?>
+            <div class="advertisements">
                 <div class="image">
-                    <img src="../img/Rectangle 100.png" alt="photo">
+                    <img src="<?php echo URLROOT . '/img/Rectangle 100.png';?>" alt="photo">
                 </div>
-                <p class="one">Title</p>
-                <p class="two">Format</p>
-                <p class="three">Bids/Offers</p>
-                <p class="four">Price</p>
+                <p class="one"><?php echo $advertisement->product_title?></p>
+                <p class="two"><?php echo $advertisement->product_type?></p>
+                <p class="three">N/A</p>
+                <p class="four"><?php echo $advertisement->price?></p>
                 <a class="five" href="#">Edit</a>
-                <a class="six" href="#">Preview</a> -->
-                <!-- <?php echo $product_list;?> -->
-            <!-- </div> -->
+                <a class="six" href="#">Preview</a>
+            </div>
+            <?php endforeach; ?>
         </div>
 
     </div>
 </body>
-<script src="../js/form.js"></script>
+<script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>
