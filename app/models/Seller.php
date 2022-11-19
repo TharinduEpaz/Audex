@@ -7,7 +7,7 @@
         }
 
         public function getadvertisements($email){
-            $this->db->query('SELECT * FROM product WHERE email=:email');
+            $this->db->query('SELECT * FROM product WHERE email=:email && is_deleted=0');
             $this->db->bind(':email', $email);
             $results = $this->db->resultSet();
             return $results;
@@ -55,6 +55,19 @@
             $this->db->bind(':brand', $data['brand']);
             $this->db->bind(':price', $data['price']);
             $this->db->bind(':description', $data['description']);
+
+            //Execute
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        public function delete_advertisement($id){
+            $this->db->query('UPDATE product SET is_deleted=1 WHERE product_id=:id');
+            //Bind values
+            $this->db->bind(':id', $id);
 
             //Execute
             if($this->db->execute()){

@@ -46,7 +46,9 @@
                 <!-- <a href="">next</a> -->
             </div>
             <div class="details">
-                <a href="<?php echo URLROOT;?>/sellers/delete/<?php echo $data['advertisement']->product_id?>">Delete</a>
+                <form action="<?php echo URLROOT;?>/sellers/delete_advertisement/<?php echo $data['advertisement']->product_id;?>" method="POST">
+                    <input type="submit" value="Delete">
+                </form>
                 <h2><?php echo $data['advertisement']->product_title?></h2>
                 <table>
                     <tr>

@@ -35,12 +35,19 @@ body{
 
 
 }
-.details a{
+.details input{
     float: right;
-    background:#E02727;
+    background:#002EF9;
     color: white;
     padding: 1% 2% 1% 2%;
     border-radius: 10px;
+    border: 1px solid #002EF9;
+}
+.details input:hover{
+    transition: 0.5s;
+    background:#E02727;
+    border: 1px solid #E02727;
+    cursor: pointer;
 }
 .details h2{
     text-align: center;

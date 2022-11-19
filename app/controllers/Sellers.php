@@ -265,5 +265,24 @@ use function PHPSTORM_META\type;
 
             
         }
+
+        public function delete_advertisement($id){
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                //Get existing post from model
+                $advertisement=$this->sellerModel->getAdvertisementById($id);
+                //Check for owner
+                if($advertisement->email != $_SESSION['user_email']){
+                    redirect('sellers/advertisements');
+                }
+                if($this->sellerModel->delete_advertisement($id)){
+                    flash('product_message', 'Product Removed');
+                    redirect('sellers/advertisements');
+                } else {
+                    die('Something went wrong');
+                }
+            } else {
+                redirect('sellers/advertisements');
+            }
+        }
         
     }
