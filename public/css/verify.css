@@ -1,3 +1,9 @@
+.nav{
+}
+.form{
+    position: absolute;
+    margin-top: 4vh;
+}
 .form .submit{
     width: 40%;
 }

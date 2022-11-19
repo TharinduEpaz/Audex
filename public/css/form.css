@@ -17,11 +17,13 @@ body {
   background-repeat: no-repeat;
   background-size: 110% 140vh;
 }
-  nav{
-    background: #FFFFFF;
-    height: 10vh;
-    width: 100%;
-  }
+nav{
+  top: 0;
+  left: 0;
+  background: #FFFFFF;
+  height: 10vh;
+  width: 100%;
+}
   nav img{
     margin-top: 2vh;
     margin-left: 2%;
@@ -32,7 +34,7 @@ body {
   }
   nav ul li{
     display: inline-block;
-    line-height: 10vh;
+    line-height: 9vh;
   }
   .nav_tags{
     color: rgb(0, 0, 0);
@@ -61,7 +63,8 @@ body {
 
   } */
   .dropdown{
-    line-height: 10vh;
+    line-height: 9vh;
+
     padding: 0 10px;
     border-radius: 3px;
     
@@ -177,7 +180,7 @@ body {
   }
  .container{
     width: 100vw;
-    height: 90vh;
+    height: 80vh;
     /* background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -351,4 +354,9 @@ body {
   border-radius: 10px;
   color: red;
   font-weight: 700; 
+}
+@media (max-width:860px){
+  nav img{
+      margin-left: 3%;
+  }
 }
