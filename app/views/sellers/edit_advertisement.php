@@ -45,7 +45,7 @@
                 <a href="#"><i class="fas fa-qrcode"></i> <span>Dashboard</span></a>
                 <a href="#"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile Settings</span></a>
                 <a href="<?php echo URLROOT;?>/sellers/advertisements"> <i class="fa fa-ad" aria-hidden="true"></i><span>Advertisements</span></a>
-                <a class="current" href="<?php echo URLROOT;?>/sellers/advertise"><i class="fa-solid fa-dollar-sign" aria-hidden="true"></i><span>Sell Item</span></a>
+                <a class="current" href="<?php echo URLROOT;?>/sellers/advertise"><i class="fa-solid fa-dollar-sign" aria-hidden="true"></i><span>Edit Item</span></a>
                 <a href="#"> <i class="fa fa-comments"></i><span>Messages</span></a>       
         </div>
         <div class="container">
@@ -87,14 +87,14 @@
                 }
 
             ?>
-                    <form action="<?php echo URLROOT . '/sellers/advertise';?>" method="post">
+                    <form action="<?php echo URLROOT . '/sellers/edit_advertisement/'.$data['id'];?>" method="post">
                         <div class="input">
                             <label for="">Title&nbsp</label>
                             <input class="title" type="text" name="title"  value="<?php echo $data['title']?>" >
                         </div>
                         <div class="input">
                             <label for="">Price</label>
-                            <input class="price" type="text" name="price"  placeholder="xxxx.xx" value="<?php echo $data['price']?>"  >
+                            <input class="price" type="text" name="price"  value="<?php echo $data['price']?>"  >
                         </div>
                         <div class="input">
                             <label for="check_au" >Auction(optional)</label>
@@ -139,11 +139,11 @@
                         </div>
                         <div class="input">
                             <label class="descriptionl" for="">Description</label>
-                            <textarea name="description" id="description" class="description" cols="30" rows="15"  value="<?php echo $data['description']?>" ></textarea>
+                            <textarea name="description" id="description" class="description" cols="30" rows="15"  value="" ><?php echo $data['description']?></textarea>
                             
                         </div>
                         <div class="submit">
-                            <input type="submit" name="submit" value="Post" class="post">
+                            <input type="submit" name="submit" value="Edit" class="post">
                             <a class="cancel" href="<?php echo URLROOT;?>/sellers/advertisements">Cancel</a>
 
                         </div>

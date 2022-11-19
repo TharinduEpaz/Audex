@@ -1,14 +1,10 @@
-.body{
+body{
     height: 100vh;
     background-image: none;
     background-color: #E5E9F7;
 }
-.html{
-    background-image: none;
-
-}
 .sidebar{
-    height: 136.75vh;
+    height: 140vh;
 }
 .container{
     height: 100%;
