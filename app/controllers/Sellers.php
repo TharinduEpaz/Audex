@@ -1,8 +1,8 @@
 <?php
 
-use function PHPSTORM_META\type;
 
     class Sellers extends Controller{
+        private $sellerModel;
 
         public function __construct(){
             if(!isLoggedIn()){
