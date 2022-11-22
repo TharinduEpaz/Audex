@@ -9,6 +9,6 @@
     //App Root
     define('APPROOT', dirname(dirname(__FILE__)));
     //URL Root
-    define('URLROOT', 'http://localhost/EPA-S-MVC-FRAMEWORK');
+    define('URLROOT', 'http://localhost/Audex');
     //Site Name
     define('SITENAME', 'AudexMVCFRAMEWORK');
