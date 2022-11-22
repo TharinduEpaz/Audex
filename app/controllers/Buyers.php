@@ -3,7 +3,7 @@
 
     public function index(){
         $data = [];
-        $this->view('buyers/index',$data);
+        $this->view('pages/index',$data);
     }
 
 
