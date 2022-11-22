@@ -1,0 +1,36 @@
+.form .submit{
+    width: 40%;
+}
+.form .submit input{
+    background: #E5E9F7;
+    border-style: none;
+    color: black;
+    padding: 0;
+    line-height: 0;
+    width: 70%;
+    height: 5vh;
+    margin: 0;
+}
+.reg_now, .forgot{
+    font-weight: 700;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+.reg_now a{
+    font-weight: 700;
+    color: #863B3B;
+    text-decoration: underline;
+}
+.forgot{
+    font-weight: 700;
+    color: #863B3B;
+    text-align: center;
+    width: 100%;
+    margin-top: 1vh;
+}
+.submit .button:hover{
+    background: #0082e6;
+    color: white;
+}
