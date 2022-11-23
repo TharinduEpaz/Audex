@@ -19,6 +19,13 @@
                 }
         }
 
+        public function getAdvertiesment(){
+            $this->db->query('SELECT * FROM product');
+            $results = $this->db->resultSet();
+            return $results;
+
+        }
+
 
     }
 

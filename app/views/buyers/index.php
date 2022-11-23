@@ -35,6 +35,19 @@
 </nav>
 
 <div class="container">
+    <div class="header">
+        <h1>New Arrivals</h1>
+    </div>
+    <div class="container-data">
+        <?php foreach($data['ads'] as $ads) : ?>
+            <div class="container-ad">
+                <h3 class="title"><?php echo $ads->product_title ; ?></h3>
+            </div>
+        <?php endforeach; ?>
+    </div>
+    <div class="header">
+        <h1>Popular Engineers</h1>
+    </div>
     
 </div>
 <?php require_once APPROOT.'/views/includes/footer.php'; ?>
