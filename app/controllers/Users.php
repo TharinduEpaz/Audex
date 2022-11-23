@@ -1,9 +1,12 @@
 <?php
     class Users extends Controller{
         private $userModel;
+        private $buyerModel;
 
         public function __construct(){
             $this->userModel = $this->model('User');
+            $this->buyerModel = $this->model('Buyer');
+
         }
         //register
         public function register(){
@@ -67,7 +70,12 @@
                     //Register user
                     if($this->userModel->register($data)){
                         flash('register_success', 'You are registered and can log in');
-                        redirect('users/login');
+                        if($data['user_type']=='buyer'){
+                            if($this->buyerModel->register($data)){
+                                redirect('users/login');
+
+                            }
+                        }
                     }else{
                         die('Something went wrong');
                     }
