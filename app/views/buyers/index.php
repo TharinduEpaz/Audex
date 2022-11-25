@@ -29,7 +29,7 @@
             echo '<li><a href="'.URLROOT . '/users/login" class="nav_tags">Login</a></li>';
             echo '<li><a href="'.URLROOT.'/users/register" class="nav_tags">Signup</a></li>';
         }
-            ?>
+?>
 
     </ul>
 </nav>
@@ -41,7 +41,12 @@
     <div class="container-data">
         <?php foreach($data['ads'] as $ads) : ?>
             <div class="container-ad">
-                <h3 class="title"><?php echo $ads->product_title ; ?></h3>
+                <?php echo $ads->p_description ; ?>
+                <a href="#">
+                <div class="title">
+                    <a href="<?php echo URLROOT . '/buyers/advertiesmentDetails/'.$ads->product_id;?>"><h4><?php echo $ads->product_title ; ?></h4></a>
+                </div>
+                </a>
             </div>
         <?php endforeach; ?>
     </div>
