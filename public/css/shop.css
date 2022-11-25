@@ -10,15 +10,27 @@
     display: grid;
     grid-template-columns: repeat(5,1fr);
     grid-auto-rows: 200px;
+    grid-gap: 0.3rem;
+    
     
 }
-.container-data h1{
-    text-align: justify;
-}
-  
 .container-ad{
+    width: 230px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     margin: 20px;
     border: 3px solid black;
+    overflow: hidden;
+    
+ }
+.container-ad .title{
+    width: 100%;
+    height: 25%;
+    overflow: hidden;
+    background-color: rgb(88, 148, 201);
+
+
+  
   
  }
-  
