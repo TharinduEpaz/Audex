@@ -13,6 +13,15 @@
         ];
         $this->view('buyers/index',$data);
     }
+   public function advertiesmentDetails($id)
+    {
+      $ad = $this->buyerModel->getAdvertiesmentById($id);
+      $data = [
+        'ad' => $ad
+      ];
+      $this->view('buyers/advertiesmentDetails',$data);
+    }
+    
 
 
   }  
