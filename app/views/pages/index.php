@@ -14,7 +14,15 @@
             echo '<div class="dropdown">';
                 echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
                 echo '<div id="myDropdown" class="dropdown-content">';
-                    echo '<a href="'.URLROOT . '/sellers/advertisements" class="nav_tags">Profile</a>';
+                    if ($_SESSION['user_type']=='seller') {
+                        echo '<a href="'.URLROOT . '/sellers/advertisements" class="nav_tags">Profile</a>';
+                    }
+                    if ($_SESSION['user_type']=='buyer') {
+                        echo '<a href="'.URLROOT . '/buyers/getProfile" class="nav_tags">Profile</a>';
+                    }
+                    if ($_SESSION['user_type']=='service_provider') {
+                        echo '<a href="'.URLROOT . '/buyers" class="nav_tags">Profile</a>';
+                    }
                     echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                 echo '</div>';
             echo '</div> ';

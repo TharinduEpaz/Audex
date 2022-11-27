@@ -7,7 +7,7 @@
     <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="">
     <ul>
         <li><a href="home.php" class="nav_tags">Home</a></li>
-        <li><a href="#" class="nav_tags">Shop</a></li>
+        <li><a href="<?php echo URLROOT . '/buyers';?>" class="nav_tags">Shop</a></li>
         <li><a href="#" class="nav_tags">Sound Engineers</a></li>
         <li><a href="#" class="nav_tags">Events</a></li>
         <li><a href="<?php echo URLROOT . '/users/register';?>" class="nav_tags">Sign up</a></li>

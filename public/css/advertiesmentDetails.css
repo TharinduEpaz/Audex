@@ -1,0 +1,102 @@
+.container .ad-search{
+    margin: 20px 20px 20px 120px;
+}
+.container .ad-search input{
+    width: 500px;
+    height: 35px;
+    border: none;
+    border-radius: 1rem;
+    background-color: white;
+    font-size: 24px;
+    padding-inline: 1rem;
+}
+.container .ad-search button{
+    margin-left: 20px;
+    width: 100px;
+    height: 35px;
+    border: none;
+    border-radius: 1rem;
+    background-color: white;
+    font-size: 24px;
+    
+}
+.container-main{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.container-product-img{
+    display: flex;
+    flex-direction: column;
+    margin: 20px 40px 10px 0;
+    border-radius: 2rem 2rem 0 0;
+}
+.container-product-img img{
+    aspect-ratio: 4/3;
+    width: 490px;
+    border-radius: 2rem;
+}
+
+.container-product-description {
+    margin-top:20px;
+}
+.container-product-description h4{
+    align-content: flex-start;
+    margin-bottom: 15px;
+}
+.container-product-attributes{
+    margin-top: 40px;
+    height: 455px;
+}
+.container-product-attributes .title{
+    margin-bottom: 10px;
+
+}
+.container-product-attributes .category{
+    margin-bottom: 5px;
+    
+}
+.container-product-attributes .condition{
+    margin-bottom: 5px;
+    
+}
+.container-product-attributes .brand{
+    margin-bottom: 5px;
+    
+}
+.container-product-attributes .price button{
+    margin: 10px 0 0 5px;
+    width: 150px;
+    height: 40px;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 1rem;
+    
+}
+.container-product-attributes .msg{
+    margin: 10px 0 0 5px;
+    width: 150px;
+    height: 40px;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: rgb(6, 6, 11);
+    color: white;
+    border: none;
+    border-radius: 1rem; 
+}
+
+.container-product-attributes .watch{
+    margin: 10px 0 0 5px;
+    width: 250px;
+    height: 40px;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: rgb(6, 6, 11);
+    color: white;
+    border: none;
+    border-radius: 1rem; 
+}
