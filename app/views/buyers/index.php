@@ -2,7 +2,7 @@
 <style>
     body{
         background-image: none;
-        background-color: azure;
+        background-color: rgb(214, 214, 239);
     }
 </style> 
 <nav>
@@ -20,7 +20,7 @@
             echo '<div class="dropdown">';
                 echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
                 echo '<div id="myDropdown" class="dropdown-content">';
-                    echo '<a href="'.URLROOT . '/sellers/advertisements" class="nav_tags">Profile</a>';
+                    echo '<a href="'.URLROOT . '/buyers/getProfile" class="nav_tags">Profile</a>';
                     echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                 echo '</div>';
             echo '</div> ';
@@ -41,18 +41,18 @@
     <div class="container-data">
         <?php foreach($data['ads'] as $ads) : ?>
             <div class="container-ad">
-                <?php echo $ads->p_description ; ?>
-                <a href="#">
-                <div class="title">
-                    <a href="<?php echo URLROOT . '/buyers/advertiesmentDetails/'.$ads->product_id;?>"><h4><?php echo $ads->product_title ; ?></h4></a>
+                <div class="container-img">
+                    <img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($ads->img); ?>" /> 
                 </div>
-                </a>
+                <div class="title">
+                    <a href="<?php echo URLROOT . '/buyers/advertiesmentDetails/'.$ads->product_id;?>">
+                    <h4><?php echo $ads->product_title ; ?></h4></a>
+                </div>
             </div>
         <?php endforeach; ?>
     </div>
     <div class="header">
         <h1>Popular Engineers</h1>
     </div>
-    
 </div>
 <?php require_once APPROOT.'/views/includes/footer.php'; ?>

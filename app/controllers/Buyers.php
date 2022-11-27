@@ -21,6 +21,29 @@
       ];
       $this->view('buyers/advertiesmentDetails',$data);
     }
+    public function getProfile()
+    { 
+      if(!isLoggedIn()){
+        redirect('users/login');
+      }
+      $details = $this->buyerModel->getBuyerDetails($_SESSION['user_id']);
+      $data =[
+        'user' => $details
+      ];
+      $this->view('buyers/getProfile',$data);
+    }
+
+    public function watchlist(){
+      if(!isLoggedIn()){
+        redirect('users/login');
+      }
+      $products = $this->buyerModel->getBuyerWatchProducts($_SESSION['user_id']);
+      $data =[
+        'products' => $products,
+      ];
+      $this->view('buyers/watchlist',$data);
+
+    }
     
 
 

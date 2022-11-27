@@ -33,7 +33,20 @@
             $row = $this->db->single();
             return $row;
         }
+        public function getBuyerDetails($id){
+            $this->db->query('SELECT * FROM user WHERE _id = :id');
+            $this->db->bind(':id' , $id);
 
+            $row = $this->db->single();
+            return $row;
+        }
+
+        public function getBuyerWatchProducts($id){
+            $this->db->query('SELECT * FROM product');
+            $results = $this->db->resultSet();
+            return $results;
+
+        }
 
     }
 
