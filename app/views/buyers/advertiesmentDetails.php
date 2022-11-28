@@ -64,7 +64,7 @@
                 <button ><?php echo 'RS.'.$data['ad']->price ; ?></button>
             </div>
             <button type="submit" class="msg">Message</button>
-            <button type="submit" class="watch">Add To Watchlist</button>
+            <button onclick="" type="submit" class="watch">Add To Watchlist</button>
         </div>
     </div>
 </div>

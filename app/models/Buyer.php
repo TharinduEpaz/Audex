@@ -41,11 +41,28 @@
             return $row;
         }
 
-        public function getBuyerWatchProducts($id){
-            $this->db->query('SELECT * FROM product');
+        public function getBuyerWatchProducts($email){
+            $this->db->query('SELECT product_id FROM watch_list WHERE email = :email');
+            $this->db->bind(':email' , $email);
             $results = $this->db->resultSet();
-            return $results;
 
+            // foreach($results as $result):
+            //     echo gettype($result) . "</br>";
+            //     echo $result->product_id . "</br>";
+            //     echo gettype($result->product_id) . "</br>";
+            // endforeach;
+
+            $items = [];
+            foreach($results as $result):
+                $id = $result->product_id;
+                settype($id,"integer");
+                $this->db->query('SELECT product_id,email,product_title,product_condition,img FROM product WHERE product_id = :id');
+                $this->db->bind(':id' , $id);
+                $item = $this->db->single();
+                array_push($items,$item);
+            endforeach;
+            return $items;
+            
         }
 
     }

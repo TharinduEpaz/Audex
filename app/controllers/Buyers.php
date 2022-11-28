@@ -37,11 +37,21 @@
       if(!isLoggedIn()){
         redirect('users/login');
       }
-      $products = $this->buyerModel->getBuyerWatchProducts($_SESSION['user_id']);
+//this should change after orginal db
+      $products = $this->buyerModel->getBuyerWatchProducts($_SESSION['user_email']);
       $data =[
         'products' => $products,
       ];
       $this->view('buyers/watchlist',$data);
+
+    }
+
+    public function test(){
+      $products = $this->buyerModel->getBuyerWatchProducts($_SESSION['user_email']);
+      $data =[
+        'products' => $products,
+      ];
+      $this->view('buyers/test',$data);
 
     }
     
