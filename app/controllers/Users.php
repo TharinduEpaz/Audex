@@ -20,6 +20,7 @@
                     'phone' => trim($_POST['phone']),
                     'user_type' => trim($_POST['type']),
                     'password' => trim($_POST['password']),
+                    'user_id' => '',
                     'first_name_err' => '',
                     'second_name_err' => '',
                     'email_err' => '',
@@ -65,10 +66,41 @@
 
                     //Register user
                     if($this->userModel->register($data)){
-                        flash('register_success', 'You are registered and can log in');
-                        redirect('users/login');
-                    }else{
-                        die('Something went wrong');
+                        $row=$this->userModel->getUserId($data['email']);
+                        $data['user_id']=$row->user_id;
+                        if($data['user_type']=='seller'){
+                            if($this->userModel->addToSeller($data)){
+                                flash('register_success', 'You are registered and can log in');
+                                redirect('users/login');
+                            }else{
+                                die('Something went wrong');
+                            }
+                        
+                        }
+                        else if($data['user_type']=='buyer'){
+                            if($this->userModel->addToBuyer($data)){
+                                flash('register_success', 'You are registered and can log in');
+                                redirect('users/login');
+                            }else{
+                                die('Something went wrong');
+                            }
+                        }
+                        else if($data['user_type']=='admin'){
+                            if($this->userModel->addToAdmin($data)){
+                                flash('register_success', 'You are registered and can log in');
+                                redirect('users/login');
+                            }else{
+                                die('Something went wrong');
+                            }
+                        }
+                        else{
+                            if($this->userModel->addTosServiceProvider($data)){
+                                flash('register_success', 'You are registered and can log in');
+                                redirect('users/login');
+                            }else{
+                                die('Something went wrong');
+                            }
+                        }
                     }
                 }else{
                     //Load view with errors
@@ -167,7 +199,7 @@
 
         public function createUserSession($user){
             //User loged in correctly
-            $_SESSION['user_id'] = $user->_id;
+            $_SESSION['user_id'] = $user->user_id;
             $_SESSION['user_email'] = $user->email;
             $_SESSION['user_name'] = $user->first_name;
             $_SESSION['user_type'] = $user->user_type;
