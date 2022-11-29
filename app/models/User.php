@@ -64,7 +64,21 @@
 
         //Find user by email
         public function findUserByEmail($email){
-            $this->db->query('SELECT * FROM user WHERE email = :email');
+            $this->db->query('SELECT * FROM user WHERE email = :email && email_active=1');
+            //Bind value
+            $this->db->bind(':email', $email);
+            $row = $this->db->single();
+            //Check row
+            if($this->db->rowCount() > 0){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        //Not activated
+        public function notActivated($email){
+            $this->db->query('SELECT * FROM user WHERE email = :email && email_active=0');
             //Bind value
             $this->db->bind(':email', $email);
             $row = $this->db->single();

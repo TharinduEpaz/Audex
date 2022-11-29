@@ -36,6 +36,9 @@
                     if($this->userModel->findUserByEmail($data['email'])){
                         $data['email_err'] = 'Email is already taken';
                     }
+                    else if($this->userModel->notActivated($data['email'])){
+                        $data['email_err'] = 'Email is not activated,register again';
+                    }
                 }
                 //Validate first name
                 if(empty($data['first_name'])){
@@ -156,8 +159,11 @@
 
                 //Check for user/email
                 if($this->userModel->findUserByEmail($data['email'])){
-                    //User found
-                }else{
+                }
+                else if($this->userModel->notActivated($data['email'])){
+                    $data['email_err'] = 'Email is not activated,register again';
+                }
+                else{
                     //User not found
                     $data['email_err'] = 'No user found';
                 }

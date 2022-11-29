@@ -1,3 +1,8 @@
+body{
+  height: 100vh;
+  background-image: none;
+  background-color: #E5E9F7;
+}
 .poster_advertisements{
     display: block;
     position: absolute;
