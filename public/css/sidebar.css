@@ -1,6 +1,7 @@
 .sidebar {
   width:240px;
-  height:90vh;
+  min-height:90vh;
+  max-height: fit-content;
   background: #1e1e1e;
   padding-top: 6vh;
   display: block;
@@ -9,7 +10,7 @@
 .sidebar a{
   display: block;
   color: #E5E9F7;
-  height: 65px;
+  min-height: 65px;
   width: 100%;
   line-height: 65px;
   padding-left: 30px;

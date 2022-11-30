@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800&display=swap');
+
+
+
+
+
+.service-provider-profile{
+    background-color: #E5E9F7;
+    min-height: 90vh;
+    margin-left: 240px;
+    padding: 5vh;
+
+}
+.service-provider-profile .white-box{
+    background-color: white;
+    min-height:80vh;
+    border-radius: 30px;
+    padding: 40px;
+}
+
+.service-provider-profile .profile-title{
+    
+    display:flex;
+}
+
+.service-provider-profile .profile-title .profile-pic i{
+
+
+  margin-right: 20px;
+
+}
+
+.service-provider-profile .profile-title .name-rating{
+
+}
+
+.service-provider-profile .profile-title .name-rating #Name{
+    font-weight: 600;
+    font-size: 40px;
+}
+
+.service-provider-profile .profile-title .name-rating #profession{
+    font-weight: 300;
+    font-size: 20px;
+}
+
+
+.service-provider-profile .profile-title .name-rating .name{
+
+}
+
+.service-provider-profile .profile-title .name-rating .rating{
+
+}
+
+.service-provider-profile .profile-info .description{
+    width: 600px;
+    margin-right: 200px;
+
+}
+.service-provider-profile .profile-info{
+    display: flex;
+    margin-top: 50px;
+ 
+
+}
+.service-provider-profile .profile-info .info-blocks{
+   display: flex;
+}
+
+.service-provider-profile .profile-info .info-blocks .info-titles span{
+    display: block;
+    line-height: 25px;
+    font-weight: 600;
+}
+    
+
+.service-provider-profile .profile-info .info-blocks .info-items span{
+    display: block;
+    margin-left: 100px;
+    line-height: 25px;
+}
+.events{
+    display: flex;
+    column-gap: 50px;
+    padding-top: 30px;
+    justify-content: center;
+}
+
+.events .event{
+    background-color: gray;
+    height: 100px;
+    width: 200px;
+    border-radius: 30px;
+    opacity: 50%;
+
+}
+
+h2{
+    margin-top: 50px;
+    text-align: center;
+}
+button{
+    margin-left: 800px;
+    width: 200px;
+    height: 30px;
+    border-radius: 10px;
+  
+    background-color: blueviolet;
+    color: white;
+    border: none;
+    
+    
+}
+button:hover{
+  
+    color: rgb(251, 226, 0);
+    animation-delay: 0.2s;
+}
+
+/* profile settings CSS */
+
+.service-provider-profile .white-box .info-settings {
+    display: flex; 
+    
+}
+.service-provider-profile .white-box .info-settings .info-titles {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    line-height: 35px;
+    row-gap: 10px;
+}
+.service-provider-profile .white-box .info-settings .info-items input{
+    display: flex;
+    flex-direction: column;
+    line-height: 30px;
+    margin-bottom: 10px;
+    
+}
+.service-provider-profile .white-box h1{
+    margin-bottom: 20px;
+}
+.service-provider-profile .white-box .profile-pic-settings{
+    width: 300px;
+    margin-left: 200px;
+}
+
+.service-provider-profile .white-box .profile-pic-settings img{
+  width:50%;
+  margin-bottom: 20px;
+
+}
+
+

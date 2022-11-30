@@ -15,6 +15,10 @@
             $this->view('service_providers/index');
         }
 
+        public function profile(){
+            $this->view('service_providers/profile');
+        }
+
 
         
     }
