@@ -19,7 +19,7 @@
         <label for="check" class="checkbtn">
             <i class="fas fa-bars"></i>
         </label>
-        <img src="../img/image 1.png" alt="">
+        <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo">
         <ul>
             <li><a href="<?php echo URLROOT;?>/pages/index" class="nav_tags">Home</a></li>
             <li><a href="#" class="nav_tags">Shop</a></li>
@@ -30,7 +30,7 @@
                 echo '<div class="dropdown">';
                     echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
                     echo '<div id="myDropdown" class="dropdown-content">';
-                        echo '<a href="'.URLROOT . '/buyers/getProfile" class="nav_tags">Profile</a>';
+                        echo '<a href="'.URLROOT . '/buyers/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
                         echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                     echo '</div>';
                 echo '</div> ';
@@ -51,14 +51,34 @@
             <a href="messages.php"> <i class="fa fa-envelope"></i><span>Messages</span></a>       
         </div>
         <div class="poster_advertisements">
-            <?php 
-                echo '<h5>'. $data['user']->first_name .'</h5>';
-                echo '<h5>'. $data['user']->second_name .'</h5>';
-                echo '<h5>'. $data['user']->email .'</h5>';
-                echo '<h5>'. $data['user']->user_type .'</h5>';
-                echo '<h5>'. $data['user']->phone_number .'</h5>';
-                echo '<h5>Address '. $data['user']->address1 .' '.$data['user']->address2 . '</h5>';
-            ?>
+            <div class="form-display"> 
+                <h1>My Profile Details</h1>
+                <div class="form-data-area">
+                    <label for="first_name">First Name:</label>
+                    <input type="text" name="first_name" value="<?php echo $data['user']->first_name; ?>" disabled>
+                </div>
+                <div class="form-data-area">
+                    <label for="second_name">Second Name:</label>
+                    <input type="text" name="second_name" value="<?php echo $data['user']->second_name; ?>" disabled>
+                </div>
+                <div class="form-data-area">
+                    <label for="email">Email:</label>
+                    <input type="text" name="email" value="<?php echo $data['user']->email; ?>" disabled>
+                </div>
+                <div class="form-data-area">
+                    <label for="address1">Address Line 1:</label>
+                    <input type="text" name="address1" value="<?php echo $data['user']->address1; ?>" disabled>
+                </div>
+                <div class="form-data-area">
+                    <label for="address2">Address Line 1:</label>
+                    <input type="text" name="address2" value="<?php echo $data['user']->address2; ?>" disabled>
+                </div>
+                <div class="form-data-area">
+                    <label for="phone_number">Phone Number:</label>
+                    <input type="text" name="phone_number" value="<?php echo $data['user']->phone_number; ?>" disabled>
+                </div>  
+            </div> 
+            <a href="<?php echo URLROOT.'/buyers/editProfile/'.$_SESSION['user_id']; ?>"><button type="submit"  value="Edit" id="edit-button">Edit</button></a>
         </div>
     </div>
 </body>

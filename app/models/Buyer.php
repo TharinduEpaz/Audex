@@ -41,6 +41,23 @@
             return $row;
         }
 
+        public function updateProfile($data){
+            $this->db->query('UPDATE user SET first_name = :first_name,second_name = :second_name, address1 = :address1, address2 = :address2, phone_number = :phone_number WHERE _id = :id ');
+            
+            $this->db->bind(':first_name' , $data['first_name']);
+            $this->db->bind(':second_name' , $data['second_name']);
+            $this->db->bind(':address1' , $data['address1']);
+            $this->db->bind(':address2' , $data['address2']);
+            $this->db->bind(':phone_number' , $data['phone_number']);
+            $this->db->bind(':id' , $data['id']);
+
+            if($this->db->execute()){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         public function getBuyerWatchProducts($email){
             $this->db->query('SELECT product_id FROM watch_list WHERE email = :email');
             $this->db->bind(':email' , $email);

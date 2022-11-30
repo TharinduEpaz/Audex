@@ -18,7 +18,7 @@
                         echo '<a href="'.URLROOT . '/sellers/advertisements" class="nav_tags">Profile</a>';
                     }
                     if ($_SESSION['user_type']=='buyer') {
-                        echo '<a href="'.URLROOT . '/buyers/getProfile" class="nav_tags">Profile</a>';
+                        echo '<a href="'.URLROOT . '/buyers/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
                     }
                     if ($_SESSION['user_type']=='service_provider') {
                         echo '<a href="'.URLROOT . '/buyers" class="nav_tags">Profile</a>';

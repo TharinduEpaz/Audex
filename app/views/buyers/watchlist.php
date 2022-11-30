@@ -31,7 +31,7 @@
                 echo '<div class="dropdown">';
                     echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
                     echo '<div id="myDropdown" class="dropdown-content">';
-                        echo '<a href="'.URLROOT . '/buyers/getProfile" class="nav_tags">Profile</a>';
+                        echo '<a href="'.URLROOT . '/buyers/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
                         echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                     echo '</div>';
                 echo '</div> ';
@@ -45,7 +45,7 @@
     </nav>
     <div class="container">
         <div class="sidebar">
-            <a href="<?php echo URLROOT . '/buyers/getProfile';?>"><i class="fas fa-address-card"></i> <span>My Profile</span></a>
+            <a href="<?php echo URLROOT . '/buyers/getProfile/'.$_SESSION['user_id'];?>"><i class="fas fa-address-card"></i> <span>My Profile</span></a>
             <a href="#" class="current"> <i class="far fa-calendar-check" aria-hidden="true"></i><span>Watch List</span></a>
             <a href="#"> <i class="fa fa-comments-o" aria-hidden="true"></i><span>Feedback</span></a>
             <a href="#"> <i class="fa fa-thumbs-up" aria-hidden="true"></i><span>Reactions</span></a>
