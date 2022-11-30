@@ -12,6 +12,12 @@ use function PHPSTORM_META\type;
             $this->sellerModel=$this->model('Seller');
         }
 
+        public function index(){
+
+            $this->view('sellers/index');
+        }
+
+        
         public function advertisements(){
             //Get advertisements
             $advertisements=$this->sellerModel->getadvertisements($_SESSION['user_email']);
