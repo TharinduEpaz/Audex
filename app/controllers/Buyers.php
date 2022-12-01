@@ -7,7 +7,7 @@
     }
 
     public function index(){
-        $ads  = $this->buyerModel->getAdvertiesment();
+        $ads  = $this->buyerModel->getAdvertiesment();   
         $data = [
           'ads' => $ads
         ];
@@ -126,11 +126,38 @@
 
     }
 
+    public function deleteProfile($id){
+      if( $_SERVER['REQUEST_METHOD'] == 'POST' ){
+        $user = $this->buyerModel->getBuyerDetails($id);
+
+        //check for owner
+        if( $user->_id != $_SESSION['user_id'] ){
+          redirect('users/login');
+        }
+
+        if($this->buyerModel->deleteUserProfile($id)){
+          redirect('users/login');
+        }
+        else{
+          die('Something went wrong');
+        }
+      }
+      else{
+        redirect('buyer/index');
+      }
+
+
+    }
+    
     public function test(){
-      $products = $this->buyerModel->getBuyerWatchProducts($_SESSION['user_email']);
+      $email = 'dineshwickramasinghe2000@gmail.com';
+      $userDetails = $this->buyerModel->findUserDetailsByEmail($email);
+      echo gettype($userDetails->is_deleted);
       $data =[
-        'products' => $products,
+        'user' => $userDetails->email,
+        'user1' =>$userDetails->first_name
       ];
+      echo $data['user'];
       $this->view('buyers/test',$data);
 
     }
