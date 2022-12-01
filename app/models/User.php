@@ -54,5 +54,15 @@
                 return false;
             }
         }
+
+        public function findUserDetailsByEmail($email){
+            $this->db->query('SELECT * FROM user WHERE email = :email');
+            //Bind value
+            $this->db->bind(':email', $email);
+            $row = $this->db->single();
+            //Check row
+            return $row;
+        }
+
     }
 ?>

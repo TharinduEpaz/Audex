@@ -1,12 +1,12 @@
 <?php
+    echo "</br>";
+    echo 'hello'.'</br>';
+    echo $data['user'].'</br>';
+    echo $data['user1'].'</br>';
+    // $data['user']->second_name.'</br>';
+    // $data['user']->is_deleted.'</br>';
+    echo "</br>";
 
-    foreach($data['products'] as $ads):
-        echo $ads->product_id . " | ";
-        echo $ads->product_title ." | ";
-        echo $ads->email . " | ";
-        echo $ads->product_condition;
-        echo "</br>";
-    endforeach;
 
 
 ?>

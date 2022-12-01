@@ -147,6 +147,14 @@
   margin-left: 3%;
   margin-right: 5%;
 }
+
+.button-edit-delete{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
 #edit-button{
   margin: 0px 0 10px 50px;
   width: 150px;
@@ -158,4 +166,15 @@
   border: none;
   border-radius: 1rem;
 }
-
+#delete-button{
+  align-items: left;
+  margin: 0px 50px 0 50px;
+  width: 150px;
+  height: 40px;
+  font-size: 20px;
+  font-weight: 600;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+}

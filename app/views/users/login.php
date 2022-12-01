@@ -33,7 +33,6 @@
                     if(!empty($data['password_err'])){
                         echo '*'.$data['password_err'].'<br>';
                     }
-
                 echo '</div>';
             }
 

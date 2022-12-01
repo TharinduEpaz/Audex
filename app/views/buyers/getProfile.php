@@ -78,7 +78,13 @@
                     <input type="text" name="phone_number" value="<?php echo $data['user']->phone_number; ?>" disabled>
                 </div>  
             </div> 
-            <a href="<?php echo URLROOT.'/buyers/editProfile/'.$_SESSION['user_id']; ?>"><button type="submit"  value="Edit" id="edit-button">Edit</button></a>
+            <div class="button-edit-delete">
+                <a href="<?php echo URLROOT.'/buyers/editProfile/'.$_SESSION['user_id']; ?>"><button type="submit"  value="Edit" id="edit-button">Edit</button></a>
+                
+                <form action="<?php echo URLROOT.'/buyers/deleteProfile/'.$_SESSION['user_id']; ?>" method="post">
+                    <input type="submit" value="Delete" id="delete-button">
+                </form>
+            </div>
         </div>
     </div>
 </body>

@@ -82,6 +82,48 @@
             
         }
 
+        public function deleteUserProfile($id){
+            $this->db->query('SELECT email FROM user WHERE _id = :id');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->single();
+
+            $this->db->query('DELETE FROM buyer WHERE email = :email');
+            $this->db->bind(':email' , $row->email);
+
+            $result1 = $this->db->execute();
+
+            $this->db->query('UPDATE user SET is_deleted = 1 WHERE email = :email ');    
+            $this->db->bind(':email' , $row->email);
+
+            // if($this->db->execute()){
+            //     return true;
+            // } else {
+            //     return false;
+            // }
+
+            $result2 = $this->db->execute();
+
+            if($result1 && $result2){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+
+        public function findUserDetailsByEmail($email){
+            $this->db->query('SELECT * FROM user WHERE email = :email');
+            //Bind value
+            $this->db->bind(':email', $email);
+            $row = $this->db->single();
+            //Check row
+            echo $row->_id.'</br>' ;
+            echo $row->is_deleted.'</br>' ;
+            return $row;
+        }
+
     }
 
 
