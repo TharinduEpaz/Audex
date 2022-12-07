@@ -1,9 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800&display=swap');
 
 
-
-
-
 .service-provider-profile{
     
     background-color: #E5E9F7;
@@ -13,19 +10,19 @@
 
 }
 .service-provider-profile .white-box{
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     min-height:80vh;
     border-radius: 30px;
     padding: 40px;
+    margin-top: 10vh;
+
 }
 
 .service-provider-profile .profile-title{
-    
     display:flex;
 }
 
 .service-provider-profile .profile-title .profile-pic i{
-
 
   margin-right: 20px;
 
@@ -96,12 +93,7 @@
     opacity: 50%;
 
 }
-
-h2{
-    margin-top: 50px;
-    text-align: center;
-}
-button{
+#edit-settings {
     margin-left: 800px;
     width: 200px;
     height: 30px;
@@ -110,8 +102,49 @@ button{
     background-color: blueviolet;
     color: white;
     border: none;
+
+}
+.service-provider-profile .white-box .buttons{
+    margin-top: 30px;
+    margin-left: 200px;
+
+    display: flex;
+    gap: 10px;
+
     
+
+}
+
+#save{
+   
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+  
+    background-color: blueviolet;
+    color: white;
+    border: none;
+
+}
+
+#cancel{
+   
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+  
+    background-color: rgb(226, 43, 64);
+    color: white;
+    border: none;
+}
+h2{
+    margin-top: 50px;
+    text-align: center;
+}
+button{
+
     
+    display: inline;
 }
 button:hover{
   

@@ -18,6 +18,9 @@
         public function profile(){
             $this->view('service_providers/profile');
         }
+        public function settings(){
+            $this->view('service_providers/settings');
+        }
 
 
         

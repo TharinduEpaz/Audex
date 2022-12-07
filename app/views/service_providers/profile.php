@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css';?>">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/service_provider.css';?>">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/style.css';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css?id=1234';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/service_provider.css?id=1234';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/style.css?id=1234';?>">
     
     
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
@@ -14,7 +14,7 @@
     <title>Audex</title>
 </head>
 <body>
-
+<div class="navbar">
 <nav>
     <input type="checkbox" name="check" id="check" onchange="docheck()">
     <label for="check" class="checkbtn">
@@ -22,16 +22,17 @@
     </label>
     <img src="../img/image 1.png" alt="">
     <ul>
-        <li><a href="#" class="nav_tags">Home</a></li>
+        <li><a href="<?php echo URLROOT .'/pages/index'?>" class="nav_tags">Home</a></li>
         <li><a href="#" class="nav_tags">Shop</a></li>
         <li><a href="#" class="nav_tags">Sound Engineers</a></li>
         <li><a href="#" class="nav_tags">Events</a></li>
         <li><a href="#" class="nav_tags">Login</a></li>
     </ul>
 </nav>
+</div>
     <div class="sidebar">
         <a href="#"><i class="fas fa-qrcode" id="dashboard"></i> <span>Dashboard</span></a>
-        <a href="./service_provider_profile.php" id="profile-settings" > <i class="fa fa-cog" aria-hidden="true"></i><span>Profile</span></a>
+        <a href="<?php echo URLROOT . '/service_providers/profile';?>" id="profile-settings"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile</span></a>
         <a href="#" id="advertisements"> <i class="fa fa-ad" aria-hidden="true"></i><span>Advertisements</span></a>
         <a href="#" id="calender"> <i class="fa fa-calendar" aria-hidden="true"></i><span>Calender</span></a>
         <a href="#" id="messages"> <i class="fa fa-comments"></i><span>Messages</span></a>       
@@ -77,7 +78,7 @@
             </div>
             
         </div>
-        <button onclick="document.location='service_provider_settings.html'">Edit Settings</button>
+        <button id = "edit-settings">  <a href="<?php echo URLROOT .'/service_providers/settings'?>"> Edit Settings</a></button>
         <h2>Events</h2>
         <div class="events">
             

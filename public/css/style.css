@@ -6,10 +6,13 @@
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
   }
+
+
   nav{
     background: #FFFFFF;
     height: 10vh;
     width: 100%;
+    position: fixed;
   }
   nav img{
     margin-top: 2vh;
