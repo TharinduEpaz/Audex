@@ -22,7 +22,7 @@
     </label>
     <img src="../img/image 1.png" alt="">
     <ul>
-        <li><a href="<?php echo URLROOT .'/pages/index'?>" class="nav_tags">Home</a></li>
+        <li><a href="<?php echo URLROOT .'/service_providers/index'?>" class="nav_tags">Home</a></li>
         <li><a href="#" class="nav_tags">Shop</a></li>
         <li><a href="#" class="nav_tags">Sound Engineers</a></li>
         <li><a href="#" class="nav_tags">Events</a></li>
@@ -43,7 +43,7 @@
         <div class="profile-title">
             <div class="profile-pic"><i class="far fa-user fa-7x"></i></div>
             <div class="name-rating">
-                <div class="name"><p id="Name">Mevan Dissanayaka</p><p id="profession">Professional Sound Engineer</p></div>
+                <div class="name"><p id="Name"><?php echo $ ?></p><p id="profession">Professional Sound Engineer</p></div>
                 <div class="rating"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></div>
             </div>
         </div>
