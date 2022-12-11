@@ -25,3 +25,7 @@ function myFunction() {
         }
       }
     }
+  
+  function checkWatchlist(){}
+  
+  function addWatchList(){}
