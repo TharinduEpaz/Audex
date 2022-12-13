@@ -25,7 +25,31 @@ function myFunction() {
         }
       }
     }
+
+
+const addToWatchListForm = document.getElementById('add_watch_list_form');
+
+addToWatchListForm.addEventListener("submit",async (e)=>{
+  e.preventDefault();
   
-  function checkWatchlist(){}
-  
-  function addWatchList(){}
+
+  //get the form data/sumitted data
+  const formData = new FormData(addToWatchListForm);
+  formData.append("add",1);
+  //console.log(formData.get('product_id'));
+  // for (const pair of formData.entries()) {
+  //   console.log(`${pair[0]}, ${pair[1]}`);
+  // }
+  //e.stopPropagation();
+  //console.log(addToWatchListForm.elements['product_id'].value);
+  document.getElementById("add-to-watchlist").value = "Please Wait..";
+  const url = 'http://localhost/Audex/buyers/addToWatchList/' + formData.get('product_id');
+  //console.log(url);
+  const data = await fetch(url, {
+    method: "POST",
+    body: formData,
+  });
+  const responce = await data.text();
+  document.getElementById("add-to-watchlist").value = "Remove From List";
+  addForm.reset();
+});
