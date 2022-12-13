@@ -148,6 +148,25 @@
 
 
     }
+
+    public function addToWatchList($p_id){
+    $user_email = 'chamath50@gmail.com';
+    
+      // if(!isLoggedIn()){
+      //   redirect('users/login');
+      // }
+      
+      if (isset($_POST['add'])){
+        $result = $this-> buyerModel->addItemToWatchList($p_id, $user_email);
+        if($result){
+
+        }
+        else{
+          die('Something went wrong');
+        }
+
+      }
+    }
     
     public function test(){
       $email = 'dineshwickramasinghe2000@gmail.com';
