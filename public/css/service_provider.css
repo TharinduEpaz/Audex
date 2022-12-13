@@ -65,18 +65,31 @@
 .service-provider-profile .profile-info .info-blocks{
    display: flex;
 }
+.service-provider-profile .profile-info .info-blocks .info-titles{
+    width: 140px;
+}
 
 .service-provider-profile .profile-info .info-blocks .info-titles span{
     display: block;
     line-height: 25px;
     font-weight: 600;
+    background-color: aliceblue;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    padding-left: 10px;
 }
     
 
 .service-provider-profile .profile-info .info-blocks .info-items span{
     display: block;
-    margin-left: 100px;
+    margin-left: 20px;
     line-height: 25px;
+
+    background-color: aliceblue;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .events{
     display: flex;
