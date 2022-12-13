@@ -1,7 +1,7 @@
 <?php
 
     class Admins extends Controller{
-n
+
         public function __construct(){
             if(!isLoggedIn()){
                 redirect('users/login');
