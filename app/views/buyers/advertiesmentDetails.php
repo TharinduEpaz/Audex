@@ -79,7 +79,9 @@
                     <button ><?php echo 'RS.'.$data['ad']->price ; ?></button>
                 </div>
                 <button type="submit" class="msg">Message</button>
-                <button onclick="addWatchList()" onload="checkWatchlist()" type="submit" class="watch">Add To Watchlist</button>
+                <form class="add_watch_list">
+                    <input type="submit" value="Add To Watchlist" onclick="addWatchList()" onload="checkWatchlist()" class="watch" id="add-to-watchlist" />
+                </form>
             </div>
         </div>
     </div>

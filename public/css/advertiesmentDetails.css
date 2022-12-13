@@ -88,6 +88,10 @@
     border: none;
     border-radius: 1rem; 
 }
+.container-product-attributes .add_watch_list{
+    display: initial;
+}
+
 
 .container-product-attributes .watch{
     margin: 10px 0 0 5px;
