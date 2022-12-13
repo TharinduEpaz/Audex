@@ -117,15 +117,27 @@
     border: none;
 
 }
-.service-provider-profile .white-box .buttons{
-    margin-top: 30px;
-    margin-left: 200px;
+.service-provider-profile .white-box a{
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
 
-    display: flex;
-    gap: 10px;
+    text-decoration: none;
+
+    color: initial;
+    background-color: #E5E9F7;
 
     
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 30px;
+    margin-left: 800px;
 
+
+}
+.service-provider-profile .white-box a:hover{
+    
+    background-color: rgb(175, 133, 237);
 }
 
 #save{
@@ -164,6 +176,8 @@ button:hover{
     color: rgb(251, 226, 0);
     animation-delay: 0.2s;
 }
+
+
 
 /* profile settings CSS */
 

@@ -78,7 +78,7 @@
             </div>
             
         </div>
-        <button id = "edit-settings">  <a href="<?php echo URLROOT .'/service_providers/settings'?>"> Edit Settings</a></button>
+         <a href="<?php echo URLROOT .'/service_providers/settings'?>" class="btn"> Edit Settings</a></button>
         <h2>Events</h2>
         <div class="events">
             
