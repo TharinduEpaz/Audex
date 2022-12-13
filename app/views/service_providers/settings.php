@@ -57,15 +57,15 @@
                 </div>
                 <div class="info-items">
                     <form action="" method="post">
-                         <input type="text" name="first-name">
-                        <input type="text" name="last-name">
-                        <input type="text" name="address1">
-                       <input type="text" name="address2">
-                        <input type="number" name="mobile">
-                        <input type="text" name="profession">
-                        <input type="text" name="qualifications">
-                        <input type="text" name="achievements">
-                        <textarea name="description" cols="30" rows="10" placeholder=""></textarea>
+                         <input type="text" name="first-name"  placeholder="<?php echo $data['details']->first_name?>">
+                        <input type="text" name="last-name" placeholder="<?php echo $data['details']->second_name?>">
+                        <input type="text" name="address1" placeholder="<?php echo $data['details']->address_line_one?>">
+                       <input type="text" name="address2" placeholder="<?php echo $data['details']->address_line_two?>">
+                        <input type="number" name="mobile" placeholder="<?php echo $data['details']->mobile?>">
+                        <input type="text" name="profession" placeholder="<?php echo $data['details']->profession?>">
+                        <input type="text" name="qualifications" placeholder="<?php echo $data['details']->qualifications?>">
+                        <input type="text" name="achievements" placeholder="<?php echo $data['details']->achievements?>">
+                        <textarea name="description" cols="30" rows="10" placeholder="<?php echo $data['details']->description?>"></textarea>
                     </form>
                 </div>
                 <div class="profile-pic-settings">

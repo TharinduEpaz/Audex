@@ -30,7 +30,12 @@
 
         }
         public function settings(){
-            $this->view('service_providers/settings');
+            $details = $this->service_model->getDetails($_SESSION['user_id']);
+
+            $data = [
+                'details' => $details
+            ];
+            $this->view('service_providers/settings',$data);
         }
 
 
