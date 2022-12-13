@@ -79,8 +79,10 @@
                     <button ><?php echo 'RS.'.$data['ad']->price ; ?></button>
                 </div>
                 <button type="submit" class="msg">Message</button>
-                <form class="add_watch_list">
-                    <input type="submit" value="Add To Watchlist" onclick="addWatchList()" onload="checkWatchlist()" class="watch" id="add-to-watchlist" />
+
+                <form id="add_watch_list_form" method="POST">
+                    <input type="text" name="product_id" value="<?php echo $data['ad']->product_id ; ?>" hidden >
+                    <input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist" />
                 </form>
             </div>
         </div>

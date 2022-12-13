@@ -88,7 +88,7 @@
     border: none;
     border-radius: 1rem; 
 }
-.container-product-attributes .add_watch_list{
+.container-product-attributes #add_watch_list_form{
     display: initial;
 }
 
