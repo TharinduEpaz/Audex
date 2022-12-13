@@ -149,23 +149,28 @@
 
     }
 
-    public function addToWatchList($p_id){
-    $user_email = 'chamath50@gmail.com';
-    
-      // if(!isLoggedIn()){
-      //   redirect('users/login');
-      // }
-      
-      if (isset($_POST['add'])){
-        $result = $this-> buyerModel->addItemToWatchList($p_id, $user_email);
-        if($result){
-
-        }
-        else{
-          die('Something went wrong');
-        }
-
+    public function addToWatchList($p_id,$u_id){
+      if(!isLoggedIn()){
+        redirect('users/login');
       }
+      echo $_POST['user_id'];
+      if($_POST['user_id'] == 0){
+        redirect('users/login');
+      }
+      else{
+        if (isset($_POST['add'])){
+          $result = $this-> buyerModel->addItemToWatchList($p_id, $u_id);
+          if($result){
+            echo flash('register_success', 'You are registered and can log in');
+          }
+          else{
+            die('Something went wrong');
+          }
+  
+        }
+      }
+      
+
     }
     
     public function test(){

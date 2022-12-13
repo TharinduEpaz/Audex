@@ -124,10 +124,16 @@
             return $row;
         }
 
-        public function addItemToWatchList($p_id,$user_email){
+        public function addItemToWatchList($p_id,$user_id){
+
+            $this->db->query('SELECT email FROM user WHERE _id = :id');
+            $this->db->bind(':id' , $user_id);
+
+            $row = $this->db->single();
+
             $this->db->query('INSERT INTO watch_list (email,product_id) VALUES(:email,:p_id)');
             //Bind value
-            $this->db->bind(':email', $user_email);
+            $this->db->bind(':email', $row->email);
             $this->db->bind(':p_id', $p_id);
 
             if($this->db->execute()){
