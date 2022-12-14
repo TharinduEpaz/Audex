@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/form.css';?>">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/login.css';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/form.css?id=23';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/login.css?id=123';?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
@@ -63,15 +63,17 @@
                     <h3>Explore Popular Categories</h3>
                 </div>
                 <div class="explore-btn">
-                    <button><img src="<?php echo URLROOT . '/public/img/icons/bi_speaker.png';?>" alt="sp"></button>
-                    <button><img src="<?php echo URLROOT . '/public/img/icons/bxs_guitar-amp.png';?>" alt="am"></button>
-                    <button><img src="<?php echo URLROOT . '/public/img/icons/nimbus_guitar.png';?>" alt="gu"></button>
-                    <button><img src="<?php echo URLROOT . '/public/img/icons/jam_dj.png';?>" alt="dj"></button>
-                    <button><img src="<?php echo URLROOT . '/public/img/icons/Group.png';?>" alt="grp"></button>
+                    <button><img src="<?php echo URLROOT . '/public/img/icons/bi_speaker.png';?>" alt="sp" class="home-icon"></button>
+                    <button><img src="<?php echo URLROOT . '/public/img/icons/bxs_guitar-amp.png';?>" alt="am" class="home-icon" ></button>
+                    <button><img src="<?php echo URLROOT . '/public/img/icons/nimbus_guitar.png';?>" alt="gu" class="home-icon"></button>
+                    <button><img src="<?php echo URLROOT . '/public/img/icons/jam_dj.png';?>" alt="dj" class="home-icon"></button>
+                    <button><img src="<?php echo URLROOT . '/public/img/icons/Group.png';?>" alt="grp" class="home-icon"></button>
                 </div>
             </div>
         </div>
-    </div>
+
+
+        
 </body>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>
