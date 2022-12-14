@@ -155,7 +155,7 @@ nav{
     nav ul{
       position: fixed;
       width: 100%;
-      height: 55vh;
+      height: 50vh;
       background: #afb0b1;
       top: 10vh;
       left: -100%;
@@ -164,8 +164,8 @@ nav{
     }
     nav ul li{
       display: block;
-      margin: 50px 0;
-      line-height: 1.5vh;
+      margin: 0px 0;
+      line-height: 0.5vh;
     }
     .nav_tags{
       font-size: 15pt;
@@ -176,6 +176,9 @@ nav{
     }
     #check:checked ~ ul{
       left: 0;
+    }
+    #check:checked ~ body{
+      left: -100%;
     }
   }
  .container{

@@ -87,7 +87,7 @@
                 }
 
             ?>
-                    <form action="<?php echo URLROOT . '/sellers/edit_advertisement/'.$data['id'];?>" method="post">
+                    <form action="<?php echo URLROOT . '/sellers/edit_advertisement/'.$data['id'];?>" method="post" enctype="multipart/form-data">
                         <div class="input">
                             <label for="">Title&nbsp</label>
                             <input class="title" type="text" name="title"  value="<?php echo $data['title']?>" >
@@ -105,15 +105,15 @@
                         <div class="input">
                             <div class="image">
                                 <label for="image1">Image1:</label>
-                                <input type="image" name="image1"  class="fa-solid" alt="&#xf03e" >
+                                <input type="file" name="image1"  class="fa-solid" alt="&#xf03e" >
                             </div>
                             <div class="image">
                                 <label for="image2">Image2:</label>
-                                <input type="image" name="image2"  class="fa-solid" alt="&#xf03e">
+                                <input type="file" name="image2"  class="fa-solid" alt="&#xf03e">
                             </div>
                             <div class="image">
                                 <label for="image3">Image3:</label>
-                                <input type="image" name="image3" class="fa-solid " alt="&#xf03e" >
+                                <input type="file" name="image3" class="fa-solid " alt="&#xf03e" >
                             </div>
                         </div>
                         <div class="input">

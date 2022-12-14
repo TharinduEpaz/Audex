@@ -18,7 +18,7 @@
         <label for="check" class="checkbtn">
             <i class="fas fa-bars"></i>
         </label>
-        <img src="../img/image 1.png" alt="">
+        <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo">
         <ul>
             <li><a href="<?php echo URLROOT;?>/pages/index" class="nav_tags">Home</a></li>
             <li><a href="#" class="nav_tags">Shop</a></li>
@@ -66,7 +66,7 @@
             <?php foreach($data['advertisements'] as $advertisement): ?>
             <div class="advertisements">
                 <div class="image">
-                    <img src="<?php echo URLROOT . '/img/Rectangle 100.png';?>" alt="photo">
+                    <img src="<?php echo 'data:image/jpg;charset=utf8;base64,'.base64_encode($advertisement->image1);?>" alt="photo">
                 </div>
                 <p class="one"><?php echo $advertisement->product_title;?></p>
                 <p class="two"><?php echo $advertisement->product_type;?></p>

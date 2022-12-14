@@ -6,6 +6,15 @@ use function PHPSTORM_META\type;
 
         public function __construct(){
             if(!isLoggedIn()){
+                unset($_SESSION['otp']);
+                unset($_SESSION['email']);
+                unset($_SESSION['password']);
+                unset($_SESSION['first_name']);
+                unset($_SESSION['second_name']);
+                unset($_SESSION['phone']);
+                unset($_SESSION['user_type']);
+                unset($_SESSION['attempt']);
+                session_destroy();
                 redirect('users/login');
             }
 
@@ -56,9 +65,9 @@ use function PHPSTORM_META\type;
                     'description' => trim($_POST['description']),
                     'price' => trim($_POST['price']),
                     'condition' => trim($_POST['condition']),
-                    // 'image1' => trim($_POST['image1']),
-                    // 'image2' => trim($_POST['image2']),
-                    // 'image3' => trim($_POST['image3']),
+                    'image1' => '',
+                    'image2' => '',
+                    'image3' => '',
                     'brand' => trim($_POST['brand']),
                     'model' => trim($_POST['model']),
                     'type'=> 'fixed_price',
@@ -88,18 +97,10 @@ use function PHPSTORM_META\type;
                 if(empty($data['category'])){
                     $data['category_err'] = 'Please enter category';
                 }
+                
                 if(empty($data['condition'])){
                     $data['condition_err'] = 'Please enter condition';
                 }
-                // if(empty($data['image1'])){
-                //     $data['image1_err'] = 'Please enter image1';
-                // }
-                // if(empty($data['image2'])){
-                //     $data['image2_err'] = 'Please enter image2';
-                // }
-                // if(empty($data['image3'])){
-                //     $data['image3_err'] = 'Please enter image3';
-                // }
                 if(empty($data['brand'])){
                     $data['brand_err'] = 'Please enter brand';
                 }
@@ -109,8 +110,57 @@ use function PHPSTORM_META\type;
 
 
                 //Make sure no errors
-                if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['brand_err']) && empty($data['model_err'])){
+                if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['brand_err']) && empty($data['model_err'])){
                     //Validated
+                    //Allowed file types
+                    $allowedTypes=array('jpg','png','jpeg','gif');
+                    if(!empty($_FILES['image1']['name'])){
+                        //Get file info
+                        $image1_filename=basename($_FILES['image1']['name']);
+                        $image1_filetype=pathinfo($image1_filename,PATHINFO_EXTENSION);
+
+                        if(in_array($image1_filetype,$allowedTypes)){
+                            $image1=$_FILES['image1']['tmp_name'];
+                            $image1_content=addslashes(file_get_contents($image1));
+                            $data['image1']=$image1_content;
+                        }
+                        else{
+                            $data['image1_err']="Sorry, only JPG, JPEG, PNG, & GIF files are allowed.";
+                        }
+                    }
+                    else{
+                        $data['image1_err'] = 'Please upload atleast one image';
+
+                    }
+                    if(!empty($_FILES['image2']['name'])){
+                        //Get file info
+                        $image2_filename=basename($_FILES['image2']['name']);
+                        $image2_filetype=pathinfo($image2_filename,PATHINFO_EXTENSION);
+
+                        if(in_array($image2_filetype,$allowedTypes)){
+                            $image2=$_FILES['image2']['tmp_name'];
+                            $image2_content=addslashes(file_get_contents($image2));
+                            $data['image2']=$image2_content;
+                        }
+                        else{
+                            $data['image2_err']="Sorry, only JPG, JPEG, PNG, & GIF files are allowed.";
+                        }
+                    }
+                    if(!empty($_FILES['image3']['name'])){
+                        //Get file info
+                        $image3_filename=basename($_FILES['image3']['name']);
+                        $image3_filetype=pathinfo($image3_filename,PATHINFO_EXTENSION);
+
+                        if(in_array($image3_filetype,$allowedTypes)){
+                            $image3=$_FILES['image3']['tmp_name'];
+                            $image3_content=addslashes(file_get_contents($image3));
+                            $data['image3']=$image3_content;
+                        }
+                        else{
+                            $data['image3_err']="Sorry, only JPG, JPEG, PNG, & GIF files are allowed.";
+                        }
+                    }
+                   
                     if($this->sellerModel->advertise($data)){
                         flash('product_message', 'Product Added');
                         redirect('sellers/advertisements');

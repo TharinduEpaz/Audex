@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
-    <title>Register</title>
+    <title>Verify email</title>
 </head>
 <body>
     <nav>
@@ -41,21 +41,24 @@
     </nav>
     <div class="container">
         <div class="form">
-            <h1>Register</h1>
+            <h1>Verify OTP</h1>
             <?php
-                if(!empty($errors)){
-                    echo '<div class="error">';
-                    foreach($errors as $error){
-                        echo '-'.$error.'<br>';
-                    }
-                    echo '</div>';
+                echo '<div class="error">';
+                echo '<div class="attempt">';
+
+                echo 'Attempt '.$_SESSION['attempt'].'<br>';
+                echo '</div>';
+
+                if(!empty($data['otp_err'])   ){
+                        echo '*'.$data['otp_err'].'<br>';
                 }
+                echo '</div>';
 
             ?>
-            <form action="<?php echo URLROOT . '/users/verifyotp';?>" method="post">
+            <form action="<?php echo URLROOT . '/users/verifyotp'?>" method="post">
                 <label >OTP(sent to email address)</label>
                 <div class="input">
-                    <input type="number" name="otp"  class="otp1" placeholder="0" pattern="[0-9]{6}" onpaste="false" required>                   
+                    <input type="number" name="otp"  class="otp1" placeholder="0" pattern="[0-9]{6}" onpaste="false" >                   
                 </div>
                 <div class="submit">
                     <input type="submit" name="submit" value="Finish Registration" id="button">

@@ -75,6 +75,7 @@
                     $_SESSION['phone'] = $data['phone'];
                     $_SESSION['user_type'] = $data['user_type'];
                     $_SESSION['otp'] = $data['otp'];
+                    $_SESSION['attempt']=1;
 
                     //Send email
                     if($this->userModel->sendEmail($data['email'],$data['otp'],$data['first_name'])){
@@ -154,110 +155,139 @@
 
         //verifyotp
         public function verifyotp(){
-            $this->view('users/verifyotp');
-            if($_SERVER['REQUEST_METHOD'] == 'POST'){
-                // Process form
-                //Sanitize POST data
-                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            //not filled registration form
+            if(!isset($_SESSION['email'])){
+                redirect('users/register');
+            }
+            
+            if($_SESSION['attempt']<=3){
+                if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                    $_SESSION['attempt']++;
+                    // Process form
+                    //Sanitize POST data
+                    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                    //init data
+                    $data = [
+                        'first_name' => $_SESSION['first_name'],
+                        'second_name' => $_SESSION['second_name'],
+                        'email' => $_SESSION['email'],
+                        'phone' => $_SESSION['phone'],
+                        'user_type' => $_SESSION['user_type'],
+                        'password' => $_SESSION['password'],
+                        'otp_sent'=>$_SESSION['otp'],
+                        'otp_entered'=>trim($_POST['otp']),
+                        'otp_err' => '',
+                        'first_name_err' => '',
+                        'second_name_err' => '',
+                        'email_err' => '',
+                        'phone_err' => '',
+                        'password_err' => ''
+                    ];
 
-                //init data
-                $data = [
-                    'first_name' => $_SESSION['first_name'],
-                    'second_name' => $_SESSION['second_name'],
-                    'email' => $_SESSION['email'],
-                    'phone' => $_SESSION['phone'],
-                    'user_type' => $_SESSION['user_type'],
-                    'password' => $_SESSION['password'],
-                    'otp_sent'=>$_SESSION['otp'],
-                    'otp_entered'=>trim($_POST['otp']),
-                    'otp_err' => '',
-                    'first_name_err' => '',
-                    'second_name_err' => '',
-                    'email_err' => '',
-                    'phone_err' => '',
-                    'password_err' => ''
-                ];
+                    if(empty($data['otp_entered'])){
+                        $data['otp_err'] = 'Please enter otp';
+                    }elseif(strlen($data['otp_entered']) !=6){
+                        $data['otp_err'] = 'Otp must be 6 characters';
+                    }
+                    if(empty($data['otp_err'])){
+                        //no errors
+                        if($data['otp_entered']==$data['otp_sent']){
+                            //otp matched
 
-                if(empty($data['otp_entered'])){
-                    $data['otp_err'] = 'Please enter otp';
-                }elseif(strlen($data['otp_entered']) !=6){
-                    $data['otp_err'] = 'Otp must be 6 characters';
-                }
-                if(empty($data['otp_err'])){
-                    //no errors
-                    if($data['otp_entered']==$data['otp_sent']){
-                        //otp matched
+                            //Register user
+                            if($this->userModel->register($data)){
+                                $row=$this->userModel->getUserId($data['email']);
+                                $data['user_id']=$row->user_id;
+                                unset($_SESSION['otp']);
+                                unset($_SESSION['email']);
+                                unset($_SESSION['password']);
+                                unset($_SESSION['first_name']);
+                                unset($_SESSION['second_name']);
+                                unset($_SESSION['phone']);
+                                unset($_SESSION['user_type']);
+                                session_destroy();
 
-                        //Register user
-                        if($this->userModel->register($data)){
-                            $row=$this->userModel->getUserId($data['email']);
-                            $data['user_id']=$row->user_id;
-                            if($data['user_type']=='seller'){
-                                if($this->userModel->addToSeller($data)){
-                                    flash('register_success', 'You are registered and can log in');
-                                    redirect('users/login');
-                                }else{
-                                    die('Something went wrong');
+
+                                if($data['user_type']=='seller'){
+                                    if($this->userModel->addToSeller($data)){
+                                        flash('register_success', 'You are registered and can log in');
+                                        redirect('users/login');
+                                    }else{
+                                        die('Something went wrong');
+                                    }
+                                
                                 }
-                            
-                            }
-                            else if($data['user_type']=='buyer'){
-                                if($this->userModel->addToBuyer($data)){
-                                    flash('register_success', 'You are registered and can log in');
-                                    redirect('users/login');
-                                }else{
-                                    die('Something went wrong');
+                                else if($data['user_type']=='buyer'){
+                                    if($this->userModel->addToBuyer($data)){
+                                        flash('register_success', 'You are registered and can log in');
+                                        redirect('users/login');
+                                    }else{
+                                        die('Something went wrong');
+                                    }
                                 }
-                            }
-                            else if($data['user_type']=='admin'){
-                                if($this->userModel->addToAdmin($data)){
-                                    flash('register_success', 'You are registered and can log in');
-                                    redirect('users/login');
-                                }else{
-                                    die('Something went wrong');
+                                else if($data['user_type']=='admin'){
+                                    if($this->userModel->addToAdmin($data)){
+                                        flash('register_success', 'You are registered and can log in');
+                                        redirect('users/login');
+                                    }else{
+                                        die('Something went wrong');
+                                    }
                                 }
-                            }
-                            else{
-                                if($this->userModel->addToServiceProvider($data)){
-                                    flash('register_success', 'You are registered and can log in');
-                                    redirect('users/login');
-                                }else{
-                                    die('Something went wrong');
+                                else{
+                                    if($this->userModel->addToServiceProvider($data)){
+                                        flash('register_success', 'You are registered and can log in');
+                                        redirect('users/login');
+                                    }else{
+                                        die('Something went wrong');
+                                    }
                                 }
                             }
                         }
+                        else{
+                            $data['otp_err'] = 'Otp not matched ';
+                            $this->view('users/verifyotp', $data);
+                        }
                     }
                     else{
-                        $data['otp_err'] = 'Otp not matched';
                         $this->view('users/verifyotp', $data);
                     }
+
                 }
                 else{
+                    //Init data
+                    $data = [
+                        'first_name' => '',
+                        'second_name' => '',
+                        'email' => '',
+                        'phone' => '',
+                        'user_type' => '',
+                        'password' => '',
+                        'otp_sent'=>'',
+                        'otp_entered'=>'',
+                        'otp_err' => '',
+                        'first_name_err' => '',
+                        'second_name_err' => '',
+                        'email_err' => '',
+                        'phone_err' => '',
+                        'password_err' => ''
+                    ];
+    
+                    //Load view
                     $this->view('users/verifyotp', $data);
                 }
-                
             }
             else{
-                //Init data
-                $data = [
-                    'first_name' => '',
-                    'second_name' => '',
-                    'email' => '',
-                    'phone' => '',
-                    'user_type' => '',
-                    'password' => '',
-                    'otp_sent'=>'',
-                    'otp_entered'=>'',
-                    'otp_err' => '',
-                    'first_name_err' => '',
-                    'second_name_err' => '',
-                    'email_err' => '',
-                    'phone_err' => '',
-                    'password_err' => ''
-                ];
-
-                //Load view
-                $this->view('users/verifyotp', $data);
+                unset($_SESSION['otp']);
+                unset($_SESSION['email']);
+                unset($_SESSION['password']);
+                unset($_SESSION['first_name']);
+                unset($_SESSION['second_name']);
+                unset($_SESSION['phone']);
+                unset($_SESSION['user_type']);
+                unset($_SESSION['attempt']);
+                session_destroy();
+                flash('register_fail', 'You have exceeded the maximum number of attempts');
+                redirect('users/register');
             }
 
         }

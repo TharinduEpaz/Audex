@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/form.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css';?>">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sELL_ITEM.css';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sell_item.css';?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
@@ -87,7 +87,7 @@
                 }
 
             ?>
-                    <form action="<?php echo URLROOT . '/sellers/advertise';?>" method="post">
+                    <form action="<?php echo URLROOT . '/sellers/advertise';?>" method="post" enctype="multipart/form-data">
                         <div class="input">
                             <label for="">Title&nbsp</label>
                             <input class="title" type="text" name="title"  value="<?php echo $data['title']?>" >
@@ -105,15 +105,15 @@
                         <div class="input">
                             <div class="image">
                                 <label for="image1">Image1:</label>
-                                <input type="image" name="image1"  class="fa-solid" alt="&#xf03e" >
+                                <input type="file" name="image1"  class="fa-solid" alt="&#xf03e" >
                             </div>
                             <div class="image">
                                 <label for="image2">Image2:</label>
-                                <input type="image" name="image2"  class="fa-solid" alt="&#xf03e">
+                                <input type="file" name="image2"  class="fa-solid" alt="&#xf03e">
                             </div>
                             <div class="image">
                                 <label for="image3">Image3:</label>
-                                <input type="image" name="image3" class="fa-solid " alt="&#xf03e" >
+                                <input type="file" name="image3" class="fa-solid "  placeholder="click" value="click" alt="&#xf03e" >
                             </div>
                         </div>
                         <div class="input">
