@@ -1,9 +1,9 @@
 
 function docheck() {
     if (document.getElementById("check").checked) {
-        document.getElementById("forms").style.display = "none";
+        document.getElementById("container").style.display = "none";
     } else {
-        document.getElementById("forms").style.display = "block";
+        document.getElementById("container").style.display = "block";
     }
 }
 /* When the user clicks on the button,
