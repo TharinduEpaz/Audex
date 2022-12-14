@@ -60,10 +60,10 @@
         
           <h2>Full Name</h2>
           <p>Hassnain Haider <button class="btn">update</button></p>
-          <h2>Birthday</h2>
-          <p>January 5</p>
-          <h2>Gender</h2>
-          <p>Male</p>
+          <h2>Mobile Number</h2>
+          <p>0774809951</p>
+          <h2>Address</h2>
+          <p>21, Gampaha</p>
           <h2>Email</h2>
           <p>example@example.com <button class="btn">update</button></p>
           <h2>Password</h2>
