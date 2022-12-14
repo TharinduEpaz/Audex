@@ -15,6 +15,9 @@
             $this->view('admins/index');
         }
 
+        public function profile(){
+            $this->view('admins/profile');
+        }
         
 
 
