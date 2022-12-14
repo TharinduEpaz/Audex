@@ -38,10 +38,11 @@
     
  }
  .container-img img{
-
-    flex-shrink: 0;
+    max-width: -webkit-fill-available;
+    max-height: -webkit-fill-available;
+    /* flex-shrink: 0;
     min-width: 100%;
-    min-height: 100%
+    min-height: 100% */
     
  }
 .container-ad .title{

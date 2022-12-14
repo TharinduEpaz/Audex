@@ -80,6 +80,7 @@
         if( empty($data['first_name_err']) && empty($data['second_name_err']) && empty($data['address1_err']) && empty($data['address1_err'] && empty($data['phone_number_err'])) ){
           //validated
           if($this->buyerModel->updateProfile($data)){
+            $_SESSION['user_name'] = $data['first_name'];
             redirect('buyers/getProfile/'.$_SESSION['user_id']);
           }
           else{
