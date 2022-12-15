@@ -37,7 +37,10 @@
                             echo '<a href="'.URLROOT . '/buyers/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
                         }
                         if ($_SESSION['user_type']=='service_provider') {
-                            echo '<a href="'.URLROOT . '/buyers" class="nav_tags">Profile</a>';
+                            echo '<a href="'.URLROOT . '/service_providers/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
+                        }
+                        if ($_SESSION['user_type']=='admin') {
+                            echo '<a href="'.URLROOT . '/admins/profile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
                         }
                         echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                     echo '</div>';

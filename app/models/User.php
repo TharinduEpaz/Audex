@@ -92,10 +92,9 @@
 
         //Add to service provider
         public function addToServiceProvider($data){
-            $this->db->query('INSERT INTO service_provider (user_id,email) VALUES(:user_id,:email)');
+            $this->db->query('INSERT INTO service_provider (user_id) VALUES(:user_id)');
             //Bind values
             $this->db->bind(':user_id', $data['user_id']);
-            $this->db->bind(':email', $data['email']);
 
             //Execute
             if($this->db->execute()){
