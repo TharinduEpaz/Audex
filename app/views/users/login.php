@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/form.css';?>">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/login.css';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/form.css?id=123';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/login.css?id=123';?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
@@ -19,14 +19,14 @@
         </label>
         <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="">
         <ul>
-            <li><a href="home.php" class="nav_tags">Home</a></li>
+            <li><a href="<?php echo URLROOT .'/pages/index'?>" class="nav_tags" class="nav_tags">Home</a></li>
             <li><a href="<?php echo URLROOT . '/buyers';?>" class="nav_tags">Shop</a></li>
             <li><a href="#" class="nav_tags">Sound Engineers</a></li>
             <li><a href="#" class="nav_tags">Events</a></li>
             <li><a href="<?php echo URLROOT;?>/users/register" class="nav_tags">Sign up</a></li>
         </ul>
     </nav>
-    <div class="container">
+    <div class="container_main">
         <div id="forms" class="form">
         <?php 
         if(flash('register_success')){

@@ -4,6 +4,9 @@
 *{
     font-family: open sans;
 }
+.sidebar{
+    margin-top: 10vh;
+}
 .service-provider-profile{
     
     background-color: #E5E9F7;
@@ -110,8 +113,8 @@
 
 }
 #edit-settings {
-    margin-left: 800px;
-    width: 200px;
+    margin-left: 0vw;
+    width: 800px;
     height: 30px;
     border-radius: 10px;
   
@@ -130,7 +133,7 @@
     color: initial;
     background-color: #1A1A1B;
     color:#E5E9F7;
-    width: 380px;
+    width: 120px;
     text-align: center;
 
     

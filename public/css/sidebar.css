@@ -6,7 +6,7 @@
   padding-top: 6vh;
   display: block;
   position: fixed;
-  margin-top: 10vh;
+  
 }
 .sidebar a{
   display: block;
@@ -63,6 +63,9 @@ a:hover, a:active{
     height: 100vh;
   }
 
+}
+.container{
+  background-image: none;
 }
 
 

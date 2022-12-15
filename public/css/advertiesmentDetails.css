@@ -7,15 +7,39 @@
     border: none;
     border-radius: 1rem;
     background-color: white;
-    font-size: 24px;
+    font-size: 14px;
     padding-inline: 1rem;
 }
 .container .ad-search button{
     margin-left: 20px;
-    width: 100px;
+    width: 90px;
     height: 35px;
     border: none;
     border-radius: 1rem;
+    background-color: white;
+    font-size: 14px;
+    
+}
+.container .ad-search_shop{
+    display: -webkit-inline-box;
+    /* border: 1px solid black; */
+    margin: 20px 20px 20px 75px;
+}
+.container .ad-search_shop input{
+    width: 500px;
+    height: 35px;
+    border: none;
+    border-radius: 1rem 0 0 1rem;
+    background-color: white;
+    font-size: 24px;
+    padding-inline: 1rem;
+}
+.container .ad-search_shop button{
+    margin-left: 2px;
+    width: 100px;
+    height: 35px;
+    border: none;
+    border-radius: 0 1rem 1rem 0;
     background-color: white;
     font-size: 24px;
     

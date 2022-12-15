@@ -96,7 +96,7 @@
       else{
         $details = $this->buyerModel->getBuyerDetails($id);
 
-        if($details->_id != $_SESSION['user_id']){
+        if($details->user_id != $_SESSION['user_id']){
           redirect('users/login');
         }
 

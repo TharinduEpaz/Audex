@@ -19,15 +19,15 @@
         </label>
         <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo">
         <ul>
-            <li><a href="<?php echo URLROOT;?>" class="nav_tags">Home</a></li>
-            <li><a href="#" class="nav_tags">Shop</a></li>
+        <li><a href="<?php echo URLROOT;?>/sellers/index" class="nav_tags">Home</a></li>
+            <li><a href="<?php echo URLROOT;?>/buyers/index" class="nav_tags">Shop</a></li>
             <li><a href="#" class="nav_tags">Sound Engineers</a></li>
             <li><a href="#" class="nav_tags">Events</a></li>
             <?php if(isset($_SESSION['user_id'])){
                 echo '<div class="dropdown">';
                     echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
                     echo '<div id="myDropdown" class="dropdown-content">';
-                        echo '<a href="'.URLROOT . '/sellers/advertisements" class="nav_tags">Profile</a>';
+                        echo '<a href="'.URLROOT . '/sellers/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
                         echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                     echo '</div>';
                 echo '</div> ';
@@ -39,10 +39,10 @@
              ?>
         </ul>
     </nav>
-    <div class="container">
+    <div class="container" style="background: none;">
         <div class="content">
             <div class="image">
-                <img src="<?php echo URLROOT . '/public/img/Rectangle 40.png';?>" alt="">
+                <img src="<?php echo 'data:image/jpg;charset=utf8;base64,'.base64_encode($data['advertisement']->image1);?>" alt="">
                 <!-- <a href="">next</a> -->
             </div>
             <div class="details">

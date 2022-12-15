@@ -20,7 +20,7 @@
         }
 
         public function getAdvertiesment(){
-            $this->db->query('SELECT * FROM product');
+            $this->db->query('SELECT * FROM product WHERE is_deleted=0');
             $results = $this->db->resultSet();
             return $results;
 
@@ -59,7 +59,7 @@
         }
 
         public function getBuyerWatchProducts($email){
-            $this->db->query('SELECT product_id FROM view_item  WHERE email = :email');
+            $this->db->query('SELECT product_id FROM view_item WHERE email_buyer = :email');
             $this->db->bind(':email' , $email);
             $results = $this->db->resultSet();
 
@@ -73,7 +73,7 @@
             foreach($results as $result):
                 $id = $result->product_id;
                 settype($id,"integer");
-                $this->db->query('SELECT product_id,email,product_title,product_condition,img FROM product WHERE product_id = :id');
+                $this->db->query('SELECT product_id,email,product_title,product_condition,image1,price FROM product WHERE product_id = :id');
                 $this->db->bind(':id' , $id);
                 $item = $this->db->single();
                 array_push($items,$item);
