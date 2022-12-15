@@ -15,7 +15,7 @@
 </head>
 <body>
     <style>
-        body{
+        body .container{
             background-image: none;
             background-color: rgb(214, 214, 239);
         }
