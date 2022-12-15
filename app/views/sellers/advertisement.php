@@ -19,8 +19,8 @@
         </label>
         <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo">
         <ul>
-            <li><a href="<?php echo URLROOT;?>" class="nav_tags">Home</a></li>
-            <li><a href="#" class="nav_tags">Shop</a></li>
+        <li><a href="<?php echo URLROOT;?>/sellers/index" class="nav_tags">Home</a></li>
+            <li><a href="<?php echo URLROOT;?>/buyers/index" class="nav_tags">Shop</a></li>
             <li><a href="#" class="nav_tags">Sound Engineers</a></li>
             <li><a href="#" class="nav_tags">Events</a></li>
             <?php if(isset($_SESSION['user_id'])){
