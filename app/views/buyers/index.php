@@ -15,7 +15,7 @@
 </head>
 <body>
     <style>
-        body{
+        body .container{
             background-image: none;
             background-color: rgb(214, 214, 239);
         }
@@ -49,7 +49,7 @@
         </ul>
     </nav>
 
-    <div class="container">
+    <div class="container" >
         <div class="header">
             <h1>New Arrivals</h1>
         </div>
