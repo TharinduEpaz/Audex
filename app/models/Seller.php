@@ -6,6 +6,61 @@
             $this->db = new Database;
         }
 
+        public function getUserDetails($id){
+            $this->db->query('SELECT * FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->single();
+            return $row;
+        }
+
+        public function updateProfile($data){
+            $this->db->query('UPDATE user SET first_name = :first_name,second_name = :second_name, address1 = :address1, address2 = :address2, phone_number = :phone_number WHERE user_id = :id ');
+            
+            $this->db->bind(':first_name' , $data['first_name']);
+            $this->db->bind(':second_name' , $data['second_name']);
+            $this->db->bind(':address1' , $data['address1']);
+            $this->db->bind(':address2' , $data['address2']);
+            $this->db->bind(':phone_number' , $data['phone_number']);
+            $this->db->bind(':id' , $data['id']);
+
+            if($this->db->execute()){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function deleteUserProfile($id){
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->single();
+
+            $this->db->query('DELETE FROM seller WHERE email = :email');
+            $this->db->bind(':email' , $row->email);
+
+            $result1 = $this->db->execute();
+
+            $this->db->query('UPDATE user SET is_deleted = 1 WHERE email = :email ');    
+            $this->db->bind(':email' , $row->email);
+
+            // if($this->db->execute()){
+            //     return true;
+            // } else {
+            //     return false;
+            // }
+
+            $result2 = $this->db->execute();
+
+            if($result1 && $result2){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
         public function getadvertisements($email){
             $this->db->query('SELECT * FROM product WHERE email=:email && is_deleted=0');
             $this->db->bind(':email', $email);
