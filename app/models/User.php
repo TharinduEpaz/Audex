@@ -108,7 +108,7 @@
         public function logintime($email){
             $this->db->query('UPDATE user set last_login=NOW() WHERE email = :email');
             $this->db->bind(':email', $email);
-            $row = $this->db->single(); //single row
+            $row = $this->db->execute(); //single row
 
         }
 
@@ -161,7 +161,7 @@
             $row = $this->db->single();
             //Check row
             if($this->db->rowCount() > 0){
-                return true;
+                return $row;
             }else{
                 return false;
             }

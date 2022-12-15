@@ -21,8 +21,8 @@
         </label>
         <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo">
         <ul>
-            <li><a href="<?php echo URLROOT;?>/pages/index" class="nav_tags">Home</a></li>
-            <li><a href="<?php echo URLROOT;?>/sellers/index" class="nav_tags">Shop</a></li>
+            <li><a href="<?php echo URLROOT;?>/sellers/index" class="nav_tags">Home</a></li>
+            <li><a href="<?php echo URLROOT;?>/buyers/index" class="nav_tags">Shop</a></li>
             <li><a href="#" class="nav_tags">Sound Engineers</a></li>
             <li><a href="#" class="nav_tags">Events</a></li>
             
@@ -44,11 +44,11 @@
     </nav>
     <div class="container">
         <div class="sidebar">
-            <a href="#" class="current"><i class="fas fa-address-card"></i> <span>My Profile</span></a>
-            <a href="<?php echo URLROOT . '/sellers/watchlist';?>"> <i class="far fa-calendar-check" aria-hidden="true"></i><span>Watch List</span></a>
-            <a href="#"> <i class="fa fa-comments-o" aria-hidden="true"></i><span>Feedback</span></a>
-            <a href="#"> <i class="fa fa-thumbs-up" aria-hidden="true"></i><span>Reactions</span></a>
-            <a href="messages.php"> <i class="fa fa-envelope"></i><span>Messages</span></a>       
+                <a href="#"><i class="fas fa-qrcode"></i> <span>Dashboard</span></a>
+                <a class="current" href="<?php echo URLROOT.'/sellers/getProfile/'.$_SESSION['user_id']?>"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile Settings</span></a>
+                <a href="<?php echo URLROOT;?>/sellers/advertisements"> <i class="fa fa-ad" aria-hidden="true"></i><span>Advertisements</span></a>
+                <a href="<?php echo URLROOT;?>/sellers/advertise"><i class="fa-solid fa-dollar-sign" aria-hidden="true"></i><span>Advertise</span></a>
+                <a href="#"> <i class="fa fa-comments"></i><span>Messages</span></a>       
         </div>
         <div class="poster_advertisements">
             <div class="form-display"> 
