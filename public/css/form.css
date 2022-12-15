@@ -16,9 +16,7 @@ html {
 }
 body { 
   position: absolute; 
-  background-image: url("../img/retro-microphone-isolated-color-background 1.png");
-  background-repeat: no-repeat;
-  background-size: 110% 140vh;
+
 }
 nav{
   top: 0;
@@ -185,6 +183,7 @@ nav{
     }
   }
  .container{
+
     width: 100vw;
     height: 80vh;
     /* background-repeat: no-repeat;
@@ -193,8 +192,24 @@ nav{
     background-position-y: bottom;
     background-position-x: right;
     background-attachment: scroll; */
-  
+
+    background-image: url("../img/retro-microphone-isolated-color-background 1.png");
+    background-repeat: no-repeat;
+    background-size: 110% 140vh;
+    background-size:cover;
+    flex-shrink: 0;
+    min-width: 100%;
+    min-height: 100%;
 }
+
+/* @keyframes image {
+  0% {
+    background-image: url('../img/retro-microphone-isolated-color-background 1.png');
+  }
+  100% {
+    background-image: url('https://images.pexels.com/photos/10894054/pexels-photo-10894054.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+  }
+} */
 .alert{
   background: #ff7373;
     width: 100%;
@@ -326,14 +341,21 @@ nav{
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  flex-wrap: wrap;
+  
   width: 500px;
   height: 141px;
-  left: 422px;
+  margin-left: 99px;
+  
   top: 500px;
 }
-.explore .explore-line{
-  font-size: 20px;
-  font-weight: 650;
+.explore .explore-line h3{
+  font-size: 15px;
+  letter-spacing: 5px;
+  text-align: center;
+  text-transform: uppercase;
+
+  font-weight: 300;
   color: #E5E9F7;
 }
 .explore .explore-btn {
@@ -372,6 +394,10 @@ nav{
   
   
 }
+
+/* HOME PAGE CSS ADDED BY EPA */
+
+
 
 @media (max-width:860px){
   nav img{
