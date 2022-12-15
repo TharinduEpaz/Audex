@@ -204,6 +204,18 @@ nav{
     min-height: 100%;
 }
 
+.container{
+  width: 100vw;
+  height: 80vh;
+  /* background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-position-y: bottom;
+  background-position-x: right;
+  background-attachment: scroll; */
+
+}
+
 /* @keyframes image {
   0% {
     background-image: url('../img/retro-microphone-isolated-color-background 1.png');
