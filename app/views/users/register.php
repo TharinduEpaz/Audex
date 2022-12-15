@@ -100,9 +100,9 @@
                 <div class="input">
                     <label for="type">Account type</label>
                         <select name="type" id="type">
-                          <option value="buyer">Buyer</option>
-                          <option value="seller">Seller</option>
-                          <option value="service_provider">Service Provider</option>                         
+                            <option value="buyer">Buyer</option>
+                            <option value="seller">Seller</option>
+                            <option value="service_provider">Service Provider</option>                         
                         </select>
                 </div>
                 <div class="input">

@@ -1,8 +1,12 @@
 <?php
     class Users extends Controller{
+        private $userModel;
+        private $buyerModel;
 
         public function __construct(){
             $this->userModel = $this->model('User');
+            $this->buyerModel = $this->model('Buyer');
+
         }
         //register
         public function register(){
@@ -318,7 +322,7 @@
                 }elseif(strlen($data['password']) < 6){
                     $data['password_err'] = 'Password must be at least 6 characters';
                 }
-
+                
                 //Check for user/email
                 if($this->userModel->findUserByEmail($data['email'])){
                 }
@@ -330,26 +334,39 @@
                     $data['email_err'] = 'No user found';
                 }
 
-                //Make sure errors are empty
-                if(empty($data['email_err'])  && empty($data['password_err'])){
-                    //Validated
-                    //Check and set logged in user
-                    $loggedInUser = $this->userModel->login($data['email'], $data['password']);
-
-                    if($loggedInUser){
-                        //Create session
-                        $this->createUserSession($loggedInUser);
-                    }
-                    else{
-                        $data['password_err'] = 'Password incorrect';
-
-                        $this->view('users/login', $data);
-                    }
+                $userData = $this->userModel->findUserDetailsByEmail($data['email']);
+                if($userData->is_deleted == '1'){
+                    $data = [
+                        'email' => '',
+                        'password' => '',
+                        'email_err' => '',
+                        'password_err' => ''
+                    ];
+                    redirect('users/register');
+                    //$this->view('users/register', $data);
                 }
                 else{
-                    //Load view with errors
-                    $this->view('users/login', $data);
-                }
+                    //not a deleted account
+                    //Make sure errors are empty
+                    if(empty($data['email_err'])  && empty($data['password_err'])){
+                        //Validated
+                        //Check and set logged in user
+                        $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+                        if($loggedInUser){
+                            //Create session
+                            $this->createUserSession($loggedInUser);
+                        }
+                        else{
+                            $data['password_err'] = 'Password incorrect';
+
+                            $this->view('users/login', $data);
+                        }
+                    }
+                    else{
+                        //Load view with errors
+                        $this->view('users/login', $data);
+                    }
+                }          
             }
             else{
                 //Init data

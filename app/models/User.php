@@ -145,6 +145,17 @@
         //Not activated
         public function notActivated($email){
             $this->db->query('SELECT * FROM user WHERE email = :email && email_active=0');
+            $this->db->bind(':email', $email);
+            $row = $this->db->single();
+
+            if($this->db->rowCount() > 0){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function findUserDetailsByEmail($email){
+            $this->db->query('SELECT * FROM user WHERE email = :email');
             //Bind value
             $this->db->bind(':email', $email);
             $row = $this->db->single();
@@ -169,5 +180,6 @@
                 return false;
             }
         }
+
     }
 ?>

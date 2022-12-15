@@ -11,4 +11,4 @@
     //URL Root
     define('URLROOT', 'http://localhost/Audex');
     //Site Name
-    define('SITENAME', 'AudexMVCFRAMEWORK');
+    define('SITENAME', 'Audex');
