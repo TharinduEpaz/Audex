@@ -46,28 +46,43 @@ class Service_providers extends Controller
     public function setDetails()
     {
 
+        $details = $this->service_model->getDetails($_SESSION['user_id']);
+        $data = [
+            'details' => $details
+        ];
+
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            if (isset($_POST['profession'])) {
+            if (isset($_POST['profession']) && $_POST['profession'] != '') {
 
                 $profession = $_POST['profession'];
 
             }
-            if (isset($_POST['qualifications'])) {
+            else{
+                $profession = $data['details']->profession;
+            }
+
+            if (isset($_POST['qualifications'])&& $_POST['qualifications'] != '') {
 
                 $qualifications = $_POST['qualifications'];
 
+            }else{
+                $qualifications= $data['details']->qualifications;
             }
-            if (isset($_POST['achievements'])) {
+            if (isset($_POST['achievements'])&& $_POST['achievements'] != '') {
 
                 $achievements = $_POST['achievements'];
 
+            }else{
+                $achievements = $data['details']->achievements;
             }
-            if (isset($_POST['description'])) {
+            if (isset($_POST['description'])&& $_POST['description'] != '') {
 
                 $description = $_POST['description'];
 
+            }else{
+                $description = $data['details']->description;
             }
         }
 

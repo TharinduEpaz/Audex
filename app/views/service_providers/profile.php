@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css?id=1245';?>">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/service_provider.css?id=1245';?>">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/style.css?id=1245';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css?id=125';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/service_provider.css?id=145';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/style.css?id=145';?>">
     
     
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->

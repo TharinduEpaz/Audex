@@ -61,7 +61,7 @@
                         <input type="text" name="last-name" placeholder="<?php echo $data['details']->second_name?>">
                         <input type="text" name="address1" placeholder="<?php echo $data['details']->address_line_one?>">
                        <input type="text" name="address2" placeholder="<?php echo $data['details']->address_line_two?>">
-                        <input type="number" name="mobile" placeholder="<?php echo $data['details']->mobile?>">
+                        <input type="number" name="mobile" placeholder="<?php echo $data['details']->mobile?>" disabled>
                         <input type="text" name="profession" placeholder="<?php echo $data['details']->profession?>">
                         <input type="text" name="qualifications" placeholder="<?php echo $data['details']->qualifications?>">
                         <input type="text" name="achievements" placeholder="<?php echo $data['details']->achievements?>">
@@ -87,7 +87,6 @@
     </div>
 
     <script>
-
         //keeping the sidebar button clicked at the page
 
         link = document.querySelector('#profile-settings');
