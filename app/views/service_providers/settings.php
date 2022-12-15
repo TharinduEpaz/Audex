@@ -56,7 +56,7 @@
                     <span>Edit Description : </span>
                 </div>
                 <div class="info-items">
-                    <form action="" method="post">
+                    <form action= "<?php echo URLROOT . '/service_providers/setDetails/' ?>" method="post">
                          <input type="text" name="first-name"  placeholder="<?php echo $data['details']->first_name?>">
                         <input type="text" name="last-name" placeholder="<?php echo $data['details']->second_name?>">
                         <input type="text" name="address1" placeholder="<?php echo $data['details']->address_line_one?>">
@@ -66,6 +66,12 @@
                         <input type="text" name="qualifications" placeholder="<?php echo $data['details']->qualifications?>">
                         <input type="text" name="achievements" placeholder="<?php echo $data['details']->achievements?>">
                         <textarea name="description" cols="30" rows="10" placeholder="<?php echo $data['details']->description?>"></textarea>
+                        <section class="buttons">
+          
+                        <button id="save" type="submit">Save</button>
+                        <button id="cancel" type="reset">Cancel</button>
+                    </section>
+          </div>
                     </form>
                 </div>
                 <div class="profile-pic-settings">
@@ -75,11 +81,7 @@
                 </div>
             </div>
 
-            <div class="buttons">
-          
-        <button id="save">Save</button>
-        <button id="cancel">Cancel</button></div>
-        </div>
+         
     
 
     </div>

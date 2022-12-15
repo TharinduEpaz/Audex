@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css?id=123';?>">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/service_provider.css?id=123';?>">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/style.css?id=123';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css?id=1245';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/service_provider.css?id=1245';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/style.css?id=1245';?>">
     
     
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
@@ -33,7 +33,7 @@
     <div class="sidebar">
         <a href="#"><i class="fas fa-qrcode" id="dashboard"></i> <span>Dashboard</span></a>
         <a href="<?php echo URLROOT . '/service_providers/profile';?>" id="profile-settings"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile</span></a>
-        <a href="#" id="advertisements"> <i class="fa fa-ad" aria-hidden="true"></i><span>Advertisements</span></a>
+        <a href="#" id="advertisements"> <i class="fa fa-ad" aria-hidden="true"></i><span>Feed</span></a>
         <a href="#" id="calender"> <i class="fa fa-calendar" aria-hidden="true"></i><span>Calender</span></a>
         <a href="#" id="messages"> <i class="fa fa-comments"></i><span>Messages</span></a>       
     </div>
@@ -49,7 +49,12 @@
         </div>
         <div class="profile-info">
             <div class="description"><h1>About me</h1>
-                <p> <?php echo $data['details']->description ?>
+                <p> <?php if($data['details']->description == ''){
+                    echo '<span class="red-alert">please complete your profile in the profile settings section</span>';
+                }
+                else{
+                    echo $data['details']->description;
+                } ?>
                     
 </p></div>
             <div class="info-blocks">
@@ -73,7 +78,7 @@
                     <span><?php echo $data['details']->mobile ?></span>
                     <span><?php echo $data['details']->profession ?></span>
                     <span><?php echo $data['details']->qualifications ?></span>
-                    <span><?php echo $data['details']->achievements ?></span>
+                    <span><?php echo $data['details']->achievements?></span>
                 </div>
             </div>
             
@@ -100,6 +105,20 @@
         link = document.querySelector('#profile-settings');
         link.style.background = "#E5E9F7";
         link.style.color = "red";
+
+        error = document.querySelector('.red-alert');
+        error.style.color = "#FF0000"
+
+        editButton = document.querySelector('.btn');
+
+        if (error) {
+
+            editButton.style.animation = "alert 2s ease 0s infinite normal forwards"
+            editButton.style.color = "#FF0000"
+            editButton.style.background = "#E5E9F7"
+
+            
+        }
 
     </script>
 

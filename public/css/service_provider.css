@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
 
-
+*{
+    font-family: open sans;
+}
 .service-provider-profile{
     
     background-color: #E5E9F7;
@@ -71,7 +74,7 @@
 
 .service-provider-profile .profile-info .info-blocks .info-titles span{
     display: block;
-    line-height: 25px;
+    line-height: 30px;
     font-weight: 600;
     background-color: aliceblue;
     margin-bottom: 5px;
@@ -83,7 +86,7 @@
 .service-provider-profile .profile-info .info-blocks .info-items span{
     display: block;
     margin-left: 20px;
-    line-height: 25px;
+    line-height: 30px;
 
     background-color: aliceblue;
     margin-bottom: 5px;
@@ -125,19 +128,25 @@
     text-decoration: none;
 
     color: initial;
-    background-color: #E5E9F7;
+    background-color: #1A1A1B;
+    color:#E5E9F7;
+    width: 380px;
+    text-align: center;
 
     
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 10px;
     margin-top: 30px;
     margin-left: 800px;
 
 
+
+
 }
 .service-provider-profile .white-box a:hover{
     
-    background-color: rgb(175, 133, 237);
+    background-color: blueviolet;
+    color: white;
 }
 
 #save{
@@ -213,4 +222,30 @@ button:hover{
 
 }
 
+@keyframes alert {
+	0% {
+		animation-timing-function: ease-out;
+		transform: scale(1);
+		transform-origin: center center;
+	}
 
+	10% {
+		animation-timing-function: ease-in;
+		transform: scale(0.91);
+	}
+
+	17% {
+		animation-timing-function: ease-out;
+		transform: scale(0.98);
+	}
+
+	33% {
+		animation-timing-function: ease-in;
+		transform: scale(0.87);
+	}
+
+	45% {
+		animation-timing-function: ease-out;
+		transform: scale(1);
+	}
+}

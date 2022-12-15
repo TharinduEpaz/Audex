@@ -1,46 +1,90 @@
 <?php
 
-    class Service_providers extends Controller{
+class Service_providers extends Controller
+{
 
-   
 
-        public function __construct(){
-            if(!isLoggedIn()){
-                redirect('users/login');
-            }
 
-            $this->service_model=$this->model('Service_provider');
+    public function __construct()
+    {
+        if (!isLoggedIn()) {
+            redirect('users/login');
         }
 
-        public function index(){
+        $this->service_model = $this->model('Service_provider');
+    }
 
-            $this->view('service_providers/index');
-        }
+    public function index()
+    {
 
-        public function profile(){
+        $this->view('service_providers/index');
+    }
+
+    public function profile()
+    {
 
         $details = $this->service_model->getDetails($_SESSION['user_id']);
 
         $data = [
             'details' => $details
         ];
-        
-      
-        $this->view('service_providers/profile',$data);
-
-        }
-        public function settings(){
-            $details = $this->service_model->getDetails($_SESSION['user_id']);
-
-            $data = [
-                'details' => $details
-            ];
-            $this->view('service_providers/settings',$data);
-        }
 
 
-        
+        $this->view('service_providers/profile', $data);
+
     }
+    public function settings()
+    {
+        $details = $this->service_model->getDetails($_SESSION['user_id']);
+
+        $data = [
+            'details' => $details
+        ];
+        $this->view('service_providers/settings', $data);
+    }
+
+    public function setDetails()
+    {
+
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            if (isset($_POST['profession'])) {
+
+                $profession = $_POST['profession'];
+
+            }
+            if (isset($_POST['qualifications'])) {
+
+                $qualifications = $_POST['qualifications'];
+
+            }
+            if (isset($_POST['achievements'])) {
+
+                $achievements = $_POST['achievements'];
+
+            }
+            if (isset($_POST['description'])) {
+
+                $description = $_POST['description'];
+
+            }
+
+        }
+
+        
+
+
+        // $this->service_model->setDetails();
+
+
+
+        // redirect('service_providers/profile/');
+    }
+
+
+
+}
 
 
 
