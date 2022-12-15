@@ -67,7 +67,7 @@
     
 </div>
 <div class="info-items">
-    <form action= "" method="post">
+    <form action= "<?php echo URLROOT . '/admins/setDetails/' ?>" method="post">
          <input type="text" name="first_name"  placeholder="">
         <input type="text" name="second_name" placeholder="">
         <input type="text" name="email" placeholder="">
