@@ -73,7 +73,7 @@
             foreach($results as $result):
                 $id = $result->product_id;
                 settype($id,"integer");
-                $this->db->query('SELECT product_id,email,product_title,product_condition,image1 FROM product WHERE product_id = :id');
+                $this->db->query('SELECT product_id,email,product_title,product_condition,image1,price FROM product WHERE product_id = :id');
                 $this->db->bind(':id' , $id);
                 $item = $this->db->single();
                 array_push($items,$item);

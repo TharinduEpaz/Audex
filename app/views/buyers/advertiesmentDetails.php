@@ -50,6 +50,10 @@
     </nav>
 
     <div class="container">
+        <!-- <div class="ad-search" >
+            <input type="search" name="search"> 
+            <a href="#"><button type="submit" value="search" name="submit">Search</button></a>
+        </div> -->
         <div class="container-main">
             <div class="container-product-img">
                 <img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($data['ad']->image1); ?>" />

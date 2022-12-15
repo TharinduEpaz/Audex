@@ -36,6 +36,10 @@
                     echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
                     echo '<div id="myDropdown" class="dropdown-content">';
                         echo '<a href="'.URLROOT . '/'.$_SESSION['user_type'].'s/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
+                        echo '<a href="'.URLROOT . '/'.$_SESSION['user_type'].'s/watchlist/'.$_SESSION['user_id'].'" class="nav_tags">Watchlist</a>';
+                        echo '<a href="#" class="nav_tags">Feedback</a>';
+                        echo '<a href="#" class="nav_tags">Reactions</a>';
+                        echo '<a href="#" class="nav_tags">Messages</a>';
                         echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                     echo '</div>';
                 echo '</div> ';
@@ -50,8 +54,8 @@
     </nav>
 
     <div class="container" >
-    <div class="ad_search" >
-            <input type="search" name="search"> 
+        <div class="ad-search_shop" >
+            <input type="search" name="search" placeholder="Search for anything"> 
             <a href="#"><button type="submit" value="search" name="submit">Search</button></a>
         </div>
         <div class="header">
