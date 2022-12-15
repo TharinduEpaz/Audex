@@ -59,7 +59,7 @@
         }
 
         public function getBuyerWatchProducts($email){
-            $this->db->query('SELECT product_id FROM  WHERE email = :email');
+            $this->db->query('SELECT product_id FROM view_item  WHERE email = :email');
             $this->db->bind(':email' , $email);
             $results = $this->db->resultSet();
 
