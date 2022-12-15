@@ -1,0 +1,21 @@
+.poster_advertisements .white-box .info-settings {
+    display: flex; 
+    
+}
+.poster_advertisements .white-box .info-settings .info-titles {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    line-height: 35px;
+    row-gap: 10px;
+}
+.poster_advertisements .white-box .info-settings .info-items input{
+    display: flex;
+    flex-direction: column;
+    line-height: 30px;
+    margin-bottom: 10px;
+    
+}
+.poster_advertisements .white-box h1{
+    margin-bottom: 20px;
+}
