@@ -47,65 +47,29 @@
     <div class="sidebar">
         <a href="#"><i class="fas fa-qrcode" id="dashboard"></i> <span>Dashboard</span></a>
         <a href="<?php echo URLROOT . '/service_providers/profile';?>" id="profile-settings"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile</span></a>
-        <a href="<?php echo URLROOT .'/service_providers/feed'?>" id="feed"> <i class="fa fa-ad" aria-hidden="true"></i><span>Feed</span></a>
+        <a href="<?php echo URLROOT .'/service_providers/index'?>" id="feed"> <i class="fa fa-ad" aria-hidden="true"></i><span>Feed</span></a>
         <a href="#" id="calender"> <i class="fa fa-calendar" aria-hidden="true"></i><span>Calender</span></a>
         <a href="#" id="messages"> <i class="fa fa-comments"></i><span>Messages</span></a>       
     </div>
 
     <div class="service-provider-profile">
         <div class="white-box">
-        <div class="profile-title">
-            <div class="profile-pic"><i class="far fa-user fa-7x"></i></div>
-            <div class="name-rating">
-                <div class="name"><p id="Name"><?php echo $data['details']->first_name . ' ' . $data['details']->second_name ?></p><p id="profession"><?php echo $data['details']->profession?></p></div>
-                <div class="rating"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></div>
-            </div>
-        </div>
-        <div class="profile-info">
-            <div class="description"><h1>About me</h1>
-                <p> <?php if($data['details']->description == ''){
-                    echo '<span class="red-alert">please complete your profile in the profile settings section</span>';
-                }
-                else{
-                    echo $data['details']->description;
-                } ?>
-                    
-</p></div>
-            <div class="info-blocks">
-                <div class="info-titles">
-                    <span>First Name : </span>
-                    <span>Last Name : </span>
-                    <span>Email : </span>
-                    <span>Address Line 1 : </span>
-                    <span>Address Line 2 : </span>
-                    <span>Mobile : </span>
-                    <span>Profession : </span>
-                    <span>Qualifications : </span>
-                    <span>Achivements : </span>
-                </div>
-                <div class="info-items">
-                    <span><?php echo $data['details']->first_name ?></span>
-                    <span><?php echo $data['details']->second_name ?></span>
-                    <span><?php echo $data['details']->email ?></span>
-                    <span><?php echo $data['details']->address_line_one ?></span>
-                    <span><?php echo $data['details']->address_line_two ?></span>
-                    <span><?php echo $data['details']->mobile ?></span>
-                    <span><?php echo $data['details']->profession ?></span>
-                    <span><?php echo $data['details']->qualifications ?></span>
-                    <span><?php echo $data['details']->achievements?></span>
-                </div>
-            </div>
+
+        <div class="feed_items_container">
+            <div class="feed-item item1"></div>
+            <div class="feed-item item2"></div>
+            <div class="feed-item item3"></div>
+            <div class="feed-item item4"></div>
+            <div class="feed-item item5"></div>
+            <div class="feed-item item6"></div>
             
+
         </div>
-         <a href="<?php echo URLROOT .'/service_providers/settings'?>" class="btn"> Edit Settings</a></button>
-        <h2>Events</h2>
-        <div class="events">
-            
-            <div class="event"></div>
-            <div class="event"></div>
-            <div class="event"></div>
-            <div class="event"></div>
+        <div class="button-section">
+            <button>Create New</button>
+
         </div>
+        
         </div>
 
         
@@ -118,7 +82,7 @@
 
         //keeping the sidebar button clicked at the page
 
-        link = document.querySelector('#profile-settings');
+        link = document.querySelector('#feed');
         link.style.background = "#E5E9F7";
         link.style.color = "red";
 
@@ -132,7 +96,6 @@
             editButton.style.animation = "alert 2s ease 0s infinite normal forwards"
             editButton.style.color = "#FF0000"
             editButton.style.background = "#E5E9F7"
-
             
         }
 

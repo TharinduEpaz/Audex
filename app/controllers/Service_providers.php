@@ -123,6 +123,12 @@ class Service_providers extends Controller
         redirect('service_providers/profile/');
     }
 
+    public function feed(){
+
+        $this->view('service_providers/feed');
+        
+    }
+
 
 
 }
