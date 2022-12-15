@@ -26,7 +26,7 @@
             <li><a href="<?php echo URLROOT;?>/users/register" class="nav_tags">Sign up</a></li>
         </ul>
     </nav>
-    <div class="container">
+    <div class="container-main">
         <div id="forms" class="form">
         <?php 
         if(flash('register_success')){

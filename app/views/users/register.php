@@ -26,7 +26,7 @@
             <li><a href="<?php echo URLROOT;?>/users/login" class="nav_tags">Login</a></li>
         </ul>
     </nav>
-    <div class="container">
+    <div class="container-main">
         <div id="forms" class="form">
             <h1>Register</h1>
             <?php

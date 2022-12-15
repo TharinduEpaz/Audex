@@ -84,8 +84,9 @@
                         <button id="save" type="submit">Save</button>
                         <button id="cancel" type="reset" onclick="exit()">Cancel</button>
                     </section>
-          </div>
                     </form>
+          </div>
+                   
                 </div>
                 <!-- <div class="profile-pic-settings">
                     <img src="profile.jpg" alt="">

@@ -41,7 +41,7 @@
              ?> -->
         </ul>
     </nav>
-    <div class="container">
+    <div class="container-main">
         <div class="form">
             <h1>Verify OTP</h1>
             <?php
