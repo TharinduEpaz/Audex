@@ -21,7 +21,7 @@
     <label for="check" class="checkbtn">
         <i class="fas fa-bars"></i>
     </label>
-    <img src="../img/image 1.png" alt="">
+    <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="">
     <ul>
         <li><a href="<?php echo URLROOT .'/service_providers/index'?>" class="nav_tags">Home</a></li>
         <li><a href="#" class="nav_tags">Shop</a></li>

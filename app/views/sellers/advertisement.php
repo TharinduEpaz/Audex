@@ -39,7 +39,7 @@
              ?>
         </ul>
     </nav>
-    <div class="container">
+    <div class="container" style="background: none;">
         <div class="content">
             <div class="image">
                 <img src="<?php echo 'data:image/jpg;charset=utf8;base64,'.base64_encode($data['advertisement']->image1);?>" alt="">

@@ -64,6 +64,9 @@ a:hover, a:active{
   }
 
 }
+.container{
+  background-image: none;
+}
 
 
 
