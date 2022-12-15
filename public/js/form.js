@@ -26,7 +26,7 @@ function myFunction() {
       }
     }
 
-
+// for add item to watch list--------------------------------------------------------------------
 const addToWatchListForm = document.getElementById('add_watch_list_form');
 
 addToWatchListForm.addEventListener("submit",async (e)=>{
@@ -67,3 +67,6 @@ addToWatchListForm.addEventListener("submit",async (e)=>{
   }
   // console.log((addToWatchListForm.elements['user_id'].value.trim() == 0) ? "yes":"NO");
 });
+
+// end add item to watch list----------------------------------------------------------------------------------------------------------
+

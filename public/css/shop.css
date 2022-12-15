@@ -46,13 +46,15 @@
     
  }
 .container-ad .title{
-    font-size: 12px;
-    text-align: center;
-    font-weight: 100;
+    font-size: 14px;
+    text-align: left;
+    font-weight: 500;
+    line-height: 1.5;
+    color: rgb(56, 68, 36);
     width: 100%;
     height: 25%;
     overflow: hidden;
-    background-color: white;
+    background-color:rgb(214, 214, 239);
     border-radius: 0 0 1rem 1rem;
 
 

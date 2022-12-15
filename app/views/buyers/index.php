@@ -61,7 +61,8 @@
                     </div>
                     <div class="title">
                         <a href="<?php echo URLROOT . '/buyers/advertiesmentDetails/'.$ads->product_id;?>">
-                        <h4><?php echo $ads->product_title ; ?>|<?php echo 'RS:'. $ads->price ; ?></h4></a>
+                        <?php echo $ads->product_title ; ?><br>
+                        <?php echo 'RS:'. $ads->price ; ?></a>
 
                     </div>
                 </div>
