@@ -1,6 +1,5 @@
 .htaccess
-/app/.htaccess
-/app/config/config.php
-
-/public/.htaccess
+app/.htaccess
 app/config/config.php
+public/.htaccess
+
