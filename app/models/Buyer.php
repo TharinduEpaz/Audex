@@ -59,7 +59,7 @@
         }
 
         public function getBuyerWatchProducts($email){
-            $this->db->query('SELECT product_id FROM watch_list WHERE email = :email');
+            $this->db->query('SELECT product_id FROM  WHERE email = :email');
             $this->db->bind(':email' , $email);
             $results = $this->db->resultSet();
 
@@ -131,7 +131,7 @@
 
             $row = $this->db->single();
 
-            $this->db->query('INSERT INTO watch_list (email,product_id) VALUES(:email,:p_id)');
+            $this->db->query('INSERT INTO view_item (email_buyer,product_id) VALUES(:email,:p_id)');
             //Bind value
             $this->db->bind(':email', $row->email);
             $this->db->bind(':p_id', $p_id);
