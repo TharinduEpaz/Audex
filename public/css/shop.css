@@ -61,3 +61,28 @@
   
   
  }
+ .container{
+    padding-top: 2vh;
+ }
+ .container .ad_search{
+    margin: 00px 20px 20px 50%;
+}
+.container .ad_search input{
+    width: 500px;
+    height: 35px;
+    border: none;
+    border-radius: 1rem;
+    background-color: white;
+    font-size: 24px;
+    padding-inline: 1rem;
+}
+.container .ad_search button{
+    margin-left: 20px;
+    width: 100px;
+    height: 35px;
+    border: none;
+    border-radius: 1rem;
+    background-color: white;
+    font-size: 24px;
+    
+}

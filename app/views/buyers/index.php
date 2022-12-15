@@ -50,6 +50,10 @@
     </nav>
 
     <div class="container" >
+    <div class="ad_search" >
+            <input type="search" name="search"> 
+            <a href="#"><button type="submit" value="search" name="submit">Search</button></a>
+        </div>
         <div class="header">
             <h1>New Arrivals</h1>
         </div>
