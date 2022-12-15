@@ -19,7 +19,7 @@
         </label>
         <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo">
         <ul>
-            <li><a href="#" class="nav_tags">Home</a></li>
+            <li><a href="#" class="nav_tags">Home</a></li
             <li><a href="#" class="nav_tags">Shop</a></li>
             <li><a href="#" class="nav_tags">Sound Engineers</a></li>
             <li><a href="#" class="nav_tags">Events</a></li>
@@ -27,7 +27,7 @@
                 echo '<div class="dropdown">';
                     echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
                     echo '<div id="myDropdown" class="dropdown-content">';
-                        echo '<a href="'.URLROOT . '/sellers/advertisements" class="nav_tags">Profile</a>';
+                        echo '<a href="'.URLROOT . '/admins/profile" class="nav_tags">Profile</a>';
                         echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                     echo '</div>';
                 echo '</div> ';

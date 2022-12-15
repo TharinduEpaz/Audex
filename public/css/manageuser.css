@@ -1,0 +1,143 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;900&family=Nunito:wght@400;900&family=Roboto:wght@400;900&display=swap");
+
+.whitebox{
+    background-color: rgb(255, 255, 255);
+    min-height:80vh;
+    border-radius: 30px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+#first {
+    list-style-type: none;
+    height: 40px;
+    margin: 20px;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(255, 255, 255);
+  }
+
+  #second {
+    list-style-type: none;
+    height: 40px;
+    margin: 20px;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(255, 255, 255);
+  }
+
+  .information.li {
+    float: right;
+  }
+  
+  .information.li  a{
+    display: block;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  /*added whole*/
+
+  .poster_advertisements {
+    background: linear-gradient(rgb(63 168 181 / 37%),white);
+    height: 100vh;
+   /* padding-left: 300px;*/
+    padding-top:60px;
+    background-size: fixed;
+    background-repeat: no-repeat;
+    transition: 0.5s;
+}
+
+.section2 {
+    background-color: azure;
+    margin: 40px;
+    border-radius: 25px;
+    border: solid black;
+    padding-bottom: 30px;
+    width: 80%;
+    
+}
+#sus{
+    float: right;
+    margin-right: 50px;
+    padding: 5px;
+    border: none;
+    border-radius: 25px;
+    background-color: rgba(125, 240, 131, 0.623);
+}
+#del{
+    float: right;
+    margin-right: 50px;
+    padding: 5px 10px 5px 10px;
+    border: none;
+    border-radius: 25px;
+    background-color: rgba(240, 125, 125, 0.623);
+}
+.container2 li{
+    float:left;
+    margin: 5px;
+    margin-left: 30px;
+}
+h2{
+  padding: 20px;
+}
+
+#ign{
+    background-color: rgb(255, 0, 0);
+    border: none;
+    border-radius: 25px;
+    padding: 0px 40px 0px 40px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 30px;
+
+}
+#act{
+    background-color: rgb(0, 255, 34);
+    border: none;
+    border-radius: 25px;
+    padding: 0px 40px 0px 40px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 30px;
+
+}
+#rev{
+    background-color: rgb(0, 204, 255);
+    border: none;
+    border-radius: 25px;
+    padding: 0px 40px 0px 40px;
+    font-size: 16px;
+    font-weight: 500; 
+    float: right;
+    color: white;
+    margin-right: 50px;
+}
+
+.section3{
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  margin-top: 5vh;
+    
+}
+
+#addadmin{
+    background-color: rgb(0, 255, 34);
+    border: none;
+    border-radius: 25px;
+    padding: 0px 40px 0px 40px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 30px;
+
+}
+
