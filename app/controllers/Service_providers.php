@@ -69,13 +69,11 @@ class Service_providers extends Controller
                 $description = $_POST['description'];
 
             }
-
         }
 
-        
+        $details = array($profession, $qualifications, $achievements, $description);
 
-
-        // $this->service_model->setDetails();
+        $this->service_model->setDetails($details,$_SESSION['user_id']);
 
 
 
