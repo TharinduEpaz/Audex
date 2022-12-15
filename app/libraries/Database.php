@@ -18,7 +18,7 @@
     private $error;//error
 
     public function __construct(){
-        //Set DSN
+        //Set DSN-Database Source Name
         $dsn='mysql:host='.$this->host.';dbname='.$this->dbname;
         $options=array(
             PDO::ATTR_PERSISTENT=>true,
@@ -39,7 +39,7 @@
         $this->stmt=$this->dbh->prepare($sql);
     }
 
-    //Bined values
+    //Bined 
     public function bind($param,$value,$type=null){
         if(is_null($type)){
             switch(true){

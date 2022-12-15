@@ -1,3 +1,8 @@
+body{
+  height: 100vh;
+  background-image: none;
+  background-color: #E5E9F7;
+}
 .poster_advertisements{
     display: block;
     position: absolute;
@@ -95,6 +100,12 @@
         height: 100vh;
       }
   }
+  @media (max-width:600px){
+    #check:checked ~ body{
+      left: -100%;
+    }
+  }
+  
   
 /* styles for get profile page */
 .form-display-data{
