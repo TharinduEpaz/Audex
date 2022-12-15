@@ -114,7 +114,7 @@
 
         //Login user
         public function login($email, $password){
-            $this->db->query('SELECT * FROM user WHERE email = :email');
+            $this->db->query('SELECT * FROM user WHERE email = :email && email_active=1');
             $this->db->bind(':email', $email);
 
             $row = $this->db->single(); //single row
