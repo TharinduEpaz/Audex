@@ -411,6 +411,107 @@ nav{
 
 /* HOME PAGE CSS ADDED BY EPA */
 
+.hotest_auctions{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 50vh;
+  background-color: #E5E9F7;
+  justify-content: center;
+  gap: 30px;
+}
+.hotest_auctions .auction{
+  background-color: #cdcfd0;
+  height: 20vh;
+  width: 10vw;
+  border-radius: 30px;
+}
+.popular_engineers{
+     display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 50vh;
+  background-color: #E5E9F7;
+  justify-content: center;
+  gap: 30px;
+  
+}
+.popular_engineers .engineer{
+
+  background-color: #cdcfd0;
+  height: 20vh;
+  width: 10vw;
+  border-radius: 30px;
+}
+
+
+.upcoming_events{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 50vh;
+  background-color: #E5E9F7;
+  justify-content: center;
+  gap: 30px;
+
+}
+
+.upcoming_events .event{
+  background-color: #cdcfd0;
+  height: 20vh;
+  width: 10vw;
+  border-radius: 30px;
+
+}
+.footer{
+    height: 50vh;
+    background-color: #1A1A1B;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.footer .section1{
+  box-sizing: border-box;
+  width:50vw;
+  height: 50vh;
+  padding: 50px;
+  
+
+}
+
+.footer .section2{
+  box-sizing: border-box;
+  width: 50vw;
+  height: 50vh;
+  color: #E5E9F7;
+  padding: 50px;
+
+
+}
+
+.footer .section1 h1,p{
+  color: white;
+  font-weight: 100;
+  line-height: 30px;
+  text-align: justify;
+}
+.footer .section2 h1,p{
+  color: white;
+  font-weight: 100;
+  line-height: 30px;
+  text-align: justify;
+}
+
+
+#title{
+  width: 100vw;
+  font-size: 50px;
+  padding-top: 30px;
+  text-align: center;
+  font-weight: 100;
+  color: #1A1A1B;
+}
 
 
 @media (max-width:860px){
