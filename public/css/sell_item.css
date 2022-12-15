@@ -5,7 +5,12 @@ body{
 }
 .sidebar{
     height: 140vh;
+    position: absolute;
+    /* top: 10vh; */
 }
+/* nav{
+    position: fixed;
+} */
 .container{
     height: 100%;
 }

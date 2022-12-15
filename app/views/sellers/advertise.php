@@ -105,15 +105,15 @@
                         <div class="input">
                             <div class="image">
                                 <label for="image1">Image1:</label>
-                                <input type="file" name="image1"  class="fa-solid" alt="&#xf03e" >
+                                <input type="file" name="image1">
                             </div>
                             <div class="image">
                                 <label for="image2">Image2:</label>
-                                <input type="file" name="image2"  class="fa-solid" alt="&#xf03e">
+                                <input type="file" name="image2"  >
                             </div>
                             <div class="image">
                                 <label for="image3">Image3:</label>
-                                <input type="file" name="image3" class="fa-solid "  placeholder="click" value="click" alt="&#xf03e" >
+                                <input type="file" name="image3"  >
                             </div>
                         </div>
                         <div class="input">

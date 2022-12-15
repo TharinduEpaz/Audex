@@ -78,20 +78,29 @@
                 <div class="price">
                     <button ><?php echo 'RS.'.$data['ad']->price ; ?></button>
                 </div>
-                <?php if($_SESSION['user_type'] == 'buyer' || $_SESSION['user_type'] == 'service_provider'){
-                    echo '<button type="submit" class="msg">Message</button>';
-                }
+                <?php 
+                    if(isset($_SESSION['user_type'])){
+                        if($_SESSION['user_type'] == 'buyer' || $_SESSION['user_type'] == 'service_provider'){
+                            echo '<button type="submit" class="msg">Message</button>';
+                        }
+
+                    }
                 ?>
 
                 <form id="add_watch_list_form" method="POST">
                     <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
-                    <?php if($_SESSION['user_type'] == 'buyer' || $_SESSION['user_type'] == 'service_provider'){
-                        echo '<input type="text" name="user_type" value="buyer" hidden>';
-                        echo '<input type="text" name ="user_id" value= " <?php echo (isset($_SESSION[\'user_id\']) ? $_SESSION[\'user_id\'] : 0) ; ?>" hidden>';
-                        echo '<input type="text" name="product_id" value="<?php echo $data[\'ad\']->product_id ; ?>" hidden >';
-                        echo '<input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist">';
+                    <?php 
+                        if(isset($_SESSION['user_type'])){
+                            if($_SESSION['user_type'] == 'buyer' || $_SESSION['user_type'] == 'service_provider'){
+                            echo '<input type="text" name="user_type" value="buyer" hidden>';
+                            echo '<input type="text" name ="user_id" value= " <?php echo (isset($_SESSION[\'user_id\']) ? $_SESSION[\'user_id\'] : 0) ; ?>" hidden>';
+                            echo '<input type="text" name="product_id" value="<?php echo $data[\'ad\']->product_id ; ?>" hidden >';
+                            echo '<input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist">';
+
+                        }
 
                     }
+                    else{}
                     ?>
                 </form>
             </div>

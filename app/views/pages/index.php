@@ -26,26 +26,27 @@
             <li><a href="#" class="nav_tags">Sound Engineers</a></li>
             <li><a href="#" class="nav_tags">Events</a></li>
             <?php
-            //     echo '<div class="dropdown">';
-            //         echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
-            //         echo '<div id="myDropdown" class="dropdown-content">';
-            //             if ($_SESSION['user_type']=='seller') {
-            //                 echo '<a href="'.URLROOT . '/sellers/advertisements" class="nav_tags">Profile</a>';
-            //             }
-            //             if ($_SESSION['user_type']=='buyer') {
-            //                 echo '<a href="'.URLROOT . '/buyers/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
-            //             }
-            //             if ($_SESSION['user_type']=='service_provider') {
-            //                 echo '<a href="'.URLROOT . '/buyers" class="nav_tags">Profile</a>';
-            //             }
-            //             echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
-            //         echo '</div>';
-            //     echo '</div> ';
-            // }
-            // else{
+            if (isset($_SESSION['user_id'])) {
+                echo '<div class="dropdown">';
+                    echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
+                    echo '<div id="myDropdown" class="dropdown-content">';
+                        if ($_SESSION['user_type']=='seller') {
+                            echo '<a href="'.URLROOT . '/sellers/advertisements" class="nav_tags">Profile</a>';
+                        }
+                        if ($_SESSION['user_type']=='buyer') {
+                            echo '<a href="'.URLROOT . '/buyers/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
+                        }
+                        if ($_SESSION['user_type']=='service_provider') {
+                            echo '<a href="'.URLROOT . '/buyers" class="nav_tags">Profile</a>';
+                        }
+                        echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
+                    echo '</div>';
+                echo '</div> ';
+            }
+            else{
             echo '<li><a href="' . URLROOT . '/users/login" class="nav_tags">Login</a></li>';
             echo '<li><a href="' . URLROOT . '/users/register" class="nav_tags">Signup</a></li>';
-            // }
+            }
             ?>
 
         </ul>
@@ -114,7 +115,7 @@
     <div class="footer">
         <div class="section1">
             <h1>About us</h1><br><br>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <p>Audexlk is an emarket place for sound equipments. We plan to build a marketplace where people can find equipment and professional engineers. We plan to break the boundaries of professional audio equipment renting. Our vision and business model are going towards achieving the same goal.  </p>
        
         </div>
         <div class="section2">
