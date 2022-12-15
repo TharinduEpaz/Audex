@@ -1,0 +1,136 @@
+ul {
+    list-style-type: none;
+    margin: 20px;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(255, 255, 255);
+  }
+
+  
+  li {
+    float: right;
+  }
+  
+  li  a{
+    display: block;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+
+.data {
+    background: linear-gradient(rgb(63 168 181 / 37%),white);
+    height: 100vh;
+   /* padding-left: 300px;*/
+    padding-top:60px;
+    background-size: fixed;
+    background-repeat: no-repeat;
+    transition: 0.5s;
+}
+.container1{
+    margin: 30px;
+    background: white;
+    width: auto;
+    height: 500px;
+    border-radius: 25px;
+}
+.container1 input{
+    width: 100px;
+    height: 30px;
+    margin-top: 30px;
+    float: right;
+}
+.container1 button{
+    height: 30px;
+    background-color: white;
+    margin:30px 0px 0px 10px;
+    border:  2p;
+}
+.container2 {
+    background: linear-gradient(rgb(63 168 181 / 37%),white);
+    margin: 40px;
+    border-radius: 25px;
+    height: 400px;
+}
+#sus{
+    float: right;
+    margin-right: 50px;
+    padding: 5px;
+    border: none;
+    border-radius: 25px;
+    background-color: rgba(125, 240, 131, 0.623);
+}
+#del{
+    float: right;
+    margin-right: 50px;
+    padding: 5px 10px 5px 10px;
+    border: none;
+    border-radius: 25px;
+    background-color: rgba(240, 125, 125, 0.623);
+}
+.container2 li{
+    float:left;
+    margin: 5px;
+    margin-left: 30px;
+}
+h2{
+  padding: 20px;
+}
+
+#ign{
+    background-color: rgb(255, 0, 0);
+    border: none;
+    border-radius: 25px;
+    padding: 0px 40px 0px 40px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 30px;
+
+}
+#act{
+    background-color: rgb(0, 255, 34);
+    border: none;
+    border-radius: 25px;
+    padding: 0px 40px 0px 40px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 30px;
+
+}
+#rev{
+    background-color: rgb(0, 204, 255);
+    border: none;
+    border-radius: 25px;
+    padding: 0px 40px 0px 40px;
+    font-size: 16px;
+    font-weight: 500; 
+    float: right;
+    color: white;
+    margin-right: 50px;
+}
+
+.container3{
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+    
+}
+
+#addadmin{
+    background-color: rgb(0, 255, 34);
+    border: none;
+    border-radius: 25px;
+    padding: 0px 40px 0px 40px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 30px;
+
+}
+
+#search{
+    
+}
