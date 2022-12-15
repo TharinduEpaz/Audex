@@ -40,7 +40,7 @@
 
         </ul>
     </nav>
-    <div class="container">
+    <div class="container_main">
     <div class="search">
             <div class="heading">
                 <h1>Find the best <br>Audio Equipment</h1>
