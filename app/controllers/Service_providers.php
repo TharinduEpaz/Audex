@@ -84,15 +84,43 @@ class Service_providers extends Controller
             }else{
                 $description = $data['details']->description;
             }
+            if (isset($_POST['first_name'])&& $_POST['first_name'] != '') {
+
+                $first_name = $_POST['first_name'];
+
+            }else{
+                $first_name = $data['details']->first_name;
+            }
+            if (isset($_POST['second_name'])&& $_POST['second_name'] != '') {
+
+                $second_name = $_POST['second_name'];
+
+            }else{
+                $second_name = $data['details']->second_name;
+            }
+            if (isset($_POST['address1'])&& $_POST['address1'] != '') {
+
+                $address1 = $_POST['address1'];
+
+            }else{
+                $address1 = $data['details']->address_line_one;
+            }
+            if (isset($_POST['address2'])&& $_POST['address2'] != '') {
+
+                $address2 = $_POST['address2'];
+
+            }else{
+                $address2 = $data['details']->address_line_two;
+            }
         }
 
-        $details = array($profession, $qualifications, $achievements, $description);
+        $details = array($profession, $qualifications, $achievements, $description,$first_name,$second_name,$address1,$address2);
 
         $this->service_model->setDetails($details,$_SESSION['user_id']);
 
 
 
-        // redirect('service_providers/profile/');
+        redirect('service_providers/profile/');
     }
 
 

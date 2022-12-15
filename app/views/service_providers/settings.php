@@ -34,7 +34,7 @@
     <div class="sidebar">
         <a href="#"><i class="fas fa-qrcode" id="dashboard"></i> <span>Dashboard</span></a>
         <a href="<?php echo URLROOT . '/service_providers/profile';?>" id="profile-settings"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile</span></a>
-        <a href="#" id="advertisements"> <i class="fa fa-ad" aria-hidden="true"></i><span>Advertisements</span></a>
+        <a href="#" id="advertisements"> <i class="fa fa-ad" aria-hidden="true"></i><span>Feed</span></a>
         <a href="#" id="calender"> <i class="fa fa-calendar" aria-hidden="true"></i><span>Calender</span></a>
         <a href="#" id="messages"> <i class="fa fa-comments"></i><span>Messages</span></a>
     </div>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="info-items">
                     <form action= "<?php echo URLROOT . '/service_providers/setDetails/' ?>" method="post">
-                         <input type="text" name="first-name"  placeholder="<?php echo $data['details']->first_name?>">
+                         <input type="text" name="first_name"  placeholder="<?php echo $data['details']->first_name?>">
                         <input type="text" name="last-name" placeholder="<?php echo $data['details']->second_name?>">
                         <input type="text" name="address1" placeholder="<?php echo $data['details']->address_line_one?>">
                        <input type="text" name="address2" placeholder="<?php echo $data['details']->address_line_two?>">

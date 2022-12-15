@@ -24,14 +24,18 @@ class Service_provider
     public function setDetails($arr, $id)
     {
 
-        $this->db->query('UPDATE service_provider SET profession = :profession, qualifications = :qualifications, achievements
-            = :achievements, description = :description WHERE service_provider.user_id = :id');
+        $this->db->query('UPDATE service_provider SET first_name = :first_name, second_name = :second_name, address_line_one = :address1, address_line_two = :address2,profession = :profession, qualifications = :qualifications, achievements
+            = :achievements, description = :description  WHERE service_provider.user_id = :id');
 
         $this->db->bind(':id', $id);
         $this->db->bind(':profession', $arr[0]);
         $this->db->bind(':qualifications', $arr[1]);
         $this->db->bind(':achievements', $arr[2]);
         $this->db->bind(':description', $arr[3]);
+        $this->db->bind(':first_name', $arr[4]);
+        $this->db->bind(':second_name', $arr[5]);
+        $this->db->bind(':address1', $arr[6]);
+        $this->db->bind(':address2', $arr[7]);
 
         $this->db->execute();
 
