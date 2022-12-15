@@ -38,6 +38,13 @@
         
 
 
+        public function addadmin(){
+
+            $this->view('admins/addadmin');
+        }
+
+
+
         
     }
 

@@ -1,17 +1,40 @@
-ul {
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;900&family=Nunito:wght@400;900&family=Roboto:wght@400;900&display=swap");
+
+.whitebox{
+    background-color: rgb(255, 255, 255);
+    min-height:80vh;
+    border-radius: 30px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+#first {
     list-style-type: none;
+    height: 40px;
     margin: 20px;
     padding: 0;
     overflow: hidden;
     background-color: rgb(255, 255, 255);
   }
 
-  
-  li {
+  #second {
+    list-style-type: none;
+    height: 40px;
+    margin: 20px;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(255, 255, 255);
+  }
+
+  .information.li {
     float: right;
   }
   
-  li  a{
+  .information.li  a{
     display: block;
     color: rgb(0, 0, 0);
     text-align: center;
@@ -19,9 +42,10 @@ ul {
     text-decoration: none;
     font-weight: 500;
   }
+  
+  /*added whole*/
 
-
-.data {
+  .poster_advertisements {
     background: linear-gradient(rgb(63 168 181 / 37%),white);
     height: 100vh;
    /* padding-left: 300px;*/
@@ -30,30 +54,15 @@ ul {
     background-repeat: no-repeat;
     transition: 0.5s;
 }
-.container1{
-    margin: 30px;
-    background: white;
-    width: auto;
-    height: 500px;
-    border-radius: 25px;
-}
-.container1 input{
-    width: 100px;
-    height: 30px;
-    margin-top: 30px;
-    float: right;
-}
-.container1 button{
-    height: 30px;
-    background-color: white;
-    margin:30px 0px 0px 10px;
-    border:  2p;
-}
-.container2 {
-    background: linear-gradient(rgb(63 168 181 / 37%),white);
+
+.section2 {
+    background-color: azure;
     margin: 40px;
     border-radius: 25px;
-    height: 400px;
+    border: solid black;
+    padding-bottom: 30px;
+    width: 80%;
+    
 }
 #sus{
     float: right;
@@ -112,11 +121,12 @@ h2{
     margin-right: 50px;
 }
 
-.container3{
+.section3{
     display: block;
   margin-left: auto;
   margin-right: auto;
   width: 90%;
+  margin-top: 5vh;
     
 }
 
@@ -131,6 +141,3 @@ h2{
 
 }
 
-#search{
-    
-}
