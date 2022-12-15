@@ -7,17 +7,17 @@
     border: none;
     border-radius: 1rem;
     background-color: white;
-    font-size: 24px;
+    font-size: 14px;
     padding-inline: 1rem;
 }
 .container .ad-search button{
     margin-left: 20px;
-    width: 100px;
+    width: 90px;
     height: 35px;
     border: none;
     border-radius: 1rem;
     background-color: white;
-    font-size: 24px;
+    font-size: 14px;
     
 }
 .container .ad-search_shop{
