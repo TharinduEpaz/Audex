@@ -95,7 +95,7 @@
         $details = array($first_name, $second_name, $email, $address1,$address2,$mobile,$password,);
 
         /*$this->adminmodel->setDetails($details,$_SESSION['user_id']); */
-        $this->adminmodel->setDetails($details);
+        $this->adminModel->setDetails($details);
 
 
         redirect('admins/profile/');
@@ -107,5 +107,5 @@
     }
 
 
-
+    }
 ?>

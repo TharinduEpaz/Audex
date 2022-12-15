@@ -70,11 +70,11 @@
     <form action= "<?php echo URLROOT . '/admins/setDetails/' ?>" method="post">
          <input type="text" name="first_name"  placeholder="">
         <input type="text" name="second_name" placeholder="">
-        <input type="text" name="email" placeholder="">
+        <input type="email" name="email" placeholder="">
         <input type="text" name="address1" placeholder="">
         <input type="text" name="address2" placeholder="">
         <input type="number" name="mobile" placeholder="">
-        <input type="text" name="password" placeholder="">
+        <input type="password" name="password" placeholder="">
         
         <section class="buttons">
 
