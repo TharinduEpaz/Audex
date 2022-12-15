@@ -30,7 +30,7 @@
                 echo '<div class="dropdown">';
                     echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
                     echo '<div id="myDropdown" class="dropdown-content">';
-                        echo '<a href="'.URLROOT . '/sellers/advertisements" class="nav_tags">Profile</a>';
+                        echo '<a href="'.URLROOT . '/admins/profile" class="nav_tags">Profile</a>';
                         echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                     echo '</div>';
                 echo '</div> ';
@@ -44,10 +44,10 @@
     </nav>
     <div class="container">
         <div class="sidebar">
-                <a class="current" href="<?php echo URLROOT;?>/sellers/advertisements"><i class="fas fa-qrcode"></i> <span>My Profile</span></a>
-                <a href="#"> <i class="fa fa-cog" aria-hidden="true"></i><span>Manage Users</span></a>
+                <a class="current" href="<?php echo URLROOT;?>/admins/profile"><i class="fas fa-qrcode"></i> <span>My Profile</span></a>
+                <a href="<?php echo URLROOT;?>/admins/manageuser"> <i class="fa fa-cog" aria-hidden="true"></i><span>Manage Users</span></a>
                 <a href="#"> <i class="fas fa-bookmark" aria-hidden="true"></i><span>Flags</span></a>
-                <a href="<?php echo URLROOT;?>/sellers/advertise"> <i class="fas fa-check-circle" aria-hidden="true"></i><span>Approvals</span></a>
+                <a href="#"> <i class="fas fa-check-circle" aria-hidden="true"></i><span>Approvals</span></a>
                 <a href="#"> <i class="fas fa-child"></i><span>Help</span></a>       
         </div>
         <div class="poster_advertisements">
@@ -59,13 +59,13 @@
         <div class="profile">
         
           <h2>Full Name</h2>
-          <p>Hassnain Haider <button class="btn">update</button></p>
+          <p><?php echo $data['details']->first_name ?> <button class="btn">update</button></p>
           <h2>Mobile Number</h2>
-          <p>0774809951</p>
+          <p><?php echo $data['details']->phone_number ?></p>
           <h2>Address</h2>
-          <p>21, Gampaha</p>
+          <p><?php echo $data['details']->address1 ?></p>
           <h2>Email</h2>
-          <p>example@example.com <button class="btn">update</button></p>
+          <p><?php echo $data['details']->email ?><button class="btn">update</button></p>
           <h2>Password</h2>
           <p>******** <button class="btn">update</button></p>
         </div>

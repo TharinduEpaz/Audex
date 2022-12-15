@@ -16,7 +16,24 @@
         }
 
         public function profile(){
-            $this->view('admins/profile');
+
+                $details = $this->adminModel->getDetails($_SESSION['user_id']);
+        
+                $data = [
+                    'details' => $details
+                ];
+                
+              
+                $this->view('admins/profile',$data);
+        
+
+
+        }
+
+        public function manageuser(){
+
+
+            $this->view('admins/manageuser');
         }
         
 

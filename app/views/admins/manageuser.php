@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/form.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/manageuser.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/seller_advertisement.css';?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
@@ -29,7 +30,7 @@
                 echo '<div class="dropdown">';
                     echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
                     echo '<div id="myDropdown" class="dropdown-content">';
-                        echo '<a href="'.URLROOT . '/sellers/advertisements" class="nav_tags">Profile</a>';
+                        echo '<a href="'.URLROOT . '/admins/profile" class="nav_tags">Profile</a>';
                         echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                     echo '</div>';
                 echo '</div> ';
@@ -43,40 +44,67 @@
     </nav>
     <div class="container">
         <div class="sidebar">
-                <a href="#"><i class="fas fa-qrcode"></i> <span>Dashboard</span></a>
-                <a href="#"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile Settings</span></a>
-                <a class="current" href="<?php echo URLROOT;?>/sellers/advertisements"> <i class="fa fa-ad" aria-hidden="true"></i><span>Advertisements</span></a>
-                <a href="<?php echo URLROOT;?>/sellers/advertise"> <i class="fa-solid fa-dollar-sign" aria-hidden="true"></i><span>Advertise</span></a>
-                <a href="#"> <i class="fa fa-comments"></i><span>Messages</span></a>       
+                <a href="<?php echo URLROOT;?>/admins/profile"><i class="fas fa-qrcode"></i> <span>My Profile</span></a>
+                <a class="current" href="<?php echo URLROOT;?>/admins/mangeuser"> <i class="fa fa-cog" aria-hidden="true"></i><span>Manage Users</span></a>
+                <a href="#"> <i class="fas fa-bookmark" aria-hidden="true"></i><span>Flags</span></a>
+                <a href="#"> <i class="fas fa-check-circle" aria-hidden="true"></i><span>Approvals</span></a>
+                <a href="#"> <i class="fas fa-child"></i><span>Help</span></a>       
         </div>
         <div class="poster_advertisements">
-            <h1>Posted Advertisements</h1>
-            <div class="header">
-                <div class="image">
-                    <img  class="two" src="" alt="photo">
-                </div>
-                <p class="one">Title</p>
-                <p class="two">Format</p>
-                <p class="three">Bids/Offers</p>
-                <p class="four">Price</p>
-                <p class="five">Edit</p>
-                <p class="six">Priview</p>
+        <div class="data">
+        <div class="container1">
+            <div class="search">
+                <ul id="search">
+                    <li><button>search</button></li>
+                    <li><input type="text" id="search" ></li>
+                   
+                </ul>
+            </div>
+            
 
-            </div>
-            <?php foreach($data['advertisements'] as $advertisement): ?>
-            <div class="advertisements">
-                <div class="image">
-                    <img src="<?php echo URLROOT . '/img/Rectangle 100.png';?>" alt="photo">
+           <div class="container2">
+            <h2>Recently marked accounts</h2>
+            <div class="information">
+                <ul>
+                    <li id="sus"">Mark : Suspend</li>
+                    <li>Flag_id : 86436464</li>
+                    <li>User_id : 27243864</li>
+                    
+                 
+                </ul>
+                <div class="button">
+                    <button id="act">Action</button>
+                    <button id="ign">Ignore</button>
+                   <button id="rev">Review</button>
                 </div>
-                <p class="one"><?php echo $advertisement->product_title;?></p>
-                <p class="two"><?php echo $advertisement->product_type;?></p>
-                <p class="three">N/A</p>
-                <p class="four">Rs.<?php echo $advertisement->price;?></p>
-                <a class="five" href="<?php echo URLROOT;?>/sellers/edit_advertisement/<?php echo $advertisement->product_id;?>">Edit</a>
-                <a class="six" href="<?php echo URLROOT;?>/sellers/advertisement/<?php echo $advertisement->product_id;?>">Preview</a>
+                   <ul>
+                    <li id="del">Mark : delete</li>
+                    <li>Flag_id : 86436464</li>
+                    <li>User_id : 27243864</li>
+                    
+                 
+                </ul>
+                <div class="button">
+                    <button id="act">Action</button>
+                    <button id="ign">Ignore</button>
+                   <button id="rev">Review</button>
+                
+                </div>
             </div>
-            <?php endforeach; ?>
+           </div>
+           <div class="container3">
+            <h1> Add a new admin
+            <button id="addadmin">Add</button>
+           </div>
         </div>
+        
+       </div>
+
+          
+    </div>
+
+            
+        
 
     </div>
 </body>
