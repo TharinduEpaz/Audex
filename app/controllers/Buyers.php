@@ -5,13 +5,17 @@
     {
       $this->buyerModel = $this->model('Buyer');
     }
-
     public function index(){
+
+      $this->view('buyers/index');
+  }
+
+    public function shop(){
         $ads  = $this->buyerModel->getAdvertiesment();   
         $data = [
           'ads' => $ads
         ];
-        $this->view('buyers/index',$data);
+        $this->view('buyers/shop',$data);
     }
    public function advertiesmentDetails($id)
     {
