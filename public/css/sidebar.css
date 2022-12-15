@@ -1,20 +1,21 @@
 .sidebar {
   width:240px;
-  height:90vh;
+  min-height:90vh;
+  max-height: auto;
   background: #1e1e1e;
   padding-top: 6vh;
   display: block;
-    position: absolute;
+  position: fixed;
+  margin-top: 10vh;
 }
 .sidebar a{
   display: block;
   color: #E5E9F7;
-  height: 65px;
+  min-height: 65px;
   width: 100%;
   line-height: 65px;
   padding-left: 30px;
- 
-  border-left: 2px solid #e5e9f7 transparent ;
+  border-left: 2px solid #e5e9f7 transparent;
 }
 .sidebar .current{
   background: #E5E9F7;

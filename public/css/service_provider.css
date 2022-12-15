@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+
+*{
+    font-family: open sans;
+}
+.service-provider-profile{
+    
+    background-color: #E5E9F7;
+    min-height: 90vh;
+    margin-left: 240px;
+    padding: 5vh;
+
+}
+.service-provider-profile .white-box{
+    background-color: rgb(255, 255, 255);
+    min-height:80vh;
+    border-radius: 30px;
+    padding: 40px;
+    margin-top: 10vh;
+
+}
+
+.service-provider-profile .profile-title{
+    display:flex;
+}
+
+.service-provider-profile .profile-title .profile-pic i{
+
+  margin-right: 20px;
+
+}
+
+.service-provider-profile .profile-title .name-rating{
+
+}
+
+.service-provider-profile .profile-title .name-rating #Name{
+    font-weight: 600;
+    font-size: 40px;
+}
+
+.service-provider-profile .profile-title .name-rating #profession{
+    font-weight: 300;
+    font-size: 20px;
+}
+
+
+.service-provider-profile .profile-title .name-rating .name{
+
+}
+
+.service-provider-profile .profile-title .name-rating .rating{
+
+}
+
+.service-provider-profile .profile-info .description{
+    width: 600px;
+    margin-right: 200px;
+
+}
+.service-provider-profile .profile-info{
+    display: flex;
+    margin-top: 50px;
+ 
+
+}
+.service-provider-profile .profile-info .info-blocks{
+   display: flex;
+}
+.service-provider-profile .profile-info .info-blocks .info-titles{
+    width: 140px;
+}
+
+.service-provider-profile .profile-info .info-blocks .info-titles span{
+    display: block;
+    line-height: 30px;
+    font-weight: 600;
+    background-color: aliceblue;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    padding-left: 10px;
+}
+    
+
+.service-provider-profile .profile-info .info-blocks .info-items span{
+    display: block;
+    margin-left: 20px;
+    line-height: 30px;
+
+    background-color: aliceblue;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.events{
+    display: flex;
+    column-gap: 50px;
+    padding-top: 30px;
+    justify-content: center;
+}
+
+.events .event{
+    background-color: gray;
+    height: 100px;
+    width: 200px;
+    border-radius: 30px;
+    opacity: 50%;
+
+}
+#edit-settings {
+    margin-left: 800px;
+    width: 200px;
+    height: 30px;
+    border-radius: 10px;
+  
+    background-color: blueviolet;
+    color: white;
+    border: none;
+
+}
+.service-provider-profile .white-box a{
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+
+    color: initial;
+    background-color: #1A1A1B;
+    color:#E5E9F7;
+    width: 380px;
+    text-align: center;
+
+    
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 30px;
+    margin-left: 800px;
+
+
+
+
+}
+.service-provider-profile .white-box a:hover{
+    
+    background-color: blueviolet;
+    color: white;
+}
+
+#save{
+   
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+  
+    background-color: blueviolet;
+    color: white;
+    border: none;
+
+}
+
+#cancel{
+   
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+  
+    background-color: rgb(226, 43, 64);
+    color: white;
+    border: none;
+}
+h2{
+    margin-top: 50px;
+    text-align: center;
+}
+button{
+
+    
+    display: inline;
+}
+button:hover{
+  
+    color: rgb(251, 226, 0);
+    animation-delay: 0.2s;
+}
+
+
+
+/* profile settings CSS */
+
+.service-provider-profile .white-box .info-settings {
+    display: flex; 
+    
+}
+.service-provider-profile .white-box .info-settings .info-titles {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    line-height: 35px;
+    row-gap: 10px;
+}
+.service-provider-profile .white-box .info-settings .info-items input{
+    display: flex;
+    flex-direction: column;
+    line-height: 30px;
+    margin-bottom: 10px;
+    
+}
+.service-provider-profile .white-box h1{
+    margin-bottom: 20px;
+}
+.service-provider-profile .white-box .profile-pic-settings{
+    width: 300px;
+    margin-left: 200px;
+}
+
+.service-provider-profile .white-box .profile-pic-settings img{
+  width:50%;
+  margin-bottom: 20px;
+
+}
+
+@keyframes alert {
+	0% {
+		animation-timing-function: ease-out;
+		transform: scale(1);
+		transform-origin: center center;
+	}
+
+	10% {
+		animation-timing-function: ease-in;
+		transform: scale(0.91);
+	}
+
+	17% {
+		animation-timing-function: ease-out;
+		transform: scale(0.98);
+	}
+
+	33% {
+		animation-timing-function: ease-in;
+		transform: scale(0.87);
+	}
+
+	45% {
+		animation-timing-function: ease-out;
+		transform: scale(1);
+	}
+}
