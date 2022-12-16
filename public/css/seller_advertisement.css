@@ -16,7 +16,7 @@ body{
   
   .poster_advertisements h1{
     text-align: center;
-    font-weight: 200;
+    font-weight: 500;
     margin-bottom: 2vh;
   }
   .header{
@@ -26,6 +26,8 @@ body{
     margin-right: 12px;
   }
   .header p{
+    color: black;
+    font-weight: 500;
     padding: 0.5vh 0.5%;
     text-align: center;
     margin-right: 1%;
@@ -66,6 +68,8 @@ body{
 
   }
   .advertisements p{
+    color: black;
+    font-weight: 500;
     padding: 1.5vh 0.5%;
     text-align: center;
     margin-right: 1%;
