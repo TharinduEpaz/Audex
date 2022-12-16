@@ -22,7 +22,7 @@
         <img src="<?php echo URLROOT . '/public/img/image 1.png'; ?>" alt="logo">
         <ul>
             <li><a href="<?php echo URLROOT . '/pages/index'; ?>" class="nav_tags">Home</a></li>
-            <li><a href="<?php echo URLROOT . '/buyers/index'; ?>" class="nav_tags">Shop</a></li>
+            <li><a href="<?php echo URLROOT . '/buyers/shop'; ?>" class="nav_tags">Shop</a></li>
             <li><a href="#" class="nav_tags">Sound Engineers</a></li>
             <li><a href="#" class="nav_tags">Events</a></li>
             <?php
@@ -37,7 +37,10 @@
                             echo '<a href="'.URLROOT . '/buyers/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
                         }
                         if ($_SESSION['user_type']=='service_provider') {
-                            echo '<a href="'.URLROOT . '/buyers" class="nav_tags">Profile</a>';
+                            echo '<a href="'.URLROOT . '/service_providers/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
+                        }
+                        if ($_SESSION['user_type']=='admin') {
+                            echo '<a href="'.URLROOT . '/admins/profile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
                         }
                         echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                     echo '</div>';

@@ -92,10 +92,9 @@
 
         //Add to service provider
         public function addToServiceProvider($data){
-            $this->db->query('INSERT INTO service_provider (user_id,email) VALUES(:user_id,:email)');
+            $this->db->query('INSERT INTO service_provider (user_id) VALUES(:user_id)');
             //Bind values
             $this->db->bind(':user_id', $data['user_id']);
-            $this->db->bind(':email', $data['email']);
 
             //Execute
             if($this->db->execute()){
@@ -114,7 +113,7 @@
 
         //Login user
         public function login($email, $password){
-            $this->db->query('SELECT * FROM user WHERE email = :email');
+            $this->db->query('SELECT * FROM user WHERE email = :email && email_active=1');
             $this->db->bind(':email', $email);
 
             $row = $this->db->single(); //single row
