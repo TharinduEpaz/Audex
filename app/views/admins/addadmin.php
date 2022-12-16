@@ -51,36 +51,36 @@
                 <a href="#"> <i class="fas fa-check-circle" aria-hidden="true"></i><span>Approvals</span></a>
                 <a href="#"> <i class="fas fa-child"></i><span>Help</span></a>       
         </div>
-    <div class="poster_advertisements">
+    <div class="poster_advertisements_admin">
         <div class="white-box">
             <h1>Add Admin</h1>
         <div class="info-settings">
 
-<div class="info-titles">
-    <span>First Name : </span>
-    <span>Last Name : </span>
-    <span>Email : </span>
-    <span>Address Line 1 : </span>
-    <span>Address Line 2 : </span>
-    <span>Mobile : </span>
-    <span>Password: </span>
-    
-</div>
+        <div class="info-titles">
+            <span>First Name : </span>
+            <span>Last Name : </span>
+            <span>Email : </span>
+            <span>Address Line 1 : </span>
+            <span>Address Line 2 : </span>
+            <span>Mobile : </span>
+            <span>Password: </span>
+            
+        </div>
 <div class="info-items">
     <form action= "<?php echo URLROOT . '/admins/setDetails/' ?>" method="post">
-         <input type="text" name="first_name"  placeholder="">
-        <input type="text" name="second_name" placeholder="">
-        <input type="email" name="email" placeholder="">
-        <input type="text" name="address1" placeholder="">
-        <input type="text" name="address2" placeholder="">
-        <input type="number" name="mobile" placeholder="">
-        <input type="password" name="password" placeholder="">
+         <input type="text" name="first_name"  placeholder="" required>
+        <input type="text" name="second_name" placeholder="" required>
+        <input type="email" name="email" placeholder="" required>
+        <input type="text" name="address1" placeholder="" required>
+        <input type="text" name="address2" placeholder="" required>
+        <input type="number" name="mobile" placeholder="" required>
+        <input type="password" name="password" placeholder="" required>
         
         <section class="buttons">
 
-        <button id="save" type="submit">Save</button>
-        <button id="cancel" type="reset" onclick="exit()">Cancel</button>
-    </section>
+            <button id="save" type="submit">Save</button>
+            <button id="cancel" type="reset" onclick="exit()">Cancel</button>
+        </section>
     </form>
 </div>
     

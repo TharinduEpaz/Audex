@@ -94,7 +94,7 @@
             
             <div class="section3">
                 <h1> Add a new admin
-                <a href="<?php echo URLROOT .'/admins/addadmin'?>" class="btn"> click</a></button>
+                <a href="<?php echo URLROOT .'/admins/addadmin'?>" class="btn1"> click</a></button>
             </div>
         
         </div>        
