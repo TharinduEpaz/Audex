@@ -160,9 +160,9 @@
         //verifyotp
         public function verifyotp(){
             //not filled registration form
-            if(!isset($_SESSION['email'])){
-                redirect('users/register');
-            }
+            // if(!isset($_SESSION['email'])){
+            //     redirect('users/register');
+            // }
             
             if($_SESSION['attempt']<=3){
                 if($_SERVER['REQUEST_METHOD'] == 'POST'){

@@ -40,6 +40,13 @@
     
     }
 }  
+.acceptT {
+    display: flex;
+    flex-direction: row;
+}
+.acceptT input{
+    flex-basis: 2%;
+}
 @media (max-width:860px){
     .form .submit{
         width: 100%;
