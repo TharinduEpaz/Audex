@@ -141,3 +141,25 @@ h2{
 
 }
 
+/* button css */
+
+.poster_advertisements .whitebox .section3 .btn1 {
+  -webkit-appearance: button;
+  appearance: button;
+
+  text-decoration: none;
+  color:initial;
+  background-color: #1a1a1b;
+  color: #e5e9f7;
+  width: 120px;
+  text-align: center;
+
+  border-radius: 5px;
+  padding: 10px;
+  
+}
+
+.poster_advertisements .whitebox .section3 .btn1:hover{
+  background-color: blueviolet;
+  color:white
+}
