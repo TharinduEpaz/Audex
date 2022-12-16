@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css?id=125';?>">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/service_provider.css?id=145';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/service_provider.css?id=1435';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/style.css?id=145';?>">
   
     
@@ -99,12 +99,20 @@
         </div>
          <a href="<?php echo URLROOT .'/service_providers/settings'?>" class="btn"> Edit Settings</a></button>
         <h2>Events</h2>
+        <a href="<?php echo URLROOT .'/service_providers/addEvent'?>" style="margin-left:10px;">Add Event</a>
         <div class="events">
             
-            <div class="event"></div>
-            <div class="event"></div>
-            <div class="event"></div>
-            <div class="event"></div>
+            
+            <?php foreach ($data['events'] as $event):
+                echo '<div class="event">';
+                echo '<h1>' . $event->name . '</h1>';
+                echo '<p>' . $event->date . '</p>';
+                echo '</div>';
+
+            endforeach;
+
+                ?>
+       
         </div>
         </div>
 

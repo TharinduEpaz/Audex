@@ -54,32 +54,29 @@
 
     <div class="service-provider-profile">
         <div class="white-box">
-            <h1>Edit Profile</h1>
+            <h1>Add New Event</h1>
             <div class="info-settings">
 
                 <div class="info-titles">
-                    <span>First Name : </span>
-                    <span>Last Name : </span>
-                    <span>Address Line 1 : </span>
-                    <span>Address Line 2 : </span>
-                    <span>Mobile : </span>
-                    <span>Profession : </span>
-                    <span>Qualifications : </span>
-                    <span>Achivements : </span>
-                    <span>Edit Description : </span>
+                    <span>Name : </span>
+                    <span>Date : </span>
+                    <span>Public Event : </span>
+                    <span>Location : </span>
+                    <span>Ticket Link : </span>
+                    <span>Description : </span>
+                
                 </div>
                 <div class="info-items">
-                    <form action= "<?php echo URLROOT . '/service_providers/setDetails/' ?>" method="post">
-                         <input type="text" name="first_name"  placeholder="<?php echo $data['details']->first_name?>">
-                        <input type="text" name="second_name" placeholder="<?php echo $data['details']->second_name?>">
-                        <input type="text" name="address1" placeholder="<?php echo $data['details']->address_line_one?>">
-                       <input type="text" name="address2" placeholder="<?php echo $data['details']->address_line_two?>">
-                        <input type="number" name="mobile" placeholder="<?php echo $data['details']->mobile?>" disabled>
-                        <input type="text" name="profession" placeholder="<?php echo $data['details']->profession?>">
-                        <input type="text" name="qualifications" placeholder="<?php echo $data['details']->qualifications?>">
-                        <input type="text" name="achievements" placeholder="<?php echo $data['details']->achievements?>">
-                        <textarea name="description" cols="30" rows="10" placeholder="<?php echo $data['details']->description?>"></textarea>
-                        <section class="buttons">
+                    <form action= "<?php echo URLROOT . '/service_providers/addNewEvent/' ?>" method="post">
+                         <input type="text" name="name" required>
+                        <input type="text" name="date" required> <br>
+                        <input type="checkbox" name="public">
+                       <input type="text" name="location" required>
+                        <input type="text" name="link" required>
+                        <textarea name="description" cols="30" rows="10" required></textarea>
+
+
+                        <section class="buttons" style="margin-top:50px;">
           
                         <button id="save" type="submit">Save</button>
                         <button id="cancel" type="reset" onclick="exit()">Cancel</button>

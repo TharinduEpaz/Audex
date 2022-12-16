@@ -40,6 +40,42 @@ class Service_provider
 
         redirect('service_providers/profile');
     }
+
+    public function getEvents($user_id){
+
+        $this->db->query('SELECT * FROM events WHERE user_id = :id');
+        $this->db->bind(':id', $user_id);
+        $events = $this->db->resultSet();
+
+        return $events;
+
+        
+
+    }
+
+    public function setEvent($data,$user_id){
+
+        // $this->db->query('INSERT INTO events (name, description, date, user_id, location, ticket_link) VALUES (:name, :description, :date, :user_id, :location, :ticketLink)');
+
+
+        $this->db->query('INSERT INTO `events` (`event_id`, `name`, `description`, `date`, `user_id`, `public_event`, `location`, `ticket_link`, `time`) VALUES (NULL, :name, :description, :date, :user_id, NULL, :location, :ticketLink , 12);');
+
+        // $event_details = array($name, $date, $public_event, $location, $link, $description); 
+
+        $this->db->bind(':name', $data[0]);
+        $this->db->bind(':date', $data[1]);
+        // $this->db->bind(':public', $data[2]);
+        $this->db->bind(':location', $data[3]);
+        $this->db->bind(':ticketLink', $data[4]);
+        $this->db->bind(':description', $data[5]);
+        $this->db->bind(':user_id', $user_id);
+
+        $this->db->execute();
+
+        redirect('service_providers/profile/');
+
+    
+    }
 }
 
 

@@ -24,9 +24,11 @@ class Service_providers extends Controller
     {
 
         $details = $this->service_model->getDetails($_SESSION['user_id']);
+        $events = $this->service_model->getEvents($_SESSION['user_id']);
 
         $data = [
-            'details' => $details
+            'details' => $details,
+            'events' => $events
         ];
 
 
@@ -118,8 +120,6 @@ class Service_providers extends Controller
 
         $this->service_model->setDetails($details,$_SESSION['user_id']);
 
-
-
         redirect('service_providers/profile/');
     }
 
@@ -128,6 +128,45 @@ class Service_providers extends Controller
         $this->view('service_providers/feed');
         
     }
+
+    public function addEvent(){ 
+
+        $this->view('service_providers/addEvent');
+        
+    }
+
+    public function addNewEvent(){
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (isset($_POST['name']) && $_POST['name'] != '') {
+                $name = $_POST['name'];
+            }
+
+        if (isset($_POST['date'])&& $_POST['date'] != '') {
+                $date = $_POST['date'];
+        }
+        if (isset($_POST['public'])&& $_POST['public'] != '') {
+            $public_event = $_POST['public_event']; }
+
+        if (isset($_POST['location'])&& $_POST['location'] != '') {
+                $location = $_POST['location'];}
+        
+        if (isset($_POST['link'])&& $_POST['link'] != '') {
+                $link = $_POST['link'];}
+
+        if (isset($_POST['description'])&& $_POST['description'] != '') {
+                $description = $_POST['description'];}
+
+        $event_details = array($name, $date, $public_event, $location, $link, $description);
+    
+
+        $this->service_model->setEvent($event_details,$_SESSION['user_id']);
+
+        
+
+    }
+}
+
 
 
 
