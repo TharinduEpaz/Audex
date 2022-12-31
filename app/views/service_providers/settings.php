@@ -1,5 +1,4 @@
 
-
     <div class="service-provider-profile">
         <div class="white-box">
             <h1>Edit Profile</h1>
