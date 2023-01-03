@@ -15,8 +15,20 @@
 
         //Load view
         public function view($view, $data=[]){
+            
+            $url = explode("/", $view);
+            $user = $url[0];
+            $page = $url[1];
+           
+
+            if(file_exists('../app/views/'. $user .'/header.php') && $page != 'index'){
+                
+                require_once '../app/views/'. $user .'/header.php';
+            }
+
             //Check for view file
             if(file_exists('../app/views/'.$view.'.php')){
+                
                 require_once '../app/views/'.$view.'.php';
             }
             else{
