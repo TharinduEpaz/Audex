@@ -40,8 +40,8 @@
 
         </ul>
     </nav>
-    <div class="container_main">
-        <div class="search">
+    <div id="container_main" class="container_main">
+        <div id="search" class="search">
             <div class="heading">
                 <h1>Find the best <br>Audio Equipment</h1>
             </div>
@@ -52,7 +52,7 @@
                         alt="search"></input></button>
             </div>
         </div>
-        <div class="explore">
+        <div id="explore" class="explore">
             <div class="explore-line">
                 <h3>Explore Popular Categories</h3>
             </div>

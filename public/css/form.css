@@ -24,6 +24,7 @@ nav{
   background: #FFFFFF;
   height: 10vh;
   width: 100%;
+  z-index: 1;
   /* position: fixed; */
 }
   nav img{
@@ -151,27 +152,37 @@ nav{
     display: none;
   }
   
-  @media (max-width: 600px){
+  @media (max-width: 768px){
     .checkbtn{
       display: block;
     }
     nav ul{
       position: fixed;
       width: 100%;
-      height: 50vh;
+      height: 61vh;
       background: #afb0b1;
       top: 10vh;
       left: -100%;
       text-align: center;
       transition: all .5s;
+      z-index: 1;
     }
     nav ul li{
       display: block;
       margin: 0px 0;
       line-height: 0.5vh;
+      border-top: 1px solid white;
+      /* z-index: 1; */
+    }
+    nav ul li a:hover{
+      color: red;
+      font-weight: bold;
+      cursor: default;
     }
     .nav_tags{
       font-size: 15pt;
+      width: 100%;
+      /* z-index: 1; */
     }
     .nav_tags:hover,.nav_tags.active{
       background: none;
@@ -180,14 +191,14 @@ nav{
     #check:checked ~ ul{
       left: 0;
     }
-    #check:checked ~ body{
-      left: -100%;
+    #check:checked ~ .container_main{
+      margin-top: 60vh;
     }
   }
  .container_main{
-
     width: 100vw;
     height: 100vh;
+    position: revert;
     /* background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -260,6 +271,17 @@ nav{
   overflow-x:hidden;  
   scroll-behavior: smooth; */
  }
+ 
+@media (max-width:768px){
+  .form{
+      width: 50%;
+  }
+}
+@media (max-width:576px){
+  .form{
+      width: 60%;
+  }
+}
  .form form input{
     width: 100%;
     line-height: 5vh;
