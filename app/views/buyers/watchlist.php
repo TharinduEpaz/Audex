@@ -62,6 +62,7 @@
                         <img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($ads->image1); ?>" /> 
                         <a href="<?php echo URLROOT . '/buyers/advertiesmentDetails/'.$ads->product_id;?>">
                         <h4><?php echo $ads->product_title ; ?><br><?php echo $ads->price ; ?></h4></a>
+                        <button type="submit" class="watch-list-item-remove">Remove</button>
                     </div> 
                 <?php endforeach; ?>
             </div>
