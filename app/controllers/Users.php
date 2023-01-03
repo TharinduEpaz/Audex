@@ -4,6 +4,7 @@
         private $buyerModel;
 
         public function __construct(){
+            
             $this->userModel = $this->model('User');
             $this->buyerModel = $this->model('Buyer');
 

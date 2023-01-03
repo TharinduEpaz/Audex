@@ -18,6 +18,10 @@
     justify-content: center;
     align-items: center;
 }
+.reg_now p{
+    color: black;
+    font-weight:bold;
+}
 .reg_now a{
     font-weight: 700;
     color: #863B3B;

@@ -141,7 +141,12 @@
         }
 
         if($this->buyerModel->deleteUserProfile($id)){
-          redirect('users/login');
+          unset($_SESSION['user_id']);
+            unset($_SESSION['user_email']);
+            unset($_SESSION['user_name']);
+            unset($_SESSION['user_type']);
+            session_destroy();
+          redirect('pages/index');
         }
         else{
           die('Something went wrong');
