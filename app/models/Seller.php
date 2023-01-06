@@ -23,6 +23,7 @@
             $this->db->bind(':address2' , $data['address2']);
             $this->db->bind(':phone_number' , $data['phone_number']);
             $this->db->bind(':id' , $data['id']);
+            // $this->db->dbh->lastInsertId();
 
             if($this->db->execute()){
                 return true;
