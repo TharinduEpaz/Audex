@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/login.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/shop.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/advertiesmentDetails.css';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/dialogBox.css';?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
@@ -82,28 +83,43 @@
                 <div class="price">
                     <button ><?php echo 'RS.'.$data['ad']->price ; ?></button>
                 </div>
-                <?php 
+                <button type="submit" class="msg">Message</button>
+                <!-- <?php 
                     if(isset($_SESSION['user_type'])){
                         if($_SESSION['user_type'] == 'buyer' || $_SESSION['user_type'] == 'service_provider'){
                             echo '<button type="submit" class="msg">Message</button>';
                         }
 
                     }
-                ?>
+                ?> -->
 
-                <form id="add_watch_list_form" method="POST">
+                <form id="add_watch_list_form" method="POST" data-op = "add" >
                     <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
                     <input type="text" name="user_type" value="buyer" hidden>
                     <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
                     <input type="text" name="product_id" value="<?php echo $data['ad']->product_id ; ?>" hidden >
-                    <?php 
+                    
+                    <div class="button-container">
+                        <input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist">
+                    </div>
+                    <dialog id="dia">
+                        <div class="top-part">
+                            <button class="btn_close">X</button>
+                            <i class="fa-sharp fa-solid fa-xmark"></i>
+                        </div>  
+                        <hr>
+                        <div>
+                            <button class="continue">OK </button>  
+                            <button class="close">Close</button>
+                        </div>
+                    </dialog>
+                    <!-- <?php 
                         if(isset($_SESSION['user_type'])){
                             if($_SESSION['user_type'] == 'buyer' || $_SESSION['user_type'] == 'service_provider'){
                                 echo '<input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist">';
                             }
                         }
-                        else{}
-                    ?>
+                    ?> -->
                 </form>
             </div>
         </div>
