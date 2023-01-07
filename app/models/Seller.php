@@ -94,7 +94,16 @@
 
             //Execute
             if($this->db->execute()){
-                return true;
+                $this->db->query('INSERT INTO seller_add_product (product_id,user_id,email,posted_time) VALUES(:product_id,:user_id,:user_email,NOW())');
+                //Bind values
+                $this->db->bind(':product_id', $this->db->lastInsertId());
+                $this->db->bind(':user_id', $data['user_id']);
+                $this->db->bind(':user_email', $data['user_email']);
+                if($this->db->execute()){
+                    return true;
+                }else{
+                    return false;
+                }
             }else{
                 return false;
             }

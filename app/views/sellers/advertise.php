@@ -139,6 +139,7 @@
                         <div class="input">
                             <label class="brand" for="">Brand Name</label>
                             <input class="brand" type="text" name="brand"   value="<?php echo $data['brand']?>" >
+                            <?php echo $data['user_id']?>
                         </div>
                         <div class="input">
                             <label class="descriptionl" for="">Description</label>

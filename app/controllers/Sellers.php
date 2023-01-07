@@ -3,6 +3,8 @@
 
     class Sellers extends Controller{
         private $sellerModel;
+        private $userModel;
+
 
         public function __construct(){
             if(!isLoggedIn()){
@@ -17,8 +19,12 @@
                 session_destroy();
                 redirect('users/login');
             }
-
+            if($_SESSION['user_type'] != 'seller'){
+                redirect($_SESSION['user_type'].'s/index');
+            }
             $this->sellerModel=$this->model('Seller');
+            $this->userModel = $this->model('User');
+
         }
 
         public function index(){
@@ -175,6 +181,7 @@
 
                 $data = [
                     'user_email' => $_SESSION['user_email'],
+                    'user_id'=>'',
                     'title' => trim($_POST['title']),
                     'description' => trim($_POST['description']),
                     'price' => trim($_POST['price']),
@@ -197,6 +204,9 @@
                     'model_err' => '',
                     'category_err' => ''
                 ];
+
+                $user_id=$this->userModel->getUserId($data['user_email']);
+                $data['user_id']=$user_id->user_id;
 
                 //Validate data
                 if(empty($data['title'])){
@@ -373,7 +383,6 @@
                     //         $data['image3_err']="Sorry, only JPG, JPEG, PNG, & GIF files are allowed.";
                     //     }
                     // }
-                   
                     if($this->sellerModel->advertise($data)){
                         flash('product_message', 'Product Added');
                         redirect('sellers/advertisements');
@@ -387,9 +396,10 @@
 
             } else {
                 $data = [
-                    'user_email' => '',
+                    'user_email' => $_SESSION['user_email'],
                     'title' => '',
                     'description' => '',
+                    'user_id' => '',
                     'price' => '',
                     'condition' => '',
                     'image1' => '',
@@ -410,8 +420,6 @@
                     'model_err' => '',
                     'category_err' => ''
                 ];
-                
-
                 $this->view('sellers/advertise', $data);
             }
 

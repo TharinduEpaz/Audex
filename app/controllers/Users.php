@@ -4,6 +4,18 @@
         private $buyerModel;
 
         public function __construct(){
+            if(!isLoggedIn()){
+                unset($_SESSION['otp']);
+                unset($_SESSION['email']);
+                unset($_SESSION['password']);
+                unset($_SESSION['first_name']);
+                unset($_SESSION['second_name']);
+                unset($_SESSION['phone']);
+                unset($_SESSION['user_type']);
+                unset($_SESSION['attempt']);
+                session_destroy();
+                redirect('users/login');
+            }
             
             $this->userModel = $this->model('User');
             $this->buyerModel = $this->model('Buyer');
