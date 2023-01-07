@@ -299,6 +299,10 @@
 
         //login
         public function login(){
+            //CHeck if loggedIn
+            if(isLoggedIn()){
+                redirect($_SESSION['user_type'].'s/index');
+            }
             //CHECK FOR POST
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 // Process form

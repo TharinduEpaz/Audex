@@ -102,10 +102,10 @@
                             <label class="date" for="date">Ending Date</label>
                             <input class="date" type="date" name="date"  >
                         </div>
-                        <div class="input">
+                        <!-- <div class="input">
                             <div class="image">
                                 <label for="image1">Image1:</label>
-                                <input type="file" name="image1"  class="fa-solid" alt="&#xf03e" >
+                                <input type="file" name="image1"  value="<?php echo dirname(APPROOT).'/public/uploads/'.$data['image1']?>" class="fa-solid" alt="&#xf03e" >
                             </div>
                             <div class="image">
                                 <label for="image2">Image2:</label>
@@ -115,7 +115,7 @@
                                 <label for="image3">Image3:</label>
                                 <input type="file" name="image3" class="fa-solid " alt="&#xf03e" >
                             </div>
-                        </div>
+                        </div> -->
                         <div class="input">
                             <label class="condition" for="">Condition</label>
                             <input class="condition" type="text" name="condition"   value="<?php echo $data['condition']?>" >

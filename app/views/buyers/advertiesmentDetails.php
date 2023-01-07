@@ -60,7 +60,7 @@
         </div> -->
         <div class="container-main">
             <div class="container-product-img">
-                <img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($data['ad']->image1); ?>" />
+                <img src="<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>" />
                 <div class="container-product-description">
                     <h4>Product Description</h4>
                     <?php echo $data['ad']->p_description ; ?>

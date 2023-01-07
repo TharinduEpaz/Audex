@@ -102,7 +102,7 @@
 
         //edit advertisement
         public function edit_advertisement($data){
-            $this->db->query('UPDATE product SET product_title=:title,product_condition=:condition,product_category=:category,model_no=:model,brand=:brand,image1=:image1,image2=:image2,image3=:image3,price=:price,p_description=:description WHERE product_id=:id');
+            $this->db->query('UPDATE product SET product_title=:title,product_condition=:condition,product_category=:category,model_no=:model,brand=:brand,price=:price,p_description=:description WHERE product_id=:id');
             //Bind values
             $this->db->bind(':id', $data['id']);
             // $this->db->bind(':user_email', $data['user_email']);
@@ -112,9 +112,9 @@
             // $this->db->bind(':type', $data['type']);
             $this->db->bind(':model', $data['model']);
             $this->db->bind(':brand', $data['brand']);
-            $this->db->bind(':image1', $data['image1']);
-            $this->db->bind(':image2', $data['image2']);
-            $this->db->bind(':image3', $data['image3']);
+            // $this->db->bind(':image1', $data['image1']);
+            // $this->db->bind(':image2', $data['image2']);
+            // $this->db->bind(':image3', $data['image3']);
             $this->db->bind(':price', $data['price']);
             $this->db->bind(':description', $data['description']);
 

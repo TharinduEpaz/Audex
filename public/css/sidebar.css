@@ -6,6 +6,7 @@
   padding-top: 6vh;
   display: block;
   position: fixed;
+  margin-top: 10vh;
   
 }
 .sidebar a{
@@ -41,7 +42,7 @@ a:hover, a:active{
     height: auto;
     width: 70px;
     left: 0;
-    margin:100px 0;
+    margin:10vh 0;
   }
   .sidebar .current{
     background: #E5E9F7;
