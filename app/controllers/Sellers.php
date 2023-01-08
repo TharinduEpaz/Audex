@@ -3,6 +3,8 @@
 
     class Sellers extends Controller{
         private $sellerModel;
+        private $userModel;
+
 
         public function __construct(){
             if(!isLoggedIn()){
@@ -17,8 +19,12 @@
                 session_destroy();
                 redirect('users/login');
             }
-
+            if($_SESSION['user_type'] != 'seller'){
+                redirect($_SESSION['user_type'].'s/index');
+            }
             $this->sellerModel=$this->model('Seller');
+            $this->userModel = $this->model('User');
+
         }
 
         public function index(){
@@ -175,6 +181,7 @@
 
                 $data = [
                     'user_email' => $_SESSION['user_email'],
+                    'user_id'=>'',
                     'title' => trim($_POST['title']),
                     'description' => trim($_POST['description']),
                     'price' => trim($_POST['price']),
@@ -198,6 +205,9 @@
                     'category_err' => ''
                 ];
 
+                $user_id=$this->userModel->getUserId($data['user_email']);
+                $data['user_id']=$user_id->user_id;
+
                 //Validate data
                 if(empty($data['title'])){
                     $data['title_err'] = 'Please enter title';
@@ -211,7 +221,6 @@
                 if(empty($data['category'])){
                     $data['category_err'] = 'Please enter category';
                 }
-                
                 if(empty($data['condition'])){
                     $data['condition_err'] = 'Please enter condition';
                 }
@@ -222,59 +231,158 @@
                     $data['model_err'] = 'Please enter model';
                 }
 
+                //Image 1
+                if(!empty($_FILES['image1']['name'])){
+                    $img_name = $_FILES['image1']['name'];
+                    $img_size = $_FILES['image1']['size'];
+                    $tmp_name = $_FILES['image1']['tmp_name'];
+                    $error = $_FILES['image1']['error'];
 
-                //Make sure no errors
-                if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['brand_err']) && empty($data['model_err'])){
-                    //Validated
-                    //Allowed file types
-                    $allowedTypes=array('jpg','png','jpeg','gif');
-                    if(!empty($_FILES['image1']['name'])){
-                        //Get file info
-                        $image1_filename=basename($_FILES['image1']['name']);
-                        $image1_filetype=pathinfo($image1_filename,PATHINFO_EXTENSION);
-
-                        if(in_array($image1_filetype,$allowedTypes)){
-                            $image1=$_FILES['image1']['tmp_name'];
-                            $image1_content=addslashes(file_get_contents($image1));
-                            $data['image1']=$image1_content;
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image1_err'] = "Sorry, your first image is too large.";
                         }
                         else{
-                            $data['image1_err']="Sorry, only JPG, JPEG, PNG, & GIF files are allowed.";
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
+
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image1'] = $new_img_name;
+
+                                // //Insert into database
+                                // if($this->sellerModel->addAdvertisement($data)){
+                                //     flash('post_message', 'Advertisement Added');
+                                //     redirect('sellers/advertisements');
+                                // }
+                                // else{
+                                //     die('Something went wrong');
+                                // }
+                            }
+                            else{
+                                $data['image1_err'] = "You can't upload files of this type";
+                            }
                         }
                     }
                     else{
-                        $data['image1_err'] = 'Please upload atleast one image';
-
+                        $data['image1_err'] = "Unknown error occurred!";
                     }
-                    if(!empty($_FILES['image2']['name'])){
-                        //Get file info
-                        $image2_filename=basename($_FILES['image2']['name']);
-                        $image2_filetype=pathinfo($image2_filename,PATHINFO_EXTENSION);
+                }else{
+                    $data['image1_err'] = 'Please upload atleast one image';
+                }
 
-                        if(in_array($image2_filetype,$allowedTypes)){
-                            $image2=$_FILES['image2']['tmp_name'];
-                            $image2_content=addslashes(file_get_contents($image2));
-                            $data['image2']=$image2_content;
+                //Image 2
+                if(!empty($_FILES['image2']['name'])){
+                    $img_name = $_FILES['image2']['name'];
+                    $img_size = $_FILES['image2']['size'];
+                    $tmp_name = $_FILES['image2']['tmp_name'];
+                    $error = $_FILES['image2']['error'];
+
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image2_err'] = "Sorry, your second image is too large.";
                         }
                         else{
-                            $data['image2_err']="Sorry, only JPG, JPEG, PNG, & GIF files are allowed.";
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
+
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image2'] = $new_img_name;
+
+                                // //Insert into database
+                                // if($this->sellerModel->addAdvertisement($data)){
+                                //     flash('post_message', 'Advertisement Added');
+                                //     redirect('sellers/advertisements');
+                                // }
+                                // else{
+                                //     die('Something went wrong');
+                                // }
+                            }
+                            else{
+                                $data['image2_err'] = "You can't upload files of this type";
+                            }
                         }
                     }
-                    if(!empty($_FILES['image3']['name'])){
-                        //Get file info
-                        $image3_filename=basename($_FILES['image3']['name']);
-                        $image3_filetype=pathinfo($image3_filename,PATHINFO_EXTENSION);
+                    else{
+                        $data['image2_err'] = "Unknown error occurred!";
+                    }
+                 }
+                // else{
+                //     $data['image2_err'] = 'Please second first image';
+                // }
 
-                        if(in_array($image3_filetype,$allowedTypes)){
-                            $image3=$_FILES['image3']['tmp_name'];
-                            $image3_content=addslashes(file_get_contents($image3));
-                            $data['image3']=$image3_content;
+
+                //Image 3
+                if(!empty($_FILES['image3']['name'])){
+                    $img_name = $_FILES['image3']['name'];
+                    $img_size = $_FILES['image3']['size'];
+                    $tmp_name = $_FILES['image3']['tmp_name'];
+                    $error = $_FILES['image3']['error'];
+
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image3_err'] = "Sorry, your third image is too large.";
                         }
                         else{
-                            $data['image3_err']="Sorry, only JPG, JPEG, PNG, & GIF files are allowed.";
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
+
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image3'] = $new_img_name;
+
+                                // //Insert into database
+                                // if($this->sellerModel->addAdvertisement($data)){
+                                //     flash('post_message', 'Advertisement Added');
+                                //     redirect('sellers/advertisements');
+                                // }
+                                // else{
+                                //     die('Something went wrong');
+                                // }
+                            }
+                            else{
+                                $data['image3_err'] = "You can't upload files of this type";
+                            }
                         }
                     }
-                   
+                    else{
+                        $data['image3_err'] = "Unknown error occurred!";
+                    }
+                }
+                // else{
+                //     $data['image3_err'] = 'Please upload third image';
+                // }
+                //Make sure no errors
+                if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['brand_err']) && empty($data['model_err'])){
+                    //Validated
+                    
+                    // if(!empty($_FILES['image3']['name'])){
+                    //     //Get file info
+                    //     $image3_filename=basename($_FILES['image3']['name']);
+                    //     $image3_filetype=pathinfo($image3_filename,PATHINFO_EXTENSION);
+
+                    //     if(in_array($image3_filetype,$allowedTypes)){
+                    //         $image3=$_FILES['image3']['tmp_name'];
+                    //         $image3_content=addslashes(file_get_contents($image3));
+                    //         $data['image3']=$image3_content;
+                    //     }
+                    //     else{
+                    //         $data['image3_err']="Sorry, only JPG, JPEG, PNG, & GIF files are allowed.";
+                    //     }
+                    // }
                     if($this->sellerModel->advertise($data)){
                         flash('product_message', 'Product Added');
                         redirect('sellers/advertisements');
@@ -288,9 +396,10 @@
 
             } else {
                 $data = [
-                    'user_email' => '',
+                    'user_email' => $_SESSION['user_email'],
                     'title' => '',
                     'description' => '',
+                    'user_id' => '',
                     'price' => '',
                     'condition' => '',
                     'image1' => '',
@@ -311,8 +420,6 @@
                     'model_err' => '',
                     'category_err' => ''
                 ];
-                
-
                 $this->view('sellers/advertise', $data);
             }
 
@@ -332,9 +439,9 @@
                     'description' => trim($_POST['description']),
                     'price' => trim($_POST['price']),
                     'condition' => trim($_POST['condition']),
-                    // 'image1' => trim($_POST['image1']),
-                    // 'image2' => trim($_POST['image2']),
-                    // 'image3' => trim($_POST['image3']),
+                    'image1' => '',
+                    'image2' => '',
+                    'image3' => '',
                     'brand' => trim($_POST['brand']),
                     'model' => trim($_POST['model']),
                     'category' =>trim($_POST['category']),
@@ -381,6 +488,48 @@
                 if(empty($data['model'])){
                     $data['model_err'] = 'Please enter model';
                 }
+                // if(isset($_FILES['image1'])){
+                //     $img_name = $_FILES['image1']['name'];
+                //     $img_size = $_FILES['image1']['size'];
+                //     $tmp_name = $_FILES['image1']['tmp_name'];
+                //     $error = $_FILES['image1']['error'];
+
+                //     if($error === 0){
+                //         if($img_size > 12500000){
+                //             $data['image1_err'] = "Sorry, your file is too large.";
+                //         }
+                //         else{
+                //             $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                //             $img_ex_lc = strtolower($img_ex);
+
+                //             $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                //             if(in_array($img_ex_lc, $allowed_exs)){
+                //                 $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                //                 $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                //                 move_uploaded_file($tmp_name, $img_upload_path);
+                //                 $data['image1'] = $new_img_name;
+
+                //                 // //Insert into database
+                //                 // if($this->sellerModel->addAdvertisement($data)){
+                //                 //     flash('post_message', 'Advertisement Added');
+                //                 //     redirect('sellers/advertisements');
+                //                 // }
+                //                 // else{
+                //                 //     die('Something went wrong');
+                //                 // }
+                //             }
+                //             else{
+                //                 $data['image1_err'] = "You can't upload files of this type";
+                //             }
+                //         }
+                //     }
+                //     else{
+                //         $data['image1_err'] = "Unknown error occurred!";
+                //     }
+                // }else{
+                //     $data['image1_err'] = 'Please upload atleast one image';
+                // }
 
 
                 //Make sure no errors
@@ -411,9 +560,9 @@
                     'description' => $advertisement->p_description,
                     'price' => $advertisement->price,
                     'condition' => $advertisement->product_condition,
-                    // 'image1' => $advertisement->image1,
-                    // 'image2' => $advertisement->image2,
-                    // 'image3' => $advertisement->image3,
+                    'image1' => $advertisement->image1,
+                    'image2' => $advertisement->image2,
+                    'image3' => $advertisement->image3,
                     'brand' => $advertisement->brand,
                     'model' => $advertisement->model_no,
                     'category' =>$advertisement->product_category,

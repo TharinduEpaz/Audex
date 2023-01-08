@@ -66,7 +66,7 @@
             <?php foreach($data['advertisements'] as $advertisement): ?>
             <div class="advertisements">
                 <div class="image">
-                    <img src="<?php echo 'data:image/jpg;charset=utf8;base64,'.base64_encode($advertisement->image1);?>" alt="photo">
+                    <img src="<?php echo URLROOT.'/public/uploads/'.$advertisement->image1;?>" alt="photo">
                 </div>
                 <p class="one"><?php echo $advertisement->product_title;?></p>
                 <p class="two"><?php echo $advertisement->product_type;?></p>

@@ -42,7 +42,7 @@
     <div class="container" style="background: none;">
         <div class="content">
             <div class="image">
-                <img src="<?php echo 'data:image/jpg;charset=utf8;base64,'.base64_encode($data['advertisement']->image1);?>" alt="">
+                <img src="<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image1;?>" alt="">
                 <!-- <a href="">next</a> -->
             </div>
             <div class="details">
