@@ -62,7 +62,26 @@
                         <img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($ads->image1); ?>" /> 
                         <a href="<?php echo URLROOT . '/buyers/advertiesmentDetails/'.$ads->product_id;?>">
                         <h4><?php echo $ads->product_title ; ?><br><?php echo $ads->price ; ?></h4></a>
-                        <button type="submit" class="watch-list-item-remove">Remove</button>
+                        
+                        <form class="remove_item" method="post">
+                            <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
+                            <input type="text" name="user_type" value="buyer" hidden>
+                            <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
+                            <input type="text" name="product_id" value="<?php echo $ads->product_id ; ?>" hidden >
+                            <input type="submit" value="Remove" name="submit_btn">
+                            <!-- <dialog id="dia">
+                                <div class="top-part">
+                                    <button class="btn_close">X</button>
+                                    <i class="fa-sharp fa-solid fa-xmark"></i>
+                                </div>  
+                                <hr>
+                                <div>
+                                    <button class="continue">OK </button>  
+                                    <button class="close">Close</button>
+                                </div>
+                            </dialog> -->
+                        </form>
+
                     </div> 
                 <?php endforeach; ?>
             </div>
