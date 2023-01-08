@@ -113,13 +113,6 @@
                             <button class="close">Close</button>
                         </div>
                     </dialog>
-                    <!-- <?php 
-                        if(isset($_SESSION['user_type'])){
-                            if($_SESSION['user_type'] == 'buyer' || $_SESSION['user_type'] == 'service_provider'){
-                                echo '<input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist">';
-                            }
-                        }
-                    ?> -->
                 </form>
             </div>
         </div>
