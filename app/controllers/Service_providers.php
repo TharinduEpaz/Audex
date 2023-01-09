@@ -7,8 +7,20 @@ class Service_providers extends Controller
 
     public function __construct()
     {
-        if (!isLoggedIn()) {
+        if(!isLoggedIn()){
+            unset($_SESSION['otp']);
+            unset($_SESSION['email']);
+            unset($_SESSION['password']);
+            unset($_SESSION['first_name']);
+            unset($_SESSION['second_name']);
+            unset($_SESSION['phone']);
+            unset($_SESSION['user_type']);
+            unset($_SESSION['attempt']);
+            session_destroy();
             redirect('users/login');
+        }
+        if($_SESSION['user_type'] != 'service_provider'){
+            redirect($_SESSION['user_type'].'s/index');
         }
 
         $this->service_model = $this->model('Service_provider');

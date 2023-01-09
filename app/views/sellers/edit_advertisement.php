@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
-    <title>Sell Item</title>
+    <title>Edit Advertisement</title>
 </head>
 <body>
     <nav>
@@ -28,7 +28,7 @@
                 echo '<div class="dropdown">';
                     echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
                     echo '<div id="myDropdown" class="dropdown-content">';
-                        echo '<a href="'.URLROOT . '/sellers/getProfile" class="nav_tags">Profile</a>';
+                        echo '<a href="'.URLROOT . '/sellers/getProfile/'.$_SESSION['user_id']. '" class="nav_tags">Profile</a>';
                         echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                     echo '</div>';
                 echo '</div> ';
@@ -102,10 +102,10 @@
                             <label class="date" for="date">Ending Date</label>
                             <input class="date" type="date" name="date"  >
                         </div>
-                        <div class="input">
+                        <!-- <div class="input">
                             <div class="image">
                                 <label for="image1">Image1:</label>
-                                <input type="file" name="image1"  class="fa-solid" alt="&#xf03e" >
+                                <input type="file" name="image1"  value="<?php echo dirname(APPROOT).'/public/uploads/'.$data['image1']?>" class="fa-solid" alt="&#xf03e" >
                             </div>
                             <div class="image">
                                 <label for="image2">Image2:</label>
@@ -115,7 +115,7 @@
                                 <label for="image3">Image3:</label>
                                 <input type="file" name="image3" class="fa-solid " alt="&#xf03e" >
                             </div>
-                        </div>
+                        </div> -->
                         <div class="input">
                             <label class="condition" for="">Condition</label>
                             <input class="condition" type="text" name="condition"   value="<?php echo $data['condition']?>" >

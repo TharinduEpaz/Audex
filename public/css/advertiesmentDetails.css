@@ -55,6 +55,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    margin-top: 10vh;
 }
 .container-description {
     margin-top:20px;

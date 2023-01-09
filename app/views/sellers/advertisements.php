@@ -29,7 +29,7 @@
                 echo '<div class="dropdown">';
                     echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
                     echo '<div id="myDropdown" class="dropdown-content">';
-                        echo '<a href="'.URLROOT . '/sellers/getProfile" class="nav_tags">Profile</a>';
+                        echo '<a href="'.URLROOT . '/sellers/getProfile/'.$_SESSION['user_id']. ' " class="nav_tags">Profile</a>';
                         echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                     echo '</div>';
                 echo '</div> ';
@@ -66,7 +66,7 @@
             <?php foreach($data['advertisements'] as $advertisement): ?>
             <div class="advertisements">
                 <div class="image">
-                    <img src="<?php echo 'data:image/jpg;charset=utf8;base64,'.base64_encode($advertisement->image1);?>" alt="photo">
+                    <img src="<?php echo URLROOT.'/public/uploads/'.$advertisement->image1;?>" alt="photo">
                 </div>
                 <p class="one"><?php echo $advertisement->product_title;?></p>
                 <p class="two"><?php echo $advertisement->product_type;?></p>

@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
-    <title>Sell Item</title>
+    <title>Advertise</title>
 </head>
 <body>
     <nav>
@@ -28,7 +28,7 @@
                 echo '<div class="dropdown">';
                     echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
                     echo '<div id="myDropdown" class="dropdown-content">';
-                        echo '<a href="'.URLROOT . '/sellers/getProfile" class="nav_tags">Profile</a>';
+                        echo '<a href="'.URLROOT . '/sellers/getProfile/'.$_SESSION['user_id']. '" class="nav_tags">Profile</a>';
                         echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                     echo '</div>';
                 echo '</div> ';
@@ -126,7 +126,10 @@
                               <option value="microphone">Microphone</option>
                               <option value="dj">DJ</option>
                               <option value="mixer">Mixer</option>
-                              <option value="amplifier">Amplifier</option>                         
+                              <option value="amplifier">Amplifier</option>  
+                              <option value="guitar">Guitar</option>
+                              <option value="keyboard">Keyboard</option>
+
                             </select>
                         </div>
                         <div class="input">
@@ -136,6 +139,7 @@
                         <div class="input">
                             <label class="brand" for="">Brand Name</label>
                             <input class="brand" type="text" name="brand"   value="<?php echo $data['brand']?>" >
+                            <?php echo $data['user_id']?>
                         </div>
                         <div class="input">
                             <label class="descriptionl" for="">Description</label>

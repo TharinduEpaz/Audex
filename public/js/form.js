@@ -1,11 +1,24 @@
 
-function docheck() {
-    if (document.getElementById("check").checked) {
-        document.getElementById("container").style.display = "none";
-    } else {
-        document.getElementById("container").style.display = "block";
-    }
-}
+// function docheck() {
+//     if (document.getElementById("check").checked) {
+//         document.getElementById("forms").style.zIndex = "-1";
+//         document.getElementById("forms").style.transition = "all -1.5s";
+//         document.getElementById("explore").style.zIndex = "-1";
+//         document.getElementById("explore").style.transition = "all -1.5s";
+//         document.getElementById("search").style.zIndex = "-1";
+//         document.getElementById("search").style.transition = "all -1.5s";
+//         document.getElementById("container_main").style.zIndex = "-1";
+//         document.getElementById("container_main").style.transition = "all 1.5s";
+
+//     } else {
+//         document.getElementById("forms").style.zIndex = "1";
+//         document.getElementById("forms").style.transition = "all 1.5s";
+//         document.getElementById("explore").style.zIndex = "1";
+//         document.getElementById("explore").style.transition = "all 1.5s";
+//         document.getElementById("search").style.zIndex = "1";
+//         document.getElementById("search").style.transition = "all 1.5s";
+//     }
+// }
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
 function myFunction() {
@@ -236,3 +249,6 @@ removeItemFromWatchListForm.forEach((form)=>{
   });
 
 });
+
+// end add item to watch list----------------------------------------------------------------------------------------------------------
+// methanin pahala

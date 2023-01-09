@@ -27,7 +27,7 @@
         </label>
         <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo">
         <ul>
-            <li><a href="<?php echo URLROOT;?>/buyers/index" class="nav_tags">Home</a></li>
+            <li><a href="<?php echo URLROOT;?>/<?php echo $_SESSION['user_type'];?>s/index" class="nav_tags">Home</a></li>
             <li><a href="#" class="nav_tags">Shop</a></li>
             <li><a href="#" class="nav_tags">Sound Engineers</a></li>
             <li><a href="#" class="nav_tags">Events</a></li>
@@ -65,7 +65,7 @@
             <?php foreach($data['ads'] as $ads) : ?>
                 <div class="container-ad">
                     <div class="container-img">
-                        <img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($ads->image1); ?>" /> 
+                        <img src="<?php echo URLROOT.'/public/uploads/'.$ads->image1;?>" /> 
                     </div>
                     <div class="title">
                         <a href="<?php echo URLROOT . '/buyers/advertiesmentDetails/'.$ads->product_id;?>">
