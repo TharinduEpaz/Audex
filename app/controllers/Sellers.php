@@ -8,6 +8,7 @@
 
         public function __construct(){
             if(!isLoggedIn()){
+                echo "not logged in seller";
                 unset($_SESSION['otp']);
                 unset($_SESSION['email']);
                 unset($_SESSION['password']);
@@ -19,7 +20,7 @@
                 session_destroy();
                 redirect('users/login');
             }
-            if($_SESSION['user_type'] != 'seller'){
+            else if($_SESSION['user_type'] != 'seller' && isLoggedIn()){
                 redirect($_SESSION['user_type'].'s/index');
             }
             $this->sellerModel=$this->model('Seller');

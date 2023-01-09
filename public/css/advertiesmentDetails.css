@@ -49,6 +49,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    margin-top: 10vh;
 }
 .container-product-img{
     width: 50%;

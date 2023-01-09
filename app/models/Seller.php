@@ -142,7 +142,13 @@
 
             //Execute
             if($this->db->execute()){
-                return true;
+                $this->db->query('UPDATE seller_add_product SET is_deleted=1 WHERE product_id=:id');
+                $this->db->bind(':id', $id);
+                if($this->db->execute()){
+                    return true;
+                }else{
+                    return false;
+                }    
             }else{
                 return false;
             }
