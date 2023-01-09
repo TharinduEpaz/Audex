@@ -218,6 +218,7 @@ nav{
 .container{
   width: 100vw;
   height: 90vh;
+  margin-top: 10vh;
   /* background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

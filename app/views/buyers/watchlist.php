@@ -20,7 +20,7 @@
         <label for="check" class="checkbtn">
             <i class="fas fa-bars"></i>
         </label>
-        <img src="../img/image 1.png" alt="">
+        <img src="<?php echo URLROOT;?>/public/img/image 1.png" alt="">
         <ul>
             <li><a href="<?php echo URLROOT;?>/buyers/index" class="nav_tags">Home</a></li>
             <li><a href="<?php echo URLROOT;?>/buyers/shop" class="nav_tags">Shop</a></li>
@@ -90,4 +90,5 @@
     </div>
 </body>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
+<script src="<?php echo URLROOT . '/public/js/removeWatchListItem.js';?>"></script>
 </html>
