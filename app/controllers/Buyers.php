@@ -208,6 +208,7 @@
       }
       else{
         if (isset($_POST['remove'])){
+        echo "This Works";
           $result = $this-> buyerModel->removeItemFromWatchList($p_id, $u_id);
           if($result){
             echo flash('register_success', 'You are registered and can log in');
@@ -218,8 +219,30 @@
   
         }
       }
-      
+    }
 
+    
+    public function removeOneItemFromWatchList($p_id,$u_id){
+      if(!isLoggedIn()){
+        redirect('users/login');
+      }
+      echo $_POST['user_id'];
+      if($_POST['user_id'] == 0){
+        redirect('users/login');
+      }
+      else{
+        if (isset($_POST['remove'])){
+        echo "This Works";
+          $result = $this-> buyerModel->removeOneItemFromWatchList($p_id, $u_id);
+          if($result){
+            echo flash('register_success', 'You are registered and can log in');
+          }
+          else{
+            die('Something went wrong');
+          }
+  
+        }
+      }
     }
 
     public function test(){
