@@ -62,10 +62,10 @@
         <div class="container-main">
             <div class="container-product">
                 <div class="container-product-img">
-                    <img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($data['ad']->image1); ?>" />
+                    <img src="<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>" />
                     <div class="like-dislike-area">
-                        <img src="<?php echo URLROOT . '/public/img/like.png';?>" alt="like">
-                        <img src="<?php echo URLROOT . '/public/img/dislike.png';?>" alt="dislike">
+                        <button type="submit" id="product-like-btn" data-like = "addLike"><i class="fas fa-thumbs-up"></i></button>
+                        <button type="submit" id="product-dislike-btn" data-dislike = "removeLike"><i class="fa-solid fa-thumbs-down"></i></button> 
                     </div>
                 </div>
                 <div class="container-product-attributes">
@@ -131,5 +131,57 @@
         </div>
     </div>
 </body>
+
+<script>
+    // like dislike functions
+    const likeBtn = document.getElementById("product-like-btn");
+    const dislikeBtn = document.getElementById("product-dislike-btn");
+
+    likeBtn.addEventListener("click",async (e)=>{
+        e.preventDefault();
+        const user_id = "<?php echo $_SESSION['user_id']; ?>";
+        const product_id = "<?php echo $_SESSION['product_id']; ?>";
+        
+        if(likeBtn.getAttribute("data-like") === "addLike"){
+            const url = 'http://localhost/Audex/buyers/addLikeToProduct/' +product_id.trim()+'/'+ user_id.trim();
+            console.log(url);
+
+            const d = {
+                    'addLike':1,
+                    'user_id' : user_id,
+                    'product_id': product_id,
+                }
+            
+
+            const data  = await fetch(url, {
+                method: 'POST',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(d)
+            })
+            // .then(Response => console.log(Response))
+            // .catch(e => console.log(e))
+
+
+            // const data = await fetch(url,{
+            //     method:"POST",
+            //     body:d
+            // })
+            // .catch(e => {
+            //     console.log(e);
+            // })
+            // ;
+            const responce = await data.text();
+            console.log(responce);
+        }
+
+        likeBtn.style.color="Red";
+
+    });
+</script>
+
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>
+

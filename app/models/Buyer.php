@@ -183,6 +183,25 @@
             }
         }
 
+        public function addLikeToProduct($p_id,$user_id){
+
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $user_id);
+
+            $row = $this->db->single();
+
+            $this->db->query('INSERT INTO reaction (email_buyer,product_id,liked,disliked) VALUES (:email,:p_id,1,0)');
+            //Bind value
+            $this->db->bind(':email', $row->email);
+            $this->db->bind(':p_id', $p_id);
+
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
 
     }
 

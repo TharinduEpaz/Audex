@@ -35,6 +35,9 @@
    public function advertiesmentDetails($id)
     {
       $ad = $this->buyerModel->getAdvertiesmentById($id);
+      // set product id to session to use for js
+    $_SESSION['product_id'] = $id;
+
       $data = [
         'ad' => $ad
       ];
@@ -194,8 +197,6 @@
   
         }
       }
-      
-
     }
     
     public function removeItemFromWatchList($p_id,$u_id){
@@ -242,6 +243,24 @@
           }
   
         }
+      }
+    }
+
+    public function addLikeToProduct($p_id,$u_id){
+      if(!isLoggedIn()){
+        redirect('users/login');
+      }
+    print_r($_POST);
+      // echo $_POST['user_id'];
+      if (isset($_POST['addLike'])){
+        $result = $this-> buyerModel->addLikeToProduct($p_id, $u_id);
+        if($result){
+          echo flash('register_success', 'You are registered and can log in');
+        }
+        else{
+          die('Something went wrong');
+        }
+
       }
     }
 
