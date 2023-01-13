@@ -89,7 +89,7 @@ body{
     width: 100%;
     padding-top: 3vh;
 }
-.bid_now,.message_seller{
+.bid_now,.message_seller,.bid_button{
     text-decoration: none;
     font-weight: bolder;
     font-size: 12pt;
@@ -99,32 +99,33 @@ body{
     padding: 1% 1%;
     height: 5vh;
     width: 170px;
-    border-radius: 10px;
+    border-radius: 7px;
     border: 1px solid #002EF9;
     margin-top: 2vh;
     margin-bottom: 1vh;
     margin-right: 4%;    
 }
-.bid_now:hover,.message_seller:hover{
+.bid_now:hover,.message_seller:hover,.bid_button:hover{
     transition: 0.5s;
     background:#E02727;
     border: 1px solid #E02727;
     cursor: pointer;
 }
-.bid_now a:hover,.message_seller a:hover{
+.bid_now a:hover,.message_seller a:hover,.bid_button a:hover{
     text-decoration: none;
     /* background-color: none; */
     background: none;
     color: white;
     border: none;
 }
+
 /* .bid_now{
     float: left;
 }
 .message_seller{
     float: right;
 } */
-.bid_now a,.message_seller a{
+.bid_now a,.message_seller a,.bid_button a{
     color: white;
 
 }

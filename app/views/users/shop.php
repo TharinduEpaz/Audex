@@ -68,7 +68,8 @@
             <h1>New Arrivals</h1>
         </div>
         <div class="container-data">
-            <?php foreach($data['ads'] as $ads) : ?>
+            <?php foreach($data['ads'] as $ads) :?>
+
                 <div class="container-ad">
                     <div class="container-img">
                         <img src="<?php echo URLROOT.'/public/uploads/'.$ads->image1;?>" /> 
@@ -81,7 +82,12 @@
                             }
                         ?>
                         <h4><?php echo 'RS:'. $ads->price ; ?></h4>
-                        <a href="<?php echo URLROOT . '/users/advertiesmentDetails/'.$ads->product_id;?>">View</a>
+                        <a href="<?php if($ads->product_type == 'auction'){
+                                echo URLROOT . '/users/auction/'.$ads->product_id;
+                            }else{
+                                echo URLROOT . '/users/advertiesmentDetails/'.$ads->product_id;
+                            }
+                                ?>">View</a>
 
                     </div>
                 </div>

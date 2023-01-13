@@ -48,8 +48,13 @@
                 <?php 
                     if(isLoggedIn()){
                         if($_SESSION['user_email']!=$data['ad']->email){
-                            echo '<div class="price">';
-                            echo '<a href="'.URLROOT.'/users/message" class="btn">Message Seller</a>';
+                            echo '<div class="message_bid">';
+                                echo '<div class="bid_now">';
+                                echo '<a href="'.URLROOT.'/users/bid/'. $data['ad']->product_id.'" class="btn">BID NOW</a>';
+                                echo '</div>';
+                                echo '<div class="message_seller">';
+                                echo '<a href="'.URLROOT.'/users/message" class="btn">Message</a>';
+                                echo '</div>';
                             echo '</div>';
                         }
                     }

@@ -1,0 +1,58 @@
+.image{
+    margin-right: 3%;
+}
+.auction_details h2{
+    text-align: center;
+}
+.auction_details table{
+    width: 130%;
+    border: 1px solid black;
+    border-collapse: collapse;
+    background-color: white;
+    text-align: center;
+    color: #001A72;
+    margin-top: 2vh;
+}
+.auction_details th{
+    border: 1px solid rgb(149, 149, 149);
+    padding: 1% 1%;
+    font-weight:800;
+
+    font-size: 12pt;
+}
+.auction_details td{
+    border: 1px solid rgb(149, 149, 149);
+    padding: 1% 1%;
+    font-weight:500;
+    font-size: 12pt;
+}
+.add_bid form{
+    display: flex;
+    flex-direction: row;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+    width: 130%;
+    padding-top: 3vh;
+}
+.bid_button{
+    width: 100px;
+    border: 1px solid black;
+    /* flex-basis: 10%; */
+    margin-left: 20px;
+    margin-bottom: 2vh;
+
+}
+.add_bid .price{
+    width: 150px;
+    padding: 1% 1%;
+    height: 5vh;
+    text-align: center;
+    border: 1px solid black;
+
+}
+.message_seller{
+    padding-top: 3%;
+    margin-left: 25%;
+    margin-top: -2vh;
+}

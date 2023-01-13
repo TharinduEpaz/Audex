@@ -446,12 +446,17 @@
           $data = [
             'ad' => $ad
           ];
-          if($data['ad']->product_type == 'auction'){
-            $this->view('users/auction',$data);
-
-          }else{
               $this->view('users/advertiesmentDetails',$data);
-          }
+          
+        }
+        public function auction($id)
+        {
+          $ad = $this->userModel->getAdvertiesmentById($id);
+          $data = [
+            'ad' => $ad
+          ];
+          $this->view('users/auction',$data);
+
         }
         public function bid($id)
         {

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/form.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/advertise.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/bid.css';?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
@@ -22,7 +23,7 @@
                 <img src="<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>" alt="">
                 <!-- <a href="">next</a> -->
             </div>
-            <div class="details">
+            <div class="auction_details">
                 <h2><?php echo $data['ad']->product_title?></h2>
                 <table>
                     <tr>
@@ -30,13 +31,43 @@
                         <th>Name</th>
                         <th>Amount</th>
                     </tr>
-                    
+                    <tr>
+                        <td>1</td>
+                        <td>Hellow</td>
+                        <td>Rs.1000.00</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Hellow</td>
+                        <td>Rs.1000.00</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Hellow</td>
+                        <td>Rs.1000.00</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Hellow</td>
+                        <td>Rs.1000.00</td>
+                    </tr>
                 </table>
+                <div class="add_bid" >
+                    <form action="<?php echo URLROOT;?>/users/add_bid" class="bid" method="post">
+                    <!-- <label for="price">Price</label> -->
+                    <input class="price" type="text" name="price"  placeholder="xxxx.xx"   >
+                    <input type="submit" name="submit" value="Bid" class="bid_button">
+                            
+                    </form>
+                        
+                </div>
                 <?php 
                     if(isLoggedIn()){
                         if($_SESSION['user_email']!=$data['ad']->email){
-                            echo '<div class="price">';
-                            echo '<a href="'.URLROOT.'/users/message" class="btn">Message Seller</a>';
+                            echo '<div class="message_bid">';
+                                echo '<div class="message_seller">';
+                                echo '<a href="'.URLROOT.'/users/message" class="btn">Message Seller</a>';
+                                echo '</div>';
                             echo '</div>';
                         }
                     }
