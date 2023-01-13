@@ -1,0 +1,27 @@
+dialog::backdrop {
+    background: black;
+    opacity: 0.5;
+  }
+  dialog {
+    max-width: 90vw;
+    border: 1px solid black;
+  }
+  dialog .btn_close{
+    color: red;
+  }
+  dialog .top-part{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+  }
+  dialog .div i{
+    width: 10px;
+    height: 10px;
+    color: blue;
+    border: 2px solid red;
+  }
+  
+  .blur{
+    filter: blur(2px);
+  }

@@ -23,10 +23,12 @@
             <li><a href="<?php echo URLROOT . '/pages/shop';?>" class="nav_tags">Shop</a></li>
             <li><a href="#" class="nav_tags">Sound Engineers</a></li>
             <li><a href="#" class="nav_tags">Events</a></li>
+            <li><a href="<?php echo URLROOT . '/users/login';?>" class="nav_tags">Login</a></li>
             <li><a href="<?php echo URLROOT;?>/users/register" class="nav_tags">Sign up</a></li>
+            
         </ul>
     </nav>
-    <div class="container_main">
+    <div id="container_main" class="container_main">
         <div id="forms" class="form">
         <?php 
         if(flash('register_success')){

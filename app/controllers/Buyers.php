@@ -3,6 +3,21 @@
     private $buyerModel;
     public function __construct()
     {
+      if(!isLoggedIn()){
+        unset($_SESSION['otp']);
+        unset($_SESSION['email']);
+        unset($_SESSION['password']);
+        unset($_SESSION['first_name']);
+        unset($_SESSION['second_name']);
+        unset($_SESSION['phone']);
+        unset($_SESSION['user_type']);
+        unset($_SESSION['attempt']);
+        session_destroy();
+        redirect('users/login');
+    }
+    //   if($_SESSION['user_type'] != 'buyer'){
+    //     redirect($_SESSION['user_type'].'s/index');
+    // }
       $this->buyerModel = $this->model('Buyer');
     }
     public function index(){
@@ -141,7 +156,12 @@
         }
 
         if($this->buyerModel->deleteUserProfile($id)){
-          redirect('users/login');
+          unset($_SESSION['user_id']);
+            unset($_SESSION['user_email']);
+            unset($_SESSION['user_name']);
+            unset($_SESSION['user_type']);
+            session_destroy();
+          redirect('pages/index');
         }
         else{
           die('Something went wrong');
@@ -178,6 +198,53 @@
 
     }
     
+    public function removeItemFromWatchList($p_id,$u_id){
+      if(!isLoggedIn()){
+        redirect('users/login');
+      }
+      echo $_POST['user_id'];
+      if($_POST['user_id'] == 0){
+        redirect('users/login');
+      }
+      else{
+        if (isset($_POST['remove'])){
+        echo "This Works";
+          $result = $this-> buyerModel->removeItemFromWatchList($p_id, $u_id);
+          if($result){
+            echo flash('register_success', 'You are registered and can log in');
+          }
+          else{
+            die('Something went wrong');
+          }
+  
+        }
+      }
+    }
+
+    
+    public function removeOneItemFromWatchList($p_id,$u_id){
+      if(!isLoggedIn()){
+        redirect('users/login');
+      }
+      echo $_POST['user_id'];
+      if($_POST['user_id'] == 0){
+        redirect('users/login');
+      }
+      else{
+        if (isset($_POST['remove'])){
+        echo "This Works";
+          $result = $this-> buyerModel->removeOneItemFromWatchList($p_id, $u_id);
+          if($result){
+            echo flash('register_success', 'You are registered and can log in');
+          }
+          else{
+            die('Something went wrong');
+          }
+  
+        }
+      }
+    }
+
     public function test(){
       $email = 'dineshwickramasinghe2000@gmail.com';
       $userDetails = $this->buyerModel->findUserDetailsByEmail($email);

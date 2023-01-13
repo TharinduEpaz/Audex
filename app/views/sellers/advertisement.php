@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/form.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/advertise.css';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css';?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
@@ -40,9 +41,10 @@
         </ul>
     </nav>
     <div class="container" style="background: none;">
+    
         <div class="content">
             <div class="image">
-                <img src="<?php echo 'data:image/jpg;charset=utf8;base64,'.base64_encode($data['advertisement']->image1);?>" alt="">
+                <img src="<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image1;?>" alt="">
                 <!-- <a href="">next</a> -->
             </div>
             <div class="details">

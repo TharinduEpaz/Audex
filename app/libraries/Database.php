@@ -13,7 +13,7 @@
     private $pass=DB_PASS;
     private $dbname=DB_NAME;
 
-    private $dbh;//database handler
+    public $dbh;//database handler
     private $stmt;//statement
     private $error;//error
 
@@ -37,6 +37,9 @@
     //Prepare statement with query
     public function query($sql){
         $this->stmt=$this->dbh->prepare($sql);
+    }
+    public function lastInsertId(){
+        return $this->dbh->lastInsertId();
     }
 
     //Bined 

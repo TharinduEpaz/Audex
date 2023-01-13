@@ -23,6 +23,7 @@
             $this->db->bind(':address2' , $data['address2']);
             $this->db->bind(':phone_number' , $data['phone_number']);
             $this->db->bind(':id' , $data['id']);
+            // $this->db->dbh->lastInsertId();
 
             if($this->db->execute()){
                 return true;
@@ -93,7 +94,16 @@
 
             //Execute
             if($this->db->execute()){
-                return true;
+                $this->db->query('INSERT INTO seller_add_product (product_id,user_id,email,posted_time) VALUES(:product_id,:user_id,:user_email,NOW())');
+                //Bind values
+                $this->db->bind(':product_id', $this->db->lastInsertId());
+                $this->db->bind(':user_id', $data['user_id']);
+                $this->db->bind(':user_email', $data['user_email']);
+                if($this->db->execute()){
+                    return true;
+                }else{
+                    return false;
+                }
             }else{
                 return false;
             }
@@ -101,7 +111,7 @@
 
         //edit advertisement
         public function edit_advertisement($data){
-            $this->db->query('UPDATE product SET product_title=:title,product_condition=:condition,product_category=:category,model_no=:model,brand=:brand,image1=:image1,image2=:image2,image3=:image3,price=:price,p_description=:description WHERE product_id=:id');
+            $this->db->query('UPDATE product SET product_title=:title,product_condition=:condition,product_category=:category,model_no=:model,brand=:brand,price=:price,p_description=:description WHERE product_id=:id');
             //Bind values
             $this->db->bind(':id', $data['id']);
             // $this->db->bind(':user_email', $data['user_email']);
@@ -111,9 +121,9 @@
             // $this->db->bind(':type', $data['type']);
             $this->db->bind(':model', $data['model']);
             $this->db->bind(':brand', $data['brand']);
-            $this->db->bind(':image1', $data['image1']);
-            $this->db->bind(':image2', $data['image2']);
-            $this->db->bind(':image3', $data['image3']);
+            // $this->db->bind(':image1', $data['image1']);
+            // $this->db->bind(':image2', $data['image2']);
+            // $this->db->bind(':image3', $data['image3']);
             $this->db->bind(':price', $data['price']);
             $this->db->bind(':description', $data['description']);
 
@@ -132,7 +142,13 @@
 
             //Execute
             if($this->db->execute()){
-                return true;
+                $this->db->query('UPDATE seller_add_product SET is_deleted=1 WHERE product_id=:id');
+                $this->db->bind(':id', $id);
+                if($this->db->execute()){
+                    return true;
+                }else{
+                    return false;
+                }    
             }else{
                 return false;
             }

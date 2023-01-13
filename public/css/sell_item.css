@@ -3,11 +3,6 @@ body{
     background-image: none;
     background-color: #E5E9F7;
 }
-.sidebar{
-    height: 140vh;
-    position: absolute;
-    /* top: 10vh; */
-}
 /* nav{
     position: fixed;
 } */
