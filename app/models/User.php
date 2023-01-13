@@ -186,14 +186,74 @@
             return $results;
 
         }
-        public function getAdvertiesmentById($id)
-        {
+        public function getAdvertiesmentById($id){
             $this->db->query('SELECT * FROM product WHERE product_id = :id');
             $this->db->bind(':id' , $id);
 
             $row = $this->db->single();
             return $row;
         }
+        public function getAuctionById($id){
+            $this->db->query('SELECT * FROM auction WHERE product_id = :id');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->single();
+            if($row){
+                return $row;
+            }else{
+                return "Error";
+            }
+        }
+
+        public function getAuctionDetails($id){
+            $this->db->query('SELECT * FROM auction WHERE product_id = :id');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->single();
+
+            $this->db->query('SELECT * FROM bid INNER JOIN auction ON auction.auction_id = bid.auction_id WHERE auction.auction_id = :id ORDER BY bid.price DESC');
+            $this->db->bind(':id' , $row->auction_id);
+            $results = $this->db->resultSet();
+            if($results){
+                return $results;
+            }else{
+                return NULL;
+            }
+        }
+
+        public function add_bid($price,$auction_id){
+
+            $this->db->query('INSERT INTO bid (auction_id, email_buyer, name, price, date_time) VALUES (:auction_id, :email_buyer, :name, :price, NOW())');
+            $this->db->bind(':auction_id', $auction_id);
+            if($_SESSION['user_type'] == "buyer"){
+                $this->db->bind(':email_buyer', $_SESSION['user_email']);
+            }else if($_SESSION['user_type'] == "service_provider"){
+                $this->db->bind(':email_service_provider', $_SESSION['user_email']);
+            }
+            $this->db->bind(':name', $_SESSION['user_name']);
+            $this->db->bind(':price', $price);
+
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        public function update_price($price,$product_id){
+
+            $this->db->query('UPDATE product SET price = :price WHERE product_id = :product_id');
+            $this->db->bind(':product_id', $product_id);
+            $this->db->bind(':price', $price);
+
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+
 
     }
 ?>

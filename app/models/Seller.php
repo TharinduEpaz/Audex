@@ -102,9 +102,10 @@
                 $this->db->bind(':user_email', $data['user_email']);
                 if($this->db->execute()){
                     if($data['type']=="auction"){
-                        $this->db->query('INSERT INTO auction (product_id,start_date,end_date,start_price,is_active,is_finished) VALUES(:product_id,NOW(),:end_date,:start_price,1,0)');
+                        $this->db->query('INSERT INTO auction (product_id,email,start_date,end_date,start_price,is_active,is_finished) VALUES(:product_id,:email,NOW(),:end_date,:start_price,1,0)');
                         //Bind values
                         $this->db->bind(':product_id', $product_id);
+                        $this->db->bind(':email', $data['user_email']);
                         $this->db->bind(':start_price', $data['price']);
                         $this->db->bind(':end_date', $data['end_date']);
                         if($this->db->execute()){

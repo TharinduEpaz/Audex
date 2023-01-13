@@ -25,35 +25,57 @@
             </div>
             <div class="auction_details">
                 <h2><?php echo $data['ad']->product_title?></h2>
+                <!-- <h1><?php echo '*'.$data[0].'<br>*'.$data[1].'<br>';?></h1> -->
+
+                <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
+                <!-- <?php echo '<pre>'; print_r($data['auctions']); echo '</pre>';?> -->
+                <!-- <?php echo $data['auctions'][0]->price;?> -->
                 <table>
                     <tr>
                         <th>Place</th>
                         <th>Name</th>
                         <th>Amount</th>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Hellow</td>
-                        <td>Rs.1000.00</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Hellow</td>
-                        <td>Rs.1000.00</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Hellow</td>
-                        <td>Rs.1000.00</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Hellow</td>
-                        <td>Rs.1000.00</td>
-                    </tr>
+                    <?php 
+                        if(!empty($data['auctions'])){
+                            $i=0;
+                            foreach($data['auctions'] as $auction):
+                            $i++;
+                        
+                        echo '<tr>';
+                            echo '<td>'.$i.'</td>';
+                            echo '<td>'.$auction->name.'</td>';
+                            echo '<td>Rs..'.$auction->price.'</td>';
+                        echo '</tr>';
+                        endforeach;
+                        }
+                    ?>
                 </table>
                 <div class="add_bid" >
-                    <form action="<?php echo URLROOT;?>/users/add_bid" class="bid" method="post">
+                    <?php
+                        if(!empty($data['price_err1']) || !empty($data['price_err2']) || !empty($data['price_err3']) || !empty($data['price_err4'])  ){
+                            echo '<div class="error">';
+                                if(!empty($data['price_err'])){
+                                    echo '*'.$data['price_err'].'<br>';
+                                }if(!empty($data['price_err1'])){
+                                    echo '*'.$data['price_err1'].'<br>';
+                                }if(!empty($data['price_err2'])){
+                                    echo '*'.$data['price_err2'].'<br>';
+                                }if(!empty($data['price_err3'])){
+                                    echo '*'.$data['price_err3'].'<br>';
+                                }if(!empty($data['price_err4'])){
+                                    echo '*'.$data['price_err4'].'<br>';
+                                }
+
+                            echo '</div>';
+                        }
+
+                    ?>
+                                    
+                    <!-- <h1><?php echo $data['ad']->product_id.'/'.$auction->auction_id.'/'.$data['auctions'][0]->price.'/'.$data['ad']->price;?></h1> -->
+                    
+                    <form action="<?php echo URLROOT.'/users/bid/'.$data['ad']->product_id?>" class="bid" method="post">
+                        
                     <!-- <label for="price">Price</label> -->
                     <input class="price" type="text" name="price"  placeholder="xxxx.xx"   >
                     <input type="submit" name="submit" value="Bid" class="bid_button">
