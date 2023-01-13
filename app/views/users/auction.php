@@ -13,46 +13,52 @@
     <title>Advertisement</title>
 </head>
 <body>
-<?php require_once APPROOT . '/views/sellers/navbar.php';?>
+<?php require_once APPROOT . '/views/users/navbar.php';?>
 
     <div class="container" style="background: none;">
     
         <div class="content">
             <div class="image">
-                <img src="<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image1;?>" alt="">
+                <img src="<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>" alt="">
                 <!-- <a href="">next</a> -->
             </div>
             <div class="details">
-                <form action="<?php echo URLROOT;?>/sellers/delete_advertisement/<?php echo $data['advertisement']->product_id;?>" method="POST">
-                    <input type="submit" value="Delete">
-                </form>
-                <h2><?php echo $data['advertisement']->product_title?></h2>
+                <h2><?php echo $data['ad']->product_title?></h2>
                 <table>
                     <tr>
                         <td class="name">Category</td>
-                        <td class="value">: <?php echo $data['advertisement']->product_category?></td>
+                        <td class="value">: <?php echo $data['ad']->product_category?></td>
                     </tr>
                     <tr>
                         <td class="name">Model Number</td>
-                        <td class="value">: <?php echo $data['advertisement']->model_no?></td>
+                        <td class="value">: <?php echo $data['ad']->model_no?></td>
                     </tr>
                     <tr>
                         <td class="name">Brand name</td>
-                        <td class="value">: <?php echo $data['advertisement']->brand?></td>
+                        <td class="value">: <?php echo $data['ad']->brand?></td>
                     </tr>
                     <tr>
                         <td class="name">Condition</td>
-                        <td class="value">: <?php echo $data['advertisement']->product_condition?></td>
+                        <td class="value">: <?php echo $data['ad']->product_condition?></td>
                     </tr>
                 </table>
                 <div class="price">
-                    <h4>Rs. <?php echo $data['advertisement']->price?></h4>
+                    <h4>Rs. <?php echo $data['ad']->price?></h4>
                 </div>
+                <?php 
+                    if(isLoggedIn()){
+                        if($_SESSION['user_email']!=$data['ad']->email){
+                            echo '<div class="price">';
+                            echo '<a href="'.URLROOT.'/users/message" class="btn">Message Seller</a>';
+                            echo '</div>';
+                        }
+                    }
+                ?>
             </div>
         </div>
         <div class="description">
             <h3>Description</h3>
-            <p><?php echo $data['advertisement']->p_description?></p>
+            <p><?php echo $data['ad']->p_description?></p>
         </div>
     </div>
 </body>

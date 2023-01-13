@@ -180,5 +180,20 @@
             }
         }
 
+        public function getAdvertiesment(){
+            $this->db->query('SELECT * FROM product WHERE is_deleted=0');
+            $results = $this->db->resultSet();
+            return $results;
+
+        }
+        public function getAdvertiesmentById($id)
+        {
+            $this->db->query('SELECT * FROM product WHERE product_id = :id');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->single();
+            return $row;
+        }
+
     }
 ?>

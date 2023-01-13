@@ -193,6 +193,7 @@
                     'brand' => trim($_POST['brand']),
                     'model' => trim($_POST['model']),
                     'type'=> 'fixed_price',
+                    'end_date'=>'',
                     'category' =>trim($_POST['category']),
                     'title_err' => '',
                     'description_err' => '',
@@ -203,8 +204,15 @@
                     'image3_err' => '',
                     'brand_err' => '',
                     'model_err' => '',
-                    'category_err' => ''
+                    'category_err' => '',
+                    'date_err'=>''
                 ];
+                if(isset($_POST['check_au'])){
+                    $data['type']='auction';
+                    $num_of_dates=trim($_POST['date']);
+                    $data['end_date']=strtotime("+".$num_of_dates." Days");
+                    $data['end_date']=date('Y-m-d  h:i:sa',$data['end_date']);
+                }
 
                 $user_id=$this->userModel->getUserId($data['user_email']);
                 $data['user_id']=$user_id->user_id;
@@ -218,6 +226,9 @@
                 }
                 if(empty($data['price'])){
                     $data['price_err'] = 'Please enter price';
+                }
+                if($data['price']<=0){
+                    $data['price_err'] = 'Please enter valid price';
                 }
                 if(empty($data['category'])){
                     $data['category_err'] = 'Please enter category';
@@ -410,6 +421,7 @@
                     'model' => '',
                     'category' =>'',
                     'type'=>'',
+                    'end_date' => '',
                     'title_err' => '',
                     'description_err' => '',
                     'price_err' => '',
@@ -488,6 +500,9 @@
                 }
                 if(empty($data['model'])){
                     $data['model_err'] = 'Please enter model';
+                }
+                if($data['price']<=0){
+                    $data['price_err'] = 'Please enter valid price';
                 }
                 // if(isset($_FILES['image1'])){
                 //     $img_name = $_FILES['image1']['name'];

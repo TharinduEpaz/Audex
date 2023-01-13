@@ -27,7 +27,13 @@
         </label>
         <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo">
         <ul>
-            <li><a href="<?php echo URLROOT;?>/<?php echo $_SESSION['user_type'];?>s/index" class="nav_tags">Home</a></li>
+            <li><?php if(isset($_SESSION['user_id'])){
+                echo '<a href="'.URLROOT . '/'.$_SESSION['user_type'].'s/index/" class="nav_tags">Home</a>';
+                }else{
+                echo '<a href="'.URLROOT . '/pages/index" class="nav_tags">Home</a>';
+                }
+            ?></li>
+            <!-- <li><a href="<?php echo URLROOT;?>/<?php echo $_SESSION['user_type'];?>s/index" class="nav_tags">Home</a></li> -->
             <li><a href="#" class="nav_tags">Shop</a></li>
             <li><a href="#" class="nav_tags">Sound Engineers</a></li>
             <li><a href="#" class="nav_tags">Events</a></li>
@@ -68,9 +74,14 @@
                         <img src="<?php echo URLROOT.'/public/uploads/'.$ads->image1;?>" /> 
                     </div>
                     <div class="title">
-                        <a href="<?php echo URLROOT . '/users/advertiesmentDetails/'.$ads->product_id;?>">
-                        <?php echo $ads->product_title ; ?><br>
-                        <?php echo 'RS:'. $ads->price ; ?></a>
+                        <h3><?php echo $ads->product_title ; ?></h3>
+                        <?php 
+                            if($ads->product_type == 'auction'){
+                                echo '<h5>Auction</h5>';
+                            }
+                        ?>
+                        <h4><?php echo 'RS:'. $ads->price ; ?></h4>
+                        <a href="<?php echo URLROOT . '/users/advertiesmentDetails/'.$ads->product_id;?>">View</a>
 
                     </div>
                 </div>

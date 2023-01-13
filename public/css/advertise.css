@@ -70,18 +70,63 @@ body{
     width: 50%;
 
 }
-.price{
+.price h4{
     font-weight: bolder;
-    font-size: 20pt;
+    font-size: 12pt;
     background: #002EF9;
     color: white;
     text-align: center;
-    padding: 0% 4% 0% 4%;
+    padding: 1% 1%;
     height: 5vh;
-    width: 40%;
+    width: 200px;
     border-radius: 10px;
     border: 1px solid #002EF9;
     margin-top: 2vh;
+}
+.message_bid{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-top: 3vh;
+}
+.bid_now,.message_seller{
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: 12pt;
+    background: #002EF9;
+    color: white;
+    text-align: center;
+    padding: 1% 1%;
+    height: 5vh;
+    width: 170px;
+    border-radius: 10px;
+    border: 1px solid #002EF9;
+    margin-top: 2vh;
+    margin-bottom: 1vh;
+    margin-right: 4%;    
+}
+.bid_now:hover,.message_seller:hover{
+    transition: 0.5s;
+    background:#E02727;
+    border: 1px solid #E02727;
+    cursor: pointer;
+}
+.bid_now a:hover,.message_seller a:hover{
+    text-decoration: none;
+    /* background-color: none; */
+    background: none;
+    color: white;
+    border: none;
+}
+/* .bid_now{
+    float: left;
+}
+.message_seller{
+    float: right;
+} */
+.bid_now a,.message_seller a{
+    color: white;
+
 }
 .description{
     padding: 1% 5% 1% 5%;
@@ -104,11 +149,16 @@ body{
         height: 55vh;
     }
 }
-@media (max-width:890px){
+@media (max-width:768px){
     .price{
-        width: 50%;
+        width: 130%;
     }
     .image{
         height: 50vh;
+    }
+}
+@media (max-width:576px){
+    .price{
+        width: 150%;
     }
 }

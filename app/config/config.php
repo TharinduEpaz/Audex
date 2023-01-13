@@ -1,5 +1,5 @@
 <?php
-
+    date_default_timezone_set("Asia/Kolkata");
     //DB params
     define('DB_HOST', 'localhost');
     define('DB_USER','root');

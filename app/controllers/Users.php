@@ -4,7 +4,7 @@
         private $buyerModel;
 
         public function __construct(){
-            if(!isLoggedIn()){
+            if(!isset($_SESSION['otp'])){
                 // unset($_SESSION['otp']);
                 // unset($_SESSION['email']);
                 // unset($_SESSION['password']);
@@ -173,9 +173,9 @@
         //verifyotp
         public function verifyotp(){
             //not filled registration form
-            // if(!isset($_SESSION['email'])){
-            //     redirect('users/register');
-            // }
+            if(!isset($_SESSION['email'])){
+                redirect('users/register');
+            }
             
             if($_SESSION['attempt']<=3){
                 if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -432,7 +432,36 @@
             session_destroy();
             redirect('users/login');
         }
+        //Shop
+        public function shop(){
+            $ads  = $this->userModel->getAdvertiesment();   
+            $data = [
+              'ads' => $ads
+            ];
+            $this->view('users/shop',$data);
+        }
+       public function advertiesmentDetails($id)
+        {
+          $ad = $this->userModel->getAdvertiesmentById($id);
+          $data = [
+            'ad' => $ad
+          ];
+          if($data['ad']->product_type == 'auction'){
+            $this->view('users/auction',$data);
 
+          }else{
+              $this->view('users/advertiesmentDetails',$data);
+          }
+        }
+        public function bid($id)
+        {
+          $ad = $this->userModel->getAdvertiesmentById($id);
+          $data = [
+            'ad' => $ad
+          ];
+          $this->view('users/bid',$data);
+
+        }
         
         
     }
