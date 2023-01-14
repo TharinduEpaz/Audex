@@ -20,44 +20,8 @@
             background-color: rgb(214, 214, 239);
         }
     </style> 
-    <nav>
-        <input type="checkbox" name="check" id="check" onchange="docheck()">
-        <label for="check" class="checkbtn">
-            <i class="fas fa-bars"></i>
-        </label>
-        <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo">
-        <ul>
-            <li><?php if(isset($_SESSION['user_id'])){
-                echo '<a href="'.URLROOT . '/'.$_SESSION['user_type'].'s/index/" class="nav_tags">Home</a>';
-                }else{
-                echo '<a href="'.URLROOT . '/pages/index" class="nav_tags">Home</a>';
-                }
-            ?></li>
-            <!-- <li><a href="<?php echo URLROOT;?>/<?php echo $_SESSION['user_type'];?>s/index" class="nav_tags">Home</a></li> -->
-            <li><a href="#" class="nav_tags">Shop</a></li>
-            <li><a href="#" class="nav_tags">Sound Engineers</a></li>
-            <li><a href="#" class="nav_tags">Events</a></li>
-            <?php if(isset($_SESSION['user_id'])){
-                echo '<div class="dropdown">';
-                    echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
-                    echo '<div id="myDropdown" class="dropdown-content">';
-                        echo '<a href="'.URLROOT . '/'.$_SESSION['user_type'].'s/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
-                        echo '<a href="'.URLROOT . '/'.$_SESSION['user_type'].'s/watchlist/'.$_SESSION['user_id'].'" class="nav_tags">Watchlist</a>';
-                        echo '<a href="#" class="nav_tags">Feedback</a>';
-                        echo '<a href="#" class="nav_tags">Reactions</a>';
-                        echo '<a href="#" class="nav_tags">Messages</a>';
-                        echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
-                    echo '</div>';
-                echo '</div> ';
-            }
-            else{
-                echo '<li><a href="'.URLROOT . '/users/login" class="nav_tags">Login</a></li>';
-                echo '<li><a href="'.URLROOT.'/users/register" class="nav_tags">Signup</a></li>';
-            }
-    ?>
+<?php require_once APPROOT . '/views/users/navbar.php';?>
 
-        </ul>
-    </nav>
 
     <div class="container" >
         <div class="ad-search_shop" >
@@ -67,8 +31,11 @@
         <div class="header">
             <h1>New Arrivals</h1>
         </div>
+        <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
+
         <div class="container-data">
-            <?php foreach($data['ads'] as $ads) :?>
+            <?php $i=0;
+            foreach($data['ads'] as $ads) :?>
 
                 <div class="container-ad">
                     <div class="container-img">
@@ -78,9 +45,7 @@
                         <h3><?php echo $ads->product_title ; ?></h3>
                         <?php 
                             if($ads->product_type == 'auction'){
-                                echo '<h5>Auction</h5>';
-                            }
-                        ?>
+                                echo '<h5>Auction</h5>';}?>
                         <h4><?php echo 'RS:'. $ads->price ; ?></h4>
                         <a href="<?php if($ads->product_type == 'auction'){
                                 echo URLROOT . '/users/auction/'.$ads->product_id;
@@ -98,5 +63,6 @@
         </div>
     </div>
 </body>
+
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>

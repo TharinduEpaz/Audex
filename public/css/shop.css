@@ -16,6 +16,12 @@
     
     
 }
+#remaining_time{
+    text-align: center;
+    font-size: 20pt;
+    font-weight: 800;
+    color: #001A72;
+}
 .container{
     height: 100vh;
     margin-top: 10vh;

@@ -438,7 +438,30 @@
             $data = [
               'ads' => $ads
             ];
+            $i=0;
+            foreach($ads as $ad):
+
+                if($ad->product_type=='auction'){
+                    $auction = $this->userModel->getAuctionById($ad->product_id);
+                    if($auction!='Error'){
+                        $data['auction'][$i] = $auction;
+                        if($auction->end_date < date("Y-m-d H:i:s") ){
+                            redirect('users/bid_expired/'.$ad->product_id.'/'.$auction->auction_id);
+                        }
+                    }
+                }
+                $i++;
+            endforeach;
             $this->view('users/shop',$data);
+        }
+        public function bid_expired($product_id,$auction_id){
+            $row=$this->userModel->bidExpired($auction_id);
+            if($row){
+                redirect('users/shop');
+
+            }else{
+                die('Something went wrong');
+            }
         }
        public function advertiesmentDetails($id)
         {
@@ -475,6 +498,7 @@
           }else{
             $data['auctions'] = null;
           }
+          $data['auction_expired']=$data['auction']->is_finished;
         //   $this->view('users/bid',$data);
 
         

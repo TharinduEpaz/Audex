@@ -194,7 +194,7 @@
             return $row;
         }
         public function getAuctionById($id){
-            $this->db->query('SELECT * FROM auction WHERE product_id = :id');
+            $this->db->query('SELECT * FROM auction WHERE product_id = :id AND is_finished=0 AND is_active=1');
             $this->db->bind(':id' , $id);
 
             $row = $this->db->single();
@@ -205,6 +205,17 @@
             }
         }
 
+        public function bidExpired($auction_id){
+            $this->db->query('UPDATE auction SET is_finished=1, is_active=0 WHERE auction_id = :id');
+            $this->db->bind(':id' , $auction_id);
+
+            $row = $this->db->execute(); //single row
+            if($row){
+                return true;
+            }else{
+                return false;
+            }
+        }
         public function getAuctionDetails($id){
             $this->db->query('SELECT * FROM auction WHERE product_id = :id');
             $this->db->bind(':id' , $id);

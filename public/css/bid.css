@@ -4,6 +4,27 @@
 .auction_details h2{
     text-align: center;
 }
+.auction_details #remaining_time{
+    text-align: center;
+    font-size: 12pt;
+    font-weight: 800;
+    color: red;
+}
+.auction_details p{
+    text-align: center;
+    font-size: 12pt;
+    font-weight: 800;
+    color: red;
+}
+.add_bid{
+    width: 130%;
+}
+.time{
+    display: flex;
+    flex-direction: row;
+    flex-flow: row;
+    justify-content: center;
+}
 .auction_details table{
     width: 130%;
     border: 1px solid black;
