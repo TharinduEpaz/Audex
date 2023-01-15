@@ -26,7 +26,6 @@
             <div class="auction_details">
                 <h2><?php echo $data['ad']->product_title?></h2>
                 <div class="time">
-
                     <p>Time Left:&nbsp;</p>
                     <p id='remaining_time'></p>
                 </div>

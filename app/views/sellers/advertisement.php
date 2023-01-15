@@ -22,10 +22,10 @@
                 <img src="<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image1;?>" alt="">
                 <!-- <a href="">next</a> -->
             </div>
+            <form action="<?php echo URLROOT;?>/sellers/delete_advertisement/<?php echo $data['advertisement']->product_id;?>" method="POST">
+                <input type="submit" value="Delete">
+            </form>
             <div class="details">
-                <form action="<?php echo URLROOT;?>/sellers/delete_advertisement/<?php echo $data['advertisement']->product_id;?>" method="POST">
-                    <input type="submit" value="Delete">
-                </form>
                 <h2><?php echo $data['advertisement']->product_title?></h2>
                 <table>
                     <tr>

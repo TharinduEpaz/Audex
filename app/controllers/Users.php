@@ -448,6 +448,8 @@
                         if($auction->end_date < date("Y-m-d H:i:s") ){
                             redirect('users/bid_expired/'.$ad->product_id.'/'.$auction->auction_id);
                         }
+                    }else{
+                        unset($data['ads'][$i]);
                     }
                 }
                 $i++;
@@ -469,6 +471,7 @@
           $data = [
             'ad' => $ad
           ];
+          
               $this->view('users/advertiesmentDetails',$data);
           
         }
@@ -478,6 +481,9 @@
           $data = [
             'ad' => $ad
           ];
+          $auction = $this->userModel->getAuctionById($id);
+          $data['auction'] = $auction;
+
           $this->view('users/auction',$data);
 
         }
