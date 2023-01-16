@@ -170,8 +170,7 @@
 
             $row = $this->db->single();
 
-            $this->db->query('DELETE FROM view_item WHERE view_item.product_id = :p_id AND view_item.email_buyer = :email;
-            ');
+            $this->db->query('DELETE FROM view_item WHERE view_item.product_id = :p_id AND view_item.email_buyer = :email');
             //Bind value
             $this->db->bind(':email', $row->email);
             $this->db->bind(':p_id', $p_id);
@@ -183,6 +182,59 @@
             }
         }
 
+        // public function checkAddedLike($p_id,$user_id){
+        //     $this->db->query('SELECT email FROM user WHERE user_id = :id');
+        //     $this->db->bind(':id' , $user_id);
+
+        //     $row = $this->db->single();
+
+        //     $this->db->query('SELECT * FROM reaction WHERE email_buyer = :email AND product_id = :p_id');
+        //     //Bind value
+        //     $this->db->bind(':email', $row->email);
+        //     $this->db->bind(':p_id', $p_id);
+
+        //     $result =  $this->db->single();
+
+        //     return $result;
+        // }
+
+        public function addLikeToProduct($p_id,$user_id){
+
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $user_id);
+
+            $row = $this->db->single();
+
+            $this->db->query('INSERT INTO reaction (email_buyer,product_id,liked,disliked) VALUES (:email,:p_id,1,0)');
+            //Bind value
+            $this->db->bind(':email', $row->email);
+            $this->db->bind(':p_id', $p_id);
+
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        public function removeLikeFromProduct($p_id,$user_id){
+
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $user_id);
+
+            $row = $this->db->single();
+
+            $this->db->query('DELETE FROM reaction WHERE reaction.product_id = :p_id AND reaction.email_buyer = :email');
+            //Bind value
+            $this->db->bind(':email', $row->email);
+            $this->db->bind(':p_id', $p_id);
+
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
 
     }
 

@@ -60,7 +60,7 @@
                 <?php foreach($data['products'] as $ads) : ?>
                     <div class="box-content">
                         <!-- <img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($ads->image1); ?>" />  -->
-                        <img src="<?php echo URLROOT.'/public/uploads/'.$ads->image1;?>" /> 
+                        <img src="<?php echo URLROOT.'/public/uploads/'.$ads->image1;?>" />  
                         <a href="<?php echo URLROOT . '/buyers/advertiesmentDetails/'.$ads->product_id;?>">
                         <h4><?php echo $ads->product_title ; ?><br><?php echo $ads->price ; ?></h4></a>
 
