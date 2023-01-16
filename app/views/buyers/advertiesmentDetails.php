@@ -64,7 +64,7 @@
                 <div class="container-product-img">
                     <img src="<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>" />
                     <div class="like-dislike-area">
-                        <button type="submit" id="product-like-btn" data-like = "addLike"><i class="fas fa-thumbs-up"></i></button>
+                        <button type="submit" onload="likeBtnOnload()" id="product-like-btn" data-like = "addLike"><i class="fas fa-thumbs-up"></i></button>
                         <button type="submit" id="product-dislike-btn" data-dislike = "removeLike"><i class="fa-solid fa-thumbs-down"></i></button> 
                     </div>
                 </div>
@@ -133,15 +133,34 @@
 </body>
 
 <script>
-    // like dislike functions
+    // like removeLike functions click event
     const likeBtn = document.getElementById("product-like-btn");
     const dislikeBtn = document.getElementById("product-dislike-btn");
 
+    // get user id and product id using sessions
+    const user_id = "<?php echo $_SESSION['user_id']; ?>";
+    const product_id = "<?php echo $_SESSION['product_id']; ?>";
+
+    // window.addEventListener("DOMContentLoaded",(e)=>{
+    //     // e.preventDefault();
+    //     console.log("loaded");
+    //     likeBtn.style.background="green";
+    // });
+
+    // like btn onload event
+    // function likeBtnOnload(){
+    //     console.log("loaded");
+    //     // window.addEventListener("DOMContentLoaded", (e)=>{
+    //     //     // e.preventDefault();
+    //     //     console.log("loaded");
+    //     //     likeBtn.style.color="green";
+
+    //     // } );
+    // }                        
+
     likeBtn.addEventListener("click",async (e)=>{
         e.preventDefault();
-        const user_id = "<?php echo $_SESSION['user_id']; ?>";
-        const product_id = "<?php echo $_SESSION['product_id']; ?>";
-        
+
         if(likeBtn.getAttribute("data-like") === "addLike"){
             const url = 'http://localhost/Audex/buyers/addLikeToProduct/' +product_id.trim()+'/'+ user_id.trim();
             console.log(url);
@@ -155,31 +174,56 @@
 
             const data  = await fetch(url, {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(d)
+            })
+            .then(response => response.json())
+            .then(data =>{
+                console.log(data); 
+                likeBtn.setAttribute("data-like","removeLike");      
+                likeBtn.style.background="Red";
+
+            })
+            .catch(error => {
+                console.log("Error:", error);
+            });
+
+        }
+        else if(likeBtn.getAttribute("data-like") === "removeLike"){
+            const url = 'http://localhost/Audex/buyers/removeLikeFromProduct/' +product_id.trim()+'/'+ user_id.trim();
+            console.log(url);
+
+            const d = {
+                    'removeLike':1,
+                    'user_id' : user_id,
+                    'product_id': product_id,
+                }
+
+            const data  = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(d)
             })
-            // .then(Response => console.log(Response))
-            // .catch(e => console.log(e))
+            .then(response => response.json())
+            .then(data =>{
+                console.log(data); 
+                likeBtn.setAttribute("data-like","addLike");      
+                likeBtn.style.color="black";
+            })
+            .catch(error => {
+                console.log("Error:", error);
+            });
 
-
-            // const data = await fetch(url,{
-            //     method:"POST",
-            //     body:d
-            // })
-            // .catch(e => {
-            //     console.log(e);
-            // })
-            // ;
-            const responce = await data.text();
-            console.log(responce);
         }
 
-        likeBtn.style.color="Red";
 
     });
+
+
 </script>
 
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
