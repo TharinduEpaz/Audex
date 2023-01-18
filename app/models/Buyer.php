@@ -182,21 +182,21 @@
             }
         }
 
-        // public function checkAddedLike($p_id,$user_id){
-        //     $this->db->query('SELECT email FROM user WHERE user_id = :id');
-        //     $this->db->bind(':id' , $user_id);
+        public function checkAddedLike($p_id,$user_id){
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $user_id);
 
-        //     $row = $this->db->single();
+            $row = $this->db->single();
 
-        //     $this->db->query('SELECT * FROM reaction WHERE email_buyer = :email AND product_id = :p_id');
-        //     //Bind value
-        //     $this->db->bind(':email', $row->email);
-        //     $this->db->bind(':p_id', $p_id);
+            $this->db->query('SELECT * FROM reaction WHERE email_buyer = :email AND product_id = :p_id');
+            //Bind value
+            $this->db->bind(':email', $row->email);
+            $this->db->bind(':p_id', $p_id);
 
-        //     $result =  $this->db->single();
+            $result =  $this->db->single();
 
-        //     return $result;
-        // }
+            return $result;
+        }
 
         public function addLikeToProduct($p_id,$user_id){
 

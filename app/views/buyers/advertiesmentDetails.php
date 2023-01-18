@@ -64,7 +64,8 @@
                 <div class="container-product-img">
                     <img src="<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>" />
                     <div class="like-dislike-area">
-                        <button type="submit" onload="likeBtnOnload()" id="product-like-btn" data-like = "addLike"><i class="fas fa-thumbs-up"></i></button>
+                        <!-- used two custom attributes one for click event and other one to store liked value when load -->
+                        <button type="submit" onload="likeBtnOnload()" id="product-like-btn" data-like = "addLike" data-likeLoad ="<?php echo $data['liked'] ; ?>"><i class="fas fa-thumbs-up"></i></button>
                         <button type="submit" id="product-dislike-btn" data-dislike = "removeLike"><i class="fa-solid fa-thumbs-down"></i></button> 
                     </div>
                 </div>
@@ -141,22 +142,15 @@
     const user_id = "<?php echo $_SESSION['user_id']; ?>";
     const product_id = "<?php echo $_SESSION['product_id']; ?>";
 
-    // window.addEventListener("DOMContentLoaded",(e)=>{
-    //     // e.preventDefault();
-    //     console.log("loaded");
-    //     likeBtn.style.background="green";
-    // });
+    // add even listner to check status of like when load liked or not liked
+    window.addEventListener("DOMContentLoaded",(e)=>{
+        if(likeBtn.getAttribute("data-likeLoad") === "liked"){
+            likeBtn.style.color="Red";
+            likeBtn.setAttribute("data-like","removeLike"); 
+        }
+    });
 
-    // like btn onload event
-    // function likeBtnOnload(){
-    //     console.log("loaded");
-    //     // window.addEventListener("DOMContentLoaded", (e)=>{
-    //     //     // e.preventDefault();
-    //     //     console.log("loaded");
-    //     //     likeBtn.style.color="green";
-
-    //     // } );
-    // }                        
+                     
 
     likeBtn.addEventListener("click",async (e)=>{
         e.preventDefault();
@@ -183,7 +177,7 @@
             .then(data =>{
                 console.log(data); 
                 likeBtn.setAttribute("data-like","removeLike");      
-                likeBtn.style.background="Red";
+                likeBtn.style.color="Red";
 
             })
             .catch(error => {
