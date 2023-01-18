@@ -118,7 +118,7 @@
                     //         }
                         
                     //     }
-                    //     else if($data['user_type']=='buyer'){
+                    //     else if($data['user_type']=='user'){
                     //         if($this->userModel->addToBuyer($data)){
                     //             flash('register_success', 'You are registered and can log in');
                     //             redirect('users/login');
@@ -234,7 +234,7 @@
                                     }
                                 
                                 }
-                                else if($data['user_type']=='buyer'){
+                                else if($data['user_type']=='user'){
                                     if($this->userModel->addToBuyer($data)){
                                         flash('register_success', 'You are registered and can log in');
                                         redirect('users/login');
@@ -406,8 +406,8 @@
             $_SESSION['user_name'] = $user->first_name;
             $_SESSION['user_type'] = $user->user_type;
             switch($_SESSION['user_type']){
-                case 'buyer':
-                    redirect('buyers/index');
+                case 'user':
+                    redirect('users/index');
                     break;
                 case 'seller':
                     redirect('sellers/index');
@@ -417,6 +417,9 @@
                     break;
                 case 'service_provider':
                     redirect('service_providers/index');
+                    break;
+                case 'buyer':
+                    redirect('buyers/index');
                     break;
                 default:
                     redirect('users/index');
@@ -467,11 +470,25 @@
         }
        public function advertiesmentDetails($id)
         {
-          $ad = $this->userModel->getAdvertiesmentById($id);
-          $data = [
-            'ad' => $ad
-          ];
           
+
+          $_SESSION['product_id'] = $id;
+
+          $ad = $this->userModel->getAdvertiesmentById($id);
+          $liked = $this->userModel->checkAddedLike($id,$_SESSION['user_id']);
+    
+          if(empty($liked)){
+            $data = [
+              'ad' => $ad,
+              'liked' => 'notliked'
+            ];
+        } else {
+            $data = [
+                'ad' => $ad,
+                'liked' => 'liked'
+            ];
+        }
+
               $this->view('users/advertiesmentDetails',$data);
           
         }
@@ -636,6 +653,159 @@
         //         $this->view('users/bid', $data);
         //     }
         // }
+
+
+        public function watchlist(){
+            if(!isLoggedIn()){
+              redirect('users/login');
+            }
+      //this should change after orginal db
+            $products = $this->userModel->getBuyerWatchProducts($_SESSION['user_email']);
+            $data =[
+              'products' => $products,
+            ];
+            $this->view('users/watchlist',$data);
+      
+          }
+      
+      
+          public function addToWatchList($p_id,$u_id){
+            if(!isLoggedIn()){
+              redirect('users/login');
+            }
+            echo $_POST['user_id'];
+            if($_POST['user_id'] == 0){
+              redirect('users/login');
+            }
+            else{
+              if (isset($_POST['add'])){
+                $result = $this-> userModel->addItemToWatchList($p_id, $u_id);
+                if($result){
+                  echo flash('register_success', 'You are registered and can log in');
+                }
+                else{
+                  die('Something went wrong');
+                }
+        
+              }
+            }
+          }
+          
+          public function removeItemFromWatchList($p_id,$u_id){
+            if(!isLoggedIn()){
+              redirect('users/login');
+            }
+            echo $_POST['user_id'];
+            if($_POST['user_id'] == 0){
+              redirect('users/login');
+            }
+            else{
+              if (isset($_POST['remove'])){
+              echo "This Works";
+                $result = $this-> userModel->removeItemFromWatchList($p_id, $u_id);
+                if($result){
+                  echo flash('register_success', 'You are registered and can log in');
+                }
+                else{
+                  die('Something went wrong');
+                }
+        
+              }
+            }
+          }
+      
+          
+          public function removeOneItemFromWatchList($p_id,$u_id){
+            if(!isLoggedIn()){
+              redirect('users/login');
+            }
+            echo $_POST['user_id'];
+            if($_POST['user_id'] == 0){
+              redirect('users/login');
+            }
+            else{
+              if (isset($_POST['remove'])){
+              echo "This Works";
+                $result = $this-> userModel->removeOneItemFromWatchList($p_id, $u_id);
+                if($result){
+                  echo flash('register_success', 'You are registered and can log in');
+                }
+                else{
+                  die('Something went wrong');
+                }
+        
+              }
+            }
+          }
+      
+        public function addLikeToProduct($p_id, $u_id)
+        {
+          if (!isLoggedIn()) {
+            redirect('users/login');
+          }
+          // $result = $this-> userModel->addLikeToProduct($p_id, $u_id);
+      
+          $json = file_get_contents('php://input');
+          $dat = json_decode($json, true);
+      
+          echo $dat['addLike'];
+          echo $dat['user_id'];
+          echo $dat['product_id'];
+      
+      
+          if (isset($dat['addLike'])) {
+            $result=$this->userModel->checkAddedLike($dat['product_id'], $dat['user_id']);
+            if (empty($result)) {
+              $result = $this->userModel->addLikeToProduct($dat['product_id'], $dat['user_id']);
+              if ($result) {
+                echo flash('register_success', 'You are registered and can log in');
+              } else {
+                die();
+              }
+      
+            }
+          }
+          // if (isset($dat['addLike'])){
+          //   $result = $this-> userModel->addLikeToProduct($dat['product_id'], $dat['user_id']);
+          //   if($result){
+          //     echo flash('register_success', 'You are registered and can log in');
+          //   }
+          //   else{
+          //     die();
+          //   }
+          // }
+      
+        }
+      
+      
+          public function removeLikeFromProduct($p_id,$u_id){
+            if(!isLoggedIn()){
+              redirect('users/login');
+            }
+            // $result = $this-> userModel->addLikeToProduct($p_id, $u_id);
+      
+            $json = file_get_contents('php://input');
+            $data = json_decode($json, true);
+      
+            echo $data['removeLike'];
+            echo $data['user_id'];
+            echo $data['product_id'];
+            //  print_r($dat);
+      
+            // print_r($_POST);
+            // echo $_POST['user_id'];
+      
+            if (isset($data['removeLike'])){
+              $result = $this-> userModel->removeLikeFromProduct($data['product_id'], $data['user_id']);
+              if($result){
+                echo flash('register_success', 'You are registered and can log in');
+              }
+              else{
+                die('Something went wrong');
+              }
+      
+            }
+          }
         
         
     }

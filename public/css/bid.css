@@ -75,7 +75,7 @@
     height: 5vh;
     width: 80px;
     color: white;
-    padding: 1% 2% 1% 2%;
+    padding: 1vh 2% 1vh 2%;
     border-radius: 5px;
     /* float: right; */
     margin-left: 10%;
@@ -87,7 +87,7 @@
 }
 .add_bid .price{
     width: 150px;
-    padding: 1% 1%;
+    padding: 1vh 1%;
     height: 5vh;
     text-align: center;
     border: 1px solid black;
@@ -97,7 +97,7 @@
 
 }
 .message_seller{
-    padding-top: 3%;
+    padding-top: 1vh;
     margin-left: 25%;
     margin-top: -2vh;
 }

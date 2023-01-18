@@ -18,7 +18,7 @@ body{
 .content form input{
     background: #002EF9;
     height: 5vh;
-    width: 80px;
+    width: 150px;
     color: white;
     padding: 1% 2% 1% 2%;
     border-radius: 10px;
@@ -160,7 +160,7 @@ body{
     padding: 1% 5% 1% 5%;
     color: black;
     font-weight: 300;
-
+    margin-top: 7vh;
 }
 .description p{
     color: black;
