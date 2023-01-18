@@ -1,0 +1,103 @@
+.image{
+    margin-right: 3%;
+}
+.auction_details{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: -10vh;
+    margin-left: 60px;
+}
+.auction_details h2{
+    text-align: center;
+    font-size: 25pt;
+}
+.auction_details #remaining_time{
+    text-align: center;
+    font-size: 12pt;
+    font-weight: 800;
+    color: red;
+}
+.auction_details p{
+    text-align: center;
+    font-size: 12pt;
+    font-weight: 800;
+    color: red;
+}
+.add_bid{
+    width: 130%;
+}
+.time{
+    display: flex;
+    flex-direction: row;
+    flex-flow: row;
+    justify-content: center;
+}
+.auction_details table{
+    width: 130%;
+    border: 1px solid black;
+    border-collapse: collapse;
+    background-color: white;
+    text-align: center;
+    color: #001A72;
+    margin-top: 2vh;
+}
+.auction_details th{
+    border: 1px solid rgb(149, 149, 149);
+    padding: 1% 1%;
+    font-weight:800;
+
+    font-size: 12pt;
+}
+.auction_details td{
+    border: 1px solid rgb(149, 149, 149);
+    padding: 1% 1%;
+    font-weight:500;
+    font-size: 12pt;
+}
+.add_bid form{
+    display: flex;
+    flex-direction: row;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-top: 3vh;
+}
+.bid .bid_button{
+    width: 100px;
+    border: 1px solid black;
+    /* flex-basis: 10%; */
+    margin-left: 20px;
+    margin-bottom: 2vh;
+    background: #002EF9;
+    height: 5vh;
+    width: 80px;
+    color: white;
+    padding: 1% 2% 1% 2%;
+    border-radius: 5px;
+    /* float: right; */
+    margin-left: 10%;
+
+}
+.bid .bid_button:hover{
+    background-color: red;
+    border: 1px solid #001A72;
+}
+.add_bid .price{
+    width: 150px;
+    padding: 1% 1%;
+    height: 5vh;
+    text-align: center;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 5px;
+    color: black;
+
+}
+.message_seller{
+    padding-top: 3%;
+    margin-left: 25%;
+    margin-top: -2vh;
+}

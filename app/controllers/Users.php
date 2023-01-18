@@ -4,7 +4,7 @@
         private $buyerModel;
 
         public function __construct(){
-            if(!isLoggedIn()){
+            if(!isset($_SESSION['otp'])){
                 // unset($_SESSION['otp']);
                 // unset($_SESSION['email']);
                 // unset($_SESSION['password']);
@@ -173,9 +173,9 @@
         //verifyotp
         public function verifyotp(){
             //not filled registration form
-            // if(!isset($_SESSION['email'])){
-            //     redirect('users/register');
-            // }
+            if(!isset($_SESSION['email'])){
+                redirect('users/register');
+            }
             
             if($_SESSION['attempt']<=3){
                 if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -432,7 +432,210 @@
             session_destroy();
             redirect('users/login');
         }
+        //Shop
+        public function shop(){
+            $ads  = $this->userModel->getAdvertiesment();   
+            $data = [
+              'ads' => $ads
+            ];
+            $i=0;
+            foreach($ads as $ad):
 
+                if($ad->product_type=='auction'){
+                    $auction = $this->userModel->getAuctionById($ad->product_id);
+                    if($auction!='Error'){
+                        $data['auction'][$i] = $auction;
+                        if($auction->end_date < date("Y-m-d H:i:s") ){
+                            redirect('users/bid_expired/'.$ad->product_id.'/'.$auction->auction_id);
+                        }
+                    }else{
+                        unset($data['ads'][$i]);
+                    }
+                }
+                $i++;
+            endforeach;
+            $this->view('users/shop',$data);
+        }
+        public function bid_expired($product_id,$auction_id){
+            $row=$this->userModel->bidExpired($auction_id);
+            if($row){
+                redirect('users/shop');
+
+            }else{
+                die('Something went wrong');
+            }
+        }
+       public function advertiesmentDetails($id)
+        {
+          $ad = $this->userModel->getAdvertiesmentById($id);
+          $data = [
+            'ad' => $ad
+          ];
+          
+              $this->view('users/advertiesmentDetails',$data);
+          
+        }
+        public function auction($id)
+        {
+          $ad = $this->userModel->getAdvertiesmentById($id);
+          $data = [
+            'ad' => $ad
+          ];
+          $auction = $this->userModel->getAuctionById($id);
+          $data['auction'] = $auction;
+
+          $this->view('users/auction',$data);
+
+        }
+
+
+
+
+        public function bid($id){
+          $ad = $this->userModel->getAdvertiesmentById($id);
+          $data['ad'] = $ad;
+
+          $auction = $this->userModel->getAuctionById($id);
+          $data['auction'] = $auction;
+          
+          $auction_details = $this -> userModel->getAuctionDetails($id);
+          if($auction_details){
+            $data['auctions'] =$auction_details;
+          }else{
+            $data['auctions'] = null;
+          }
+          $data['auction_expired']=$data['auction']->is_finished;
+        //   $this->view('users/bid',$data);
+
+        
+        //CHECK FOR POST
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            //CHeck if loggedIn
+            if(!isLoggedIn()){
+                redirect('pages/index');
+            }
+
+            // Process form
+            //Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            
+            //Init data
+            $data['price'] =trim($_POST['price']);
+            
+            //Validate price
+            if(empty($data['price'])){
+                $data['price_err1'] = 'Please enter price';
+            }
+            //Valid price
+            if($data['price']<0){
+                $data['price_err2'] = 'Please enter valid price';
+            }
+            //Check for less than current price
+            if($auction_details){
+                if((float)$data['price']<=(float)$auction_details[0]->price || (float)$data['price']<=(float)$ad->price){
+                    if($auction_details[0]->price == 0){
+                        $auction_details[0]->price = $ad->price;
+                    }
+                    $data['price_err3'] = 'Please enter a more price than RS.'.$auction_details[0]->price;
+                }
+
+            }
+            else{
+                if((float)$data['price']<=(float)$ad->price){
+                    $data['price_err4'] = 'Please enter a more price than RS.'.$ad->price;
+                }
+            }
+
+            if(empty($data['price_err1']) && empty($data['price_err2']) && empty($data['price_err3']) && empty($data['price_err4'])){
+                //Validated
+                $added_bid = $this->userModel->add_bid($data['price'], $auction->auction_id);
+                if($added_bid){
+                    $update_price = $this->userModel->update_price($data['price'], $id);
+                    if($update_price){
+                        redirect('users/bid/'.$id);
+                    }else{
+                        die('Something went wrong');
+                    }
+                }
+                else{
+                    die('Something went wrong');
+                }
+            }
+            else{
+                //Load view with errors
+                $this->view('users/bid', $data);
+
+            }          
+        }
+        else{
+            //Load view
+            $this->view('users/bid', $data);
+        }
+
+        }
+
+
+
+
+        // public function add_bid($product_id,$auction_id,$current_price,$starting_price){
+        //     //CHeck if loggedIn
+        //     if(!isLoggedIn()){
+        //         redirect('pages/index');
+        //     }
+        //     //CHECK FOR POST
+        //     if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        //         // Process form
+        //         //Sanitize POST data
+        //         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                
+        //         //Init data
+        //         $data = [
+        //             'price' => trim($_POST['price']),
+        //             'price_err' => ''
+        //         ];
+                
+        //         //Validate price
+        //         if(empty($data['price'])){
+        //             $data['price_err'] = 'Please enter price';
+        //         }
+        //         //Valid price
+        //         if($data['price']<0){
+        //             $data['price_err'] = 'Please enter valid price';
+        //         }
+        //         //Check for less than current price
+        //         if($data['price']<=$current_price || $data['price']<=$starting_price){
+        //             if($current_price == 0){
+        //                 $current_price = $starting_price;
+        //             }
+        //             $data['price_err'] = 'Please enter a more price than RS.'.$current_price;
+        //         }
+
+        //         if(empty($data['price_err']) ){
+        //             //Validated
+        //             $added_bid = $this->userModel->add_bid($data['price'], $auction_id);
+        //             if($added_bid){
+        //                 redirect('users/bid/'.$product_id);
+        //             }
+        //             else{
+        //                 die('Something went wrong');
+        //             }
+        //         }
+        //         else{
+        //             //Load view with errors
+        //             redirect('users/bid/'.$product_id);
+        //         }          
+        //     }
+        //     else{
+        //         //Init data
+        //         $data = [
+        //             'price' => '',
+        //             'price_err' => ''
+        //         ];
+
+        //         //Load view
+        //         $this->view('users/bid', $data);
+        //     }
+        // }
         
         
     }

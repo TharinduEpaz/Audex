@@ -13,33 +13,8 @@
     <title>Advertise</title>
 </head>
 <body>
-    <nav>
-        <input type="checkbox" name="check" id="check" onchange="docheck()">
-        <label for="check" class="checkbtn">
-            <i class="fas fa-bars"></i>
-        </label>
-        <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo">
-        <ul>
-        <li><a href="<?php echo URLROOT;?>/sellers/index" class="nav_tags">Home</a></li>
-            <li><a href="<?php echo URLROOT;?>/buyers/shop" class="nav_tags">Shop</a></li>
-            <li><a href="#" class="nav_tags">Sound Engineers</a></li>
-            <li><a href="#" class="nav_tags">Events</a></li>
-            <?php if(isset($_SESSION['user_id'])){
-                echo '<div class="dropdown">';
-                    echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
-                    echo '<div id="myDropdown" class="dropdown-content">';
-                        echo '<a href="'.URLROOT . '/sellers/getProfile/'.$_SESSION['user_id']. '" class="nav_tags">Profile</a>';
-                        echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
-                    echo '</div>';
-                echo '</div> ';
-            }
-            else{
-                echo '<li><a href="'.URLROOT . '/users/login" class="nav_tags">Login</a></li>';
-                echo '<li><a href="'.URLROOT.'/users/register" class="nav_tags">Signup</a></li>';
-            }
-             ?>
-        </ul>
-    </nav>
+<?php require_once APPROOT . '/views/sellers/navbar.php';?>
+    
     <div class="container_add">
         <div class="sidebar">
                 <a href="#"><i class="fas fa-qrcode"></i> <span>Dashboard</span></a>
@@ -100,20 +75,26 @@
                             <label for="check_au" >Auction(optional)</label>
                             <input type="checkbox"   name="check_au" class="check_au" >
                             <label class="date" for="date">Ending Date</label>
-                            <input class="date" type="date" name="date"  >
+                            <select name="date" id="date" class="date">
+                              <option value="1">1day</option>
+                              <option value="3">3day</option>
+                              <option value="5">5day</option>
+                              <option value="7">7day</option>
+
+                            </select>
                         </div>
-                        <div class="input">
-                            <div class="image">
-                                <label for="image1">Image1:</label>
-                                <input type="file" name="image1">
+                        <div class="input_image">
+                            <div class="file-input">
+                                <input type="file" name="image1" id="file" class="file">
+                                <label for="image1">Choose an image<p class="file-name"></p></label>
                             </div>
                             <div class="image">
-                                <label for="image2">Image2:</label>
-                                <input type="file" name="image2"  >
+                                <input type="file" name="image2" class="inputfile" >
+                                <label for="image2">Choose an image</label>
                             </div>
                             <div class="image">
-                                <label for="image3">Image3:</label>
-                                <input type="file" name="image3"  >
+                                <input type="file" name="image3"  class="inputfile">
+                                <label for="image3">Choose an image</label>
                             </div>
                         </div>
                         <div class="input">
@@ -139,7 +120,6 @@
                         <div class="input">
                             <label class="brand" for="">Brand Name</label>
                             <input class="brand" type="text" name="brand"   value="<?php echo $data['brand']?>" >
-                            <?php echo $data['user_id']?>
                         </div>
                         <div class="input">
                             <label class="descriptionl" for="">Description</label>

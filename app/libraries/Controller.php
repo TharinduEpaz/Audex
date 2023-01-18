@@ -14,7 +14,7 @@
         }
 
         //Load view
-        public function view($view, $data=[]){
+        public function view($view, $data=[], $data1=[]){
             
             $url = explode("/", $view);
             $user = $url[0];
