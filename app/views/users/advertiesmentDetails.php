@@ -5,97 +5,68 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/form.css';?>">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/login.css';?>">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/shop.css';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/advertise.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/advertiesmentDetails.css';?>">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/dialogBox.css';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css';?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
-    <title><?php echo SITENAME; ?></title>
+    <title>Advertisement</title>
 </head>
 <body>
-    <style>
-        body .container{
-            background-image: none;
-            background-color: rgb(214, 214, 239);
-        }
-    </style> 
-    <nav>
-        <input type="checkbox" name="check" id="check" onchange="docheck()">
-        <label for="check" class="checkbtn">
-            <i class="fas fa-bars"></i>
-        </label>
-        <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo">
-        <ul>
-            <li><a href="<?php echo URLROOT;?>/buyers/index" class="nav_tags">Home</a></li>
-            <li><a href="<?php echo URLROOT;?>/buyers/shop" class="nav_tags">Shop</a></li>
-            <li><a href="#" class="nav_tags">Sound Engineers</a></li>
-            <li><a href="#" class="nav_tags">Events</a></li>
-            <?php if(isset($_SESSION['user_id'])){
-                echo '<div class="dropdown">';
-                    echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
-                    echo '<div id="myDropdown" class="dropdown-content">';
-                        echo '<a href="'.URLROOT .'/'.$_SESSION['user_type'].'s/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
-                        echo '<a href="'.URLROOT . '/'.$_SESSION['user_type'].'s/watchlist/'.$_SESSION['user_id'].'" class="nav_tags">Watchlist</a>';
-                        echo '<a href="#" class="nav_tags">Feedback</a>';
-                        echo '<a href="#" class="nav_tags">Reactions</a>';
-                        echo '<a href="#" class="nav_tags">Messages</a>';
-                        echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
-                    echo '</div>';
-                echo '</div> ';
-            }
-            else{
-                echo '<li><a href="'.URLROOT . '/users/login" class="nav_tags">Login</a></li>';
-                echo '<li><a href="'.URLROOT.'/users/register" class="nav_tags">Signup</a></li>';
-            }
-    ?>
+<?php require_once APPROOT . '/views/users/navbar.php';?>
 
-        </ul>
-    </nav>
-
-    <div class="container">
-        <!-- <div class="ad-search" >
-            <input type="search" name="search"> 
-            <a href="#"><button type="submit" value="search" name="submit">Search</button></a>
-        </div> -->
-        <div class="container-main">
-            <div class="container-product">
-                <div class="container-product-img">
-                    <img src="<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>" />
-                    <div class="like-dislike-area">
+    <div class="container" style="background: none;">
+    
+        <div class="content">
+            <div class="image">
+                <img src="<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>" alt="">
+                <div class="like-dislike-area">
                         <!-- used two custom attributes one for click event and other one to store liked value when load -->
                         <button type="submit" onload="likeBtnOnload()" id="product-like-btn" data-like = "addLike" data-likeLoad ="<?php echo $data['liked'] ; ?>"><i class="fas fa-thumbs-up"></i></button>
                         <button type="submit" id="product-dislike-btn" data-dislike = "removeLike"><i class="fa-solid fa-thumbs-down"></i></button> 
                     </div>
+                <!-- <a href="">next</a> -->
+            </div>
+            <div class="details">
+                <h2><?php echo $data['ad']->product_title?></h2>
+                <table>
+                    <tr>
+                        <td class="name">Category</td>
+                        <td class="value">: <?php echo $data['ad']->product_category?></td>
+                    </tr>
+                    <tr>
+                        <td class="name">Model Number</td>
+                        <td class="value">: <?php echo $data['ad']->model_no?></td>
+                    </tr>
+                    <tr>
+                        <td class="name">Brand name</td>
+                        <td class="value">: <?php echo $data['ad']->brand?></td>
+                    </tr>
+                    <tr>
+                        <td class="name">Condition</td>
+                        <td class="value">: <?php echo $data['ad']->product_condition?></td>
+                    </tr>
+                </table>
+                <div class="price">
+                    <h4>Rs. <?php echo $data['ad']->price?></h4>
                 </div>
-                <div class="container-product-attributes">
-                    <div class="title">
-                        <h3><?php echo $data['ad']->product_title ; ?></h3>
-                    </div>
-                    <div class="category">
-                        <h4><?php echo $data['ad']->product_category ; ?></h4>
-                    </div>
-                    <div class="condition">
-                        <h4><?php echo $data['ad']->product_condition ; ?></h4>
-                    </div>
-                    <div class="brand">
-                        <h4><?php echo $data['ad']->brand ; ?></h4>
-                    </div>            
-                    <div class="price">
-                        <button ><?php echo 'RS.'.$data['ad']->price ; ?></button>
-                    </div>
-                    <button type="submit" class="msg">Message</button>
-                    <!-- <?php 
-                        if(isset($_SESSION['user_type'])){
-                            if($_SESSION['user_type'] == 'buyer' || $_SESSION['user_type'] == 'service_provider'){
-                                echo '<button type="submit" class="msg">Message</button>';
-                            }
-
+                <div class="message_bid">
+                <?php 
+                    if(isLoggedIn()){
+                        if($_SESSION['user_email']!=$data['ad']->email){
+                            echo '<div class="bid_now">';
+                            echo '<a href="'.URLROOT.'/users/bid/'.$data['ad']->product_id.'">Bid Now</a>';
+                            echo '</div>';
+                            echo '<div class="message_seller">';
+                            echo '<a href="'.URLROOT.'/users/bid/'.$data['ad']->product_id.'">Message Seller</a>';
+                            echo '</div>';
                         }
-                    ?> -->
-
-                    <form id="add_watch_list_form" method="POST" data-op = "add" >
+                    }
+                ?>
+                </div>
+                <div class="add_watch_list">
+                <form id="add_watch_list_form" method="POST" data-op = "add" >
                         <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
                         <input type="text" name="user_type" value="buyer" hidden>
                         <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
@@ -125,14 +96,13 @@
                     </form>
                 </div>
             </div>
-            <div class="container-description">
-                    <h4>Product Description</h4>
-                    <?php echo $data['ad']->p_description ; ?>
-            </div>
+        </div>
+        <div class="description">
+            <h3>Description</h3>
+            <p><?php echo $data['ad']->p_description?></p>
         </div>
     </div>
 </body>
-
 <script>
     // like removeLike functions click event
     const likeBtn = document.getElementById("product-like-btn");
@@ -156,7 +126,7 @@
         e.preventDefault();
 
         if(likeBtn.getAttribute("data-like") === "addLike"){
-            const url = 'http://localhost/Audex/buyers/addLikeToProduct/' +product_id.trim()+'/'+ user_id.trim();
+            const url = 'http://localhost/Audex/users/addLikeToProduct/' +product_id.trim()+'/'+ user_id.trim();
             console.log(url);
 
             const d = {
@@ -186,7 +156,7 @@
 
         }
         else if(likeBtn.getAttribute("data-like") === "removeLike"){
-            const url = 'http://localhost/Audex/buyers/removeLikeFromProduct/' +product_id.trim()+'/'+ user_id.trim();
+            const url = 'http://localhost/Audex/users/removeLikeFromProduct/' +product_id.trim()+'/'+ user_id.trim();
             console.log(url);
 
             const d = {
@@ -219,7 +189,6 @@
 
 
 </script>
-
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>
-
+<!-- Closing the connection-->

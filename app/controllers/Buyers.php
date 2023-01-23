@@ -34,10 +34,30 @@
     }
    public function advertiesmentDetails($id)
     {
+      // set product id to session to use for js
+      $_SESSION['product_id'] = $id;
+
       $ad = $this->buyerModel->getAdvertiesmentById($id);
-      $data = [
-        'ad' => $ad
-      ];
+      $liked = $this->buyerModel->checkAddedLike($id,$_SESSION['user_id']);
+
+      if(empty($liked)){
+        $data = [
+          'ad' => $ad,
+          'liked' => 'notliked'
+        ];
+      }else{
+        $data = [
+          'ad' => $ad,
+          'liked' => 'liked'
+        ];
+
+      }
+      
+
+
+      // $data = [
+      //   'ad' => $ad
+      // ];
       $this->view('buyers/advertiesmentDetails',$data);
     }
     public function getProfile($id)
@@ -194,8 +214,6 @@
   
         }
       }
-      
-
     }
     
     public function removeItemFromWatchList($p_id,$u_id){
@@ -242,6 +260,75 @@
           }
   
         }
+      }
+    }
+
+  public function addLikeToProduct($p_id, $u_id)
+  {
+    if (!isLoggedIn()) {
+      redirect('users/login');
+    }
+    // $result = $this-> buyerModel->addLikeToProduct($p_id, $u_id);
+
+    $json = file_get_contents('php://input');
+    $dat = json_decode($json, true);
+
+    echo $dat['addLike'];
+    echo $dat['user_id'];
+    echo $dat['product_id'];
+
+
+    if (isset($dat['addLike'])) {
+      $result=$this->buyerModel->checkAddedLike($dat['product_id'], $dat['user_id']);
+      if (empty($result)) {
+        $result = $this->buyerModel->addLikeToProduct($dat['product_id'], $dat['user_id']);
+        if ($result) {
+          echo flash('register_success', 'You are registered and can log in');
+        } else {
+          die();
+        }
+
+      }
+    }
+    // if (isset($dat['addLike'])){
+    //   $result = $this-> buyerModel->addLikeToProduct($dat['product_id'], $dat['user_id']);
+    //   if($result){
+    //     echo flash('register_success', 'You are registered and can log in');
+    //   }
+    //   else{
+    //     die();
+    //   }
+    // }
+
+  }
+
+
+    public function removeLikeFromProduct($p_id,$u_id){
+      if(!isLoggedIn()){
+        redirect('users/login');
+      }
+      // $result = $this-> buyerModel->addLikeToProduct($p_id, $u_id);
+
+      $json = file_get_contents('php://input');
+      $data = json_decode($json, true);
+
+      echo $data['removeLike'];
+      echo $data['user_id'];
+      echo $data['product_id'];
+      //  print_r($dat);
+
+      // print_r($_POST);
+      // echo $_POST['user_id'];
+
+      if (isset($data['removeLike'])){
+        $result = $this-> buyerModel->removeLikeFromProduct($data['product_id'], $data['user_id']);
+        if($result){
+          echo flash('register_success', 'You are registered and can log in');
+        }
+        else{
+          die('Something went wrong');
+        }
+
       }
     }
 

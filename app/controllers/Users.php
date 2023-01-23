@@ -4,7 +4,7 @@
         private $buyerModel;
 
         public function __construct(){
-            if(!isLoggedIn()){
+            if(!isset($_SESSION['otp'])){
                 // unset($_SESSION['otp']);
                 // unset($_SESSION['email']);
                 // unset($_SESSION['password']);
@@ -118,7 +118,7 @@
                     //         }
                         
                     //     }
-                    //     else if($data['user_type']=='buyer'){
+                    //     else if($data['user_type']=='user'){
                     //         if($this->userModel->addToBuyer($data)){
                     //             flash('register_success', 'You are registered and can log in');
                     //             redirect('users/login');
@@ -173,9 +173,9 @@
         //verifyotp
         public function verifyotp(){
             //not filled registration form
-            // if(!isset($_SESSION['email'])){
-            //     redirect('users/register');
-            // }
+            if(!isset($_SESSION['email'])){
+                redirect('users/register');
+            }
             
             if($_SESSION['attempt']<=3){
                 if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -234,7 +234,7 @@
                                     }
                                 
                                 }
-                                else if($data['user_type']=='buyer'){
+                                else if($data['user_type']=='user'){
                                     if($this->userModel->addToBuyer($data)){
                                         flash('register_success', 'You are registered and can log in');
                                         redirect('users/login');
@@ -406,8 +406,8 @@
             $_SESSION['user_name'] = $user->first_name;
             $_SESSION['user_type'] = $user->user_type;
             switch($_SESSION['user_type']){
-                case 'buyer':
-                    redirect('buyers/index');
+                case 'user':
+                    redirect('users/index');
                     break;
                 case 'seller':
                     redirect('sellers/index');
@@ -417,6 +417,9 @@
                     break;
                 case 'service_provider':
                     redirect('service_providers/index');
+                    break;
+                case 'buyer':
+                    redirect('buyers/index');
                     break;
                 default:
                     redirect('users/index');
@@ -432,7 +435,377 @@
             session_destroy();
             redirect('users/login');
         }
+        //Shop
+        public function shop(){
+            $ads  = $this->userModel->getAdvertiesment();   
+            $data = [
+              'ads' => $ads
+            ];
+            $i=0;
+            foreach($ads as $ad):
 
+                if($ad->product_type=='auction'){
+                    $auction = $this->userModel->getAuctionById($ad->product_id);
+                    if($auction!='Error'){
+                        $data['auction'][$i] = $auction;
+                        if($auction->end_date < date("Y-m-d H:i:s") ){
+                            redirect('users/bid_expired/'.$ad->product_id.'/'.$auction->auction_id);
+                        }
+                    }else{
+                        unset($data['ads'][$i]);
+                    }
+                }
+                $i++;
+            endforeach;
+            $this->view('users/shop',$data);
+        }
+        public function bid_expired($product_id,$auction_id){
+            $row=$this->userModel->bidExpired($auction_id);
+            if($row){
+                redirect('users/shop');
+
+            }else{
+                die('Something went wrong');
+            }
+        }
+       public function advertiesmentDetails($id)
+        {
+          
+
+          $_SESSION['product_id'] = $id;
+
+          $ad = $this->userModel->getAdvertiesmentById($id);
+          $liked = $this->userModel->checkAddedLike($id,$_SESSION['user_id']);
+    
+          if(empty($liked)){
+            $data = [
+              'ad' => $ad,
+              'liked' => 'notliked'
+            ];
+        } else {
+            $data = [
+                'ad' => $ad,
+                'liked' => 'liked'
+            ];
+        }
+
+              $this->view('users/advertiesmentDetails',$data);
+          
+        }
+        public function auction($id)
+        {
+          $ad = $this->userModel->getAdvertiesmentById($id);
+          $data = [
+            'ad' => $ad
+          ];
+          $auction = $this->userModel->getAuctionById($id);
+          $data['auction'] = $auction;
+
+          $this->view('users/auction',$data);
+
+        }
+
+
+
+
+        public function bid($id){
+          $ad = $this->userModel->getAdvertiesmentById($id);
+          $data['ad'] = $ad;
+
+          $auction = $this->userModel->getAuctionById($id);
+          $data['auction'] = $auction;
+          
+          $auction_details = $this -> userModel->getAuctionDetails($id);
+          if($auction_details){
+            $data['auctions'] =$auction_details;
+          }else{
+            $data['auctions'] = null;
+          }
+          $data['auction_expired']=$data['auction']->is_finished;
+        //   $this->view('users/bid',$data);
+
+        
+        //CHECK FOR POST
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            //CHeck if loggedIn
+            if(!isLoggedIn()){
+                redirect('pages/index');
+            }
+
+            // Process form
+            //Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            
+            //Init data
+            $data['price'] =trim($_POST['price']);
+            
+            //Validate price
+            if(empty($data['price'])){
+                $data['price_err1'] = 'Please enter price';
+            }
+            //Valid price
+            if($data['price']<0){
+                $data['price_err2'] = 'Please enter valid price';
+            }
+            //Check for less than current price
+            if($auction_details){
+                if((float)$data['price']<=(float)$auction_details[0]->price || (float)$data['price']<=(float)$ad->price){
+                    if($auction_details[0]->price == 0){
+                        $auction_details[0]->price = $ad->price;
+                    }
+                    $data['price_err3'] = 'Please enter a more price than RS.'.$auction_details[0]->price;
+                }
+
+            }
+            else{
+                if((float)$data['price']<=(float)$ad->price){
+                    $data['price_err4'] = 'Please enter a more price than RS.'.$ad->price;
+                }
+            }
+
+            if(empty($data['price_err1']) && empty($data['price_err2']) && empty($data['price_err3']) && empty($data['price_err4'])){
+                //Validated
+                $added_bid = $this->userModel->add_bid($data['price'], $auction->auction_id);
+                if($added_bid){
+                    $update_price = $this->userModel->update_price($data['price'], $id);
+                    if($update_price){
+                        redirect('users/bid/'.$id);
+                    }else{
+                        die('Something went wrong');
+                    }
+                }
+                else{
+                    die('Something went wrong');
+                }
+            }
+            else{
+                //Load view with errors
+                $this->view('users/bid', $data);
+
+            }          
+        }
+        else{
+            //Load view
+            $this->view('users/bid', $data);
+        }
+
+        }
+
+
+
+
+        // public function add_bid($product_id,$auction_id,$current_price,$starting_price){
+        //     //CHeck if loggedIn
+        //     if(!isLoggedIn()){
+        //         redirect('pages/index');
+        //     }
+        //     //CHECK FOR POST
+        //     if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        //         // Process form
+        //         //Sanitize POST data
+        //         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                
+        //         //Init data
+        //         $data = [
+        //             'price' => trim($_POST['price']),
+        //             'price_err' => ''
+        //         ];
+                
+        //         //Validate price
+        //         if(empty($data['price'])){
+        //             $data['price_err'] = 'Please enter price';
+        //         }
+        //         //Valid price
+        //         if($data['price']<0){
+        //             $data['price_err'] = 'Please enter valid price';
+        //         }
+        //         //Check for less than current price
+        //         if($data['price']<=$current_price || $data['price']<=$starting_price){
+        //             if($current_price == 0){
+        //                 $current_price = $starting_price;
+        //             }
+        //             $data['price_err'] = 'Please enter a more price than RS.'.$current_price;
+        //         }
+
+        //         if(empty($data['price_err']) ){
+        //             //Validated
+        //             $added_bid = $this->userModel->add_bid($data['price'], $auction_id);
+        //             if($added_bid){
+        //                 redirect('users/bid/'.$product_id);
+        //             }
+        //             else{
+        //                 die('Something went wrong');
+        //             }
+        //         }
+        //         else{
+        //             //Load view with errors
+        //             redirect('users/bid/'.$product_id);
+        //         }          
+        //     }
+        //     else{
+        //         //Init data
+        //         $data = [
+        //             'price' => '',
+        //             'price_err' => ''
+        //         ];
+
+        //         //Load view
+        //         $this->view('users/bid', $data);
+        //     }
+        // }
+
+
+        public function watchlist(){
+            if(!isLoggedIn()){
+              redirect('users/login');
+            }
+      //this should change after orginal db
+            $products = $this->userModel->getBuyerWatchProducts($_SESSION['user_email']);
+            $data =[
+              'products' => $products,
+            ];
+            $this->view('users/watchlist',$data);
+      
+          }
+      
+      
+          public function addToWatchList($p_id,$u_id){
+            if(!isLoggedIn()){
+              redirect('users/login');
+            }
+            echo $_POST['user_id'];
+            if($_POST['user_id'] == 0){
+              redirect('users/login');
+            }
+            else{
+              if (isset($_POST['add'])){
+                $result = $this-> userModel->addItemToWatchList($p_id, $u_id);
+                if($result){
+                  echo flash('register_success', 'You are registered and can log in');
+                }
+                else{
+                  die('Something went wrong');
+                }
+        
+              }
+            }
+          }
+          
+          public function removeItemFromWatchList($p_id,$u_id){
+            if(!isLoggedIn()){
+              redirect('users/login');
+            }
+            echo $_POST['user_id'];
+            if($_POST['user_id'] == 0){
+              redirect('users/login');
+            }
+            else{
+              if (isset($_POST['remove'])){
+              echo "This Works";
+                $result = $this-> userModel->removeItemFromWatchList($p_id, $u_id);
+                if($result){
+                  echo flash('register_success', 'You are registered and can log in');
+                }
+                else{
+                  die('Something went wrong');
+                }
+        
+              }
+            }
+          }
+      
+          
+          public function removeOneItemFromWatchList($p_id,$u_id){
+            if(!isLoggedIn()){
+              redirect('users/login');
+            }
+            echo $_POST['user_id'];
+            if($_POST['user_id'] == 0){
+              redirect('users/login');
+            }
+            else{
+              if (isset($_POST['remove'])){
+              echo "This Works";
+                $result = $this-> userModel->removeOneItemFromWatchList($p_id, $u_id);
+                if($result){
+                  echo flash('register_success', 'You are registered and can log in');
+                }
+                else{
+                  die('Something went wrong');
+                }
+        
+              }
+            }
+          }
+      
+        public function addLikeToProduct($p_id, $u_id)
+        {
+          if (!isLoggedIn()) {
+            redirect('users/login');
+          }
+          // $result = $this-> userModel->addLikeToProduct($p_id, $u_id);
+      
+          $json = file_get_contents('php://input');
+          $dat = json_decode($json, true);
+      
+          echo $dat['addLike'];
+          echo $dat['user_id'];
+          echo $dat['product_id'];
+      
+      
+          if (isset($dat['addLike'])) {
+            $result=$this->userModel->checkAddedLike($dat['product_id'], $dat['user_id']);
+            if (empty($result)) {
+              $result = $this->userModel->addLikeToProduct($dat['product_id'], $dat['user_id']);
+              if ($result) {
+                echo flash('register_success', 'You are registered and can log in');
+              } else {
+                die();
+              }
+      
+            }
+          }
+          // if (isset($dat['addLike'])){
+          //   $result = $this-> userModel->addLikeToProduct($dat['product_id'], $dat['user_id']);
+          //   if($result){
+          //     echo flash('register_success', 'You are registered and can log in');
+          //   }
+          //   else{
+          //     die();
+          //   }
+          // }
+      
+        }
+      
+      
+          public function removeLikeFromProduct($p_id,$u_id){
+            if(!isLoggedIn()){
+              redirect('users/login');
+            }
+            // $result = $this-> userModel->addLikeToProduct($p_id, $u_id);
+      
+            $json = file_get_contents('php://input');
+            $data = json_decode($json, true);
+      
+            echo $data['removeLike'];
+            echo $data['user_id'];
+            echo $data['product_id'];
+            //  print_r($dat);
+      
+            // print_r($_POST);
+            // echo $_POST['user_id'];
+      
+            if (isset($data['removeLike'])){
+              $result = $this-> userModel->removeLikeFromProduct($data['product_id'], $data['user_id']);
+              if($result){
+                echo flash('register_success', 'You are registered and can log in');
+              }
+              else{
+                die('Something went wrong');
+              }
+      
+            }
+          }
         
         
     }

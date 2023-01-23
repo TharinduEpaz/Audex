@@ -22,6 +22,7 @@
         <img src="<?php echo URLROOT . '/public/img/image 1.png'; ?>" alt="logo">
         <ul>
             <li><a href="<?php echo URLROOT . '/pages/index'; ?>" class="nav_tags">Home</a></li>
+            <li><a href="<?php echo URLROOT . '/users/shop'; ?>" class="nav_tags">Shop</a></li>
             <li><a href="<?php echo URLROOT . '/pages/shop'; ?>" class="nav_tags">Shop</a></li>
             <li><a href="#" class="nav_tags">Sound Engineers</a></li>
             <li><a href="#" class="nav_tags">Events</a></li>

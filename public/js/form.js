@@ -22,7 +22,7 @@
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
 function myFunction() {
-      document.getElementById("myDropdown").classList.toggle("show");
+    document.getElementById("myDropdown").classList.toggle("show");
     }
     
     // Close the dropdown menu if the user clicks outside of it
@@ -38,8 +38,20 @@ function myFunction() {
         }
       }
     }
-
-
+//Add image button
+    // const file = document.querySelector('#file');
+    // file.addEventListener('change', (e) => {
+    //   // Get the selected file
+    //   const [file] = e.target.files;
+    //   // Get the file name and size
+    //   const { name: fileName, size } = file;
+    //   // Convert size in bytes to kilo bytes
+    //   const fileSize = (size / 1000).toFixed(2);
+    //   // Set the text content
+    //   const fileNameAndSize = `${fileName} - ${fileSize}KB`;
+    //   document.querySelector('.file-name').textContent = fileNameAndSize;
+    // });
+    
 
 
 // for add item to watch list--------------------------------------------------------------------
@@ -47,6 +59,7 @@ const addToWatchListForm = document.getElementById('add_watch_list_form');
 
 addToWatchListForm.addEventListener("submit",async (e)=>{
   e.preventDefault();
+  console.log("submitted")
 
   if(addToWatchListForm.getAttribute("data-op") === "add"){
     const modal = document.querySelector("dialog");
@@ -80,7 +93,7 @@ addToWatchListForm.addEventListener("submit",async (e)=>{
         document.getElementById("add-to-watchlist").value = "Please Wait..";
 
         //remove white spaces in user id
-        const url = 'http://localhost/Audex/buyers/addToWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
+        const url = 'http://localhost/Audex/users/addToWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
 
         console.log(url);
         const data = await fetch(url, {
@@ -156,7 +169,7 @@ addToWatchListForm.addEventListener("submit",async (e)=>{
         document.getElementById("add-to-watchlist").value = "Please Wait..";
 
         //remove white spaces in user id
-        const url = 'http://localhost/Audex/buyers/removeItemFromWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
+        const url = 'http://localhost/Audex/users/removeItemFromWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
 
         console.log(url);
         const data = await fetch(url, {
@@ -197,9 +210,8 @@ addToWatchListForm.addEventListener("submit",async (e)=>{
       });
 
     }
-  }
+   }
 
 });
 
 // end add item to watch list----------------------------------------------------------------------------------------------------------
-// methanin pahala
