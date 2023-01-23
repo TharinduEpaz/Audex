@@ -328,7 +328,7 @@
 
             $row = $this->db->single();
 
-            $this->db->query('SELECT * FROM reaction WHERE email_buyer = :email AND product_id = :p_id');
+            $this->db->query('SELECT liked FROM reaction WHERE email_buyer = :email AND product_id = :p_id AND liked = 1');
             //Bind value
             $this->db->bind(':email', $row->email);
             $this->db->bind(':p_id', $p_id);
@@ -336,6 +336,42 @@
             $result =  $this->db->single();
 
             return $result;
+        }
+        public function checkAddedDislike($p_id,$user_id){
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $user_id);
+
+            $row = $this->db->single();
+
+            $this->db->query('SELECT disliked FROM reaction WHERE email_buyer = :email AND product_id = :p_id AND disliked = 1');
+            //Bind value
+            $this->db->bind(':email', $row->email);
+            $this->db->bind(':p_id', $p_id);
+
+            $result =  $this->db->single();
+
+            return $result;
+        }
+
+        // get the current like count
+        public function checkLikeCount($p_id){
+            $this->db->query('SELECT COUNT(liked) as likedCount FROM reaction WHERE  product_id = :p_id AND liked = 1');
+            //Bind value
+            $this->db->bind(':p_id', $p_id);
+
+            $result =  $this->db->single();
+
+            return $result->likedCount;
+        }
+        // get the current dislike count
+        public function checkDislikeCount($p_id){
+            $this->db->query('SELECT COUNT(disliked) as dislikedCount FROM reaction WHERE  product_id = :p_id AND disliked = 1');
+            //Bind value
+            $this->db->bind(':p_id', $p_id);
+
+            $result =  $this->db->single();
+
+            return $result->dislikedCount;
         }
 
         public function addLikeToProduct($p_id,$user_id){
@@ -356,6 +392,24 @@
                 return false;
             }
         }
+        public function updateLikeToProduct($p_id,$user_id){
+
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $user_id);
+
+            $row = $this->db->single();
+
+            $this->db->query('UPDATE reaction SET liked = 1, disliked = 0  WHERE email_buyer = :email AND product_id = :p_id ');
+            //Bind value
+            $this->db->bind(':email', $row->email);
+            $this->db->bind(':p_id', $p_id);
+
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
 
         public function removeLikeFromProduct($p_id,$user_id){
 
@@ -364,7 +418,45 @@
 
             $row = $this->db->single();
 
-            $this->db->query('DELETE FROM reaction WHERE reaction.product_id = :p_id AND reaction.email_buyer = :email');
+            $this->db->query('DELETE FROM reaction WHERE reaction.product_id = :p_id AND reaction.email_buyer = :email AND liked = 1');
+            //Bind value
+            $this->db->bind(':email', $row->email);
+            $this->db->bind(':p_id', $p_id);
+
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+
+        public function addDislikeToProduct($p_id,$user_id){
+
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $user_id);
+
+            $row = $this->db->single();
+
+            $this->db->query('INSERT INTO reaction (email_buyer,product_id,liked,disliked) VALUES (:email,:p_id,0,1)');
+            //Bind value
+            $this->db->bind(':email', $row->email);
+            $this->db->bind(':p_id', $p_id);
+
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function updateDislikeToProduct($p_id,$user_id){
+
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $user_id);
+
+            $row = $this->db->single();
+
+            $this->db->query('UPDATE reaction SET liked = 0, disliked = 1  WHERE email_buyer = :email AND product_id = :p_id ');
             //Bind value
             $this->db->bind(':email', $row->email);
             $this->db->bind(':p_id', $p_id);
@@ -377,6 +469,24 @@
         }
         
 
+        public function removeDislikeFromProduct($p_id,$user_id){
+
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $user_id);
+
+            $row = $this->db->single();
+
+            $this->db->query('DELETE FROM reaction WHERE reaction.product_id = :p_id AND reaction.email_buyer = :email AND disliked = 1');
+            //Bind value
+            $this->db->bind(':email', $row->email);
+            $this->db->bind(':p_id', $p_id);
+
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
 
     }
 ?>

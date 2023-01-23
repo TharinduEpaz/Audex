@@ -23,8 +23,14 @@
                 <img src="<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>" alt="">
                 <div class="like-dislike-area">
                         <!-- used two custom attributes one for click event and other one to store liked value when load -->
-                        <button type="submit" onload="likeBtnOnload()" id="product-like-btn" data-like = "addLike" data-likeLoad ="<?php echo $data['liked'] ; ?>"><i class="fas fa-thumbs-up"></i></button>
-                        <button type="submit" id="product-dislike-btn" data-dislike = "removeLike"><i class="fa-solid fa-thumbs-down"></i></button> 
+                        <div id="like-count">
+                            <?php echo $data['likedCount'] ?>
+                        </div>
+                        <button type="submit" onload="likeBtnOnload()" id="product-like-btn" data-like = "addLike" data-likeLoad ="<?php echo $data['liked'] ; ?>" ><i class="fas fa-thumbs-up"></i></button>
+                        <div id="dislike-count">
+                            <?php echo $data['dislikedCount'] ?>
+                        </div>
+                        <button type="submit" id="product-dislike-btn" data-dislike = "addDislike" data-dislikeLoad = "<?php echo $data['disliked'] ; ?>" ><i class="fa-solid fa-thumbs-down"></i></button> 
                     </div>
                 <!-- <a href="">next</a> -->
             </div>
@@ -110,10 +116,10 @@
     // like removeLike functions click event
     const likeBtn = document.getElementById("product-like-btn");
     const dislikeBtn = document.getElementById("product-dislike-btn");
+    const likedCount = document.getElementById("like-count");
+    const dislikedCount = document.getElementById("dislike-count");
 
-    // get user id and product id using sessions
-    const user_id = "<?php echo $_SESSION['user_id']; ?>";
-    const product_id = "<?php echo $_SESSION['product_id']; ?>";
+    // console.log(likedCount.innerText );
 
     // add even listner to check status of like when load liked or not liked
     window.addEventListener("DOMContentLoaded",(e)=>{
@@ -121,73 +127,185 @@
             likeBtn.style.color="Red";
             likeBtn.setAttribute("data-like","removeLike"); 
         }
+        else if(dislikeBtn.getAttribute("data-dislikeLoad") === "disliked"){
+            dislikeBtn.style.color="Red";
+            dislikeBtn.setAttribute("data-dislike","removeDislike"); 
+        }
     });
 
-                     
+    // get user id and product id using sessions and check user is logged or not
+    const user_id = <?php
+                        if (isLoggedIn()) {
+                            echo $_SESSION['user_id'];
+                        }
+                        else{
+                            echo "0";
+                        }
+                    ?>;
+
+    const product_id = "<?php echo $_SESSION['product_id']; ?>";
+
 
     likeBtn.addEventListener("click",async (e)=>{
         e.preventDefault();
 
-        if(likeBtn.getAttribute("data-like") === "addLike"){
-            const url = 'http://localhost/Audex/users/addLikeToProduct/' +product_id.trim()+'/'+ user_id.trim();
-            console.log(url);
+        if(user_id != "0"){
+            if(likeBtn.getAttribute("data-like") === "addLike"){
+                const url = 'http://localhost/Audex/users/addLikeToProduct/' +product_id.trim()+'/'+ user_id;
+                console.log(url);
 
-            const d = {
-                    'addLike':1,
-                    'user_id' : user_id,
-                    'product_id': product_id,
-                }
-            
+                const d = {
+                        'addLike':1,
+                        'user_id' : user_id,
+                        'product_id': product_id,
+                    }
+                
 
-            const data  = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(d)
-            })
-            .then(response => response.json())
-            .then(data =>{
-                console.log(data); 
-                likeBtn.setAttribute("data-like","removeLike");      
-                likeBtn.style.color="Red";
+                const data  = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(d)
+                })
+                .then(response => response.json())
+                .then(data =>{
+                    console.log(data); 
+                    likedCount.innerHTML = ++likedCount.innerText;
+                    likeBtn.setAttribute("data-like","removeLike");      
+                    likeBtn.style.color="Red";
 
-            })
-            .catch(error => {
-                console.log("Error:", error);
-            });
 
+                    // check is there any dislike and if it is reduce the dislike count
+                    if( dislikeBtn.getAttribute("data-dislike") === "removeDislike" ){
+                        dislikedCount.innerHTML = --dislikedCount.innerText;    
+                        dislikeBtn.style.color="black";
+                    }
+
+
+                })
+                .catch(error => {
+                    console.log("Error:", error);
+                });
+            }
+            else if(likeBtn.getAttribute("data-like") === "removeLike"){
+                const url = 'http://localhost/Audex/users/removeLikeFromProduct/' +product_id.trim()+'/'+ user_id;
+                console.log(url);
+
+                const d = {
+                        'removeLike':1,
+                        'user_id' : user_id,
+                        'product_id': product_id,
+                    }
+                const data  = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(d)
+                })
+                .then(response => response.json())
+                .then(data =>{
+                    console.log(data); 
+                    likedCount.innerHTML = --likedCount.innerText;
+                    likeBtn.setAttribute("data-like","addLike");      
+                    likeBtn.style.color="black";
+
+                    dislikeBtn.setAttribute("data-dislike","addDislike");      
+                    dislikeBtn.style.color="black";
+                })
+                .catch(error => {
+                    console.log("Error:", error);
+                });
+            }
         }
-        else if(likeBtn.getAttribute("data-like") === "removeLike"){
-            const url = 'http://localhost/Audex/users/removeLikeFromProduct/' +product_id.trim()+'/'+ user_id.trim();
-            console.log(url);
-
-            const d = {
-                    'removeLike':1,
-                    'user_id' : user_id,
-                    'product_id': product_id,
-                }
-
-            const data  = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(d)
-            })
-            .then(response => response.json())
-            .then(data =>{
-                console.log(data); 
-                likeBtn.setAttribute("data-like","addLike");      
-                likeBtn.style.color="black";
-            })
-            .catch(error => {
-                console.log("Error:", error);
-            });
-
+        else{
+            //user is not logged in 
+            window.location.href = 'http://localhost/Audex/users/login/';
         }
+    });
 
 
+    dislikeBtn.addEventListener("click",async (e)=>{
+        e.preventDefault();
+
+        if(user_id != "0"){
+            if( dislikeBtn.getAttribute("data-dislike") === "addDislike" ){
+                const url = 'http://localhost/Audex/users/addDislikeToProduct/' +product_id.trim()+'/'+ user_id;
+                console.log(url);
+
+                const d = {
+                        'addDislike':1,
+                        'user_id' : user_id,
+                        'product_id': product_id,
+                    }
+                
+
+                const data  = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(d)
+                })
+                .then(response => response.json())
+                .then(data =>{
+                    console.log(data); 
+                    dislikedCount.innerHTML = ++dislikedCount.innerText;
+
+                    // Check is there any like and reduce the like count
+                    // check is there any like and if it is reduce the like count
+                    if( likeBtn.getAttribute("data-like") === "removeLike" ){
+                        likedCount.innerHTML = --likedCount.innerText;    
+                        likeBtn.style.color="black";
+                        likeBtn.setAttribute("data-like","addLike");  
+                    }
+
+                    dislikeBtn.setAttribute("data-dislike","removeDislike");      
+                    dislikeBtn.style.color="Red";
+
+
+                })
+                .catch(error => {
+                    console.log("Error:", error);
+                });
+            }
+            else if( dislikeBtn.getAttribute("data-dislike") === "removeDislike" ){
+                const url = 'http://localhost/Audex/users/removeDislikeFromProduct/' +product_id.trim()+'/'+ user_id;
+                console.log(url);
+
+                const d = {
+                        'removeDislike':1,
+                        'user_id' : user_id,
+                        'product_id': product_id,
+                    }
+                const data  = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(d)
+                })
+                .then(response => response.json())
+                .then(data =>{
+                    console.log(data); 
+                    dislikedCount.innerHTML = --dislikedCount.innerText;
+                    dislikeBtn.setAttribute("data-dislike","addDislike");      
+                    dislikeBtn.style.color="black"; 
+
+                    likeBtn.style.color="black"; 
+                    likeBtn.setAttribute("data-like","addLike");
+
+                })
+                .catch(error => {
+                    console.log("Error:", error);
+                });
+            }
+        }
+        else{
+            //user is not logged in 
+            window.location.href = 'http://localhost/Audex/users/login/';
+        }
     });
 
 

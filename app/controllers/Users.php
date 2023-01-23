@@ -492,25 +492,59 @@
                 die('Something went wrong');
             }
         }
-       public function advertiesmentDetails($id){
-          
+        public function advertiesmentDetails($id)
+        {
 
-          $_SESSION['product_id'] = $id;
+            $_SESSION['product_id'] = $id;
 
-          $ad = $this->userModel->getAdvertiesmentById($id);
-          $liked = $this->userModel->checkAddedLike($id,$_SESSION['user_id']);
-    
-          if(empty($liked)){
-            $data = [
-              'ad' => $ad,
-              'liked' => 'notliked'
-            ];
-        } else {
-            $data = [
-                'ad' => $ad,
-                'liked' => 'liked'
-            ];
-        }
+            $ad = $this->userModel->getAdvertiesmentById($id);
+            $likeCount = $this->userModel->checkLikeCount($id);
+            $dislikeCount = $this->userModel->checkDislikeCount($id);
+
+            //CHeck if loggedIn
+            if(isLoggedIn()){
+                // check alredy liked or not
+                $liked = $this->userModel->checkAddedLike($id,$_SESSION['user_id']);
+                $disliked = $this->userModel->checkAddedDislike($id,$_SESSION['user_id']);
+                if(empty($liked) && empty($disliked)){
+                    // not liked and not disliked
+                    $data = [
+                        'ad' => $ad,
+                        'liked' => 'notliked',
+                        'disliked' => 'notdisliked',
+                        'likedCount' => $likeCount,
+                        'dislikedCount' => $dislikeCount
+                    ];
+                } 
+                else if(!empty($liked) ){
+                    $data = [
+                        'ad' => $ad,
+                        'liked' => 'liked',
+                        'disliked' => 'notdisliked',
+                        'likedCount' => $likeCount,
+                        'dislikedCount' => $dislikeCount
+                    ];
+                }
+                else if(!empty($disliked) ){
+                    $data = [
+                        'ad' => $ad,
+                        'liked' => 'notliked',
+                        'disliked' => 'disliked',
+                        'likedCount' => $likeCount,
+                        'dislikedCount' => $dislikeCount
+                    ];
+                }
+            }
+            else{
+                // not loggedin
+                $data = [
+                    'ad' => $ad,
+                    'liked' => 'notliked',
+                    'disliked' => 'notdisliked',
+                    'likedCount' => $likeCount,
+                    'dislikedCount' => $dislikeCount
+                ];
+            }
 
               $this->view('users/advertiesmentDetails',$data);
           
@@ -777,31 +811,28 @@
       
       
           if (isset($dat['addLike'])) {
-            $result=$this->userModel->checkAddedLike($dat['product_id'], $dat['user_id']);
-            if (empty($result)) {
-              $result = $this->userModel->addLikeToProduct($dat['product_id'], $dat['user_id']);
-              if ($result) {
+            // check previous likes dislikes added by this user
+            $result1=$this->userModel->checkAddedLike($dat['product_id'], $dat['user_id']);
+            $result2=$this->userModel->checkAddedDislike($dat['product_id'], $dat['user_id']);
+
+            if (empty($result1) AND empty($result2)) {
+              $resultAdd = $this->userModel->addLikeToProduct($dat['product_id'], $dat['user_id']);
+              if ($resultAdd) {
                 echo flash('register_success', 'You are registered and can log in');
               } else {
                 die();
               }
       
             }
+            else{
+                $resultUpdate = $this->userModel->updateLikeToProduct($dat['product_id'], $dat['user_id']);
+            }
           }
-          // if (isset($dat['addLike'])){
-          //   $result = $this-> userModel->addLikeToProduct($dat['product_id'], $dat['user_id']);
-          //   if($result){
-          //     echo flash('register_success', 'You are registered and can log in');
-          //   }
-          //   else{
-          //     die();
-          //   }
-          // }
-      
         }
       
       
-          public function removeLikeFromProduct($p_id,$u_id){
+        public function removeLikeFromProduct($p_id,$u_id)
+        {
             if(!isLoggedIn()){
               redirect('users/login');
             }
@@ -828,7 +859,74 @@
               }
       
             }
+        }
+
+
+        public function addDislikeToProduct($p_id, $u_id)
+        {
+          if (!isLoggedIn()) {
+            redirect('users/login');
           }
+          // $result = $this-> userModel->addLikeToProduct($p_id, $u_id);
+      
+          $json = file_get_contents('php://input');
+          $dat = json_decode($json, true);
+      
+          echo $dat['addDislike'];
+          echo $dat['user_id'];
+          echo $dat['product_id'];
+      
+      
+          if (isset($dat['addDislike'])) {
+
+            // check previous likes dislikes added by this user
+            $result1=$this->userModel->checkAddedLike($dat['product_id'], $dat['user_id']);
+            $result2=$this->userModel->checkAddedDislike($dat['product_id'], $dat['user_id']);
+
+            if (empty($result1) AND empty($result2)) {
+                $resultAdd = $this->userModel->addDislikeToProduct($dat['product_id'], $dat['user_id']);
+              if ($resultAdd) {
+                echo flash('register_success', 'You are registered and can log in');
+              } else {
+                die();
+              }
+      
+            }
+            else{
+                $resultUpdate = $this->userModel->updateDislikeToProduct($dat['product_id'], $dat['user_id']);
+            }
+          }  
+        }
+
+        public function removeDislikeFromProduct($p_id,$u_id)
+        {
+            if(!isLoggedIn()){
+              redirect('users/login');
+            }
+            // $result = $this-> userModel->addLikeToProduct($p_id, $u_id);
+      
+            $json = file_get_contents('php://input');
+            $data = json_decode($json, true);
+      
+            echo $data['removeDislike'];
+            echo $data['user_id'];
+            echo $data['product_id'];
+            //  print_r($dat);
+      
+            // print_r($_POST);
+            // echo $_POST['user_id'];
+      
+            if (isset($data['removeDislike'])){
+              $result = $this-> userModel->removeDislikeFromProduct($data['product_id'], $data['user_id']);
+              if($result){
+                echo flash('register_success', 'You are registered and can log in');
+              }
+              else{
+                die('Something went wrong');
+              }
+      
+            }
+        }
         
         
     }
