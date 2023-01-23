@@ -82,13 +82,31 @@
 .like-dislike-area{
     width: 75%;
     height: 5vh;
+    display: flex;
+    flex-direction: row;
+
 }
 .like-dislike-area button{
-    margin: 0 0 0 50px;
+    margin: 0 0 0 0;
     width:10% ;
     height: 5vh;
     border: 1px solid rgb(40, 32, 32);
     border-radius: 0.5rem;
+}
+#like-count{
+    padding-left: 6%;
+    padding-right: 6%;
+    width:10% ;
+    height: 5vh;
+    font-size: 170%;
+}
+#dislike-count{
+    margin-left: 6%;
+    padding-left: 6%;
+    padding-right: 6%;
+    width:10% ;
+    height: 5vh;
+    font-size: 170%;
 }
 
 /* .like-dislike-area i{
