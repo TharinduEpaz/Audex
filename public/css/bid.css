@@ -43,6 +43,12 @@
     color: #001A72;
     margin-top: 2vh;
 }
+.aprove{
+    text-decoration: none;
+    color: red;
+    text-decoration: underline;
+    font-weight: 500;
+}
 .auction_details th{
     border: 1px solid rgb(149, 149, 149);
     padding: 1% 1%;

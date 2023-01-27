@@ -89,7 +89,7 @@ body{
     padding-left: 2%;
   }
   .image{
-    flex-basis: 5%;
+    flex-basis: 70px;
     height: 8vh;
     margin-left: .5%;
     padding: .5% .5%;

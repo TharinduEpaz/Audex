@@ -85,16 +85,16 @@
                         </div>
                         <div class="input_image">
                             <div class="file-input">
-                                <input type="file" name="image1" id="file" class="file">
-                                <label for="image1">Choose an image<p class="file-name"></p></label>
+                                <input type="file" name="image1" id="file" class="custom-file-input">
+                                <!-- <label for="image1">Choose an image<p class="file-name"></p></label> -->
                             </div>
                             <div class="image">
-                                <input type="file" name="image2" class="inputfile" >
-                                <label for="image2">Choose an image</label>
+                                <input type="file" name="image2" class="custom-file-input" >
+                                <!-- <label for="image2">Choose an image</label> -->
                             </div>
                             <div class="image">
-                                <input type="file" name="image3"  class="inputfile">
-                                <label for="image3">Choose an image</label>
+                                <input type="file" name="image3"  class="custom-file-input">
+                                <!-- <label for="image3">Choose an image</label> -->
                             </div>
                         </div>
                         <div class="input">
