@@ -38,7 +38,9 @@ class Service_provider
 
         $this->db->execute();
 
-        redirect('service_providers/profile');
+        
+
+    
     }
 
     public function getEvents($user_id){
@@ -48,9 +50,6 @@ class Service_provider
         $events = $this->db->resultSet();
 
         return $events;
-
-        
-
     }
 
     public function setEvent($data,$user_id){
@@ -76,6 +75,22 @@ class Service_provider
 
     
     }
+
+    public function setImage($file_name, $user_id){
+
+        $this->db->query('UPDATE service_provider SET profile_image = :image WHERE user_id = :id');
+
+        $this->db->bind(':image', $file_name);
+        $this->db->bind(':id', $user_id);
+
+        $this->db->execute();
+
+    }
+            
+        
+    
+        
+    
 }
 
 

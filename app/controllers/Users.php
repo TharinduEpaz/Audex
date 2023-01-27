@@ -806,6 +806,12 @@
       
             }
           }
+
+          public function sound_engineers(){
+
+            $this->view('users/sound_engineers');
+
+          }
         
         
     }
