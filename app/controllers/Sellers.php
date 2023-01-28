@@ -397,9 +397,17 @@
                     //         $data['image3_err']="Sorry, only JPG, JPEG, PNG, & GIF files are allowed.";
                     //     }
                     // }
-                    if($this->sellerModel->advertise($data)){
+                    $product_id=$this->sellerModel->advertise($data);
+                    if($product_id!=false){
+                        $data1=[
+                            'product_id'=>$product_id,
+                            'title' => $data['title'],
+                            'image1' => $data['image1'],
+                        ];
                         flash('product_message', 'Product Added');
-                        redirect('sellers/advertisements');
+                        redirect('users/checkout/'.urlencode(base64_encode("$data1")));
+                        // urlencode(base64_encode("user-data"))
+                        // redirect('users/checkout/'.urlencode(json_encode($data)));
                     } else {
                         die('Something went wrong');
                     }

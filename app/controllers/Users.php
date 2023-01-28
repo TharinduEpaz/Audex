@@ -5,6 +5,8 @@
         require dirname(APPROOT).'/app/phpmailer/src/Exception.php';
         require dirname(APPROOT).'/app/phpmailer/src/PHPMailer.php';
         require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
+
+        include dirname(APPROOT).'/app/stripe/init.php';
     class Users extends Controller{
         private $userModel;
         private $buyerModel;
@@ -290,8 +292,16 @@
                                         die('Something went wrong');
                                     }
                                 }
-                                else{
+                                else if($data['user_type']=='service_provider'){
                                     if($this->userModel->addToServiceProvider($data)){
+                                        flash('register_success', 'You are registered and can log in');
+                                        redirect('users/login');
+                                    }else{
+                                        die('Something went wrong');
+                                    }
+                                }
+                                else if($data['user_type']=='buyer'){
+                                    if($this->userModel->addToBuyer($data)){
                                         flash('register_success', 'You are registered and can log in');
                                         redirect('users/login');
                                     }else{
@@ -966,6 +976,40 @@
               }
       
             }
+        }
+
+
+        public function checkout($data1){
+            // $json = file_get_contents($data1);
+            // $data = json_decode($data1, true);
+            // foreach($_GET as $loc=>$item)
+            $data1 = base64_decode(urldecode($data1));
+            $this->view('users/test',$data1);
+
+        }
+
+        public function payment(){
+            \Stripe\Stripe::setApiKey(STRIPE_API_KEY);
+
+            header('Content-Type: application/json');
+                    
+                    
+            $checkout_session = \Stripe\Checkout\Session::create([
+              'line_items' => [[
+                # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
+                'price data' => [
+                  'currency' => 'lkr',
+                  'unit_amount' => 2000,
+                ],
+                'quantity' => 1,
+              ]],
+              'mode' => 'payment',
+              'success_url' => URLROOT . '/users/success.html',
+              'cancel_url' => URLROOT . '/users/cancel.html',
+            ]);
+            
+            header("HTTP/1.1 303 See Other");
+            header("Location: " . $checkout_session->url);
         }
         
         
