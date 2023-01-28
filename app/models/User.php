@@ -488,5 +488,11 @@
             }
         }
 
+        public function getServiceProviders(){
+            $this->db->query('SELECT * FROM service_provider_view');
+            $result = $this->db->resultSet();
+            return $result;
+        }
+
     }
 ?>

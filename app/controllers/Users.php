@@ -867,14 +867,6 @@
           if (!isLoggedIn()) {
             redirect('users/login');
           }
-<<<<<<< HEAD
-
-          public function sound_engineers(){
-
-            $this->view('users/sound_engineers');
-
-          }
-=======
           // $result = $this-> userModel->addLikeToProduct($p_id, $u_id);
       
           $json = file_get_contents('php://input');
@@ -935,7 +927,12 @@
       
             }
         }
->>>>>>> a21bdf6458321d772cbb39761bdb4708ebeccc36
+        public function sound_engineers(){
+        $data = $this->userModel->getServiceProviders();
+            
+        
+            $this->view('users/sound_engineers', $data);
+        }
         
         
     }
