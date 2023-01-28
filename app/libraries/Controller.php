@@ -3,9 +3,11 @@
         *Base Controller
         *Loads the models and views
     */
+    
     class Controller{
         //Load model
         public function model($model){
+
             //Require model file
             require_once '../app/models/'.$model.'.php';
 
@@ -15,6 +17,7 @@
 
         //Load view
         public function view($view, $data=[], $data1=[]){
+           
             
             $url = explode("/", $view);
             $user = $url[0];

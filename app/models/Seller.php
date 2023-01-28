@@ -97,7 +97,7 @@
                 $this->db->query('INSERT INTO seller_add_product (product_id,user_id,email,posted_time) VALUES(:product_id,:user_id,:user_email,NOW())');
                 //Bind values
                 $product_id=$this->db->lastInsertId();
-                $this->db->bind(':product_id', $this->db->lastInsertId());
+                $this->db->bind(':product_id', $product_id);
                 $this->db->bind(':user_id', $data['user_id']);
                 $this->db->bind(':user_email', $data['user_email']);
                 if($this->db->execute()){
@@ -109,12 +109,12 @@
                         $this->db->bind(':start_price', $data['price']);
                         $this->db->bind(':end_date', $data['end_date']);
                         if($this->db->execute()){
-                            return true;
+                            return $product_id;
                         }else{
                             return false;
                         }
                     }else{
-                        return true;
+                        return $product_id;
                     }
                 }else{
                     return false;

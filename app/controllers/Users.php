@@ -1,7 +1,16 @@
 <?php
+        use \PHPMailer\PHPMailer\PHPMailer;
+        use \PHPMailer\PHPMailer\Exception;
+
+        require dirname(APPROOT).'/app/phpmailer/src/Exception.php';
+        require dirname(APPROOT).'/app/phpmailer/src/PHPMailer.php';
+        require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
+
+        include dirname(APPROOT).'/app/stripe/init.php';
     class Users extends Controller{
         private $userModel;
         private $buyerModel;
+
 
         public function __construct(){
             
@@ -95,15 +104,47 @@
                     $_SESSION['attempt']=1;
 
                     //Send email
-                    if($this->userModel->sendEmail($data['email'],$data['otp'],$data['first_name'])){
+                    $to=$data['email'];
+                    $sender='audexlk@gmail.com';
+                    $mail_subject='Verify Email Address';
+                    $email_body='<p>Dear '.$data['first_name'].',<br>Thank you for signing up to Audexlk. In order to'; 
+                    $email_body.=' validate your account you need enter the given OTP in the verification page.<br>';
+                    $email_body.='<h3>The OTP</h3><br><h1>'.$data['otp'].'</h1><br>';
+                    $email_body.='Thank you,<br>Audexlk</p>';
+                    // $header="From:{$sender}\r\nContent-Type:text/html;";
+
+                    $mail = new PHPMailer(true);
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = $sender;
+                    $mail->Password = 'bcoxsurnseqiajuf';
+                    $mail->SMTPSecure = 'ssl';
+                    $mail->Port = 465;
+                    $mail->setFrom($sender);
+                    $mail->addAddress($to);
+                    $mail->isHTML(true);
+                    $mail->Subject = $mail_subject;
+                    $mail->Body = $email_body;
+                    if($mail->send()){
                         //Otp send by email
                         redirect('users/verifyotp');
                     }
                     else{
                         $data['email_err'] = 'Email not sent';
                         $this->view('users/register', $data);
-
                     }
+
+                    // }
+                    // if($this->userModel->sendEmail($data['email'],$data['otp'],$data['first_name'])){
+                    //     //Otp send by email
+                    //     redirect('users/verifyotp');
+                    // }
+                    // else{
+                    //     $data['email_err'] = 'Email not sent';
+                    //     $this->view('users/register', $data);
+
+                    // }
 
                     //Register user
                     // if($this->userModel->register($data)){
@@ -151,6 +192,7 @@
             else{
                 //Init data
                 $data = [
+                    'dir'=>APPROOT,
                     'first_name' => '',
                     'second_name' => '',
                     'email' => '',
@@ -250,8 +292,16 @@
                                         die('Something went wrong');
                                     }
                                 }
-                                else{
+                                else if($data['user_type']=='service_provider'){
                                     if($this->userModel->addToServiceProvider($data)){
+                                        flash('register_success', 'You are registered and can log in');
+                                        redirect('users/login');
+                                    }else{
+                                        die('Something went wrong');
+                                    }
+                                }
+                                else if($data['user_type']=='buyer'){
+                                    if($this->userModel->addToBuyer($data)){
                                         flash('register_success', 'You are registered and can log in');
                                         redirect('users/login');
                                     }else{
@@ -926,6 +976,40 @@
               }
       
             }
+        }
+
+
+        public function checkout($data1){
+            // $json = file_get_contents($data1);
+            // $data = json_decode($data1, true);
+            // foreach($_GET as $loc=>$item)
+            $data1 = base64_decode(urldecode($data1));
+            $this->view('users/test',$data1);
+
+        }
+
+        public function payment(){
+            \Stripe\Stripe::setApiKey(STRIPE_API_KEY);
+
+            header('Content-Type: application/json');
+                    
+                    
+            $checkout_session = \Stripe\Checkout\Session::create([
+              'line_items' => [[
+                # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
+                'price data' => [
+                  'currency' => 'lkr',
+                  'unit_amount' => 2000,
+                ],
+                'quantity' => 1,
+              ]],
+              'mode' => 'payment',
+              'success_url' => URLROOT . '/users/success.html',
+              'cancel_url' => URLROOT . '/users/cancel.html',
+            ]);
+            
+            header("HTTP/1.1 303 See Other");
+            header("Location: " . $checkout_session->url);
         }
         
         
