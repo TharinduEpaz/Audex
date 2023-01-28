@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,16 +14,22 @@
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
     <title><?php echo SITENAME; ?></title>
 </head>
+
 <body>
-    <style>
-        body .container{
-            background-image: none;
-            background-color: rgb(214, 214, 239);
-        }
-    </style> 
+
     <?php echo "<br><br><br><br><br><br><br><br>sdsd"; ?>
     <?php print_r($data); ?>
-    
+
     <?php require_once APPROOT . '/views/users/navbar.php';?>
+
+    <img src="<?php echo URLROOT . '/public/uploads/Profile/' . $data['0']->profile_image; ?>"" alt="">
+      
+               </div>
+
+    
+
+</body>
+</html>
+
     
     
