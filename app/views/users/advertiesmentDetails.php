@@ -151,7 +151,7 @@
 
         if(user_id != "0"){
             if(likeBtn.getAttribute("data-like") === "addLike"){
-                const url = 'http://localhost/Audex/users/addLikeToProduct/' +product_id.trim()+'/'+ user_id;
+                const url = '<?php echo URLROOT?>/users/addLikeToProduct/' +product_id.trim()+'/'+ user_id;
                 console.log(url);
 
                 const d = {
@@ -189,7 +189,7 @@
                 });
             }
             else if(likeBtn.getAttribute("data-like") === "removeLike"){
-                const url = 'http://localhost/Audex/users/removeLikeFromProduct/' +product_id.trim()+'/'+ user_id;
+                const url = '<?php echo URLROOT?>/users/removeLikeFromProduct/' +product_id.trim()+'/'+ user_id;
                 console.log(url);
 
                 const d = {
@@ -221,7 +221,7 @@
         }
         else{
             //user is not logged in 
-            window.location.href = 'http://localhost/Audex/users/login/';
+            window.location.href = '<?php echo URLROOT?>/users/login/';
         }
     });
 
@@ -231,7 +231,7 @@
 
         if(user_id != "0"){
             if( dislikeBtn.getAttribute("data-dislike") === "addDislike" ){
-                const url = 'http://localhost/Audex/users/addDislikeToProduct/' +product_id.trim()+'/'+ user_id;
+                const url = '<?php echo URLROOT?>/users/addDislikeToProduct/' +product_id.trim()+'/'+ user_id;
                 console.log(url);
 
                 const d = {
@@ -271,7 +271,7 @@
                 });
             }
             else if( dislikeBtn.getAttribute("data-dislike") === "removeDislike" ){
-                const url = 'http://localhost/Audex/users/removeDislikeFromProduct/' +product_id.trim()+'/'+ user_id;
+                const url = '<?php echo URLROOT?>/users/removeDislikeFromProduct/' +product_id.trim()+'/'+ user_id;
                 console.log(url);
 
                 const d = {
@@ -304,7 +304,7 @@
         }
         else{
             //user is not logged in 
-            window.location.href = 'http://localhost/Audex/users/login/';
+            window.location.href = '<?php echo URLROOT?>/users/login/';
         }
     });
 

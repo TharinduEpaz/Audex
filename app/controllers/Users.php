@@ -1,7 +1,14 @@
 <?php
+        use \PHPMailer\PHPMailer\PHPMailer;
+        use \PHPMailer\PHPMailer\Exception;
+
+        require dirname(APPROOT).'/app/phpmailer/src/Exception.php';
+        require dirname(APPROOT).'/app/phpmailer/src/PHPMailer.php';
+        require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
     class Users extends Controller{
         private $userModel;
         private $buyerModel;
+
 
         public function __construct(){
             
@@ -95,15 +102,47 @@
                     $_SESSION['attempt']=1;
 
                     //Send email
-                    if($this->userModel->sendEmail($data['email'],$data['otp'],$data['first_name'])){
+                    $to=$data['email'];
+                    $sender='audexlk@gmail.com';
+                    $mail_subject='Verify Email Address';
+                    $email_body='<p>Dear '.$data['first_name'].',<br>Thank you for signing up to Audexlk. In order to'; 
+                    $email_body.=' validate your account you need enter the given OTP in the verification page.<br>';
+                    $email_body.='<h3>The OTP</h3><br><h1>'.$data['otp'].'</h1><br>';
+                    $email_body.='Thank you,<br>Audexlk</p>';
+                    // $header="From:{$sender}\r\nContent-Type:text/html;";
+
+                    $mail = new PHPMailer(true);
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = $sender;
+                    $mail->Password = 'bcoxsurnseqiajuf';
+                    $mail->SMTPSecure = 'ssl';
+                    $mail->Port = 465;
+                    $mail->setFrom($sender);
+                    $mail->addAddress($to);
+                    $mail->isHTML(true);
+                    $mail->Subject = $mail_subject;
+                    $mail->Body = $email_body;
+                    if($mail->send()){
                         //Otp send by email
                         redirect('users/verifyotp');
                     }
                     else{
                         $data['email_err'] = 'Email not sent';
                         $this->view('users/register', $data);
-
                     }
+
+                    // }
+                    // if($this->userModel->sendEmail($data['email'],$data['otp'],$data['first_name'])){
+                    //     //Otp send by email
+                    //     redirect('users/verifyotp');
+                    // }
+                    // else{
+                    //     $data['email_err'] = 'Email not sent';
+                    //     $this->view('users/register', $data);
+
+                    // }
 
                     //Register user
                     // if($this->userModel->register($data)){
@@ -151,6 +190,7 @@
             else{
                 //Init data
                 $data = [
+                    'dir'=>APPROOT,
                     'first_name' => '',
                     'second_name' => '',
                     'email' => '',
