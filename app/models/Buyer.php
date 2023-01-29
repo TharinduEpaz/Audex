@@ -119,7 +119,7 @@
             $this->db->bind(':email', $email);
             $row = $this->db->single();
             //Check row
-            echo $row->_id.'</br>' ;
+            echo $row->user_id .'</br>' ;
             echo $row->is_deleted.'</br>' ;
             return $row;
         }
@@ -234,6 +234,16 @@
             }else{
                 return false;
             }
+        }
+
+        
+        public function searchItems($searchedTerm){
+            $this->db->query('SELECT * FROM product WHERE product_title LIKE :searchedTerm');
+            $this->db->bind(':searchedTerm', '%'.$searchedTerm.'%');
+
+            $results = $this->db->resultSet();
+            return $results;
+
         }
 
     }
