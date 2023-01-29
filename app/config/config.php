@@ -16,7 +16,7 @@
     //App Root
     define('APPROOT', dirname(dirname(__FILE__)));
     //URL Root
-    define('URLROOT', 'http://35.77.143.216');
+    define('URLROOT', 'http://localhost/Audex');
     //Site Name
     define('SITENAME', 'Audex');
 

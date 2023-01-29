@@ -25,23 +25,23 @@
         }
 
         //Send Email
-        public function sendEmail($email,$otp,$fname){
-            $to=$email;
-            $sender='audexlk@gmail.com';
-            $mail_subject='Verify Email Address';
-            $email_body='<p>Dear '.$fname.',<br>Thank you for signing up to Audexlk. In order to'; 
-            $email_body.=' validate your account you need enter the given OTP in the verification page.<br>';
-            $email_body.='<h3>The OTP</h3><br><h1>'.$otp.'</h1><br>';
-            $email_body.='Thank you,<br>Audexlk</p>';
-            $header="From:{$sender}\r\nContent-Type:text/html;";
-            $send_mail_result=mail($to,$mail_subject,$email_body,$header);
-            if($send_mail_result){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
+        // public function sendEmail($email,$otp,$fname){
+        //     $to=$email;
+        //     $sender='audexlk@gmail.com';
+        //     $mail_subject='Verify Email Address';
+        //     $email_body='<p>Dear '.$fname.',<br>Thank you for signing up to Audexlk. In order to'; 
+        //     $email_body.=' validate your account you need enter the given OTP in the verification page.<br>';
+        //     $email_body.='<h3>The OTP</h3><br><h1>'.$otp.'</h1><br>';
+        //     $email_body.='Thank you,<br>Audexlk</p>';
+        //     $header="From:{$sender}\r\nContent-Type:text/html;";
+        //     $send_mail_result=mail($to,$mail_subject,$email_body,$header);
+        //     if($send_mail_result){
+        //         return true;
+        //     }
+        //     else{
+        //         return false;
+        //     }
+        // }
 
         //Add to seller
         public function addToSeller($data){

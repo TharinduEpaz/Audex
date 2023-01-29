@@ -53,7 +53,6 @@
                 }
 
             ?>
-            <?php echo $data['dir']?>
             <form action="<?php echo URLROOT . '/users/register';?>" method="post">
                 <div class="input">
                     <label for="">First Name</label>

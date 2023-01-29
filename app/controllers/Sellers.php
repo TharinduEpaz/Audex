@@ -617,6 +617,11 @@
                 //Sanitize POST array
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
+                $advertisement=$this->sellerModel->getAdvertisementById($id);
+                //Check for owner
+                if($advertisement->email != $_SESSION['user_email']){
+                    redirect('sellers/advertisements');
+                }
                 $data = [
                     'id' => $id,
                     'user_email' => $_SESSION['user_email'],
@@ -624,7 +629,7 @@
                     'description' => trim($_POST['description']),
                     'price' => trim($_POST['price']),
                     'condition' => trim($_POST['condition']),
-                    'image1' => '',
+                    'image1' => $advertisement->image1,
                     'image2' => '',
                     'image3' => '',
                     'brand' => trim($_POST['brand']),
