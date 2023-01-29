@@ -1,40 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Accept a payment</title>
-    <meta name="description" content="A demo of a payment on Stripe" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/checkout.css';?>" />
-    <script src="https://js.stripe.com/v3/"></script>
-    <!-- <script src="<?php echo URLROOT . '/public/checkout.js';?>" defer></script> -->
-  </head>
-  <body>
-    <!-- Display a payment form -->
-    <form id="payment-form">
-      <div class="product">
-        <img src="<?php echo URLROOT.'/public/uploads/'.$data['image1'];?>" alt="The cover of Stubborn Attachments" />
-        <div class="description">
-          <h3><?php echo $data['title'];?></h3>
-          <h5>LKR300.00</h5>
-        </div>
-      </div>
-      <div id="link-authentication-element">
-        <!--Stripe.js injects the Link Authentication Element-->
-      </div>
-      <div id="payment-element">
-        <!--Stripe.js injects the Payment Element-->
-      </div>
-      <button id="submit">
-        <div class="spinner hidden" id="spinner"></div>
-        <span id="button-text">Pay now</span>
-      </button>
-      <div id="payment-message" class="hidden"></div>
-    </form>
-  </body>
-  <script>
-    // This is your test publishable API key.
-const stripe = Stripe('<?php echo STRIPE_PUBLISHABLE_KEY;?>');
+// This is your test publishable API key.
+const stripe = Stripe("pk_test_51MU2C4GlTSbBWjmij5ZWbU3wOBLFWZUeBS4AcCwc0FIZQAc9ifJmoZyyK33TYAqWB80sqMouMEWn2UNwyJUbawqU00UMTnoldI");
 
 // The items the customer wants to buy
 const items = [{ id: "xl-tshirt" }];
@@ -51,9 +16,7 @@ document
 let emailAddress = '';
 // Fetches a payment intent and captures the client secret
 async function initialize() {
-  const url='<?php echo URLROOT?>/users/payment';
-
-  const { clientSecret } = await fetch(url, {
+  const { clientSecret } = await fetch("/create.php", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ items }),
@@ -80,8 +43,8 @@ async function handleSubmit(e) {
     elements,
     confirmParams: {
       // Make sure to change this to your payment completion page
-      return_url: "<?php echo URLROOT?>/users/paid/<?php echo $data['product_id'];?>",
-      receipt_email: '<?php echo $_SESSION['user_email'];?>',
+      return_url: "http://localhost:4242/checkout.html",
+      receipt_email: emailAddress,
     },
   });
 
@@ -154,5 +117,3 @@ function setLoading(isLoading) {
     document.querySelector("#button-text").classList.remove("hidden");
   }
 }
-  </script>
-</html>

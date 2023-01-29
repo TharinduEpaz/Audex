@@ -6,7 +6,7 @@
         require dirname(APPROOT).'/app/phpmailer/src/PHPMailer.php';
         require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
-        include dirname(APPROOT).'/app/stripe/init.php';
+        require_once dirname(APPROOT).'/app/stripe/init.php';
     class Users extends Controller{
         private $userModel;
         private $buyerModel;
@@ -979,37 +979,77 @@
         }
 
 
-        public function checkout($data1){
+        public function checkout($product_id,$data1){
             // $json = file_get_contents($data1);
-            // $data = json_decode($data1, true);
-            // foreach($_GET as $loc=>$item)
-            $data1 = base64_decode(urldecode($data1));
-            $this->view('users/test',$data1);
+            $data = json_decode($data1, true);
+            $data['product_id']=$product_id;
+            $this->view('users/checkout',$data);
 
         }
 
         public function payment(){
-            \Stripe\Stripe::setApiKey(STRIPE_API_KEY);
 
-            header('Content-Type: application/json');
-                    
-                    
-            $checkout_session = \Stripe\Checkout\Session::create([
-              'line_items' => [[
-                # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-                'price data' => [
-                  'currency' => 'lkr',
-                  'unit_amount' => 2000,
-                ],
-                'quantity' => 1,
-              ]],
-              'mode' => 'payment',
-              'success_url' => URLROOT . '/users/success.html',
-              'cancel_url' => URLROOT . '/users/cancel.html',
-            ]);
+            \Stripe\Stripe::setApiKey(STRIPE_API_KEY);
             
-            header("HTTP/1.1 303 See Other");
-            header("Location: " . $checkout_session->url);
+            header('Content-Type: application/json');
+            
+            try {
+                // retrieve JSON from POST body
+                $jsonStr = file_get_contents('php://input');
+                $jsonObj = json_decode($jsonStr);
+            
+                // Create a PaymentIntent with amount and currency
+                $paymentIntent = \Stripe\PaymentIntent::create([
+                    'amount' => 300*100,
+                    'currency' => 'lkr',
+                    'automatic_payment_methods' => [
+                        'enabled' => true,
+                    ],
+                ]);
+            
+                $output = [
+                    'clientSecret' => $paymentIntent->client_secret,
+                ];
+            
+                echo json_encode($output);
+            } catch (Error $e) {
+                http_response_code(500);
+                echo json_encode(['error' => $e->getMessage()]);
+            }
+
+
+        }
+        public function paid($product_id){
+            $data=[
+                'product_id'=>$product_id,
+                'payment_intent' => $_GET['payment_intent'],
+                'payment_intent_client_secret' => $_GET['payment_intent_client_secret'],
+                'redirect_status' => $_GET['redirect_status']
+            ];
+            $payment_intent = $_GET['payment_intent'];
+            $payment_intent_client_secret = $_GET['payment_intent_client_secret'];
+            $redirect_status = $_GET['redirect_status'];
+            $amount = 300.00;
+            if($redirect_status=='succeeded'){
+                $result = $this->userModel->addPayment($amount,$product_id,$payment_intent,$payment_intent_client_secret,$redirect_status);
+                if($result){
+                    redirect('users/success');
+                }
+                else{
+                    die('Something went wrong');
+                }
+            }
+            $this->view('users/success',$data);
+        
+        
+        }
+
+
+        public function success(){
+            $data=[
+                'title'=>'Success'
+            ];
+            $this->view('users/success',$data);
         }
         
         

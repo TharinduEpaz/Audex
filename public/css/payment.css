@@ -19,6 +19,15 @@ section {
   border-radius: 6px;
   justify-content: space-between;
 }
+.to_advertisements{
+  text-decoration: none;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 1vh;
+}
+.to_advertisements:hover{
+  color: red;
+}
 .product {
   display: flex;
 }

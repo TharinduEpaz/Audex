@@ -55,7 +55,6 @@ body{
   .six{
     flex-basis: 10%;
   }
-  
   .advertisements{
     display: flex;
     justify-content: flex-end;

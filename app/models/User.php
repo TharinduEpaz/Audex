@@ -181,7 +181,7 @@
         }
 
         public function getAdvertiesment(){
-            $this->db->query('SELECT * FROM product WHERE is_deleted=0');
+            $this->db->query('SELECT * FROM product WHERE is_deleted=0 && is_paid=1');
             $results = $this->db->resultSet();
             return $results;
 
@@ -483,6 +483,30 @@
 
             if($this->db->execute()){
                 return true;
+            }else{
+                return false;
+            }
+        }
+
+        //Fee payment
+        public function addPayment($amount,$product_id,$payment_intent,$payment_intent_client_secret,$redirect_status){
+            $this->db->query('INSERT INTO payment (amount,payment_method,date,product_id,payment_intent,payment_intent_client_secret,redirect_status) VALUES (:amount,"stripe",NOW(),:product_id,:payment_intent,:payment_intent_client_secret,:redirect_status)');
+            //Bind value
+            $this->db->bind(':amount', $amount);
+            $this->db->bind(':product_id', $product_id);
+            $this->db->bind(':payment_intent', $payment_intent);
+            $this->db->bind(':payment_intent_client_secret', $payment_intent_client_secret);
+            $this->db->bind(':redirect_status', $redirect_status);
+
+            if($this->db->execute()){
+                $this->db->query('UPDATE product SET is_paid = 1 WHERE product_id = :product_id');
+                $this->db->bind(':product_id', $product_id);
+
+                if($this->db->execute()){
+                    return true;
+                }else{
+                    return false;
+                }
             }else{
                 return false;
             }

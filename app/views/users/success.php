@@ -8,8 +8,11 @@
   <section>
     <p>
       We appreciate your business! If you have any questions, please email
-      <a href="mailto:orders@example.com">orders@example.com</a>.
+      <a href="mailto:audexlk@gamil.com">audexlk@gmail.com</a>.
     </p>
+        <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
+        <a class="to_advertisements" href="<?php echo URLROOT;?>/sellers/advertisements">Back To Advertisements</a>
+
   </section>
 </body>
 </html>

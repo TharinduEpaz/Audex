@@ -31,7 +31,7 @@
                 </div>
                 <p class="one">Title</p>
                 <p class="two">Format</p>
-                <p class="three">Bids/Offers</p>
+                <p class="three">Fee Paid</p>
                 <p class="four">Price</p>
                 <p class="five">Edit</p>
                 <p class="six">Priview</p>
@@ -44,9 +44,19 @@
                 </div>
                 <p class="one"><?php echo $advertisement->product_title;?></p>
                 <p class="two"><?php echo $advertisement->product_type;?></p>
-                <p class="three">N/A</p>
+                <p class="three">
+                    <?php if($advertisement->is_paid == 1): ?>
+                        <a style="text-decoration:none;color:green;font-weight: 700;pointer-events: none" >Completed</a>
+                    <?php else: ?>
+                        <a style="text-decoration:none;color:red;font-weight: 700" href="<?php echo URLROOT;?>/sellers/complete_payment/<?php echo $advertisement->product_id;?>" >Incompleted</a>
+                    <?php endif; ?>
+                </p>
                 <p class="four">Rs.<?php echo $advertisement->price;?></p>
+                <?php if($advertisement->is_paid == 1){ ?>
                 <a class="five" href="<?php echo URLROOT;?>/sellers/edit_advertisement/<?php echo $advertisement->product_id;?>">Edit</a>
+                <?php }else{ ?>
+                <a class="five" style="pointer-events: none" href="<?php echo URLROOT;?>/sellers/edit_advertisement/<?php echo $advertisement->product_id;?>">Edit</a>
+                <?php } ?>   
                 <a class="six" href="<?php echo URLROOT;?>/sellers/advertisement/<?php echo $advertisement->product_id;?>">Preview</a>
             </div>
             <?php endforeach; ?>
