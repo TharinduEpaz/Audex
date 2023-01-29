@@ -4,18 +4,6 @@
         private $buyerModel;
 
         public function __construct(){
-            if(!isset($_SESSION['otp'])){
-                // unset($_SESSION['otp']);
-                // unset($_SESSION['email']);
-                // unset($_SESSION['password']);
-                // unset($_SESSION['first_name']);
-                // unset($_SESSION['second_name']);
-                // unset($_SESSION['phone']);
-                // unset($_SESSION['user_type']);
-                // unset($_SESSION['attempt']);
-                // session_destroy();
-                // redirect('users/login');
-            }
             
             $this->userModel = $this->model('User');
             $this->buyerModel = $this->model('Buyer');
@@ -23,6 +11,18 @@
         }
         //register
         public function register(){
+            if(isset($_SESSION['otp'])){
+                unset($_SESSION['otp']);
+                unset($_SESSION['email']);
+                unset($_SESSION['password']);
+                unset($_SESSION['first_name']);
+                unset($_SESSION['second_name']);
+                unset($_SESSION['phone']);
+                unset($_SESSION['user_type']);
+                unset($_SESSION['attempt']);
+                session_destroy();
+                // redirect('users/login');
+            }
             //CHECK FOR POST
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 // Process form
@@ -173,7 +173,7 @@
         //verifyotp
         public function verifyotp(){
             //not filled registration form
-            if(!isset($_SESSION['email'])){
+            if(!isset($_SESSION['otp'])){
                 redirect('users/register');
             }
             
@@ -311,6 +311,18 @@
 
         //login
         public function login(){
+            if(isset($_SESSION['otp'])){
+                unset($_SESSION['otp']);
+                unset($_SESSION['email']);
+                unset($_SESSION['password']);
+                unset($_SESSION['first_name']);
+                unset($_SESSION['second_name']);
+                unset($_SESSION['phone']);
+                unset($_SESSION['user_type']);
+                unset($_SESSION['attempt']);
+                session_destroy();
+                // redirect('users/login');
+            }
             //CHeck if loggedIn
             if(isLoggedIn()){
                 redirect($_SESSION['user_type'].'s/index');
@@ -437,6 +449,18 @@
         }
         //Shop
         public function shop(){
+            if(isset($_SESSION['otp'])){
+                unset($_SESSION['otp']);
+                unset($_SESSION['email']);
+                unset($_SESSION['password']);
+                unset($_SESSION['first_name']);
+                unset($_SESSION['second_name']);
+                unset($_SESSION['phone']);
+                unset($_SESSION['user_type']);
+                unset($_SESSION['attempt']);
+                session_destroy();
+                // redirect('users/login');
+            }
             $ads  = $this->userModel->getAdvertiesment();   
             $data = [
               'ads' => $ads
@@ -843,6 +867,14 @@
           if (!isLoggedIn()) {
             redirect('users/login');
           }
+<<<<<<< HEAD
+
+          public function sound_engineers(){
+
+            $this->view('users/sound_engineers');
+
+          }
+=======
           // $result = $this-> userModel->addLikeToProduct($p_id, $u_id);
       
           $json = file_get_contents('php://input');
@@ -903,6 +935,7 @@
       
             }
         }
+>>>>>>> a21bdf6458321d772cbb39761bdb4708ebeccc36
         
         
     }

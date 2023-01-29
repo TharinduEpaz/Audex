@@ -20,8 +20,7 @@
             background-color: rgb(214, 214, 239);
         }
     </style> 
-<?php require_once APPROOT . '/views/users/navbar.php';?>
-
+    <?php require_once APPROOT . '/views/users/navbar.php';?>
 
     <div class="container" >
         <div class="ad-search_shop" >

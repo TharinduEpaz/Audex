@@ -67,10 +67,12 @@
                             <label for="">Title&nbsp</label>
                             <input class="title" type="text" name="title"  value="<?php echo $data['title']?>" >
                         </div>
+                        <?php if($data['product_type']!='auction'){?>
                         <div class="input">
                             <label for="">Price</label>
                             <input class="price" type="text" name="price"  value="<?php echo $data['price']?>"  >
                         </div>
+                        <?php }?>
                         <!-- <div class="input">
                             <label for="check_au" >Auction(optional)</label>
                             <input type="checkbox"   name="check_au" class="check_au" >

@@ -166,6 +166,8 @@
             $data=[
                 'advertisement'=>$advertisement
             ];
+            $auction = $this->userModel->getAuctionById($id);
+            $data['auction'] = $auction;
             if($data['advertisement']->email!=$_SESSION['user_email']){
                 redirect('sellers/advertisements');
             }
@@ -582,6 +584,7 @@
                     'brand' => $advertisement->brand,
                     'model' => $advertisement->model_no,
                     'category' =>$advertisement->product_category,
+                    'product_type'=>$advertisement->product_type,
                     'title_err' => '',
                     'description_err' => '',
                     'price_err' => '',
@@ -602,7 +605,7 @@
         }
 
         public function delete_advertisement($id){
-            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            // if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 //Get existing post from model
                 $advertisement=$this->sellerModel->getAdvertisementById($id);
                 //Check for owner
@@ -615,9 +618,30 @@
                 } else {
                     die('Something went wrong');
                 }
-            } else {
-                redirect('sellers/advertisements');
-            }
+            // } else {
+            //     redirect('sellers/advertisements');
+            // }
         }
+
+        public function bid_list($id){
+            $ad = $this->userModel->getAdvertiesmentById($id);
+            $data['ad'] = $ad;
+  
+            $auction = $this->userModel->getAuctionById($id);
+            $data['auction'] = $auction;
+            
+            $auction_details = $this -> userModel->getAuctionDetails($id);
+            if($auction_details){
+              $data['auctions'] =$auction_details;
+            }else{
+              $data['auctions'] = null;
+            }
+            $data['auction_expired']=$data['auction']->is_finished;
+          //   $this->view('users/bid',$data);
+  
+              //Load view
+              $this->view('sellers/bid_list', $data);
+  
+          }
         
     }

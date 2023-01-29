@@ -61,9 +61,12 @@
                 <?php 
                     if(isLoggedIn()){
                         if($_SESSION['user_email']!=$data['ad']->email){
-                            echo '<div class="bid_now">';
-                            echo '<a href="'.URLROOT.'/users/bid/'.$data['ad']->product_id.'">Bid Now</a>';
-                            echo '</div>';
+                            if($data['ad']->product_type=='auction'){
+
+                                echo '<div class="bid_now">';
+                                echo '<a href="'.URLROOT.'/users/bid/'.$data['ad']->product_id.'">Bid Now</a>';
+                                echo '</div>';
+                            }
                             echo '<div class="message_seller">';
                             echo '<a href="'.URLROOT.'/users/bid/'.$data['ad']->product_id.'">Message Seller</a>';
                             echo '</div>';

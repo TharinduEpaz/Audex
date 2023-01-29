@@ -2,7 +2,11 @@
     <div class="service-provider-profile">
         <div class="white-box">
         <div class="profile-title">
-            <div class="profile-pic"><i class="far fa-user fa-7x"></i></div>
+            <div class="profile-pic"> <?php if($data['details']->profile_image): ?>
+                            <img src="<?php echo URLROOT . '/public/uploads/Profile/' . $data['details']->profile_image; ?>" id="profile-img" >
+                    <?php else: ?>
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                    <?php endif; ?></i></div>
             <div class="name-rating">
                 <div class="name"><p id="Name"><?php echo $data['details']->first_name . ' ' . $data['details']->second_name ?></p><p id="profession"><?php echo $data['details']->profession?></p></div>
                 <div class="rating"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></div>
@@ -90,7 +94,6 @@
       }
     }
 
-
         //keeping the sidebar button clicked at the page
 
         link = document.querySelector('#profile-settings');
@@ -103,13 +106,14 @@
         editButton = document.querySelector('.btn');
 
         if (error) {
-
             editButton.style.animation = "alert 2s ease 0s infinite normal forwards"
             editButton.style.color = "#FF0000"
             editButton.style.background = "#E5E9F7"
-
-            
         }
+
+
+        
+
 
     </script>
 
