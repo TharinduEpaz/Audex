@@ -21,10 +21,14 @@
                 <h1>Find the best <br>Audio Equipment</h1>
             </div>
             <div class="search-bar">
-                <input type="search" name="search-item" placeholder="|">
-                <button type="button" class="btn-search"><img
-                        src="<?php echo URLROOT . '/public/img/icons/bxs_search-alt-2.png'; ?>"
-                        alt="search"></input></button>
+                <form method="post" class="search-form" id="main-search-bar" action="<?php echo URLROOT . '/public/buyers/searchItems';?>">
+                    <input type="search" name="search-item" id="search-item-term" placeholder="|"></input>
+                    <button type="submit" class="btn-search"> <img src="<?php echo URLROOT . '/public/img/icons/bxs_search-alt-2.png'; ?>" alt="search"> </button>
+                </form>
+            </div>
+            <div id="search-results">
+                <table class="table" id="search-results-table">
+                </table>
             </div>
         </div>
         <div class="explore">
@@ -90,11 +94,9 @@
 
     </div>
 
-
-
-
-
 </body>
+
+<script src="<?php echo URLROOT . '/public/js/search.js'; ?>"></script>
 <script src="<?php echo URLROOT . '/public/js/form.js'; ?>"></script>
 
 </html>

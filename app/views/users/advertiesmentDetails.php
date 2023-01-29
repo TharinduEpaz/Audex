@@ -175,13 +175,13 @@
                     likeBtn.setAttribute("data-like","removeLike");      
                     likeBtn.style.color="Red";
 
-
                     // check is there any dislike and if it is reduce the dislike count
                     if( dislikeBtn.getAttribute("data-dislike") === "removeDislike" ){
                         dislikedCount.innerHTML = --dislikedCount.innerText;    
                         dislikeBtn.style.color="black";
-                    }
+                        dislikeBtn.setAttribute("data-dislike","addDislike");                      
 
+                    }
 
                 })
                 .catch(error => {

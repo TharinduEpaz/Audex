@@ -26,12 +26,27 @@
   }
 
     public function shop(){
-        $ads  = $this->buyerModel->getAdvertiesment();   
+        $ads  = $this->buyerModel->getAdvertiesment();
+        // get the serchResults session value
+        $results = $_SESSION['searchResults'];
+
+        // check serch results are empty(1) or not empty(0)
+        $empty = empty($results);
+
+
         $data = [
-          'ads' => $ads
+          'ads' => $ads,
+          'searchResults' => $results,
+          'isEmpty' => $empty
         ];
+
+        unset($_SESSION['searchResults']);
+
         $this->view('buyers/shop',$data);
     }
+
+    
+
    public function advertiesmentDetails($id)
     {
       // set product id to session to use for js
@@ -317,8 +332,6 @@
       echo $data['product_id'];
       //  print_r($dat);
 
-      // print_r($_POST);
-      // echo $_POST['user_id'];
 
       if (isset($data['removeLike'])){
         $result = $this-> buyerModel->removeLikeFromProduct($data['product_id'], $data['user_id']);
@@ -331,6 +344,32 @@
 
       }
     }
+    public function searchItems(){
+
+      $searchedTerm = $_POST['search-item'];
+      
+      if( !isset($_POST['submit']) ){
+        // this is for keyup event
+        if( strlen($searchedTerm) <3 ){
+          echo json_encode([]);
+        }else{
+          $results = $this-> buyerModel->searchItems($searchedTerm);
+          echo json_encode($results);
+        }
+      }
+      else{
+        // user has pressed enter
+        if( strlen($searchedTerm) <1 ){
+          echo json_encode([]);
+        }else{
+          $results = $this-> buyerModel->searchItems($searchedTerm);
+          $_SESSION['searchResults'] = $results;
+          echo json_encode($results);
+        }
+
+      }
+
+  }
 
     public function test(){
       $email = 'dineshwickramasinghe2000@gmail.com';
@@ -344,8 +383,6 @@
       $this->view('buyers/test',$data);
 
     }
-    
-
 
   }  
 

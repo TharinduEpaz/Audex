@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css?id=125';?>">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/service_provider.css?id=1435';?>">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/style.css?id=145';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css?id=1425';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/service_provider.css?id=325';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/style.css?id=1445';?>">
     
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
@@ -43,7 +43,7 @@
 </nav>
 </div>
     <div class="sidebar">
-        <a href="#"><i class="fas fa-qrcode" id="dashboard"></i> <span>Dashboard</span></a>
+        <a href="<?php echo URLROOT . '/service_providers/dashboard';?>" id="dashboard"><i class="fas fa-qrcode" ></i> <span>Dashboard</span></a>
         <a href="<?php echo URLROOT . '/service_providers/profile';?>" id="profile-settings"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile</span></a>
         <a href="<?php echo URLROOT .'/service_providers/feed'?>" id="feed"> <i class="fa fa-ad" aria-hidden="true"></i><span>Feed</span></a>
         <a href="#" id="calender"> <i class="fa fa-calendar" aria-hidden="true"></i><span>Calender</span></a>

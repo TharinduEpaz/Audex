@@ -343,6 +343,10 @@ nav{
   display: flex;
   justify-content: flex-start;
 }
+.search-bar .search-form{
+  display: flex;
+  flex-direction: row;
+}
 .search .search-bar input{
   margin: 0;
   width: 650px;
@@ -372,6 +376,36 @@ nav{
   justify-content: center;
   align-items:center;
 }
+#search-results{
+  display: block;
+}
+#search-results .table {
+  width: 731px;
+  border-collapse: collapse;
+}
+
+#search-results .table td {
+  padding: 12px 15px;
+  border: 1px solid rgb(169 165 165);
+  background: #ffffff;
+  display: -webkit-box;
+  text-align: left;
+  font-size: 16px;
+}
+#search-results-table > tbody> tr > td > a > div{
+  display: flex;
+  flex-direction: row;
+}
+#search-results-table > tbody > tr > td > a > div > div.image-pop-up{
+  max-width: 50px;
+}
+#search-results-table > tbody > tr > td > a > div > div.image-pop-up > img{
+  max-width: 100%;
+}
+#search-results-table > tbody > tr > td > a > div > div.title-and-price{
+  align-self: center;
+}
+
 .explore{
   position:absolute;
   display: flex;
@@ -385,6 +419,7 @@ nav{
   margin-left: 99px;
   
   top: 430px;
+  
 }
 .explore .explore-line h3{
   font-size: 15px;
@@ -427,10 +462,6 @@ nav{
   font-weight: 700; 
 }
 
-.explore .explore-btn .home-icon {
-  
-  
-}
 
 /* HOME PAGE CSS ADDED BY EPA */
 
