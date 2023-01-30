@@ -922,7 +922,14 @@
           if (!isLoggedIn()) {
             redirect('users/login');
           }
+<<<<<<< HEAD
 
+          public function sound_engineers(){
+
+            $this->view('users/sound_engineers');
+
+          }
+=======
           // $result = $this-> userModel->addLikeToProduct($p_id, $u_id);
       
           $json = file_get_contents('php://input');
@@ -983,7 +990,11 @@
       
             }
         }
-
+        public function sound_engineers(){
+        $data = $this->userModel->getServiceProviders();
+            
+        $this->view('users/sound_engineers', $data);
+    }
 
         public function checkout($product_id,$data1){
             // $json = file_get_contents($data1);
@@ -1057,6 +1068,9 @@
             ];
             $this->view('users/success',$data);
         }
+        
+        
+            
         
         
     }

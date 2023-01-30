@@ -20,4 +20,9 @@
             background-color: rgb(214, 214, 239);
         }
     </style> 
+    <?php echo "<br><br><br><br><br><br><br><br>sdsd"; ?>
+    <?php print_r($data); ?>
+    
     <?php require_once APPROOT . '/views/users/navbar.php';?>
+    
+    
