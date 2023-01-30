@@ -1,3 +1,4 @@
+<?php date_default_timezone_set("Asia/Kolkata");?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="<?php echo URLROOT . '/public/js/moment.min.js';?>"></script>
+    <script type="text/javascript" src="<?php echo URLROOT . '/public/js/moment-timezone-with-data.js';?>"></script>
+
     <title>Advertisement</title>
 </head>
 <body>
@@ -107,25 +111,48 @@
 </body>
 <!-- Display the countdown timer in an element -->
 
+<!-- <script type="text/javascript" src="https://momentjs.com/downloads/moment.min.js"></script> -->
+<!-- <script type="text/javascript" src="https://momentjs.com/downloads/moment-timezone-with-data-1970-2030.js"></script> -->
 
 <script>
+
+    // var moment = require('moment-timezone');
+   
+    // console.log(now.format());
+    
     // Set the date we're counting down to
-    var countDownDate = new Date("<?php echo $data['auction']->end_date;?>").getTime();
+    // var countDownDate = new Date("<?php echo $data['auction']->end_date;?>").getTime();
+    var date="<?php echo $data['auction']->end_date;?>";
+    var countDownDate = moment.tz("Asia/Colombo");
+    console.log("Date is:",countDownDate.format());
+
+    var countDownDate=countDownDate.format('x');
+    console.log(countDownDate);
+    // console.log('<?php echo $data['auction']->end_date;?>');//1675663823000 //1675633223000 //1675633223000
                     
     // Update the count down every 1 second
     var x = setInterval(function() {
-    
       // Get today's date and time
-      var now = new Date().getTime();
+      var now = moment().tz("Asia/Colombo");
+    console.log(now.format());
+
+      var milliseconds = now.format('x');
+      console.log(now.format('x'));
+    //   var now = new Date(moment().tz("Asia/Colombo"));
+
     
       // Find the distance between now and the count down date
-      var distance = countDownDate - now;
+      var distance = countDownDate-milliseconds;
+      
     
       // Time calculations for days, hours, minutes and seconds
       var days = Math.floor(distance / (1000 * 60 * 60 * 24));
       var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+
+   
     
       // Display the result in the element with id="demo"
       document.getElementById("remaining_time").innerHTML = days + "d " + hours + "h "

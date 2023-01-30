@@ -23,7 +23,7 @@
     /*
      * Stripe API configuration
     */ 
-    define('STRIPE_API_KEY','sk_test_51MU2C4GlTSbBWjmimgrPHcMYPk02bQCrTJf9dSqMQG3nmcnGu4ylcNsUcIOR2vMOd4pDLPCKrO6oNQMN4cpz9ef700arP2rYRf');
-    define('STRIPE_PUBLISHABLE_KEY','pk_test_51MU2C4GlTSbBWjmij5ZWbU3wOBLFWZUeBS4AcCwc0FIZQAc9ifJmoZyyK33TYAqWB80sqMouMEWn2UNwyJUbawqU00UMTnoldI');
+    define('STRIPE_API_KEY','sk_test_51MVhcLDfLLASKhc4CUas6dl7QjlDwEjBDOEqu3WDZrmvz31v1ooDPUZ15STWkhEcizyTe0TIbR7Z8REJ5ujvmM4h00FnTCBGGm');
+    define('STRIPE_PUBLISHABLE_KEY','pk_test_51MVhcLDfLLASKhc4Fslrqmsvk33Mc5ZWjpaoiu9PCXHDGstChyOj0mUARDt4uLCgfrl94Koo3AuExPSJw18m76o300w9p2INH8');
     define('STRIPE_SUCCESS_URL',URLROOT);
     define('STRIPE_CANCEL_URL',URLROOT);
