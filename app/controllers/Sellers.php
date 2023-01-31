@@ -1,5 +1,10 @@
 <?php
+use \PHPMailer\PHPMailer\PHPMailer;
+use \PHPMailer\PHPMailer\Exception;
 
+require dirname(APPROOT).'/app/phpmailer/src/Exception.php';
+require dirname(APPROOT).'/app/phpmailer/src/PHPMailer.php';
+require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
     class Sellers extends Controller{
         private $sellerModel;
@@ -21,7 +26,7 @@
                 redirect('users/login');
             }
             else if($_SESSION['user_type'] != 'seller' && isLoggedIn()){
-                redirect($_SESSION['user_type'].'s/index');
+                redirect('users/index');
             }
             $this->sellerModel=$this->model('Seller');
             $this->userModel = $this->model('User');
@@ -51,8 +56,12 @@
     }
 
         public function editProfile($id){
+            if( $id != $_SESSION['user_id'] ){
+                redirect('users/login');
+              }
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
               $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
       
               $data = [
                 'id' => $id,
@@ -166,7 +175,7 @@
             $data=[
                 'advertisement'=>$advertisement
             ];
-            $auction = $this->userModel->getAuctionById($id);
+            $auction = $this->userModel->getAuctionById_withfinished($id);
             $data['auction'] = $auction;
             if($data['advertisement']->email!=$_SESSION['user_email']){
                 redirect('sellers/advertisements');
@@ -212,8 +221,9 @@
                 if(isset($_POST['check_au'])){
                     $data['type']='auction';
                     $num_of_dates=trim($_POST['date']);
-                    $data['end_date']=strtotime("+".$num_of_dates." Days");
-                    $data['end_date']=date('Y-m-d  h:i:sa',$data['end_date']);
+                    // $data['end_date']=strtotime("+".$num_of_dates." Days");
+                    $data['end_date']=date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' + '.$num_of_dates.' days'));
+                    // $data['end_date']=date('Y-m-d  H:i:s',$data['end_date']);
                 }
 
                 $user_id=$this->userModel->getUserId($data['user_email']);
@@ -397,7 +407,9 @@
                     //         $data['image3_err']="Sorry, only JPG, JPEG, PNG, & GIF files are allowed.";
                     //     }
                     // }
-                    $product_id=$this->sellerModel->advertise($data);
+                    $dat=date('Y-m-d H:i:s');
+                    
+                    $product_id=$this->sellerModel->advertise($data,$dat);
                     if($product_id!=false){
                         $data1=[
                             'title' => $data['title'],
@@ -807,15 +819,19 @@
             // }
         }
 
-        public function bid_list($id){
+        public function bid_list($id,$bid_id){
             $ad = $this->userModel->getAdvertiesmentById($id);
             $data['ad'] = $ad;
   
-            $auction = $this->userModel->getAuctionById($id);
+            $auction = $this->userModel->getAuctionById_withfinished($id);
             $data['auction'] = $auction;
             
             $auction_details = $this -> userModel->getAuctionDetails($id);
             $auctions_details_no_rows= $this -> userModel->getAuctionDetailsNoRows($id);
+
+            $bid_list = $this->userModel->getBidList($bid_id);
+            $data['bid_list'] = $bid_list;
+            
             if($auction_details){
               $data['auctions'] =$auction_details;
               $data['auctions_no_rows'] =$auctions_details_no_rows;
@@ -828,6 +844,50 @@
               //Load view
               $this->view('sellers/bid_list', $data);
   
-          }
+        }
+
+        public function aprove_bid($product_id,$bid_id,$email,$price,$name){
+            $dat=date('Y-m-d H:i:s');
+            if($this->sellerModel->approve_bid($bid_id,$email,$price,$dat)){
+                //Send email
+                $to='chamath5000@gmail.com';
+                $sender='audexlk@gmail.com';
+                $mail_subject='Approve/Reject a previous bid - Audexlk';
+                
+                // $header="From:{$sender}\r\nContent-Type:text/html;";
+
+                $mail = new PHPMailer(true);
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = $sender;
+                $mail->Password = 'bcoxsurnseqiajuf';
+                $mail->SMTPSecure = 'ssl';
+                $mail->Port = 465;
+                $mail->setFrom($sender);
+                $mail->addAddress($to);
+                $mail->isHTML(true);
+                $expiring_timestamp = time() + (24*60*60*5); // Expires in 24*5 hours
+                $activation_link = URLROOT.'/users/approve_reject_bid/'.$bid_id.'/' . $expiring_timestamp;
+                $email_body='<p>Dear '.$name.',<br>Thank you for bidding on Audexlk. Seller has been selected you as the winner of his auction.'; 
+                $email_body.=' You can <b>accept or reject</b> his offer by clicking the fllowing link.<b>Link will be expires in 5 days. After that you cannot approve or reject.</b><br><br>';
+                $email_body.='<b>'.$activation_link.'</b><br><br>';
+                $email_body.='Thank you,<br>Audexlk</p>';
+                $mail->Subject = $mail_subject;
+                $mail->Body = $email_body;
+                if($mail->send()){
+            // $time=CONVERT_TZ(NOW(),'SYSTEM','Asia/Calcutta');
+
+                    //Otp send by email
+                    redirect('sellers/bid_list/'.$product_id.'/'.$bid_id);
+                }
+                else{
+                    redirect('sellers/bid_list/'.$product_id.'/'.$bid_id);
+
+                }
+            }else {
+                redirect('sellers/bid_list/'.$product_id.'/'.$bid_id);
+            }
+        }
         
     }

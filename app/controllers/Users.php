@@ -252,9 +252,10 @@
                         //no errors
                         if($data['otp_entered']==$data['otp_sent']){
                             //otp matched
+                            $dat=date('Y-m-d H:i:s');
 
                             //Register user
-                            if($this->userModel->register($data)){
+                            if($this->userModel->register($data,$dat)){
                                 $row=$this->userModel->getUserId($data['email']);
                                 $data['user_id']=$row->user_id;
                                 unset($_SESSION['otp']);
@@ -430,7 +431,9 @@
                     if(empty($data['email_err'])  && empty($data['password_err'])){
                         //Validated
                         //Check and set logged in user
-                        $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+                        $dat=date('Y-m-d H:i:s');
+
+                        $loggedInUser = $this->userModel->login($data['email'], $data['password'],$dat);
                         if($loggedInUser){
                             //Create session
                             $this->createUserSession($loggedInUser);
@@ -533,15 +536,11 @@
             endforeach;
             $this->view('users/shop',$data);
         }
-        public function bid_expired($product_id,$auction_id){
-            $row=$this->userModel->bidExpired($auction_id);
-            if($row){
-                redirect('users/shop');
 
-            }else{
-                die('Something went wrong');
-            }
-        }
+
+        
+
+
         public function advertiesmentDetails($id)
         {
 
@@ -654,25 +653,48 @@
             if($data['price']<0){
                 $data['price_err2'] = 'Please enter valid price';
             }
+            switch($ad->price){
+                case $ad->price <1000:
+                    $price=$ad->price+10 .'.00';
+                break;
+
+                case $ad->price >=1000 && $ad->price < 10000:
+                    $price=$ad->price+100 .'.00';
+                break;
+
+                case $ad->price >= 10000 && $ad->price < 100000:
+                    $price=$ad->price+1000 .'.00';
+                break;
+
+                case $ad->price >= 100000 && $ad->price < 1000000:
+                    $price=$ad->price+(float)10000 .'.00';
+                break;
+
+                case $ad->price >= 1000000 && $ad->price < 10000000:
+                    $price=$ad->price+100000 .'.00';
+                break;
+
+                case $ad->price >= 10000000 && $ad->price < 100000000:
+                    $price=$ad->price+1000000 .'.00';
+                break;
+
+                case $ad->price >= 100000000 && $ad->price < 1000000000:
+                    $price=$ad->price+10000000 .'.00';
+                break;
+
+            }
             //Check for less than current price
-            if($auction_details){
-                if((float)$data['price']<=(float)$auction_details[0]->price || (float)$data['price']<=(float)$ad->price){
-                    if($auction_details[0]->price == 0){
-                        $auction_details[0]->price = $ad->price;
-                    }
-                    $data['price_err3'] = 'Please enter a more price than RS.'.$auction_details[0]->price;
-                }
-
+            
+            
+            if($price>$data['price']){
+                $data['price_err5'] = 'Please enter a more price than or equal to RS.'.$price ;
             }
-            else{
-                if((float)$data['price']<=(float)$ad->price){
-                    $data['price_err4'] = 'Please enter a more price than RS.'.$ad->price;
-                }
-            }
-
-            if(empty($data['price_err1']) && empty($data['price_err2']) && empty($data['price_err3']) && empty($data['price_err4'])){
+            
+            if(empty($data['price_err1']) && empty($data['price_err2']) && empty($data['price_err3']) && empty($data['price_err4']) && empty($data['price_err5'])){
                 //Validated
-                $added_bid = $this->userModel->add_bid($data['price'], $auction->auction_id);
+            $dat=date('Y-m-d H:i:s');
+
+                $added_bid = $this->userModel->add_bid($data['price'], $auction->auction_id,$dat);
                 if($added_bid){
                     $update_price = $this->userModel->update_price($data['price'], $id);
                     if($update_price){
@@ -699,7 +721,15 @@
         }
 
 
+        public function bid_expired($product_id,$auction_id){
+            $row=$this->userModel->bidExpired($auction_id);
+            if($row){
+                redirect('users/shop');
 
+            }else{
+                die('Something went wrong');
+            }
+        }
 
         // public function add_bid($product_id,$auction_id,$current_price,$starting_price){
         //     //CHeck if loggedIn
@@ -1057,7 +1087,15 @@
         }
         
         
-            
+        public function approve_reject_bid($bid_id,$time){
+            if(time() > $time){
+            redirect('pages/index');
+
+            }else{
+
+                redirect('sellers/index');
+            }
+        }    
         
         
     }

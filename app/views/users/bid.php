@@ -29,6 +29,8 @@
             </div>
             <div class="auction_details">
                 <h2><?php echo $data['ad']->product_title?></h2>
+                <h3>Price:&nbsp;<?php echo $data['ad']->price?></h3>
+                <?php echo date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' + 10 days'));?>
                 <div class="time">
                     <p>Time Left:&nbsp;</p>
                     <p id='remaining_time'></p>
@@ -60,7 +62,7 @@
                 </table>
                 <div class="add_bid" >
                     <?php
-                        if(!empty($data['price_err1']) || !empty($data['price_err2']) || !empty($data['price_err3']) || !empty($data['price_err4'])  ){
+                        if(!empty($data['price_err1']) || !empty($data['price_err2']) || !empty($data['price_err3']) || !empty($data['price_err4'])  || !empty($data['price_err5'])){
                             echo '<div class="error">';
                                 if(!empty($data['price_err'])){
                                     echo '*'.$data['price_err'].'<br>';
@@ -72,6 +74,8 @@
                                     echo '*'.$data['price_err3'].'<br>';
                                 }if(!empty($data['price_err4'])){
                                     echo '*'.$data['price_err4'].'<br>';
+                                }if(!empty($data['price_err5'])){
+                                    echo '*'.$data['price_err5'].'<br>';
                                 }
 
                             echo '</div>';
@@ -115,35 +119,15 @@
 <!-- <script type="text/javascript" src="https://momentjs.com/downloads/moment-timezone-with-data-1970-2030.js"></script> -->
 
 <script>
-
-    // var moment = require('moment-timezone');
-   
-    // console.log(now.format());
-    
-    // Set the date we're counting down to
-    // var countDownDate = new Date("<?php echo $data['auction']->end_date;?>").getTime();
-    var date="<?php echo $data['auction']->end_date;?>";
-    var countDownDate = moment.tz("Asia/Colombo");
-    console.log("Date is:",countDownDate.format());
-
-    var countDownDate=countDownDate.format('x');
-    console.log(countDownDate);
-    // console.log('<?php echo $data['auction']->end_date;?>');//1675663823000 //1675633223000 //1675633223000
-                    
     // Update the count down every 1 second
     var x = setInterval(function() {
       // Get today's date and time
       var now = moment().tz("Asia/Colombo");
-    console.log(now.format());
-
       var milliseconds = now.format('x');
-      console.log(now.format('x'));
-    //   var now = new Date(moment().tz("Asia/Colombo"));
 
-    
+      var end_date=  <?php echo strtotime($data['auction']->end_date);?>
       // Find the distance between now and the count down date
-      var distance = countDownDate-milliseconds;
-      
+      var distance = end_date*1000 - milliseconds;
     
       // Time calculations for days, hours, minutes and seconds
       var days = Math.floor(distance / (1000 * 60 * 60 * 24));
