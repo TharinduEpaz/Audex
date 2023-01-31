@@ -39,8 +39,6 @@ class Service_provider
         $this->db->execute();
 
         
-
-    
     }
 
     public function getEvents($user_id){
@@ -92,6 +90,7 @@ class Service_provider
         
     
 }
+
 
 
 

@@ -530,7 +530,7 @@ date_default_timezone_set("Asia/Kolkata");
         }
 
         public function getServiceProviders(){
-            $this->db->query('SELECT * FROM service_provider_view');
+            $this->db->query('SELECT first_name,second_name,profile_image,profession,Rating FROM service_provider_view');
             $result = $this->db->resultSet();
             return $result;
         }
