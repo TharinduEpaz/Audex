@@ -730,7 +730,15 @@
                     //Validated
                     if($this->sellerModel->edit_advertisement($data)){
                         flash('product_message', 'Product Edited');
-                        redirect('users/checkout/'.$data['id'].'/'.urlencode(json_encode($data)));
+                        $data1 = [
+                            'id' => $id,
+                            'user_email' => $_SESSION['user_email'],
+                            'title' => $data['title'],
+                            'price' => $data['price'],
+                            'image1' => $data['image1'],
+                            
+                        ];
+                        redirect('users/checkout/'.$data['id'].'/'.urlencode(json_encode($data1)));
 
                     } else {
                         die('Something went wrong');
@@ -807,8 +815,10 @@
             $data['auction'] = $auction;
             
             $auction_details = $this -> userModel->getAuctionDetails($id);
+            $auctions_details_no_rows= $this -> userModel->getAuctionDetailsNoRows($id);
             if($auction_details){
               $data['auctions'] =$auction_details;
+              $data['auctions_no_rows'] =$auctions_details_no_rows;
             }else{
               $data['auctions'] = null;
             }
