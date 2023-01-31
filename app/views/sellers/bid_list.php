@@ -49,7 +49,10 @@
                             echo '<td>'.$i.'</td>';
                             echo '<td>'.$auction->name.'</td>';
                             echo '<td>Rs.'.$auction->price.'</td>';
-                            if($i<3){
+                            if($i<3 && $data['auctions_no_rows']>=3){
+
+                                echo '<td class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/\'>Aprove</a></td>';
+                            }else if($i<2 && $data['auctions_no_rows']<=2){
 
                                 echo '<td class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/\'>Aprove</a></td>';
                             }
@@ -133,7 +136,10 @@
       if (distance < 0) {
           clearInterval(x);
           document.getElementById("remaining_time").innerHTML = "EXPIRED";
-          window.location.href = "<?php echo URLROOT.'/users/bid_expired/'.$data['ad']->product_id.'/'.$data['auction']->auction_id?>";
+          if(<?php echo $data['auction']->is_finished;?>==0){
+              window.location.href = "<?php echo URLROOT.'/users/bid_expired/'.$data['ad']->product_id.'/'.$data['auction']->auction_id?>";
+
+         }
       }
     }, 1000);
 </script>

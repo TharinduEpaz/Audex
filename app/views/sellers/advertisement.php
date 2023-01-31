@@ -54,7 +54,7 @@
                     <h4>Rs. <?php echo $data['advertisement']->price?></h4>
                 </div>
                 <div class="buttons">
-                    <?php if($data['advertisement']->product_category=='auction'){?>
+                    <?php if($data['advertisement']->product_type=='auction'){?>
                     <button type="button" class="bid_list" onclick="location.href='<?php echo URLROOT;?>/sellers/bid_list/<?php echo $data['advertisement']->product_id.'/'.$data['auction']->auction_id;?>'">Bid list</button>
                     <?php }?>
                     <button type="button" class="delete" onclick="location.href='<?php echo URLROOT;?>/sellers/delete_advertisement/<?php echo $data['advertisement']->product_id;?>'"> Delete</button>    
@@ -96,7 +96,10 @@
       if (distance < 0) {
           clearInterval(x);
           document.getElementById("remaining_time").innerHTML = "EXPIRED";
-          window.location.href = "<?php echo URLROOT.'/users/bid_expired/'.$data['advertisement']->product_id.'/'.$data['auction']->auction_id?>";
+          if(<?php echo $data['auction']->is_finished;?>==0){
+
+              window.location.href = "<?php echo URLROOT.'/users/bid_expired/'.$data['advertisement']->product_id.'/'.$data['auction']->auction_id?>";
+          }
       }
     }, 1000);
 </script>

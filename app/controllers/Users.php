@@ -912,24 +912,11 @@
         }
 
 
-        public function sound_engineers(){
-        
-          $this->view('users/sound_engineers');
-        
-        }
         public function addDislikeToProduct($p_id, $u_id)
         {
           if (!isLoggedIn()) {
             redirect('users/login');
           }
-<<<<<<< HEAD
-
-          public function sound_engineers(){
-
-            $this->view('users/sound_engineers');
-
-          }
-=======
           // $result = $this-> userModel->addLikeToProduct($p_id, $u_id);
       
           $json = file_get_contents('php://input');
