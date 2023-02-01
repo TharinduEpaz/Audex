@@ -10,12 +10,14 @@
     class Users extends Controller{
         private $userModel;
         private $buyerModel;
+        private $sellerModel;
 
 
         public function __construct(){
             
             $this->userModel = $this->model('User');
             $this->buyerModel = $this->model('Buyer');
+            $this->sellerModel = $this->model('Seller');
 
         }
         //register
@@ -1087,9 +1089,20 @@
         }
         
         
-        public function approve_reject_bid($bid_id,$time){
+        public function approve_reject_bid($product_id,$bid_id,$price,$time){
             if(time() > $time){
-            redirect('pages/index');
+                $advertisement=$this->sellerModel->getAdvertisementById($product_id);
+                $data=[
+                    'advertisement'=>$advertisement
+                ];
+                $auction = $this->userModel->getAuctionById_withfinished($product_id);
+                $data['auction'] = $auction;
+                if($data['advertisement']->email!=$_SESSION['user_email']){
+                    redirect('users/index');
+                }
+                else{
+                    $this->view('users/aprove_reject_bid',$data);
+                }
 
             }else{
 

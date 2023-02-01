@@ -44,7 +44,6 @@
     margin-top: 2vh;
 }
 .aprove{
-    text-decoration: none;
     color: red;
     text-decoration: underline;
     font-weight: 500;
@@ -53,14 +52,24 @@
     border: 1px solid rgb(149, 149, 149);
     padding: 1% 1%;
     font-weight:800;
-
+    
     font-size: 12pt;
 }
 .auction_details td{
     border: 1px solid rgb(149, 149, 149);
     padding: 1% 1%;
-    font-weight:500;
+    font-weight:600;
     font-size: 12pt;
+}
+#approve_link{
+    text-decoration: none;
+    font-weight:800;
+
+}
+#approve_link:hover{
+    background-color: rgb(167, 167, 167);
+    cursor: pointer;
+
 }
 .add_bid form{
     display: flex;

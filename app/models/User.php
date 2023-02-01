@@ -232,15 +232,28 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
         
-        public function getBidList($bid_id){
-            $this->db->query('SELECT * FROM bid_list WHERE bid_id = :id');
+        public function getBidList($bid_id,$price){
+            $this->db->query('SELECT * FROM bid_list WHERE bid_id = :id && price=:price');
             $this->db->bind(':id' , $bid_id);
+            $this->db->bind(':price' , $price);
 
             $row = $this->db->single();
             if($row){
                 return $row;
             }else{
                 return NULL;
+            }
+        }
+
+        public function updateBidStatus($bid_id){
+            $this->db->query('UPDATE bid_list SET is_rejected=1 WHERE bid_id = :id');
+            $this->db->bind(':id' , $bid_id);
+
+            $row = $this->db->execute(); //single row
+            if($row){
+                return true;
+            }else{
+                return false;
             }
         }
 

@@ -819,7 +819,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             // }
         }
 
-        public function bid_list($id,$bid_id){
+        public function bid_list($id,$auction_id){
             $ad = $this->userModel->getAdvertiesmentById($id);
             $data['ad'] = $ad;
   
@@ -829,12 +829,45 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             $auction_details = $this -> userModel->getAuctionDetails($id);
             $auctions_details_no_rows= $this -> userModel->getAuctionDetailsNoRows($id);
 
-            $bid_list = $this->userModel->getBidList($bid_id);
-            $data['bid_list'] = $bid_list;
+
+            $data['check']=0;
+            // $bid_list = $this->userModel->getBidList($bid_id);
+            // $data['bid_list'] = $bid_list;
+            // if($bid_list!=NULL){
+            //     if(date('Y-m-d H:i:s', strtotime($bid_list->time. ' + 5 days'))<date('Y-m-d H:i:s')){
+            //         $this->userModel->updateBidStatus($bid_list->bid_id);
+            //     }
+            // }
+            //   $data['bid_list_no_rows'] = $bid_list->num_rows;
             
             if($auction_details){
               $data['auctions'] =$auction_details;
               $data['auctions_no_rows'] =$auctions_details_no_rows;
+
+              for($i=0;$i<$auctions_details_no_rows;$i++){
+                 $bid_list = $this->userModel->getBidList($data['auctions'][$i]->bid_id,$data['auctions'][$i]->price);
+                 if($bid_list!=NULL){
+                    if(date('Y-m-d H:i:s', strtotime($bid_list->time. ' + 5 days'))<date('Y-m-d H:i:s') && $bid_list->is_accepted==0 && $bid_list->is_rejected==0){
+                        $this->userModel->updateBidStatus($bid_list->bid_id);
+                         $bid_list1 = $this->userModel->getBidList($data['auctions'][$i]->bid_id,$data['auctions'][$i]->price);
+                         $data['bid_list'][$i]=$bid_list1;
+
+                    }else{
+                        $data['bid_list'][$i]=$bid_list;
+                    }
+                    if($data['bid_list'][$i]->is_accepted==0 && $data['bid_list'][$i]->is_rejected==0){
+                        $data['check']++;
+                    }else if($data['bid_list'][$i]->is_accepted==1){
+                        $data['check']++;
+
+                    }else if($data['bid_list'][$i]->is_rejected==1){
+
+                    }
+                }else{
+                    $data['bid_list'][$i]=NULL;
+                }
+                
+              }
             }else{
               $data['auctions'] = null;
             }
@@ -868,7 +901,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 $mail->addAddress($to);
                 $mail->isHTML(true);
                 $expiring_timestamp = time() + (24*60*60*5); // Expires in 24*5 hours
-                $activation_link = URLROOT.'/users/approve_reject_bid/'.$bid_id.'/' . $expiring_timestamp;
+                $activation_link = URLROOT.'/users/approve_reject_bid/'.$product_id.'/'.$bid_id.'/' .$price.'/'. $expiring_timestamp;
                 $email_body='<p>Dear '.$name.',<br>Thank you for bidding on Audexlk. Seller has been selected you as the winner of his auction.'; 
                 $email_body.=' You can <b>accept or reject</b> his offer by clicking the fllowing link.<b>Link will be expires in 5 days. After that you cannot approve or reject.</b><br><br>';
                 $email_body.='<b>'.$activation_link.'</b><br><br>';
