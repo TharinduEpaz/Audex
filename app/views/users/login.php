@@ -36,7 +36,6 @@
                         }
                     echo '</div>';
                 }
-
             ?>
 
             <form action="<?php echo URLROOT . '/users/login';?>" method="post" >

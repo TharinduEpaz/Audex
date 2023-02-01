@@ -366,19 +366,15 @@
         public function login(){
             if(isset($_SESSION['otp'])){
                 unset($_SESSION['otp']);
-                unset($_SESSION['email']);
-                unset($_SESSION['password']);
-                unset($_SESSION['first_name']);
-                unset($_SESSION['second_name']);
-                unset($_SESSION['phone']);
-                unset($_SESSION['user_type']);
-                unset($_SESSION['attempt']);
-                session_destroy();
+                // unset($_SESSION['email']);
+                // unset($_SESSION['password']);
+                // unset($_SESSION['first_name']);
+                // unset($_SESSION['second_name']);
+                // unset($_SESSION['phone']);
+                // unset($_SESSION['user_type']);
+                // unset($_SESSION['attempt']);
+                // session_destroy();
                 // redirect('users/login');
-            }
-            //CHeck if loggedIn
-            if(isLoggedIn()){
-                redirect($_SESSION['user_type'].'s/index');
             }
             //CHECK FOR POST
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -472,24 +468,29 @@
             $_SESSION['user_email'] = $user->email;
             $_SESSION['user_name'] = $user->first_name;
             $_SESSION['user_type'] = $user->user_type;
-            switch($_SESSION['user_type']){
-                case 'user':
-                    redirect('users/index');
-                    break;
-                case 'seller':
-                    redirect('sellers/index');
-                    break;
-                case 'admin':
-                    redirect('admins/index');
-                    break;
-                case 'service_provider':
-                    redirect('service_providers/index');
-                    break;
-                case 'buyer':
-                    redirect('buyers/index');
-                    break;
-                default:
-                    redirect('users/index');
+            if(isset($_SESSION['url'])){
+                redirect($_SESSION['url']);
+            }else{
+
+                switch($_SESSION['user_type']){
+                    case 'user':
+                        redirect('user/index');
+                        break;
+                    case 'seller':
+                        redirect('sellers/index');
+                        break;
+                    case 'admin':
+                        redirect('admins/index');
+                        break;
+                    case 'service_provider':
+                        redirect('service_providers/index');
+                        break;
+                    case 'buyer':
+                        redirect('buyers/index');
+                        break;
+                    default:
+                        redirect('user/index');
+                }
             }
         }
 
@@ -796,6 +797,7 @@
 
         public function watchlist(){
             if(!isLoggedIn()){
+              $_SESSION['url']=URL();
               redirect('users/login');
             }
       //this should change after orginal db
@@ -810,6 +812,8 @@
       
           public function addToWatchList($p_id,$u_id){
             if(!isLoggedIn()){
+              $_SESSION['url']=URL();
+
               redirect('users/login');
             }
             echo $_POST['user_id'];
@@ -832,6 +836,8 @@
           
           public function removeItemFromWatchList($p_id,$u_id){
             if(!isLoggedIn()){
+              $_SESSION['url']=URL();
+
               redirect('users/login');
             }
             echo $_POST['user_id'];
@@ -856,10 +862,13 @@
           
           public function removeOneItemFromWatchList($p_id,$u_id){
             if(!isLoggedIn()){
+              $_SESSION['url']=URL();
+
               redirect('users/login');
             }
             echo $_POST['user_id'];
             if($_POST['user_id'] == 0){
+                
               redirect('users/login');
             }
             else{
@@ -880,6 +889,8 @@
         public function addLikeToProduct($p_id, $u_id)
         {
           if (!isLoggedIn()) {
+            $_SESSION['url']=URL();
+
             redirect('users/login');
           }
           // $result = $this-> userModel->addLikeToProduct($p_id, $u_id);
@@ -916,6 +927,8 @@
         public function removeLikeFromProduct($p_id,$u_id)
         {
             if(!isLoggedIn()){
+              $_SESSION['url']=URL();
+
               redirect('users/login');
             }
             // $result = $this-> userModel->addLikeToProduct($p_id, $u_id);
@@ -947,6 +960,8 @@
         public function addDislikeToProduct($p_id, $u_id)
         {
           if (!isLoggedIn()) {
+            $_SESSION['url']=URL();
+
             redirect('users/login');
           }
           // $result = $this-> userModel->addLikeToProduct($p_id, $u_id);
@@ -983,6 +998,8 @@
         public function removeDislikeFromProduct($p_id,$u_id)
         {
             if(!isLoggedIn()){
+              $_SESSION['url']=URL();
+
               redirect('users/login');
             }
             // $result = $this-> userModel->addLikeToProduct($p_id, $u_id);
@@ -1090,25 +1107,77 @@
         
         
         public function approve_reject_bid($product_id,$bid_id,$price,$time){
-            if(time() > $time){
+            if(time() < $time){
                 $advertisement=$this->sellerModel->getAdvertisementById($product_id);
+                if($advertisement){
+                    $data['advertisement'] = $advertisement;
+                }
+                else{
+                    die('Something went wrong');
+                }
                 $data=[
                     'advertisement'=>$advertisement
                 ];
                 $auction = $this->userModel->getAuctionById_withfinished($product_id);
-                $data['auction'] = $auction;
-                if($data['advertisement']->email!=$_SESSION['user_email']){
-                    redirect('users/index');
+                if($auction){
+                    $data['auction'] = $auction;
                 }
                 else{
-                    $this->view('users/aprove_reject_bid',$data);
+                    die('Something went wrong');
+                }
+                $bid = $this->userModel->getBidList($bid_id,$price);
+                if($bid){
+                    $data['bid'] = $bid;
+                }
+                else{
+                    die('Something went wrong');
+                }
+                
+                if(isLoggedIn()){
+                    if($bid->email_buyer!=$_SESSION['user_email']){
+                        $_SESSION['url']=URL();
+                        redirect('users/login');
+                    }
+                    else{
+                        if($bid->is_accepted==0 && $bid->is_rejected==0){
+
+                            $this->view('users/aprove_reject_bid',$data);
+                        }else{
+                            redirect('pages/index');
+                        }
+                    }
+
+                }else{
+                    $_SESSION['url']=URL();
+                    redirect('users/login');
                 }
 
             }else{
-
-                redirect('sellers/index');
+                $this->userModel->updateBidStatus($bid_id,$price);
+                redirect('pages/index');
             }
-        }    
+        } 
+        
+        public function accept_bid($bid_id,$price){
+            $result = $this->userModel->updateBidAcceptedStatus($bid_id,$price);
+            if($result){
+                flash('auction_message', 'Offer Accepted');
+                redirect('pages/index');
+            }
+            else{
+                die('Something went wrong');
+            }
+        }
+
+        public function reject_bid($bid_id,$price){
+            $result = $this->userModel->updateBidStatus($bid_id,$price);
+            if($result){
+                redirect('pages/index');
+            }
+            else{
+                die('Something went wrong');
+            }
+        }
         
         
     }

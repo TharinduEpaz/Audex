@@ -36,9 +36,9 @@
 }
 .auction_details table{
     width: 130%;
-    border: 1px solid black;
-    border-collapse: collapse;
-    background-color: white;
+    /* border: 1px solid black; */
+    border-collapse: inherit;
+    /* background-color: white; */
     text-align: center;
     color: #001A72;
     margin-top: 2vh;
@@ -49,14 +49,15 @@
     font-weight: 500;
 }
 .auction_details th{
-    border: 1px solid rgb(149, 149, 149);
+    /* border: 1px solid rgb(149, 149, 149); */
     padding: 1% 1%;
     font-weight:800;
     
     font-size: 12pt;
 }
 .auction_details td{
-    border: 1px solid rgb(149, 149, 149);
+    /* border: 1px solid rgb(149, 149, 149); */
+    border-radius: 10px;
     padding: 1% 1%;
     font-weight:600;
     font-size: 12pt;
@@ -67,7 +68,7 @@
 
 }
 #approve_link:hover{
-    background-color: rgb(167, 167, 167);
+    background-color: rgb(209, 209, 209);
     cursor: pointer;
 
 }

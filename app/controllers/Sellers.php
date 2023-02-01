@@ -23,6 +23,8 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 unset($_SESSION['user_type']);
                 unset($_SESSION['attempt']);
                 session_destroy();
+                $_SESSION['url']=URL();
+
                 redirect('users/login');
             }
             else if($_SESSION['user_type'] != 'seller' && isLoggedIn()){
@@ -40,11 +42,15 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
     public function getProfile($id){ 
       if(!isLoggedIn()){
+        $_SESSION['url']=URL();
+
         redirect('users/login');
       }
       $details = $this->sellerModel->getUserDetails($id);
 
       if ($details->user_id != $_SESSION['user_id']) {
+        $_SESSION['url']=URL();
+
         redirect('users/login');
       }
 
@@ -57,6 +63,8 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
         public function editProfile($id){
             if( $id != $_SESSION['user_id'] ){
+              $_SESSION['url']=URL();
+
                 redirect('users/login');
               }
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -117,6 +125,8 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
               $details = $this->sellerModel->getUserDetails($id);
       
               if($details->user_id != $_SESSION['user_id']){
+              $_SESSION['url']=URL();
+
                 redirect('users/login');
               }
       
@@ -140,10 +150,13 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
       
               //check for owner
               if( $user->_id != $_SESSION['user_id'] ){
+              $_SESSION['url']=URL();
+
                 redirect('users/login');
               }
       
               if($this->sellerModel->deleteUserProfile($id)){
+
                 redirect('users/login');
               }
               else{
@@ -829,6 +842,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             $auction_details = $this -> userModel->getAuctionDetails($id);
             $auctions_details_no_rows= $this -> userModel->getAuctionDetailsNoRows($id);
 
+            $url=rtrim($_GET['url'],'/');
+            $url=filter_var($url,FILTER_SANITIZE_URL);
+            $data['url']=$url;
 
             $data['check']=0;
             // $bid_list = $this->userModel->getBidList($bid_id);
@@ -848,7 +864,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                  $bid_list = $this->userModel->getBidList($data['auctions'][$i]->bid_id,$data['auctions'][$i]->price);
                  if($bid_list!=NULL){
                     if(date('Y-m-d H:i:s', strtotime($bid_list->time. ' + 5 days'))<date('Y-m-d H:i:s') && $bid_list->is_accepted==0 && $bid_list->is_rejected==0){
-                        $this->userModel->updateBidStatus($bid_list->bid_id);
+                        $this->userModel->updateBidStatus($bid_list->bid_id,$data['auctions'][$i]->price);
                          $bid_list1 = $this->userModel->getBidList($data['auctions'][$i]->bid_id,$data['auctions'][$i]->price);
                          $data['bid_list'][$i]=$bid_list1;
 
@@ -883,9 +899,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             $dat=date('Y-m-d H:i:s');
             if($this->sellerModel->approve_bid($bid_id,$email,$price,$dat)){
                 //Send email
-                $to='chamath5000@gmail.com';
+                $to=$email;
                 $sender='audexlk@gmail.com';
-                $mail_subject='Approve/Reject a previous bid - Audexlk';
+                $mail_subject='Approve/Reject a auction offer - Audexlk';
                 
                 // $header="From:{$sender}\r\nContent-Type:text/html;";
 
