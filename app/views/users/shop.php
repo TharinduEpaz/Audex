@@ -23,10 +23,33 @@
     <?php require_once APPROOT . '/views/users/navbar.php';?>
 
     <div class="container" >
-        <div class="ad-search_shop" >
-            <input type="search" name="search" placeholder="Search for anything"> 
-            <a href="#"><button type="submit" value="search" name="submit">Search</button></a>
+        <div class="ad-search_shop">
+            <form method="post" class="search-form" id="main-search-bar" action="<?php echo URLROOT . '/public/users/searchItems';?>">
+                <input type="search" name="search-item" id="search-item-term" placeholder="Microphone"></input>
+                <button type="submit" class="btn-search"> <img src="<?php echo URLROOT . '/public/img/icons/bxs_search-alt-2.png'; ?>" alt="search"> </button>
+            </form>
         </div>
+        
+        <div id="search-result-area">
+            <?php if( $data['isEmpty'] != '1' ){ ?>
+
+                <?php foreach($data['searchResults'] as $result) : ?>
+                    <div class="container-ad">
+                        <div class="container-img">
+                            <img src="<?php echo URLROOT.'/public/uploads/'.$result->image1;?>" /> 
+                        </div>
+                        <div class="title">
+                            <a href="<?php echo URLROOT . '/users/advertiesmentDetails/'.$result->product_id;?>">
+                            <?php echo $result->product_title ; ?><br>
+                            <?php echo 'RS:'. $result->price ; ?></a>
+    
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+
+            <?php }; ?>
+        </div>
+
         <div class="header">
             <h1>New Arrivals</h1>
         </div>

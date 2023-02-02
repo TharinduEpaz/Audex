@@ -29,7 +29,7 @@
         <div class="spinner hidden" id="spinner"></div>
         <span id="button-text">Pay now</span>
       </button>
-      <div id="payment-message" class="hidden"></div>
+      <div id="payment-message" class="hidden"></div> 
     </form>
   </body>
   <script>

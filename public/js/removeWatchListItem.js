@@ -27,7 +27,7 @@ removeItemFromWatchListForm.forEach((form)=>{
       // document.getElementById("remove-item-from-watchlist").value = "Please Wait..";
 
       //remove white spaces in user id
-      const url = 'http://localhost/Audex/buyers/removeOneItemFromWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
+      const url = 'http://localhost/Audex/users/removeOneItemFromWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
 
       console.log(url);
       const data = await fetch(url, {
@@ -37,7 +37,7 @@ removeItemFromWatchListForm.forEach((form)=>{
       const responce = await data.text();
       alert("Removed");
       // form.reset();
-      window.location.href = 'http://localhost/Audex/buyers/watchlist/' + formData.get('user_id').trim() ;
+      window.location.href = 'http://localhost/Audex/users/watchlist/' + formData.get('user_id').trim() ;
 
     }
 

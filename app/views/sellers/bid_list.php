@@ -11,6 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
+    
+    <script type="text/javascript" src="<?php echo URLROOT . '/public/js/moment.min.js';?>"></script>
+    <script type="text/javascript" src="<?php echo URLROOT . '/public/js/moment-timezone-with-data.js';?>"></script>
     <title>Advertisement</title>
 </head>
 <body>
@@ -25,6 +28,14 @@
             </div>
             <div class="auction_details">
                 <h2><?php echo $data['ad']->product_title?></h2>
+                <?php
+                // $currentTime = date('Y-m-d H:i:s');
+                // echo $currentTime;
+                ?>
+                <!-- <?php
+                echo URL().'<br>';
+                echo time();
+                ?> -->
                 <div class="time">
                     <p>Time Left:&nbsp;</p>
                     <p id='remaining_time'></p>
@@ -49,12 +60,61 @@
                             echo '<td>'.$i.'</td>';
                             echo '<td>'.$auction->name.'</td>';
                             echo '<td>Rs.'.$auction->price.'</td>';
-                            if($i<3 && $data['auctions_no_rows']>=3){
+                            if($i<4 && $data['auctions_no_rows']>3 && $auction->is_active==0){
+                                if($data['bid_list'][$i-1]!=NULL){
+                                    if($data['bid_list'][$i-1]->is_accepted==0 && $data['bid_list'][$i-1]->is_rejected==0){
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Email Sent</a></td>';
+                                    }else if($data['bid_list'][$i-1]->is_accepted==1){
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none ; color:green\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approved</a></td>';
 
-                                echo '<td class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/\'>Aprove</a></td>';
+                                    }else if($data['bid_list'][$i-1]->is_rejected==1){
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none; color:red\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Rejected</a></td>';
+
+                                    }
+                                }else if($data['check']==0){
+                                    echo '<td id=\'approve_link\' class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approve</a></td>';
+
+                                }else{
+                                    echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approve</a></td>';
+                                }
+                                
+                            }else if($i<3 && $data['auctions_no_rows']=3 && $auction->is_active==0){
+                                if($data['bid_list'][$i-1]!=NULL){
+                                    if($data['bid_list'][$i-1]->is_accepted==0 && $data['bid_list'][$i-1]->is_rejected==0){
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Email Sent</a></td>';
+                                    }else if($data['bid_list'][$i-1]->is_accepted==1){
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none ; color:green\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approved</a></td>';
+
+                                    }else if($data['bid_list'][$i-1]->is_rejected==1){
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none; color:red\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Rejected</a></td>';
+
+                                    }
+                                }else if($data['check']==0){
+                                    echo '<td id=\'approve_link\' class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approve</a></td>';
+
+                                }else{
+                                    echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approve</a></td>';
+                                }
+                                
                             }else if($i<2 && $data['auctions_no_rows']<=2){
 
-                                echo '<td class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/\'>Aprove</a></td>';
+                                if($data['bid_list'][$i-1]!=NULL ){
+                                    echo '<td id=\'approve_link\' class=\'aprove\'>'. date('Y-m-d H:i:s', strtotime($data['bid_list'][$i-1]->time. ' + 5 days')).'</td>';
+                                    if($data['bid_list'][$i-1]->is_accepted==0 && $data['bid_list'][$i-1]->is_rejected==0){
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Email Sent</a></td>';
+                                    }else if($data['bid_list'][$i-1]->is_accepted==1){
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none ; color:green\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approved</a></td>';
+
+                                    }else if($data['bid_list'][$i-1]->is_rejected==1){
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none; color:red\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Rejected</a></td>';
+
+                                    }
+                                }else if($data['check']==0){
+                                    echo '<td id=\'approve_link\' class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approve</a></td>';
+
+                                }else{
+                                    echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approve</a></td>';
+                                }
                             }
                         echo '</tr>';
                         endforeach;
@@ -63,20 +123,11 @@
                 </table>
                 <div class="add_bid" >
                     <?php
-                        if(!empty($data['price_err1']) || !empty($data['price_err2']) || !empty($data['price_err3']) || !empty($data['price_err4'])  ){
+                        if(!empty($data['email_err']) ){
                             echo '<div class="error">';
-                                if(!empty($data['price_err'])){
-                                    echo '*'.$data['price_err'].'<br>';
-                                }if(!empty($data['price_err1'])){
-                                    echo '*'.$data['price_err1'].'<br>';
-                                }if(!empty($data['price_err2'])){
-                                    echo '*'.$data['price_err2'].'<br>';
-                                }if(!empty($data['price_err3'])){
-                                    echo '*'.$data['price_err3'].'<br>';
-                                }if(!empty($data['price_err4'])){
-                                    echo '*'.$data['price_err4'].'<br>';
+                                if(!empty($data['email_err'])){
+                                    echo '*'.$data['email_err'].'<br>';
                                 }
-
                             echo '</div>';
                         }
 
@@ -110,17 +161,17 @@
 
 
 <script>
-    // Set the date we're counting down to
-    var countDownDate = new Date("<?php echo $data['auction']->end_date;?>").getTime();
                     
     // Update the count down every 1 second
     var x = setInterval(function() {
     
-      // Get today's date and time
-      var now = new Date().getTime();
-      console.log(now);
+         // Get today's date and time
+      var now = moment().tz("Asia/Colombo");
+      var milliseconds = now.format('x');
+
+      var end_date=  <?php echo strtotime($data['auction']->end_date);?>
       // Find the distance between now and the count down date
-      var distance = countDownDate - now;
+      var distance = end_date*1000 - milliseconds;
     
       // Time calculations for days, hours, minutes and seconds
       var days = Math.floor(distance / (1000 * 60 * 60 * 24));

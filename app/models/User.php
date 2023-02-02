@@ -7,14 +7,15 @@ date_default_timezone_set("Asia/Kolkata");
         }
 
         //Register User
-        public function register($data){
-            $this->db->query('INSERT INTO user (first_name, second_name, email, phone_number, user_type,registered_date,password,email_active) VALUES(:first_name, :second_name, :email, :phone,:user_type,NOW(), :password, 1)');
+        public function register($data,$dat){
+            $this->db->query('INSERT INTO user (first_name, second_name, email, phone_number, user_type,registered_date,password,email_active) VALUES(:first_name, :second_name, :email, :phone,:user_type,:t, :password, 1)');
             //Bind values
             $this->db->bind(':first_name', $data['first_name']);
             $this->db->bind(':second_name', $data['second_name']);
             $this->db->bind(':email', $data['email']);
             $this->db->bind(':phone', $data['phone']);
             $this->db->bind(':user_type', $data['user_type']);
+            $this->db->bind(':t', $dat);
             $this->db->bind(':password', $data['password']);
 
             //Execute
@@ -105,15 +106,16 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
 
-        public function logintime($email){
-            $this->db->query('UPDATE user set last_login=NOW() WHERE email = :email');
+        public function logintime($email,$dat){
+            $this->db->query('UPDATE user set last_login=:t WHERE email = :email');
             $this->db->bind(':email', $email);
+            $this->db->bind(':t', $dat);
             $row = $this->db->execute(); //single row
 
         }
 
         //Login user
-        public function login($email, $password){
+        public function login($email, $password,$dat){
             $this->db->query('SELECT * FROM user WHERE email = :email && email_active=1');
             $this->db->bind(':email', $email);
 
@@ -121,7 +123,7 @@ date_default_timezone_set("Asia/Kolkata");
 
             $hashed_password = $row->password;
             if(password_verify($password, $hashed_password)){
-                $this->logintime($email);
+                $this->logintime($email,$dat);
                 return $row;
             }else{
                 return false;
@@ -195,6 +197,18 @@ date_default_timezone_set("Asia/Kolkata");
             return $row;
         }
         public function getAuctionById($id){
+            $this->db->query('SELECT * FROM auction WHERE product_id = :id && is_finished=0 && is_active=1');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->single();
+            if($row){
+                return $row;
+            }else{
+                return "Error";
+            }
+        }
+
+        public function getAuctionById_withfinished($id){
             $this->db->query('SELECT * FROM auction WHERE product_id = :id ');
             $this->db->bind(':id' , $id);
 
@@ -217,6 +231,46 @@ date_default_timezone_set("Asia/Kolkata");
                 return false;
             }
         }
+        
+        public function getBidList($bid_id,$price){
+            $this->db->query('SELECT * FROM bid_list WHERE bid_id = :id && price=:price');
+            $this->db->bind(':id' , $bid_id);
+            $this->db->bind(':price' , $price);
+
+            $row = $this->db->single();
+            if($row){
+                return $row;
+            }else{
+                return NULL;
+            }
+        }
+
+        public function updateBidStatus($bid_id,$price){
+            $this->db->query('UPDATE bid_list SET is_rejected=1 WHERE bid_id = :id && price=:price');
+            $this->db->bind(':id' , $bid_id);
+            $this->db->bind(':price' , $price);
+
+            $row = $this->db->execute(); //single row
+            if($row){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        public function updateBidAcceptedStatus($bid_id,$price){
+            $this->db->query('UPDATE bid_list SET is_accepted=1 WHERE bid_id = :id && price=:price');
+            $this->db->bind(':id' , $bid_id);
+            $this->db->bind(':price' , $price);
+
+            $row = $this->db->execute(); //single row
+            if($row){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
         public function getAuctionDetails($id){
             $this->db->query('SELECT * FROM auction WHERE product_id = :id');
             $this->db->bind(':id' , $id);
@@ -249,17 +303,14 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
 
-        public function add_bid($price,$auction_id){
+        public function add_bid($price,$auction_id,$dat){
 
-            $this->db->query('INSERT INTO bid (auction_id, email_buyer, name, price, date_time) VALUES (:auction_id, :email_buyer, :name, :price, NOW())');
+            $this->db->query('INSERT INTO bid (auction_id, email_buyer, name, price, date_time) VALUES (:auction_id, :email_buyer, :name, :price, :t)');
             $this->db->bind(':auction_id', $auction_id);
-            if($_SESSION['user_type'] == "buyer"){
-                $this->db->bind(':email_buyer', $_SESSION['user_email']);
-            }else if($_SESSION['user_type'] == "service_provider"){
-                $this->db->bind(':email_service_provider', $_SESSION['user_email']);
-            }
+            $this->db->bind(':email_buyer', $_SESSION['user_email']);
             $this->db->bind(':name', $_SESSION['user_name']);
             $this->db->bind(':price', $price);
+            $this->db->bind(':t', $dat);
 
             if($this->db->execute()){
                 return true;
@@ -533,6 +584,15 @@ date_default_timezone_set("Asia/Kolkata");
             $this->db->query('SELECT first_name,second_name,profile_image,profession,Rating FROM service_provider_view');
             $result = $this->db->resultSet();
             return $result;
+        }
+
+        public function searchItems($searchedTerm){
+            $this->db->query('SELECT * FROM product WHERE product_title LIKE :searchedTerm');
+            $this->db->bind(':searchedTerm', '%'.$searchedTerm.'%');
+
+            $results = $this->db->resultSet();
+            return $results;
+
         }
 
     }

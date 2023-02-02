@@ -171,9 +171,11 @@
                 .then(response => response.json())
                 .then(data =>{
                     console.log(data); 
-                    likedCount.innerHTML = ++likedCount.innerText;
-                    likeBtn.setAttribute("data-like","removeLike");      
-                    likeBtn.style.color="Red";
+                    if(likeBtn.getAttribute("data-like") === "addLike"){
+                        likedCount.innerHTML = ++likedCount.innerText;
+                        likeBtn.setAttribute("data-like","removeLike");      
+                        likeBtn.style.color="Red";
+                    }
 
                     // check is there any dislike and if it is reduce the dislike count
                     if( dislikeBtn.getAttribute("data-dislike") === "removeDislike" ){
@@ -207,12 +209,14 @@
                 .then(response => response.json())
                 .then(data =>{
                     console.log(data); 
-                    likedCount.innerHTML = --likedCount.innerText;
-                    likeBtn.setAttribute("data-like","addLike");      
-                    likeBtn.style.color="black";
-
-                    dislikeBtn.setAttribute("data-dislike","addDislike");      
-                    dislikeBtn.style.color="black";
+                    if(likeBtn.getAttribute("data-like") === "removeLike"){
+                        likedCount.innerHTML = --likedCount.innerText;
+                        likeBtn.setAttribute("data-like","addLike");      
+                        likeBtn.style.color="black";
+    
+                        dislikeBtn.setAttribute("data-dislike","addDislike");      
+                        dislikeBtn.style.color="black";
+                    }
                 })
                 .catch(error => {
                     console.log("Error:", error);
@@ -251,7 +255,9 @@
                 .then(response => response.json())
                 .then(data =>{
                     console.log(data); 
-                    dislikedCount.innerHTML = ++dislikedCount.innerText;
+                    if( dislikeBtn.getAttribute("data-dislike") === "addDislike" ){
+                        dislikedCount.innerHTML = ++dislikedCount.innerText;
+                    }
 
                     // Check is there any like and reduce the like count
                     // check is there any like and if it is reduce the like count
@@ -289,12 +295,14 @@
                 .then(response => response.json())
                 .then(data =>{
                     console.log(data); 
-                    dislikedCount.innerHTML = --dislikedCount.innerText;
-                    dislikeBtn.setAttribute("data-dislike","addDislike");      
-                    dislikeBtn.style.color="black"; 
-
-                    likeBtn.style.color="black"; 
-                    likeBtn.setAttribute("data-like","addLike");
+                    if( dislikeBtn.getAttribute("data-dislike") === "removeDislike" ){
+                        dislikedCount.innerHTML = --dislikedCount.innerText;
+                        dislikeBtn.setAttribute("data-dislike","addDislike");      
+                        dislikeBtn.style.color="black"; 
+    
+                        likeBtn.style.color="black"; 
+                        likeBtn.setAttribute("data-like","addLike");
+                    }
 
                 })
                 .catch(error => {
