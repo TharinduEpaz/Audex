@@ -10,7 +10,7 @@ const resultTable = document.getElementById("search-results-table");
         const searchItemTerm = document.getElementById("search-item-term").value;
     
         const data = new FormData(mainSearchForm);
-        const url = 'http://localhost/Audex/buyers/searchItems';
+        const url = 'http://localhost/Audex/users/searchItems';
 
         fetch(url,{
             method : "POST",
@@ -28,7 +28,7 @@ const resultTable = document.getElementById("search-results-table");
                 var result = data[i];
                 var imgLink = "<img src=" + "http://localhost/Audex/public/uploads/"+ result.image1 +">";
 
-                var link = "<a href ="+"http://localhost/Audex/buyers/advertiesmentDetails/"+result.product_id+ " >";
+                var link = "<a href ="+"http://localhost/Audex/users/advertiesmentDetails/"+result.product_id+ " >";
                 html += "<tr>"+
                              "<td>"+link+"<div class ='search-result-row-content'><div class ='image-pop-up'>" +imgLink+ "</div> <div class='title-and-price'>" + result.product_title + "</br>Price: "+result.price+ "</div></div>"+"</a>"+  "</td>" + 
                         "</tr>";
@@ -51,7 +51,7 @@ const resultTable = document.getElementById("search-results-table");
     
         const data = new FormData(mainSearchForm);
         data.append("submit",1);
-        const url = 'http://localhost/Audex/buyers/searchItems';
+        const url = 'http://localhost/Audex/users/searchItems';
 
         fetch(url,{
             method : "POST",
@@ -65,7 +65,7 @@ const resultTable = document.getElementById("search-results-table");
         .then((data)=>{
             // redirect to the "shop" page and pass the data as a parameter in the URL
 
-            window.location.href = "http://localhost/Audex/buyers/shop";
+            window.location.href = "http://localhost/Audex/users/shop";
             
             // var html = "";
             // for (var i = 0; i < data.length; i++) {

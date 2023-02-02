@@ -64,7 +64,7 @@
         <div class="header"  style="visibility:<?php echo $data['isEmpty'] == '1'? 'hidden':'visible'; ?> ;"  >
             <h1>Search Results</h1>
         </div>
-        <div id="search-result-area">
+        <!-- <div id="search-result-area">
             <?php if( $data['isEmpty'] != '1' ){ ?>
 
                 <?php foreach($data['searchResults'] as $result) : ?>
@@ -82,7 +82,7 @@
                 <?php endforeach; ?>
 
             <?php }; ?>
-        </div>
+        </div> -->
         <div class="header">
             <h1>New Arrivals</h1>
         </div>

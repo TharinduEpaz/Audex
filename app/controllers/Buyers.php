@@ -168,18 +168,18 @@
       }
     }
 
-    public function watchlist(){
-      if(!isLoggedIn()){
-        redirect('users/login');
-      }
-//this should change after orginal db
-      $products = $this->buyerModel->getBuyerWatchProducts($_SESSION['user_email']);
-      $data =[
-        'products' => $products,
-      ];
-      $this->view('buyers/watchlist',$data);
+//     public function watchlist(){
+//       if(!isLoggedIn()){
+//         redirect('users/login');
+//       }
+// //this should change after orginal db
+//       $products = $this->buyerModel->getBuyerWatchProducts($_SESSION['user_email']);
+//       $data =[
+//         'products' => $products,
+//       ];
+//       $this->view('buyers/watchlist',$data);
 
-    }
+//     }
 
     public function deleteProfile($id){
       if( $_SERVER['REQUEST_METHOD'] == 'POST' ){
@@ -209,167 +209,168 @@
 
     }
 
-    public function addToWatchList($p_id,$u_id){
-      if(!isLoggedIn()){
-        redirect('users/login');
-      }
-      echo $_POST['user_id'];
-      if($_POST['user_id'] == 0){
-        redirect('users/login');
-      }
-      else{
-        if (isset($_POST['add'])){
-          $result = $this-> buyerModel->addItemToWatchList($p_id, $u_id);
-          if($result){
-            echo flash('register_success', 'You are registered and can log in');
-          }
-          else{
-            die('Something went wrong');
-          }
-  
-        }
-      }
-    }
-    
-    public function removeItemFromWatchList($p_id,$u_id){
-      if(!isLoggedIn()){
-        redirect('users/login');
-      }
-      echo $_POST['user_id'];
-      if($_POST['user_id'] == 0){
-        redirect('users/login');
-      }
-      else{
-        if (isset($_POST['remove'])){
-        echo "This Works";
-          $result = $this-> buyerModel->removeItemFromWatchList($p_id, $u_id);
-          if($result){
-            echo flash('register_success', 'You are registered and can log in');
-          }
-          else{
-            die('Something went wrong');
-          }
-  
-        }
-      }
-    }
-
-    
-    public function removeOneItemFromWatchList($p_id,$u_id){
-      if(!isLoggedIn()){
-        redirect('users/login');
-      }
-      echo $_POST['user_id'];
-      if($_POST['user_id'] == 0){
-        redirect('users/login');
-      }
-      else{
-        if (isset($_POST['remove'])){
-        echo "This Works";
-          $result = $this-> buyerModel->removeOneItemFromWatchList($p_id, $u_id);
-          if($result){
-            echo flash('register_success', 'You are registered and can log in');
-          }
-          else{
-            die('Something went wrong');
-          }
-  
-        }
-      }
-    }
-
-  public function addLikeToProduct($p_id, $u_id)
-  {
-    if (!isLoggedIn()) {
-      redirect('users/login');
-    }
-    // $result = $this-> buyerModel->addLikeToProduct($p_id, $u_id);
-
-    $json = file_get_contents('php://input');
-    $dat = json_decode($json, true);
-
-    echo $dat['addLike'];
-    echo $dat['user_id'];
-    echo $dat['product_id'];
-
-
-    if (isset($dat['addLike'])) {
-      $result=$this->buyerModel->checkAddedLike($dat['product_id'], $dat['user_id']);
-      if (empty($result)) {
-        $result = $this->buyerModel->addLikeToProduct($dat['product_id'], $dat['user_id']);
-        if ($result) {
-          echo flash('register_success', 'You are registered and can log in');
-        } else {
-          die();
-        }
-
-      }
-    }
-    // if (isset($dat['addLike'])){
-    //   $result = $this-> buyerModel->addLikeToProduct($dat['product_id'], $dat['user_id']);
-    //   if($result){
-    //     echo flash('register_success', 'You are registered and can log in');
+    // public function addToWatchList($p_id,$u_id){
+    //   if(!isLoggedIn()){
+    //     redirect('users/login');
+    //   }
+    //   echo $_POST['user_id'];
+    //   if($_POST['user_id'] == 0){
+    //     redirect('users/login');
     //   }
     //   else{
-    //     die();
+    //     if (isset($_POST['add'])){
+    //       $result = $this-> buyerModel->addItemToWatchList($p_id, $u_id);
+    //       if($result){
+    //         echo flash('register_success', 'You are registered and can log in');
+    //       }
+    //       else{
+    //         die('Something went wrong');
+    //       }
+  
+    //     }
+    //   }
+    // }
+    
+    // public function removeItemFromWatchList($p_id,$u_id){
+    //   if(!isLoggedIn()){
+    //     redirect('users/login');
+    //   }
+    //   echo $_POST['user_id'];
+    //   if($_POST['user_id'] == 0){
+    //     redirect('users/login');
+    //   }
+    //   else{
+    //     if (isset($_POST['remove'])){
+    //     echo "This Works";
+    //       $result = $this-> buyerModel->removeItemFromWatchList($p_id, $u_id);
+    //       if($result){
+    //         echo flash('register_success', 'You are registered and can log in');
+    //       }
+    //       else{
+    //         die('Something went wrong');
+    //       }
+  
+    //     }
     //   }
     // }
 
-  }
+    
+    // public function removeOneItemFromWatchList($p_id,$u_id){
+    //   if(!isLoggedIn()){
+    //     redirect('users/login');
+    //   }
+    //   echo $_POST['user_id'];
+    //   if($_POST['user_id'] == 0){
+    //     redirect('users/login');
+    //   }
+    //   else{
+    //     if (isset($_POST['remove'])){
+    //     echo "This Works";
+    //       $result = $this-> buyerModel->removeOneItemFromWatchList($p_id, $u_id);
+    //       if($result){
+    //         echo flash('register_success', 'You are registered and can log in');
+    //       }
+    //       else{
+    //         die('Something went wrong');
+    //       }
+  
+    //     }
+    //   }
+    // }
+
+  // public function addLikeToProduct($p_id, $u_id)
+  // {
+  //   if (!isLoggedIn()) {
+  //     redirect('users/login');
+  //   }
+  //   // $result = $this-> buyerModel->addLikeToProduct($p_id, $u_id);
+
+  //   $json = file_get_contents('php://input');
+  //   $dat = json_decode($json, true);
+
+  //   echo $dat['addLike'];
+  //   echo $dat['user_id'];
+  //   echo $dat['product_id'];
 
 
-    public function removeLikeFromProduct($p_id,$u_id){
-      if(!isLoggedIn()){
-        redirect('users/login');
-      }
-      // $result = $this-> buyerModel->addLikeToProduct($p_id, $u_id);
+  //   if (isset($dat['addLike'])) {
+  //     $result=$this->buyerModel->checkAddedLike($dat['product_id'], $dat['user_id']);
+  //     if (empty($result)) {
+  //       $result = $this->buyerModel->addLikeToProduct($dat['product_id'], $dat['user_id']);
+  //       if ($result) {
+  //         echo flash('register_success', 'You are registered and can log in');
+  //       } else {
+  //         die();
+  //       }
 
-      $json = file_get_contents('php://input');
-      $data = json_decode($json, true);
+  //     }
+  //   }
+  //   // if (isset($dat['addLike'])){
+  //   //   $result = $this-> buyerModel->addLikeToProduct($dat['product_id'], $dat['user_id']);
+  //   //   if($result){
+  //   //     echo flash('register_success', 'You are registered and can log in');
+  //   //   }
+  //   //   else{
+  //   //     die();
+  //   //   }
+  //   // }
 
-      echo $data['removeLike'];
-      echo $data['user_id'];
-      echo $data['product_id'];
-      //  print_r($dat);
+  // }
 
 
-      if (isset($data['removeLike'])){
-        $result = $this-> buyerModel->removeLikeFromProduct($data['product_id'], $data['user_id']);
-        if($result){
-          echo flash('register_success', 'You are registered and can log in');
-        }
-        else{
-          die('Something went wrong');
-        }
+    // public function removeLikeFromProduct($p_id,$u_id){
+    //   if(!isLoggedIn()){
+    //     redirect('users/login');
+    //   }
+    //   // $result = $this-> buyerModel->addLikeToProduct($p_id, $u_id);
 
-      }
-    }
-    public function searchItems(){
+    //   $json = file_get_contents('php://input');
+    //   $data = json_decode($json, true);
 
-      $searchedTerm = $_POST['search-item'];
+    //   echo $data['removeLike'];
+    //   echo $data['user_id'];
+    //   echo $data['product_id'];
+    //   //  print_r($dat);
+
+
+    //   if (isset($data['removeLike'])){
+    //     $result = $this-> buyerModel->removeLikeFromProduct($data['product_id'], $data['user_id']);
+    //     if($result){
+    //       echo flash('register_success', 'You are registered and can log in');
+    //     }
+    //     else{
+    //       die('Something went wrong');
+    //     }
+
+    //   }
+    // }
+
+  //   public function searchItems(){
+
+  //     $searchedTerm = $_POST['search-item'];
       
-      if( !isset($_POST['submit']) ){
-        // this is for keyup event
-        if( strlen($searchedTerm) <3 ){
-          echo json_encode([]);
-        }else{
-          $results = $this-> buyerModel->searchItems($searchedTerm);
-          echo json_encode($results);
-        }
-      }
-      else{
-        // user has pressed enter
-        if( strlen($searchedTerm) <1 ){
-          echo json_encode([]);
-        }else{
-          $results = $this-> buyerModel->searchItems($searchedTerm);
-          $_SESSION['searchResults'] = $results;
-          echo json_encode($results);
-        }
+  //     if( !isset($_POST['submit']) ){
+  //       // this is for keyup event
+  //       if( strlen($searchedTerm) <3 ){
+  //         echo json_encode([]);
+  //       }else{
+  //         $results = $this-> buyerModel->searchItems($searchedTerm);
+  //         echo json_encode($results);
+  //       }
+  //     }
+  //     else{
+  //       // user has pressed enter
+  //       if( strlen($searchedTerm) <1 ){
+  //         echo json_encode([]);
+  //       }else{
+  //         $results = $this-> buyerModel->searchItems($searchedTerm);
+  //         $_SESSION['searchResults'] = $results;
+  //         echo json_encode($results);
+  //       }
 
-      }
+  //     }
 
-  }
+  // }
 
     public function test(){
       $email = 'dineshwickramasinghe2000@gmail.com';

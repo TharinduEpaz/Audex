@@ -18,6 +18,16 @@
             $this->buyerModel = $this->model('Buyer');
 
         }
+
+        public function index(){
+
+            $data = [
+                'title' => 'Welcome!!!!!'
+              ];
+             
+              $this->view('users/index', $data);
+        }
+
         //register
         public function register(){
             if(isset($_SESSION['otp'])){
@@ -467,25 +477,8 @@
             $_SESSION['user_email'] = $user->email;
             $_SESSION['user_name'] = $user->first_name;
             $_SESSION['user_type'] = $user->user_type;
-            switch($_SESSION['user_type']){
-                case 'user':
-                    redirect('users/index');
-                    break;
-                case 'seller':
-                    redirect('sellers/index');
-                    break;
-                case 'admin':
-                    redirect('admins/index');
-                    break;
-                case 'service_provider':
-                    redirect('service_providers/index');
-                    break;
-                case 'buyer':
-                    redirect('buyers/index');
-                    break;
-                default:
-                    redirect('users/index');
-            }
+            redirect('users/index');
+            
         }
 
         //Logout
@@ -512,9 +505,20 @@
                 // redirect('users/login');
             }
             $ads  = $this->userModel->getAdvertiesment();   
+            // get the serchResults session value
+            $results = $_SESSION['searchResults'];
+
+            // check serch results are empty(1) or not empty(0)
+            $empty = empty($results);
+
+
             $data = [
-              'ads' => $ads
+                'ads' => $ads,
+                'searchResults' => $results,
+                'isEmpty' => $empty
             ];
+
+            unset($_SESSION['searchResults']);
             $i=0;
             foreach($ads as $ad):
 
@@ -766,7 +770,7 @@
             if(!isLoggedIn()){
               redirect('users/login');
             }
-      //this should change after orginal db
+
             $products = $this->userModel->getBuyerWatchProducts($_SESSION['user_email']);
             $data =[
               'products' => $products,
@@ -1054,6 +1058,33 @@
                 'title'=>'Success'
             ];
             $this->view('users/success',$data);
+        }
+
+        public function searchItems(){
+
+            $searchedTerm = $_POST['search-item'];
+            
+            if( !isset($_POST['submit']) ){
+              // this is for keyup event
+              if( strlen($searchedTerm) <3 ){
+                echo json_encode([]);
+              }else{
+                $results = $this-> userModel->searchItems($searchedTerm);
+                echo json_encode($results);
+              }
+            }
+            else{
+              // user has pressed enter
+              if( strlen($searchedTerm) <1 ){
+                echo json_encode([]);
+              }else{
+                $results = $this-> userModel->searchItems($searchedTerm);
+                $_SESSION['searchResults'] = $results;
+                echo json_encode($results);
+              }
+      
+            }
+      
         }
         
         

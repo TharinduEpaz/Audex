@@ -11,7 +11,7 @@
                     echo '<li><a href="'.URLROOT.'/'.$_SESSION['user_type'].'s/index" class="nav_tags">Home</a></li>';
                 }
                 else{
-                    echo '<li><a href="'.URLROOT.'/pages/index" class="nav_tags">Home</a></li>';
+                    echo '<li><a href="'.URLROOT.'/users/index" class="nav_tags">Home</a></li>';
                 }
              ?>
             <li><a href="<?php echo URLROOT.'/users/shop'; ?>" class="nav_tags">Shop</a></li>

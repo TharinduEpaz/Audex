@@ -535,5 +535,14 @@ date_default_timezone_set("Asia/Kolkata");
             return $result;
         }
 
+        public function searchItems($searchedTerm){
+            $this->db->query('SELECT * FROM product WHERE product_title LIKE :searchedTerm');
+            $this->db->bind(':searchedTerm', '%'.$searchedTerm.'%');
+
+            $results = $this->db->resultSet();
+            return $results;
+
+        }
+
     }
 ?>
