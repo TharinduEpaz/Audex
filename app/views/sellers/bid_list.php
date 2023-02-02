@@ -49,6 +49,7 @@
                         <th>Place</th>
                         <th>Name</th>
                         <th>Amount</th>
+                        <th>Buyer Profile</th>
                     </tr>
                     <?php 
                         if(!empty($data['auctions'])){
@@ -60,6 +61,7 @@
                             echo '<td>'.$i.'</td>';
                             echo '<td>'.$auction->name.'</td>';
                             echo '<td>Rs.'.$auction->price.'</td>';
+                            echo '<td class=\'profile_link\'><a  href=\'' .URLROOT.'/users/getProfile/'.$auction->email_buyer.'\'>Profile</a></td>';
                             if($i<4 && $data['auctions_no_rows']>3 && $auction->is_active==0){
                                 if($data['bid_list'][$i-1]!=NULL){
                                     if($data['bid_list'][$i-1]->is_accepted==0 && $data['bid_list'][$i-1]->is_rejected==0){

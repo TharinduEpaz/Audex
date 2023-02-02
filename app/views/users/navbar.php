@@ -3,16 +3,12 @@
         <label for="check" class="checkbtn">
             <i class="fas fa-bars"></i>
         </label>
-        <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo">
+        <a href="<?php echo URLROOT;?>/users/index"><img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo"></a>
         <ul>
             <!-- <li><a href="<?php echo URLROOT;?>/pages/index" class="nav_tags">Home</a></li> -->
             <?php 
-                if(isset($_SESSION['user_id'])){
-                    echo '<li><a href="'.URLROOT.'/'.$_SESSION['user_type'].'s/index" class="nav_tags">Home</a></li>';
-                }
-                else{
-                    echo '<li><a href="'.URLROOT.'/users/index" class="nav_tags">Home</a></li>';
-                }
+                    echo '<li><a href="'.URLROOT.'/'.'users/index" class="nav_tags">Home</a></li>';
+                
              ?>
             <li><a href="<?php echo URLROOT.'/users/shop'; ?>" class="nav_tags">Shop</a></li>
             <li><a href="<?php echo URLROOT.'/users/sound_engineers'; ?>" class="nav_tags">Sound Engineers</a></li>

@@ -25,14 +25,18 @@
         }  
             ?>
             <h1>Login</h1>
+            
             <?php
-                if(!empty($data['email_err']) || !empty($data['password_err'])  ){
+                if(!empty($data['email_err']) || !empty($data['password_err']) || !empty($data['email_not_activated_err'])  ){
                     echo '<div class="error">';
                         if(!empty($data['email_err'])){
                             echo '*'.$data['email_err'].'<br>';
                         }
                         if(!empty($data['password_err'])){
                             echo '*'.$data['password_err'].'<br>';
+                        }
+                        if(!empty($data['email_not_activated_err'])){
+                            echo '*'.$data['email_not_activated_err'].'<br>';
                         }
                     echo '</div>';
                 }

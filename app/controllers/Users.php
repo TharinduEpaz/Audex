@@ -32,18 +32,6 @@
 
         //register
         public function register(){
-            if(isset($_SESSION['otp'])){
-                unset($_SESSION['otp']);
-                unset($_SESSION['email']);
-                unset($_SESSION['password']);
-                unset($_SESSION['first_name']);
-                unset($_SESSION['second_name']);
-                unset($_SESSION['phone']);
-                unset($_SESSION['user_type']);
-                unset($_SESSION['attempt']);
-                session_destroy();
-                // redirect('users/login');
-            }
             //CHECK FOR POST
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 // Process form
@@ -64,7 +52,8 @@
                     'second_name_err' => '',
                     'email_err' => '',
                     'phone_err' => '',
-                    'password_err' => ''
+                    'password_err' => '',
+                    'email_not_activated_err' => ''
                 ];
                 
                 //Validate email
@@ -74,9 +63,6 @@
                     //Check email
                     if($this->userModel->findUserByEmail($data['email'])){
                         $data['email_err'] = 'Email is already taken';
-                    }
-                    else if($this->userModel->notActivated($data['email'])){
-                        $data['email_err'] = 'Email is not activated,register again';
                     }
                 }
                 //Validate first name
@@ -105,97 +91,59 @@
 
                     //Hash password
                     $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-
-                    $_SESSION['email'] = $data['email'];
-                    $_SESSION['password'] = $data['password'];
-                    $_SESSION['first_name'] = $data['first_name'];
-                    $_SESSION['second_name'] = $data['second_name'];
-                    $_SESSION['phone'] = $data['phone'];
-                    $_SESSION['user_type'] = $data['user_type'];
-                    $_SESSION['otp'] = $data['otp'];
-                    $_SESSION['attempt']=1;
-
-                    //Send email
-                    $to=$data['email'];
-                    $sender='audexlk@gmail.com';
-                    $mail_subject='Verify Email Address';
-                    $email_body='<p>Dear '.$data['first_name'].',<br>Thank you for signing up to Audexlk. In order to'; 
-                    $email_body.=' validate your account you need enter the given OTP in the verification page.<br>';
-                    $email_body.='<h3>The OTP</h3><br><h1>'.$data['otp'].'</h1><br>';
-                    $email_body.='Thank you,<br>Audexlk</p>';
-                    // $header="From:{$sender}\r\nContent-Type:text/html;";
-
-                    $mail = new PHPMailer(true);
-                    $mail->isSMTP();
-                    $mail->Host = 'smtp.gmail.com';
-                    $mail->SMTPAuth = true;
-                    $mail->Username = $sender;
-                    $mail->Password = 'bcoxsurnseqiajuf';
-                    $mail->SMTPSecure = 'ssl';
-                    $mail->Port = 465;
-                    $mail->setFrom($sender);
-                    $mail->addAddress($to);
-                    $mail->isHTML(true);
-                    $mail->Subject = $mail_subject;
-                    $mail->Body = $email_body;
-                    if($mail->send()){
-                        //Otp send by email
-                        redirect('users/verifyotp');
-                    }
-                    else{
-                        $data['email_err'] = 'Email not sent';
-                        $this->view('users/register', $data);
-                    }
-
-                    // }
-                    // if($this->userModel->sendEmail($data['email'],$data['otp'],$data['first_name'])){
-                    //     //Otp send by email
-                    //     redirect('users/verifyotp');
-                    // }
-                    // else{
-                    //     $data['email_err'] = 'Email not sent';
-                    //     $this->view('users/register', $data);
-
-                    // }
-
-                    //Register user
-                    // if($this->userModel->register($data)){
-                    //     $row=$this->userModel->getUserId($data['email']);
-                    //     $data['user_id']=$row->user_id;
-                    //     if($data['user_type']=='seller'){
-                    //         if($this->userModel->addToSeller($data)){
-                    //             flash('register_success', 'You are registered and can log in');
-                    //             redirect('users/login');
-                    //         }else{
-                    //             die('Something went wrong');
-                    //         }
+                    $data['otp_hashed'] = password_hash($data['otp'], PASSWORD_DEFAULT);
+                    $dat=date('Y-m-d H:i:s');
+                    //Already registered with email active
+                    if($this->userModel->findUserByEmail($data['email'])){
+                        redirect('users/login');
+                    }else if($this->userModel->notActivated($data['email'])){ //Already registered, email not activated
+                         $data['email_not_activated_err']='Email is not activated, <a href=\''.URLROOT.'/users/activate_email/'.$data['email'].'\'>click to activate again</a>';
                         
-                    //     }
-                    //     else if($data['user_type']=='user'){
-                    //         if($this->userModel->addToBuyer($data)){
-                    //             flash('register_success', 'You are registered and can log in');
-                    //             redirect('users/login');
-                    //         }else{
-                    //             die('Something went wrong');
-                    //         }
-                    //     }
-                    //     else if($data['user_type']=='admin'){
-                    //         if($this->userModel->addToAdmin($data)){
-                    //             flash('register_success', 'You are registered and can log in');
-                    //             redirect('users/login');
-                    //         }else{
-                    //             die('Something went wrong');
-                    //         }
-                    //     }
-                    //     else{
-                    //         if($this->userModel->addTosServiceProvider($data)){
-                    //             flash('register_success', 'You are registered and can log in');
-                    //             redirect('users/login');
-                    //         }else{
-                    //             die('Something went wrong');
-                    //         }
-                    //     }
-                    // }
+                    }
+                    if($data['email_not_activated_err']!=''){
+
+                        $this->view('users/register', $data);
+
+                    }else if($this->userModel->register($data,$dat)){
+                        $_SESSION['otp_email']=$data['email'];
+                        $_SESSION['attempt']=0;
+                        //Send email
+                        $to=$data['email'];
+                        $sender='audexlk@gmail.com';
+                        $mail_subject='Verify Email Address';
+                        $email_body='<p>Dear '.$data['first_name'].',<br>Thank you for signing up to Audexlk. In order to'; 
+                        $email_body.=' validate your account you need enter the given OTP in the verification page.<br>';
+                        $email_body.='<h3>The OTP</h3><br><h1>'.$data['otp'].'</h1><br>';
+                        $email_body.='Thank you,<br>Audexlk</p>';
+                        // $header="From:{$sender}\r\nContent-Type:text/html;";
+    
+                        $mail = new PHPMailer(true);
+                        $mail->isSMTP();
+                        $mail->Host = 'smtp.gmail.com';
+                        $mail->SMTPAuth = true;
+                        $mail->Username = $sender;
+                        $mail->Password = 'bcoxsurnseqiajuf';
+                        $mail->SMTPSecure = 'ssl';
+                        $mail->Port = 465;
+                        $mail->setFrom($sender);
+                        $mail->addAddress($to);
+                        $mail->isHTML(true);
+                        $mail->Subject = $mail_subject;
+                        $mail->Body = $email_body;
+                        if($mail->send()){
+                            $_SESSION['otp_email']=$data['email'];
+                            //Otp send by email
+                            redirect('users/verifyotp');
+                        }
+                        else{
+                            $data['email_err'] = 'Email not sent';
+                            $this->view('users/register', $data);
+                        }
+                    
+                    }else{
+                        die('Something went wrong');
+                    }
+
                 }else{
                     //Load view with errors
                     $this->view('users/register', $data);
@@ -224,11 +172,57 @@
             }
         }
 
+        //Registered not email activated
+        public function activate_email($email){
+            $data['user']=$this->userModel->findUserDetailsByEmail($email);
+            $_SESSION['attempt']=0;
+            $data['email']=$email;
+            $data['otp']=rand(111111,999999);
+            $data['otp_hashed'] = password_hash($data['otp'], PASSWORD_DEFAULT);
+            $dat=date('Y-m-d H:i:s');
+            if($this->userModel->updateOtp($data['otp'],$dat,$data['email'])){
+                //Send email
+                $to=$data['email'];
+                $sender='audexlk@gmail.com';
+                $mail_subject='Verify Email Address';
+                $email_body='<p>Dear '.$data['user']->first_name.',<br>Thank you for signing up to Audexlk. In order to'; 
+                $email_body.=' validate your account you need enter the given OTP in the verification page.<br>';
+                $email_body.='<h3>The OTP</h3><br><h1>'.$data['otp'].'</h1><br>';
+                $email_body.='Thank you,<br>Audexlk</p>';
+                // $header="From:{$sender}\r\nContent-Type:text/html;";
+                
+                $mail = new PHPMailer(true);
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = $sender;
+                $mail->Password = 'bcoxsurnseqiajuf';
+                $mail->SMTPSecure = 'ssl';
+                $mail->Port = 465;
+                $mail->setFrom($sender);
+                $mail->addAddress($to);
+                $mail->isHTML(true);
+                $mail->Subject = $mail_subject;
+                $mail->Body = $email_body;
+                if($mail->send()){
+                    //Otp send by email
+                    $_SESSION['otp_email']=$data['email'];
+                    redirect('users/verifyotp');
+                }
+                else{
+                    $data['email_err'] = 'Email not sent';
+                    $this->view('users/register', $data);
+                }
+            }
+        }
+
+
         //verifyotp
         public function verifyotp(){
             //not filled registration form
-            if(!isset($_SESSION['otp'])){
-                redirect('users/register');
+            $email=$_SESSION['otp_email'];
+            if(isLoggedIn()){
+                redirect('users/index');
             }
             
             if($_SESSION['attempt']<=3){
@@ -239,20 +233,8 @@
                     $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
                     //init data
                     $data = [
-                        'first_name' => $_SESSION['first_name'],
-                        'second_name' => $_SESSION['second_name'],
-                        'email' => $_SESSION['email'],
-                        'phone' => $_SESSION['phone'],
-                        'user_type' => $_SESSION['user_type'],
-                        'password' => $_SESSION['password'],
-                        'otp_sent'=>$_SESSION['otp'],
                         'otp_entered'=>trim($_POST['otp']),
-                        'otp_err' => '',
-                        'first_name_err' => '',
-                        'second_name_err' => '',
-                        'email_err' => '',
-                        'phone_err' => '',
-                        'password_err' => ''
+                        'otp_err' => ''
                     ];
 
                     if(empty($data['otp_entered'])){
@@ -262,70 +244,73 @@
                     }
                     if(empty($data['otp_err'])){
                         //no errors
-                        if($data['otp_entered']==$data['otp_sent']){
-                            //otp matched
-                            $dat=date('Y-m-d H:i:s');
-
-                            //Register user
-                            if($this->userModel->register($data,$dat)){
-                                $row=$this->userModel->getUserId($data['email']);
-                                $data['user_id']=$row->user_id;
-                                unset($_SESSION['otp']);
-                                unset($_SESSION['email']);
-                                unset($_SESSION['password']);
-                                unset($_SESSION['first_name']);
-                                unset($_SESSION['second_name']);
-                                unset($_SESSION['phone']);
-                                unset($_SESSION['user_type']);
-                                session_destroy();
-
-
-                                if($data['user_type']=='seller'){
-                                    if($this->userModel->addToSeller($data)){
-                                        flash('register_success', 'You are registered and can log in');
-                                        redirect('users/login');
+                        if($email!=NULL){
+                            $user_details=$this->userModel->findUserDetailsByEmail($email);
+                            $data['user']=$user_details;
+                            if($user_details){
+                                if($data['otp_entered'] == $user_details->otp){
+                                    //otp matched
+                                    $dat=date('Y-m-d H:i:s');
+        
+                                    //Update user
+                                    if($this->userModel->updateUserActivated($user_details->email,$dat)){
+                                        $row=$this->userModel->getUserId($user_details->email);
+                                        $data['user_id']=$row->user_id;
+                                        $data['email']=$row->email;
+                                        $data['user_type']=$row->user_type;
+                                        unset($_SESSION['otp_email']);
+                                        
+                                        if($data['user_type']=='seller'){
+                                            if($this->userModel->addToSeller($data)){
+                                                flash('register_success', 'You are registered and can log in');
+                                                redirect('users/login');
+                                            }else{
+                                                die('Something went wrong');
+                                            }
+                                        
+                                        }
+                                        else if($data['user_type']=='user'){
+                                            if($this->userModel->addToBuyer($data)){
+                                                flash('register_success', 'You are registered and can log in');
+                                                redirect('users/login');
+                                            }else{
+                                                die('Something went wrong');
+                                            }
+                                        }
+                                        else if($data['user_type']=='admin'){
+                                            if($this->userModel->addToAdmin($data)){
+                                                flash('register_success', 'You are registered and can log in');
+                                                redirect('users/login');
+                                            }else{
+                                                die('Something went wrong');
+                                            }
+                                        }
+                                        else if($data['user_type']=='service_provider'){
+                                            if($this->userModel->addToServiceProvider($data)){
+                                                flash('register_success', 'You are registered and can log in');
+                                                redirect('users/login');
+                                            }else{
+                                                die('Something went wrong');
+                                            }
+                                        }
+                                        else if($data['user_type']=='buyer'){
+                                            if($this->userModel->addToBuyer($data)){
+                                                flash('register_success', 'You are registered and can log in');
+                                                redirect('users/login');
+                                            }else{
+                                                die('Something went wrong');
+                                            }
+                                        }
                                     }else{
-                                        die('Something went wrong');
-                                    }
-                                
+                                        die('Something went wrong');}
                                 }
-                                else if($data['user_type']=='user'){
-                                    if($this->userModel->addToBuyer($data)){
-                                        flash('register_success', 'You are registered and can log in');
-                                        redirect('users/login');
-                                    }else{
-                                        die('Something went wrong');
-                                    }
-                                }
-                                else if($data['user_type']=='admin'){
-                                    if($this->userModel->addToAdmin($data)){
-                                        flash('register_success', 'You are registered and can log in');
-                                        redirect('users/login');
-                                    }else{
-                                        die('Something went wrong');
-                                    }
-                                }
-                                else if($data['user_type']=='service_provider'){
-                                    if($this->userModel->addToServiceProvider($data)){
-                                        flash('register_success', 'You are registered and can log in');
-                                        redirect('users/login');
-                                    }else{
-                                        die('Something went wrong');
-                                    }
-                                }
-                                else if($data['user_type']=='buyer'){
-                                    if($this->userModel->addToBuyer($data)){
-                                        flash('register_success', 'You are registered and can log in');
-                                        redirect('users/login');
-                                    }else{
-                                        die('Something went wrong');
-                                    }
+                                else{
+                                    $data['otp_err'] = 'Otp not matched ';
+                                    $this->view('users/verifyotp', $data);
                                 }
                             }
-                        }
-                        else{
-                            $data['otp_err'] = 'Otp not matched ';
-                            $this->view('users/verifyotp', $data);
+                        }else{
+                            redirect('users/register');
                         }
                     }
                     else{
@@ -357,13 +342,6 @@
                 }
             }
             else{
-                unset($_SESSION['otp']);
-                unset($_SESSION['email']);
-                unset($_SESSION['password']);
-                unset($_SESSION['first_name']);
-                unset($_SESSION['second_name']);
-                unset($_SESSION['phone']);
-                unset($_SESSION['user_type']);
                 unset($_SESSION['attempt']);
                 session_destroy();
                 flash('register_fail', 'You have exceeded the maximum number of attempts');
@@ -374,18 +352,6 @@
 
         //login
         public function login(){
-            if(isset($_SESSION['otp'])){
-                unset($_SESSION['otp']);
-                // unset($_SESSION['email']);
-                // unset($_SESSION['password']);
-                // unset($_SESSION['first_name']);
-                // unset($_SESSION['second_name']);
-                // unset($_SESSION['phone']);
-                // unset($_SESSION['user_type']);
-                // unset($_SESSION['attempt']);
-                // session_destroy();
-                // redirect('users/login');
-            }
             //CHECK FOR POST
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 // Process form
@@ -415,7 +381,6 @@
                 if($this->userModel->findUserByEmail($data['email'])){
                 }
                 else if($this->userModel->notActivated($data['email'])){
-                    $data['email_err'] = 'Email is not activated,register again';
                 }
                 else{
                     //User not found
@@ -423,7 +388,7 @@
                 }
 
                 $userData = $this->userModel->findUserDetailsByEmail($data['email']);
-                if($userData->is_deleted == '1'){
+                if($userData->is_deleted == 1){
                     $data = [
                         'email' => '',
                         'password' => '',
@@ -432,11 +397,12 @@
                     ];
                     redirect('users/register');
                     //$this->view('users/register', $data);
+                }else if($userData->email_active==0){
+                    $data['email_not_activated_err']='Email is not activated, <a href=\''.URLROOT.'/users/activate_email/'.$data['email'].'\'> click to activate again</a>';
                 }
-                else{
                     //not a deleted account
                     //Make sure errors are empty
-                    if(empty($data['email_err'])  && empty($data['password_err'])){
+                    if(empty($data['email_err'])  && empty($data['password_err']) && empty($data['email_not_activated_err'])){
                         //Validated
                         //Check and set logged in user
                         $dat=date('Y-m-d H:i:s');
@@ -456,7 +422,7 @@
                         //Load view with errors
                         $this->view('users/login', $data);
                     }
-                }          
+                         
             }
             else{
                 //Init data
@@ -478,9 +444,35 @@
             $_SESSION['user_email'] = $user->email;
             $_SESSION['user_name'] = $user->first_name;
             $_SESSION['user_type'] = $user->user_type;
-            redirect('users/index');
+            if(isset($_SESSION['url'])){
+                $url=$_SESSION['url']; // holds url for last page visited.
+                unset($_SESSION['url']);
+                redirect($url);
+            }
+            else{
+                redirect('users/index');
+            }
             
         }
+
+        public function getProfile($email){ 
+            if(!isLoggedIn()){
+              $_SESSION['url']=URL();
+      
+              redirect('users/login');
+            }
+            $details = $this->userModel->findUserDetailsByEmail($email);
+            if($details){
+                $data =[
+                  'id' => $details->user_id,
+                  'user' => $details
+                ];
+                $this->view('users/getProfile',$data);
+
+            }else{
+                redirect('users/index');
+            }
+          }
 
         //Logout
         public function logout(){

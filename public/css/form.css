@@ -359,7 +359,7 @@ nav{
   height: 55px;
   background: rgba(217, 217, 217, 0.7);
   opacity: 0.8;
-  border-radius: 25px 0 0 25px;
+  /* border-radius: 25px 0 0 25px; */
   font-size: 26px;
   border: none;
   padding-inline: 1rem ;
@@ -384,6 +384,7 @@ nav{
 }
 #search-results{
   display: block;
+  z-index: 1;
 }
 #search-results .table {
   width: 731px;

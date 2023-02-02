@@ -45,6 +45,8 @@
     <div class="container_main">
         <div class="form">
             <h1>Verify OTP</h1>
+                <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
+
             <?php
                 echo '<div class="error">';
                 echo '<div class="attempt">';

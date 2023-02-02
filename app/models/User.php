@@ -8,7 +8,7 @@ date_default_timezone_set("Asia/Kolkata");
 
         //Register User
         public function register($data,$dat){
-            $this->db->query('INSERT INTO user (first_name, second_name, email, phone_number, user_type,registered_date,password,email_active) VALUES(:first_name, :second_name, :email, :phone,:user_type,:t, :password, 1)');
+            $this->db->query('INSERT INTO user (first_name, second_name, email, phone_number, user_type,registered_date,password,otp,email_active) VALUES(:first_name, :second_name, :email, :phone,:user_type,:t, :password,:otp, 0)');
             //Bind values
             $this->db->bind(':first_name', $data['first_name']);
             $this->db->bind(':second_name', $data['second_name']);
@@ -17,6 +17,21 @@ date_default_timezone_set("Asia/Kolkata");
             $this->db->bind(':user_type', $data['user_type']);
             $this->db->bind(':t', $dat);
             $this->db->bind(':password', $data['password']);
+            $this->db->bind(':otp', $data['otp']);
+
+            //Execute
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        public function updateUserActivated($email,$time){
+            $this->db->query('UPDATE user  set email_active=1,registered_date=:t WHERE email=:email');
+            //Bind values
+            $this->db->bind(':email', $email);
+            $this->db->bind(':t', $time);
 
             //Execute
             if($this->db->execute()){
@@ -156,6 +171,22 @@ date_default_timezone_set("Asia/Kolkata");
                 return false;
             }
         }
+
+        public function updateOtp($otp,$time,$email){
+            $this->db->query('UPDATE user set otp=:otp,registered_date=:t WHERE email = :email');
+            $this->db->bind(':email', $email);
+            $this->db->bind(':otp', $otp);
+            $this->db->bind(':t', $time);
+            $row = $this->db->execute(); //single row
+            if($row){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
+        
         public function findUserDetailsByEmail($email){
             $this->db->query('SELECT * FROM user WHERE email = :email');
             //Bind value
@@ -171,7 +202,7 @@ date_default_timezone_set("Asia/Kolkata");
 
         //Get user id
         public function getUserId($email){
-            $this->db->query('SELECT user_id FROM user WHERE email = :email');
+            $this->db->query('SELECT * FROM user WHERE email = :email');
             //Bind value
             $this->db->bind(':email', $email);
             $row = $this->db->single();
