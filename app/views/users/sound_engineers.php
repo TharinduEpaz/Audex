@@ -30,24 +30,18 @@
                 <?php echo "$object->first_name \n"; ?>
                 <?php echo "$object->second_name <br>\n"; ?>
                 <p id="profession"><?php echo "$object->profession <br>\n"; ?> </p>
-            </div>
-            
+            </div>            
                 <div class="rating-stars">
                 <span class="rate"><?php echo "$object->Rating";?></span> 
-               
                 <?php for($i=0; $i<floor($object->Rating); $i++): ?>
-                    <i class="fa fa-star"></i>
-                <?php endfor; ?>
-
-                <i class="fa fa-star-half-o"></i>
-                
-           
                     
-                   
-                </div>
-                
-                
-
+                <i class="fa fa-star"></i>
+            
+                <?php endfor; ?>
+                <?php if(strpos((string)$object->Rating, '.')): ?>
+                        <i class="fa fa-star-half-o"></i>
+                    <?php endif; ?>   
+                </div>                
         </div>
         <?php endforeach;?>
     </div>
@@ -70,14 +64,11 @@
     //     }
     // });
 
-   
   var spans = document.querySelectorAll(".rate");
  
   for (var i = 0; i < spans.length; i++) {
 
- 
   }
-
     // console.log(rating);
     // let stars = document.getElementsByClassName('fas fa-star');
     // console.log(stars);
