@@ -27,3 +27,6 @@
     define('STRIPE_PUBLISHABLE_KEY','pk_test_51MVhcLDfLLASKhc4Fslrqmsvk33Mc5ZWjpaoiu9PCXHDGstChyOj0mUARDt4uLCgfrl94Koo3AuExPSJw18m76o300w9p2INH8');
     define('STRIPE_SUCCESS_URL',URLROOT);
     define('STRIPE_CANCEL_URL',URLROOT);
+
+
+  

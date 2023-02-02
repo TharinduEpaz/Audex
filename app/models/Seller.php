@@ -78,7 +78,7 @@ date_default_timezone_set("Asia/Kolkata");
             return $row;
         }
 
-        public function advertise($data){
+        public function advertise($data,$dat){
             $this->db->query('INSERT INTO product (email,product_title,product_condition,product_category,product_type,model_no,brand,image1,image2,image3,price,p_description) VALUES(:user_email,:title,:condition,:category,:type,:model,:brand,:image1,:image2,:image3,:price,:description)');
             //Bind values
             $this->db->bind(':user_email', $data['user_email']);
@@ -96,20 +96,22 @@ date_default_timezone_set("Asia/Kolkata");
 
             //Execute
             if($this->db->execute()){
-                $this->db->query('INSERT INTO seller_add_product (product_id,user_id,email,posted_time) VALUES(:product_id,:user_id,:user_email,NOW())');
+                $this->db->query('INSERT INTO seller_add_product (product_id,user_id,email,posted_time) VALUES(:product_id,:user_id,:user_email,:t)');
                 //Bind values
                 $product_id=$this->db->lastInsertId();
                 $this->db->bind(':product_id', $product_id);
                 $this->db->bind(':user_id', $data['user_id']);
                 $this->db->bind(':user_email', $data['user_email']);
+                $this->db->bind(':t', $dat);
                 if($this->db->execute()){
                     if($data['type']=="auction"){
-                        $this->db->query('INSERT INTO auction (product_id,email,start_date,end_date,start_price,is_active,is_finished) VALUES(:product_id,:email,NOW(),:end_date,:start_price,1,0)');
+                        $this->db->query('INSERT INTO auction (product_id,email,start_date,end_date,start_price,is_active,is_finished) VALUES(:product_id,:email,:t,:end_date,:start_price,1,0)');
                         //Bind values
                         $this->db->bind(':product_id', $product_id);
                         $this->db->bind(':email', $data['user_email']);
                         $this->db->bind(':start_price', $data['price']);
                         $this->db->bind(':end_date', $data['end_date']);
+                        $this->db->bind(':t', $dat);
                         if($this->db->execute()){
                             return $product_id;
                         }else{
@@ -169,6 +171,24 @@ date_default_timezone_set("Asia/Kolkata");
             }else{
                 return false;
             }
+        }
+
+        public function approve_bid($bid_id,$email,$price,$date){
+            // $time=CONVERT_TZ(NOW(),'SYSTEM','Asia/Calcutta');
+            $this->db->query('INSERT INTO bid_list (bid_id,time,price,email_buyer,is_accepted,is_rejected) VALUES(:bid_id,:t,:price,:email,0,0)');
+            //Bind values
+            $this->db->bind(':bid_id', $bid_id);
+            $this->db->bind(':email', $email);
+            $this->db->bind(':price', $price);
+            $this->db->bind(':t', $date);
+
+            //Execute
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+
         }
 
     }
