@@ -1199,6 +1199,10 @@
       
         }
         
+        public function rate(){
+            
+            $this->view('users/rate');
+        }
         
             
         

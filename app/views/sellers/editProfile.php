@@ -50,7 +50,7 @@
                     </div>
                     <div class="form-data-area">
                         <label for="phone_number">Phone Number:<sup>*</sup></label>
-                        <input type="text" name="phone_number" value="<?php echo $data['phone_number']; ?>" class="<?php echo (!empty($data['phone_number_err'])) ? 'invalid' : '' ; ?>" >
+                        <input type="text" name="phone_number" value="<?php echo $data['phone_number']; ?>" disabled ?>" >
                     </div>  
                 </div>
                 <input type="submit"  value="Save" id="edit-button"  >
