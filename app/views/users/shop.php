@@ -24,10 +24,14 @@
 
     <div class="container" >
         <div class="ad-search_shop">
-            <form method="post" class="search-form" id="main-search-bar" action="<?php echo URLROOT . '/public/users/searchItems';?>">
-                <input type="search" name="search-item" id="search-item-term" placeholder="Microphone"></input>
+            <form method="post" class="search-form" id="shop-search-bar" action="<?php echo URLROOT . '/public/users/searchItems';?>">
+                <input type="search" name="search-item" id="shop-search-item-term" placeholder="Microphone"></input>
                 <button type="submit" class="btn-search"> <img src="<?php echo URLROOT . '/public/img/icons/bxs_search-alt-2.png'; ?>" alt="search"> </button>
             </form>
+        </div>
+        <div id="shop-search-results">
+            <table class="table" id="search-results-table">
+            </table>
         </div>
         
         <div id="search-result-area">
@@ -128,5 +132,6 @@
     </div>
 </body>
 
+<script src="<?php echo URLROOT . '/public/js/search.js';?>"></script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>

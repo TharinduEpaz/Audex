@@ -179,3 +179,69 @@
     border: none;
     border-radius: 1rem; 
 }
+
+.star-rating {
+    display: inline-block;
+  }
+  
+  .star-rating .fa {
+    color: #959191;
+    cursor: pointer;
+  }
+  
+  .star-rating .fa:hover,
+  .star-rating .fa.selected {
+    color: rgb(40, 14, 209);
+  }
+.review-seller{
+    display: flex;
+    flex-direction: column;
+}
+.seller-or-shop-name, .current-rate, .member-since, 
+.buyer-email, .selected-rate, .review-area-select-star{
+    display: flex;
+    flex-direction: row;
+}
+.review-area-select-star {
+    display: flex;
+
+}
+.review-form{
+    visibility: hidden;
+}
+.review-form form{
+    display: flex;
+    flex-direction: column;
+}
+.seller-detais label{
+    font-weight: bold;
+    padding: 1% 1% 1% 1%;
+    height: 5vh;
+    width: 50%;
+}
+.seller-detais input{
+    font-weight: bold;
+    padding: 1% 1% 1% 1%;
+    height: 5vh;
+    width: 50%;
+    background: none;
+    color: black;
+    border: 9px white;
+    border-radius: 0;
+}
+.feedback-area form input[type=text]{
+    border: none;
+    background: none;
+    color: black;
+    width: 70%;
+}
+.feedback-area form label{
+  width: 30%;
+}
+.feedback-area form textarea{
+    margin: 3%;
+    border: 1px solid;
+    overflow: scroll;
+    border-radius: 0.25rem;
+    padding: 3%;
+}

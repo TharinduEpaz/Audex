@@ -58,29 +58,29 @@
             }
         }
 
-        public function getBuyerWatchProducts($email){
-            $this->db->query('SELECT product_id FROM view_item WHERE email_buyer = :email');
-            $this->db->bind(':email' , $email);
-            $results = $this->db->resultSet();
+        // public function getBuyerWatchProducts($email){
+        //     $this->db->query('SELECT product_id FROM view_item WHERE email_buyer = :email');
+        //     $this->db->bind(':email' , $email);
+        //     $results = $this->db->resultSet();
 
-            // foreach($results as $result):
-            //     echo gettype($result) . "</br>";
-            //     echo $result->product_id . "</br>";
-            //     echo gettype($result->product_id) . "</br>";
-            // endforeach;
+        //     // foreach($results as $result):
+        //     //     echo gettype($result) . "</br>";
+        //     //     echo $result->product_id . "</br>";
+        //     //     echo gettype($result->product_id) . "</br>";
+        //     // endforeach;
 
-            $items = [];
-            foreach($results as $result):
-                $id = $result->product_id;
-                settype($id,"integer");
-                $this->db->query('SELECT product_id,email,product_title,product_condition,image1,price FROM product WHERE product_id = :id');
-                $this->db->bind(':id' , $id);
-                $item = $this->db->single();
-                array_push($items,$item);
-            endforeach;
-            return $items;
+        //     $items = [];
+        //     foreach($results as $result):
+        //         $id = $result->product_id;
+        //         settype($id,"integer");
+        //         $this->db->query('SELECT product_id,email,product_title,product_condition,image1,price FROM product WHERE product_id = :id');
+        //         $this->db->bind(':id' , $id);
+        //         $item = $this->db->single();
+        //         array_push($items,$item);
+        //     endforeach;
+        //     return $items;
             
-        }
+        // }
 
         public function deleteUserProfile($id){
             $this->db->query('SELECT email FROM user WHERE user_id = :id');
