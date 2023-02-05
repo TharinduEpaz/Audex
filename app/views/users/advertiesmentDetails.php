@@ -75,7 +75,7 @@
                 ?>
                 </div>
                 <div class="add_watch_list">
-                <form id="add_watch_list_form" method="POST" data-op = "add" >
+                <form id="add_watch_list_form" method="POST" data-op = "add" data-watchLoad ="<?php echo $data['watched'] ; ?>" >
                         <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
                         <input type="text" name="user_type" value="buyer" hidden>
                         <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
@@ -95,14 +95,75 @@
                                 <button class="close">Close</button>
                             </div>
                         </dialog>
-                        <!-- <?php 
-                            if(isset($_SESSION['user_type'])){
-                                if($_SESSION['user_type'] == 'buyer' || $_SESSION['user_type'] == 'service_provider'){
-                                    echo '<input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist">';
-                                }
-                            }
-                        ?> -->
+        
                     </form>
+                </div>
+            </div>
+            <div class="seller-detais">
+                <div class="seller-or-shop-name">
+                    <label for="shop-or-seller-name">
+                        <?php 
+                            if( empty($data['seller']->shop_name )){
+                                echo 'Seller';
+                            }
+                            else{
+                                echo 'Shop';
+                            }
+                        ?>:
+                    </label>
+                    <input type="text" name="shop-or-seller-name" value="<?php 
+                                                                            if( empty($data['seller']->shop_name) ){
+                                                                                echo $data['SellerMoreDetails']->first_name;
+                                                                            }else{
+                                                                                echo $data['seller']->shop_name;
+                                                                            } ?>"
+                    >
+                </div>
+                <div class="current-rate">
+                    <label for="current-rate">Rate:</label>
+                    <input type="text" name="current-rate" value="<?php echo $data['seller']->rate ?>" id="current-seller-rate">
+                </div>
+                <div class="member-since">
+                    <label for="member-since">Member Since:</label>
+                    <input type="text" name="member-since" value = "<?php echo $data['sellerRegDate'] ?>">
+                </div>
+                <div class="review-seller">
+                    <div class="write-review">
+                        <input type="submit" value="Write Review" id="review-seller-btn">
+                    </div>
+
+                    <div class="review-form">
+                        <div class="review-area-select-star">
+                            <label for="select">Select:</label>
+                            <div class="star-rating">
+                                <i class="fa fa-star star" data-value="1"></i>
+                                <i class="fa fa-star star" data-value="2"></i>
+                                <i class="fa fa-star star" data-value="3"></i>
+                                <i class="fa fa-star star" data-value="4"></i>
+                                <i class="fa fa-star star" data-value="5"></i>
+                            </div>
+                        </div>
+                        <div class="feedback-area">
+                            <form action="" method="post" id="review-write-form">
+                                <div class="buyer-email">
+                                    <label for="email">Email:</label>
+                                    <input type="text" value= "<?php echo $_SESSION['user_email'] ?>" disabled>
+                                </div>
+                                <div class="selected-rate">
+                                    <label for="given-rate">Rate:</label>
+                                    <input type="text" value="<?php echo $data['loadRate'] ?>" id="buyer-selected-rate">
+                                </div>
+
+
+                                <label for="feedback">Feedback:</label>
+                                <textarea  name="review" rows="4" id="submitted-feedback"  ><?php echo $data['loadFeedback'] ?></textarea>
+
+                                <input type="submit" value="Submit" id="submit-review-btn">
+
+                            </form>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -121,8 +182,8 @@
 
     // console.log(likedCount.innerText );
 
-    // add even listner to check status of like when load liked or not liked
     window.addEventListener("DOMContentLoaded",(e)=>{
+        // add even listner to check status of like when load liked or not liked
         if(likeBtn.getAttribute("data-likeLoad") === "liked"){
             likeBtn.style.color="Red";
             likeBtn.setAttribute("data-like","removeLike"); 
@@ -309,6 +370,79 @@
                     console.log("Error:", error);
                 });
             }
+        }
+        else{
+            //user is not logged in 
+            window.location.href = '<?php echo URLROOT?>/users/login/';
+        }
+    });
+
+// rate functionality======================================================================================================================
+
+    writeReviewBtn = document.getElementById("review-seller-btn");
+    reviewWriteForm = document.getElementById("review-write-form");
+    const stars = document.querySelectorAll('.star-rating .star');
+    const sellerEmail = '<?php echo $data['SellerMoreDetails']->email ?>';
+    var value = '';
+
+    writeReviewBtn.addEventListener("click",(e)=>{
+        if(user_id != "0"){
+            // user is logged in
+       
+            document.querySelector(".review-form").style.visibility = "visible";
+            for (const star of stars) {
+                star.addEventListener('click', function () {
+                    value = parseFloat(this.getAttribute('data-value'));
+
+                        for (const star of stars) {
+                            star.classList.remove('selected');
+                        }
+                
+                        for (let i = 0; i < value; i++) {
+                            stars[i].classList.add('selected');
+                        }
+                        document.getElementById('buyer-selected-rate').value = value;
+                        // document.getElementById('current-seller-rate').value = data.results4;
+                    
+                });
+            }
+            reviewWriteForm.addEventListener("submit",(e)=>{
+                e.preventDefault();
+                //get the form data/sumitted data
+                const feedback = document.getElementById('submitted-feedback').value;
+                console.log(feedback);
+                console.log(value);
+
+                const url1 = '<?php echo URLROOT?>/users/rateSeller/';
+
+                fetch(url1, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ rating: value,
+                                           review:feedback,
+                                           buyer:user_id,
+                                           seller:sellerEmail
+                                        }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+            
+                    for (const star of stars) {
+                     star.classList.remove('selected');
+                    }
+            
+                    for (let i = 0; i < value; i++) {
+                     stars[i].classList.add('selected');
+                    }
+                    document.getElementById('buyer-selected-rate').value = value;
+                    document.getElementById('current-seller-rate').value = data.results4;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            });
+
         }
         else{
             //user is not logged in 

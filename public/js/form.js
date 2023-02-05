@@ -1,4 +1,7 @@
 
+const URLROOT = 'http://localhost/Audex';
+
+
 // function docheck() {
 //     if (document.getElementById("check").checked) {
 //         document.getElementById("forms").style.zIndex = "-1";
@@ -57,6 +60,14 @@ function myFunction() {
 // for add item to watch list--------------------------------------------------------------------
 const addToWatchListForm = document.getElementById('add_watch_list_form');
 
+window.addEventListener("DOMContentLoaded",(e)=>{
+  // add even listner to check status of like when load liked or not liked
+  if(addToWatchListForm.getAttribute("data-watchLoad") === "watched"){
+      addToWatchListForm.setAttribute("data-op", "remove")
+      document.getElementById("add-to-watchlist").style.backgroundColor = "RED";
+  }
+});
+
 addToWatchListForm.addEventListener("submit",async (e)=>{
   e.preventDefault();
   console.log("submitted")
@@ -78,7 +89,7 @@ addToWatchListForm.addEventListener("submit",async (e)=>{
     const value = formData.get('user_id').trim();
     if(value == 0){
       //user is not logged in 
-      window.location.href = 'http://localhost/Audex/users/login/';
+      window.location.href = URLROOT+'/users/login/';
     }
     else{
       //user is logged in 
@@ -93,7 +104,7 @@ addToWatchListForm.addEventListener("submit",async (e)=>{
         document.getElementById("add-to-watchlist").value = "Please Wait..";
 
         //remove white spaces in user id
-        const url = 'http://localhost/Audex/users/addToWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
+        const url = URLROOT+'/users/addToWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
 
         console.log(url);
         const data = await fetch(url, {
@@ -154,7 +165,7 @@ addToWatchListForm.addEventListener("submit",async (e)=>{
     const value = formData.get('user_id').trim();
     if(value == 0){
       //user is not logged in 
-      window.location.href = 'http://localhost/Audex/users/login/';
+      window.location.href = URLROOT+'/users/login/';
     }
     else{
       //user is logged in 
@@ -169,7 +180,7 @@ addToWatchListForm.addEventListener("submit",async (e)=>{
         document.getElementById("add-to-watchlist").value = "Please Wait..";
 
         //remove white spaces in user id
-        const url = 'http://localhost/Audex/users/removeItemFromWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
+        const url = URLROOT+'/users/removeItemFromWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
 
         console.log(url);
         const data = await fetch(url, {

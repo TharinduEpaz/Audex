@@ -19,6 +19,8 @@
             $this->buyerModel = $this->model('Buyer');
             $this->sellerModel = $this->model('Seller');
 
+            $_SESSION['searchResults'] = '';
+
         }
 
         public function index(){
@@ -511,10 +513,9 @@
                 'isEmpty' => $empty
             ];
 
-            unset($_SESSION['searchResults']);
             $i=0;
             foreach($ads as $ad):
-
+                
                 if($ad->product_type=='auction'){
                     $auction = $this->userModel->getAuctionById($ad->product_id);
                     if($auction!='Error'){
@@ -529,6 +530,8 @@
                 $i++;
             endforeach;
             $this->view('users/shop',$data);
+            
+            unset($_SESSION['searchResults']);
         }
 
 
@@ -544,49 +547,70 @@
             $likeCount = $this->userModel->checkLikeCount($id);
             $dislikeCount = $this->userModel->checkDislikeCount($id);
 
+
+
+
+            // seller details
+            $sellerDetails = $this->userModel->getSellerDetails($ad->email);
+            $SellerMoreDetails = $this->userModel->getSellerMoreDetails($ad->email);
+            $sellerRegDate = $SellerMoreDetails->registered_date;
+            settype($sellerRegDate, 'string');
+            $sellerRegDate = substr($sellerRegDate,0,10);
+
+            $data = [
+                'ad' => $ad,
+                'likedCount' => $likeCount,
+                'dislikedCount' => $dislikeCount,
+                'seller' => $sellerDetails,
+                'SellerMoreDetails' => $SellerMoreDetails,
+                'sellerRegDate' => $sellerRegDate,
+                'liked' => '',
+                'disliked' => '',
+                'watched' => '',
+                'loadFeedback' =>'',
+                'loadRate' =>'',
+            ];
+
+            
             //CHeck if loggedIn
             if(isLoggedIn()){
                 // check alredy liked or not
                 $liked = $this->userModel->checkAddedLike($id,$_SESSION['user_id']);
                 $disliked = $this->userModel->checkAddedDislike($id,$_SESSION['user_id']);
+
+                $loadRate = $this->userModel->checkAddedRate($_SESSION['user_id'],$ad->email);
+                $loadFeedback = $this->userModel->checkAddedReview($_SESSION['user_id'],$ad->email);
+                $data['loadFeedback'] = $loadFeedback;
+                $data['loadRate'] = $loadRate;
+
+                $itemWatched = $this->userModel->checkIsItemWatched($id,$_SESSION['user_id']);
+                if( empty($itemWatched) ){
+                    // Item is not in watch list
+                    $data['watched'] = 'notwatched';
+                }
+                else{
+                    $data['watched'] = 'watched';
+                }
+            // echo $data['watched'];
+
                 if(empty($liked) && empty($disliked)){
                     // not liked and not disliked
-                    $data = [
-                        'ad' => $ad,
-                        'liked' => 'notliked',
-                        'disliked' => 'notdisliked',
-                        'likedCount' => $likeCount,
-                        'dislikedCount' => $dislikeCount
-                    ];
+                    $data['liked'] = 'notliked';
+                    $data['disliked'] = 'notdisliked';
                 } 
                 else if(!empty($liked) ){
-                    $data = [
-                        'ad' => $ad,
-                        'liked' => 'liked',
-                        'disliked' => 'notdisliked',
-                        'likedCount' => $likeCount,
-                        'dislikedCount' => $dislikeCount
-                    ];
+                    $data['liked'] = 'liked';
+                    $data['disliked'] = 'notdisliked';
                 }
                 else if(!empty($disliked) ){
-                    $data = [
-                        'ad' => $ad,
-                        'liked' => 'notliked',
-                        'disliked' => 'disliked',
-                        'likedCount' => $likeCount,
-                        'dislikedCount' => $dislikeCount
-                    ];
+                    $data['liked'] = 'notliked';
+                    $data['disliked'] = 'disliked';
                 }
             }
             else{
                 // not loggedin
-                $data = [
-                    'ad' => $ad,
-                    'liked' => 'notliked',
-                    'disliked' => 'notdisliked',
-                    'likedCount' => $likeCount,
-                    'dislikedCount' => $dislikeCount
-                ];
+                $data['liked'] = 'notliked';
+                $data['disliked'] = 'notdisliked';
             }
 
               $this->view('users/advertiesmentDetails',$data);
@@ -1198,11 +1222,38 @@
             }
       
         }
+
+        public function rateSeller(){
+
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            $rating = $data['rating'] ?? 0;
+            $buyer_id = $data['buyer'];
+            $seller = $data['seller'];
+            $review = $data['review'];
+
+            $results2 = '';
+            $results3 = '';
         
-        public function rate(){
-            
-            $this->view('users/rate');
+
+            // echo $rating;
+            // echo $buyer_id;
+            // echo $seller;
+            $results1 = $this->userModel->checkAddedRate($buyer_id, $seller);
+
+            if( empty($results1) ){
+                $results2 = $this-> userModel->rateSeller($rating,$buyer_id,$seller,$review);
+            }
+            else{
+                $results3 = $this->userModel->updateSellerRate($rating, $buyer_id, $seller,$review);
+            }
+            $results4 = $this->userModel->getSellerFinalRate($seller);
+            // ,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3
+            echo json_encode(['message' => 'Rating saved','results4'=>$results4,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
+
+
         }
+        
         
             
         

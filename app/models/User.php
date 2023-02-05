@@ -227,6 +227,24 @@ date_default_timezone_set("Asia/Kolkata");
             $row = $this->db->single();
             return $row;
         }
+
+        public function getSellerDetails($email){
+            $this->db->query('SELECT * FROM seller WHERE email = :email');
+            $this->db->bind(':email' , $email);
+
+            $row = $this->db->single();
+            return $row;
+        }
+
+
+        public function getSellerMoreDetails($email){
+            $this->db->query('SELECT * FROM user WHERE email = :email');
+            $this->db->bind(':email' , $email);
+
+            $row = $this->db->single();
+            return $row;
+        }
+
         public function getAuctionById($id){
             $this->db->query('SELECT * FROM auction WHERE product_id = :id && is_finished=0 && is_active=1');
             $this->db->bind(':id' , $id);
@@ -348,6 +366,46 @@ date_default_timezone_set("Asia/Kolkata");
             }else{
                 return false;
             }
+        }
+
+        public function checkIsItemWatched($p_id,$user_id){
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $user_id);
+
+            $row = $this->db->single();
+
+            $this->db->query('SELECT view_id FROM view_item WHERE email_buyer = :email AND product_id = :p_id');
+            //Bind value
+            $this->db->bind(':email', $row->email);
+            $this->db->bind(':p_id', $p_id);
+
+            $result =  $this->db->single();
+
+            return $result;
+
+        }
+        public function getBuyerWatchProducts($email){
+            $this->db->query('SELECT product_id FROM view_item WHERE email_buyer = :email');
+            $this->db->bind(':email' , $email);
+            $results = $this->db->resultSet();
+
+            // foreach($results as $result):
+            //     echo gettype($result) . "</br>";
+            //     echo $result->product_id . "</br>";
+            //     echo gettype($result->product_id) . "</br>";
+            // endforeach;
+
+            $items = [];
+            foreach($results as $result):
+                $id = $result->product_id;
+                settype($id,"integer");
+                $this->db->query('SELECT product_id,email,product_title,product_condition,image1,price FROM product WHERE product_id = :id');
+                $this->db->bind(':id' , $id);
+                $item = $this->db->single();
+                array_push($items,$item);
+            endforeach;
+            return $items;
+            
         }
 
         public function update_price($price,$product_id){
@@ -626,5 +684,114 @@ date_default_timezone_set("Asia/Kolkata");
 
         }
 
+        public function checkAddedRate($buyer_id, $seller){
+            $this->db->query('SELECT email FROM user WHERE user_id = :buyer_id');
+            $this->db->bind(':buyer_id' , $buyer_id);
+            $row = $this->db->single();
+
+            $this->db->query('SELECT rate FROM seller_rate_buyer WHERE email_buyer = :buyer AND email_seller = :seller ');
+            //Bind value
+            $this->db->bind(':buyer', $row->email);
+            $this->db->bind(':seller', $seller);
+
+            $result =  $this->db->single();
+            
+            // if there no rate value it will be null
+            return $result->rate?? NULL;
+        }
+        public function checkAddedReview($buyer_id, $seller){
+            $this->db->query('SELECT email FROM user WHERE user_id = :buyer_id');
+            $this->db->bind(':buyer_id' , $buyer_id);
+            $row = $this->db->single();
+
+            $this->db->query('SELECT review FROM seller_rate_buyer WHERE email_buyer = :buyer AND email_seller = :seller ');
+            //Bind value
+            $this->db->bind(':buyer', $row->email);
+            $this->db->bind(':seller', $seller);
+
+            $result =  $this->db->single();
+            
+            // if there no rate value it will be null
+            return $result->review?? NULL;
+        }
+        public function rateSeller($rate,$buyer_id,$seller,$review){
+            // get the email from buyer id
+            $this->db->query('SELECT email FROM user WHERE user_id = :buyer_id');
+            $this->db->bind(':buyer_id' , $buyer_id);
+            $row = $this->db->single();
+            
+
+            $this->db->query('INSERT INTO seller_rate_buyer (email_seller,email_buyer,rate,review) VALUES (:seller,:buyer,:rate,:review)');
+            $this->db->bind(':seller', $seller);
+            $this->db->bind(':buyer', $row->email);
+            $this->db->bind(':rate', $rate);
+            $this->db->bind(':review', $review);
+
+            if($this->db->execute()){
+                // if rating sucessful then update the seller table
+                $this->db->query('SELECT avg(rate) as rateNew FROM seller_rate_buyer WHERE email_seller = :seller ');
+                //Bind value
+                $this->db->bind(':seller', $seller);
+                $result1 =  $this->db->single();
+                // update main rate in seller table 
+                $this->db->query('UPDATE seller SET rate = :newRate WHERE email = :seller ');
+                $this->db->bind(':newRate', $result1->rateNew);
+                $this->db->bind(':seller', $seller);
+
+                if($this->db->execute()){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+            
+        }
+        
+        public function updateSellerRate($rating, $buyer_id, $seller,$review){
+            // get the email from buyer id
+            $this->db->query('SELECT email FROM user WHERE user_id = :buyer_id');
+            $this->db->bind(':buyer_id' , $buyer_id);
+            $row = $this->db->single();
+    
+            // update seller's rate given by a particular buyer 
+            $this->db->query('UPDATE seller_rate_buyer SET rate = :rate, review = :review WHERE email_buyer = :buyer AND email_seller = :seller ');
+            //Bind value
+            $this->db->bind(':buyer', $row->email);
+            $this->db->bind(':seller', $seller);
+            $this->db->bind(':rate', $rating);
+            $this->db->bind(':review', $review);
+    
+            if($this->db->execute()){
+                // if rating sucessful then update the seller table
+                $this->db->query('SELECT avg(rate) as rate FROM seller_rate_buyer WHERE email_seller = :seller ');
+                //Bind value
+                $this->db->bind(':seller', $seller);
+                $result1 =  $this->db->single();
+                // update main rate in seller table 
+                $this->db->query('UPDATE seller SET rate = :newRate WHERE email = :seller ');
+                $this->db->bind(':newRate', $result1->rate);
+                $this->db->bind(':seller', $seller);
+
+                if($this->db->execute()){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+
+        public function getSellerFinalRate($seller){
+            $this->db->query('SELECT rate FROM seller WHERE email = :seller ');
+            //Bind value
+            $this->db->bind(':seller', $seller);
+            $result1 = $this->db->single();
+
+            return $result1->rate;
+
+        }
     }
 ?>

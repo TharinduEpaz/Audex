@@ -31,7 +31,7 @@ body{
     border: 1px solid #002EF9;
     font-weight: 600;
 
-    /* float: right; */
+    float: left;
     /* margin-left: 850%; */
 }
 
@@ -73,7 +73,7 @@ body{
 }
 .image{
     height: 65vh;
-    width: 40%;
+    width: 35%;
     /* padding: 1% 1% 1% 5%; */
     border: 1px solid #002EF9;
     border-radius: 25px;
@@ -112,7 +112,7 @@ body{
         margin-left: 60px;
         padding: 1vh 3% 1vh 1.5%;
         /* margin-top: -14vh; */
-        width: 35%;
+        width: 30%;
 
 
 }
@@ -131,7 +131,7 @@ body{
     cursor: pointer;
 }
 .details h2{
-    text-align: center;
+    text-align: left;
     font-size: 20pt;
     font-weight: bolder;
     margin-bottom: 2vh;
@@ -140,7 +140,7 @@ body{
     font-weight: bold;
     padding: 1% 1% 1% 1%;
     height: 5vh;
-    width: 50%;
+    width: 45%;
 
 }
 .price h4{
@@ -217,6 +217,28 @@ body{
     font-size: 15pt;
     margin-bottom: 1%;
 }
+.seller-detais{
+    display: flex;
+    flex-direction: column;
+    max-width: 23%;
+    min-width: 14%;    
+    margin-right: 3% ;
+    border: 1px solid black;
+}
+
+#message-to-seller-btn, #review-seller-btn, #submit-review-btn {
+    float: right;
+    width: 85%;
+    height: 5vh;
+    font-size: 16px;
+    background:#002EF9;
+    color: white;
+    padding: 1% 2% 1% 2%;
+    border-radius: 10px;
+    border: 1px solid #002EF9;
+    margin: 9% 12% 3% 2%;
+}
+
 @media(max-width:1200px){
     
     .image{
