@@ -206,7 +206,7 @@ body{
     padding: 1% 5% 1% 5%;
     color: black;
     font-weight: 300;
-    margin-top: 7vh;
+    margin-top: -2vh;
 }
 .description p{
     color: black;
@@ -223,7 +223,8 @@ body{
     max-width: 23%;
     min-width: 14%;    
     margin-right: 3% ;
-    border: 1px solid black;
+    /* border: 1px solid black; */
+    padding-top: 1vh;
 }
 
 #message-to-seller-btn, #review-seller-btn, #submit-review-btn {
@@ -238,7 +239,112 @@ body{
     border: 1px solid #002EF9;
     margin: 9% 12% 3% 2%;
 }
-
+#message-to-seller-btn:hover, #review-seller-btn:hover, #submit-review-btn:hover {
+    cursor: pointer;
+    background:red;
+    border: 1px solid red;
+}
+.top_details{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 25vh;
+    margin-top: 1vh;
+    background-color: white;
+    /* border-radius: 35px; */
+  }
+  
+  .profile_img{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid black; */
+    margin-left: 3%;
+    flex-basis: 25%;
+    height: 76%;
+    border-radius: 50%;
+  }
+  .profile_img img{
+    width: 90%;
+    border-radius: 50%;
+  }
+  .other_details_profile{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1%;
+    /* border: 1px solid black; */
+    flex-basis: 75%;
+  
+  }
+  .other_details_profile p{
+    /* border: 1px solid black; */
+    color: black;
+    font-weight: 600;
+  }
+  .full_name{
+    font-size: 20pt;
+    text-align: center;
+    /* border: 1px solid black; */
+    width: 100%;
+  }
+  .stars_date{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 6vh;
+    /* background-color: #E5E9F7; */
+    border-radius: 40px;
+    /* border: 1px solid black; */
+    margin: 0;
+  
+  }
+  .stars{
+    height: 3vh;
+    margin-top: 0;
+  }
+  .stars img{
+   width: 50%;
+  }
+  .date{
+    font-size: 8pt;
+    /* margin-right: 2%; */
+  }
+  .likes{
+    flex-basis: 20%;
+    /* border: 1px solid black; */
+  
+  }
+  .dislikes{
+    flex-basis: 20%;
+    /* border: 1px solid black; */
+  
+  }
+  .flags{
+    flex-basis: 20%;
+    /* border: 1px solid black; */
+  
+  }
+  
+  .likes_dislikes{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 6h;
+    /* background-color: #E5E9F7; */
+    border-radius: 40px;
+    /* border: 1px solid black; */
+    margin-top: 2vh;
+    
+  }
 @media(max-width:1200px){
     
     .image{

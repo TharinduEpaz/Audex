@@ -29,7 +29,8 @@
             <div class="form-display">
                 <div class="top_details">
                     <div class="profile_img">
-                        <img src="<?php echo URLROOT . '/public/img/DSC_0863.jpg';?>" alt="Profile Picture">
+                        <img src="<?php echo URLROOT . '/public/uploads/'.$data['user']->profile_pic;?>" alt="Profile Picture">
+                        <a class="edit" href="<?php echo URLROOT.'/users/edit_profile_picture/'.$data['user']->user_id?>">Edit</a>
                     </div>
                     <div class="other_details_profile">
                         <p class="full_name"><?php echo $data['user']->first_name.' '.$data['user']->second_name; ?></p>

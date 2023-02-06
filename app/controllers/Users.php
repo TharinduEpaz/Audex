@@ -476,6 +476,86 @@
             }
           }
 
+          public function edit_profile_picture($id){
+            if(!isLoggedIn()){
+              $_SESSION['url']=URL();
+      
+              redirect('users/login');
+            }
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+                $data =[
+                    'id' => $id,
+                    'image1' => '',
+                    'image1_err' => ''
+                ];
+
+                //Image 1
+                if(!empty($_FILES['image1']['name'])){
+                    $img_name = $_FILES['image1']['name'];
+                    $img_size = $_FILES['image1']['size'];
+                    $tmp_name = $_FILES['image1']['tmp_name'];
+                    $error = $_FILES['image1']['error'];
+
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image1_err'] = "Sorry, your first image is too large.";
+                        }
+                        else{
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
+
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image1'] = $new_img_name;
+
+                                // //Insert into database
+                                // if($this->sellerModel->addAdvertisement($data)){
+                                //     flash('post_message', 'Advertisement Added');
+                                //     redirect('sellers/advertisements');
+                                // }
+                                // else{
+                                //     die('Something went wrong');
+                                // }
+                            }
+                            else{
+                                $data['image1_err'] = "You can't upload files of this type";
+                            }
+                        }
+                    }
+                    else{
+                        $data['image1_err'] = "Unknown error occurred!";
+                    }
+                }else{
+                    $data['image1_err'] = 'Please upload an image';
+                }
+
+                if(empty($data['image1_err'])){
+                    if($this->userModel->updateProfilePicture($data)){
+                        flash('post_message', 'Profile Picture Updated');
+                        redirect($_SESSION['user_type'].'s/getProfile/'.$data['id']);
+                    }
+                    else{
+                        die('Something went wrong');
+                    }
+                }
+                else{
+                    $this->view('users/edit_profile_picture',$data);
+                }   
+            }else{
+                $data =[
+                    'id' => $id,
+                    'image1' => '',
+                    'image1_err' => ''
+                ];
+                $this->view('users/edit_profile_picture',$data);
+            }
+          }
         //Logout
         public function logout(){
             unset($_SESSION['user_id']);

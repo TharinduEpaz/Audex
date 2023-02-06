@@ -182,11 +182,14 @@
 
 .star-rating {
     display: inline-block;
+    height: 3vh;
   }
   
   .star-rating .fa {
     color: #959191;
     cursor: pointer;
+    height: 3vh;
+
   }
   
   .star-rating .fa:hover,
@@ -201,9 +204,12 @@
 .buyer-email, .selected-rate, .review-area-select-star{
     display: flex;
     flex-direction: row;
+    
 }
 .review-area-select-star {
     display: flex;
+    height: 3vh;
+
 
 }
 .review-form{
@@ -216,13 +222,13 @@
 .seller-detais label{
     font-weight: bold;
     padding: 1% 1% 1% 1%;
-    height: 5vh;
+    height: 3vh;
     width: 50%;
 }
 .seller-detais input{
     font-weight: bold;
     padding: 1% 1% 1% 1%;
-    height: 5vh;
+    height: 3vh;
     width: 50%;
     background: none;
     color: black;
@@ -234,6 +240,8 @@
     background: none;
     color: black;
     width: 70%;
+    height: 3vh;
+
 }
 .feedback-area form label{
   width: 30%;

@@ -132,6 +132,6 @@
     </div>
 </body>
 
-<script src="<?php echo URLROOT . '/public/js/search.js';?>"></script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
+<script src="<?php echo URLROOT . '/public/js/search.js';?>"></script>
 </html>

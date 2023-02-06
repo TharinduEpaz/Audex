@@ -25,6 +25,7 @@ const URLROOT = 'http://localhost/Audex';
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
 function myFunction() {
+  console.log("clicked");
     document.getElementById("myDropdown").classList.toggle("show");
     }
     

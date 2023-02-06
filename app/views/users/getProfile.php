@@ -14,12 +14,48 @@
     <title>Profile</title>
 </head>
 <body>
-<?php require_once APPROOT . '/views/users/navbar.php';?>
+<?php require_once APPROOT . '/views/sellers/navbar.php';?>
 
     <div class="container">
+        <div class="sidebar">
+                <a href="#"><i class="fas fa-qrcode"></i> <span>Dashboard</span></a>
+                <a class="current" href="<?php echo URLROOT.'/sellers/getProfile/'.$_SESSION['user_id']?>"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile Settings</span></a>
+                <a href="<?php echo URLROOT;?>/sellers/advertisements"> <i class="fa fa-ad" aria-hidden="true"></i><span>Advertisements</span></a>
+                <a href="<?php echo URLROOT;?>/sellers/advertise"><i class="fa-solid fa-dollar-sign" aria-hidden="true"></i><span>Advertise</span></a>
+                <a href="#"> <i class="fa fa-comments"></i><span>Messages</span></a>       
+        </div>
         <div class="poster_advertisements">
-            <div class="form-display"> 
-                <h1>My Profile Details</h1>
+            
+            <div class="form-display">
+                <div class="top_details">
+                    <div class="profile_img">
+                        <img src="<?php echo URLROOT . '/public/img/DSC_0863.jpg';?>" alt="Profile Picture">
+                        <a class="edit" href="<?php echo URLROOT.'/users/edit_profile_picture/'.$data['user']->user_id?>">Edit</a>
+                    </div>
+                    <div class="other_details_profile">
+                        <p class="full_name"><?php echo $data['user']->first_name.' '.$data['user']->second_name; ?></p>
+                        <div class="stars_date">
+                            <div class="stars">
+                                <img src="<?php echo URLROOT . '/public/img/stars.png';?>" alt="Profile Picture">
+                            </div>
+                            <div class="date">
+                                <p>Joined : <?php echo date('Y-m-d',strtotime($data['user']->registered_date));; ?></p>
+                            </div>
+                        </div>
+                        <div class="likes_dislikes">
+                            <div class="likes">
+                            <i class="fas fa-thumbs-up" aria-hidden="true"> : 10</i>
+                            </div>
+                            <div class="dislikes">
+                            <i class="fas fa-thumbs-down"> : 0</i>
+                            </div>
+                            <div class="flags">
+                            <i class="fa-sharp fa-solid fa-flag"> : 0</i>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-data-area">
                     <label for="first_name">First Name:</label>
                     <input type="text" name="first_name" value="<?php echo $data['user']->first_name; ?>" disabled>
@@ -45,7 +81,13 @@
                     <input type="text" name="phone_number" value="<?php echo $data['user']->phone_number; ?>" disabled>
                 </div>  
             </div> 
-            
+            <div class="button-edit-delete">
+                <a href="<?php echo URLROOT.'/sellers/editProfile/'.$_SESSION['user_id']; ?>"><button type="submit"  value="Edit" id="edit-button">Edit</button></a>
+                
+                <form action="<?php echo URLROOT.'/sellers/deleteProfile/'.$_SESSION['user_id']; ?>" method="post">
+                    <input type="submit" value="Delete" id="delete-button">
+                </form>
+            </div>
         </div>
     </div>
 </body>

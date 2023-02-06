@@ -100,33 +100,42 @@
                 </div>
             </div>
             <div class="seller-detais">
-                <div class="seller-or-shop-name">
-                    <label for="shop-or-seller-name">
-                        <?php 
+                <h2 style="text-align: center;"><?php 
                             if( empty($data['seller']->shop_name )){
                                 echo 'Seller';
                             }
                             else{
                                 echo 'Shop';
                             }
-                        ?>:
-                    </label>
-                    <input type="text" name="shop-or-seller-name" value="<?php 
-                                                                            if( empty($data['seller']->shop_name) ){
-                                                                                echo $data['SellerMoreDetails']->first_name;
-                                                                            }else{
-                                                                                echo $data['seller']->shop_name;
-                                                                            } ?>"
-                    >
-                </div>
-                <div class="current-rate">
-                    <label for="current-rate">Rate:</label>
-                    <input type="text" name="current-rate" value="<?php echo $data['seller']->rate ?>" id="current-seller-rate">
-                </div>
-                <div class="member-since">
-                    <label for="member-since">Member Since:</label>
-                    <input type="text" name="member-since" value = "<?php echo $data['sellerRegDate'] ?>">
-                </div>
+                        ?> Details</h2>
+                <div class="top_details">
+                        <div class="profile_img">
+                            <img src="<?php echo URLROOT . '/public/img/'.$data['SellerMoreDetails']->profile_pic;?>" alt="Profile Picture">
+                        </div>
+                        <div class="other_details_profile">
+                            <p class="full_name"><?php echo $data['SellerMoreDetails']->first_name.' '.$data['SellerMoreDetails']->second_name; ?></p>
+                            <div class="stars_date">
+                                <div class="stars">
+                                    <img src="<?php echo URLROOT . '/public/img/stars.png';;?>" alt="Profile Picture"><?php echo $data['seller']->rate?>
+                                </div>
+                                <div class="date">
+                                    <p>Joined : <?php echo date('Y-m-d',strtotime($data['SellerMoreDetails']->registered_date));; ?></p>
+                                </div>
+                            </div>
+                            <div class="likes_dislikes">
+                                <div class="likes">
+                                <i class="fas fa-thumbs-up" aria-hidden="true"> : 10 </i>
+                                </div>
+                                <div class="dislikes">
+                                <i class="fas fa-thumbs-down"> : 0 </i>
+                                </div>
+                                <div class="flags">
+                                <i class="fa-sharp fa-solid fa-flag"> : 0 </i>
+                            
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <div class="review-seller">
                     <div class="write-review">
                         <input type="submit" value="Write Review" id="review-seller-btn">
@@ -145,14 +154,6 @@
                         </div>
                         <div class="feedback-area">
                             <form action="" method="post" id="review-write-form">
-                                <div class="buyer-email">
-                                    <label for="email">Email:</label>
-                                    <input type="text" value= "<?php echo $_SESSION['user_email'] ?>" disabled>
-                                </div>
-                                <div class="selected-rate">
-                                    <label for="given-rate">Rate:</label>
-                                    <input type="text" value="<?php echo $data['loadRate'] ?>" id="buyer-selected-rate">
-                                </div>
 
 
                                 <label for="feedback">Feedback:</label>
