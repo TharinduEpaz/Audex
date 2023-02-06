@@ -23,7 +23,10 @@
         <?php  foreach ($data as $object): ?>
         <div class="sound-eng-profiles">
             <div class="profile-image">
+                <?php $id = $object->user_id; ?>
+                <a href="<?php echo URLROOT .'/users/serviceProviderPublic/' .  urlencode($id) ?>">
                 <img src="<?php echo URLROOT .'/public/uploads/Profile/' . $object->profile_image ?>" alt="">
+        </a>
             </div>
 
             <div class="profile-data">
@@ -33,49 +36,20 @@
             </div>            
                 <div class="rating-stars">
                 <span class="rate"><?php echo "$object->Rating";?></span> 
+
                 <?php for($i=0; $i<floor($object->Rating); $i++): ?>
-                    
                 <i class="fa fa-star"></i>
-            
                 <?php endfor; ?>
+
                 <?php if(strpos((string)$object->Rating, '.')): ?>
                         <i class="fa fa-star-half-o"></i>
-                    <?php endif; ?>   
+                <?php endif; ?>   
                 </div>                
         </div>
         <?php endforeach;?>
     </div>
 </body>
 <script>
-    //read the star rating from the database and make the stars
-    //lidocught up according to the rating
-    
-    
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     let stars = document.getElementsByClassName('fas fa-star');
-    //     let rating = document.getElementsByClassName('rate');
-    //     console.log(rating);
-    //     for (let i = 0; i < rating.length; i++) {
-    //         let rate = rating[i].innerHTML;
-    //         console.log(rate);
-    //         for (let j = 0; j < rate; j++) {
-    //             stars[j].style.color = 'yellow';
-    //         }
-    //     }
-    // });
-
-  var spans = document.querySelectorAll(".rate");
- 
-  for (var i = 0; i < spans.length; i++) {
-
-  }
-    // console.log(rating);
-    // let stars = document.getElementsByClassName('fas fa-star');
-    // console.log(stars);
-    // for (let i = 0; i < rating; i++) {
-    //     stars[i].style.color = 'yellow';
-    // }
-
 </script>
 
 </html>

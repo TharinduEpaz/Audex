@@ -1206,6 +1206,18 @@
             }
       
         }
+
+    public function serviceProviderPublic()
+    {
+        $id = $_GET['id'];
+        $d = $this->userModel->getServiceProvidersPublic($id);
+        $data = [
+            'details' => $d
+        ];
+
+        $this->view('users/service_provider_public', $data);
+
+    }
         
         
             
