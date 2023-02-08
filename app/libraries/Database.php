@@ -82,4 +82,7 @@
     public function rowCount(){
         return $this->stmt->rowCount();
     }
+    // public function escape($value) {
+    //     return $this->dbh->quote($value);
+    // }
  }
