@@ -53,7 +53,7 @@
                         
                         echo '<tr>';
                             echo '<td>'.$i.'</td>';
-                            echo '<td>'.$auction->name.'</td>';
+                            echo '<td>'.$auction->name[0].$auction->name[1].'****</td>';
                             echo '<td>Rs.'.$auction->price.'</td>';
                         echo '</tr>';
                         endforeach;

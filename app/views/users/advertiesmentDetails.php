@@ -87,7 +87,7 @@
                         <dialog id="dia">
                             <div class="top-part">
                                 <button class="btn_close">X</button>
-                                <i class="fa-sharp fa-solid fa-xmark"></i>
+                                <!-- <i class="fa-sharp fa-solid fa-xmark"></i> -->
                             </div>  
                             <hr>
                             <div>
@@ -108,16 +108,26 @@
                                 echo 'Shop';
                             }
                         ?> Details</h2>
+                        
+
+                                
+
+
                 <div class="top_details">
                         <div class="profile_img">
-                            <img src="<?php echo URLROOT . '/public/img/'.$data['SellerMoreDetails']->profile_pic;?>" alt="Profile Picture">
+                            <img src="<?php echo URLROOT . '/public/uploads/'.$data['SellerMoreDetails']->profile_pic;?>" alt="Profile Picture">
                         </div>
                         <div class="other_details_profile">
                             <p class="full_name"><?php echo $data['SellerMoreDetails']->first_name.' '.$data['SellerMoreDetails']->second_name; ?></p>
                             <div class="stars_date">
                                 <div class="stars">
-                                    <img src="<?php echo URLROOT . '/public/img/stars.png';;?>" alt="Profile Picture"><?php echo $data['seller']->rate?>
+                                    <img src="<?php echo URLROOT . '/public/img/stars.png';;?>" alt="Profile Picture">
+                                    <div class="current-rate">
+                                    <label for="current-rate" style="display:none">Rate:</label>
+                                    <input type="text" name="current-rate" value="<?php echo $data['seller']->rate ?>" id="current-seller-rate">
                                 </div>
+                                </div>
+                                
                                 <div class="date">
                                     <p>Joined : <?php echo date('Y-m-d',strtotime($data['SellerMoreDetails']->registered_date));; ?></p>
                                 </div>
@@ -152,13 +162,17 @@
                                 <i class="fa fa-star star" data-value="5"></i>
                             </div>
                         </div>
+                        <div class="selected-rate">
+                                    <label for="given-rate">Rate:</label>
+                                    <input type="text" value="<?php echo $data['loadRate'] ?>" id="buyer-selected-rate">
+                                </div>
                         <div class="feedback-area">
                             <form action="" method="post" id="review-write-form">
 
 
                                 <label for="feedback">Feedback:</label>
                                 <textarea  name="review" rows="4" id="submitted-feedback"  ><?php echo $data['loadFeedback'] ?></textarea>
-
+                                <?php flash('rating_message');?>
                                 <input type="submit" value="Submit" id="submit-review-btn">
 
                             </form>

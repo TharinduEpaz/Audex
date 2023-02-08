@@ -33,7 +33,7 @@
             <table class="table" id="search-results-table">
             </table>
         </div>
-        
+        <?php echo flash('auction_error');?>
         <div id="search-result-area">
             <?php if( $data['isEmpty'] != '1' ){ ?>
 

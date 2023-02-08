@@ -859,13 +859,15 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             if($auction_details){
               $data['auctions'] =$auction_details;
               $data['auctions_no_rows'] =$auctions_details_no_rows;
+            //   $data['user']=$this->userModel->findUserDetailsByEmail($auction_details->email_buyer);
 
               for($i=0;$i<$auctions_details_no_rows;$i++){
-                 $bid_list = $this->userModel->getBidList($data['auctions'][$i]->bid_id,$data['auctions'][$i]->price);
+                 $bid_list = $this->userModel->getBidList($data['auctions'][$i]->max_bid_id,$data['auctions'][$i]->max_price);
+                 $data['user'][$i]=$this->userModel->findUserDetailsByEmail($data['auctions'][$i]->email_buyer);
                  if($bid_list!=NULL){
                     if(date('Y-m-d H:i:s', strtotime($bid_list->time. ' + 5 days'))<date('Y-m-d H:i:s') && $bid_list->is_accepted==0 && $bid_list->is_rejected==0){
-                        $this->userModel->updateBidStatus($bid_list->bid_id,$data['auctions'][$i]->price);
-                         $bid_list1 = $this->userModel->getBidList($data['auctions'][$i]->bid_id,$data['auctions'][$i]->price);
+                        $this->userModel->updateBidStatus($bid_list->bid_id,$data['auctions'][$i]->max_price);
+                         $bid_list1 = $this->userModel->getBidList($data['auctions'][$i]->max_bid_id,$data['auctions'][$i]->max_price);
                          $data['bid_list'][$i]=$bid_list1;
 
                     }else{

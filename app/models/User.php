@@ -189,7 +189,7 @@ date_default_timezone_set("Asia/Kolkata");
         public function getUserDetails($id){
             $this->db->query('SELECT * FROM user WHERE user_id = :id');
             $this->db->bind(':id' , $id);
-
+            
             $row = $this->db->single();
             return $row;
         }
@@ -268,6 +268,7 @@ date_default_timezone_set("Asia/Kolkata");
                 return false;
             }
         }
+        
 
         //Get user id
         public function getUserId($email){
@@ -395,7 +396,8 @@ date_default_timezone_set("Asia/Kolkata");
 
             $row = $this->db->single();
 
-            $this->db->query('SELECT * FROM bid INNER JOIN auction ON auction.auction_id = bid.auction_id WHERE auction.auction_id = :id ORDER BY bid.price DESC');
+            // SELECT email_buyer, MAX(price) FROM bid WHERE auction_id = 9 GROUP BY email_buyer ORDER BY(MAX(price)) DESC;
+            $this->db->query('SELECT *,MAX(bid.price) as max_price,MAX(bid.bid_id) as max_bid_id FROM bid INNER JOIN auction ON auction.auction_id = bid.auction_id WHERE auction.auction_id = :id GROUP BY bid.email_buyer ORDER BY MAX(bid.price) DESC');
             $this->db->bind(':id' , $row->auction_id);
             $results = $this->db->resultSet();
             if($results){
@@ -410,7 +412,7 @@ date_default_timezone_set("Asia/Kolkata");
 
             $row = $this->db->single();
 
-            $this->db->query('SELECT * FROM bid INNER JOIN auction ON auction.auction_id = bid.auction_id WHERE auction.auction_id = :id ORDER BY bid.price DESC');
+            $this->db->query('SELECT *,MAX(bid.price) as max_price,MAX(bid.bid_id) as max_bid_id FROM bid INNER JOIN auction ON auction.auction_id = bid.auction_id WHERE auction.auction_id = :id GROUP BY bid.email_buyer ORDER BY MAX(bid.price) DESC');
             $this->db->bind(':id' , $row->auction_id);
             $results = $this->db->resultSet();
             if($results){

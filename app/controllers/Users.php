@@ -457,24 +457,26 @@
             
         }
 
-        public function getProfile($email){ 
-            if(!isLoggedIn()){
-              $_SESSION['url']=URL();
-      
-              redirect('users/login');
-            }
-            $details = $this->userModel->findUserDetailsByEmail($email);
-            if($details){
+            public function getProfile($id){ 
+                if(!isLoggedIn()){
+                  $_SESSION['url']=URL();
+          
+                  redirect('users/login');
+                }
+                $details = $this->userModel->getUserDetails($id);
+          
+                // if ($details->user_id != $_SESSION['user_id']) {
+                //   $_SESSION['url']=URL();
+          
+                //   redirect('users/login');
+                // }
+          
                 $data =[
-                  'id' => $details->user_id,
+                  'id' => $id,
                   'user' => $details
                 ];
                 $this->view('users/getProfile',$data);
-
-            }else{
-                redirect('users/index');
-            }
-          }
+              }
 
           public function edit_profile_picture($id){
             if(!isLoggedIn()){
@@ -717,6 +719,10 @@
           $data['ad'] = $ad;
 
           $auction = $this->userModel->getAuctionById($id);
+          if($auction=='Error'){
+            flash('auction_error','Auction is not available','alert alert-danger');
+            redirect('users/shop');
+          }
           $data['auction'] = $auction;
           
           $auction_details = $this -> userModel->getAuctionDetails($id);
@@ -1328,6 +1334,7 @@
                 $results3 = $this->userModel->updateSellerRate($rating, $buyer_id, $seller,$review);
             }
             $results4 = $this->userModel->getSellerFinalRate($seller);
+            flash('rating_message', 'Rating added successfully');
             // ,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3
             echo json_encode(['message' => 'Rating saved','results4'=>$results4,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
 

@@ -17,13 +17,8 @@
     <div id="container_main" class="container_main">
         <div id="forms" class="form">
         <?php 
-        if(flash('register_success')){
-            echo '<div class="alert">';
-                flash('register_success');
-            echo '</div>';
-
-        }  
-            ?>
+            flash('register_success');
+        ?>
             <h1>Login</h1>
             
             <?php

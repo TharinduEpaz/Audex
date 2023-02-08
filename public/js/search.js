@@ -7,6 +7,9 @@ const resultsToShop = document.getElementById("search-result-area");
 // console.log(resultsToShop);
 
 
+
+
+
 inputField.addEventListener("keyup", (e) =>{
     e.preventDefault();
     const searchItemTerm = document.getElementById("search-item-term").value;

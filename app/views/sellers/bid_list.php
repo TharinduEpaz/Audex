@@ -59,43 +59,43 @@
                         
                         echo '<tr>';
                             echo '<td>'.$i.'</td>';
-                            echo '<td>'.$auction->name.'</td>';
-                            echo '<td>Rs.'.$auction->price.'</td>';
-                            echo '<td class=\'profile_link\'><a  href=\'' .URLROOT.'/users/getProfile/'.$auction->email_buyer.'\'>Profile</a></td>';
+                            echo '<td>'.$auction->name[0].$auction->name[1].'****</td>';
+                            echo '<td>LKR '.$auction->max_price.'</td>';
+                            echo '<td class=\'profile_link\'><a  href=\'' .URLROOT.'/users/getProfile/'.$data['user'][$i-1]->user_id.'\'>Profile</a></td>';
                             if($i<4 && $data['auctions_no_rows']>3 && $auction->is_active==0){
                                 if($data['bid_list'][$i-1]!=NULL){
                                     if($data['bid_list'][$i-1]->is_accepted==0 && $data['bid_list'][$i-1]->is_rejected==0){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Email Sent</a></td>';
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$auction->name.'\'>Email Sent</a></td>';
                                     }else if($data['bid_list'][$i-1]->is_accepted==1){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none ; color:green\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approved</a></td>';
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none ; color:green\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$auction->name.'\'>Approved</a></td>';
 
                                     }else if($data['bid_list'][$i-1]->is_rejected==1){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none; color:red\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Rejected</a></td>';
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none; color:red\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$auction->name.'\'>Rejected</a></td>';
 
                                     }
                                 }else if($data['check']==0){
-                                    echo '<td id=\'approve_link\' class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approve</a></td>';
+                                    echo '<td id=\'approve_link\' class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$auction->name.'\'>Approve</a></td>';
 
                                 }else{
-                                    echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approve</a></td>';
+                                    echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$auction->name.'\'>Approve</a></td>';
                                 }
                                 
                             }else if($i<3 && $data['auctions_no_rows']=3 && $auction->is_active==0){
                                 if($data['bid_list'][$i-1]!=NULL){
                                     if($data['bid_list'][$i-1]->is_accepted==0 && $data['bid_list'][$i-1]->is_rejected==0){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Email Sent</a></td>';
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$auction->name.'\'>Email Sent</a></td>';
                                     }else if($data['bid_list'][$i-1]->is_accepted==1){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none ; color:green\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approved</a></td>';
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none ; color:green\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$auction->name.'\'>Approved</a></td>';
 
                                     }else if($data['bid_list'][$i-1]->is_rejected==1){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none; color:red\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Rejected</a></td>';
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none; color:red\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$auction->name.'\'>Rejected</a></td>';
 
                                     }
                                 }else if($data['check']==0){
-                                    echo '<td id=\'approve_link\' class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approve</a></td>';
+                                    echo '<td id=\'approve_link\' class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$auction->name.'\'>Approve</a></td>';
 
                                 }else{
-                                    echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approve</a></td>';
+                                    echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$auction->name.'\'>Approve</a></td>';
                                 }
                                 
                             }else if($i<2 && $data['auctions_no_rows']<=2){
@@ -103,19 +103,19 @@
                                 if($data['bid_list'][$i-1]!=NULL ){
                                     echo '<td id=\'approve_link\' class=\'aprove\'>'. date('Y-m-d H:i:s', strtotime($data['bid_list'][$i-1]->time. ' + 5 days')).'</td>';
                                     if($data['bid_list'][$i-1]->is_accepted==0 && $data['bid_list'][$i-1]->is_rejected==0){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Email Sent</a></td>';
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$auction->name.'\'>Email Sent</a></td>';
                                     }else if($data['bid_list'][$i-1]->is_accepted==1){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none ; color:green\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approved</a></td>';
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none ; color:green\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$auction->name.'\'>Approved</a></td>';
 
                                     }else if($data['bid_list'][$i-1]->is_rejected==1){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none; color:red\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Rejected</a></td>';
+                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none; color:red\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$auction->name.'\'>Rejected</a></td>';
 
                                     }
                                 }else if($data['check']==0){
-                                    echo '<td id=\'approve_link\' class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approve</a></td>';
+                                    echo '<td id=\'approve_link\' class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$auction->name.'\'>Approve</a></td>';
 
                                 }else{
-                                    echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->bid_id.'/'.$auction->email_buyer.'/'.$auction->price.'/'.$auction->name.'\'>Approve</a></td>';
+                                    echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$auction->name.'\'>Approve</a></td>';
                                 }
                             }
                         echo '</tr>';
