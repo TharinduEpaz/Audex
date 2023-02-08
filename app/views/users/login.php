@@ -12,33 +12,17 @@
     <title>Login</title>
 </head>
 <body>
-    <nav>
-        <input type="checkbox" name="check" id="check" onchange="docheck()">
-        <label for="check" class="checkbtn">
-            <i class="fas fa-bars"></i>
-        </label>
-        <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="">
-        <ul>
-            <li><a href="<?php echo URLROOT .'/pages/index'?>" class="nav_tags" class="nav_tags">Home</a></li>
-            <li><a href="<?php echo URLROOT . '/buyers/shop';?>" class="nav_tags">Shop</a></li>
-            <li><a href="#" class="nav_tags">Sound Engineers</a></li>
-            <li><a href="#" class="nav_tags">Events</a></li>
-            <li><a href="<?php echo URLROOT;?>/users/register" class="nav_tags">Sign up</a></li>
-        </ul>
-    </nav>
-    <div class="container_main">
+<?php require_once APPROOT . '/views/users/navbar.php';?>
+
+    <div id="container_main" class="container_main">
         <div id="forms" class="form">
         <?php 
-        if(flash('register_success')){
-            echo '<div class="alert">';
-                flash('register_success');
-            echo '</div>';
-
-        }  
-            ?>
+            flash('register_success');
+        ?>
             <h1>Login</h1>
+            
             <?php
-                if(!empty($data['email_err']) || !empty($data['password_err'])  ){
+                if(!empty($data['email_err']) || !empty($data['password_err']) || !empty($data['email_not_activated_err'])  ){
                     echo '<div class="error">';
                         if(!empty($data['email_err'])){
                             echo '*'.$data['email_err'].'<br>';
@@ -46,9 +30,11 @@
                         if(!empty($data['password_err'])){
                             echo '*'.$data['password_err'].'<br>';
                         }
+                        if(!empty($data['email_not_activated_err'])){
+                            echo '*'.$data['email_not_activated_err'].'<br>';
+                        }
                     echo '</div>';
                 }
-
             ?>
 
             <form action="<?php echo URLROOT . '/users/login';?>" method="post" >

@@ -58,29 +58,29 @@
             }
         }
 
-        public function getBuyerWatchProducts($email){
-            $this->db->query('SELECT product_id FROM view_item WHERE email_buyer = :email');
-            $this->db->bind(':email' , $email);
-            $results = $this->db->resultSet();
+        // public function getBuyerWatchProducts($email){
+        //     $this->db->query('SELECT product_id FROM view_item WHERE email_buyer = :email');
+        //     $this->db->bind(':email' , $email);
+        //     $results = $this->db->resultSet();
 
-            // foreach($results as $result):
-            //     echo gettype($result) . "</br>";
-            //     echo $result->product_id . "</br>";
-            //     echo gettype($result->product_id) . "</br>";
-            // endforeach;
+        //     // foreach($results as $result):
+        //     //     echo gettype($result) . "</br>";
+        //     //     echo $result->product_id . "</br>";
+        //     //     echo gettype($result->product_id) . "</br>";
+        //     // endforeach;
 
-            $items = [];
-            foreach($results as $result):
-                $id = $result->product_id;
-                settype($id,"integer");
-                $this->db->query('SELECT product_id,email,product_title,product_condition,image1,price FROM product WHERE product_id = :id');
-                $this->db->bind(':id' , $id);
-                $item = $this->db->single();
-                array_push($items,$item);
-            endforeach;
-            return $items;
+        //     $items = [];
+        //     foreach($results as $result):
+        //         $id = $result->product_id;
+        //         settype($id,"integer");
+        //         $this->db->query('SELECT product_id,email,product_title,product_condition,image1,price FROM product WHERE product_id = :id');
+        //         $this->db->bind(':id' , $id);
+        //         $item = $this->db->single();
+        //         array_push($items,$item);
+        //     endforeach;
+        //     return $items;
             
-        }
+        // }
 
         public function deleteUserProfile($id){
             $this->db->query('SELECT email FROM user WHERE user_id = :id');
@@ -119,31 +119,133 @@
             $this->db->bind(':email', $email);
             $row = $this->db->single();
             //Check row
-            echo $row->_id.'</br>' ;
+            echo $row->user_id .'</br>' ;
             echo $row->is_deleted.'</br>' ;
             return $row;
         }
 
-        public function addItemToWatchList($p_id,$user_id){
+        // public function addItemToWatchList($p_id,$user_id){
 
-            $this->db->query('SELECT email FROM user WHERE user_id = :id');
-            $this->db->bind(':id' , $user_id);
+        //     $this->db->query('SELECT email FROM user WHERE user_id = :id');
+        //     $this->db->bind(':id' , $user_id);
 
-            $row = $this->db->single();
+        //     $row = $this->db->single();
 
-            $this->db->query('INSERT INTO view_item (email_buyer,product_id) VALUES(:email,:p_id)');
-            //Bind value
-            $this->db->bind(':email', $row->email);
-            $this->db->bind(':p_id', $p_id);
+        //     $this->db->query('INSERT INTO view_item (email_buyer,product_id) VALUES(:email,:p_id)');
+        //     //Bind value
+        //     $this->db->bind(':email', $row->email);
+        //     $this->db->bind(':p_id', $p_id);
 
-            if($this->db->execute()){
-                return true;
-            }else{
-                return false;
-            }
-        }
+        //     if($this->db->execute()){
+        //         return true;
+        //     }else{
+        //         return false;
+        //     }
+        // }
+
+        // public function removeItemFromWatchList($p_id,$user_id){
+
+        //     $this->db->query('SELECT email FROM user WHERE user_id = :id');
+        //     $this->db->bind(':id' , $user_id);
+
+        //     $row = $this->db->single();
+
+        //     $this->db->query('DELETE FROM view_item WHERE view_item.product_id = :p_id AND view_item.email_buyer = :email;
+        //     ');
+        //     //Bind value
+        //     $this->db->bind(':email', $row->email);
+        //     $this->db->bind(':p_id', $p_id);
+
+        //     if($this->db->execute()){
+        //         return true;
+        //     }else{
+        //         return false;
+        //     }
+        // }
+
+        // public function removeOneItemFromWatchList($p_id,$user_id){
+
+        //     $this->db->query('SELECT email FROM user WHERE user_id = :id');
+        //     $this->db->bind(':id' , $user_id);
+
+        //     $row = $this->db->single();
+
+        //     $this->db->query('DELETE FROM view_item WHERE view_item.product_id = :p_id AND view_item.email_buyer = :email');
+        //     //Bind value
+        //     $this->db->bind(':email', $row->email);
+        //     $this->db->bind(':p_id', $p_id);
+
+        //     if($this->db->execute()){
+        //         return true;
+        //     }else{
+        //         return false;
+        //     }
+        // }
+
+        // public function checkAddedLike($p_id,$user_id){
+        //     $this->db->query('SELECT email FROM user WHERE user_id = :id');
+        //     $this->db->bind(':id' , $user_id);
+
+        //     $row = $this->db->single();
+
+        //     $this->db->query('SELECT * FROM reaction WHERE email_buyer = :email AND product_id = :p_id');
+        //     //Bind value
+        //     $this->db->bind(':email', $row->email);
+        //     $this->db->bind(':p_id', $p_id);
+
+        //     $result =  $this->db->single();
+
+        //     return $result;
+        // }
+
+        // public function addLikeToProduct($p_id,$user_id){
+
+        //     $this->db->query('SELECT email FROM user WHERE user_id = :id');
+        //     $this->db->bind(':id' , $user_id);
+
+        //     $row = $this->db->single();
+
+        //     $this->db->query('INSERT INTO reaction (email_buyer,product_id,liked,disliked) VALUES (:email,:p_id,1,0)');
+        //     //Bind value
+        //     $this->db->bind(':email', $row->email);
+        //     $this->db->bind(':p_id', $p_id);
+
+        //     if($this->db->execute()){
+        //         return true;
+        //     }else{
+        //         return false;
+        //     }
+        // }
+
+        // public function removeLikeFromProduct($p_id,$user_id){
+
+        //     $this->db->query('SELECT email FROM user WHERE user_id = :id');
+        //     $this->db->bind(':id' , $user_id);
+
+        //     $row = $this->db->single();
+
+        //     $this->db->query('DELETE FROM reaction WHERE reaction.product_id = :p_id AND reaction.email_buyer = :email');
+        //     //Bind value
+        //     $this->db->bind(':email', $row->email);
+        //     $this->db->bind(':p_id', $p_id);
+
+        //     if($this->db->execute()){
+        //         return true;
+        //     }else{
+        //         return false;
+        //     }
+        // }
+
+        
+        // public function searchItems($searchedTerm){
+        //     $this->db->query('SELECT * FROM product WHERE product_title LIKE :searchedTerm');
+        //     $this->db->bind(':searchedTerm', '%'.$searchedTerm.'%');
+
+        //     $results = $this->db->resultSet();
+        //     return $results;
+
+        // }
 
     }
-
 
 ?>

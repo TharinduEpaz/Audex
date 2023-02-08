@@ -18,13 +18,21 @@ body {
   position: absolute; 
 
 }
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
 nav{
   top: 0;
   left: 0;
   background: #FFFFFF;
   height: 10vh;
   width: 100%;
-  /* position: fixed; */
+  z-index: 1;
+  position: fixed;
 }
   nav img{
     margin-top: 2vh;
@@ -151,27 +159,37 @@ nav{
     display: none;
   }
   
-  @media (max-width: 600px){
+  @media (max-width: 768px){
     .checkbtn{
       display: block;
     }
     nav ul{
       position: fixed;
       width: 100%;
-      height: 50vh;
+      height: 61vh;
       background: #afb0b1;
       top: 10vh;
       left: -100%;
       text-align: center;
       transition: all .5s;
+      z-index: 1;
     }
     nav ul li{
       display: block;
       margin: 0px 0;
       line-height: 0.5vh;
+      border-top: 1px solid white;
+      /* z-index: 1; */
+    }
+    nav ul li a:hover{
+      color: red;
+      font-weight: bold;
+      cursor: default;
     }
     .nav_tags{
       font-size: 15pt;
+      width: 100%;
+      /* z-index: 1; */
     }
     .nav_tags:hover,.nav_tags.active{
       background: none;
@@ -180,14 +198,15 @@ nav{
     #check:checked ~ ul{
       left: 0;
     }
-    #check:checked ~ body{
-      left: -100%;
+    #check:checked ~ .container_main{
+      margin-top: 60vh;
     }
   }
  .container_main{
-
     width: 100vw;
-    height: 80vh;
+    height: 100vh;
+    position: revert;
+    margin-top: 10vh;
     /* background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -197,7 +216,7 @@ nav{
 
     background-image: url("../img/retro-microphone-isolated-color-background 1.png");
     background-repeat: no-repeat;
-    background-size: 110% 140vh;
+    background-size: 130% 140vh;
     background-size:cover;
     flex-shrink: 0;
     min-width: 100%;
@@ -206,6 +225,7 @@ nav{
 .container{
   width: 100vw;
   height: 90vh;
+  margin-top: 10vh;
   /* background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -214,19 +234,6 @@ nav{
   background-attachment: scroll; */
 
 }
-
-.container{
-  width: 100vw;
-  height: 80vh;
-  /* background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  background-position-y: bottom;
-  background-position-x: right;
-  background-attachment: scroll; */
-
-}
-
 /* @keyframes image {
   0% {
     background-image: url('../img/retro-microphone-isolated-color-background 1.png');
@@ -236,10 +243,19 @@ nav{
   }
 } */
 .alert{
+  background: rgb(121, 255, 121);
+    width: 100%;
+    text-align: center;
+    margin-top: 2%;
+    font-weight: 600;
+    padding: 1% 1% 1% 10%;
+}
+.alert-danger{
   background: #ff7373;
     width: 100%;
     text-align: center;
     margin-top: 2%;
+    font-weight: 600;
     padding: 1% 1% 1% 10%;
 }
 .form h1{
@@ -267,11 +283,48 @@ nav{
     align-items: left;
     width: 30%;
     margin-left: 10%;
-    height: 100%;
+    height: 100vh;
+    top: 3vh;
     /* overflow-y: scroll;
   overflow-x:hidden;  
   scroll-behavior: smooth; */
  }
+ 
+#dia{
+  top: 50vh;
+    left: 50%;
+    width: 140px;
+    height: 90px;
+}
+.btn_close{
+  width: 50px;
+  height: 30px;
+  font-size: 16pt;
+  font-weight: 900;
+}
+.continue{
+  width: 50px;
+  height: 30px;
+  font-size: 16pt;
+  font-weight: 900;
+}
+.close{
+  width: 75px;
+  height: 30px;
+  font-size: 16pt;
+  font-weight: 900;
+}
+
+@media (max-width:768px){
+  .form{
+      width: 50%;
+  }
+}
+@media (max-width:576px){
+  .form{
+      width: 60%;
+  }
+}
  .form form input{
     width: 100%;
     line-height: 5vh;
@@ -331,13 +384,17 @@ nav{
   display: flex;
   justify-content: flex-start;
 }
+.search-bar .search-form{
+  display: flex;
+  flex-direction: row;
+}
 .search .search-bar input{
   margin: 0;
   width: 650px;
   height: 55px;
   background: rgba(217, 217, 217, 0.7);
   opacity: 0.8;
-  border-radius: 25px 0 0 25px;
+  /* border-radius: 25px 0 0 25px; */
   font-size: 26px;
   border: none;
   padding-inline: 1rem ;
@@ -360,6 +417,37 @@ nav{
   justify-content: center;
   align-items:center;
 }
+#search-results{
+  display: block;
+  z-index: 1;
+}
+#search-results .table {
+  width: 731px;
+  border-collapse: collapse;
+}
+
+#search-results .table td {
+  padding: 12px 15px;
+  border: 1px solid rgb(169 165 165);
+  background: #ffffff;
+  display: -webkit-box;
+  text-align: left;
+  font-size: 16px;
+}
+#search-results-table > tbody> tr > td > a > div{
+  display: flex;
+  flex-direction: row;
+}
+#search-results-table > tbody > tr > td > a > div > div.image-pop-up{
+  max-width: 50px;
+}
+#search-results-table > tbody > tr > td > a > div > div.image-pop-up > img{
+  max-width: 100%;
+}
+#search-results-table > tbody > tr > td > a > div > div.title-and-price{
+  align-self: center;
+}
+
 .explore{
   position:absolute;
   display: flex;
@@ -373,6 +461,7 @@ nav{
   margin-left: 99px;
   
   top: 430px;
+  
 }
 .explore .explore-line h3{
   font-size: 15px;
@@ -415,10 +504,6 @@ nav{
   font-weight: 700; 
 }
 
-.explore .explore-btn .home-icon {
-  
-  
-}
 
 /* HOME PAGE CSS ADDED BY EPA */
 

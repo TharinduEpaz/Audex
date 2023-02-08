@@ -14,40 +14,14 @@
     <title>Profile</title>
 </head>
 <body>
-    <nav>
-        <input type="checkbox" name="check" id="check" onchange="docheck()">
-        <label for="check" class="checkbtn">
-            <i class="fas fa-bars"></i>
-        </label>
-        <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo">
-        <ul>
-            <li><a href="<?php echo URLROOT;?>/sellers/index" class="nav_tags">Home</a></li>
-            <li><a href="<?php echo URLROOT;?>/buyers/shop" class="nav_tags">Shop</a></li>
-            <li><a href="#" class="nav_tags">Sound Engineers</a></li>
-            <li><a href="#" class="nav_tags">Events</a></li>
-            
-            <?php if(isset($_SESSION['user_id'])){
-                echo '<div class="dropdown">';
-                    echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
-                    echo '<div id="myDropdown" class="dropdown-content">';
-                        echo '<a href="'.URLROOT . '/buyers/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
-                        echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
-                    echo '</div>';
-                echo '</div> ';
-            }
-            else{
-                echo '<li><a href="'.URLROOT . '/users/login" class="nav_tags">Login</a></li>';
-                echo '<li><a href="'.URLROOT.'/users/register" class="nav_tags">Signup</a></li>';
-            }
-             ?>
-        </ul>
-    </nav>
+<?php require_once APPROOT . '/views/sellers/navbar.php';?>
+
     <div class="container">
         <div class="sidebar">
                 <a href="#"><i class="fas fa-qrcode"></i> <span>Dashboard</span></a>
-                <a href="<?php echo URLROOT.'/sellers/getProfile/'.$_SESSION['user_id']?>"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile Settings</span></a>
+                <a class="current" href="<?php echo URLROOT.'/sellers/getProfile/'.$_SESSION['user_id']?>"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile Settings</span></a>
                 <a href="<?php echo URLROOT;?>/sellers/advertisements"> <i class="fa fa-ad" aria-hidden="true"></i><span>Advertisements</span></a>
-                <a class="current" href="<?php echo URLROOT;?>/sellers/advertise"><i class="fa-solid fa-dollar-sign" aria-hidden="true"></i><span>Sell Item</span></a>
+                <a href="<?php echo URLROOT;?>/sellers/advertise"><i class="fa-solid fa-dollar-sign" aria-hidden="true"></i><span>Sell Item</span></a>
                 <a href="#"> <i class="fa fa-comments"></i><span>Messages</span></a>       
         </div>
         <div class="poster_advertisements">
@@ -76,7 +50,7 @@
                     </div>
                     <div class="form-data-area">
                         <label for="phone_number">Phone Number:<sup>*</sup></label>
-                        <input type="text" name="phone_number" value="<?php echo $data['phone_number']; ?>" class="<?php echo (!empty($data['phone_number_err'])) ? 'invalid' : '' ; ?>" >
+                        <input type="text" name="phone_number" value="<?php echo $data['phone_number']; ?>" disabled ?>" >
                     </div>  
                 </div>
                 <input type="submit"  value="Save" id="edit-button"  >

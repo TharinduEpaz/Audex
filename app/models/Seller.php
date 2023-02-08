@@ -1,4 +1,6 @@
 <?php
+date_default_timezone_set("Asia/Kolkata");
+
     class Seller{
         private $db;
 
@@ -23,6 +25,7 @@
             $this->db->bind(':address2' , $data['address2']);
             $this->db->bind(':phone_number' , $data['phone_number']);
             $this->db->bind(':id' , $data['id']);
+            // $this->db->dbh->lastInsertId();
 
             if($this->db->execute()){
                 return true;
@@ -75,7 +78,7 @@
             return $row;
         }
 
-        public function advertise($data){
+        public function advertise($data,$dat){
             $this->db->query('INSERT INTO product (email,product_title,product_condition,product_category,product_type,model_no,brand,image1,image2,image3,price,p_description) VALUES(:user_email,:title,:condition,:category,:type,:model,:brand,:image1,:image2,:image3,:price,:description)');
             //Bind values
             $this->db->bind(':user_email', $data['user_email']);
@@ -93,7 +96,33 @@
 
             //Execute
             if($this->db->execute()){
-                return true;
+                $this->db->query('INSERT INTO seller_add_product (product_id,user_id,email,posted_time) VALUES(:product_id,:user_id,:user_email,:t)');
+                //Bind values
+                $product_id=$this->db->lastInsertId();
+                $this->db->bind(':product_id', $product_id);
+                $this->db->bind(':user_id', $data['user_id']);
+                $this->db->bind(':user_email', $data['user_email']);
+                $this->db->bind(':t', $dat);
+                if($this->db->execute()){
+                    if($data['type']=="auction"){
+                        $this->db->query('INSERT INTO auction (product_id,email,start_date,end_date,start_price,is_active,is_finished) VALUES(:product_id,:email,:t,:end_date,:start_price,1,0)');
+                        //Bind values
+                        $this->db->bind(':product_id', $product_id);
+                        $this->db->bind(':email', $data['user_email']);
+                        $this->db->bind(':start_price', $data['price']);
+                        $this->db->bind(':end_date', $data['end_date']);
+                        $this->db->bind(':t', $dat);
+                        if($this->db->execute()){
+                            return $product_id;
+                        }else{
+                            return false;
+                        }
+                    }else{
+                        return $product_id;
+                    }
+                }else{
+                    return false;
+                }
             }else{
                 return false;
             }
@@ -101,7 +130,7 @@
 
         //edit advertisement
         public function edit_advertisement($data){
-            $this->db->query('UPDATE product SET product_title=:title,product_condition=:condition,product_category=:category,model_no=:model,brand=:brand,image1=:image1,image2=:image2,image3=:image3,price=:price,p_description=:description WHERE product_id=:id');
+            $this->db->query('UPDATE product SET product_title=:title,product_condition=:condition,product_category=:category,model_no=:model,brand=:brand,price=:price,p_description=:description WHERE product_id=:id');
             //Bind values
             $this->db->bind(':id', $data['id']);
             // $this->db->bind(':user_email', $data['user_email']);
@@ -111,9 +140,9 @@
             // $this->db->bind(':type', $data['type']);
             $this->db->bind(':model', $data['model']);
             $this->db->bind(':brand', $data['brand']);
-            $this->db->bind(':image1', $data['image1']);
-            $this->db->bind(':image2', $data['image2']);
-            $this->db->bind(':image3', $data['image3']);
+            // $this->db->bind(':image1', $data['image1']);
+            // $this->db->bind(':image2', $data['image2']);
+            // $this->db->bind(':image3', $data['image3']);
             $this->db->bind(':price', $data['price']);
             $this->db->bind(':description', $data['description']);
 
@@ -132,10 +161,34 @@
 
             //Execute
             if($this->db->execute()){
+                $this->db->query('UPDATE seller_add_product SET is_deleted=1 WHERE product_id=:id');
+                $this->db->bind(':id', $id);
+                if($this->db->execute()){
+                    return true;
+                }else{
+                    return false;
+                }    
+            }else{
+                return false;
+            }
+        }
+
+        public function approve_bid($bid_id,$email,$price,$date){
+            // $time=CONVERT_TZ(NOW(),'SYSTEM','Asia/Calcutta');
+            $this->db->query('INSERT INTO bid_list (bid_id,time,price,email_buyer,is_accepted,is_rejected) VALUES(:bid_id,:t,:price,:email,0,0)');
+            //Bind values
+            $this->db->bind(':bid_id', $bid_id);
+            $this->db->bind(':email', $email);
+            $this->db->bind(':price', $price);
+            $this->db->bind(':t', $date);
+
+            //Execute
+            if($this->db->execute()){
                 return true;
             }else{
                 return false;
             }
+
         }
 
     }

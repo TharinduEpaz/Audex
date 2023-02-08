@@ -3,6 +3,21 @@
     private $buyerModel;
     public function __construct()
     {
+      if(!isLoggedIn()){
+        unset($_SESSION['otp']);
+        unset($_SESSION['email']);
+        unset($_SESSION['password']);
+        unset($_SESSION['first_name']);
+        unset($_SESSION['second_name']);
+        unset($_SESSION['phone']);
+        unset($_SESSION['user_type']);
+        unset($_SESSION['attempt']);
+        session_destroy();
+        redirect('users/login');
+    }
+    //   if($_SESSION['user_type'] != 'buyer'){
+    //     redirect($_SESSION['user_type'].'s/index');
+    // }
       $this->buyerModel = $this->model('Buyer');
     }
     public function index(){
@@ -11,18 +26,53 @@
   }
 
     public function shop(){
-        $ads  = $this->buyerModel->getAdvertiesment();   
+        $ads  = $this->buyerModel->getAdvertiesment();
+        // get the serchResults session value
+        $results = $_SESSION['searchResults'];
+
+        // check serch results are empty(1) or not empty(0)
+        $empty = empty($results);
+
+
         $data = [
-          'ads' => $ads
+          'ads' => $ads,
+          'searchResults' => $results,
+          'isEmpty' => $empty
         ];
+
+        unset($_SESSION['searchResults']);
+
         $this->view('buyers/shop',$data);
     }
+
+    
+
    public function advertiesmentDetails($id)
     {
+      // set product id to session to use for js
+      $_SESSION['product_id'] = $id;
+
       $ad = $this->buyerModel->getAdvertiesmentById($id);
-      $data = [
-        'ad' => $ad
-      ];
+      $liked = $this->buyerModel->checkAddedLike($id,$_SESSION['user_id']);
+
+      if(empty($liked)){
+        $data = [
+          'ad' => $ad,
+          'liked' => 'notliked'
+        ];
+      }else{
+        $data = [
+          'ad' => $ad,
+          'liked' => 'liked'
+        ];
+
+      }
+      
+
+
+      // $data = [
+      //   'ad' => $ad
+      // ];
       $this->view('buyers/advertiesmentDetails',$data);
     }
     public function getProfile($id)
@@ -118,18 +168,18 @@
       }
     }
 
-    public function watchlist(){
-      if(!isLoggedIn()){
-        redirect('users/login');
-      }
-//this should change after orginal db
-      $products = $this->buyerModel->getBuyerWatchProducts($_SESSION['user_email']);
-      $data =[
-        'products' => $products,
-      ];
-      $this->view('buyers/watchlist',$data);
+//     public function watchlist(){
+//       if(!isLoggedIn()){
+//         redirect('users/login');
+//       }
+// //this should change after orginal db
+//       $products = $this->buyerModel->getBuyerWatchProducts($_SESSION['user_email']);
+//       $data =[
+//         'products' => $products,
+//       ];
+//       $this->view('buyers/watchlist',$data);
 
-    }
+//     }
 
     public function deleteProfile($id){
       if( $_SERVER['REQUEST_METHOD'] == 'POST' ){
@@ -141,7 +191,12 @@
         }
 
         if($this->buyerModel->deleteUserProfile($id)){
-          redirect('users/login');
+          unset($_SESSION['user_id']);
+            unset($_SESSION['user_email']);
+            unset($_SESSION['user_name']);
+            unset($_SESSION['user_type']);
+            session_destroy();
+          redirect('pages/index');
         }
         else{
           die('Something went wrong');
@@ -154,30 +209,169 @@
 
     }
 
-    public function addToWatchList($p_id,$u_id){
-      if(!isLoggedIn()){
-        redirect('users/login');
-      }
-      echo $_POST['user_id'];
-      if($_POST['user_id'] == 0){
-        redirect('users/login');
-      }
-      else{
-        if (isset($_POST['add'])){
-          $result = $this-> buyerModel->addItemToWatchList($p_id, $u_id);
-          if($result){
-            echo flash('register_success', 'You are registered and can log in');
-          }
-          else{
-            die('Something went wrong');
-          }
+    // public function addToWatchList($p_id,$u_id){
+    //   if(!isLoggedIn()){
+    //     redirect('users/login');
+    //   }
+    //   echo $_POST['user_id'];
+    //   if($_POST['user_id'] == 0){
+    //     redirect('users/login');
+    //   }
+    //   else{
+    //     if (isset($_POST['add'])){
+    //       $result = $this-> buyerModel->addItemToWatchList($p_id, $u_id);
+    //       if($result){
+    //         echo flash('register_success', 'You are registered and can log in');
+    //       }
+    //       else{
+    //         die('Something went wrong');
+    //       }
   
-        }
-      }
-      
-
-    }
+    //     }
+    //   }
+    // }
     
+    // public function removeItemFromWatchList($p_id,$u_id){
+    //   if(!isLoggedIn()){
+    //     redirect('users/login');
+    //   }
+    //   echo $_POST['user_id'];
+    //   if($_POST['user_id'] == 0){
+    //     redirect('users/login');
+    //   }
+    //   else{
+    //     if (isset($_POST['remove'])){
+    //     echo "This Works";
+    //       $result = $this-> buyerModel->removeItemFromWatchList($p_id, $u_id);
+    //       if($result){
+    //         echo flash('register_success', 'You are registered and can log in');
+    //       }
+    //       else{
+    //         die('Something went wrong');
+    //       }
+  
+    //     }
+    //   }
+    // }
+
+    
+    // public function removeOneItemFromWatchList($p_id,$u_id){
+    //   if(!isLoggedIn()){
+    //     redirect('users/login');
+    //   }
+    //   echo $_POST['user_id'];
+    //   if($_POST['user_id'] == 0){
+    //     redirect('users/login');
+    //   }
+    //   else{
+    //     if (isset($_POST['remove'])){
+    //     echo "This Works";
+    //       $result = $this-> buyerModel->removeOneItemFromWatchList($p_id, $u_id);
+    //       if($result){
+    //         echo flash('register_success', 'You are registered and can log in');
+    //       }
+    //       else{
+    //         die('Something went wrong');
+    //       }
+  
+    //     }
+    //   }
+    // }
+
+  // public function addLikeToProduct($p_id, $u_id)
+  // {
+  //   if (!isLoggedIn()) {
+  //     redirect('users/login');
+  //   }
+  //   // $result = $this-> buyerModel->addLikeToProduct($p_id, $u_id);
+
+  //   $json = file_get_contents('php://input');
+  //   $dat = json_decode($json, true);
+
+  //   echo $dat['addLike'];
+  //   echo $dat['user_id'];
+  //   echo $dat['product_id'];
+
+
+  //   if (isset($dat['addLike'])) {
+  //     $result=$this->buyerModel->checkAddedLike($dat['product_id'], $dat['user_id']);
+  //     if (empty($result)) {
+  //       $result = $this->buyerModel->addLikeToProduct($dat['product_id'], $dat['user_id']);
+  //       if ($result) {
+  //         echo flash('register_success', 'You are registered and can log in');
+  //       } else {
+  //         die();
+  //       }
+
+  //     }
+  //   }
+  //   // if (isset($dat['addLike'])){
+  //   //   $result = $this-> buyerModel->addLikeToProduct($dat['product_id'], $dat['user_id']);
+  //   //   if($result){
+  //   //     echo flash('register_success', 'You are registered and can log in');
+  //   //   }
+  //   //   else{
+  //   //     die();
+  //   //   }
+  //   // }
+
+  // }
+
+
+    // public function removeLikeFromProduct($p_id,$u_id){
+    //   if(!isLoggedIn()){
+    //     redirect('users/login');
+    //   }
+    //   // $result = $this-> buyerModel->addLikeToProduct($p_id, $u_id);
+
+    //   $json = file_get_contents('php://input');
+    //   $data = json_decode($json, true);
+
+    //   echo $data['removeLike'];
+    //   echo $data['user_id'];
+    //   echo $data['product_id'];
+    //   //  print_r($dat);
+
+
+    //   if (isset($data['removeLike'])){
+    //     $result = $this-> buyerModel->removeLikeFromProduct($data['product_id'], $data['user_id']);
+    //     if($result){
+    //       echo flash('register_success', 'You are registered and can log in');
+    //     }
+    //     else{
+    //       die('Something went wrong');
+    //     }
+
+    //   }
+    // }
+
+  //   public function searchItems(){
+
+  //     $searchedTerm = $_POST['search-item'];
+      
+  //     if( !isset($_POST['submit']) ){
+  //       // this is for keyup event
+  //       if( strlen($searchedTerm) <3 ){
+  //         echo json_encode([]);
+  //       }else{
+  //         $results = $this-> buyerModel->searchItems($searchedTerm);
+  //         echo json_encode($results);
+  //       }
+  //     }
+  //     else{
+  //       // user has pressed enter
+  //       if( strlen($searchedTerm) <1 ){
+  //         echo json_encode([]);
+  //       }else{
+  //         $results = $this-> buyerModel->searchItems($searchedTerm);
+  //         $_SESSION['searchResults'] = $results;
+  //         echo json_encode($results);
+  //       }
+
+  //     }
+
+  // }
+
     public function test(){
       $email = 'dineshwickramasinghe2000@gmail.com';
       $userDetails = $this->buyerModel->findUserDetailsByEmail($email);
@@ -190,8 +384,6 @@
       $this->view('buyers/test',$data);
 
     }
-    
-
 
   }  
 

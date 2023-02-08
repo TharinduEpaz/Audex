@@ -27,7 +27,7 @@
         </label>
         <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo">
         <ul>
-            <li><a href="<?php echo URLROOT;?>/buyers/index" class="nav_tags">Home</a></li>
+            <li><a href="<?php echo URLROOT;?>/<?php echo $_SESSION['user_type'];?>s/index" class="nav_tags">Home</a></li>
             <li><a href="#" class="nav_tags">Shop</a></li>
             <li><a href="#" class="nav_tags">Sound Engineers</a></li>
             <li><a href="#" class="nav_tags">Events</a></li>
@@ -58,6 +58,31 @@
             <input type="search" name="search" placeholder="Search for anything"> 
             <a href="#"><button type="submit" value="search" name="submit">Search</button></a>
         </div>
+
+
+
+        <div class="header"  style="visibility:<?php echo $data['isEmpty'] == '1'? 'hidden':'visible'; ?> ;"  >
+            <h1>Search Results</h1>
+        </div>
+        <!-- <div id="search-result-area">
+            <?php if( $data['isEmpty'] != '1' ){ ?>
+
+                <?php foreach($data['searchResults'] as $result) : ?>
+                    <div class="container-ad">
+                        <div class="container-img">
+                            <img src="<?php echo URLROOT.'/public/uploads/'.$result->image1;?>" /> 
+                        </div>
+                        <div class="title">
+                            <a href="<?php echo URLROOT . '/users/advertiesmentDetails/'.$result->product_id;?>">
+                            <?php echo $result->product_title ; ?><br>
+                            <?php echo 'RS:'. $result->price ; ?></a>
+    
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+
+            <?php }; ?>
+        </div> -->
         <div class="header">
             <h1>New Arrivals</h1>
         </div>
@@ -65,10 +90,10 @@
             <?php foreach($data['ads'] as $ads) : ?>
                 <div class="container-ad">
                     <div class="container-img">
-                        <img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($ads->image1); ?>" /> 
+                        <img src="<?php echo URLROOT.'/public/uploads/'.$ads->image1;?>" /> 
                     </div>
                     <div class="title">
-                        <a href="<?php echo URLROOT . '/buyers/advertiesmentDetails/'.$ads->product_id;?>">
+                        <a href="<?php echo URLROOT . '/users/advertiesmentDetails/'.$ads->product_id;?>">
                         <?php echo $ads->product_title ; ?><br>
                         <?php echo 'RS:'. $ads->price ; ?></a>
 
@@ -82,4 +107,6 @@
     </div>
 </body>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
+<script src="<?php echo URLROOT . '/public/js/search.js'; ?>"></script>
+
 </html>

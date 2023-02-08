@@ -14,34 +14,8 @@
     <title>Profile</title>
 </head>
 <body>
-    <nav>
-        <input type="checkbox" name="check" id="check" onchange="docheck()">
-        <label for="check" class="checkbtn">
-            <i class="fas fa-bars"></i>
-        </label>
-        <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo">
-        <ul>
-            <li><a href="<?php echo URLROOT;?>/sellers/index" class="nav_tags">Home</a></li>
-            <li><a href="<?php echo URLROOT;?>/buyers/shop" class="nav_tags">Shop</a></li>
-            <li><a href="#" class="nav_tags">Sound Engineers</a></li>
-            <li><a href="#" class="nav_tags">Events</a></li>
-            
-            <?php if(isset($_SESSION['user_id'])){
-                echo '<div class="dropdown">';
-                    echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
-                    echo '<div id="myDropdown" class="dropdown-content">';
-                        echo '<a href="'.URLROOT . '/sellers/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
-                        echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
-                    echo '</div>';
-                echo '</div> ';
-            }
-            else{
-                echo '<li><a href="'.URLROOT . '/users/login" class="nav_tags">Login</a></li>';
-                echo '<li><a href="'.URLROOT.'/users/register" class="nav_tags">Signup</a></li>';
-            }
-             ?>
-        </ul>
-    </nav>
+<?php require_once APPROOT . '/views/sellers/navbar.php';?>
+
     <div class="container">
         <div class="sidebar">
                 <a href="#"><i class="fas fa-qrcode"></i> <span>Dashboard</span></a>
@@ -51,8 +25,37 @@
                 <a href="#"> <i class="fa fa-comments"></i><span>Messages</span></a>       
         </div>
         <div class="poster_advertisements">
-            <div class="form-display"> 
-                <h1>My Profile Details</h1>
+            
+            <div class="form-display">
+                <div class="top_details">
+                    <div class="profile_img">
+                        <img src="<?php echo URLROOT . '/public/uploads/'.$data['user']->profile_pic;?>" alt="Profile Picture">
+                        <a class="edit" href="<?php echo URLROOT.'/users/edit_profile_picture/'.$data['user']->user_id?>">Edit</a>
+                    </div>
+                    <div class="other_details_profile">
+                        <p class="full_name"><?php echo $data['user']->first_name.' '.$data['user']->second_name; ?></p>
+                        <div class="stars_date">
+                            <div class="stars">
+                                <img src="<?php echo URLROOT . '/public/img/stars.png';?>" alt="Profile Picture">
+                            </div>
+                            <div class="date">
+                                <p>Joined : <?php echo date('Y-m-d',strtotime($data['user']->registered_date));; ?></p>
+                            </div>
+                        </div>
+                        <div class="likes_dislikes">
+                            <div class="likes">
+                            <i class="fas fa-thumbs-up" aria-hidden="true"> : 10</i>
+                            </div>
+                            <div class="dislikes">
+                            <i class="fas fa-thumbs-down"> : 0</i>
+                            </div>
+                            <div class="flags">
+                            <i class="fa-sharp fa-solid fa-flag"> : 0</i>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-data-area">
                     <label for="first_name">First Name:</label>
                     <input type="text" name="first_name" value="<?php echo $data['user']->first_name; ?>" disabled>
