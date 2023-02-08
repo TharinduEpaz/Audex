@@ -47,7 +47,6 @@
 
         public function setDetails()
     {
-
         
 
 
@@ -99,6 +98,7 @@
 
 
         redirect('admins/profile/');
+        
     }
 
 
