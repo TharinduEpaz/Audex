@@ -30,7 +30,7 @@
             <div class="auction_details">
                 <h2><?php echo $data['ad']->product_title?></h2>
                 <h3>Price:&nbsp;<?php echo $data['ad']->price?></h3>
-                <?php echo date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' + 10 days'));?>
+                <!-- <?php echo date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' + 10 days'));?> -->
                 <div class="time">
                     <p>Time Left:&nbsp;</p>
                     <p id='remaining_time'></p>
@@ -85,13 +85,21 @@
                                     
                     <!-- <h1><?php echo $data['ad']->product_id.'/'.$auction->auction_id.'/'.$data['auctions'][0]->price.'/'.$data['ad']->price;?></h1> -->
                     
-                    <form action="<?php echo URLROOT.'/users/bid/'.$data['ad']->product_id?>" class="bid" method="post">
-                        
-                    <!-- <label for="price">Price</label> -->
-                    <input class="price" type="text" name="price"  placeholder="xxxx.xx"   >
-                    <input type="submit" name="submit" value="Bid" class="bid_button">
-                            
-                    </form>
+                    
+                    <button id="form-trigger" class="bid_button">BID</button>
+                        <div class="pop_up">
+
+                                <form action="<?php echo URLROOT.'/users/bid/'.$data['ad']->product_id?>" class="bid" method="post">
+    
+                                    <!-- <label for="price">Price</label> -->
+                                    <input class="price" type="number" step="0.01" name="price"  placeholder="xxxx.xx"   ><br>
+                                    <div class="add_bid1">
+                                    <input type="submit" name="submit" value="Bid" class="bid_button"><br>
+                                    <button type="button" id="form-close" class="close">Cancel</button>
+                                    </div>
+    <p>* By clicking BID button, you are accepting to buy the product if you become the winner</p>
+                                </form>
+                        </div>
                         
                 </div>
                 <?php 
@@ -149,6 +157,20 @@
           window.location.href = "<?php echo URLROOT.'/users/bid_expired/'.$data['ad']->product_id.'/'.$data['auction']->auction_id?>";
       }
     }, 1000);
+
+
+    const trigger = document.getElementById("form-trigger");
+    const formContainer = document.querySelector(".pop_up");
+    const formClose = document.getElementById("form-close");
+
+    trigger.addEventListener("click", function() {
+      formContainer.style.display = "block";
+    });
+
+    formClose.addEventListener("click", function() {
+      formContainer.style.display = "none";
+    });
+
 </script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>

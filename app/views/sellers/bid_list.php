@@ -98,7 +98,7 @@
                                     echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$auction->name.'\'>Approve</a></td>';
                                 }
                                 
-                            }else if($i<2 && $data['auctions_no_rows']<=2){
+                            }else if($i<2 && $data['auctions_no_rows']<=2 && $auction->is_active==0){
 
                                 if($data['bid_list'][$i-1]!=NULL ){
                                     echo '<td id=\'approve_link\' class=\'aprove\'>'. date('Y-m-d H:i:s', strtotime($data['bid_list'][$i-1]->time. ' + 5 days')).'</td>';

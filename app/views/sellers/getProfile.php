@@ -25,7 +25,7 @@
                 <a href="#"> <i class="fa fa-comments"></i><span>Messages</span></a>       
         </div>
         <div class="poster_advertisements">
-            
+            <?php echo flash('post_message');?>
             <div class="form-display">
                 <div class="top_details">
                     <div class="profile_img">

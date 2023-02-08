@@ -422,6 +422,21 @@ date_default_timezone_set("Asia/Kolkata");
                 return NULL;
             }
         }
+        public function getAllAuctionDetails($id){
+            $this->db->query('SELECT * FROM auction WHERE product_id = :id');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->single();
+
+            $this->db->query('SELECT * FROM bid INNER JOIN auction ON auction.auction_id = bid.auction_id WHERE auction.auction_id = :id ORDER BY bid.price DESC');
+            $this->db->bind(':id' , $row->auction_id);
+            $results = $this->db->resultSet();
+            if($results){
+                return $results;
+            }else{
+                return NULL;
+            }
+        }
 
         public function add_bid($price,$auction_id,$dat){
 

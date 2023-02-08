@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    
     <title>Home</title>
 </head>
 <body>
@@ -95,8 +97,11 @@
     </div>
 
 </body>
-
-<script src="<?php echo URLROOT . '/public/js/form.js'; ?>"></script>
-<script src="<?php echo URLROOT . '/public/js/search.js'; ?>"></script>
+<script>
+jQuery(document).ready(function(){
+    $.getScript('<?php echo URLROOT . '/public/js/form.js';?>');
+    $.getScript('<?php echo URLROOT . '/public/js/search.js';?>');
+});
+</script>
 
 </html>

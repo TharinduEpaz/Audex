@@ -725,7 +725,7 @@
           }
           $data['auction'] = $auction;
           
-          $auction_details = $this -> userModel->getAuctionDetails($id);
+          $auction_details = $this -> userModel->getAllAuctionDetails($id);
           if($auction_details){
             $data['auctions'] =$auction_details;
           }else{
