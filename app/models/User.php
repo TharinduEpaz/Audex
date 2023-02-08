@@ -741,7 +741,7 @@ date_default_timezone_set("Asia/Kolkata");
         }
 
         public function getServiceProviders(){
-            $this->db->query('SELECT first_name,second_name,profile_image,profession,Rating FROM service_provider_view');
+            $this->db->query('SELECT user_id,first_name,second_name,profile_image,profession,Rating FROM service_provider_view');
             $result = $this->db->resultSet();
             return $result;
         }
@@ -752,6 +752,16 @@ date_default_timezone_set("Asia/Kolkata");
 
             $results = $this->db->resultSet();
             return $results;
+
+        }
+
+        public function getServiceProvidersPublic($id){
+            
+            
+            $this->db->query('SELECT * FROM service_provider_view Where user_id = :id');
+            $this->db->bind(':id', $id);
+            $result = $this->db->single();
+            return $result;
 
         }
 
