@@ -1308,6 +1308,17 @@
             }
       
         }
+        public function serviceProviderPublic()
+    {
+        $id = $_GET['id'];
+        $d = $this->userModel->getServiceProvidersPublic($id);
+        $data = [
+            'details' => $d
+        ];
+
+        $this->view('users/service_provider_public', $data);
+
+    }
 
         public function rateSeller(){
 
@@ -1320,24 +1331,6 @@
 
             $results2 = '';
             $results3 = '';
-
-    public function serviceProviderPublic()
-    {
-        $id = $_GET['id'];
-        $d = $this->userModel->getServiceProvidersPublic($id);
-        $data = [
-            'details' => $d
-        ];
-
-        $this->view('users/service_provider_public', $data);
-
-    }
-        
-        
-            
-        
-        
-
             // echo $rating;
             // echo $buyer_id;
             // echo $seller;
