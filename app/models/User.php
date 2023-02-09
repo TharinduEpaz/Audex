@@ -603,6 +603,13 @@ date_default_timezone_set("Asia/Kolkata");
             return $result;
 
         }
+
+        // public function getEvents($id){
+        //     $this->db->query('SELECT * FROM event WHERE user_id = :id');
+        //     $this->db->bind(':id', $id);
+        //     $result = $this->db->resultSet();
+        //     return $result;
+        // }
         
     }
 ?>
