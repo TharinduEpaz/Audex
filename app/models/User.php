@@ -131,7 +131,7 @@ date_default_timezone_set("Asia/Kolkata");
 
         //Login user
         public function login($email, $password,$dat){
-            $this->db->query('SELECT * FROM user WHERE email = :email && email_active=1');
+            $this->db->query('SELECT * FROM user WHERE email = :email AND email_active=1');
             $this->db->bind(':email', $email);
 
             $row = $this->db->single(); //single row
@@ -147,7 +147,7 @@ date_default_timezone_set("Asia/Kolkata");
 
         //Find user by email
         public function findUserByEmail($email){
-            $this->db->query('SELECT * FROM user WHERE email = :email && email_active=1');
+            $this->db->query('SELECT * FROM user WHERE email = :email AND email_active=1');
             //Bind value
             $this->db->bind(':email', $email);
             $row = $this->db->single();
@@ -161,7 +161,7 @@ date_default_timezone_set("Asia/Kolkata");
 
         //Not activated
         public function notActivated($email){
-            $this->db->query('SELECT * FROM user WHERE email = :email && email_active=0');
+            $this->db->query('SELECT * FROM user WHERE email = :email AND email_active=0');
             $this->db->bind(':email', $email);
             $row = $this->db->single();
 

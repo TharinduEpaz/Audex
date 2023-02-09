@@ -78,13 +78,11 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 'email' => $_SESSION['user_email'],
                 'address1' => trim($_POST['address1']),
                 'address2' => trim($_POST['address2']),
-                'phone_number' => trim($_POST['phone_number']),
                 'user_id' => $_SESSION['user_id'],
                 'first_name_err' => '',
                 'second_name_err' => '',
                 'address1_err' => '',
                 'address2_err' => '',
-                'phone_number_err' => ''
               ];
       
               //validate data
@@ -100,12 +98,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
               if(empty($data['address2'])){
                 $data['address2_err'] = 'Please Enter Address Line 2';
               }
-              if(empty($data['phone_number'])){
-                $data['phone_number_err'] = 'Please Enter Phone Number';
-              }
       
       
-              if( empty($data['first_name_err']) && empty($data['second_name_err']) && empty($data['address1_err']) && empty($data['address1_err'] && empty($data['phone_number_err'])) ){
+              if( empty($data['first_name_err']) && empty($data['second_name_err']) && empty($data['address1_err']) && empty($data['address1_err'] ) ){
                 //validated
                 if($this->sellerModel->updateProfile($data)){
                   $_SESSION['user_name'] = $data['first_name'];
@@ -150,21 +145,26 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
       
               //check for owner
               if( $user->_id != $_SESSION['user_id'] ){
-              $_SESSION['url']=URL();
+                $_SESSION['url']=URL();
 
                 redirect('users/login');
               }
       
               if($this->sellerModel->deleteUserProfile($id)){
-
-                redirect('users/login');
+                unset($_SESSION['user_id']);
+                unset($_SESSION['user_email']);
+                unset($_SESSION['user_name']);
+                unset($_SESSION['user_type']);
+                session_destroy();
+                flash('user_deleted','User deleted successfully');
+                redirect('users/index');
               }
               else{
                 die('Something went wrong');
               }
             }
             else{
-              redirect('seller/index');
+              redirect('users/index');
             }
       
       
@@ -476,6 +476,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
         //Edit add
         public function edit_advertisement($id){
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                $advertisement=$this->sellerModel->getAdvertisementById($id);
                 //Sanitize POST array
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
@@ -511,8 +512,13 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 if(empty($data['description'])){
                     $data['description_err'] = 'Please enter description';
                 }
-                if(empty($data['price'])){
-                    $data['price_err'] = 'Please enter price';
+                if($advertisement->product_type=='auction'){
+                    $data['price']=$advertisement->price;
+                }else{
+                    $data['price']=trim($_POST['price']);
+                    if(empty($data['price'])){
+                        $data['price_err'] = 'Please enter price';
+                    }
                 }
                 if(empty($data['category'])){
                     $data['category_err'] = 'Please enter category';
@@ -652,7 +658,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'user_email' => $_SESSION['user_email'],
                     'title' => trim($_POST['title']),
                     'description' => trim($_POST['description']),
-                    'price' => trim($_POST['price']),
+                    'price' => '',
                     'condition' => trim($_POST['condition']),
                     'image1' => $advertisement->image1,
                     'image2' => '',
@@ -672,6 +678,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'category_err' => ''
                 ];
 
+
                 //Validate data
                 if(empty($data['title'])){
                     $data['title_err'] = 'Please enter title';
@@ -679,8 +686,13 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 if(empty($data['description'])){
                     $data['description_err'] = 'Please enter description';
                 }
-                if(empty($data['price'])){
-                    $data['price_err'] = 'Please enter price';
+                if($advertisement->product_type=='auction'){
+                    $data['price']=$advertisement->price;
+                }else{
+                    $data['price']=trim($_POST['price']);
+                    if(empty($data['price'])){
+                        $data['price_err'] = 'Please enter price';
+                    }
                 }
                 if(empty($data['category'])){
                     $data['category_err'] = 'Please enter category';
@@ -770,7 +782,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     }
                 } else {
                     //Load view with errors
-                    $this->view('sellers/edit_advertisement', $data);
+                    $this->view('sellers/complete_payment', $data);
                 }
 
             } else {
@@ -939,6 +951,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             }else {
                 redirect('sellers/bid_list/'.$product_id.'/'.$bid_id);
             }
+        }
+        public function dashboard(){
+            $this->view('service_providers/dashboard');
         }
         
     }

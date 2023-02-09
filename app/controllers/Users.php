@@ -22,7 +22,10 @@
         }
 
         public function index(){
-
+            if(isset($_SESSION['otp_email'])){
+                unset($_SESSION['otp_email']);
+                unset($_SESSION['attempt']);
+            }
             $data = [
                 'title' => 'Welcome!!!!!'
               ];
@@ -32,6 +35,10 @@
 
         //register
         public function register(){
+            if(isset($_SESSION['otp_email'])){
+                unset($_SESSION['otp_email']);
+                unset($_SESSION['attempt']);
+            }
             //CHECK FOR POST
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 // Process form
@@ -220,6 +227,12 @@
         //verifyotp
         public function verifyotp(){
             //not filled registration form
+            if(!isset($_SESSION['otp_email'])){
+                redirect('users/register');
+            }
+            if(!isset($_SESSION['attempt'])){
+                redirect('users/register');
+            }
             $email=$_SESSION['otp_email'];
             if(isLoggedIn()){
                 redirect('users/index');
@@ -242,7 +255,10 @@
                     }elseif(strlen($data['otp_entered']) !=6){
                         $data['otp_err'] = 'Otp must be 6 characters';
                     }
-                    if(empty($data['otp_err'])){
+                    if(!isset($_POST['acceptT'])){
+                        $data['accept_err'] = 'Please accept terms and conditions';
+                    }
+                    if(empty($data['otp_err']) && empty($data['accept_err'])){
                         //no errors
                         if($email!=NULL){
                             $user_details=$this->userModel->findUserDetailsByEmail($email);
@@ -263,6 +279,8 @@
                                         if($data['user_type']=='seller'){
                                             if($this->userModel->addToSeller($data)){
                                                 flash('register_success', 'You are registered and can log in');
+                                                unset($_SESSION['otp_email']);
+                                                unset($_SESSION['attempt']);
                                                 redirect('users/login');
                                             }else{
                                                 die('Something went wrong');
@@ -310,6 +328,8 @@
                                 }
                             }
                         }else{
+                            unset($_SESSION['otp_email']);
+                            unset($_SESSION['attempt']);
                             redirect('users/register');
                         }
                     }
@@ -352,6 +372,10 @@
 
         //login
         public function login(){
+            if(isset($_SESSION['otp_email'])){
+                unset($_SESSION['otp_email']);
+                unset($_SESSION['attempt']);
+            }
             //CHECK FOR POST
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 // Process form
@@ -378,7 +402,7 @@
                 }
                 
                 //Check for user/email
-                if($this->userModel->findUserByEmail($data['email'])){
+                if(!empty($this->userModel->findUserByEmail($data['email']))){
                 }
                 else if($this->userModel->notActivated($data['email'])){
                 }
@@ -388,16 +412,17 @@
                 }
 
                 $userData = $this->userModel->findUserDetailsByEmail($data['email']);
-                if($userData->is_deleted == 1){
+                if(!empty($userData) && $userData->is_deleted == 1){
                     $data = [
                         'email' => '',
                         'password' => '',
                         'email_err' => '',
                         'password_err' => ''
                     ];
+                    flash('Account_deleted','Account is deleted, register with a new email');
                     redirect('users/register');
                     //$this->view('users/register', $data);
-                }else if($userData->email_active==0){
+                }else if(!empty($userData) && $userData->email_active==0){
                     $data['email_not_activated_err']='Email is not activated, <a href=\''.URLROOT.'/users/activate_email/'.$data['email'].'\'> click to activate again</a>';
                 }
                     //not a deleted account
@@ -456,6 +481,10 @@
         }
 
             public function getProfile($id){ 
+                if(isset($_SESSION['otp_email'])){
+                    unset($_SESSION['otp_email']);
+                    unset($_SESSION['attempt']);
+                }
                 if(!isLoggedIn()){
                   $_SESSION['url']=URL();
           
@@ -477,6 +506,10 @@
               }
 
           public function edit_profile_picture($id){
+            if(isset($_SESSION['otp_email'])){
+                unset($_SESSION['otp_email']);
+                unset($_SESSION['attempt']);
+            }
             if(!isLoggedIn()){
               $_SESSION['url']=URL();
       
@@ -567,14 +600,12 @@
         }
         //Shop
         public function shop(){
-            if(isset($_SESSION['otp'])){
-                unset($_SESSION['otp']);
-                unset($_SESSION['email']);
-                unset($_SESSION['password']);
-                unset($_SESSION['first_name']);
-                unset($_SESSION['second_name']);
-                unset($_SESSION['phone']);
-                unset($_SESSION['user_type']);
+            if(isset($_SESSION['otp_email'])){
+                unset($_SESSION['otp_email']);
+                unset($_SESSION['attempt']);
+            }
+            if(isset($_SESSION['otp_email'])){
+                unset($_SESSION['otp_email']);
                 unset($_SESSION['attempt']);
                 // session_destroy();
                 // redirect('users/login');
@@ -725,10 +756,77 @@
         }
         public function auction($id)
         {
-          $ad = $this->userModel->getAdvertiesmentById($id);
-          $data = [
-            'ad' => $ad
-          ];
+            $_SESSION['product_id'] = $id;
+            $likeCount = $this->userModel->checkLikeCount($id);
+            $dislikeCount = $this->userModel->checkDislikeCount($id);
+
+
+            $ad = $this->userModel->getAdvertiesmentById($id);
+
+
+            // seller details
+            $sellerDetails = $this->userModel->getSellerDetails($ad->email);
+            $SellerMoreDetails = $this->userModel->getSellerMoreDetails($ad->email);
+            $sellerRegDate = $SellerMoreDetails->registered_date;
+            settype($sellerRegDate, 'string');
+            $sellerRegDate = substr($sellerRegDate,0,10);
+
+            $data = [
+                'ad' => $ad,
+                'likedCount' => $likeCount,
+                'dislikedCount' => $dislikeCount,
+                'seller' => $sellerDetails,
+                'SellerMoreDetails' => $SellerMoreDetails,
+                'sellerRegDate' => $sellerRegDate,
+                'liked' => '',
+                'disliked' => '',
+                'watched' => '',
+                'loadFeedback' =>'',
+                'loadRate' =>'',
+            ];
+
+            
+            //CHeck if loggedIn
+            if(isLoggedIn()){
+                // check alredy liked or not
+                $liked = $this->userModel->checkAddedLike($id,$_SESSION['user_id']);
+                $disliked = $this->userModel->checkAddedDislike($id,$_SESSION['user_id']);
+
+                $loadRate = $this->userModel->checkAddedRate($_SESSION['user_id'],$ad->email);
+                $loadFeedback = $this->userModel->checkAddedReview($_SESSION['user_id'],$ad->email);
+                $data['loadFeedback'] = $loadFeedback;
+                $data['loadRate'] = $loadRate;
+
+                $itemWatched = $this->userModel->checkIsItemWatched($id,$_SESSION['user_id']);
+                if( empty($itemWatched) ){
+                    // Item is not in watch list
+                    $data['watched'] = 'notwatched';
+                }
+                else{
+                    $data['watched'] = 'watched';
+                }
+            // echo $data['watched'];
+
+                if(empty($liked) && empty($disliked)){
+                    // not liked and not disliked
+                    $data['liked'] = 'notliked';
+                    $data['disliked'] = 'notdisliked';
+                } 
+                else if(!empty($liked) ){
+                    $data['liked'] = 'liked';
+                    $data['disliked'] = 'notdisliked';
+                }
+                else if(!empty($disliked) ){
+                    $data['liked'] = 'notliked';
+                    $data['disliked'] = 'disliked';
+                }
+            }
+            else{
+                // not loggedin
+                $data['liked'] = 'notliked';
+                $data['disliked'] = 'notdisliked';
+            }
+          
           $auction = $this->userModel->getAuctionById($id);
           $data['auction'] = $auction;
 
@@ -1152,6 +1250,10 @@
             }
         }
         public function sound_engineers(){
+            if(isset($_SESSION['otp_email'])){
+                unset($_SESSION['otp_email']);
+                unset($_SESSION['attempt']);
+            }
         $data = $this->userModel->getServiceProviders();
             
         $this->view('users/sound_engineers', $data);

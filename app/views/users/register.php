@@ -31,6 +31,7 @@
         <div id="forms" class="form">
             <h1>Register</h1>
             <?php
+            echo flash('Account_deleted');
                 if(!empty($data['first_name_err']) || !empty($data['second_name_err']) || !empty($data['email_err']) || !empty($data['phone_err']) || !empty($data['password_err'])  || !empty($data['email_not_activated_err'])){
                     echo '<div class="error">';
                         if(!empty($data['first_name_err'])){

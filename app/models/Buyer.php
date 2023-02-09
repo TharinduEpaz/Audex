@@ -42,13 +42,12 @@
         }
 
         public function updateProfile($data){
-            $this->db->query('UPDATE user SET first_name = :first_name,second_name = :second_name, address1 = :address1, address2 = :address2, phone_number = :phone_number WHERE user_id = :id ');
+            $this->db->query('UPDATE user SET first_name = :first_name,second_name = :second_name, address1 = :address1, address2 = :address2 WHERE user_id = :id ');
             
             $this->db->bind(':first_name' , $data['first_name']);
             $this->db->bind(':second_name' , $data['second_name']);
             $this->db->bind(':address1' , $data['address1']);
             $this->db->bind(':address2' , $data['address2']);
-            $this->db->bind(':phone_number' , $data['phone_number']);
             $this->db->bind(':id' , $data['id']);
 
             if($this->db->execute()){

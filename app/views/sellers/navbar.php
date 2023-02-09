@@ -13,7 +13,7 @@
                 echo '<div class="dropdown">';
                 echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
                 echo '<div id="myDropdown" class="dropdown-content">';
-                    echo '<a href="#" class="nav_tags">Dashboard</a>';
+                    // echo '<a href="'.URLROOT . '/sellers/dashboard" class="nav_tags">Dashboard</a>';
                     echo '<a href="'.URLROOT . '/'.$_SESSION['user_type'].'s/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
                     echo '<a href="'.URLROOT . '/sellers/advertisements" class="nav_tags">Advertisements</a>';
                     echo '<a href="'.URLROOT . '/sellers/advertise" class="nav_tags">Advertise</a>';

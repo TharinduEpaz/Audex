@@ -11,6 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+
     <title><?php echo SITENAME; ?></title>
 </head>
 <body>
@@ -54,7 +56,9 @@
         <?php echo flash('auction_error');?>
         <div id="search-result-area">
             <?php if( $data['isEmptySearchResults'] == '0' ){ ?>
-
+                <div class="header">
+                    <h1>Search Results</h1>
+                </div>
                 <?php foreach($data['searchResults'] as $result) : ?>
                     <div class="container-ad">
                         <div class="container-img">
@@ -149,7 +153,13 @@
         </div>
     </div>
 </body>
-
-<script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
+<script>
+jQuery(document).ready(function(){
+    $.getScript('<?php echo URLROOT . '/public/js/form.js';?>');
+    // $.getScript('<?php echo URLROOT . '/public/js/search.js';?>');
+    // $.getScript('<?php echo URLROOT . '/public/js/shop-search.js';?>">');
+});
+</script>
 <script src="<?php echo URLROOT . '/public/js/shop-search.js';?>"></script>
+<script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>

@@ -104,13 +104,11 @@
           'email' => $_SESSION['user_email'],
           'address1' => trim($_POST['address1']),
           'address2' => trim($_POST['address2']),
-          'phone_number' => trim($_POST['phone_number']),
           'user_id' => $_SESSION['user_id'],
           'first_name_err' => '',
           'second_name_err' => '',
           'address1_err' => '',
           'address2_err' => '',
-          'phone_number_err' => ''
         ];
 
         //validate data
@@ -126,12 +124,9 @@
         if(empty($data['address2'])){
           $data['address2_err'] = 'Please Enter Address Line 2';
         }
-        if(empty($data['phone_number'])){
-          $data['phone_number_err'] = 'Please Enter Phone Number';
-        }
 
 
-        if( empty($data['first_name_err']) && empty($data['second_name_err']) && empty($data['address1_err']) && empty($data['address1_err'] && empty($data['phone_number_err'])) ){
+        if( empty($data['first_name_err']) && empty($data['second_name_err']) && empty($data['address1_err']) && empty($data['address1_err'] ) ){
           //validated
           if($this->buyerModel->updateProfile($data)){
             $_SESSION['user_name'] = $data['first_name'];
@@ -191,19 +186,20 @@
         }
 
         if($this->buyerModel->deleteUserProfile($id)){
-          unset($_SESSION['user_id']);
+            unset($_SESSION['user_id']);
             unset($_SESSION['user_email']);
             unset($_SESSION['user_name']);
             unset($_SESSION['user_type']);
             session_destroy();
-          redirect('pages/index');
+            flash('user_deleted','User deleted successfully');
+          redirect('users/index');
         }
         else{
           die('Something went wrong');
         }
       }
       else{
-        redirect('buyer/index');
+        redirect('users/index');
       }
 
 
@@ -383,6 +379,9 @@
       echo $data['user'];
       $this->view('buyers/test',$data);
 
+    }
+    public function dashboard(){
+      $this->view('service_providers/dashboard');
     }
 
   }  
