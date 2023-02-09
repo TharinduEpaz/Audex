@@ -596,14 +596,13 @@ date_default_timezone_set("Asia/Kolkata");
         }
 
         public function getServiceProvidersPublic($id){
-            
-            
-            $this->db->query('SELECT * FROM service_provider_view Where user_id = :id');
+        
+            $this->db->query('SELECT * from service_provider_view WHERE user_id = :id');
             $this->db->bind(':id', $id);
             $result = $this->db->single();
             return $result;
 
         }
-
+        
     }
 ?>
