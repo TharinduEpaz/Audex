@@ -19,8 +19,6 @@
             $this->buyerModel = $this->model('Buyer');
             $this->sellerModel = $this->model('Seller');
 
-            $_SESSION['searchResults'] = '';
-
         }
 
         public function index(){
@@ -578,21 +576,47 @@
                 unset($_SESSION['phone']);
                 unset($_SESSION['user_type']);
                 unset($_SESSION['attempt']);
-                session_destroy();
+                // session_destroy();
                 // redirect('users/login');
             }
             $ads  = $this->userModel->getAdvertiesment();   
             // get the serchResults session value
-            $results = $_SESSION['searchResults'];
+            // print_r($_SESSION);
+            // exit();
+            $searchResults = '';
+            $searchTerm = '';
 
-            // check serch results are empty(1) or not empty(0)
-            $empty = empty($results);
+            if(isset($_SESSION['searchResults'])):
+                $searchResults = $_SESSION['searchResults'];
+            endif;
+            if(isset($_SESSION['searchTerm'])):
+                $searchTerm = $_SESSION['searchTerm'];
+            endif;
+            
+
+            // check serch results are empty(1) or not empty(0)\
+            if( empty($searchResults) ){
+                $emptySearchResults = '1';
+            }
+            else{
+                $emptySearchResults = '0';
+            }
+            // check serch term is empty(1) or not empty(0)\
+            if( empty($searchTerm) ){
+                $emptySearchTerm = '1';
+            }
+            else{
+                $emptySearchTerm = '0';
+            }
 
 
             $data = [
                 'ads' => $ads,
-                'searchResults' => $results,
-                'isEmpty' => $empty
+                'searchResults' => $searchResults,
+                'searchTerm' => $searchTerm,
+                'isEmptySearchResults' => $emptySearchResults,
+                'isEmptySearchTerm' => $emptySearchTerm,
+
             ];
 
             $i=0;
@@ -614,6 +638,7 @@
             $this->view('users/shop',$data);
             
             unset($_SESSION['searchResults']);
+            unset($_SESSION['searchTerm']);
         }
 
 
@@ -710,7 +735,6 @@
           $this->view('users/auction',$data);
 
         }
-
 
 
 
@@ -1301,9 +1325,50 @@
                 echo json_encode([]);
               }else{
                 $results = $this-> userModel->searchItems($searchedTerm);
+                $_SESSION['searchTerm'] = $searchedTerm;
                 $_SESSION['searchResults'] = $results;
+                // echo $_SESSION['searchResults'];
                 echo json_encode($results);
               }
+      
+            }
+      
+        }
+        public function shopSearchItems(){
+
+            $searchedTerm = $_POST['search-item'];
+            
+            if( !isset($_POST['submit']) ){
+              // this is for keyup event
+              if( strlen($searchedTerm) <3 ){
+                echo json_encode([]);
+              }else{
+                $results = $this-> userModel->searchItems($searchedTerm);
+                echo json_encode($results);
+              }
+            }
+            else{
+                // user has pressed enter
+                
+                $category = $_POST['category'];
+                $priceMin = $_POST['price-min'];
+                $priceMax = $_POST['price-max'];
+                $type = $_POST['type'];
+
+                // echo $searchedTerm;
+                // echo $category;
+                // echo $priceMin;
+                // echo $priceMax;
+                // echo $type;
+
+              
+                $results = $this-> userModel->searchAndFilterItems($searchedTerm,$category,$type,$priceMin,$priceMax);
+                $_SESSION['searchTerm'] = $searchedTerm;
+                // $_SESSION['searchResults'] = $results;
+                // echo $_SESSION['searchResults'];
+
+                echo json_encode($results);
+              
       
             }
       

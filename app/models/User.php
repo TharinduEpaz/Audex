@@ -769,6 +769,75 @@ date_default_timezone_set("Asia/Kolkata");
             return $results;
 
         }
+        public function searchAndFilterItems($searchedTerm,$category,$type,$priceMin,$priceMax){
+
+            $sql = 'SELECT * FROM product';
+            $where = array();
+
+            if( isset($searchedTerm) ){
+                $where[] = 'product_title LIKE '. '%'.$searchedTerm.'%' ;
+                // $this->db->bind(':searchedTerm',$searchedTerm);
+            }
+            if( isset($category) ){
+                $where[] = 'product_category =\''. $category.';';
+                // $this->db->bind(':category',$category);
+            }
+            // if( isset($type) ){
+            //     $where[] = 'product_type ='.':types';
+            //     $this->db->bind(':types',$type);
+            // }
+            // if( isset($priceMin) ){
+            //     $where[] = 'price <='.':priceMin';
+            //     $this->db->bind(':price',$priceMin);
+            // }
+            // if( isset($priceMax) ){
+            //     $where[] = 'price >='.':priceMax';
+            //     $this->db->bind(':price',$priceMax);
+            // }
+                    
+            if (count($where)) {
+              $sql .= " WHERE ".implode(" AND ", $where);
+            }
+        // return $sql;
+            $this->db->query($sql);
+            $results = $this->db->resultSet();
+            return $results;
+
+            // $sql = "SELECT * FROM product ";
+            // $where = array();
+        
+            // // if ($searchedTerm) {
+            // //   $where[] = "product_title LIKE :searchedTerm";
+            // //   $this->db->bind(':searchedTerm', '%'.$searchedTerm.'%');
+            // // //   $this->db->bind(':searchedTerm', $searchedTerm);
+              
+            // // }
+        
+            // if ($category) {
+            //   $where = "SELECT * FROM product where product_category = :$category";
+            //   $this->db->bind(':category', $category);
+
+            // }
+            
+            // // if ($type) {
+            // //   $where[] = "product_type = '".$this->db->escape($type)."'";
+            // // }
+            
+            // // if ($priceMin || $priceMax) {
+            // //   $where[] = "price BETWEEN ".intval($priceMin)." AND ".intval($priceMax);
+            // // }
+        
+        
+            // // if (count($where)) {
+            // //   $sql .= " WHERE ".implode(" AND ", $where);
+            // // }
+        
+            // $this->db->query($where);
+
+            // return $this->db->resultSet();
+        }
+
+        
 
         public function getServiceProvidersPublic($id){
             

@@ -22,11 +22,29 @@
     </style> 
     <?php require_once APPROOT . '/views/users/navbar.php';?>
 
+    <?php  echo $data['searchTerm']; ?>
     <div class="container" >
         <div class="ad-search_shop">
-            <form method="post" class="search-form" id="shop-search-bar" action="<?php echo URLROOT . '/public/users/searchItems';?>">
-                <input type="search" name="search-item" id="shop-search-item-term" placeholder="Microphone"></input>
-                <button type="submit" class="btn-search"> <img src="<?php echo URLROOT . '/public/img/icons/bxs_search-alt-2.png'; ?>" alt="search"> </button>
+            <form method="post" class="shop-search-form" id="shop-search-form">
+                    <input type="search" name="search-item" id="shop-search-item-term" placeholder="Microphone" value="<?php echo ($data['isEmptySearchTerm'] == '0') ? $data['searchTerm'] : '';  ?>" style="width: 25%;">
+                    <label for="category">Category:</label>
+                    <select name="category" id="category">
+                        <option value="">All</option>
+                        <option value="microphone">Microphone</option>
+                        <option value="mixer">Mixer</option>
+                        <option value="guitar">Guitar</option>
+                    </select>
+                    <label for="price">Price Min:</label>
+                    <input type="text" name="price-min" placeholder="Price Min" style="width: 10%; border-radius: 0 0 0 0;" >
+                    <label for="price">Price Max:</label>
+                    <input type="text" name="price-max" placeholder="Price Max" style="width: 10%; border-radius: 0 0 0 0;">
+                    <label for="Product_type">Type:</label>
+                    <select name="type" id="type">
+                        <option value="">All</option>
+                        <option value="fixed_price">Fixed Price</option>
+                        <option value="auction">Auction</option>
+                    </select>
+                    <button type="submit" > <img src="<?php echo URLROOT . '/public/img/icons/bxs_search-alt-2.png'; ?>" alt="search"> </button>
             </form>
         </div>
         <div id="shop-search-results">
@@ -35,7 +53,7 @@
         </div>
         <?php echo flash('auction_error');?>
         <div id="search-result-area">
-            <?php if( $data['isEmpty'] != '1' ){ ?>
+            <?php if( $data['isEmptySearchResults'] == '0' ){ ?>
 
                 <?php foreach($data['searchResults'] as $result) : ?>
                     <div class="container-ad">
@@ -133,5 +151,5 @@
 </body>
 
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
-<script src="<?php echo URLROOT . '/public/js/search.js';?>"></script>
+<script src="<?php echo URLROOT . '/public/js/shop-search.js';?>"></script>
 </html>

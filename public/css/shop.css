@@ -105,3 +105,7 @@
     font-size: 24px;
     
 }
+.shop-search-form{
+    display: flex;
+    flex-direction: row;
+}
