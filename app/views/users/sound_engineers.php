@@ -24,7 +24,7 @@
         <div class="sound-eng-profiles">
             <div class="profile-image">
                 <?php $id = $object->user_id; ?>
-                <a href="<?php echo URLROOT .'/users/serviceProviderPublic/' .  urlencode($id) ?>">
+                <a href="<?php echo URLROOT .'/users/serviceProviderPublic/' . "?id=$id" ?>">
                 <img src="<?php echo URLROOT .'/public/uploads/Profile/' . $object->profile_image ?>" alt="">
         </a>
             </div>
@@ -42,7 +42,7 @@
                 <?php endfor; ?>
 
                 <?php if(strpos((string)$object->Rating, '.')): ?>
-                        <i class="fa fa-star-half-o"></i>
+                <i class="fa fa-star-half-o"></i>
                 <?php endif; ?>   
                 </div>                
         </div>
