@@ -1452,19 +1452,19 @@
             else{
                 // user has pressed enter
                 
-                $category = $_POST['category'];
-                $priceMin = $_POST['price-min'];
-                $priceMax = $_POST['price-max'];
-                $type = $_POST['type'];
+                $productCategory = $_POST['category'];
+                $productPriceMin = $_POST['price-min'];
+                $productPriceMax = $_POST['price-max'];
+                $productType = $_POST['type'];
 
                 // echo $searchedTerm;
-                // echo $category;
-                // echo $priceMin;
-                // echo $priceMax;
-                // echo $type;
+                // echo $productCategory;
+                // echo $productType;
+                // echo $productPriceMax;
+                // echo $productPriceMin;
 
               
-                $results = $this-> userModel->searchAndFilterItems($searchedTerm,$category,$type,$priceMin,$priceMax);
+                $results = $this-> userModel->searchAndFilterItems($searchedTerm,$productCategory,$productType,$productPriceMin,$productPriceMax);
                 $_SESSION['searchTerm'] = $searchedTerm;
                 // $_SESSION['searchResults'] = $results;
                 // echo $_SESSION['searchResults'];
