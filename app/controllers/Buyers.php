@@ -385,6 +385,19 @@
 
     }
 
+    public function reactions($id){
+      if(!isLoggedIn()){
+        $_SESSION['url']=URL();
+        redirect('users/login');
+      }
+
+      $products = $this->buyerModel->getBuyerReactedProducts($_SESSION['user_email']);
+      $data =[
+        'products' => $products,
+      ];
+      $this->view('buyers/reactions',$data);
+    }
+
   }  
 
 ?>

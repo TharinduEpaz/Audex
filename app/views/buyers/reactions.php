@@ -21,9 +21,9 @@
     <div class="container">
         <div class="sidebar">
             <a href="<?php echo URLROOT . '/buyers/getProfile/'.$_SESSION['user_id'];?>"><i class="fas fa-address-card"></i> <span>My Profile</span></a>
-            <a href="#" class="current"> <i class="far fa-calendar-check" aria-hidden="true"></i><span>Watch List</span></a>
+            <a href="<?php echo URLROOT . '/users/watchlist/'.$_SESSION['user_id'];?>" > <i class="far fa-calendar-check" aria-hidden="true"></i><span>Watch List</span></a>
             <a href="#"> <i class="fa fa-comments-o" aria-hidden="true"></i><span>Feedback</span></a>
-            <a href="<?php echo URLROOT . '/buyers/reactions/'.$_SESSION['user_id'];?>"> <i class="fa fa-thumbs-up" aria-hidden="true"></i><span>Reactions</span></a>
+            <a href="#" class="current"> <i class="fa fa-thumbs-up" aria-hidden="true"></i><span>Reactions</span></a>
             <a href="messages.php"> <i class="fa fa-envelope"></i><span>Messages</span></a>       
         </div>
         <div class="poster_advertisements">
@@ -31,29 +31,9 @@
                 <?php foreach($data['products'] as $ads) : ?>
                     <div class="box-content">
                         <!-- <img src="data:image/jpg;charset=utf8;base64,<?php echo base64_encode($ads->image1); ?>" />  -->
-                        <img src="<?php echo URLROOT.'/public/uploads/'.$ads->image1;?>" />  
                         <a href="<?php echo URLROOT . '/users/advertiesmentDetails/'.$ads->product_id;?>">
-                        <h4><?php echo $ads->product_title ; ?><br><?php echo $ads->price ; ?></h4></a>
-
-                        <form class="remove_item" method="post">
-                            <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
-                            <input type="text" name="user_type" value="buyer" hidden>
-                            <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
-                            <input type="text" name="product_id" value="<?php echo $ads->product_id ; ?>" hidden >
-                            <input type="submit" value="Remove" name="submit_btn">
-                            <!-- <dialog id="dia">
-                                <div class="top-part">
-                                    <button class="btn_close">X</button>
-                                    <i class="fa-sharp fa-solid fa-xmark"></i>
-                                </div>  
-                                <hr>
-                                <div>
-                                    <button class="continue">OK </button>  
-                                    <button class="close">Close</button>
-                                </div>
-                            </dialog> -->
-                        </form>
-
+                            <img src="<?php echo URLROOT.'/public/uploads/'.$ads->image1;?>" />  
+                            <h4><?php echo $ads->product_title ; ?><br><?php echo $ads->price ; ?></h4></a>
                     </div> 
                 <?php endforeach; ?>
             </div>

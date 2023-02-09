@@ -652,27 +652,31 @@ date_default_timezone_set("Asia/Kolkata");
             return $results;
 
         }
-        public function searchAndFilterItems($searchedTerm,$category,$type,$priceMin,$priceMax){
+        public function searchAndFilterItems($searchedTerm,$productCategory,$productType,$productPriceMin,$productPriceMax){
 
             $sql = 'SELECT * FROM product';
             $where = array();
 
-            if( isset($searchedTerm) ){
-                $where[] = 'product_title LIKE '. '%'.$searchedTerm.'%' ;
-                // $this->db->bind(':searchedTerm',$searchedTerm);
-            }
-            if( isset($category) ){
-                $where[] = 'product_category =\''. $category.';';
+            // if( isset($searchedTerm) ){
+            //     $where[] = 'product_title LIKE '. '%'.$searchedTerm.'%' ;
+            //     // $this->db->bind(':searchedTerm',$searchedTerm);
+            // }
+            if( isset($productCategory) ){
+                $where[] = "product_category='$productCategory'";
                 // $this->db->bind(':category',$category);
             }
-            // if( isset($type) ){
-            //     $where[] = 'product_type ='.':types';
-            //     $this->db->bind(':types',$type);
-            // }
-            // if( isset($priceMin) ){
-            //     $where[] = 'price <='.':priceMin';
-            //     $this->db->bind(':price',$priceMin);
-            // }
+            if( isset($productType) ){
+                $where[] = "product_type='$productType'";
+                // $this->db->bind(':types',$type);
+            }
+            if( isset($productPriceMin) ){
+                $where[] = "price >='$productPriceMin'";
+                // $this->db->bind(':price',$priceMin);
+            }
+            if( isset($productPriceMax) ){
+                $where[] = "price <='$productPriceMin'";
+                // $this->db->bind(':price',$priceMin);
+            }
             // if( isset($priceMax) ){
             //     $where[] = 'price >='.':priceMax';
             //     $this->db->bind(':price',$priceMax);

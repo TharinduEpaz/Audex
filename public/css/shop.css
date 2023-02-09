@@ -109,3 +109,33 @@
     display: flex;
     flex-direction: row;
 }
+#shop-search-results{
+    display: block;
+    margin-top: -19px;
+}
+#shop-search-results .table {
+    width: 731px;
+    border-collapse: collapse;
+    margin-left: 5%;
+} 
+#shop-search-results .table td {
+    padding: 12px 15px;
+    border: 1px solid rgb(169 165 165);
+    background: #ffffff;
+    display: -webkit-box;
+    text-align: left;
+    font-size: 16px;
+}
+#shop-search-results-table > tbody> tr > td > a > div{
+    display: flex;
+    flex-direction: row;
+}
+#shop-search-results-table > tbody > tr > td > a > div > div.image-pop-up{
+    max-width: 50px;
+}
+#shop-search-results-table > tbody > tr > td > a > div > div.image-pop-up > img{
+    max-width: 100%;
+}
+#shop-search-results-table > tbody > tr > td > a > div > div.title-and-price{
+    align-self: center;
+}
