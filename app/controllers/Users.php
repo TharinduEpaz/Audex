@@ -1479,11 +1479,12 @@
     {
        
         $id = $_GET['id'];
-
+        // $events = $this->userModel->getEvents($id);
         $d = $this->userModel->getServiceProvidersPublic($id);
         $data = [
-            'details' => $d
+            'details' => $d,
         ];
+
         $this->view('users/service_provider_public', $data);
 
     }

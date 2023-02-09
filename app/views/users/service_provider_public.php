@@ -69,9 +69,17 @@
                         </p>
                         <p id="profession"><?php echo $data['details']->profession?></p>
                     </div>
-                    <div class="rating"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star"
-                            aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star"
-                            aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></div>
+                    <div class="rating"><span class="rate"><?php echo $data['details']->Rating;?></span>
+
+                        <?php for($i=0; $i<floor($data['details']->Rating); $i++): ?>
+                        <i class="fa fa-star"></i>
+                        <?php endfor; ?>
+
+                        <?php if(strpos((string)$data['details']->Rating, '.')): ?>
+                        <i class="fa fa-star-half-o"></i>
+                        <?php endif; ?>
+                        
+                    </div>
                 </div>
             </div>
             <div class="profile-info">
@@ -115,16 +123,6 @@
             <h2>Events</h2>
             <div class="events">
 
-
-                <?php foreach ($data['events'] as $event):
-                echo '<div class="event">';
-                echo '<h1>' . $event->name . '</h1>';
-                echo '<p>' . $event->date . '</p>';
-                echo '</div>';
-
-            endforeach;
-
-                ?>
 
             </div>
         </div>
