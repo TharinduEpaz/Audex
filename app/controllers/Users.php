@@ -672,10 +672,6 @@
             unset($_SESSION['searchTerm']);
         }
 
-
-        
-
-
         public function advertiesmentDetails($id)
         {
 

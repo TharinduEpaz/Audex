@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css?id=1425';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/service_provider.css?id=325';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/style.css?id=1445';?>">
+  
+
     
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
@@ -23,7 +25,7 @@
     <ul>
         <li><a href="<?php echo URLROOT .'/service_providers/index'?>" class="nav_tags">Home</a></li>
         <li><a href="#" class="nav_tags">Shop</a></li>
-        <li><a href="#" class="nav_tags">Sound Engineers</a></li>
+        <li><a href="<?php echo URLROOT.'/users/sound_engineers'; ?>" class="nav_tags">Sound Engineers</a></li>
         <li><a href="#" class="nav_tags">Events</a></li>
         <?php if(isset($_SESSION['user_id'])){
                 echo '<div class="dropdown">';
@@ -46,6 +48,6 @@
         <a href="<?php echo URLROOT . '/service_providers/dashboard';?>" id="dashboard"><i class="fas fa-qrcode" ></i> <span>Dashboard</span></a>
         <a href="<?php echo URLROOT . '/service_providers/profile';?>" id="profile-settings"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile</span></a>
         <a href="<?php echo URLROOT .'/service_providers/feed'?>" id="feed"> <i class="fa fa-ad" aria-hidden="true"></i><span>Feed</span></a>
-        <a href="#" id="calender"> <i class="fa fa-calendar" aria-hidden="true"></i><span>Calender</span></a>
-        <a href="#" id="messages"> <i class="fa fa-comments"></i><span>Messages</span></a>       
+        <a href="<?php echo URLROOT .'/service_providers/eventCalander'?>" id="calender"> <i class="fa fa-calendar" aria-hidden="true"></i><span>Calender</span></a>
+        <a href="<?php echo URLROOT .'/service_providers/messages'?>" id="messages"> <i class="fa fa-comments"></i><span>Messages</span></a>       
     </div>

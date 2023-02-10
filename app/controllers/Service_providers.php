@@ -43,7 +43,6 @@ class Service_providers extends Controller
             'events' => $events
         ];
 
-
         $this->view('service_providers/profile', $data);
 
     }
@@ -136,10 +135,6 @@ class Service_providers extends Controller
 
     public function setImage(){
         
-
-    
-
-
         // File Properties
         
         $temp_name = $_FILES['profile']['tmp_name'];
@@ -245,6 +240,13 @@ class Service_providers extends Controller
     public function dashboard()
     {
         $this->view('service_providers/dashboard');
+    }
+    public function eventCalander(){
+        $this->view('service_providers/eventCalander');
+        
+    }
+    public function messages(){
+        $this->view('service_providers/chat');
     }
 
 }
