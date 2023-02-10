@@ -25,5 +25,8 @@
              
               $this->view('pages/index', $data);
         }
+        public function shop(){
+        $this->view('pages/shop');
+        }
         
     }

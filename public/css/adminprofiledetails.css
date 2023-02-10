@@ -1,0 +1,91 @@
+.form-display {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin: 20px;
+    width: 95%;
+    height: 85%;
+    background-color: white;
+    border-radius: 1.4rem;
+}
+
+.form-display h1 {
+    text-align: left;
+    padding: 30px 0 20px 30px;
+}
+
+.form-data-area {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    line-height: 40px;
+    margin-left: 3%;
+    margin-right: 10%;
+}
+
+.form-data-area label {
+    width: 150px;
+    line-height: 5vh;
+    margin-left: 3%;
+    margin-right: 5%;
+}
+
+.form-data-area input {
+    width: 400px;
+    line-height: 5vh;
+    border: 1px solid #E5E9F7;
+    border-radius: 8px;
+    margin-top: 0.7vh;
+    margin-bottom: 0.7vh;
+    padding-left: 2%;
+    background: #E5E9F7;
+}
+
+.button-edit-delete {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.button-edit-delete {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#edit-button {
+    margin: 0px 0 10px 50px;
+    width: 150px;
+    height: 40px;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 1rem;
+}
+
+#delete-button {
+    align-items: left;
+    margin: 0px 50px 0 50px;
+    width: 150px;
+    height: 40px;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 1rem;
+}
+
+.poster_advertisements {
+    display: block;
+    position: absolute;
+    left: 240px;
+    width: calc(100% - 240px);
+    height: 90vh;
+    padding: 1% 1% 1% 1%;
+    background: #E5E9F7;
+}

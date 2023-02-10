@@ -13,9 +13,10 @@ body{
     background: #E5E9F7;
   
   }
+  
   .poster_advertisements h1{
     text-align: center;
-    font-weight: 200;
+    font-weight: 500;
     margin-bottom: 2vh;
   }
   .header{
@@ -25,6 +26,8 @@ body{
     margin-right: 12px;
   }
   .header p{
+    color: black;
+    font-weight: 500;
     padding: 0.5vh 0.5%;
     text-align: center;
     margin-right: 1%;
@@ -52,7 +55,6 @@ body{
   .six{
     flex-basis: 10%;
   }
-  
   .advertisements{
     display: flex;
     justify-content: flex-end;
@@ -65,6 +67,8 @@ body{
 
   }
   .advertisements p{
+    color: black;
+    font-weight: 500;
     padding: 1.5vh 0.5%;
     text-align: center;
     margin-right: 1%;
@@ -84,13 +88,17 @@ body{
     padding-left: 2%;
   }
   .image{
-    flex-basis: 8%;
+    flex-basis: 70px;
+    height: 8vh;
+    margin-left: .5%;
+    padding: .5% .5%;
   
   }
   .image img{
-    width: 35px;
-    margin-left: 15%;
-    margin-top: 0.5vh;
+    width: 100%;
+    height: 100%;
+    border-radius: 9px;
+
   }
   @media (max-width:860px){
     .poster_advertisements{
@@ -106,6 +114,218 @@ body{
   }
   
   
+/* styles for get profile page */
+.form-display-data{
+  width: 100%;
+  height: 95%;
+}
+.form-display{
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  margin: 20px;
+  width: 95%;
+  height: 85%;
+  background-color: white;
+  border-radius: 1.4rem;
+}
+.form-display h1{
+  text-align: left;
+  padding: 30px 0 20px 30px;
+}
+.top_details{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  height: 25vh;
+  margin: 3vh 0 1vh 15%;
+  background-color: #E5E9F7;
+  border-radius: 35px;
+}
+
+.profile_img{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* border: 1px solid black; */
+  margin-left: 3%;
+  flex-basis: 15%;
+  height: 76%;
+}
+.profile_img img{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+.edit{
+  position:relative;
+  text-decoration: none;
+}
+.edit:hover:before{
+  font-family: FontAwesome;
+  content: "\f030"; 
+}
+.pop_up {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 30%;
+  height: 30vh;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 10px #000;
+}
+.close{
+      width: 85px;
+      height: 30px;
+      font-size: 12pt;
+      font-weight: 900;
+}
+.close:hover{
+  cursor: pointer;
+}
+.other_details_profile{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 1%;
+  /* border: 1px solid black; */
+  flex-basis: 50%;
+
+}
+.other_details_profile p{
+  /* border: 1px solid black; */
+  color: black;
+  font-weight: 600;
+}
+.full_name{
+  font-size: 24pt;
+  margin: 0 0 2vh 0;
+  text-align: center;
+  /* border: 1px solid black; */
+  width: 100%;
+}
+.stars_date{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 6vh;
+  margin-top: 3vh;
+  background-color: #E5E9F7;
+  border-radius: 40px;
+  /* border: 1px solid black; */
+  margin: 0;
+
+}
+.stars{
+  height: 3vh;
+  margin-top: 0;
+}
+.stars img{
+ width: 70%;
+}
+.date{
+  font-size: 8pt;
+}
+.likes{
+  flex-basis: 20%;
+  /* border: 1px solid black; */
+
+}
+.dislikes{
+  flex-basis: 20%;
+  /* border: 1px solid black; */
+
+}
+.flags{
+  flex-basis: 20%;
+  /* border: 1px solid black; */
+
+}
+
+.likes_dislikes{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 6h;
+  margin-top: 3vh;
+  background-color: #E5E9F7;
+  border-radius: 40px;
+  /* border: 1px solid black; */
+  margin-top: 2vh;
   
-  
-  
+}
+
+.form-display-data h1{
+  text-align: left;
+  padding: 30px 0 20px 30px;
+}
+.form-data-area{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  line-height: 40px;
+  margin-left: 3%;
+  margin-right: 10%;
+}
+.form-data-area input{
+  width: 400px;
+  line-height: 5vh;
+  border: 1px solid #E5E9F7;
+  border-radius: 8px;
+  margin-top: 0.7vh;
+  margin-bottom: 0.7vh;
+  padding-left: 2%;
+  background: #E5E9F7;
+}
+.form-data-area .invalid{
+  border: 1px solid red;
+}
+
+.form-data-area label{
+  width: 150px;
+  line-height: 5vh;
+  margin-left: 3%;
+  margin-right: 5%;
+}
+
+.button-edit-delete{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#edit-button{
+  margin: 0px 0 10px 50px;
+  width: 150px;
+  height: 40px;
+  font-size: 20px;
+  font-weight: 600;
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+}
+#delete-button{
+  align-items: left;
+  margin: 0px 50px 0 50px;
+  width: 150px;
+  height: 40px;
+  font-size: 20px;
+  font-weight: 600;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+}

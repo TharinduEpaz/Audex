@@ -6,7 +6,7 @@
     */
 
     class Core{
-        protected $currentController='pages';
+        protected $currentController='users';
         protected $currentMethod='index';
         protected $params=[];//[] represents an array
 

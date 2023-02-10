@@ -1,4 +1,7 @@
 <?php
+date_default_timezone_set("Asia/Kolkata");
+
+
     //App Root
     require_once 'config/config.php';
 
