@@ -84,11 +84,8 @@ class Service_provider
         $this->db->execute();
 
     }
-            
-        
-    
-        
-    
+  
+               
 }
 
 

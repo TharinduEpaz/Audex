@@ -78,7 +78,7 @@
                         <?php if(strpos((string)$data['details']->Rating, '.')): ?>
                         <i class="fa fa-star-half-o"></i>
                         <?php endif; ?>
-                        
+
                     </div>
                 </div>
             </div>
@@ -122,8 +122,27 @@
             </div>
             <h2>Events</h2>
             <div class="events">
+                <div class=event>
+            </div>
+            <div class=event>
+            </div>
+            <div class=event>
+            </div>
+            <div class=event>
+            </div>
 
+            </div>
 
+            <h2>Recent Feed Posts</h2>
+            <div class="events">
+            <div class=event>
+            </div>
+            <div class=event>
+            </div>
+            <div class=event>
+            </div>
+            <div class=event>
+            </div>
             </div>
         </div>
 

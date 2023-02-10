@@ -539,10 +539,6 @@
             $this->view('users/shop',$data);
         }
 
-
-        
-
-
         public function advertiesmentDetails($id)
         {
 
