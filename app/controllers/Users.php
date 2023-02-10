@@ -59,9 +59,15 @@
                     'second_name_err' => '',
                     'email_err' => '',
                     'phone_err' => '',
-                    'password_err' => '',
+                    'password_err1' => '',
+                    'password_err2' => '',
+                    'password_err3' => '',
+                    'password_err4'=>'',
+                    'password_err5' => '',
+                    'password_err6' => '',
                     'email_not_activated_err' => ''
                 ];
+                $data['passwd']=$data['password'];
                 
                 //Validate email
                 if(empty($data['email'])){
@@ -82,20 +88,30 @@
                 }
                 //Validate phone
                 if(empty($data['phone'])){
-                    $data['phone_err'] = 'Please enter phone';
+                    $data['phone_err'] = 'Please enter a phone number';
+                }else if($this->userModel->findUserByPhone($data['phone'])){
+                    $data['phone_err'] = 'Phone number is already added, add another one';
+
                 }
                 //Validate password
-                if(empty($data['password'])){
-                    $data['password_err'] = 'Please enter password';
-                }elseif(strlen($data['password']) < 6){
-                    $data['password_err'] = 'Password must be at least 6 characters';
+                if(empty($data['passwd'])){
+                    $data['password_err1'] = 'Please enter a password';
+                }if(strlen($data['password']) < 6){
+                    $data['password_err2'] = 'Password must be at least 6 characters';
+                }if(!preg_match("#[0-9]+#",$data['password'])) {
+                    $data['password_err3'] = 'Password must contain at least 1 number!';
+                }if(!preg_match("#[A-Z]+#",$data['password'])) {
+                    $data['password_err4'] = 'Password must contain at least 1 capital letter!';
+                }if(!preg_match("#[a-z]+#",$data['password'])) {
+                    $data['password_err5'] = 'Password must contain at least 1 lowercase letter!';
+                }if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['password'])) {
+                    $data['password_err6'] = 'Password must contain at least 1 special character!';
                 }
 
 
                 //Make sure errors are empty
-                if(empty($data['email_err']) && empty($data['first_name_err']) && empty($data['second_name_err']) && empty($data['phone_err']) && empty($data['password_err'])){
+                if(empty($data['email_err']) && empty($data['first_name_err']) && empty($data['second_name_err']) && empty($data['phone_err']) && empty($data['password_err1']) && empty($data['password_err2']) && empty($data['password_err3']) && empty($data['password_err4']) && empty($data['password_err5']) && empty($data['password_err6'])){
                     //Validated
-
                     //Hash password
                     $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
                     $data['otp_hashed'] = password_hash($data['otp'], PASSWORD_DEFAULT);
@@ -143,7 +159,7 @@
                             redirect('users/verifyotp');
                         }
                         else{
-                            $data['email_err'] = 'Email not sent';
+                            flash('email_err','Email not sent');
                             $this->view('users/register', $data);
                         }
                     
@@ -166,6 +182,7 @@
                     'phone' => '',
                     'user_type' => '',
                     'password' => '',
+                    'passwd' => '',
                     'otp'=>'',
                     'first_name_err' => '',
                     'second_name_err' => '',

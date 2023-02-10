@@ -28,45 +28,59 @@
             <div class="add">
                 <div id="forms" class="form_seller">
                 <?php
-                if(!empty($data['title_err']) || !empty($data['description_err']) || !empty($data['price_err'])  || !empty($data['condition_err']) || !empty($data['image1_err']) || !empty($data['image2_err']) || !empty($data['image3_err']) || !empty($data['brand_err']) || !empty($data['model_err']) ){
-                    echo '<div class="error">';
-                        if(!empty($data['title_err'])){
-                            echo '*'.$data['title_err'].'<br>';
-                        }
-                        if(!empty($data['description_err'])){
-                            echo '*'.$data['description_err'].'<br>';
-                        }
-                        if(!empty($data['price_err'])){
-                            echo '*'.$data['price_err'].'<br>';
-                        }
-                        if(!empty($data['condition_err'])){
-                            echo '*'.$data['condition_err'].'<br>';
-                        }
-                        if(!empty($data['image1_err'])){
-                            echo '*'.$data['image1_err'].'<br>';
-                        }
-                        if(!empty($data['image2_err'])){
-                            echo '*'.$data['image2_err'].'<br>';
-                        }
-                        if(!empty($data['image3_err'])){
-                            echo '*'.$data['image3_err'].'<br>';
-                        }
-                        if(!empty($data['brand_err'])){
-                            echo '*'.$data['brand_err'].'<br>';
-                        }
-                        if(!empty($data['model_err'])){
-                            echo '*'.$data['model_err'].'<br>';
-                        }
+                // if(!empty($data['title_err']) || !empty($data['description_err']) || !empty($data['price_err'])  || !empty($data['condition_err']) || !empty($data['image1_err']) || !empty($data['image2_err']) || !empty($data['image3_err']) || !empty($data['brand_err']) || !empty($data['model_err']) ){
+                //     echo '<div class="error">';
+                //         if(!empty($data['title_err'])){
+                //             echo '*'.$data['title_err'].'<br>';
+                //         }
+                //         if(!empty($data['description_err'])){
+                //             echo '*'.$data['description_err'].'<br>';
+                //         }
+                //         if(!empty($data['price_err'])){
+                //             echo '*'.$data['price_err'].'<br>';
+                //         }
+                //         if(!empty($data['condition_err'])){
+                //             echo '*'.$data['condition_err'].'<br>';
+                //         }
+                //         if(!empty($data['image1_err'])){
+                //             echo '*'.$data['image1_err'].'<br>';
+                //         }
+                //         if(!empty($data['image2_err'])){
+                //             echo '*'.$data['image2_err'].'<br>';
+                //         }
+                //         if(!empty($data['image3_err'])){
+                //             echo '*'.$data['image3_err'].'<br>';
+                //         }
+                //         if(!empty($data['brand_err'])){
+                //             echo '*'.$data['brand_err'].'<br>';
+                //         }
+                //         if(!empty($data['model_err'])){
+                //             echo '*'.$data['model_err'].'<br>';
+                //         }
 
-                    echo '</div>';
-                }
+                //     echo '</div>';
+                // }
 
             ?>
                     <form action="<?php echo URLROOT . '/sellers/advertise';?>" method="post" enctype="multipart/form-data">
+                        <?php
+                                    if(!empty($data['title_err'])){
+                                    echo '<div class="error">';
+                                        echo '*'.$data['title_err'].'<br>';
+                                    echo '</div>';
+                                    }
+                                ?> 
                         <div class="input">
                             <label for="">Title&nbsp</label>
                             <input class="title" type="text" name="title"  value="<?php echo $data['title']?>" >
                         </div>
+                        <?php
+                                    if(!empty($data['price_err'])){
+                                    echo '<div class="error">';
+                                        echo '*'.$data['price_err'].'<br>';
+                                    echo '</div>';
+                                    }
+                                ?> 
                         <div class="input">
                             <label for="">Price</label>
                             <input class="price" type="text" name="price"  placeholder="xxxx.xx" value="<?php echo $data['price']?>"  >
@@ -83,20 +97,58 @@
 
                             </select>
                         </div>
+                                <?php
+                                    if(!empty($data['image1_err']) || !empty($data['image2_err']) || !empty($data['image3_err'])){
+                                        echo '<div class="error">';
+                                        if(!empty($data['image1_err'])){
+                                            echo '*'.$data['image1_err'].'<br>';
+                                        echo '</div>';
+                                        }
+                                        if(!empty($data['image2_err'])){
+                                                echo '*'.$data['image2_err'].'<br>';
+                                            echo '</div>';
+                                        }
+                                        if(!empty($data['image3_err'])){
+                                                echo '*'.$data['image3_err'].'<br>';
+                                            }
+                                            echo '</div>';
+                                    }
+                                ?> 
                         <div class="input_image">
                             <div class="file-input">
                                 <input type="file" name="image1" id="file" class="custom-file-input">
                                 <!-- <label for="image1">Choose an image<p class="file-name"></p></label> -->
+                            <!-- <?php
+                                    if(!empty($data['image2_err'])){
+                                    echo '<div class="error">';
+                                        echo '*'.$data['image2_err'].'<br>';
+                                    echo '</div>';
+                                    }
+                                ?>  -->
                             </div>
                             <div class="image">
                                 <input type="file" name="image2" class="custom-file-input" >
                                 <!-- <label for="image2">Choose an image</label> -->
                             </div>
+                            <!-- <?php
+                                    if(!empty($data['image3_err'])){
+                                    echo '<div class="error">';
+                                        echo '*'.$data['image3_err'].'<br>';
+                                    echo '</div>';
+                                    }
+                                ?>  -->
                             <div class="image">
                                 <input type="file" name="image3"  class="custom-file-input">
                                 <!-- <label for="image3">Choose an image</label> -->
                             </div>
                         </div>
+                        <?php
+                                    if(!empty($data['condition_err'])){
+                                    echo '<div class="error">';
+                                        echo '*'.$data['condition_err'].'<br>';
+                                    echo '</div>';
+                                    }
+                                ?> 
                         <div class="input">
                             <label class="condition" for="">Condition</label>
                             <input class="condition" type="text" name="condition"   value="<?php echo $data['condition']?>" >
@@ -113,14 +165,36 @@
 
                             </select>
                         </div>
+                        <?php
+                                    if(!empty($data['model_err'])){
+                                    echo '<div class="error">';
+                                        echo '*'.$data['model_err'].'<br>';
+                                    
+                                    echo '</div>';
+                                    }
+                                ?> 
                         <div class="input">
                             <label class="model" for="">Model No.</label>
                             <input class="model" type="text" name="model"   value="<?php echo $data['model']?>" >
                         </div>
+                        <?php
+                                    if(!empty($data['brand_err'])){
+                                    echo '<div class="error">';
+                                        echo '*'.$data['brand_err'].'<br>';
+                                    echo '</div>';
+                                    }
+                                ?> 
                         <div class="input">
                             <label class="brand" for="">Brand Name</label>
                             <input class="brand" type="text" name="brand"   value="<?php echo $data['brand']?>" >
                         </div>
+                        <?php
+                                    if(!empty($data['description_err'])){
+                                    echo '<div class="error">';
+                                        echo '*'.$data['description_err'].'<br>';
+                                    echo '</div>';
+                                    }
+                                ?> 
                         <div class="input">
                             <label class="descriptionl" for="">Description</label>
                             <textarea name="description" id="description" class="description" cols="30" rows="15"  value="<?php echo $data['description']?>" ></textarea>

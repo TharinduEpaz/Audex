@@ -159,6 +159,20 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
 
+        //Find user by phone number
+        public function findUserByPhone($phone){
+            $this->db->query('SELECT * FROM user WHERE phone_number = :phone');
+            //Bind value
+            $this->db->bind(':phone', $phone);
+            $row = $this->db->single();
+            //Check row
+            if($this->db->rowCount() > 0){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
         //Not activated
         public function notActivated($email){
             $this->db->query('SELECT * FROM user WHERE email = :email AND email_active=0');

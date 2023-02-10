@@ -172,7 +172,7 @@
 
                                 <label for="feedback">Feedback:</label>
                                 <textarea  name="review" rows="4" id="submitted-feedback"  ><?php echo $data['loadFeedback'] ?></textarea>
-                                <?php flash('rating_message');?>
+                                <!-- <?php flash('rating_message');?> -->
                                 <input type="submit" value="Submit" id="submit-review-btn">
 
                             </form>

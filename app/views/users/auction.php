@@ -82,7 +82,7 @@
                 ?>
                 </div>
                 <div class="add_watch_list">
-                <?php if($_SESSION['user_type']!='seller'){?>
+                <?php if(isset($_SESSION['user_type']) && $_SESSION['user_type']!='seller'){?>
                 <form id="add_watch_list_form" method="POST" data-op = "add" data-watchLoad ="<?php echo $data['watched'] ; ?>" >
                         <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
                         <input type="text" name="user_type" value="buyer" hidden>
@@ -156,7 +156,7 @@
                             </div>
                         </div>
                     </div>
-                <?php if($_SESSION['user_type']!='seller'){?>
+                <?php if(isset($_SESSION['user_type']) && $_SESSION['user_type']!='seller'){?>
 
                 <div class="review-seller">
                     <div class="write-review">

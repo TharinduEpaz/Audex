@@ -98,7 +98,7 @@
                     <div class="info-titles">
                         <span>First Name : </span>
                         <span>Last Name : </span>
-                        <span>Email : </span>
+                        <!-- <span>Email : </span> -->
                         <span>Address Line 1 : </span>
                         <span>Address Line 2 : </span>
                         <span>Mobile : </span>
@@ -109,7 +109,7 @@
                     <div class="info-items">
                         <span><?php echo $data['details']->first_name ?></span>
                         <span><?php echo $data['details']->second_name ?></span>
-                        <span><?php echo $data['details']->email ?></span>
+                        <!-- <span><?php echo $data['details']->email ?></span> -->
                         <span><?php echo $data['details']->address_line_one ?></span>
                         <span><?php echo $data['details']->address_line_two ?></span>
                         <span><?php echo $data['details']->mobile ?></span>
