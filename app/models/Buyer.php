@@ -59,8 +59,8 @@
 
         // public function getBuyerWatchProducts($email){
         //     $this->db->query('SELECT product_id FROM view_item WHERE email_buyer = :email');
-        //     $this->db->bind(':email' , $email);
-        //     $results = $this->db->resultSet();
+          //     $this->db->bind(':email' , $email);
+      //     $results = $this->db->resultSet();
 
         //     // foreach($results as $result):
         //     //     echo gettype($result) . "</br>";
