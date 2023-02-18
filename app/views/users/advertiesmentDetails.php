@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo MAPS_API;?>&callback=initMap&libraries=placesMap&v=weekly"></script>
     <title>Advertisement</title>
 </head>
 <body>
@@ -96,8 +97,50 @@
                             </div>
                         </dialog>
         
-                    </form>
+                    </form><br>
                 </div>
+                <!-- <?php echo 'Hello'.$data['ad']->longitude;?> -->
+                <?php if($data['ad']->longitude!='NULL' && $data['ad']->latitude!='NULL'){?>
+                    <div class="location">
+                        <div class="input">
+                            <a href="" class="post" onclick="openModal(); return false;">Check on map</a>
+                        </div>
+                        <div id="myModal" class="modal">
+                            <div class="modal-content">
+                                <div id="floating-panel">
+                                    <h3 for="longitude">Longitude: <?php echo $data['ad']->longitude; ?></h3>
+                                    <h3 for="latiitude">Latiitude: <?php echo $data['ad']->latitude; ?></h3>
+                                    <h3 for="address">Address: <?php echo $data['ad']->address; ?></h3>
+                                </div>
+                                <span class="close" onclick="closeModal()">&times;</span>
+                                <div id="map" style="width: 100%; height: 90%;">
+                                    <script>
+                                        var geocoder;
+                                        var map;
+                                        var longitude;
+                                        var latitude;
+                                        var position;
+                                        function initMap() {
+                                            var position = {lat: <?php echo $data['ad']->latitude?>, lng: <?php echo $data['ad']->longitude?>};
+                                               var map = new google.maps.Map(document.getElementById('map'), {
+                                                   zoom: 12,
+                                                   center: position
+                                            
+                                               });
+                                               const marker = new google.maps.Marker({
+                                                   position: position,
+                                                   map: map,
+                                                   draggable: false
+                                               });
+    
+                                               
+                                        }
+                                        </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
             <div class="seller-detais">
                 <h2 style="text-align: center;"><?php 
@@ -121,10 +164,21 @@
                             <p class="full_name"><?php echo $data['SellerMoreDetails']->first_name.' '.$data['SellerMoreDetails']->second_name; ?></p>
                             <div class="stars_date">
                                 <div class="stars">
-                                    <img src="<?php echo URLROOT . '/public/img/stars.png';;?>" alt="Profile Picture">
+                                    <!-- <img src="<?php echo URLROOT . '/public/img/stars.png';;?>" alt="Profile Picture"> -->
                                     <div class="current-rate">
-                                    <label for="current-rate" style="display:none">Rate:</label>
-                                    <input type="text" name="current-rate" value="<?php echo $data['seller']->rate ?>" id="current-seller-rate">
+                                    <!-- <label for="current-rate" style="display:none">Rate:</label> -->
+                                    <!-- <input type="text" name="current-rate" value="<?php echo $data['seller']->rate ?>" id="current-seller-rate"> -->
+                                    <div class="rating-stars">
+                                        <!-- <span class="rate"><?php echo $data['seller']->rate;?></span>  -->
+
+                                        <?php for($i=0; $i<floor($data['seller']->rate); $i++): ?>
+                                        <i class="fa fa-star"></i>
+                                        <?php endfor; ?>
+                                        
+                                        <?php if(strpos((string)$data['seller']->rate, '.')): ?>
+                                        <i class="fa fa-star-half-o"></i>
+                                        <?php endif; ?>   
+                                    </div>                
                                 </div>
                                 </div>
                                 
@@ -189,6 +243,17 @@
     </div>
 </body>
 <script>
+    function openModal() {
+			var modal = document.getElementById("myModal");
+			modal.style.display = "block";
+            initMap();
+           
+    }
+
+    function closeModal() {
+			var modal = document.getElementById("myModal");
+			modal.style.display = "none";
+	}
     // like removeLike functions click event
     const likeBtn = document.getElementById("product-like-btn");
     const dislikeBtn = document.getElementById("product-dislike-btn");

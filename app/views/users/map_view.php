@@ -66,7 +66,7 @@
                 // }
 
             ?>
-                    <form action="<?php echo URLROOT . '/sellers/advertise';?>" method="post" enctype="multipart/form-data">
+                    <form action="<?php echo URLROOT . '/users/map_view';?>" method="post" enctype="multipart/form-data">
                         <?php
                                     if(!empty($data['title_err'])){
                                     echo '<div class="error">';
@@ -75,8 +75,6 @@
                                     }
                                 ?> 
                         <div class="input">
-                <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
-
                             <label for="">Title&nbsp</label>
                             <input class="title" type="text" name="title"  value="<?php echo $data['title']?>" >
                         </div>
@@ -206,32 +204,19 @@
                             <textarea name="description" id="description" class="description" cols="30" rows="15"  value="<?php echo $data['description']?>" ></textarea>
                             
                         </div>
-                        <?php
-                                    if(!empty($data['error_geocode'])){
-                                    echo '<div class="error">';
-                                        echo '*'.$data['error_geocode'].'<br>';
-                                    echo '</div>';
-                                    }
-                                ?> 
-                        <div class="input">
-                            <label for="show-map" >Location(optional)</label>
-                            <input type="checkbox" id="show_map"  name="show_map" class="show_map" <?php if(!empty($data['longitude'])) echo 'checked';?>>
-                        </div>
-                        
 
-                        <div id="html_content" style="display: none;">
-
-                                <!-- When spot the place in the map, takes the longitude and latitude and takes the address also -->
-                        <div class="input">
-                            <a href="" class="post" onclick="openModal1(); return false;">Check on map</a>
-                        </div>
-                        <div id="myModal1" class="modal">
-                            <div class="modal-content">
-                                <span class="close" onclick="closeModal1()">&times;</span>
-                                <div id="map" style="width: 100%; height: 90%;">
+                        <!-- <button onclick="openModal()">Open Modal</button> -->
+                        <a href="" onclick="openModal1(); return false;">Check on map</a>
+                                    <!-- When spot the place in the map, takes the longitude and latitude and takes the address also -->
+	                    <div id="myModal1" class="modal">
+	                    	<div class="modal-content">
+	                    		<span class="close" onclick="closeModal1()">&times;</span>
+	                    		<div id="map" style="width: 100%; height: 90%;">
+                                    <!-- <script src="<?php echo GEOCODE;?>"></script> -->
                                     <script>
                                         var geocoder;
                                         var map;
+                                        var infowindow;
                                         var longitude;
                                         var latitude;
                                         var position;
@@ -254,107 +239,96 @@
                                                    latitude = event.latLng.lat();
                                                    var position = marker.getPosition();
                                                    geocoder = new google.maps.Geocoder();
-
                                                    geocoder.geocode({ location: position }).then((response) => {
                                                        if (response.results[0]) {
-
+                                                         
+                                                         // infowindow.setContent(response.results[0].formatted_address);
                                                          console.log("ADDEREES:-"+response.results[0].formatted_address);
                                                          document.getElementById("address").value = response.results[0].formatted_address;
-                                                         document.getElementById("address1").innerHTML = "Address: "+response.results[0].formatted_address;
                                                          document.getElementById("latitude").value = latitude;
                                                          document.getElementById("longitude").value = longitude;
-                                                         document.getElementById("p_longi").innerHTML="Longitude: "+longitude;
-                                                         document.getElementById("p_lati").innerHTML="Latitude: "+latitude;
                                                        } else {
                                                          window.alert("No results found");
-                                                         document.getElementById("error_geocode").value = 'No results found';
-
                                                        }
                                                      })
-                                                     .catch((e) => document.getElementById("error_geocode").value = 'Geocoder failed due to: ' + e);
+                                                     .catch((e) => window.alert("Geocoder failed due to: " + e));
                                                });
                                         }
-
+                                        
                                     </script>
                                 </div>
-                                <a href="" class="post" onclick="closeModal1(); return false;">Submit</a>
-                            </div>
-                        </div>
-                                    
+                                <a href="" onclick="closeModal1(); return false;">Submit</a>
+	                    	</div>
+	                    </div>
 
-                        
-                        <!-- When entered address, gets longitude and latitude -->
-                        <div class="input">
-                            <a href="" class="post" onclick="openModal2(); return false;">Add address</a>
-                        </div>
-                        <div id="myModal2" class="modal">
-                            <div class="modal-content">
+                        <a href="" onclick="openModal2(); return false;">Add address</a>
+                                            <!-- When entered address, gets longitude and latitude -->
+	                    <div id="myModal2" class="modal">
+	                    	<div class="modal-content">
                                 <div id="floating-panel">
                                   <input id="addressInput" type="text" value="UCSC,Sri Lanka" />
                                   <a href="" onclick="codeAddress(); return false;">Adress</a>
                                 </div>
-                                <span class="close" onclick="closeModal2()">&times;</span>
-                                <div id="map2" style="width: 100%; height: 90%;">
-                                    
+	                    		<span class="close" onclick="closeModal2()">&times;</span>
+	                    		<div id="map2" style="width: 100%; height: 90%;">
+
                                     <script>
                                         var geocoder2;
                                         var map2;
-
+                                        var infowindow2;
+                                        
                                         function init1(){
+                                            
                                             map2 = new google.maps.Map(document.getElementById("map2"), {
                                                 zoom: 8,
                                                 center: { lat: 6.9271, lng: 79.8612 },
                                             });
                                         }
-
+                                        
+                                        
+                                        
+                                        
+                                        
                                         function codeAddress() {
+                                            
+                                            
                                             geocoder2 = new google.maps.Geocoder();
-                                            var address = document.getElementById('addressInput').value;
-                                            geocoder2.geocode( { 'address': address}, function(results, status) {
-                                            if (status == 'OK') {
-                                                console.log("lati:"+results[0].geometry.location.lat());
-                                                console.log("longi:"+results[0].geometry.location.lng());
-                                                document.getElementById("address").value = document.getElementById("addressInput").value;
-                                                document.getElementById("address1").innerHTML = "Address: "+document.getElementById("addressInput").value;
-                                                document.getElementById("latitude").value = results[0].geometry.location.lat();
-                                                document.getElementById("longitude").value = results[0].geometry.location.lng();
-                                                document.getElementById("p_longi").innerHTML="Longitude: "+results[0].geometry.location.lng();
-                                                document.getElementById("p_lati").innerHTML="Latitude: "+results[0].geometry.location.lat();
-
-                                                map2.setCenter(results[0].geometry.location);
-                                                var marker = new google.maps.Marker({
-                                                  map: map2,
-                                                  position: results[0].geometry.location
-                                              });
-                                            } else {
-                                              document.getElementById("error_geocode").value = 'Geocode was not successful for the following reason: ' + status;
-                                              alert('Geocode was not successful for the following reason: ' + status);
-                                            }
-                                            });
+                                            infowindow2 = new google.maps.InfoWindow();
+                                        var address = document.getElementById('addressInput').value;
+                                        geocoder2.geocode( { 'address': address}, function(results, status) {
+                                        if (status == 'OK') {
+                                            console.log("lati:"+results[0].geometry.location.lat());
+                                            console.log("longi:"+results[0].geometry.location.lng());
+                                            document.getElementById("latitude").value = results[0].geometry.location.lat();
+                                            document.getElementById("longitude").value = results[0].geometry.location.lng();
+                                            map2.setCenter(results[0].geometry.location);
+                                            var marker = new google.maps.Marker({
+                                              map: map2,
+                                              position: results[0].geometry.location
+                                          });
+                                        } else {
+                                          document.getElementById("error_geocode").value = 'Geocode was not successful for the following reason: ' + status;
+                                          alert('Geocode was not successful for the following reason: ' + status);
+                                        }
+                                        });
+                                        //   initMap();
                                         }
                                 </script>
                                 </div>
-                                <a href="" class="post" onclick="closeModal2(); return false;">Submit</a>
-                            </div>
-                        </div>
-                        
-                        
-                                    
+                                <a href="" onclick="closeModal2(); return false;">Submit</a>
+	                    	</div>
+	                    </div>
+
+
                         <div class="input">
-                            <label id="p_longi" >Longitude: <?php echo $data['longitude']?></label><br>
-                            <label id="p_lati">Latitude: <?php echo $data['latitude']?></label>
-                            <label id="address1" class="brand" for="" >Address: <?php echo $data['address']?></label>
+                            <label class="brand" for="">Adress:</label>
+                            <input id="address" class="brand" type="text" name="brand" disabled >
                         </div>
-                        <div class="input" style="height:0vh;">
-                            <input id="address" class="address" type="hidden" name="address"  >
-                            <input id="error_geocode" class="error_geocode" type="hidden" name="error_geocode"  >
+                        <div class="input">
+                            <input type="text" id="latitude" name="latitude"><br>
+                            <input type="text" id="longitude" name="longitude"><br>
                         </div>
-                        <div class="input" style="height:0vh;">
-                            <input type="hidden" id="latitude" name="latitude"  value="<?php echo $data['latitude']?>"><br>
-                            <input type="hidden" id="longitude" name="longitude"  value="<?php echo $data['longitude']?>"><br>
-                            
-                        </div>
-                    </div>
+
                        <div class="submit">
                             <input type="submit" name="submit" value="Post(Checkout)" class="post">
                             <a class="cancel" href="<?php echo URLROOT;?>/sellers/advertisements">Cancel</a>
@@ -370,52 +344,17 @@
     </div>
 </body>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var checkbox = document.getElementById('show_map');
-        var htmlContent = document.getElementById('html_content');
-        
-        if (checkbox && htmlContent) {
-            
-            checkbox.addEventListener('change', function() {
-                if (checkbox.checked) {
-                    htmlContent.style.display = 'block';
-                } else {
-                    console.log("notchecked");
-                    
-                    htmlContent.style.display = 'none';
-                }
-            });
-        }
-    });
 		function openModal1() {
 			var modal = document.getElementById("myModal1");
 			modal.style.display = "block";
-            <?php if(empty($data['longitude'])){?>
-                document.getElementById("longitude").value = '79.8612';
-                document.getElementById("latitude").value = '6.9271';
-                document.getElementById("p_longi").innerHTML="Longitude: 79.8612";
-                document.getElementById("p_lati").innerHTML="Latitude: 6.9271";
-                document.getElementById("address1").innerHTML = "Address: Colombo, Sri Lanka";
-
-            
-            <?php }?>
-           
 		}
         
         function openModal2() {
-            var modal = document.getElementById("myModal2");
-            modal.style.display = "block";
-            // console.log(map2);
-            <?php if(empty($data['longitude'])){?>
-                document.getElementById("longitude").value = '79.8612';
-                document.getElementById("latitude").value = '6.9271';
-                document.getElementById("p_longi").innerHTML="Longitude: 79.8612";
-                document.getElementById("p_lati").innerHTML="Latitude: 6.9271";
-                document.getElementById("address1").innerHTML = "Address: Colombo, Sri Lanka";
-            
-            <?php }?>
-            
-        }
+                                            var modal = document.getElementById("myModal2");
+                                            modal.style.display = "block";
+                                            // console.log(map2);
+                                            
+                                        }
 
 
 		function closeModal1() {
@@ -426,9 +365,8 @@
 			var modal = document.getElementById("myModal2");
 			modal.style.display = "none";
 		}
-
-        
 	</script>
+
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>
 

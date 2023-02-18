@@ -11,6 +11,8 @@
         private $userModel;
         private $buyerModel;
         private $sellerModel;
+        private $calendar;
+
 
 
         public function __construct(){
@@ -1532,8 +1534,24 @@
 
         }
         
-        
+        //Event calendar
+        public function eventCalendar(){
+            $this->calendar = new Calendar;
+            $this->calendar->add_event('Birthday', '2023-02-23', 1, 'green');
+            $this->calendar->add_event('blue', '2023-02-03', 1, 'blue');
+            $this->calendar->add_event('burly', '2023-02-13', 1, 'burlywood');
+            $this->calendar->add_event('blue', '2023-02-13', 1, 'blue');
+            $this->calendar->add_event('red', '2023-02-13', 1, 'red');
+            $this->calendar->add_event('aqua', '2023-02-13', 1, 'aquamarine');
+            $this->calendar->add_event('bisq', '2023-02-13', 1, 'bisque');
+            $this->calendar->add_event('green', '2023-03-13', 1, 'green');
+            $data= $this->calendar;
+            $this->view('users/calendar',$data);
+                
+        }
             
-        
+        public function map_view(){
+            $this->view('users/map_view');
+        }
         
     }

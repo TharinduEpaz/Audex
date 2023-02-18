@@ -58,6 +58,7 @@
             <?php if( $data['isEmptySearchResults'] == '0' ){ ?>
                 <div class="header">
                     <h1>Search Results</h1>
+
                 </div>
                 <?php foreach($data['searchResults'] as $result) : ?>
                     <div class="container-ad">
@@ -78,6 +79,8 @@
 
         <div class="header">
             <h1>New Arrivals</h1>
+            
+
         </div>
         <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
 

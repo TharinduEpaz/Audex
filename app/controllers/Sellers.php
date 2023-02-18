@@ -15,12 +15,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             if(!isLoggedIn()){
                 echo "not logged in seller";
                 unset($_SESSION['otp']);
-                unset($_SESSION['email']);
-                unset($_SESSION['password']);
-                unset($_SESSION['first_name']);
-                unset($_SESSION['second_name']);
-                unset($_SESSION['phone']);
-                unset($_SESSION['user_type']);
+                unset($_SESSION['otp_email']);
                 unset($_SESSION['attempt']);
                 session_destroy();
                 $_SESSION['url']=URL();
@@ -214,6 +209,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1' => '',
                     'image2' => '',
                     'image3' => '',
+                    'address'=>'',
+                    'longitude' => '',
+                    'latitude' => '',
                     'brand' => trim($_POST['brand']),
                     'model' => trim($_POST['model']),
                     'type'=> 'fixed_price',
@@ -226,6 +224,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1_err' => '',
                     'image2_err' => '',
                     'image3_err' => '',
+                    'error_geocode' => trim($_POST['error_geocode']),
                     'brand_err' => '',
                     'model_err' => '',
                     'category_err' => '',
@@ -238,7 +237,16 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     $data['end_date']=date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' + '.$num_of_dates.' days'));
                     // $data['end_date']=date('Y-m-d  H:i:s',$data['end_date']);
                 }
-
+                if(isset($_POST['show_map'])){
+                    $data['longitude']=trim($_POST['longitude']);
+                    $data['latitude']=trim($_POST['latitude']);
+                    $data['address']=trim($_POST['address']);
+                    
+                }else{
+                    $data['longitude']='';
+                    $data['latitude']='';
+                    $data['address']='';
+                }
                 $user_id=$this->userModel->getUserId($data['user_email']);
                 $data['user_id']=$user_id->user_id;
 
@@ -403,7 +411,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 //     $data['image3_err'] = 'Please upload third image';
                 // }
                 //Make sure no errors
-                if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['brand_err']) && empty($data['model_err'])){
+                if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['error_geocode']) && empty($data['brand_err']) && empty($data['model_err'])){
                     //Validated
                     
                     // if(!empty($_FILES['image3']['name'])){
@@ -421,6 +429,11 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     //     }
                     // }
                     $dat=date('Y-m-d H:i:s');
+                    if($data['longitude']=='' && $data['latitude']==''){
+                        $data['longitude']='NULL';
+                        $data['latitude']='NULL';
+                        $data['address']='NULL';
+                    }
                     
                     $product_id=$this->sellerModel->advertise($data,$dat);
                     if($product_id!=false){
@@ -451,6 +464,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1' => '',
                     'image2' => '',
                     'image3' => '',
+                    'address' => '',
+                    'longitude' => '',
+                    'latitude' => '',
                     'brand' => '',
                     'model' => '',
                     'category' =>'',
@@ -463,6 +479,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1_err' => '',
                     'image2_err' => '',
                     'image3_err' => '',
+                    'error_geocode' => '',
                     'brand_err' => '',
                     'model_err' => '',
                     'category_err' => ''
@@ -955,5 +972,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
         public function dashboard(){
             $this->view('service_providers/dashboard');
         }
+
+        
         
     }

@@ -78,7 +78,7 @@ date_default_timezone_set("Asia/Kolkata");
         }
 
         public function advertise($data,$dat){
-            $this->db->query('INSERT INTO product (email,product_title,product_condition,product_category,product_type,model_no,brand,image1,image2,image3,price,p_description) VALUES(:user_email,:title,:condition,:category,:type,:model,:brand,:image1,:image2,:image3,:price,:description)');
+            $this->db->query('INSERT INTO product (email,product_title,product_condition,product_category,product_type,model_no,brand,image1,image2,image3,address,latitude,longitude,price,p_description) VALUES(:user_email,:title,:condition,:category,:type,:model,:brand,:image1,:image2,:image3,:address,:latitude,:longitude,:price,:description)');
             //Bind values
             $this->db->bind(':user_email', $data['user_email']);
             $this->db->bind(':title', $data['title']);
@@ -90,6 +90,9 @@ date_default_timezone_set("Asia/Kolkata");
             $this->db->bind(':image1', $data['image1']);
             $this->db->bind(':image2', $data['image2']);
             $this->db->bind(':image3', $data['image3']);
+            $this->db->bind(':address', $data['address']);
+            $this->db->bind(':latitude', $data['latitude']);
+            $this->db->bind(':longitude', $data['longitude']);
             $this->db->bind(':price', $data['price']);
             $this->db->bind(':description', $data['description']);
 
