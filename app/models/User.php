@@ -769,80 +769,62 @@ date_default_timezone_set("Asia/Kolkata");
             return $results;
 
         }
-        public function searchAndFilterItems($searchedTerm,$productCategory,$productType,$productPriceMin,$productPriceMax){
-
-            $sql = 'SELECT * FROM product';
-            $where = array();
-
-            // if( isset($searchedTerm) ){
-            //     $where[] = 'product_title LIKE '. '%'.$searchedTerm.'%' ;
-            //     // $this->db->bind(':searchedTerm',$searchedTerm);
-            // }
-            if( isset($productCategory) ){
-                $where[] = "product_category='$productCategory'";
-                // $this->db->bind(':category',$category);
+        // this function works when filter applyies without a search  term
+        public function searchAndFilterItems($filter){
+            $sql='';
+            foreach($filter as $key=>$value){
+                if($key==='min_price'){
+                    $sql.='price >= :min_price';
+                }
+                else if($key=='max_price'){
+                    $sql.='price >= :min_price';
+                }
+                else{
+                    $sql.=$key." = :".$key."";
+                }
+                $sql.=' AND ';
             }
-            if( isset($productType) ){
-                $where[] = "product_type='$productType'";
-                // $this->db->bind(':types',$type);
+            $sql=substr($sql,0,-4);
+            
+            $this->db->query('SELECT * FROM product WHERE '.$sql);
+            foreach($filter as $key=>$value){
+                $this->db->bind(':'.$key, $value);
             }
-            if( isset($productPriceMin) ){
-                $where[] = "price >='$productPriceMin'";
-                // $this->db->bind(':price',$priceMin);
-            }
-            if( isset($productPriceMax) ){
-                $where[] = "price <='$productPriceMin'";
-                // $this->db->bind(':price',$priceMin);
-            }
-            // if( isset($priceMax) ){
-            //     $where[] = 'price >='.':priceMax';
-            //     $this->db->bind(':price',$priceMax);
-            // }
-                    
-            if (count($where)) {
-              $sql .= " WHERE ".implode(" AND ", $where);
-            }
-        // return $sql;
-            $this->db->query($sql);
             $results = $this->db->resultSet();
             return $results;
+        }
+        // this function calls when search term is set
+        public function searchAndFilterItemsWithSearchTerm($filter,$searchedTerm){
+            $sql='';
+            foreach($filter as $key=>$value){
+                if($key==='min_price'){
+                    $sql.='price >= :min_price';
+                }
+                else if($key=='max_price'){
+                    $sql.='price >= :min_price';
+                }
+                else{
+                    $sql.=$key." = :".$key."";
+                }
+                $sql.=' AND ';
+            }
+            $sql=substr($sql,0,-4);
 
-            // $sql = "SELECT * FROM product ";
-            // $where = array();
-        
-            // // if ($searchedTerm) {
-            // //   $where[] = "product_title LIKE :searchedTerm";
-            // //   $this->db->bind(':searchedTerm', '%'.$searchedTerm.'%');
-            // // //   $this->db->bind(':searchedTerm', $searchedTerm);
-              
-            // // }
-        
-            // if ($category) {
-            //   $where = "SELECT * FROM product where product_category = :$category";
-            //   $this->db->bind(':category', $category);
-
-            // }
+            // echo $sql;
             
-            // // if ($type) {
-            // //   $where[] = "product_type = '".$this->db->escape($type)."'";
-            // // }
-            
-            // // if ($priceMin || $priceMax) {
-            // //   $where[] = "price BETWEEN ".intval($priceMin)." AND ".intval($priceMax);
-            // // }
-        
-        
-            // // if (count($where)) {
-            // //   $sql .= " WHERE ".implode(" AND ", $where);
-            // // }
-        
-            // $this->db->query($where);
+            $this->db->query('SELECT * FROM product WHERE product_title LIKE :searchedTerm AND '.$sql);
+            $this->db->bind(':searchedTerm', '%'.$searchedTerm.'%');
 
-            // return $this->db->resultSet();
+            foreach($filter as $key=>$value){
+                $this->db->bind(':'.$key, $value);
+            }
+            // print_r($this->db);
+            // exit;
+            $results = $this->db->resultSet();
+            return $results;
         }
 
         
-
         public function getServiceProvidersPublic($id){
             
             

@@ -1437,8 +1437,8 @@
       
         }
         public function shopSearchItems(){
-
             $searchedTerm = $_POST['search-item'];
+
             
             if( !isset($_POST['submit']) ){
               // this is for keyup event
@@ -1457,35 +1457,88 @@
                 $productPriceMax = $_POST['price-max'];
                 $productType = $_POST['type'];
 
+                $Filter=[];
+
+                if( empty(trim($searchedTerm)) and empty(trim($productCategory)) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType))) 
+                {
+                    // if all filters are empty
+                    echo json_encode([]);
+                }
+                else if( empty(trim($searchedTerm)) )
+                {
+                    if(!empty(trim($productCategory))){
+                        $Filter['product_category']=$productCategory;
+                    }
+                    if(!empty(trim($productPriceMin))){
+                        $Filter['min_price']=(int) $productPriceMin;
+                    }
+                    if(!empty(trim($productPriceMax))){
+                        $Filter['max_price']=(int) $productPriceMax;
+                    }
+                    if(!empty(trim($productType))){
+                        $Filter['product_type']= $productType;
+                    }
+                    $results = $this-> userModel->searchAndFilterItems($Filter);
+
+                    $_SESSION['searchTerm'] = $searchedTerm;
+                    // $_SESSION['searchResults'] = $results;
+                    // echo $_SESSION['searchResults'];
+    
+                    echo json_encode($results);
+                }
+                else if( !empty(trim($searchedTerm)) )
+                {
+                    // search term has set
+                    if( !empty(trim($searchedTerm)) and empty(trim($productCategory)) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType))) 
+                    {
+                        // if all filters are empty except search term
+                        $results = $this-> userModel->searchItems($searchedTerm);
+                        echo json_encode($results);
+                    }
+                    else{
+                        if(!empty(trim($productCategory))){
+                            $Filter['product_category']=$productCategory;
+                        }
+                        if(!empty(trim($productPriceMin))){
+                            $Filter['min_price']=(int) $productPriceMin;
+                        }
+                        if(!empty(trim($productPriceMax))){
+                            $Filter['max_price']=(int) $productPriceMax;
+                        }
+                        if(!empty(trim($productType))){
+                            $Filter['product_type']= $productType;
+                        }
+                        $results = $this-> userModel->searchAndFilterItemsWithSearchTerm($Filter,$searchedTerm);
+                        $_SESSION['searchTerm'] = $searchedTerm;
+                        // $_SESSION['searchResults'] = $results;
+                        // echo $_SESSION['searchResults'];
+        
+                        echo json_encode($results);
+                    }
+
+
+                }
+
                 // echo $searchedTerm;
                 // echo $productCategory;
                 // echo $productType;
                 // echo $productPriceMax;
                 // echo $productPriceMin;
-
-              
-                $results = $this-> userModel->searchAndFilterItems($searchedTerm,$productCategory,$productType,$productPriceMin,$productPriceMax);
-                $_SESSION['searchTerm'] = $searchedTerm;
-                // $_SESSION['searchResults'] = $results;
-                // echo $_SESSION['searchResults'];
-
-                echo json_encode($results);
-              
       
             }
       
         }
         public function serviceProviderPublic()
-    {
-        $id = $_GET['id'];
-        $d = $this->userModel->getServiceProvidersPublic($id);
-        $data = [
-            'details' => $d
-        ];
+        {
+            $id = $_GET['id'];
+            $d = $this->userModel->getServiceProvidersPublic($id);
+            $data = [
+                'details' => $d
+            ];
 
-        $this->view('users/service_provider_public', $data);
+            $this->view('users/service_provider_public', $data);
 
-    }
+        }
 
         public function rateSeller(){
 
