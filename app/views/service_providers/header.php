@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css?id=1425';?>">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/service_provider.css?id=325';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/service_provider.css?id=25';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/style.css?id=1445';?>">
   
 
@@ -48,6 +48,6 @@
         <a href="<?php echo URLROOT . '/service_providers/dashboard';?>" id="dashboard"><i class="fas fa-qrcode" ></i> <span>Dashboard</span></a>
         <a href="<?php echo URLROOT . '/service_providers/profile';?>" id="profile-settings"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile</span></a>
         <a href="<?php echo URLROOT .'/service_providers/feed'?>" id="feed"> <i class="fa fa-ad" aria-hidden="true"></i><span>Feed</span></a>
-        <a href="<?php echo URLROOT .'/service_providers/eventCalander'?>" id="calender"> <i class="fa fa-calendar" aria-hidden="true"></i><span>Calender</span></a>
+        <a href="<?php echo URLROOT .'/service_providers/eventCalander?month=current'?>" id="calender"> <i class="fa fa-calendar" aria-hidden="true"></i><span>Calender</span></a>
         <a href="<?php echo URLROOT .'/service_providers/messages'?>" id="messages"> <i class="fa fa-comments"></i><span>Messages</span></a>       
     </div>

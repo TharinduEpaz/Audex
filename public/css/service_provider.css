@@ -284,7 +284,7 @@ button:hover{
 
 .service-provider-profile .white-box .dashboard-container{
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap; 
     column-gap: 50px;
     row-gap: 50px;
     margin-top: 50px;
@@ -306,8 +306,7 @@ button:hover{
     flex-direction: column;
     padding: 10px;
     flex-grow: 1;
-    
-    
+
 }
 
 /* Sound engineers main page CSS */
@@ -394,3 +393,85 @@ box-shadow: 0px 0px 49px -24px rgba(0,0,0,0.75);
 .sound-eng .sound-eng-profiles .rating-stars i{
     
 }
+
+.service-provider-profile .header-section{
+    margin-top:7vh;
+    display:flex;
+    justify-content: center;
+ 
+
+}
+.service-provider-profile .header-section .previous-button{
+
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  display: inline-block;
+
+}
+
+
+
+.service-provider-profile .header-section .month-display{
+  margin:auto;
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 10px;
+  display: inline-block;
+  padding-left: 300px;
+  padding-right:300px;
+  font-weight: 600;
+}
+.service-provider-profile .header-section .next-button{
+
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.service-provider-profile .white-box .calendar {
+    display: grid;
+  
+
+
+    background-color: #fff;
+    padding: 10px;
+  }
+
+  
+  .service-provider-profile .white-box .calendar .calendar-days {
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(7, 1fr);
+  }
+  
+  .service-provider-profile .white-box .calendar .calendar-day {
+    background-color: #ccc;
+    width:120px;
+    height: 120px;
+    text-align: center;
+  }
+  
+  .service-provider-profile .white-box .calendar .calendar-date {
+    background-color: #fff;
+    height: 120px;
+    width:120px;
+    text-align: right;
+    padding:5px;
+    font-size: 30px;
+    font-weight: 100;
+    
+  }  
+  .service-provider-profile .white-box .calendar .calendar-date .calender-event{
+    background-color: #e9e9e9;
+    font-size: 16px;
+    padding:5px;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 5px;
+    display: inline-block;
+    margin-right: 5px;
+    margin-top: 5px;
+    display: block;
+  }

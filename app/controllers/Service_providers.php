@@ -183,9 +183,6 @@ class Service_providers extends Controller
         redirect('service_providers/profile/');
     }
 
-
-    
-
     public function feed()
     {
 
@@ -232,8 +229,6 @@ class Service_providers extends Controller
 
             $this->service_model->setEvent($event_details, $_SESSION['user_id']);
 
-
-
         }
     }
 
@@ -241,10 +236,39 @@ class Service_providers extends Controller
     {
         $this->view('service_providers/dashboard');
     }
+
     public function eventCalander(){
-        $this->view('service_providers/eventCalander');
+
+        $month = $_GET['month'];
+
+        if ($month == 'current') {
+            $_SESSION['current'] = date('m');
+        }
+        if ($month == 'next') {
+            $_SESSION['current'] = $_SESSION['current'] + 1;
+        }
+        if ($month == 'previous') {
+            $_SESSION['current'] = $_SESSION['current'] - 1;
+        }
         
+        // Update the displayed month name based on the new value of $current
+        $monthName = date('F', mktime(0, 0, 0, $_SESSION['current'], 1));
+        
+        $events = $this->service_model->getEventsByMonth($_SESSION['user_id'],$_SESSION['current']);
+        
+        $data = [
+            'events' => $events,
+            'month' => $monthName,
+            'no' => $_SESSION['current']
+        ];
+        
+        
+      
+        
+   
+        $this->view('service_providers/eventCalander',$data);
     }
+
     public function messages(){
         $this->view('service_providers/chat');
     }

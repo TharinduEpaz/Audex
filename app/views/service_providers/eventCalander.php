@@ -1,59 +1,94 @@
-
-
 <div class="service-provider-profile">
-<h2 style="margin-top:70px"> Your January Events will appear here </h2>
-  
-        <div class="button-section">
-            
-    
-        <div class="white-box">
-        <button>Next Month</button>
-        
 
-        <div class="feed_items_container">
-            <div class="feed-item item1"></div>
-            <div class="feed-item item2"></div>
-            <div class="feed-item item3"></div>
-            <div class="feed-item item3"></div>
-            <div class="feed-item item1"></div>
-            <div class="feed-item item2"></div>
-            <div class="feed-item item3"></div>
-            <div class="feed-item item3"></div>
-           
-            
-
-        </div>
- 
+    <div class="header-section">
+        <div class="previous-button">
+            <a href="<?php echo URLROOT . '/service_providers/eventCalander?month=previous' ?>">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i> </a>
         </div>
 
-        
-
+        <div class="month-display">
+            <span><?php echo $data['month'] ?></span>
+        </div>
+        <div class="next-button">
+            <a href="<?php echo URLROOT . '/service_providers/eventCalander?month=next' ?>">
+                <i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+        </div>
     </div>
 
-    <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
+    <div class="white-box" style="margin-top:2vh">
+        <div class="calendar">
 
-    <script>
+            <div class="calendar-days">
+                <?php $days_in_month = cal_days_in_month(CAL_GREGORIAN, $data['no'], date('Y')); ?>
 
-        //keeping the sidebar button clicked at the page
+                <?php for ($i = 1; $i <= $days_in_month; $i++) : ?>
+                <div class="calendar-date"><?php echo $i; ?>
+                    <div class="calender-event">
+                        <?php $currentMonth = $data['no']; ?>
+                        <?php str_pad($currentMonth, 2, "0", STR_PAD_LEFT); ?>
+                
+                        <?php foreach ($data['events'] as $event) : ?>
+                        <?php $eventMonth = date('m', strtotime($event->date)); ?>
+                        <?php $eventDay = date('d', strtotime($event->date)); ?>
 
-        link = document.querySelector('#calender');
-        link.style.background = "#E5E9F7";
-        link.style.color = "red";
+                        <?php if ($eventMonth == $currentMonth && $eventDay == $i) : ?>
+                        <span> <?php echo $event->name ?></span>
+                        <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <?php endfor; ?>
 
-        error = document.querySelector('.red-alert');
-        error.style.color = "#FF0000"
+            </div>
+        </div>
+    </div>
 
-        editButton = document.querySelector('.btn');
 
-        if (error) {
 
-            editButton.style.animation = "alert 2s ease 0s infinite normal forwards"
-            editButton.style.color = "#FF0000"
-            editButton.style.background = "#E5E9F7"
-            
-        }
 
-    </script>
+</div>
+
+
+
+</div>
+
+<script src="<?php echo URLROOT . '/public/js/form.js'; ?>"></script>
+
+<script>
+//keeping the sidebar button clicked at the page
+
+link = document.querySelector('#calender');
+link.style.background = "#E5E9F7";
+link.style.color = "red";
+
+error = document.querySelector('.red-alert');
+error.style.color = "#FF0000"
+
+editButton = document.querySelector('.btn');
+
+if (error) {
+
+    editButton.style.animation = "alert 2s ease 0s infinite normal forwards"
+    editButton.style.color = "#FF0000"
+    editButton.style.background = "#E5E9F7"
+
+}
+
+//following code is for the calender to give random colors to the events
+
+// Get all elements with the class name "myDiv"
+var divs = document.querySelector(".calender-event");
+
+// Loop through each element and set a random background color
+for (var i = 0; i < divs.length; i++) {
+    // Generate a random color using the Math.random() method
+    var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+
+    // Set the background color of the current element
+    divs[i].style.backgroundColor = color;
+}
+</script>
 
 </body>
+
 </html>

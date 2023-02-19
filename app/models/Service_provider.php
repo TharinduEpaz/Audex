@@ -77,15 +77,21 @@ class Service_provider
     public function setImage($file_name, $user_id){
 
         $this->db->query('UPDATE service_provider SET profile_image = :image WHERE user_id = :id');
-
         $this->db->bind(':image', $file_name);
         $this->db->bind(':id', $user_id);
-
         $this->db->execute();
 
     }
-  
-               
+
+    public function getEventsByMonth($user_id,$month){
+        $this -> db -> query('SELECT * FROM events WHERE user_id = :id AND MONTH(date) = :month');
+        $this -> db -> bind(':id', $user_id);
+        $this -> db -> bind(':month', $month);
+        $events = $this -> db -> resultSet();
+        
+        return $events;
+    }
+     
 }
 
 
