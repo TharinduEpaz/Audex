@@ -395,8 +395,10 @@ box-shadow: 0px 0px 49px -24px rgba(0,0,0,0.75);
 }
 
 .service-provider-profile .header-section{
+    margin-top:7vh;
     display:flex;
     justify-content: center;
+ 
 
 }
 .service-provider-profile .header-section .previous-button{

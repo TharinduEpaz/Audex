@@ -1,93 +1,47 @@
 <div class="service-provider-profile">
-    <h2 style="margin-top:70px"> Event Calander </h2>
 
     <div class="header-section">
-    <div class="previous-button">
-    <i class="fa fa-chevron-left" aria-hidden="true"></i></div>
+        <div class="previous-button">
+            <a href="<?php echo URLROOT . '/service_providers/eventCalander?month=previous' ?>">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i> </a>
+        </div>
 
-    <div class="month-display">
-        <span>January</span>
+        <div class="month-display">
+            <span><?php echo $data['month'] ?></span>
+        </div>
+        <div class="next-button">
+            <a href="<?php echo URLROOT . '/service_providers/eventCalander?month=next' ?>">
+                <i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+        </div>
     </div>
-    <div class="next-button">
-        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-    </div>
-</div>
 
-<div class="white-box">
-<div class="calendar">
+    <div class="white-box" style="margin-top:2vh">
+        <div class="calendar">
 
-  <div class="calendar-days">
+            <div class="calendar-days">
+                <?php $days_in_month = cal_days_in_month(CAL_GREGORIAN, $data['no'], date('Y')); ?>
 
-    <div class="calendar-date">1
-        <div class="calender-event">
-            <span>DJ fest FX</span>
+                <?php for ($i = 1; $i <= $days_in_month; $i++) : ?>
+                <div class="calendar-date"><?php echo $i; ?>
+                    <div class="calender-event">
+                        <?php $currentMonth = $data['no']; ?>
+                        <?php str_pad($currentMonth, 2, "0", STR_PAD_LEFT); ?>
+                
+                        <?php foreach ($data['events'] as $event) : ?>
+                        <?php $eventMonth = date('m', strtotime($event->date)); ?>
+                        <?php $eventDay = date('d', strtotime($event->date)); ?>
+
+                        <?php if ($eventMonth == $currentMonth && $eventDay == $i) : ?>
+                        <span> <?php echo $event->name ?></span>
+                        <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <?php endfor; ?>
+
+            </div>
         </div>
     </div>
-    <div class="calendar-date">2</div>
-    <div class="calendar-date">3</div>
-    <div class="calendar-date">4</div>
-    <div class="calendar-date">5</div>
-    <div class="calendar-date">6
-    <div class="calender-event">
-            <span>Millenium Night</span>
-        </div>
-        <div class="calender-event">
-            <span>DJ fest FX</span>
-        </div>
-    </div>
-    <div class="calendar-date">7</div>
-    <div class="calendar-date">8</div>
-    <div class="calendar-date">9</div>
-    <div class="calendar-date">10</div>
-    <div class="calendar-date">11
-    <div class="calender-event">
-            <span>Edu Session</span>
-        </div>
-    </div>
-    <div class="calendar-date">12</div>
-    <div class="calendar-date">13</div>
-    <div class="calendar-date">14</div>
-    <div class="calendar-date">15</div>
-    <div class="calendar-date">16</div>
-    <div class="calendar-date">17</div>
-    <div class="calendar-date">18
-    <div class="calender-event">
-            <span>DJ Night</span>
-        </div>
-        <div class="calender-event">
-            <span>PDR vibes</span>
-        </div>
-    </div>
-    <div class="calendar-date">19</div>
-    <div class="calendar-date">20</div>
-    <div class="calendar-date">21</div>
-    <div class="calendar-date">22
-    <div class="calender-event">
-            <span>DJ Night</span>
-        </div>
-        <div class="calender-event">
-            <span>Visiting Lecture</span>
-        </div>
-    </div>
-    <div class="calendar-date">23</div>
-    <div class="calendar-date">24</div>
-    <div class="calendar-date">25</div>
-    <div class="calendar-date">26</div>
-    <div class="calendar-date">27
-    <div class="calender-event">
-            <span>DJ fest FX</span>
-        </div>
-    </div>
-    <div class="calendar-date">28</div>
-    <div class="calendar-date">29</div>
-    <div class="calendar-date">30</div>
-    <div class="calendar-date">31
-    <div class="calender-event">
-            <span>DJ fest FX</span>
-        </div>
-    </div>
-  </div>
-</div>
 
 
 
@@ -101,24 +55,38 @@
 <script src="<?php echo URLROOT . '/public/js/form.js'; ?>"></script>
 
 <script>
-    //keeping the sidebar button clicked at the page
+//keeping the sidebar button clicked at the page
 
-    link = document.querySelector('#calender');
-    link.style.background = "#E5E9F7";
-    link.style.color = "red";
+link = document.querySelector('#calender');
+link.style.background = "#E5E9F7";
+link.style.color = "red";
 
-    error = document.querySelector('.red-alert');
-    error.style.color = "#FF0000"
+error = document.querySelector('.red-alert');
+error.style.color = "#FF0000"
 
-    editButton = document.querySelector('.btn');
+editButton = document.querySelector('.btn');
 
-    if (error) {
+if (error) {
 
-        editButton.style.animation = "alert 2s ease 0s infinite normal forwards"
-        editButton.style.color = "#FF0000"
-        editButton.style.background = "#E5E9F7"
+    editButton.style.animation = "alert 2s ease 0s infinite normal forwards"
+    editButton.style.color = "#FF0000"
+    editButton.style.background = "#E5E9F7"
 
-    }
+}
+
+//following code is for the calender to give random colors to the events
+
+// Get all elements with the class name "myDiv"
+var divs = document.querySelector(".calender-event");
+
+// Loop through each element and set a random background color
+for (var i = 0; i < divs.length; i++) {
+    // Generate a random color using the Math.random() method
+    var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+
+    // Set the background color of the current element
+    divs[i].style.backgroundColor = color;
+}
 </script>
 
 </body>
