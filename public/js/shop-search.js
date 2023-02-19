@@ -4,6 +4,7 @@ const resultTable = document.getElementById("search-results-table");
 const shopSearchForm = document.getElementById("shop-search-form");
 const inputField = document.getElementById("shop-search-item-term");
 const resultsToShop = document.getElementById("shop-search-results");
+const shopResultArea = document.getElementById("shop-page-search-result-area");
 // console.log(resultsToShop);
 
 
@@ -66,6 +67,7 @@ shopSearchForm.addEventListener("submit", (e) =>{
         return responce.json();
     })
     .then((data)=>{
+        // console.log(data);
         // redirect to the "shop" page and pass the data as a parameter in the URL
 
         // window.location.href = URLROOT+"/users/shop";
@@ -77,20 +79,20 @@ shopSearchForm.addEventListener("submit", (e) =>{
 
             var link = "<a href ="+"http://localhost/Audex/buyers/advertiesmentDetails/"+result.product_id+ " >";
 
-            html += "<div class = 'search-result-all' >"+ 
-                        "<div class = 'search-result-image' >"+ link+ imgLink+ "</a> </div>" +
-                        "<div class = search-result-description >" + link + result.product_title +" "+ result.product_condition+ " " +result.price+ "</a> </div>"+
+            html += "<div class = 'container-ad' >"+ 
+                        "<div class = 'container-img' >"+ link+ imgLink+ "</a> </div>" +
+                        "<div class = title >" + link + result.product_title +" "+ result.product_condition+ " " +result.price+ "</a> </div>"+
                     "</div>";
                 
         }
         // console.log("Pressed Enter");
-        resultTable.style.visibility = "hidden"
-        resultTable.innerHTML = '';
         console.log(html);
+        shopResultArea.innerHTML = html;
         // resultsToShop.innerHTML= html;
-        // data.forEach(function(result){
-        //     console.log(result.product_title,result.price,result.product_category);
-        // })
+        resultTable.style.visibility = "hidden"
+        resultTable.innerHTML = 'Hell';
+        document.getElementById('shop-search-results').innerHTML = '';
+        
 
 
 

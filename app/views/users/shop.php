@@ -33,8 +33,9 @@
                     <select name="category" id="category">
                         <option value="">All</option>
                         <option value="microphone">Microphone</option>
+                        <option value="amplifier">Amplifier</option>
+                        <option value="speaker">Speaker</option>
                         <option value="mixer">Mixer</option>
-                        <option value="guitar">Guitar</option>
                     </select>
                     <label for="price">Price Min:</label>
                     <input type="text" name="price-min" placeholder="Price Min" style="width: 10%; border-radius: 0 0 0 0;" >
@@ -75,6 +76,8 @@
                 <?php endforeach; ?>
 
             <?php }; ?>
+        </div>
+        <div id="shop-page-search-result-area">
         </div>
 
         <div class="header">
