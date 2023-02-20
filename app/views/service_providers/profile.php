@@ -16,7 +16,7 @@
                 <div class="rating"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star"
                         aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star"
                         aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></div>
-            </div>
+                </div>
         </div>
         <div class="profile-info">
             <div class="description">

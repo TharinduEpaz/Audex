@@ -74,19 +74,7 @@ if (error) {
 
 }
 
-//following code is for the calender to give random colors to the events
 
-// Get all elements with the class name "myDiv"
-var divs = document.querySelector(".calender-event");
-
-// Loop through each element and set a random background color
-for (var i = 0; i < divs.length; i++) {
-    // Generate a random color using the Math.random() method
-    var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-
-    // Set the background color of the current element
-    divs[i].style.backgroundColor = color;
-}
 </script>
 
 </body>
