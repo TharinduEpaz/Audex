@@ -1071,6 +1071,45 @@
               }
             }
           }
+          public function addServiceProviderToWatchList(){
+            if(!isLoggedIn()){
+              $_SESSION['url']=URL();
+
+              redirect('users/login');
+            }
+            // echo $_POST['user_id'];
+
+            if($_POST['user_id'] == 0){
+              redirect('users/login');
+            }
+            else{
+                $buyerId = $_POST['user_id'];
+                $serviceProviderId = $_POST['service_provider_id'];
+
+                // echo $buyerId;
+                // echo $serviceProviderId;
+
+                if (isset($_POST['add'])){
+                    // check weather service provider is alredy in watch list or not
+                    $result1 = $this->userModel->checkIsServiceProviderWatched($buyerId,$serviceProviderId);
+
+                    if (empty($result1)) {
+                        $addToList = $this->userModel->addServiceProviderToWatchList($buyerId,$serviceProviderId);
+                        if ($addToList) {
+                            echo json_encode(['message' => 'Added to the list']);
+                        } else {
+                            echo json_encode(['message' => 'Some thing went wrong']);
+                        }
+                    }
+                    else
+                    {
+                        // if service provider is alredy in list then nothig to do
+                        echo json_encode(['message' => 'Alredy in the list']);
+                    }
+                }
+            }
+          }
+
           
           public function removeItemFromWatchList($p_id,$u_id){
             if(!isLoggedIn()){
@@ -1547,9 +1586,24 @@
         {
             $id = $_GET['id'];
             $d = $this->userModel->getServiceProvidersPublic($id);
+
+
             $data = [
                 'details' => $d
             ];
+
+            if(isLoggedIn()){
+                $ServiceProviderWatched = $this->userModel->checkIsServiceProviderWatched($_SESSION['user_id'],$id);
+                if( empty($ServiceProviderWatched->email_buyer) ){
+                    // Item is not in watch list
+                    $data['watched'] = 'notwatched';
+                }
+                else{
+                    $data['watched'] = 'watched';
+                }
+            }
+            // print_r($ServiceProviderWatched);
+            // exit();
 
             $this->view('users/service_provider_public', $data);
 
