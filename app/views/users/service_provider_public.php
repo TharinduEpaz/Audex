@@ -52,7 +52,6 @@
         </nav>
     </div>
 
-
     <div class="service-provider-profile">
         <div class="white-box">
             <div class="profile-title">

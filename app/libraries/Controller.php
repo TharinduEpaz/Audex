@@ -24,7 +24,7 @@
             $page = $url[1];
            
 
-            if(file_exists('../app/views/'. $user .'/header.php') && $page != 'index'){
+            if(file_exists('../app/views/'. $user .'/header.php') && $page != 'index' && $page != 'event'){
                 
                 require_once '../app/views/'. $user .'/header.php';
             }

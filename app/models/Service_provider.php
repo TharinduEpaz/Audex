@@ -55,13 +55,13 @@ class Service_provider
         // $this->db->query('INSERT INTO events (name, description, date, user_id, location, ticket_link) VALUES (:name, :description, :date, :user_id, :location, :ticketLink)');
 
 
-        $this->db->query('INSERT INTO `events` (`event_id`, `name`, `description`, `date`, `user_id`, `public_event`, `location`, `ticket_link`, `time`) VALUES (NULL, :name, :description, :date, :user_id, NULL, :location, :ticketLink , 12);');
+        $this->db->query('INSERT INTO `events` (`name`, `description`, `date`, `user_id`, `public_event`, `location`, `ticket_link`, `time`) VALUES ( :name, :description, :date, :user_id, :public, :location, :ticketLink , 12);');
 
         // $event_details = array($name, $date, $public_event, $location, $link, $description); 
 
         $this->db->bind(':name', $data[0]);
         $this->db->bind(':date', $data[1]);
-        // $this->db->bind(':public', $data[2]);
+        $this->db->bind(':public', $data[2]);
         $this->db->bind(':location', $data[3]);
         $this->db->bind(':ticketLink', $data[4]);
         $this->db->bind(':description', $data[5]);
@@ -90,6 +90,17 @@ class Service_provider
         $events = $this -> db -> resultSet();
         
         return $events;
+    }
+
+    public function event($event_id){
+
+        $this -> db -> query('SELECT * FROM events WHERE event_id = :id');
+        $this -> db -> bind(':id', $event_id);
+        
+        $event = $this -> db -> single();
+        
+        return $event;
+
     }
      
 }

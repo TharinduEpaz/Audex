@@ -26,7 +26,7 @@
                     <div class="calender-event">
                         <?php $currentMonth = $data['no']; ?>
                         <?php str_pad($currentMonth, 2, "0", STR_PAD_LEFT); ?>
-                
+
                         <?php foreach ($data['events'] as $event) : ?>
                         <?php $eventMonth = date('m', strtotime($event->date)); ?>
                         <?php $eventDay = date('d', strtotime($event->date)); ?>
@@ -38,18 +38,9 @@
                     </div>
                 </div>
                 <?php endfor; ?>
-
             </div>
         </div>
     </div>
-
-
-
-
-</div>
-
-
-
 </div>
 
 <script src="<?php echo URLROOT . '/public/js/form.js'; ?>"></script>
@@ -73,8 +64,6 @@ if (error) {
     editButton.style.background = "#E5E9F7"
 
 }
-
-
 </script>
 
 </body>
