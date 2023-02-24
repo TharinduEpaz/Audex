@@ -91,17 +91,6 @@ class Service_provider
         
         return $events;
     }
-
-    public function event($event_id){
-
-        $this -> db -> query('SELECT * FROM events WHERE event_id = :id');
-        $this -> db -> bind(':id', $event_id);
-        
-        $event = $this -> db -> single();
-        
-        return $event;
-
-    }
      
 }
 

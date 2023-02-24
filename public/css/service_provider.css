@@ -404,4 +404,77 @@ button:hover {
   margin-right: 5px;
   margin-top: 5px;
   display: block;
-}/*# sourceMappingURL=service_provider.css.map */
+}
+
+/* CSS for event pop ups*/
+.event{
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%) scale(0); /* scale 0 is used to hide the event  */
+  border: 1px solid black;
+  border-radius: 10px;
+  z-index: 10;
+  background-color: white;
+  width: 800px;
+  max-width: 80%;
+}
+.event.active{
+  transform: translate(-50%,-50%) scale(1); /* scale 0 is used to hide the event  */
+
+}
+
+.event .event-header{
+  padding:10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid black;
+
+}
+.event-header .title{
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.event-header .close-button{
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 2rem;
+    font-weight: bold;
+}
+.event-body{
+  padding:10px 15px;
+}
+#overlay{
+  opacity: 0;
+  position: fixed;
+  top:0;
+  bottom: 0;
+  left:0;
+  right:0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  pointer-events: none; 
+  /* after the overlay is activate we can click on the buttons and the page by setting this pointer events to none */
+
+  transition: 200ms ease-in-out;
+}
+#overlay.active{
+  opacity: 1;
+  pointer-events: all;
+}
+.service-provider-profile .white-box .calendar .calendar-date .calender-event #event-button {
+  background-color: #007bff; /* Set the background color */
+  color: #fff; /* Set the text color */
+  padding: 10px 20px; /* Add padding to the button */
+  border-radius: 5px; /* Add rounded corners */
+  border: none; /* Remove the border */
+  cursor: pointer; /* Add a pointer cursor on hover */
+}
+
+.calander-event.service-provider-profile .white-box .calendar .calendar-date .calender-event #event-button:hover {
+  background-color: #0062cc; /* Change the background color on hover */
+}

@@ -1,0 +1,23 @@
+
+$background-color: #E5E9F7;
+$blue: #002EF9;
+$black-shade: #1A1A1B;
+$red-shade: #F01131;
+
+*{
+  
+}
+
+.main-container{
+ 
+    background-color: $background-color;
+}
+
+.main-container .event-box{
+    background-color: white;
+    margin: auto;
+    width: 80vw;
+    height: 80vh;
+    display: flex;
+    margin-top: 10vh;
+}

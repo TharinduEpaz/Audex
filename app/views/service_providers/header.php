@@ -13,6 +13,7 @@
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
     <title>Audex</title>
+    <script defer src="<?php echo URLROOT . '/public/js/service_provider.js'; ?>"></script>
 </head>
 <body>
 <div class="navbar">

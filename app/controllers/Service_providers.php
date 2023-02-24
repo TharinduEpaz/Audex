@@ -303,15 +303,7 @@ class Service_providers extends Controller
         $this->view('service_providers/chat');
     }
 
-    public function event(){
-
-        // $event_id = $_GET('id');
-        // $data = $this->service_model->event($event_id);
-
-        $this->view('service_providers/event',$data);
-
-
-    }
+ 
 
 }
 
