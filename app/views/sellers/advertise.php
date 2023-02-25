@@ -89,7 +89,7 @@
                                 ?> 
                         <div class="input">
                             <label for="">Price</label>
-                            <input class="price" type="text" name="price"  placeholder="xxxx.xx" value="<?php echo $data['price']?>"  >
+                            <input class="price" type="number" name="price"  placeholder="xxxx.xx" value="<?php echo $data['price']?>"  >
                         </div>
                         <div class="input">
                             <label for="check_au" >Auction(optional)</label>

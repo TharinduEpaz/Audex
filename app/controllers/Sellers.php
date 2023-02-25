@@ -12,11 +12,14 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
 
         public function __construct(){
-            if(!isLoggedIn()){
-                echo "not logged in seller";
-                unset($_SESSION['otp']);
+            if(isset($_SESSION['attempt'])){
                 unset($_SESSION['otp_email']);
+                unset($_SESSION['phone']);
                 unset($_SESSION['attempt']);
+                unset($_SESSION['time']);
+            }
+            if(!isLoggedIn()){
+                
                 session_destroy();
                 $_SESSION['url']=URL();
 
@@ -36,6 +39,11 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
         }
 
     public function getProfile($id){ 
+        
+        if(isset($_SESSION['phone'])){
+            unset($_SESSION['phone']);
+            unset($_SESSION['attempt']);
+        }
       if(!isLoggedIn()){
         $_SESSION['url']=URL();
 
@@ -259,6 +267,10 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 }
                 if(empty($data['price'])){
                     $data['price_err'] = 'Please enter price';
+                }else{
+                    if(!is_numeric($data['price'])) {
+                        $data['price_err'] = 'Please enter valid price';
+                    }
                 }
                 if($data['price']<=0){
                     $data['price_err'] = 'Please enter valid price';

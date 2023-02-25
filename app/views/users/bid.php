@@ -97,7 +97,7 @@
                                     <input type="submit" name="submit" value="Bid" class="bid_button"><br>
                                     <button type="button" id="form-close" class="close">Cancel</button>
                                     </div>
-    <p>* By clicking BID button, you are accepting to buy the product if you become the winner</p>
+                                        <p>* By clicking BID button, you are accepting to buy the product if you become the winner</p>
                                 </form>
                         </div>
                         

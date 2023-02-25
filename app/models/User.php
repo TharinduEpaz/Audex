@@ -8,12 +8,11 @@ date_default_timezone_set("Asia/Kolkata");
 
         //Register User
         public function register($data,$dat){
-            $this->db->query('INSERT INTO user (first_name, second_name, email, phone_number, user_type,registered_date,password,otp,email_active) VALUES(:first_name, :second_name, :email, :phone,:user_type,:t, :password,:otp, 0)');
+            $this->db->query('INSERT INTO user (first_name, second_name, email,  user_type,registered_date,password,otp,email_active) VALUES(:first_name, :second_name, :email,:user_type,:t, :password,:otp, 0)');
             //Bind values
             $this->db->bind(':first_name', $data['first_name']);
             $this->db->bind(':second_name', $data['second_name']);
             $this->db->bind(':email', $data['email']);
-            $this->db->bind(':phone', $data['phone']);
             $this->db->bind(':user_type', $data['user_type']);
             $this->db->bind(':t', $dat);
             $this->db->bind(':password', $data['password']);
@@ -39,6 +38,35 @@ date_default_timezone_set("Asia/Kolkata");
             }else{
                 return false;
             }
+        }
+
+        public function updateUserPhone($email,$phone){
+            $this->db->query('UPDATE user  set phone_number=:phone WHERE email=:email');
+            //Bind values
+            $this->db->bind(':email', $email);
+            $this->db->bind(':phone', $phone);
+
+            //Execute
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        public function updatePhoneOTP($otp,$id){
+            $this->db->query('UPDATE user set phone_otp=:otp WHERE user_id=:id');
+            //Bind values
+            $this->db->bind(':otp', $otp);
+            $this->db->bind(':id', $id);
+
+            //Execute
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+
         }
 
         //Send Email

@@ -24,9 +24,11 @@
         }
 
         public function index(){
-            if(isset($_SESSION['otp_email'])){
+            if(isset($_SESSION['attempt'])){
                 unset($_SESSION['otp_email']);
+                unset($_SESSION['phone']);
                 unset($_SESSION['attempt']);
+                unset($_SESSION['time']);
             }
             $data = [
                 'title' => 'Welcome!!!!!'
@@ -37,9 +39,11 @@
 
         //register
         public function register(){
-            if(isset($_SESSION['otp_email'])){
+            if(isset($_SESSION['attempt'])){
                 unset($_SESSION['otp_email']);
+                unset($_SESSION['phone']);
                 unset($_SESSION['attempt']);
+                unset($_SESSION['time']);
             }
             //CHECK FOR POST
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -52,24 +56,25 @@
                     'first_name' => trim($_POST['fname']),
                     'second_name' =>trim($_POST['lname']),
                     'email' => trim($_POST['email']),
-                    'phone' => trim($_POST['phone']),
                     'user_type' => trim($_POST['type']),
                     'password' => trim($_POST['password']),
+                    'confirm_password' => trim($_POST['confirm_password']),
                     'user_id' => '',          
                     'otp'=>rand(111111,999999),
                     'first_name_err' => '',
                     'second_name_err' => '',
                     'email_err' => '',
-                    'phone_err' => '',
                     'password_err1' => '',
                     'password_err2' => '',
                     'password_err3' => '',
                     'password_err4'=>'',
                     'password_err5' => '',
                     'password_err6' => '',
+                    'confirm_password_err' => '',
                     'email_not_activated_err' => ''
                 ];
                 $data['passwd']=$data['password'];
+                $data['confirm_passwd']=$data['confirm_password'];
                 
                 //Validate email
                 if(empty($data['email'])){
@@ -80,39 +85,56 @@
                         $data['email_err'] = 'Email is already taken';
                     }
                 }
+                if (filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                } else {
+                    $data['email_err'] = "Invalid email";
+                }
                 //Validate first name
                 if(empty($data['first_name'])){
                     $data['first_name_err'] = 'Please enter first name';
+                }else{
+                    //Check first name has numbers/special characters
+                    if(preg_match('/^[a-zA-Z]+$/', $data['first_name'])) {
+
+                    } else {
+                        $data['first_name_err'] = 'Use only letters';
+                    }
                 }
                 //Validate second name
                 if(empty($data['second_name'])){
                     $data['second_name_err'] = 'Please enter second name';
-                }
-                //Validate phone
-                if(empty($data['phone'])){
-                    $data['phone_err'] = 'Please enter a phone number';
-                }else if($this->userModel->findUserByPhone($data['phone'])){
-                    $data['phone_err'] = 'Phone number is already added, add another one';
+                }else{
+                    //Check first name has numbers/special characters
+                    if(preg_match('/^[a-zA-Z]+$/', $data['second_name'])) {
 
+                    } else {
+                        $data['second_name_err'] = 'Use only letters';
+                    }
                 }
                 //Validate password
                 if(empty($data['passwd'])){
                     $data['password_err1'] = 'Please enter a password';
                 }if(strlen($data['password']) < 6){
                     $data['password_err2'] = 'Password must be at least 6 characters';
-                }if(!preg_match("#[0-9]+#",$data['password'])) {
-                    $data['password_err3'] = 'Password must contain at least 1 number!';
-                }if(!preg_match("#[A-Z]+#",$data['password'])) {
-                    $data['password_err4'] = 'Password must contain at least 1 capital letter!';
-                }if(!preg_match("#[a-z]+#",$data['password'])) {
-                    $data['password_err5'] = 'Password must contain at least 1 lowercase letter!';
-                }if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['password'])) {
-                    $data['password_err6'] = 'Password must contain at least 1 special character!';
+                }
+                // if(!preg_match("#[0-9]+#",$data['password'])) {
+                //     $data['password_err3'] = 'Password must contain at least 1 number!';
+                // }if(!preg_match("#[A-Z]+#",$data['password'])) {
+                //     $data['password_err4'] = 'Password must contain at least 1 capital letter!';
+                // }if(!preg_match("#[a-z]+#",$data['password'])) {
+                //     $data['password_err5'] = 'Password must contain at least 1 lowercase letter!';
+                /* }if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['password'])) {*/
+                //     $data['password_err6'] = 'Password must contain at least 1 special character!';
+                // }
+
+                if(empty($data['confirm_passwd'])){
+                    $data['confirm_password_err'] = 'Please confirm the password';
+                }else if($data['passwd'] != $data['confirm_passwd']){
+                    $data['confirm_password_err'] = 'Passwords do not match';
                 }
 
-
                 //Make sure errors are empty
-                if(empty($data['email_err']) && empty($data['first_name_err']) && empty($data['second_name_err']) && empty($data['phone_err']) && empty($data['password_err1']) && empty($data['password_err2']) && empty($data['password_err3']) && empty($data['password_err4']) && empty($data['password_err5']) && empty($data['password_err6'])){
+                if(empty($data['email_err']) && empty($data['first_name_err']) && empty($data['second_name_err'])  && empty($data['password_err1']) && empty($data['password_err2']) && empty($data['password_err3']) && empty($data['password_err4']) && empty($data['password_err5']) && empty($data['password_err6'])){
                     //Validated
                     //Hash password
                     $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
@@ -181,15 +203,16 @@
                     'first_name' => '',
                     'second_name' => '',
                     'email' => '',
-                    'phone' => '',
                     'user_type' => '',
                     'password' => '',
+                    'confirm_password' => '',
                     'passwd' => '',
+                    'confirm_passwd' => '',
                     'otp'=>'',
                     'first_name_err' => '',
                     'second_name_err' => '',
                     'email_err' => '',
-                    'phone_err' => '',
+                    'confirm_password_err' => '',
                     'password_err' => ''
                 ];
 
@@ -382,6 +405,7 @@
             }
             else{
                 unset($_SESSION['attempt']);
+                unset($_SESSION['otp_email']);
                 session_destroy();
                 flash('register_fail', 'You have exceeded the maximum number of attempts');
                 redirect('users/register');
@@ -391,9 +415,10 @@
 
         //login
         public function login(){
-            if(isset($_SESSION['otp_email'])){
+            if(isset($_SESSION['attempt'])){
                 unset($_SESSION['otp_email']);
                 unset($_SESSION['attempt']);
+                unset($_SESSION['time']);
             }
             //CHECK FOR POST
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -500,9 +525,11 @@
         }
 
             public function getProfile($id){ 
-                if(isset($_SESSION['otp_email'])){
+                if(isset($_SESSION['attempt'])){
                     unset($_SESSION['otp_email']);
+                    unset($_SESSION['phone']);
                     unset($_SESSION['attempt']);
+                    unset($_SESSION['time']);
                 }
                 if(!isLoggedIn()){
                   $_SESSION['url']=URL();
@@ -524,17 +551,192 @@
                 $this->view('users/getProfile',$data);
               }
 
+            public function change_phone($id){
+                if(isset($_SESSION['attempt'])){
+                    unset($_SESSION['otp_email']);
+                    unset($_SESSION['phone']);
+                    unset($_SESSION['attempt']);
+                    unset($_SESSION['time']);
+                }
+                if(!isLoggedIn()){
+                    redirect('users/login');
+                }
+                if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                    // Process form
+                    //Sanitize POST data
+                    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                    //init data
+                    $data = [
+                        'id' => $id,
+                        'phone'=>trim($_POST['phone']),
+                        'phone_err' => ''
+                    ];
+                    //Validate phone
+                    if(empty($data['phone'])){
+                        $data['phone_err'] = 'Please enter a phone number';
+                    }else if(!preg_match('/^[0-9]{10}$/', $data['phone'])){
+                        $data['phone_err'] = 'Enter a valid Phone number';
+                    }else if($this->userModel->findUserByPhone($data['phone'])){
+                        $data['phone_err'] = 'Phone number is already added, use another one';
+                    }
+                    //Make sure errors are empty
+                    if(empty($data['phone_err'])){
+                        //Validated
+
+                        // Create a new cURL resource
+                        // $curl = curl_init();
+
+                        // Set the cURL options
+                        // curl_setopt($curl, CURLOPT_URL, URLROOT.'/users/otp_phone');
+                        // curl_setopt($curl, CURLOPT_POST, 1);
+                        // curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query(array(
+                        //     'id' => $data['id'],
+                        //     'phone' => $data['phone'],
+                        // )));
+
+                        // // Execute the cURL request
+                        // $response = curl_exec($curl);
+
+                        // // Close the cURL resource
+                        // curl_close($curl);
+                        $_SESSION['phone'] = $data['phone'];
+                        $_SESSION['attempt'] = 0;
+                        $_SESSION['time'] = date('Y-m-d H:i:s', strtotime('+5 minutes', strtotime(date('Y-m-d H:i:s'))));
+                        $otp=rand(111111,999999);
+                        if($this->userModel->updatePhoneOTP($otp,$id)){
+                            $user = "94722699883";
+                            $password = "7884";
+                            $text = urlencode("Dear valued customer, your OTP is $otp. Please enter this OTP to verify your phone number in AudexLK. This expires in 10minutes from now. Thank you . From AUDEXLK");
+                            $to = $data['phone'];
+
+                            $baseurl ="http://www.textit.biz/sendmsg";
+                            $url = "$baseurl/?id=$user&pw=$password&to=$to&text=$text";
+                            $ret = file($url);
+
+                            $res= explode(":",$ret[0]);
+
+                            if (trim($res[0])=="OK"){
+                                echo "Message Sent - ID : ".$res[1];
+                                redirect('users/otp_phone/'.$data['id']);
+                            }
+                            else{
+                                echo "Sent Failed - Error : ".$res[1];
+                                flash('phone_message', 'OTP didn\'t send, try again');
+                                redirect($_SESSION['user_type'].'s/getProfile/'.$id);
+                            }
+                        }
+                        else{
+                            die('Something went wrong');
+                        }
+                        
+                    }else{
+                        //Load view with errors
+                        $this->view('users/change_phone', $data);
+                    }
+                }else{
+                    $data = [
+                        'id' => $id,
+                        'phone'=> '',
+                        'phone_err' => ''
+                    ];
+                    $this->view('users/change_phone',$data);
+                }
+            }
+
+            public function otp_phone($id){
+                if(!isLoggedIn()){
+                    redirect('users/login');
+                }
+                if($_SESSION['attempt']<=3){
+
+                    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                        $_SESSION['attempt']++;
+                        // Process form
+                        //Sanitize POST data
+                        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                        //init data
+                        $data = [
+                            'id' => $id,
+                            'phone' => $_SESSION['phone'],
+                            'otp_entered'=>trim($_POST['otp']),
+                            'otp_err' => ''
+                        ];
+
+                        if(empty($data['otp_entered'])){
+                            $data['otp_err'] = 'Please enter otp';
+                        }else if(strlen($data['otp_entered']) !=6){
+                            $data['otp_err'] = 'Otp must be 6 characters';
+                        }else if(!preg_match('/^[0-9]{6}$/', $data['otp_entered'])){
+                            $data['otp_err'] = 'Otp must be numeric';
+                        }
+                        if(empty($data['otp_err'])){
+                            //no errors
+                            if($id!=NULL){
+                                $user_details=$this->userModel->getUserDetails($id);
+                                $data['user']=$user_details;
+                                if($user_details){
+                                    if($data['otp_entered'] == $user_details->phone_otp){
+                                        //otp matched
+                                    
+                                        //Update user
+                                        if($this->userModel->updateUserPhone($user_details->email, $data['phone'])){
+                                            unset($_SESSION['phone']);
+                                            unset($_SESSION['attempt']);
+                                            unset($_SESSION['time']);
+                                            flash('phone_message', 'Phone number updated successfully');
+                                            redirect($_SESSION['user_type'].'s/getProfile/'.$id);
+
+                                        }else{
+                                            die('Something went wrong');}
+                                    }
+                                    else{
+                                        $data['otp_err'] = 'Otp not matched ';
+                                        $this->view('users/otp_phone', $data);
+                                    }
+                                }
+                            }else{
+                                unset($_SESSION['phone']);
+                                unset($_SESSION['attempt']);
+                                redirect('users/index');
+                            }
+                        }
+                        else{
+                            $this->view('users/otp_phone', $data);
+                        }
+
+                    }
+                
+                    else{
+                        $data = [
+                            'id' => $id,
+                            'phone' => $_SESSION['phone'],
+                            'otp_entered' => '',
+                            'otp_err' => '',
+                        ];
+                        $this->view('users/otp_phone',$data);
+                    }
+                }else{
+                    unset($_SESSION['phone']);
+                    unset($_SESSION['attempt']);
+                    unset($_SESSION['time']);
+                    flash('phone_message', 'Eccessed maximum attempts', 'alert alert-danger');
+                    redirect($_SESSION['user_type'].'s/getProfile/'.$id);
+                }
+            }
+            
+
           public function edit_profile_picture($id){
-            if(isset($_SESSION['otp_email'])){
+            if(isset($_SESSION['attempt'])){
                 unset($_SESSION['otp_email']);
+                unset($_SESSION['phone']);
                 unset($_SESSION['attempt']);
+                unset($_SESSION['time']);
             }
             if(!isLoggedIn()){
               $_SESSION['url']=URL();
       
               redirect('users/login');
             }
-            if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
                 $data =[
@@ -552,7 +754,7 @@
 
                     if($error === 0){
                         if($img_size > 12500000){
-                            $data['image1_err'] = "Sorry, your first image is too large.";
+                            $data['image1_err'] = "Sorry, your image is too large.";
                         }
                         else{
                             $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
@@ -586,27 +788,21 @@
                 }else{
                     $data['image1_err'] = 'Please upload an image';
                 }
-
                 if(empty($data['image1_err'])){
                     if($this->userModel->updateProfilePicture($data)){
                         flash('post_message', 'Profile Picture Updated');
-                        redirect($_SESSION['user_type'].'s/getProfile/'.$data['id']);
+                        // redirect($_SESSION['user_type'].'s/getProfile/'.$data['id']);
+                        echo json_encode(['success' => 'Profile Picture Updated']);
                     }
                     else{
                         die('Something went wrong');
                     }
                 }
                 else{
-                    $this->view('users/edit_profile_picture',$data);
+                    flash('photo_message', $data['image1_err'],'alert alert-danger');
+                    echo json_encode(['unsuccess' => 'Profile Picture not Updated']);
+                    // redirect($_SESSION['user_type'].'s/getProfile/'.$data['id']);
                 }   
-            }else{
-                $data =[
-                    'id' => $id,
-                    'image1' => '',
-                    'image1_err' => ''
-                ];
-                $this->view('users/edit_profile_picture',$data);
-            }
           }
         //Logout
         public function logout(){
@@ -619,15 +815,11 @@
         }
         //Shop
         public function shop(){
-            if(isset($_SESSION['otp_email'])){
+            if(isset($_SESSION['attempt'])){
                 unset($_SESSION['otp_email']);
+                unset($_SESSION['phone']);
                 unset($_SESSION['attempt']);
-            }
-            if(isset($_SESSION['otp_email'])){
-                unset($_SESSION['otp_email']);
-                unset($_SESSION['attempt']);
-                // session_destroy();
-                // redirect('users/login');
+                unset($_SESSION['time']);
             }
             $ads  = $this->userModel->getAdvertiesment();   
             // get the serchResults session value
@@ -889,11 +1081,13 @@
             //Validate price
             if(empty($data['price'])){
                 $data['price_err1'] = 'Please enter price';
-            }
-            //Valid price
-            if($data['price']<0){
+            }else if(!is_numeric($data['price'])) {
+                $data['price_err'] = 'Please enter valid price';
+            }else if($data['price']<0){
                 $data['price_err2'] = 'Please enter valid price';
             }
+            
+            
             switch($ad->price){
                 case $ad->price <1000:
                     $price=$ad->price+10 .'.00';
@@ -1265,9 +1459,10 @@
             }
         }
         public function sound_engineers(){
-            if(isset($_SESSION['otp_email'])){
+            if(isset($_SESSION['attempt'])){
                 unset($_SESSION['otp_email']);
                 unset($_SESSION['attempt']);
+                unset($_SESSION['time']);
             }
         $data = $this->userModel->getServiceProviders();
             
