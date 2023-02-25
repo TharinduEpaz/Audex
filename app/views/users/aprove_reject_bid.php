@@ -49,9 +49,9 @@
                 </div>
                 <div class="buttons">
                     <?php if($data['advertisement']->product_type=='auction'){?>
-                    <button type="button" class="accept_bid" onclick="location.href='<?php echo URLROOT;?>/users/accept_bid/<?php echo $data['bid']->bid_id.'/'.$data['bid']->price?>'">Accept Offer</button>
+                    <button type="button" class="accept_bid" onclick="location.href='<?php echo URLROOT;?>/users/accept_bid/<?php echo $data['advertisement']->email.'/'.$data['advertisement']->product_id.'/'.$data['bid']->bid_id.'/'.$data['bid']->price?>'">Accept Offer</button>
                     <?php }?>
-                    <button type="button" class="reject_bid" onclick="location.href='<?php echo URLROOT;?>/users/reject_bid/<?php echo $data['bid']->bid_id.'/'.$data['bid']->price;?>'"> Reject Offer</button>    
+                    <button type="button" class="reject_bid" onclick="location.href='<?php echo URLROOT;?>/users/reject_bid/<?php echo $data['advertisement']->email.'/'.$data['advertisement']->product_id.'/'.$data['bid']->bid_id.'/'.$data['bid']->price;?>'"> Reject Offer</button>    
                     
 
                 </div>

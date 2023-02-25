@@ -236,6 +236,14 @@ date_default_timezone_set("Asia/Kolkata");
             return $row;
         }
 
+        public function getUserDetailsByEmail($email){
+            $this->db->query('SELECT * FROM user WHERE email = :email');
+            $this->db->bind(':email' , $email);
+            
+            $row = $this->db->single();
+            return $row;
+        }
+
         public function updateProfilePicture($data){
             $this->db->query('UPDATE user SET profile_pic = :profile_picture WHERE user_id = :id ');
             
@@ -348,6 +356,14 @@ date_default_timezone_set("Asia/Kolkata");
             return $row;
         }
 
+        public function getBuyerDetails($email){
+            $this->db->query('SELECT * FROM buyer WHERE email = :email');
+            $this->db->bind(':email' , $email);
+
+            $row = $this->db->single();
+            return $row;
+        }
+
 
         public function getSellerMoreDetails($email){
             $this->db->query('SELECT * FROM user WHERE email = :email');
@@ -393,10 +409,9 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
         
-        public function getBidList($bid_id,$price){
-            $this->db->query('SELECT * FROM bid_list WHERE bid_id = :id && price=:price');
+        public function getBidList($bid_id){
+            $this->db->query('SELECT * FROM bid_list WHERE bid_id = :id ');
             $this->db->bind(':id' , $bid_id);
-            $this->db->bind(':price' , $price);
 
             $row = $this->db->single();
             if($row){
@@ -406,10 +421,9 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
 
-        public function updateBidStatus($bid_id,$price){
-            $this->db->query('UPDATE bid_list SET is_rejected=1 WHERE bid_id = :id && price=:price');
+        public function updateBidStatus($bid_id){
+            $this->db->query('UPDATE bid_list SET is_rejected=1 WHERE bid_id = :id ');
             $this->db->bind(':id' , $bid_id);
-            $this->db->bind(':price' , $price);
 
             $row = $this->db->execute(); //single row
             if($row){

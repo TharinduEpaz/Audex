@@ -41,6 +41,14 @@
             return $row;
         }
 
+        public function getBDetails($id){
+            $this->db->query('SELECT * FROM buyer WHERE user_id = :id');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->single();
+            return $row;
+        }
+
         public function updateProfile($data){
             $this->db->query('UPDATE user SET first_name = :first_name,second_name = :second_name, address1 = :address1, address2 = :address2 WHERE user_id = :id ');
             

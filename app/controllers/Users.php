@@ -537,7 +537,7 @@
                   redirect('users/login');
                 }
                 $details = $this->userModel->getUserDetails($id);
-          
+                $buyerDetails = $this->userModel->getBuyerDetails($details->email);
                 // if ($details->user_id != $_SESSION['user_id']) {
                 //   $_SESSION['url']=URL();
           
@@ -546,7 +546,8 @@
           
                 $data =[
                   'id' => $id,
-                  'user' => $details
+                  'user' => $details,
+                  'buyer' => $buyerDetails,
                 ];
                 $this->view('users/getProfile',$data);
               }
@@ -1046,6 +1047,7 @@
         public function bid($id){
           $ad = $this->userModel->getAdvertiesmentById($id);
           $data['ad'] = $ad;
+          $i=0;
 
           $auction = $this->userModel->getAuctionById($id);
           if($auction=='Error'){
@@ -1057,6 +1059,11 @@
           $auction_details = $this -> userModel->getAllAuctionDetails($id);
           if($auction_details){
             $data['auctions'] =$auction_details;
+            foreach($data['auctions'] as $auction){
+                $data['user'][$i] = $this->userModel->findUserDetailsByEmail($auction->email_buyer);
+                $i++;
+            }
+            // endforeach;
           }else{
             $data['auctions'] = null;
           }
@@ -1582,7 +1589,7 @@
         }
         
         
-        public function approve_reject_bid($product_id,$bid_id,$price,$time){
+        public function approve_reject_bid($product_id,$bid_id,$time){
             if(time() < $time){
                 $advertisement=$this->sellerModel->getAdvertisementById($product_id);
                 if($advertisement){
@@ -1601,7 +1608,7 @@
                 else{
                     die('Something went wrong');
                 }
-                $bid = $this->userModel->getBidList($bid_id,$price);
+                $bid = $this->userModel->getBidList($bid_id);
                 if($bid){
                     $data['bid'] = $bid;
                 }
@@ -1619,7 +1626,7 @@
 
                             $this->view('users/aprove_reject_bid',$data);
                         }else{
-                            redirect('pages/index');
+                            redirect('users/index');
                         }
                     }
 
@@ -1629,26 +1636,111 @@
                 }
 
             }else{
-                $this->userModel->updateBidStatus($bid_id,$price);
+                $this->userModel->updateBidStatus($bid_id);
                 redirect('pages/index');
             }
         } 
         
-        public function accept_bid($bid_id,$price){
+        public function accept_bid($email,$product_id,$bid_id,$price){
             $result = $this->userModel->updateBidAcceptedStatus($bid_id,$price);
             if($result){
-                flash('auction_message', 'Offer Accepted');
-                redirect('pages/index');
+                $data=[
+                    'email'=>$email,
+                    'product_id'=>$product_id,
+                    'bid_id'=>$bid_id,
+                    'price'=>$price
+                ];
+                $user=$this->userModel->getUserDetailsByEmail($email);
+                if($user){
+                    $data['user'] = $user;
+                    //Send email
+                    $to=$data['email'];
+                    $sender='audexlk@gmail.com';
+                    $mail_subject='Your offer for bid has been accepted';
+                    $email_body='<p>Dear '.$data['user']->first_name.',<br><br>';
+                    $email_body.='Your request send to accept the bid has been accepted for the product you have published.To visit the product click <a href="'.URLROOT.'/sellers/bid_list/'.$data['product_id'].'">here</a><br><br>';
+                    $email_body.='Thank you,<br>Audexlk</p>';
+                    // $header="From:{$sender}\r\nContent-Type:text/html;";
+    
+                    $mail = new PHPMailer(true);
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = $sender;
+                    $mail->Password = 'bcoxsurnseqiajuf';
+                    $mail->SMTPSecure = 'ssl';
+                    $mail->Port = 465;
+                    $mail->setFrom($sender);
+                    $mail->addAddress($to);
+                    $mail->isHTML(true);
+                    $mail->Subject = $mail_subject;
+                    $mail->Body = $email_body;
+                    if($mail->send()){
+                        
+                        flash('auction_message', 'Offer Accepted');
+                        redirect('users/index');
+                    }
+                    else{
+                        flash('email_err','Email not sent');
+                        $this->view('users/index');
+                    }
+                }
+                else{
+                    die('Something went wrong');
+                }
             }
             else{
                 die('Something went wrong');
             }
         }
 
-        public function reject_bid($bid_id,$price){
+        public function reject_bid($email,$product_id,$bid_id,$price){
             $result = $this->userModel->updateBidStatus($bid_id,$price);
             if($result){
-                redirect('pages/index');
+                $data=[
+                    'email'=>$email,
+                    'product_id'=>$product_id,
+                    'bid_id'=>$bid_id,
+                    'price'=>$price
+                ];
+                $user=$this->userModel->getUserDetailsByEmail($email);
+                if($user){
+                    $data['user'] = $user;
+                    //Send email
+                    $to=$data['email'];
+                    $sender='audexlk@gmail.com';
+                    $mail_subject='Your offer for bid has been rejected';
+                    $email_body='<p>Dear '.$data['user']->first_name.',<br><br>';
+                    $email_body.='Your request send to accept the bid has been rejected for the product you have published.To visit the product click <a href="'.URLROOT.'/sellers/bid_list/'.$data['product_id'].'">here</a><br><br>';
+                    $email_body.='Thank you,<br>Audexlk</p>';
+                    // $header="From:{$sender}\r\nContent-Type:text/html;";
+    
+                    $mail = new PHPMailer(true);
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = $sender;
+                    $mail->Password = 'bcoxsurnseqiajuf';
+                    $mail->SMTPSecure = 'ssl';
+                    $mail->Port = 465;
+                    $mail->setFrom($sender);
+                    $mail->addAddress($to);
+                    $mail->isHTML(true);
+                    $mail->Subject = $mail_subject;
+                    $mail->Body = $email_body;
+                    if($mail->send()){
+                        
+                        flash('auction_message', 'Offer Accepted');
+                        redirect('users/index');
+                    }
+                    else{
+                        flash('email_err','Email not sent');
+                        $this->view('users/index');
+                    }
+                }
+                else{
+                    die('Something went wrong');
+                }
             }
             else{
                 die('Something went wrong');

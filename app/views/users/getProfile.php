@@ -28,20 +28,25 @@
                     <div class="other_details_profile">
                         <p class="full_name"><?php echo $data['user']->first_name.' '.$data['user']->second_name; ?></p>
                         <div class="stars_date">
-                            <div class="stars">
-                                <img src="<?php echo URLROOT . '/public/img/stars.png';?>" alt="Profile Picture">
+                        <div class="stars">
+                            <?php $i=0;
+                                        for($i; $i<floor($data['buyer']->rate); $i++): ?>
+                                        <i class="fa fa-star"></i>
+                                        <?php endfor; ?>
+                                        
+                                        <?php if(strpos((string)$data['buyer']->rate, '.')){ ?>
+                                        <i class="fa fa-star-half-o"></i>
+                                        
+                                        <?php $i++;} 
+                                        while($i<5){ ?>
+                                        <i class="fa fa-star-o"></i>
+                                        <?php $i++; } ?>
                             </div>
                             <div class="date">
                                 <p>Joined : <?php echo date('Y-m-d',strtotime($data['user']->registered_date));; ?></p>
                             </div>
                         </div>
                         <div class="likes_dislikes">
-                            <div class="likes">
-                            <i class="fas fa-thumbs-up" aria-hidden="true"> : 10</i>
-                            </div>
-                            <div class="dislikes">
-                            <i class="fas fa-thumbs-down"> : 0</i>
-                            </div>
                             <div class="flags">
                             <i class="fa-sharp fa-solid fa-flag"> : 0</i>
 

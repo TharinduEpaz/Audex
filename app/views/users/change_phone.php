@@ -19,7 +19,7 @@
     
     <div class="container_main">
         <div class="form">
-            <h1>Change Phone Number</h1>
+            <h1>Change/Add Phone Number</h1>
                 <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
 
             <?php

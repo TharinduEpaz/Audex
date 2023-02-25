@@ -249,13 +249,15 @@ body{
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    width: 115%;
     height: 25vh;
     margin-top: 1vh;
     background-color: white;
     /* border-radius: 35px; */
   }
-  
+  .rating-stars{
+    margin-right: 15px;
+  }
   .profile_img{
     display: flex;
     flex-direction: column;
@@ -308,6 +310,7 @@ body{
   .stars{
     height: 3vh;
     margin-top: 0;
+    margin-right: 15px;
   }
   .stars img{
    width: 50%;

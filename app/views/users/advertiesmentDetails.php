@@ -141,9 +141,11 @@
                         <div id="myModal" class="modal">
                             <div class="modal-content">
                                 <div id="floating-panel">
-                                    <h3 for="longitude">Longitude: <?php echo $data['ad']->longitude; ?></h3>
+                                    <!-- <h3 for="longitude">Longitude: <?php echo $data['ad']->longitude; ?></h3>
                                     <h3 for="latiitude">Latiitude: <?php echo $data['ad']->latitude; ?></h3>
-                                    <h3 for="address">Address: <?php echo $data['ad']->address; ?></h3>
+                                    <h3 for="address">Address: <?php echo $data['ad']->address; ?></h3> -->
+                                    <a style="color: black;" href="https://www.google.com/maps/search/?api=1&query=<?php echo $data['ad']->latitude; ?>,<?php echo $data['ad']->longitude; ?>" target="_blank">Open in google</a>
+
                                 </div>
                                 <span class="close" onclick="closeModal()">&times;</span>
                                 <div id="map" style="width: 100%; height: 90%;">
@@ -204,13 +206,18 @@
                                     <div class="rating-stars">
                                         <!-- <span class="rate"><?php echo $data['seller']->rate;?></span>  -->
 
-                                        <?php for($i=0; $i<floor($data['seller']->rate); $i++): ?>
+                                        <?php $i=0;
+                                        for($i; $i<floor($data['seller']->rate); $i++): ?>
                                         <i class="fa fa-star"></i>
                                         <?php endfor; ?>
                                         
-                                        <?php if(strpos((string)$data['seller']->rate, '.')): ?>
+                                        <?php if(strpos((string)$data['seller']->rate, '.')){?>
                                         <i class="fa fa-star-half-o"></i>
-                                        <?php endif; ?>   
+                                        
+                                        <?php $i++;} 
+                                        while($i<5){ ?>
+                                        <i class="fa fa-star-o"></i>
+                                        <?php $i++; } ?>
                                     </div>                
                                 </div>
                                 </div>
@@ -220,12 +227,6 @@
                                 </div>
                             </div>
                             <div class="likes_dislikes">
-                                <div class="likes">
-                                <i class="fas fa-thumbs-up" aria-hidden="true"> : 10 </i>
-                                </div>
-                                <div class="dislikes">
-                                <i class="fas fa-thumbs-down"> : 0 </i>
-                                </div>
                                 <div class="flags">
                                 <i class="fa-sharp fa-solid fa-flag"> : 0 </i>
                             
@@ -295,6 +296,14 @@
 			var modal = document.getElementById("myModal");
 			modal.style.display = "none";
 	}
+    // When the user clicks anywhere outside of the modal, close it
+	var modal = document.getElementById("myModal");
+
+    window.addEventListener("click", function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    });
     // like removeLike functions click event
     const likeBtn = document.getElementById("product-like-btn");
     const dislikeBtn = document.getElementById("product-dislike-btn");

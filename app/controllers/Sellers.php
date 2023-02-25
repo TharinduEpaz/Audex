@@ -20,7 +20,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             }
             if(!isLoggedIn()){
                 
-                session_destroy();
                 $_SESSION['url']=URL();
 
                 redirect('users/login');
@@ -50,6 +49,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
         redirect('users/login');
       }
       $details = $this->sellerModel->getUserDetails($id);
+      $sellerDetails = $this->sellerModel->getSellerDetails($id);
 
       if ($details->user_id != $_SESSION['user_id']) {
         $_SESSION['url']=URL();
@@ -59,7 +59,8 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
       $data =[
         'id' => $id,
-        'user' => $details
+        'user' => $details,
+        'seller' => $sellerDetails
       ];
       $this->view('sellers/getProfile',$data);
     }
@@ -873,8 +874,18 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             // }
         }
 
-        public function bid_list($id,$auction_id){
+        public function bid_list($id){
             $ad = $this->userModel->getAdvertiesmentById($id);
+            if(isLoggedIn()){
+                if($ad->email != $_SESSION['user_email']){
+                        $_SESSION['url'] = URL();
+                        redirect('users/login');
+                    }
+            }else{
+                $_SESSION['url']=URL();
+                redirect('users/login');
+            }
+
             $data['ad'] = $ad;
   
             $auction = $this->userModel->getAuctionById_withfinished($id);
@@ -883,9 +894,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             $auction_details = $this -> userModel->getAuctionDetails($id);
             $auctions_details_no_rows= $this -> userModel->getAuctionDetailsNoRows($id);
 
-            $url=rtrim($_GET['url'],'/');
-            $url=filter_var($url,FILTER_SANITIZE_URL);
-            $data['url']=$url;
+           
 
             $data['check']=0;
             // $bid_list = $this->userModel->getBidList($bid_id);
@@ -960,10 +969,10 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 $mail->addAddress($to);
                 $mail->isHTML(true);
                 $expiring_timestamp = time() + (24*60*60*5); // Expires in 24*5 hours
-                $activation_link = URLROOT.'/users/approve_reject_bid/'.$product_id.'/'.$bid_id.'/' .$price.'/'. $expiring_timestamp;
+                $activation_link = URLROOT.'/users/approve_reject_bid/'.$product_id.'/'.$bid_id.'/' . $expiring_timestamp;
                 $email_body='<p>Dear '.$name.',<br>Thank you for bidding on Audexlk. Seller has been selected you as the winner of his auction.'; 
                 $email_body.=' You can <b>accept or reject</b> his offer by clicking the fllowing link.<b>Link will be expires in 5 days. After that you cannot approve or reject.</b><br><br>';
-                $email_body.='<b>'.$activation_link.'</b><br><br>';
+                $email_body.='<b><a href="'.URLROOT.'/users/approve_reject_bid/'.$product_id.'/'.$bid_id.'/' . $expiring_timestamp.'">Click here</a></b><br><br>';
                 $email_body.='Thank you,<br>Audexlk</p>';
                 $mail->Subject = $mail_subject;
                 $mail->Body = $email_body;

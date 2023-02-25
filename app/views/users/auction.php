@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
-    
+    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo MAPS_API;?>&callback=initMap&libraries=placesMap&v=weekly"></script>
     <script type="text/javascript" src="<?php echo URLROOT . '/public/js/moment.min.js';?>"></script>
     <script type="text/javascript" src="<?php echo URLROOT . '/public/js/moment-timezone-with-data.js';?>"></script>
     <title>Advertisement</title>
@@ -81,32 +81,106 @@
                     }
                 ?>
                 </div>
-                <div class="add_watch_list">
-                <?php if(isset($_SESSION['user_type']) && $_SESSION['user_type']!='seller'){?>
-                <form id="add_watch_list_form" method="POST" data-op = "add" data-watchLoad ="<?php echo $data['watched'] ; ?>" >
-                        <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
-                        <input type="text" name="user_type" value="buyer" hidden>
-                        <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
-                        <input type="text" name="product_id" value="<?php echo $data['ad']->product_id ; ?>" hidden >
-                        
-                        <div class="button-container">
-                            <input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist">
-                        </div>
-                        <dialog id="dia">
-                            <div class="top-part">
-                                <button class="btn_close">X</button>
-                                <!-- <i class="fa-sharp fa-solid fa-xmark"></i> -->
-                            </div>  
-                            <hr>
-                            <div>
-                                <button class="continue">OK </button>  
-                                <button class="close">Close</button>
+                <!-- add to watch button is not visible if user is a seller or service provider -->
+                <!-- watch list button should visible if user is not logged in -->
+                <?php
+                    if( !isLoggedIn() ){?>
+                            <div class="add_watch_list">
+                                <form id="add_watch_list_form" method="POST" data-op = "add" data-watchLoad ="<?php echo $data['watched'] ; ?>" >
+                                    <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
+                                    <input type="text" name="user_type" value="buyer" hidden>
+                                    <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
+                                    <input type="text" name="product_id" value="<?php echo $data['ad']->product_id ; ?>" hidden >
+                                    
+                                    <div class="button-container">
+                                        <input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist">
+                                    </div>
+                                    <dialog id="dia">
+                                        <div class="top-part">
+                                            <button class="btn_close">X</button>
+                                            <!-- <i class="fa-sharp fa-solid fa-xmark"></i> -->
+                                        </div>  
+                                        <hr>
+                                        <div>
+                                            <button class="continue">OK </button>  
+                                            <button class="close">Close</button>
+                                        </div>
+                                    </dialog>
+                    
+                                </form>
                             </div>
-                        </dialog>
-        
-                    </form>
-                    <?php };?>
-                </div>
+                            <?php } else if($_SESSION['user_type'] != 'seller' && $_SESSION['user_type'] != 'service_provider' ){ ?>
+                                <div class="add_watch_list">
+                                    <form id="add_watch_list_form" method="POST" data-op = "add" data-watchLoad ="<?php echo $data['watched'] ; ?>" >
+                                        <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
+                                        <input type="text" name="user_type" value="buyer" hidden>
+                                        <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
+                                        <input type="text" name="product_id" value="<?php echo $data['ad']->product_id ; ?>" hidden >
+                                        
+                                        <div class="button-container">
+                                            <input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist">
+                                        </div>
+                                        <dialog id="dia">
+                                            <div class="top-part">
+                                                <button class="btn_close">X</button>
+                                                <!-- <i class="fa-sharp fa-solid fa-xmark"></i> -->
+                                            </div>  
+                                            <hr>
+                                            <div>
+                                                <button class="continue">OK </button>  
+                                                <button class="close">Close</button>
+                                            </div>
+                                        </dialog>
+                        
+                                    </form>
+                                </div>
+
+                <?php }?>
+
+
+                <!-- <?php echo 'Hello'.$data['ad']->longitude;?> -->
+                <?php if($data['ad']->longitude!='NULL' && $data['ad']->latitude!='NULL'){?>
+                    <div class="location">
+                        <div class="input">
+                            <a href="" class="post" onclick="openModal(); return false;">Check on map</a>
+                        </div>
+                        <div id="myModal" class="modal">
+                            <div class="modal-content">
+                                <div id="floating-panel">
+                                    <!-- <h3 for="longitude">Longitude: <?php echo $data['ad']->longitude; ?></h3>
+                                    <h3 for="latiitude">Latiitude: <?php echo $data['ad']->latitude; ?></h3>
+                                    <h3 for="address">Address: <?php echo $data['ad']->address; ?></h3> -->
+                                    <a style="color: black;" href="https://www.google.com/maps/search/?api=1&query=<?php echo $data['ad']->latitude; ?>,<?php echo $data['ad']->longitude; ?>" target="_blank">Open in google</a>
+                                </div>
+                                <span class="close" onclick="closeModal()">&times;</span>
+                                <div id="map" style="width: 100%; height: 90%;">
+                                    <script>
+                                        var geocoder;
+                                        var map;
+                                        var longitude;
+                                        var latitude;
+                                        var position;
+                                        function initMap() {
+                                            var position = {lat: <?php echo $data['ad']->latitude?>, lng: <?php echo $data['ad']->longitude?>};
+                                               var map = new google.maps.Map(document.getElementById('map'), {
+                                                   zoom: 12,
+                                                   center: position
+                                            
+                                               });
+                                               const marker = new google.maps.Marker({
+                                                   position: position,
+                                                   map: map,
+                                                   draggable: false
+                                               });
+    
+                                               
+                                        }
+                                        </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
             
             <div class="seller-detais">
@@ -131,11 +205,19 @@
                             <p class="full_name"><?php echo $data['SellerMoreDetails']->first_name.' '.$data['SellerMoreDetails']->second_name; ?></p>
                             <div class="stars_date">
                                 <div class="stars">
-                                    <img src="<?php echo URLROOT . '/public/img/stars.png';;?>" alt="Profile Picture">
-                                    <div class="current-rate">
-                                    <label for="current-rate" style="display:none">Rate:</label>
-                                    <input type="text" name="current-rate" value="<?php echo $data['seller']->rate ?>" id="current-seller-rate">
-                                </div>
+                                        <?php $i=0;
+                                            for($i; $i<floor($data['seller']->rate); $i++): ?>
+                                            <i class="fa fa-star"></i>
+                                            <?php endfor; ?>
+                                            
+                                            <?php if(strpos((string)$data['seller']->rate, '.')){?>
+                                            <i class="fa fa-star-half-o"></i>
+                                            
+                                            <?php $i++;} 
+                                            while($i<5){ ?>
+                                            <i class="fa fa-star-o"></i>
+                                        <?php $i++; } ?>
+                                    
                                 </div>
                                 
                                 <div class="date">
@@ -143,12 +225,6 @@
                                 </div>
                             </div>
                             <div class="likes_dislikes">
-                                <div class="likes">
-                                <i class="fas fa-thumbs-up" aria-hidden="true"> : 10 </i>
-                                </div>
-                                <div class="dislikes">
-                                <i class="fas fa-thumbs-down"> : 0 </i>
-                                </div>
                                 <div class="flags">
                                 <i class="fa-sharp fa-solid fa-flag"> : 0 </i>
                             
@@ -159,9 +235,15 @@
                 <?php if(isset($_SESSION['user_type']) && $_SESSION['user_type']!='seller'){?>
 
                 <div class="review-seller">
-                    <div class="write-review">
-                        <input type="submit" value="Write Review" id="review-seller-btn">
-                    </div>
+                    <?php if(!isLoggedIn()){?>
+                        <div class="write-review">
+                            <input type="submit" value="Write Review" id="review-seller-btn">
+                        </div>
+                    <?php } else if($_SESSION['user_type'] != 'seller' && $_SESSION['user_type'] != 'service_provider' ){ ?>
+                            <div class="write-review">
+                                <input type="submit" value="Write Review" id="review-seller-btn">
+                            </div>
+                    <?php } ?>
 
                     <div class="review-form">
                         <div class="review-area-select-star">
@@ -202,7 +284,25 @@
     </div>
 </body>
 <script>
+function openModal() {
+		var modal = document.getElementById("myModal");
+		modal.style.display = "block";
+        initMap();
+           
+    }
 
+    function closeModal() {
+			var modal = document.getElementById("myModal");
+			modal.style.display = "none";
+	}
+    // When the user clicks anywhere outside of the modal, close it
+	var modal = document.getElementById("myModal");
+
+    window.addEventListener("click", function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    });
 // Set the date we're counting down to
 var countDownDate = new Date("<?php echo $data['auction']->end_date;?>").getTime();
                     

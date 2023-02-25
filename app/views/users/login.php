@@ -20,7 +20,9 @@
             flash('register_success');
         ?>
             <h1>Login</h1>
-            
+            <!-- <?php if(isset($_SESSION['url'])){
+                echo $_SESSION['url'];
+            }?> -->
             <?php
                 if(!empty($data['email_err']) || !empty($data['password_err']) || !empty($data['email_not_activated_err'])  ){
                     echo '<div class="error">';

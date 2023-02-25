@@ -57,19 +57,24 @@
                         <p class="full_name"><?php echo $data['user']->first_name.' '.$data['user']->second_name; ?></p>
                         <div class="stars_date">
                             <div class="stars">
-                                <img src="<?php echo URLROOT . '/public/img/stars.png';?>" alt="Profile Picture">
+                            <?php $i=0;
+                                        for($i; $i<floor($data['seller']->rate); $i++): ?>
+                                        <i class="fa fa-star"></i>
+                                        <?php endfor; ?>
+                                        
+                                        <?php if(strpos((string)$data['seller']->rate, '.')){ ?>
+                                        <i class="fa fa-star-half-o"></i>
+                                        
+                                        <?php $i++;} 
+                                        while($i<5){ ?>
+                                        <i class="fa fa-star-o"></i>
+                                        <?php $i++; } ?>
                             </div>
                             <div class="date">
                                 <p>Joined : <?php echo date('Y-m-d',strtotime($data['user']->registered_date));; ?></p>
                             </div>
                         </div>
                         <div class="likes_dislikes">
-                            <div class="likes">
-                            <i class="fas fa-thumbs-up" aria-hidden="true"> : 10</i>
-                            </div>
-                            <div class="dislikes">
-                            <i class="fas fa-thumbs-down"> : 0</i>
-                            </div>
                             <div class="flags">
                             <i class="fa-sharp fa-solid fa-flag"> : 0</i>
 
@@ -100,7 +105,8 @@
                 <div class="form-data-area">
                     <label for="phone_number">Phone Number:</label>
                     <input type="text" name="phone_number" value="<?php echo $data['user']->phone_number; ?>" disabled>
-                    <a href="<?php echo URLROOT.'/users/change_phone/'.$data['user']->user_id;?>">Change</a>
+                    <a href="<?php echo URLROOT.'/users/change_phone/'.$data['user']->user_id;?>"><?php if($data['user']->phone_number!=NULL){ echo "Change";}else{ echo "Add";}?></a>
+                    
                 </div>  
             </div> 
             <div class="button-edit-delete">

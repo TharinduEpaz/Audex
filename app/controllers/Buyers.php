@@ -80,14 +80,15 @@
         redirect('users/login');
       }
       $details = $this->buyerModel->getBuyerDetails($id);
-
+      $buyerDetails = $this->buyerModel->getBDetails($id);
       if ($details->user_id != $_SESSION['user_id']) {
         redirect('users/login');
       }
 
       $data =[
         'id' => $id,
-        'user' => $details
+        'user' => $details,
+        'buyer' => $buyerDetails
       ];
       $this->view('buyers/getProfile',$data);
     }

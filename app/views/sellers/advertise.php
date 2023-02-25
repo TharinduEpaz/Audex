@@ -427,7 +427,21 @@
 			modal.style.display = "none";
 		}
 
-        
+        // When the user clicks anywhere outside of the modal, close it
+	var modal = document.getElementById("myModal1");
+	var modal2 = document.getElementById("myModal2");
+
+    window.addEventListener("click", function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    });
+
+    window.addEventListener("click", function(event) {
+      if (event.target == modal2) {
+        modal2.style.display = "none";
+      }
+    });
 	</script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>
