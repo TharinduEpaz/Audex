@@ -77,7 +77,7 @@ shopSearchForm.addEventListener("submit", (e) =>{
             var result = data[i];
             var imgLink = "<img src=" + "http://localhost/Audex/public/uploads/"+ result.image1 +">";
 
-            var link = "<a href ="+"http://localhost/Audex/buyers/advertiesmentDetails/"+result.product_id+ " >";
+            var link = "<a href ="+"http://localhost/Audex/users/advertiesmentDetails/"+result.product_id+ " >";
 
             html += "<div class = 'container-ad' >"+ 
                         "<div class = 'container-img' >"+ link+ imgLink+ "</a> </div>" +
@@ -92,6 +92,8 @@ shopSearchForm.addEventListener("submit", (e) =>{
         resultTable.style.visibility = "hidden"
         resultTable.innerHTML = 'Hell';
         document.getElementById('shop-search-results').innerHTML = '';
+        document.getElementById('search-result-area').innerHTML = '';
+
         
 
 
