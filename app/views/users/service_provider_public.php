@@ -80,6 +80,42 @@
                         <?php endif; ?>
 
                     </div>
+
+                    <?php
+                    if( !isLoggedIn() ){?>
+                        <div class="add_watch_list">
+                            <form id="add_watch_list_service_provider" method="POST" data-op = "add" data-watchLoad ="<?php echo $data['watched'] ; ?>" >
+                                <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
+                                <input type="text" name="user_type" value="buyer" hidden>
+                                <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
+                                <!-- buyer_id -->
+                                <input type="text" name="service_provider_id" value="<?php echo $data['details']->user_id ; ?>" hidden >
+                                <!-- service_provider_id -->
+                                
+                                <div class="button-container">
+                                    <input type="submit" value="Add To Watchlist" class="watch" id="add-service-provider-to-watchlist">
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <?php } else if($_SESSION['user_type'] != 'seller' && $_SESSION['user_type'] != 'service_provider' ){ ?>
+                            <div class="add_watch_list">
+                                <form id="add_watch_list_service_provider" method="POST" data-op = "add" data-watchLoad ="<?php echo $data['watched'] ; ?>" >
+                                    <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
+                                    <input type="text" name="user_type" value="buyer" hidden>
+                                    <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
+                                    <!-- buyer_id -->
+                                    <input type="text" name="service_provider_id" value="<?php echo $data['details']->user_id ; ?>" hidden >
+                                    <!-- service_provider_id -->
+                                    
+                                    <div class="button-container">
+                                        <input type="submit" value="Add To Watchlist" class="watch" id="add-service-provider-to-watchlist">
+                                    </div>
+                                </form>
+                            </div>
+                    <?php }?>
+                    
+
                 </div>
             </div>
             <div class="profile-info">
@@ -151,6 +187,7 @@
     </div>
 
     <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
+    <script src="<?php echo URLROOT . '/public/js/service-provider-watchlist.js';?>"></script>
 
     <script>
     /* When the user clicks on the button,

@@ -75,30 +75,63 @@
                     }
                 ?>
                 </div>
-                <div class="add_watch_list">
-                <form id="add_watch_list_form" method="POST" data-op = "add" data-watchLoad ="<?php echo $data['watched'] ; ?>" >
-                        <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
-                        <input type="text" name="user_type" value="buyer" hidden>
-                        <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
-                        <input type="text" name="product_id" value="<?php echo $data['ad']->product_id ; ?>" hidden >
-                        
-                        <div class="button-container">
-                            <input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist">
-                        </div>
-                        <dialog id="dia">
-                            <div class="top-part">
-                                <button class="btn_close">X</button>
-                                <!-- <i class="fa-sharp fa-solid fa-xmark"></i> -->
-                            </div>  
-                            <hr>
-                            <div>
-                                <button class="continue">OK </button>  
-                                <button class="close">Close</button>
+                <!-- add to watch button is not visible if user is a seller or service provider -->
+                <!-- watch list button should visible if user is not logged in -->
+                <?php
+                    if( !isLoggedIn() ){?>
+                            <div class="add_watch_list">
+                                <form id="add_watch_list_form" method="POST" data-op = "add" data-watchLoad ="<?php echo $data['watched'] ; ?>" >
+                                    <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
+                                    <input type="text" name="user_type" value="buyer" hidden>
+                                    <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
+                                    <input type="text" name="product_id" value="<?php echo $data['ad']->product_id ; ?>" hidden >
+                                    
+                                    <div class="button-container">
+                                        <input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist">
+                                    </div>
+                                    <dialog id="dia">
+                                        <div class="top-part">
+                                            <button class="btn_close">X</button>
+                                            <!-- <i class="fa-sharp fa-solid fa-xmark"></i> -->
+                                        </div>  
+                                        <hr>
+                                        <div>
+                                            <button class="continue">OK </button>  
+                                            <button class="close">Close</button>
+                                        </div>
+                                    </dialog>
+                    
+                                </form>
                             </div>
-                        </dialog>
-        
-                    </form><br>
-                </div>
+                            <?php } else if($_SESSION['user_type'] != 'seller' && $_SESSION['user_type'] != 'service_provider' ){ ?>
+                                <div class="add_watch_list">
+                                    <form id="add_watch_list_form" method="POST" data-op = "add" data-watchLoad ="<?php echo $data['watched'] ; ?>" >
+                                        <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
+                                        <input type="text" name="user_type" value="buyer" hidden>
+                                        <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
+                                        <input type="text" name="product_id" value="<?php echo $data['ad']->product_id ; ?>" hidden >
+                                        
+                                        <div class="button-container">
+                                            <input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist">
+                                        </div>
+                                        <dialog id="dia">
+                                            <div class="top-part">
+                                                <button class="btn_close">X</button>
+                                                <!-- <i class="fa-sharp fa-solid fa-xmark"></i> -->
+                                            </div>  
+                                            <hr>
+                                            <div>
+                                                <button class="continue">OK </button>  
+                                                <button class="close">Close</button>
+                                            </div>
+                                        </dialog>
+                        
+                                    </form>
+                                </div>
+
+                <?php }?>
+
+
                 <!-- <?php echo 'Hello'.$data['ad']->longitude;?> -->
                 <?php if($data['ad']->longitude!='NULL' && $data['ad']->latitude!='NULL'){?>
                     <div class="location">
@@ -201,9 +234,17 @@
                         </div>
                     </div>
                 <div class="review-seller">
-                    <div class="write-review">
-                        <input type="submit" value="Write Review" id="review-seller-btn">
-                    </div>
+                <!-- add to watch button is not visible if user is a seller or service provider -->
+                <!-- watch list button should visible if user is not logged in -->
+                    <?php if(!isLoggedIn()){?>
+                        <div class="write-review">
+                            <input type="submit" value="Write Review" id="review-seller-btn">
+                        </div>
+                    <?php } else if($_SESSION['user_type'] != 'seller' && $_SESSION['user_type'] != 'service_provider' ){ ?>
+                            <div class="write-review">
+                                <input type="submit" value="Write Review" id="review-seller-btn">
+                            </div>
+                    <?php } ?>
 
                     <div class="review-form">
                         <div class="review-area-select-star">
@@ -533,5 +574,6 @@
 
 </script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
+<script src="<?php echo URLROOT . '/public/js/product-watch-list.js';?>"></script>
 </html>
 <!-- Closing the connection-->
