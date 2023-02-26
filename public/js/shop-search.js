@@ -3,9 +3,9 @@ const URLROOT = 'http://localhost/Audex';
 const resultTable = document.getElementById("search-results-table");
 const shopSearchForm = document.getElementById("shop-search-form");
 const inputField = document.getElementById("shop-search-item-term");
-const resultsToShop = document.getElementById("shop-search-results");
+
 const shopResultArea = document.getElementById("shop-page-search-result-area");
-// console.log(resultsToShop);
+
 
 
 inputField.addEventListener("keyup", (e) =>{
@@ -43,6 +43,8 @@ inputField.addEventListener("keyup", (e) =>{
         // data.forEach(function(result){
         //     console.log(result.product_title,result.price,result.product_category);
         // })
+        inputField.reset();
+        
     })
     .catch( (error)=>{
         console.log("Error:", error);
@@ -72,26 +74,48 @@ shopSearchForm.addEventListener("submit", (e) =>{
 
         // window.location.href = URLROOT+"/users/shop";
         
-        var html = "";
+        var html = "<div class = 'header'> <h1>Search Results</h1> </div>";
         for (var i = 0; i < data.length; i++) {
             var result = data[i];
             var imgLink = "<img src=" + "http://localhost/Audex/public/uploads/"+ result.image1 +">";
 
-            var link = "<a href ="+"http://localhost/Audex/buyers/advertiesmentDetails/"+result.product_id+ " >";
+            // check whether product is an auction or not
+            if(result.product_type == 'auction'){
+                var link = "<a href ="+"http://localhost/Audex/users/auction/"+result.product_id+ " >";
+                var auction_label = "<label>Auction</label>"
+            }
+            else{
+                var link = "<a href ="+"http://localhost/Audex/users/advertiesmentDetails/"+result.product_id+ " >";
+                var auction_label = ""
+            }
 
-            html += "<div class = 'container-ad' >"+ 
-                        "<div class = 'container-img' >"+ link+ imgLink+ "</a> </div>" +
-                        "<div class = title >" + link + result.product_title +" "+ result.product_condition+ " " +result.price+ "</a> </div>"+
+            html += "<div class = 'result-container' >"+ 
+                        "<div class = 'result-container-img' >"+ link+ imgLink+ "</a> </div>" +
+                        "<div class = 'result-title' >" 
+                            +link +
+                                "<div class='top-part'>"+
+                                    '<h3>'+ result.product_title+'</h3>' +
+                                    "<h4>" +result.product_condition+ "</h4> "+
+                                    "<h5>" +result.p_description+"</h5>" +
+                                "</div>"+
+                                "<div class='bottom-part'>"+
+                                    "<h6><label>LKR:"+result.price+ "</label>"+auction_label+"</h6>"+
+                                    "<button type ='submit'>View Product</button>"+
+                                "</div>"+
+                            "</a>"+
+                        "</div>"+
                     "</div>";
                 
         }
         // console.log("Pressed Enter");
         console.log(html);
         shopResultArea.innerHTML = html;
-        // resultsToShop.innerHTML= html;
+
         resultTable.style.visibility = "hidden"
-        resultTable.innerHTML = 'Hell';
         document.getElementById('shop-search-results').innerHTML = '';
+        document.getElementById('search-result-area').innerHTML = '';
+        
+        shopSearchForm.reset();
         
 
 

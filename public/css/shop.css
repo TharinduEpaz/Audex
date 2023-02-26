@@ -1,9 +1,8 @@
 .header h1{
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin: 15px 0px 15px 20px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     color: darkgrey;
     font-weight: 500;
 
@@ -78,6 +77,11 @@
   
  }
 
+ .container-ad .title a{
+    text-decoration:none;
+    color: black;
+ }
+
  .container{
     padding-top: 2vh;
  }
@@ -106,23 +110,6 @@
 .shop-search-form{
     display: flex;
     flex-direction: row;
-}
-#shop-search-results{
-    display: block;
-    margin-top: -19px;
-}
-#shop-search-results .table {
-    width: 731px;
-    border-collapse: collapse;
-    margin-left: 5%;
-} 
-#shop-search-results .table td {
-    padding: 12px 15px;
-    border: 1px solid rgb(169 165 165);
-    background: #ffffff;
-    display: -webkit-box;
-    text-align: left;
-    font-size: 16px;
 }
 #shop-search-results-table > tbody> tr > td > a > div{
     display: flex;
