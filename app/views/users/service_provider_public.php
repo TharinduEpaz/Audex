@@ -52,7 +52,6 @@
         </nav>
     </div>
 
-
     <div class="service-provider-profile">
         <div class="white-box">
             <div class="profile-title">
@@ -78,6 +77,7 @@
                         <?php if(strpos((string)$data['details']->Rating, '.')): ?>
                         <i class="fa fa-star-half-o"></i>
                         <?php endif; ?>
+               
 
                     </div>
 
@@ -117,7 +117,9 @@
                     
 
                 </div>
+             
             </div>
+            <a href="<?php echo URLROOT .'/service_providers/settings'?>" class="btn"> Add to WatchList</a>
             <div class="profile-info">
                 <div class="description">
                     <h1>About me</h1>
@@ -154,6 +156,7 @@
                         <span><?php echo $data['details']->achievements?></span>
                     </div>
                 </div>
+                
 
             </div>
             <h2>Events</h2>

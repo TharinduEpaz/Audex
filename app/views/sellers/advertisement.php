@@ -58,7 +58,7 @@
                 </div>
                 <div class="buttons">
                     <?php if($data['advertisement']->product_type=='auction'){?>
-                    <button type="button" class="bid_list" onclick="location.href='<?php echo URLROOT;?>/sellers/bid_list/<?php echo $data['advertisement']->product_id.'/'.$data['auction']->auction_id;?>'">Bid list</button>
+                    <button type="button" class="bid_list" onclick="location.href='<?php echo URLROOT;?>/sellers/bid_list/<?php echo $data['advertisement']->product_id;?>'">Bid list</button>
                     <?php }?>
                     <button type="button" class="delete" onclick="location.href='<?php echo URLROOT;?>/sellers/delete_advertisement/<?php echo $data['advertisement']->product_id;?>'"> Delete</button>    
                     

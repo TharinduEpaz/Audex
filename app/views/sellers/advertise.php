@@ -89,7 +89,7 @@
                                 ?> 
                         <div class="input">
                             <label for="">Price</label>
-                            <input class="price" type="text" name="price"  placeholder="xxxx.xx" value="<?php echo $data['price']?>"  >
+                            <input class="price" type="number" name="price"  placeholder="xxxx.xx" value="<?php echo $data['price']?>"  >
                         </div>
                         <div class="input">
                             <label for="check_au" >Auction(optional)</label>
@@ -427,7 +427,21 @@
 			modal.style.display = "none";
 		}
 
-        
+        // When the user clicks anywhere outside of the modal, close it
+	var modal = document.getElementById("myModal1");
+	var modal2 = document.getElementById("myModal2");
+
+    window.addEventListener("click", function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    });
+
+    window.addEventListener("click", function(event) {
+      if (event.target == modal2) {
+        modal2.style.display = "none";
+      }
+    });
 	</script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>

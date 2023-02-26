@@ -3,15 +3,14 @@
     private $buyerModel;
     public function __construct()
     {
-      if(!isLoggedIn()){
-        unset($_SESSION['otp']);
-        unset($_SESSION['email']);
-        unset($_SESSION['password']);
-        unset($_SESSION['first_name']);
-        unset($_SESSION['second_name']);
+      if(isset($_SESSION['attempt'])){
+        unset($_SESSION['otp_email']);
         unset($_SESSION['phone']);
-        unset($_SESSION['user_type']);
         unset($_SESSION['attempt']);
+        unset($_SESSION['time']);
+    }
+      if(!isLoggedIn()){
+        
         session_destroy();
         redirect('users/login');
     }
@@ -81,14 +80,15 @@
         redirect('users/login');
       }
       $details = $this->buyerModel->getBuyerDetails($id);
-
+      $buyerDetails = $this->buyerModel->getBDetails($id);
       if ($details->user_id != $_SESSION['user_id']) {
         redirect('users/login');
       }
 
       $data =[
         'id' => $id,
-        'user' => $details
+        'user' => $details,
+        'buyer' => $buyerDetails
       ];
       $this->view('buyers/getProfile',$data);
     }

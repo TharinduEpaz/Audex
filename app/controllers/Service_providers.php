@@ -7,15 +7,13 @@ class Service_providers extends Controller
 
     public function __construct()
     {
-        if (!isLoggedIn()) {
-            unset($_SESSION['otp']);
-            unset($_SESSION['email']);
-            unset($_SESSION['password']);
-            unset($_SESSION['first_name']);
-            unset($_SESSION['second_name']);
+        if(isset($_SESSION['attempt'])){
+            unset($_SESSION['otp_email']);
             unset($_SESSION['phone']);
-            unset($_SESSION['user_type']);
             unset($_SESSION['attempt']);
+            unset($_SESSION['time']);
+        }
+        if (!isLoggedIn()) {
             session_destroy();
             redirect('users/login');
         }
@@ -199,37 +197,68 @@ class Service_providers extends Controller
 
     public function addNewEvent()
     {
-
+        $errors = [];
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (isset($_POST['name']) && $_POST['name'] != '') {
-                $name = $_POST['name'];
+            // Validate form data
+            $name = $_POST['name'];
+            $date = date('Y-m-d', strtotime($_POST['date']));
+            $location = $_POST['location'];
+            $link = $_POST['link'];
+            $description = $_POST['description'];
+            $public = $_POST['public'];
+        
+            if (empty($name)) {
+                $errors[] = 'Name is required';
+            } else if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
+                $errors[] = 'Only letters and white space allowed in name field';
             }
 
-            if (isset($_POST['date']) && $_POST['date'] != '') {
-                $date = $_POST['date'];
+            $event_details = array($name, $date, $public, $location, $link, $description);
+
+            try {
+                $this->service_model->setEvent($event_details, $_SESSION['user_id']);
+               
+            } catch(PDOException $e) {
+                echo "ERROR : " . $e->getMessage();
             }
-            if (isset($_POST['public']) && $_POST['public'] != '') {
-                $public_event = $_POST['public_event'];
-            }
-
-            if (isset($_POST['location']) && $_POST['location'] != '') {
-                $location = $_POST['location'];
-            }
-
-            if (isset($_POST['link']) && $_POST['link'] != '') {
-                $link = $_POST['link'];
-            }
-
-            if (isset($_POST['description']) && $_POST['description'] != '') {
-                $description = $_POST['description'];
-            }
-
-            $event_details = array($name, $date, $public_event, $location, $link, $description);
-
-
-            $this->service_model->setEvent($event_details, $_SESSION['user_id']);
+            
 
         }
+
+
+        ////////////////////////////////////////////////////
+
+        // if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        //     if (isset($_POST['name']) && $_POST['name'] != '') {
+        //         $name = $_POST['name'];
+        //     }
+
+        //     if (isset($_POST['date']) && $_POST['date'] != '') {
+        //         $date = $_POST['date'];
+        //     }
+        //     if (isset($_POST['public']) && $_POST['public'] != '') {
+        //         $public_event = $_POST['public_event'];
+        //     }
+
+        //     if (isset($_POST['location']) && $_POST['location'] != '') {
+        //         $location = $_POST['location'];
+        //     }
+
+        //     if (isset($_POST['link']) && $_POST['link'] != '') {
+        //         $link = $_POST['link'];
+        //     }
+
+        //     if (isset($_POST['description']) && $_POST['description'] != '') {
+        //         $description = $_POST['description'];
+        //     }
+
+        //     $event_details = array($name, $date, $public_event, $location, $link, $description);
+
+
+        //     $this->service_model->setEvent($event_details, $_SESSION['user_id']);
+
+        // }
+
     }
 
     public function dashboard()
@@ -264,14 +293,15 @@ class Service_providers extends Controller
         
         
       
-        
-   
+    
         $this->view('service_providers/eventCalander',$data);
     }
 
     public function messages(){
         $this->view('service_providers/chat');
     }
+
+ 
 
 }
 

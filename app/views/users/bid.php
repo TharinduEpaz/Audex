@@ -53,7 +53,7 @@
                         
                         echo '<tr>';
                             echo '<td>'.$i.'</td>';
-                            echo '<td>'.$auction->name[0].$auction->name[1].'****</td>';
+                            echo '<td>'.$data['user'][$i-1]->first_name[0].$data['user'][$i-1]->first_name[1].'****</td>';
                             echo '<td>Rs.'.$auction->price.'</td>';
                         echo '</tr>';
                         endforeach;
@@ -97,7 +97,7 @@
                                     <input type="submit" name="submit" value="Bid" class="bid_button"><br>
                                     <button type="button" id="form-close" class="close">Cancel</button>
                                     </div>
-    <p>* By clicking BID button, you are accepting to buy the product if you become the winner</p>
+                                        <p>* By clicking BID button, you are accepting to buy the product if you become the winner</p>
                                 </form>
                         </div>
                         

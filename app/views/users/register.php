@@ -68,7 +68,7 @@
                         }
                     ?>
                     <label for="">First Name</label>
-                    <input type="text" name="fname" placeholder="First Name" value="<?php echo $data['first_name']?>" >
+                    <input type="text" name="fname" placeholder="First Name"  pattern="[A-Za-z]+" value="<?php echo $data['first_name']?>" >
                 </div>
                 <div class="input">
                     <?php
@@ -79,7 +79,7 @@
                         }
                     ?>
                     <label for="">Last Name</label>
-                    <input type="text" name="lname" placeholder="Last Name"  value="<?php echo $data['second_name']?>" >
+                    <input type="text" name="lname" placeholder="Last Name"  pattern="[A-Za-z]+" value="<?php echo $data['second_name']?>" >
                 </div>
                 <div class="input">
                     <?php
@@ -92,17 +92,6 @@
                     <label for="">Email</label>
                     <input type="email" name="email" placeholder="Email" value="<?php echo $data['email']?>" >
                 </div> 
-                <div class="input">
-                    <?php
-                        if(!empty($data['phone_err'])){
-                        echo '<div class="error">';
-                            echo '*'.$data['phone_err'].'<br>';
-                            echo '</div>';
-                        }
-                    ?>
-                    <label for="">Mobile Phone Number</label>
-                    <input type="phone" name="phone" placeholder="0#########" value="<?php echo $data['phone']?>"  pattern="[0-9]{10}">
-                </div>
                 <div class="input">
                     <label for="type">Account type</label>
                         <select name="type" id="type">
@@ -137,6 +126,19 @@
                     ?>
                     <label for="">Password</label>
                     <input type="password" name="password"  value="<?php echo $data['passwd']?>" >
+                </div>
+                <div class="input">
+                    <?php
+                    if(!empty($data['confirm_password_err']) ){
+                        echo '<div class="error">';
+                        if(!empty($data['confirm_password_err'])){
+                            echo '*'.$data['confirm_password_err'].'<br>';
+                        }
+                        echo '</div>';
+                    }
+                    ?>
+                    <label for="">Confirm Password</label>
+                    <input type="password" name="confirm_password"  value="<?php echo $data['confirm_passwd']?>" >
                 </div>
                 <div class="submit">
                     <input type="submit" name="submit" value="Next" class="button">
