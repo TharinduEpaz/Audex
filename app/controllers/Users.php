@@ -1803,10 +1803,11 @@
                 if( empty(trim($searchedTerm)) and empty(trim($productCategory)) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType))) 
                 {
                     // if all filters are empty
-                    echo json_encode([]);
+                    echo json_encode($results = []);
                 }
                 else if( empty(trim($searchedTerm)) )
                 {
+                    // search term is empty and check if others are empty (all other filters cant be empty)
                     if(!empty(trim($productCategory))){
                         $Filter['product_category']=$productCategory;
                     }
@@ -1837,6 +1838,7 @@
                         echo json_encode($results);
                     }
                     else{
+                        // search term is not empty and some other fiters are set
                         if(!empty(trim($productCategory))){
                             $Filter['product_category']=$productCategory;
                         }

@@ -63,13 +63,13 @@
             
         }
         .result-container .result-title .top-part{
-            height: 160px;
+            height: 133px;
             margin-bottom: 10px;
             overflow: hidden;
         }
         
         .result-container .result-title .bottom-part{
-            height: 80px;
+            height: 107px;
         }
 
         .result-title h3{
@@ -495,8 +495,7 @@
             
             <div id="shop-search-results">
                 <!-- this div shows search results for keyup events live -->
-                <table class="table" id="search-results-table">
-                </table>
+
             </div>
 
             <?php echo flash('auction_error');?>
@@ -520,10 +519,20 @@
                                         echo URLROOT . '/users/advertiesmentDetails/'.$result->product_id;
                                     }
                                 ?>">
-                                <?php echo '<h3>'.$result->product_title.'</h3' ; ?>
-                                <?php echo '<h4>'.$result->product_condition.'</h4' ; ?>
-                                <?php echo '<h5>'.$result->p_description.'</h5' ; ?>
-                                <?php echo '<label><h6>LKR:'. $result->price .'</h6></label> <button type = "submit">View Product</button>' ?>
+                                <div class="top-part">
+                                    <?php echo '<h3>'.$result->product_title.'</h3>' ; ?>
+                                    <?php echo '<h4>'.$result->product_condition.'</h4>' ; ?>
+                                    <?php echo '<h5>'.$result->p_description.'</h5>' ; ?>
+                                </div>
+                                <div class="bottom-part">
+                                    <?php echo '<h6><label>LKR:'. $result->price .'</label></h6> ' ;?>
+
+                                    <?php if($result->product_type == 'auction'){
+                                            echo '<h6><label> Auction </label></h6>';
+                                        }
+                                    ?>    
+                                    <?php echo '<button type = "submit">View Product</button>' ;?>
+                                </div>
                             </a>        
                             </div>
                         </div>

@@ -877,7 +877,7 @@ date_default_timezone_set("Asia/Kolkata");
                     $sql.='price >= :min_price';
                 }
                 else if($key=='max_price'){
-                    $sql.='price >= :min_price';
+                    $sql.='price <= :max_price';
                 }
                 else{
                     $sql.=$key." = :".$key."";
@@ -901,7 +901,7 @@ date_default_timezone_set("Asia/Kolkata");
                     $sql.='price >= :min_price';
                 }
                 else if($key=='max_price'){
-                    $sql.='price >= :min_price';
+                    $sql.='price <= :max_price';
                 }
                 else{
                     $sql.=$key." = :".$key."";
@@ -917,7 +917,7 @@ date_default_timezone_set("Asia/Kolkata");
 
             foreach($filter as $key=>$value){
                 $this->db->bind(':'.$key, $value);
-            }
+            } 
             // print_r($this->db);
             // exit;
             $results = $this->db->resultSet();
