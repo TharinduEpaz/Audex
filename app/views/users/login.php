@@ -19,6 +19,9 @@
         <?php 
             flash('register_success');
             flash('login_fail');
+            flash('email_message');
+            flash('email_err');
+            flash('password_message');
         ?>
             <h1>Login</h1>
             <!-- <?php if(isset($_SESSION['url'])){
@@ -53,14 +56,55 @@
                     <p>Do not have an account?&nbsp&nbsp</p>
                     <a href="<?php echo URLROOT . '/users/register';?>"> Register now</a>
                 </div>
-                <a href="register.html" class="forgot">Forgot password</a>
+                <a onclick="openModal(); return false;"class="forgot">Forgot password</a>
                 <div class="submit">
                     <input type="submit" name="submit" value="Login" class="button">
                 </div>
             </form>
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <div id="floating-panel">
+                    
+                    </div>
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <form action="<?php echo URLROOT . '/users/enterEmail';?>" method="post" style="margin-top: 2vh;">
+                        <div >
+                        <div class="input">
+                            <label for="">Enter email</label>
+                            <input type="email" name="email" placeholder="Enter email"  >
+                        </div>
+                        </div>
+                        <div class="submit">
+                            <input type="submit" name="submit" value="Next" class="button">
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
         </div>
     </div>
 </body>
+<script>
+    function openModal() {
+			var modal = document.getElementById("myModal");
+			modal.style.display = "block";
+            initMap();
+           
+    }
+
+    function closeModal() {
+			var modal = document.getElementById("myModal");
+			modal.style.display = "none";
+	}
+    // When the user clicks anywhere outside of the modal, close it
+	var modal = document.getElementById("myModal");
+
+    window.addEventListener("click", function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    });
+</script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>
 <!-- Closing the connection

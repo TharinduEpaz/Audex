@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
-    <title>Change Password</title>
+    <title>Forgot Password</title>
 </head>
 <body>
 <?php require_once APPROOT . '/views/users/navbar.php';?>
@@ -20,24 +20,12 @@
     <div class="container_main">
 
         <div class="form" style="margin-top: 20vh;">
-            <h1>Change Password</h1>
+            <h1>Forgot Password</h1>
                 <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
 
             
-            <form action="<?php echo URLROOT . '/users/change_password/'.$data['id']?>" method="post">
-            <?php
-                
-                if(!empty($data['password_err'])   ){
-                    echo '<div class="error">';
-                        echo '*'.$data['password_err'].'<br>';
-                    echo '</div>';
-                }
-
-            ?>
-                <label >Enter Current Password</label>
-                <div class="input">
-                    <input type="password" name="password"  class="password" value="<?php echo $data['password']?>">                   
-                </div>
+            <form action="<?php echo URLROOT . '/users/forgot_password/'.$data['id'].'/'.$data['time']?>" method="post">
+            
                 <?php
                 
                 if(!empty($data['new_password_err'])   ){
