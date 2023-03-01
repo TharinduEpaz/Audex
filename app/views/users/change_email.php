@@ -12,29 +12,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
-    <title>Change Phone Number</title>
+    <title>Change Email</title>
 </head>
 <body>
 <?php require_once APPROOT . '/views/users/navbar.php';?>
     
     <div class="container_main">
-        <div class="form">
-            <h1>Change/Add Phone Number</h1>
+    <?php echo flash('email_err');?>
+
+        <div class="form" style="margin-top: 30vh;">
+            <h1>Change Email</h1>
                 <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
 
             <?php
                 
-                if(!empty($data['phone_err'])   ){
+                if(!empty($data['email_err'])   ){
                     echo '<div class="error">';
-                        echo '*'.$data['phone_err'].'<br>';
+                        echo '*'.$data['email_err'].'<br>';
                     echo '</div>';
                 }
 
             ?>
-            <form action="<?php echo URLROOT . '/users/change_phone/'.$data['id']?>" method="post">
-                <label >Enter phone number</label>
+            <form action="<?php echo URLROOT . '/users/change_email/'.$data['id']?>" method="post">
+                <label >Enter email</label>
                 <div class="input">
-                    <input type="number" name="phone"  class="otp1" placeholder="0#########" pattern="[0-9]{10}" value="<?php echo $data['phone']?>" onpaste="false" >                   
+                    <input type="email" name="email"  class="otp1"value="<?php echo $data['email']?>" onpaste="false" >                   
                 </div>
                 <div class="submit">
                     <input type="submit" name="submit" value="Send OTP" id="button">

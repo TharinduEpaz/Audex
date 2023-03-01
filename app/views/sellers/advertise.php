@@ -66,6 +66,7 @@
                 // }
 
             ?>
+            <h1 style="text-align: center;">Post Advertisement</h1>
                     <form action="<?php echo URLROOT . '/sellers/advertise';?>" method="post" enctype="multipart/form-data">
                         <?php
                                     if(!empty($data['title_err'])){
@@ -217,7 +218,13 @@
                             <label for="show-map" >Location(optional)</label>
                             <input type="checkbox" id="show_map"  name="show_map" class="show_map" <?php if(!empty($data['longitude'])) echo 'checked';?>>
                         </div>
-                        
+                        <!-- <script>
+                            
+                                if(<?php echo !empty($data['longitude'])?>){
+                                    document.getElementById("html_content").style.display = "block";
+                                }
+                            
+                        </script> -->
 
                         <div id="html_content" style="display: none;">
 
@@ -294,7 +301,7 @@
                                   <a href="" onclick="codeAddress(); return false;">Adress</a>
                                 </div>
                                 <span class="close" onclick="closeModal2()">&times;</span>
-                                <div id="map2" style="width: 100%; height: 90%;">
+                                <div id="map2" style="width: 100%; height: 90%; margin-bottom:10px">
                                     
                                     <script>
                                         var geocoder2;
@@ -334,7 +341,7 @@
                                         }
                                 </script>
                                 </div>
-                                <a href="" class="post" onclick="closeModal2(); return false;">Submit</a>
+                                <a href="" class="post" style="padding-top:0px" onclick="closeModal2(); return false;">Submit</a>
                             </div>
                         </div>
                         
@@ -390,15 +397,15 @@
 		function openModal1() {
 			var modal = document.getElementById("myModal1");
 			modal.style.display = "block";
-            <?php if(empty($data['longitude'])){?>
-                document.getElementById("longitude").value = '79.8612';
-                document.getElementById("latitude").value = '6.9271';
-                document.getElementById("p_longi").innerHTML="Longitude: 79.8612";
-                document.getElementById("p_lati").innerHTML="Latitude: 6.9271";
-                document.getElementById("address1").innerHTML = "Address: Colombo, Sri Lanka";
+            // <?php if(empty($data['longitude'])){?>
+            //     document.getElementById("longitude").value = '79.8612';
+            //     document.getElementById("latitude").value = '6.9271';
+            //     document.getElementById("p_longi").innerHTML="Longitude: 79.8612";
+            //     document.getElementById("p_lati").innerHTML="Latitude: 6.9271";
+            //     document.getElementById("address1").innerHTML = "Address: Colombo, Sri Lanka";
 
             
-            <?php }?>
+            // <?php }?>
            
 		}
         
@@ -406,14 +413,14 @@
             var modal = document.getElementById("myModal2");
             modal.style.display = "block";
             // console.log(map2);
-            <?php if(empty($data['longitude'])){?>
-                document.getElementById("longitude").value = '79.8612';
-                document.getElementById("latitude").value = '6.9271';
-                document.getElementById("p_longi").innerHTML="Longitude: 79.8612";
-                document.getElementById("p_lati").innerHTML="Latitude: 6.9271";
-                document.getElementById("address1").innerHTML = "Address: Colombo, Sri Lanka";
+            // <?php if(empty($data['longitude'])){?>
+            //     document.getElementById("longitude").value = '79.8612';
+            //     document.getElementById("latitude").value = '6.9271';
+            //     document.getElementById("p_longi").innerHTML="Longitude: 79.8612";
+            //     document.getElementById("p_lati").innerHTML="Latitude: 6.9271";
+            //     document.getElementById("address1").innerHTML = "Address: Colombo, Sri Lanka";
             
-            <?php }?>
+            // <?php }?>
             
         }
 

@@ -11,7 +11,7 @@
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
     <title>Register</title>
 </head>
-<body>
+<body >
     <nav>
         <input type="checkbox" name="check" id="check" onchange="docheck()">
         <label for="check" class="checkbtn">
@@ -27,7 +27,7 @@
             <li><a href="<?php echo URLROOT;?>/users/register" class="nav_tags">Sign Up</a></li>
         </ul>
     </nav>
-    <div class="container_main">
+    <div class="container_main" style="height:0px;">
         <div id="forms" class="form">
             <h1>Register</h1>
             <?php
@@ -59,6 +59,13 @@
 
             ?>
             <form action="<?php echo URLROOT . '/users/register';?>" method="post">
+            <?php
+                        if(!empty($data['email_not_activated_err'])){
+                        echo '<div class="error">';
+                                echo '*'.$data['email_not_activated_err'].'<br>';
+                                echo '</div>';
+                        }
+                    ?>
                 <div class="input">
                     <?php
                         if(!empty($data['first_name_err'])){

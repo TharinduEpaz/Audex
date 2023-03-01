@@ -21,9 +21,18 @@
                     if($_SESSION['user_type']=='service_provider'){
                     echo '<a href="'.URLROOT . '/service_providers/profile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
 
-                    }else{
-
+                    }else if($_SESSION['user_type']=='buyer'){
+                        echo '<a href="'.URLROOT . '/buyers/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
+                        echo '<a href="'.URLROOT . '/'.$_SESSION['user_type'].'s/watchlist/'.$_SESSION['user_id'].'" class="nav_tags">Watchlist</a>';
+                        echo '<a href="#" class="nav_tags">Feedback</a>';
+                        echo '<a href="#" class="nav_tags">Reactions</a>';
+                        echo '<a href="#" class="nav_tags">Messages</a>';
+                    }else if($_SESSION['user_type']=='seller'){
+                        echo '<a href="'.URLROOT . '/sellers/dashboard" class="nav_tags">Dashboard</a>';
                         echo '<a href="'.URLROOT . '/'.$_SESSION['user_type'].'s/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
+                        echo '<a href="'.URLROOT . '/sellers/advertisements" class="nav_tags">Advertisements</a>';
+                        echo '<a href="'.URLROOT . '/sellers/advertise" class="nav_tags">Advertise</a>';
+                        echo '<a href="#" class="nav_tags">Messages</a>';
                     }
                     echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                 echo '</div>';
@@ -33,7 +42,7 @@
                 echo '<li><a href="'.URLROOT . '/users/login" class="nav_tags">Login</a></li>';
                 echo '<li><a href="'.URLROOT.'/users/register" class="nav_tags">Signup</a></li>';
             }
-             ?>
+            ?>
 
         </ul>
     </nav>

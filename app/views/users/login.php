@@ -15,9 +15,10 @@
 <?php require_once APPROOT . '/views/users/navbar.php';?>
 
     <div id="container_main" class="container_main">
-        <div id="forms" class="form">
+        <div id="forms" class="form" style="margin-top: 20vh;">
         <?php 
             flash('register_success');
+            flash('login_fail');
         ?>
             <h1>Login</h1>
             <!-- <?php if(isset($_SESSION['url'])){

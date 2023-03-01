@@ -20,8 +20,26 @@
     <div class="container" style="background: none;">
     
         <div class="content">
+            <div class="image_likes">
             <div class="image">
-                <img src="<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>" alt="">
+                    <div class="grid">
+                        <div id="img1" class="img1" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>)">
+                        </div>
+                        <div class="img2" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>)">    
+                            <a style="width: 100%;height:100%; " onclick="change_img1(); return false;" ></a>
+                        </div>
+                        <div class="img3" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image2;?>)"> 
+                            <?php if($data['ad']->image2!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img2(); return false;"></a> 
+                            <?php }?>
+                        </div>
+                        <div class="img4" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image3;?>)">   
+                            <?php if($data['ad']->image3!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img3(); return false;"></a>
+                            <?php }?>
+                        </div>
+                    </div>
+                </div>
                 <div class="like-dislike-area">
                         <!-- used two custom attributes one for click event and other one to store liked value when load -->
                         <div id="like-count">
@@ -33,14 +51,14 @@
                         </div>
                         <button type="submit" id="product-dislike-btn" data-dislike = "addDislike" data-dislikeLoad = "<?php echo $data['disliked'] ; ?>" ><i class="fa-solid fa-thumbs-down"></i></button> 
                     </div>
-                <!-- <a href="">next</a> -->
+
             </div>
             <div class="details">
                 <h2><?php echo $data['ad']->product_title?></h2>
                 <table>
                     <tr>
                         <td class="name">Category</td>
-                        <td class="value">: <?php echo $data['ad']->product_category?></td>
+                        <td class="value">: <?php echo ucwords($data['ad']->product_category)?></td>
                     </tr>
                     <tr>
                         <td class="name">Model Number</td>
@@ -48,7 +66,7 @@
                     </tr>
                     <tr>
                         <td class="name">Brand name</td>
-                        <td class="value">: <?php echo $data['ad']->brand?></td>
+                        <td class="value">: <?php echo ucwords($data['ad']->brand)?></td>
                     </tr>
                     <tr>
                         <td class="name">Condition</td>
@@ -56,25 +74,18 @@
                     </tr>
                 </table>
                 <div class="price">
-                    <h4>Rs. <?php echo $data['ad']->price?></h4>
+                    <h4>LKR&nbsp;<?php echo $data['ad']->price?></h4>
                 </div>
                 <div class="message_bid">
                 <?php 
                     if(isLoggedIn()){
                         if($_SESSION['user_email']!=$data['ad']->email){
-                            if($data['ad']->product_type=='auction'){
-
-                                echo '<div class="bid_now">';
-                                echo '<a href="'.URLROOT.'/users/bid/'.$data['ad']->product_id.'">Bid Now</a>';
-                                echo '</div>';
-                            }
                             echo '<div class="message_seller">';
                             echo '<a href="'.URLROOT.'/users/bid/'.$data['ad']->product_id.'">Message Seller</a>';
                             echo '</div>';
                         }
                     }
                 ?>
-                </div>
                 <!-- add to watch button is not visible if user is a seller or service provider -->
                 <!-- watch list button should visible if user is not logged in -->
                 <?php
@@ -112,7 +123,7 @@
                                         <input type="text" name="product_id" value="<?php echo $data['ad']->product_id ; ?>" hidden >
                                         
                                         <div class="button-container">
-                                            <input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist">
+                                            <input style="margin-top:2vh" type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist">
                                         </div>
                                         <dialog id="dia">
                                             <div class="top-part">
@@ -130,6 +141,7 @@
                                 </div>
 
                 <?php }?>
+                </div>
 
 
                 <!-- <?php echo 'Hello'.$data['ad']->longitude;?> -->
@@ -304,6 +316,16 @@
         modal.style.display = "none";
       }
     });
+
+    function change_img1(){
+        document.getElementById('img1').style.backgroundImage = "url('<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>')";
+    }
+    function change_img2(){
+        document.getElementById('img1').style.backgroundImage = "url('<?php echo URLROOT.'/public/uploads/'.$data['ad']->image2;?>')";
+    }
+    function change_img3(){
+        document.getElementById('img1').style.backgroundImage = "url('<?php echo URLROOT.'/public/uploads/'.$data['ad']->image3;?>')";
+    }
     // like removeLike functions click event
     const likeBtn = document.getElementById("product-like-btn");
     const dislikeBtn = document.getElementById("product-dislike-btn");
