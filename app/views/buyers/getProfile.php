@@ -94,6 +94,7 @@
                 <div class="form-data-area">
                     <label for="email">Email:</label>
                     <input type="text" name="email" value="<?php echo $data['user']->email; ?>" disabled>
+                    <a style="margin-left: 2%;" href="<?php echo URLROOT.'/users/change_email/'.$data['user']->user_id;?>">Change</a>
                 </div>
                 <div class="form-data-area">
                     <label for="address1">Address Line 1:</label>
@@ -104,10 +105,16 @@
                     <input type="text" name="address2" value="<?php echo $data['user']->address2; ?>" disabled>
                 </div>
                 <div class="form-data-area">
+                    <label for="password">Password</label>
+                    <input type="text" name="password" value="*********" disabled>
+                    <a style="margin-left: 2%;" href="<?php echo URLROOT.'/users/change_password/'.$data['user']->user_id;?>">Change</a>
+                </div>
+                <div class="form-data-area">
                     <label for="phone_number">Phone Number:</label>
                     <input type="text" name="phone_number" value="<?php echo $data['user']->phone_number; ?>" disabled>
-                    <a href="<?php echo URLROOT.'/users/change_phone/'.$data['user']->user_id;?>">Change</a>
-                </div>  
+                    <a style="margin-left: 2%;" href="<?php echo URLROOT.'/users/change_phone/'.$data['user']->user_id;?>"><?php if($data['user']->phone_number!=NULL){ echo "Change";}else{ echo "Add";}?></a>
+                    
+                </div>   
             </div> 
             <div class="button-edit-delete">
                 <a href="<?php echo URLROOT.'/buyers/editProfile/'.$_SESSION['user_id']; ?>"><button type="submit"  value="Edit" id="edit-button">Edit</button></a>

@@ -18,7 +18,7 @@
 <?php require_once APPROOT . '/views/users/navbar.php';?>
     
     <div class="container_main">
-        <div class="form">
+        <div class="form" style="margin-top: 30vh;">
             <h1>Change/Add Phone Number</h1>
                 <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
 
