@@ -20,6 +20,11 @@
     //Site Name
     define('SITENAME', 'Audex');
 
+    
+    //Email password
+    define('EMAIL_PASS', 'bcoxsurnseqiajuf');
+
+
     define('MAPS_API','AIzaSyC5ZntESaneCqqHfq1ngZ1PaHvYbGbsvNA');
     define('GEOCODE','https://maps.googleapis.com/maps/api/geocode/json?key='.MAPS_API);
 

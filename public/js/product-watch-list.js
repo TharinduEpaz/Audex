@@ -60,6 +60,8 @@ addToWatchListForm.addEventListener("submit",async (e)=>{
         document.getElementById("add-to-watchlist").value = "Remove From List";
         addToWatchListForm.setAttribute("data-op", "remove")
         document.getElementById("add-to-watchlist").style.backgroundColor = "RED";
+        document.getElementById("add-to-watchlist").style.borderColor = "RED";
+
         addToWatchListForm.reset(); 
       });
 

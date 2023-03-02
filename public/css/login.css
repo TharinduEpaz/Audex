@@ -40,11 +40,49 @@
     width: 100%;
     margin-top: 1vh;
 }
+.forgot:hover{
+    cursor: pointer;
+}
 .submit .button:hover{
     background: #0082e6;
     color: white;
     cursor: pointer;
 }
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .modal-content {
+    background-image: url('../img/retro-microphone-isolated-color-background 1.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -1;
+    margin: 37vh auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 25%;
+  height: 30%;
+  }
+.modal-content span:hover{
+    cursor: pointer;
+}
+.modal-content form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: space-between;
+    margin-left: 2%;
+}
+
 @media (max-width:768px){
     .form{
         width: 50%;

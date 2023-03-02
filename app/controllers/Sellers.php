@@ -52,9 +52,8 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
       $sellerDetails = $this->sellerModel->getSellerDetails($id);
 
       if ($details->user_id != $_SESSION['user_id']) {
-        $_SESSION['url']=URL();
 
-        redirect('users/login');
+        redirect('users/index');
       }
 
       $data =[

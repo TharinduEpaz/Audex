@@ -134,7 +134,7 @@
                 }
 
                 //Make sure errors are empty
-                if(empty($data['email_err']) && empty($data['first_name_err']) && empty($data['second_name_err'])  && empty($data['password_err1']) && empty($data['password_err2']) && empty($data['password_err3']) && empty($data['password_err4']) && empty($data['password_err5']) && empty($data['password_err6'])){
+                if(empty($data['email_err']) && empty($data['first_name_err']) && empty($data['second_name_err'])  && empty($data['password_err1']) && empty($data['password_err2']) && empty($data['password_err3']) && empty($data['password_err4']) && empty($data['password_err5']) && empty($data['confirm_password_err']) && empty($data['password_err6'])){
                     //Validated
                     //Hash password
                     $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
@@ -154,6 +154,7 @@
                     }else if($this->userModel->register($data,$dat)){
                         $_SESSION['otp_email']=$data['email'];
                         $_SESSION['attempt']=0;
+                        $_SESSION['time'] = date('Y-m-d H:i:s', strtotime('+5 minutes', strtotime(date('Y-m-d H:i:s'))));
                         //Send email
                         $to=$data['email'];
                         $sender='audexlk@gmail.com';
@@ -169,7 +170,7 @@
                         $mail->Host = 'smtp.gmail.com';
                         $mail->SMTPAuth = true;
                         $mail->Username = $sender;
-                        $mail->Password = 'bcoxsurnseqiajuf';
+                        $mail->Password = EMAIL_PASS;
                         $mail->SMTPSecure = 'ssl';
                         $mail->Port = 465;
                         $mail->setFrom($sender);
@@ -183,7 +184,7 @@
                             redirect('users/verifyotp');
                         }
                         else{
-                            flash('email_err','Email not sent');
+                            flash('email_err','Email not sent','alert alert-danger');
                             $this->view('users/register', $data);
                         }
                     
@@ -225,6 +226,7 @@
         public function activate_email($email){
             $data['user']=$this->userModel->findUserDetailsByEmail($email);
             $_SESSION['attempt']=0;
+            $_SESSION['time'] = date('Y-m-d H:i:s', strtotime('+5 minutes', strtotime(date('Y-m-d H:i:s'))));
             $data['email']=$email;
             $data['otp']=rand(111111,999999);
             $data['otp_hashed'] = password_hash($data['otp'], PASSWORD_DEFAULT);
@@ -471,25 +473,44 @@
                 }
                     //not a deleted account
                     //Make sure errors are empty
-                    if(empty($data['email_err'])  && empty($data['password_err']) && empty($data['email_not_activated_err'])){
-                        //Validated
-                        //Check and set logged in user
-                        $dat=date('Y-m-d H:i:s');
+                    if($userData->password_wrong_attempts<=3){
+                        if(empty($data['email_err'])  && empty($data['password_err']) && empty($data['email_not_activated_err'])){
+                            //Validated
+                            //Check and set logged in user
+                            $dat=date('Y-m-d H:i:s');
+    
+                            $loggedInUser = $this->userModel->login($data['email'], $data['password'],$dat);
+                            if($loggedInUser ){
+                                if($loggedInUser->suspended == 0){
+                                    //Create session
+                                    $this->userModel->updatePasswordAttemptsZero($data['email']);
+                                    $this->createUserSession($loggedInUser);
+                                }else{
+                                    flash('login_fail', 'Account suspended for 1 hour', 'alert alert-danger');
+                                    $this->view('users/login', $data);
 
-                        $loggedInUser = $this->userModel->login($data['email'], $data['password'],$dat);
-                        if($loggedInUser){
-                            //Create session
-                            $this->createUserSession($loggedInUser);
+                                }
+                            }
+                            else{
+                                $data['password_err'] = 'Password incorrect';
+                                $this->userModel->updatePasswordAttempts($data['email']);
+    
+                                $this->view('users/login', $data);
+                            }
                         }
                         else{
-                            $data['password_err'] = 'Password incorrect';
-
+                            //Load view with errors
                             $this->view('users/login', $data);
                         }
-                    }
-                    else{
-                        //Load view with errors
-                        $this->view('users/login', $data);
+
+                    }else{
+                        $dat=date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' +1  hour'));
+                        if($this->userModel->suspendAccount($data['email'],$dat)){
+                            flash('login_fail', 'Account suspended for 1 hour', 'alert alert-danger');
+                            $this->view('users/login', $data);
+                        }else{
+                            flash('login_fail', 'Something went wrong', 'alert alert-danger');
+                        }
                     }
                          
             }
@@ -531,10 +552,15 @@
                     unset($_SESSION['attempt']);
                     unset($_SESSION['time']);
                 }
+                $user=$this->userModel->getUserDetails($id);
+                if(empty($user)){
+                    redirect('users/index');
+                }
                 if(!isLoggedIn()){
-                  $_SESSION['url']=URL();
-          
-                  redirect('users/login');
+                    $_SESSION['url'] = URL();
+                    redirect('users/login');
+                }else if($_SESSION['user_email'] != $user->email){
+                    redirect($_SESSION['user_type'].'s/getProfile/'.$id);
                 }
                 $details = $this->userModel->getUserDetails($id);
                 $buyerDetails = $this->userModel->getBuyerDetails($details->email);
@@ -559,8 +585,15 @@
                     unset($_SESSION['attempt']);
                     unset($_SESSION['time']);
                 }
+                $user=$this->userModel->getUserDetails($id);
+                if(empty($user)){
+                    redirect('users/index');
+                }
                 if(!isLoggedIn()){
+                    $_SESSION['url'] = URL();
                     redirect('users/login');
+                }else if($_SESSION['user_email'] != $user->email){
+                    redirect($_SESSION['user_type'].'s/getProfile/'.$id);
                 }
                 if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     // Process form
@@ -645,8 +678,21 @@
             }
 
             public function otp_phone($id){
+                if(!isset($_SESSION['attempt']) || $id==null){
+                    unset($_SESSION['otp_email']);
+                    unset($_SESSION['attempt']);
+                    redirect('users/index');
+                }
+                $user=$this->userModel->getUserDetails($id);
+                if(empty($user)){
+                    redirect('users/index');
+                }
                 if(!isLoggedIn()){
+                    $_SESSION['url'] = URL();
                     redirect('users/login');
+                }else if($_SESSION['user_email'] != $user->email){
+                    redirect($_SESSION['user_type'].'s/getProfile/'.$id);
+
                 }
                 if($_SESSION['attempt']<=3){
 
@@ -698,6 +744,7 @@
                             }else{
                                 unset($_SESSION['phone']);
                                 unset($_SESSION['attempt']);
+                                unset($_SESSION['time']);
                                 redirect('users/index');
                             }
                         }
@@ -724,7 +771,453 @@
                     redirect($_SESSION['user_type'].'s/getProfile/'.$id);
                 }
             }
+
+            public function change_email($id){
+                if(isset($_SESSION['attempt'])){
+                    unset($_SESSION['otp_email']);
+                    unset($_SESSION['phone']);
+                    unset($_SESSION['attempt']);
+                    unset($_SESSION['time']);
+                }
+                $user=$this->userModel->getUserDetails($id);
+                if(empty($user)){
+                    redirect('users/index');
+                }
+                if(!isLoggedIn()){
+                    $_SESSION['url'] = URL();
+                    redirect('users/login');
+                }else if($_SESSION['user_email'] != $user->email){
+                    redirect($_SESSION['user_type'].'s/getProfile/'.$id);
+                }
+                if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                    // Process form
+                    //Sanitize POST data
+                    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                    //init data
+                    $data = [
+                        'id' => $id,
+                        'email'=>trim($_POST['email']),
+                        'email_err' => '',
+                        'user' => $this->userModel->getUserDetails($id)
+                    ];
+                    //Validate phone
+                    if(empty($data['email'])){
+                        $data['email_err'] = 'Please enter a email';
+                    }
+                    if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                        $data['email_err'] = 'Enter a valid Email';
+                    }
+                    if(!empty($this->userModel->getUserDetailsByEmail($data['email']))){
+                        $data['email_err'] = 'Email is already added, use another one';
+                    }
+                    //Make sure errors are empty
+                    if(empty($data['email_err'])){
+                        //Validated
+                        $_SESSION['attempt'] = 0;
+                        $_SESSION['time'] = date('Y-m-d H:i:s', strtotime('+5 minutes', strtotime(date('Y-m-d H:i:s'))));
+                        $otp=rand(111111,999999);
+                        if($this->userModel->updateEmailOTP($otp,$id)){
+                            //Send email
+                            $to=$data['email'];
+                            $sender='audexlk@gmail.com';
+                            $mail_subject='Verify Email Address';
+                            $email_body='<p>Dear '.$data['user']->first_name.',<br>In order to change your email address you need to validate your account.'; 
+                            $email_body.=' To validate your account you need enter the given OTP in the verification page.<br>';
+                            $email_body.='<h3>The OTP</h3><br><h1>'.$otp.'</h1><br>';
+                            $email_body.='Thank you,<br>Audexlk</p>';
+                            // $header="From:{$sender}\r\nContent-Type:text/html;";
+                            
+                            $mail = new PHPMailer(true);
+                            $mail->isSMTP();
+                            $mail->Host = 'smtp.gmail.com';
+                            $mail->SMTPAuth = true;
+                            $mail->Username = $sender;
+                            $mail->Password = EMAIL_PASS;
+                            $mail->SMTPSecure = 'ssl';
+                            $mail->Port = 465;
+                            $mail->setFrom($sender);
+                            $mail->addAddress($to);
+                            $mail->isHTML(true);
+                            $mail->Subject = $mail_subject;
+                            $mail->Body = $email_body;
+                            if($mail->send()){
+                                $_SESSION['otp_email']=$data['email'];
+                                //Otp send by email
+                                redirect('users/otp_email/'.$id);
+                            }
+                            else{
+                                flash('email_err','Email not sent','alert alert-danger');
+                                $this->view('users/change_email', $data);
+                            }
+                        }
+                        else{
+                            die('Something went wrong');
+                        }
+                        
+                    }else{
+                        //Load view with errors
+                        $this->view('users/change_email', $data);
+                    }
+                }else{
+                    $data = [
+                        'id' => $id,
+                        'email'=>'',
+                        'email_err' => '',
+                        'user' => $this->userModel->getUserDetails($id)
+                    ];
+                    $this->view('users/change_email',$data);
+                }
+            }
+
+            public function otp_email($id){
+
+                if(!isset($_SESSION['attempt']) || $id==null){
+                    unset($_SESSION['otp_email']);
+                    unset($_SESSION['time']);
+                    unset($_SESSION['attempt']);
+                    redirect('users/index');
+                }
+                $user=$this->userModel->getUserDetails($id);
+                if(empty($user)){
+                    redirect('users/index');
+                }
+                if(!isLoggedIn()){
+                    $_SESSION['url'] = URL();
+                    redirect('users/login');
+                }else if($_SESSION['user_email'] != $user->email){
+                    redirect($_SESSION['user_type'].'s/getProfile/'.$id);
+
+                }
+                if($_SESSION['attempt']<=3){
+
+                    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                        $_SESSION['attempt']++;
+                        // Process form
+                        //Sanitize POST data
+                        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                        //init data
+                        $data = [
+                            'id' => $id,
+                            'email' => $_SESSION['otp_email'],
+                            'otp_entered'=>trim($_POST['otp']),
+                            'otp_err' => ''
+                        ];
+
+                        if(empty($data['otp_entered'])){
+                            $data['otp_err'] = 'Please enter otp';
+                        }else if(strlen($data['otp_entered']) !=6){
+                            $data['otp_err'] = 'Otp must be 6 characters';
+                        }else if(!preg_match('/^[0-9]{6}$/', $data['otp_entered'])){
+                            $data['otp_err'] = 'Otp must be numeric';
+                        }
+                        if(empty($data['otp_err'])){
+                            //no errors
+                            if($id!=NULL){
+                                $user_details=$this->userModel->getUserDetails($id);
+                                $data['user']=$user_details;
+                                if($user_details){
+                                    if($data['otp_entered'] == $user_details->otp){
+                                        //otp matched
+                                    
+                                        //Update user
+                                        if($this->userModel->updateUserEmail($data['email'], $id)){
+                                            unset($_SESSION['otp_email']);
+                                            unset($_SESSION['attempt']);
+                                            unset($_SESSION['time']);
+                                            $_SESSION['user_email']=$data['email'];
+                                            flash('phone_message', 'Email updated successfully');
+                                            redirect($_SESSION['user_type'].'s/getProfile/'.$id);
+
+                                        }else{
+                                            die('Something went wrong');}
+                                    }
+                                    else{
+                                        $data['otp_err'] = 'Otp not matched ';
+                                        $this->view('users/otp_email', $data);
+                                    }
+                                }
+                            }else{
+                                unset($_SESSION['otp_email']);
+                                unset($_SESSION['attempt']);
+                                unset($_SESSION['time']);
+                                redirect('users/index');
+                            }
+                        }
+                        else{
+                            $this->view('users/otp_email', $data);
+                        }
+
+                    }
+                
+                    else{
+                        $data = [
+                            'id' => $id,
+                            'email' => $_SESSION['otp_email'],
+                            'otp_entered' => '',
+                            'otp_err' => '',
+                        ];
+                        $this->view('users/otp_email',$data);
+                    }
+                }else{
+                    unset($_SESSION['otp_email']);
+                    unset($_SESSION['attempt']);
+                    unset($_SESSION['time']);
+                    flash('phone_message', 'Eccessed maximum attempts', 'alert alert-danger');
+                    redirect($_SESSION['user_type'].'s/getProfile/'.$id);
+                }
+            }
+
+            public function enterEmail(){
+                if(isset($_SESSION['attempt'])){
+                    unset($_SESSION['otp_email']);
+                    unset($_SESSION['phone']);
+                    unset($_SESSION['attempt']);
+                    unset($_SESSION['time']);
+                }
+                if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                    // Process form
+                    //Sanitize POST data
+                    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                    //init data
+                    $data = [
+                        'email'=>trim($_POST['email']),
+                        'email_err' => ''
+                    ];
+                    //Validate phone
+                    if(empty($data['email'])){
+                        flash('email_err','Please enter a email in forgot password section','alert alert-danger');
+                        $data['email_err'] = 'Please enter a email';
+                    }else if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                        flash('email_err','Please enter a valid email in forgot password section','alert alert-danger');
+                        $data['email_err'] = 'Enter a valid Email';
+                    }else if(empty($this->userModel->getUserDetailsByEmail($data['email']))){
+                        flash('email_err','No user found to change the password','alert alert-danger');
+                        $data['email_err'] = 'No user found';
+                    }
+                    $user=$this->userModel->getUserDetailsByEmail($data['email']);
+                    //Make sure errors are empty
+                    if(empty($data['email_err'])){
+                        //Validated
+                        $date = date('U', strtotime('+10 minutes', strtotime(date('Y-m-d H:i:s')))); //10 minutes from now{date('U') gives the time stamp}
+                            //Send email
+                            $to=$data['email'];
+                            $sender='audexlk@gmail.com';
+                            $mail_subject='Verify Email Address to change password';
+                            $mail = new PHPMailer(true);
+                            $mail->isSMTP();
+                            $mail->Host = 'smtp.gmail.com';
+                            $mail->SMTPAuth = true;
+                            $mail->Username = $sender;
+                            $mail->Password = EMAIL_PASS;
+                            $mail->SMTPSecure = 'ssl';
+                            $mail->Port = 465;
+                            $mail->setFrom($sender);
+                            $mail->addAddress($to);
+                            $mail->isHTML(true);
+                            $email_body='<p>Dear '.$user->first_name.',<br>In order to change your password, you need to validate your account.'; 
+                            $email_body.=' To validate your account <b><a href="'.URLROOT.'/users/forgot_password/'.$user->user_id.'/' . $date.'/'.$user->password.'">Click here</a>.<br>';
+                            $email_body.='Thank you,<br>Audexlk</p>';
+                            // $header="From:{$sender}\r\nContent-Type:text/html;";
+                            
+                            $mail->Subject = $mail_subject;
+                            $mail->Body = $email_body;
+                            if($mail->send()){
+                                flash('email_message','Email sent to change password');
+                                //Otp send by email
+                                redirect('users/login');
+                            }
+                            else{
+                                flash('email_message','Email not sent','alert alert-danger');
+                                $this->view('users/login');
+                            }
+                        
+                    }else{
+                        //Load view with errors
+                        redirect('users/login');
+                    }
+                }
+            }
+
+            public function forgot_password($id,$time,$password){
+                if($time<date('U')){
+                    flash('email_message','Link expired','alert alert-danger');
+                    redirect('users/login');
+                }
+                $user=$this->userModel->getUserDetails($id);
+                if(empty($user->email)){
+                    flash('email_message','No user found','alert alert-danger');
+                    redirect('users/login');
+                }
+                if($user->password!=$password){
+                    flash('email_message','Wrong user','alert alert-danger');
+                    redirect('users/login');
+                }
+                if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                    // Process form
+                    //Sanitize POST data
+                    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                    //init data
+                    $data = [
+                        'id' => $id,
+                        'time' => $time,
+                        'new_password' => trim($_POST['new_password']),
+                        'confirm_passwd' => trim($_POST['newc_password']),
+                        'password_err' => '',
+                        'new_password_err' => '',
+                        'confirm_password_err' => ''
+                    ];
+                    $data['new_hashed_password'] = password_hash($data['new_password'], PASSWORD_DEFAULT);
+                    
+                    //Validate new password
+                    if(empty($data['new_password'])){
+                        $data['new_password_err'] = 'Please enter new password';
+                    }else if(strlen($data['new_password']) < 6){
+                        $data['new_password_err'] = 'Password must be at least 6 characters';
+                    }else if(password_verify($data['new_password'], $user->password)){
+                        $data['new_password_err'] = 'New password must be different from current password';
+                    }
+                    // if(!preg_match("#[0-9]+#",$data['new_password'])) {
+                    //     $data['password_err3'] = 'Password must contain at least 1 number!';
+                    // }if(!preg_match("#[A-Z]+#",$data['new_password'])) {
+                    //     $data['password_err4'] = 'Password must contain at least 1 capital letter!';
+                    // }if(!preg_match("#[a-z]+#",$data['new_password'])) {
+                    //     $data['password_err5'] = 'Password must contain at least 1 lowercase letter!';
+                    /* }if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['new_password'])) {*/
+                    //     $data['password_err6'] = 'Password must contain at least 1 special character!';
+                    // }
+
+                    if(empty($data['confirm_passwd'])){
+                        $data['confirm_password_err'] = 'Please confirm the password';
+                    }else if($data['new_password'] != $data['confirm_passwd']){
+                        $data['confirm_password_err'] = 'Passwords do not match';
+                    }
+                    //Make sure errors are empty
+                    if(empty($data['confirm_password_err']) && empty($data['new_password_err']) && empty($data['password_err3']) && empty($data['password_err4']) && empty($data['password_err5']) && empty($data['password_err6'])){
+                        //Validated
+                        if($this->userModel->updatePassword($data['new_hashed_password'],$id)){
+                            flash('password_message', 'Password updated successfully');
+                            redirect('users/login');
+                        }
+                        else{
+                            flash('password_message', 'Password change unsuccessful', 'alert alert-danger');
+                            redirect('users/login');
+                        }
+                        
+                    }else{
+                        //Load view with errors
+                        $this->view('users/forgot_password',$data);
+                    }
+                }else{
+                    $data = [
+                        'id' => $id,
+                        'time' => $time,
+                        'new_password' => '',
+                        'confirm_passwd' => '',
+                        'new_password_err' => '',
+                        'confirm_password_err' => '',
+                        'user' => $user
+                    ];
+                    $this->view('users/forgot_password',$data);
+                    
+                }
+
+            }
             
+
+            public function change_password($id){
+                if(isset($_SESSION['attempt'])){
+                    unset($_SESSION['otp_email']);
+                    unset($_SESSION['phone']);
+                    unset($_SESSION['attempt']);
+                    unset($_SESSION['time']);
+                }
+                $user=$this->userModel->getUserDetails($id);
+                if(empty($user->email)){
+                    redirect('users/index');
+                }
+                if(!isLoggedIn()){
+                    $_SESSION['url'] = URL();
+                    redirect('users/login');
+                }else 
+                if($_SESSION['user_email'] != $user->email){
+                    redirect($_SESSION['user_type'].'s/getProfile/'.$id);
+                }
+                if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                    // Process form
+                    //Sanitize POST data
+                    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                    //init data
+                    $data = [
+                        'id' => $id,
+                        'password' => trim($_POST['password']),
+                        'new_password' => trim($_POST['new_password']),
+                        'confirm_passwd' => trim($_POST['newc_password']),
+                        'password_err' => '',
+                        'new_password_err' => '',
+                        'confirm_password_err' => ''
+                    ];
+                    $data['hashed_password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+                    $data['new_hashed_password'] = password_hash($data['new_password'], PASSWORD_DEFAULT);
+                    //Validate password
+                    if(empty($data['password'])){
+                        $data['password_err'] = 'Please enter current password';
+                    }else if(!password_verify($data['password'], $user->password)  ){
+                        $data['password_err'] = 'Incorrect current password';
+                    }
+                    //Validate new password
+                    if(empty($data['new_password'])){
+                        $data['new_password_err'] = 'Please enter new password';
+                    }else if(strlen($data['new_password']) < 6){
+                        $data['new_password_err'] = 'Password must be at least 6 characters';
+                    }else if(password_verify($data['new_password'], $user->password)){
+                        $data['new_password_err'] = 'New password must be different from current password';
+                    }
+                    // if(!preg_match("#[0-9]+#",$data['new_password'])) {
+                    //     $data['password_err3'] = 'Password must contain at least 1 number!';
+                    // }if(!preg_match("#[A-Z]+#",$data['new_password'])) {
+                    //     $data['password_err4'] = 'Password must contain at least 1 capital letter!';
+                    // }if(!preg_match("#[a-z]+#",$data['new_password'])) {
+                    //     $data['password_err5'] = 'Password must contain at least 1 lowercase letter!';
+                    /* }if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['new_password'])) {*/
+                    //     $data['password_err6'] = 'Password must contain at least 1 special character!';
+                    // }
+
+                    if(empty($data['confirm_passwd'])){
+                        $data['confirm_password_err'] = 'Please confirm the password';
+                    }else if($data['new_password'] != $data['confirm_passwd']){
+                        $data['confirm_password_err'] = 'Passwords do not match';
+                    }
+                    //Make sure errors are empty
+                    if(empty($data['confirm_password_err']) && empty($data['new_password_err']) && empty($data['password_err']) && empty($data['password_err3']) && empty($data['password_err4']) && empty($data['password_err5']) && empty($data['password_err6'])){
+                        //Validated
+                        if($this->userModel->updatePassword($data['new_hashed_password'],$id)){
+                            flash('password_message', 'Password updated successfully');
+                            redirect($_SESSION['user_type'].'s/getProfile/'.$id);
+                        }
+                        else{
+                            flash('password_message', 'Password change unsuccessful', 'alert alert-danger');
+                            redirect($_SESSION['user_type'].'s/getProfile/'.$id);
+                        }
+                        
+                    }else{
+                        //Load view with errors
+                        $this->view('users/change_password',$data);
+                    }
+                }else{
+                    $data = [
+                        'id' => $id,
+                        'password' => '',
+                        'new_password' => '',
+                        'confirm_passwd' => '',
+                        'password_err' => '',
+                        'new_password_err' => '',
+                        'confirm_password_err' => '',
+                        'user' => $user
+                    ];
+                    $this->view('users/change_password',$data);
+                    
+                }
+            }
 
           public function edit_profile_picture($id){
             if(isset($_SESSION['attempt'])){
@@ -733,10 +1226,12 @@
                 unset($_SESSION['attempt']);
                 unset($_SESSION['time']);
             }
+            $user=$this->userModel->getUserDetails($id);
             if(!isLoggedIn()){
-              $_SESSION['url']=URL();
-      
-              redirect('users/login');
+                $_SESSION['url'] = URL();
+                redirect('users/login');
+            }else if($_SESSION['user_email'] != $user->email){
+                redirect('users/index');
             }
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
@@ -1039,9 +1534,18 @@
                 // not loggedin
                 $data['liked'] = 'notliked';
                 $data['disliked'] = 'notdisliked';
+            }   
+            
+            if($SellerMoreDetails->email!=$_SESSION['user_email']){
+                if($this->userModel->update_view_count($id)){
+    
+                }else{
+                    die('Error');
+                }
+
             }
 
-              $this->view('users/advertiesmentDetails',$data);
+            $this->view('users/advertiesmentDetails',$data);
           
         }
         public function auction($id)
@@ -1120,6 +1624,15 @@
           $auction = $this->userModel->getAuctionById($id);
           $data['auction'] = $auction;
 
+
+          if($SellerMoreDetails->email!=$_SESSION['user_email']){
+            if($this->userModel->update_view_count($id)){
+
+            }else{
+                die('Error');
+            }
+
+          }
           $this->view('users/auction',$data);
 
         }

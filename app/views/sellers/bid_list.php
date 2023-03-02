@@ -22,10 +22,27 @@
     <div class="container" style="background: none;">
     
         <div class="content">
+        <div class="image_likes">
             <div class="image">
-                <img src="<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>" alt="">
-                <!-- <a href="">next</a> -->
-            </div>
+                    <div class="grid">
+                        <div id="img1" class="img1" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>)">
+                        </div>
+                        <div class="img2" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>)">    
+                            <a style="width: 100%;height:100%; " onclick="change_img1(); return false;" ></a>
+                        </div>
+                        <div class="img3" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image2;?>)"> 
+                            <?php if($data['ad']->image2!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img2(); return false;"></a> 
+                            <?php }?>
+                        </div>
+                        <div class="img4" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image3;?>)">   
+                            <?php if($data['ad']->image3!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img3(); return false;"></a>
+                            <?php }?>
+                        </div>
+                    </div>
+                </div>
+        </div>
             <div class="auction_details">
                 <h2><?php echo $data['ad']->product_title?></h2>
                 <?php
@@ -181,7 +198,7 @@
                 ?>
             </div>
         </div>
-        <div class="description">
+        <div class="description" style="margin-top: -2vh;">
             <h3>Description</h3>
             <p><?php echo $data['ad']->p_description?></p>
         </div>
@@ -191,6 +208,16 @@
 
 
 <script>
+
+function change_img1(){
+        document.getElementById('img1').style.backgroundImage = "url('<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>')";
+    }
+    function change_img2(){
+        document.getElementById('img1').style.backgroundImage = "url('<?php echo URLROOT.'/public/uploads/'.$data['ad']->image2;?>')";
+    }
+    function change_img3(){
+        document.getElementById('img1').style.backgroundImage = "url('<?php echo URLROOT.'/public/uploads/'.$data['ad']->image3;?>')";
+    }
                     
     // Update the count down every 1 second
     var x = setInterval(function() {

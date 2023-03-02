@@ -204,7 +204,7 @@ nav{
   }
  .container_main{
     width: 100vw;
-    height: 100vh;
+    height: 90vh;
     position: revert;
     margin-top: 10vh;
     /* background-repeat: no-repeat;
@@ -276,6 +276,7 @@ nav{
     padding: 1% 1% 1% 10%;
 }
 .form{
+    position: absolute;
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -283,8 +284,8 @@ nav{
     align-items: left;
     width: 30%;
     margin-left: 10%;
-    height: 100vh;
-    top: 3vh;
+    margin-top: 5%;
+    /* height: 100vh; */
     /* overflow-y: scroll;
   overflow-x:hidden;  
   scroll-behavior: smooth; */

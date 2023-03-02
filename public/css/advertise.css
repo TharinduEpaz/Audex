@@ -15,6 +15,17 @@ body{
     width: 100%;
     padding-top: 3vh;
 }
+.image_likes{
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    /* border: 1px solid; */
+    height: 65vh;
+    justify-content: end;
+    margin-left: 2%;
+    flex-basis: 40%;
+    
+}
 .buttons{
     display: flex;
     flex-direction: row;
@@ -24,15 +35,16 @@ body{
 .content form input{
     background: #002EF9;
     height: 5vh;
-    width: 150px;
+    width: 170px;
     color: white;
     padding: 1% 2% 1% 2%;
-    border-radius: 10px;
-    border: 1px solid #002EF9;
-    font-weight: 600;
-
+    border-radius: 7px;
+    /* border: 1px solid #002EF9; */
+    font-weight: 800;
     float: left;
     /* margin-left: 850%; */
+    font-size: 12pt;
+    /* margin-top: 2vh; */
 }
 
 .bid_list, .delete, .accept_bid, .reject_bid{
@@ -73,19 +85,55 @@ body{
 }
 .image{
     height: 65vh;
-    width: 35%;
-    /* padding: 1% 1% 1% 5%; */
-    border: 1px solid #002EF9;
-    border-radius: 25px;
-    margin-left: 2%;
-}
-.image img{
-    width: max-content;
-    float: left;
-    height: 100%;
     width: 100%;
+    padding: 2% ;
+    /* border: 1px solid #002EF9; */
     border-radius: 25px;
+    /* margin-left: 2%; */
+}
+.grid {
+    display: grid;
+    grid-template-columns: 2.25fr .75fr;
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+    height: 100%;
+    grid-template-areas: 
+      "a b"
+      "a c"
+      "a d";
 
+  }
+.img1{
+    border: 1px solid #000000;
+    grid-area: a;
+    background-repeat: no-repeat;
+    background-size: auto 70%;
+    background-position: center;
+    background-color: white;
+}
+.img2,.img3,.img4{
+    border: 1px solid #000000;
+    background-repeat: no-repeat;
+    background-size: auto 70%;
+    background-position: center;
+    background-color: white;
+
+
+}
+.img2{
+    grid-area: b;
+}
+.img2 a:hover, .img3 a:hover, .img4 a:hover{
+    text-decoration: none;
+    color: initial;
+    opacity: 20%;
+    cursor: pointer;
+}
+.img3{
+    grid-area: c;
+}
+.img4{
+    grid-area: d;
 }
 .image a{
     float: right;
@@ -109,7 +157,7 @@ body{
         flex-direction: column;
         justify-content: center;
         align-items: left;
-        margin-left: 60px;
+        /* margin-left: 60px; */
         padding: 1vh 3% 1vh 1.5%;
         /* margin-top: -14vh; */
         width: 30%;
@@ -122,7 +170,7 @@ body{
     color: white;
     padding: 1% 2% 1% 2%;
     border-radius: 10px;
-    border: 1px solid #002EF9;
+    /* border: 1px solid #002EF9; */
 }
 .details input:hover{
     transition: 0.5s;
@@ -131,7 +179,7 @@ body{
     cursor: pointer;
 }
 .details h2{
-    text-align: left;
+    text-align: center;
     font-size: 20pt;
     font-weight: bolder;
     margin-bottom: 2vh;
@@ -144,16 +192,16 @@ body{
 
 }
 .price h4{
-    font-weight: bolder;
-    font-size: 12pt;
-    background: #002EF9;
-    color: white;
+    font-weight: 900;
+    font-size: 20pt;
+    /* background: #002EF9; */
+    color: black;
     text-align: center;
-    padding: 1vh 1%;
-    height: 5vh;
-    width: 200px;
+    /* padding: 1vh 1%; */
+    /* height: 5vh; */
+    /* width: 200px; */
     border-radius: 10px;
-    border: 1px solid #002EF9;
+    /* border: 1px solid #002EF9; */
     margin-top: 2vh;
 }
 .message_bid{
@@ -161,6 +209,14 @@ body{
     flex-direction: row;
     width: 100%;
     padding-top: 3vh;
+    justify-content: space-between;
+}
+.add_watchlist_map{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-top: 3vh;
+    justify-content: space-between;
 }
 .bid_now,.message_seller,.bid_button{
     text-decoration: none;
@@ -206,7 +262,7 @@ body{
     padding: 1% 5% 1% 5%;
     color: black;
     font-weight: 300;
-    margin-top: 7vh;
+    margin-top: -5vh;
 }
 .description p{
     color: black;
@@ -222,7 +278,7 @@ body{
     flex-direction: column;
     max-width: 23%;
     min-width: 14%;    
-    margin-right: 3% ;
+    margin-right: 8% ;
     /* border: 1px solid black; */
     padding-top: 1vh;
 }

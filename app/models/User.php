@@ -41,7 +41,7 @@ date_default_timezone_set("Asia/Kolkata");
         }
 
         public function updateUserPhone($email,$phone){
-            $this->db->query('UPDATE user  set phone_number=:phone WHERE email=:email');
+            $this->db->query('UPDATE user set phone_number=:phone WHERE email=:email');
             //Bind values
             $this->db->bind(':email', $email);
             $this->db->bind(':phone', $phone);
@@ -53,9 +53,39 @@ date_default_timezone_set("Asia/Kolkata");
                 return false;
             }
         }
+        
+
+        public function updateUserEmail($email, $id){
+            $this->db->query('UPDATE user set email=:email WHERE user_id=:id');
+            //Bind values
+            $this->db->bind(':email', $email);  
+            $this->db->bind(':id', $id);
+
+            //Execute
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
 
         public function updatePhoneOTP($otp,$id){
             $this->db->query('UPDATE user set phone_otp=:otp WHERE user_id=:id');
+            //Bind values
+            $this->db->bind(':otp', $otp);
+            $this->db->bind(':id', $id);
+
+            //Execute
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
+        public function updateEmailOTP($otp,$id){
+            $this->db->query('UPDATE user set otp=:otp WHERE user_id=:id');
             //Bind values
             $this->db->bind(':otp', $otp);
             $this->db->bind(':id', $id);
@@ -173,6 +203,41 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
 
+        public function updatePasswordAttempts($email){
+            $this->db->query('UPDATE user set password_wrong_attempts=password_wrong_attempts+1 WHERE email = :email');
+            $this->db->bind(':email', $email);
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
+        public function updatePasswordAttemptsZero($email){
+            $this->db->query('UPDATE user set password_wrong_attempts=0 WHERE email = :email');
+            $this->db->bind(':email', $email);
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+        
+
+        public function suspendAccount($email,$date){
+            $this->db->query('UPDATE user set suspended=1,suspend_end_time=:date WHERE email = :email');
+            $this->db->bind(':email', $email);
+            $this->db->bind(':date', $date);
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
         //Find user by email
         public function findUserByEmail($email){
             $this->db->query('SELECT * FROM user WHERE email = :email AND email_active=1');
@@ -219,6 +284,18 @@ date_default_timezone_set("Asia/Kolkata");
             $this->db->bind(':email', $email);
             $this->db->bind(':otp', $otp);
             $this->db->bind(':t', $time);
+            $row = $this->db->execute(); //single row
+            if($row){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+        public function updatePassword($password,$id){
+            $this->db->query('UPDATE user set password=:password WHERE user_id = :id');
+            $this->db->bind(':id', $id);
+            $this->db->bind(':password', $password);
             $row = $this->db->execute(); //single row
             if($row){
                 return true;
@@ -382,6 +459,18 @@ date_default_timezone_set("Asia/Kolkata");
                 return $row;
             }else{
                 return "Error";
+            }
+        }
+
+        public function update_view_count($id){
+            $this->db->query('UPDATE product SET view_count = view_count + 1 WHERE product_id = :id');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->execute(); //single row
+            if($row){
+                return true;
+            }else{
+                return false;
             }
         }
 

@@ -82,7 +82,7 @@
       $details = $this->buyerModel->getBuyerDetails($id);
       $buyerDetails = $this->buyerModel->getBDetails($id);
       if ($details->user_id != $_SESSION['user_id']) {
-        redirect('users/login');
+        redirect('users/index');
       }
 
       $data =[
