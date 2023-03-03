@@ -16,7 +16,7 @@ inputField.addEventListener("keyup", (e) =>{
     const searchItemTerm = document.getElementById("shop-search-item-term").value;
 
     const data = new FormData(shopSearchForm);
-    const url = URLROOT+'/users/shopSearchItems';
+    const url = URLROOT+'/users/searchItems';
 
     fetch(url,{
         method : "POST",
@@ -63,7 +63,7 @@ shopSearchForm.addEventListener("submit", (e) =>{
     if(searchItemTerm){
         const data = new FormData(shopSearchForm);
         data.append("submit",1);
-        const url = URLROOT+'/users/shopSearchItems';
+        const url = URLROOT+'/users/searchItems';
     
         fetch(url,{
             method : "POST",

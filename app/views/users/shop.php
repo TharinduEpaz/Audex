@@ -122,12 +122,12 @@
 
         #shop-search-results{
             display: block;
-            margin-top: -48px;
+            margin-top: -36px;
         }
         #shop-search-results .table {
             width: 692px;
             border-collapse: collapse;
-            margin-left: 3%;
+            margin-left: 4%;
         } 
         #shop-search-results .table td {
             padding: 12px 15px;
@@ -172,37 +172,68 @@
             margin-top: 10vh;
 
         }
-        .side-bar h2 {
-            margin: 0px 0px 5px 15px;
-            color: red;
-          }
+        .side-bar form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .radio, .form-group{
+            margin-left: 20px;
+        }
+        .form-group .form-control{
+            border-radius: 5px;
+            padding: 5px;
+            border: none;
+            width: 150px;
+        }
+
+        input[type="radio"],
+        input[type="text"] {
+            margin: 5px 0 5px 20px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="radio"]:checked {
+            background-color: #333;
+            color: #fff;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border: 2px solid #333;
+        }
+
+        body > div > div.side-bar > form > button {
+            margin: 15px 35px 0 35px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            background-color: white;
+            color: black;
+            font-weight: 700;
+            cursor: pointer;
+            height: 5vh;
+        }
+
+        body > div > div.side-bar > form > button:hover {
+            background-color: red;
+        }
+
         .side-bar h3 {
+            margin-top: 0;
+            color: red;
+            padding: 10px;
+          }
+        .side-bar h4 {
             margin-top: 0;
             color: white;
             padding: 10px;
-          }
-          
-          .side-bar ul {
-            list-style: none;
-            margin:0px 0px 0px 25px;
-            padding: 0;
-          }
-          
-          .side-bar ul li a {
-            display: block;
-            padding: 5px 10px;
+        }
+        
+        .side-bar label {
             color: white;
-            text-decoration: none;
-          }
-          
-          .side-bar ul li a:hover {
-            background-color: #ddd;
-          }
-          
-        .side-bar a.current{
-            background-color: white;
-            color: red;
-            font-weight: 800;
         }
 
         @media (max-width: 860px){
@@ -428,32 +459,64 @@
 </head>
 <body>
     <?php require_once APPROOT . '/views/users/navbar.php';?>
+    <?php echo ($data['category'] == "1") ? 'true' : 'false' ?>;
+    <?php echo ($data['category'] == "microphone") ? 'true' : 'false' ?>;
+    <?php echo ($data['category'] == "speaker") ? 'true' : 'false' ?>;
+    <?php echo ($data['category'] == "amplifier") ? 'true' : 'false' ?>;
 
     <div class="shop-container" >
 
         <div class="side-bar">
+            <h3>Filter Products</h3>
+            <form action="<?php echo URLROOT . '/users/shop';?>" method="post">
+                <h4>Category</h4>
+                <div class="radio">
+                    <input type="radio" id="all" name="category"  <?php echo ($data['category'] == '1') ? 'checked' : '';  ?> value = ""  >
+                    <label for="all">All</label>
+                </div>
+                <div class="radio">
+                    <input type="radio" id="microphone" name="category" value="microphone" <?php echo ($data['category'] == "microphone") ? 'checked' : '' ?> >
+                    <label for="microphone">Microphone</label>
+                </div>
+                <div class="radio">
+                    <input type="radio" id="speakers" name="category" value="speaker" <?php echo ($data['category'] == "speaker") ? 'checked' : '' ?> >
+                    <label for="speakers">Speaker</label>
+                </div>
+                <div class="radio">
+                    <input type="radio" id="amplifiers" name="category" value="amplifier" <?php echo ($data['category'] == "amplifier") ? 'checked' : '' ?>  >
+                    <label for="amplifiers">Amplifier</label>
+                </div>
+                <div class="radio">
+                    <input type="radio" id="dj" name="category" value="mixer" <?php echo ($data['category'] == "mixer") ? 'checked' : '' ?> >
+                    <label for="mixer">Mixer</label>
+                </div>
 
-            <h2>SORT BY</h2>
-            <h3>Categories</h3>
-                <ul>
-                <li><a href="#" class="current">All</a></li>
-                <li><a href="#">Microphones</a></li>
-                <li><a href="#">Speakers</a></li>
-                <li><a href="#">Mixers</a></li>
-                <li><a href="#">Amplifiers</a></li>
-                </ul>
-        
-            <h3>Price</h3>
-                <ul>
-                <li><a href="#">Min Price</a></li>
-                <li><a href="#">Max Price</a></li>
-                </ul>
-        
-            <h3>Type</h3>
-                <ul>
-                <li><a href="#">Fixed Price</a></li>
-                <li><a href="#">Auction</a></li>
-                </ul>
+                <h4>Price</h4>
+                <div class="form-group">
+                    <label for="min-price">Min Price</label>
+                    <input type="number" class="form-control" id="min-price" name="price-min" placeholder="Enter min price" value = "<?php echo ($data['price-min']) ?>" >
+                </div>
+                <div class="form-group">
+                    <label for="max-price">Max Price</label>
+                    <input type="number" class="form-control" id="max-price" name="price-max" placeholder="Enter max price" value = "<?php echo ($data['price-max']) ?>">
+                </div>
+
+                <h4>Type</h4>
+                <div class="radio">
+                    <input type="radio" id="all-type" name="type" value="" <?php echo ($data['type'] == "1") ? 'checked' : ''; ?> >
+                    <label for="all-type">All</label>
+                </div>
+                <div class="radio">
+                    <input type="radio" id="fixed-price" name="type" value="fixed_price" <?php echo ($data['type'] == "fixed_price") ? 'checked' : ''; ?>>
+                    <label for="fixed-price">Fixed Price</label>
+                </div>
+                <div class="radio">
+                    <input type="radio" id="auction" name="type" value="auction" <?php echo ($data['type'] == "auction") ? 'checked' : ''; ?>>
+                    <label for="auction">Auction</label>
+                </div>
+
+                <button type="submit" class="btn-primary">Filter</button>
+            </form>
         </div>
 
         <div class="shop-container-details">
@@ -465,9 +528,9 @@
                     <div class="search-component">
                         <input type="text" name="search-item" id="shop-search-item-term" placeholder="Microphone" value="<?php echo ($data['isEmptySearchTerm'] == '0') ? $data['searchTerm'] : '';  ?>" >
                         <button type="submit" > SEARCH </button>
-                        <button  id="advance-search" > Filter </button>
+                        <!-- <button  id="advance-search" > Filter </button> -->
                     </div>
-                    <div class="filter-component" id="filter-content" >
+                    <!-- <div class="filter-component" id="filter-content" >
                         <label for="category">Category:</label>
                         <select name="category" id="category" class="select-category">
                             <option value="">All</option>
@@ -489,7 +552,7 @@
                             <option value="fixed_price">Fixed Price</option>
                             <option value="auction">Auction</option>
                         </select>
-                    </div>
+                    </div> -->
                 </form>
             </div>
             
@@ -548,6 +611,8 @@
             <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
     
             <div class="container-data">
+                <!-- <?php echo $data['type']?>;
+                <?php echo $data['category']?>; -->
                 <?php $i=0;
                 foreach($data['ads'] as $ads) :?>
     

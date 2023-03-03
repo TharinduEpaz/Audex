@@ -1326,66 +1326,148 @@
                 unset($_SESSION['attempt']);
                 unset($_SESSION['time']);
             }
-            $ads  = $this->userModel->getAdvertiesment();   
-            // get the serchResults session value
-            // print_r($_SESSION);
-            // exit();
-            $searchResults = '';
-            $searchTerm = '';
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                // this is come from filter form
 
-            if(isset($_SESSION['searchResults'])):
-                $searchResults = $_SESSION['searchResults'];
-            endif;
-            if(isset($_SESSION['searchTerm'])):
-                $searchTerm = $_SESSION['searchTerm'];
-            endif;
-            
+                $data = [
+                    'category' => '1',
+                    'price-min' => '',
+                    'price-max' => '',
+                    'type' => '1',
+                    'searchResults' => '',
+                    'searchTerm' => '',
+                    'isEmptySearchResults' => 1,
+                    'isEmptySearchTerm' => 1,
+    
+                ];
 
-            // check serch results are empty(1) or not empty(0)\
-            if( empty($searchResults) ){
-                $emptySearchResults = '1';
-            }
-            else{
-                $emptySearchResults = '0';
-            }
-            // check serch term is empty(1) or not empty(0)\
-            if( empty($searchTerm) ){
-                $emptySearchTerm = '1';
-            }
-            else{
-                $emptySearchTerm = '0';
-            }
+                $productCategory = $_POST['category'];
+                $productPriceMin = $_POST['price-min'];
+                $productPriceMax = $_POST['price-max'];
+                $productType = $_POST['type'];
 
+                $Filter=[];
 
-            $data = [
-                'ads' => $ads,
-                'searchResults' => $searchResults,
-                'searchTerm' => $searchTerm,
-                'isEmptySearchResults' => $emptySearchResults,
-                'isEmptySearchTerm' => $emptySearchTerm,
-
-            ];
-
-            $i=0;
-            foreach($ads as $ad):
-                
-                if($ad->product_type=='auction'){
-                    $auction = $this->userModel->getAuctionById($ad->product_id);
-                    if($auction!='Error'){
-                        $data['auction'][$i] = $auction;
-                        if($auction->end_date < date("Y-m-d H:i:s") ){
-                            redirect('users/bid_expired/'.$ad->product_id.'/'.$auction->auction_id);
-                        }
-                    }else{
-                        unset($data['ads'][$i]);
-                    }
+                if( empty(trim($productCategory)) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType))) 
+                {
+                    // if all filters are empty, then redirect to shop page
+                    redirect('users/shop');
                 }
-                $i++;
-            endforeach;
-            $this->view('users/shop',$data);
-            
-            unset($_SESSION['searchResults']);
-            unset($_SESSION['searchTerm']);
+                // all filters cant be empty
+                if(!empty(trim($productCategory))){
+                    $Filter['product_category']=$productCategory;
+                    $data['category'] = $productCategory;
+                }
+                if(!empty(trim($productPriceMin))){
+                    $Filter['min_price']=(int) $productPriceMin;
+                    $data['price-min'] = $productPriceMin;
+                }
+                if(!empty(trim($productPriceMax))){
+                    $Filter['max_price']=(int) $productPriceMax;
+                    $data['price-max'] = $productPriceMax;
+                }
+                if(!empty(trim($productType))){
+                    $Filter['product_type']= $productType;
+                    $data['type'] = $productType;
+                }
+                $results = $this-> userModel->searchAndFilterItems($Filter);
+
+                // print_r($data);
+                // exit;
+                $data['ads'] = $results;
+
+                $i=0;
+                foreach($results as $ad):
+                    
+                    if($ad->product_type=='auction'){
+                        $auction = $this->userModel->getAuctionById($ad->product_id);
+                        if($auction!='Error'){
+                            $data['auction'][$i] = $auction;
+                            if($auction->end_date < date("Y-m-d H:i:s") ){
+                                redirect('users/bid_expired/'.$ad->product_id.'/'.$auction->auction_id);
+                            }
+                        }else{
+                            unset($data['ads'][$i]);
+                        }
+                    }
+                    $i++;
+                endforeach;
+
+
+
+                $this->view('users/shop',$data);
+            }
+            else{
+
+                $ads  = $this->userModel->getAdvertiesment();   
+                // get the serchResults session value
+                // print_r($_SESSION);
+                // exit();
+                $searchResults = '';
+                $searchTerm = '';
+    
+                if(isset($_SESSION['searchResults'])):
+                    $searchResults = $_SESSION['searchResults'];
+                endif;
+                if(isset($_SESSION['searchTerm'])):
+                    $searchTerm = $_SESSION['searchTerm'];
+                endif;
+                
+    
+                // check serch results are empty(1) or not empty(0)\
+                if( empty($searchResults) ){
+                    $emptySearchResults = '1';
+                }
+                else{
+                    $emptySearchResults = '0';
+                }
+                // check serch term is empty(1) or not empty(0)\
+                if( empty($searchTerm) ){
+                    $emptySearchTerm = '1';
+                }
+                else{
+                    $emptySearchTerm = '0';
+                }
+    
+    
+                $data = [
+                    'ads' => $ads,
+                    'searchResults' => $searchResults,
+                    'searchTerm' => $searchTerm,
+                    'isEmptySearchResults' => $emptySearchResults,
+                    'isEmptySearchTerm' => $emptySearchTerm,
+                    'category' => '1',
+                    'price-min' => '',
+                    'price-max' => '',
+                    'type' => '1',
+    
+                ];
+
+                // print_r($data);
+                // exit;
+    
+                $i=0;
+                foreach($ads as $ad):
+                    
+                    if($ad->product_type=='auction'){
+                        $auction = $this->userModel->getAuctionById($ad->product_id);
+                        if($auction!='Error'){
+                            $data['auction'][$i] = $auction;
+                            if($auction->end_date < date("Y-m-d H:i:s") ){
+                                redirect('users/bid_expired/'.$ad->product_id.'/'.$auction->auction_id);
+                            }
+                        }else{
+                            unset($data['ads'][$i]);
+                        }
+                    }
+                    $i++;
+                endforeach;
+                $this->view('users/shop',$data);
+                
+                unset($_SESSION['searchResults']);
+                unset($_SESSION['searchTerm']);
+            }
+
         }
 
         public function advertiesmentDetails($id)
@@ -2299,100 +2381,100 @@
             }
       
         }
-        public function shopSearchItems(){
-            $searchedTerm = $_POST['search-item'];
+        // public function shopSearchItems(){
+        //     $searchedTerm = $_POST['search-item'];
 
             
-            if( !isset($_POST['submit']) ){
-              // this is for keyup event
-              if( strlen($searchedTerm) <3 ){
-                echo json_encode([]);
-              }else{
-                $results = $this-> userModel->searchItems($searchedTerm);
-                echo json_encode($results);
-              }
-            }
-            else{
-                // user has pressed enter
+        //     if( !isset($_POST['submit']) ){
+        //       // this is for keyup event
+        //       if( strlen($searchedTerm) <3 ){
+        //         echo json_encode([]);
+        //       }else{
+        //         $results = $this-> userModel->searchItems($searchedTerm);
+        //         echo json_encode($results);
+        //       }
+        //     }
+        //     else{
+        //         // user has pressed enter
                 
-                $productCategory = $_POST['category'];
-                $productPriceMin = $_POST['price-min'];
-                $productPriceMax = $_POST['price-max'];
-                $productType = $_POST['type'];
+        //         $productCategory = $_POST['category'];
+        //         $productPriceMin = $_POST['price-min'];
+        //         $productPriceMax = $_POST['price-max'];
+        //         $productType = $_POST['type'];
 
-                $Filter=[];
+        //         $Filter=[];
 
-                if( empty(trim($searchedTerm)) and empty(trim($productCategory)) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType))) 
-                {
-                    // if all filters are empty
-                    echo json_encode($results = []);
-                }
-                else if( empty(trim($searchedTerm)) )
-                {
-                    // search term is empty and check if others are empty (all other filters cant be empty)
-                    if(!empty(trim($productCategory))){
-                        $Filter['product_category']=$productCategory;
-                    }
-                    if(!empty(trim($productPriceMin))){
-                        $Filter['min_price']=(int) $productPriceMin;
-                    }
-                    if(!empty(trim($productPriceMax))){
-                        $Filter['max_price']=(int) $productPriceMax;
-                    }
-                    if(!empty(trim($productType))){
-                        $Filter['product_type']= $productType;
-                    }
-                    $results = $this-> userModel->searchAndFilterItems($Filter);
+        //         if( empty(trim($searchedTerm)) and empty(trim($productCategory)) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType))) 
+        //         {
+        //             // if all filters are empty
+        //             echo json_encode($results = []);
+        //         }
+        //         else if( empty(trim($searchedTerm)) )
+        //         {
+        //             // search term is empty and check if others are empty (all other filters cant be empty)
+        //             if(!empty(trim($productCategory))){
+        //                 $Filter['product_category']=$productCategory;
+        //             }
+        //             if(!empty(trim($productPriceMin))){
+        //                 $Filter['min_price']=(int) $productPriceMin;
+        //             }
+        //             if(!empty(trim($productPriceMax))){
+        //                 $Filter['max_price']=(int) $productPriceMax;
+        //             }
+        //             if(!empty(trim($productType))){
+        //                 $Filter['product_type']= $productType;
+        //             }
+        //             $results = $this-> userModel->searchAndFilterItems($Filter);
 
-                    $_SESSION['searchTerm'] = $searchedTerm;
-                    // $_SESSION['searchResults'] = $results;
-                    // echo $_SESSION['searchResults'];
+        //             $_SESSION['searchTerm'] = $searchedTerm;
+        //             // $_SESSION['searchResults'] = $results;
+        //             // echo $_SESSION['searchResults'];
     
-                    echo json_encode($results);
-                }
-                else if( !empty(trim($searchedTerm)) )
-                {
-                    // search term has set
-                    if( !empty(trim($searchedTerm)) and empty(trim($productCategory)) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType))) 
-                    {
-                        // if all filters are empty except search term
-                        $results = $this-> userModel->searchItems($searchedTerm);
-                        echo json_encode($results);
-                    }
-                    else{
-                        // search term is not empty and some other fiters are set
-                        if(!empty(trim($productCategory))){
-                            $Filter['product_category']=$productCategory;
-                        }
-                        if(!empty(trim($productPriceMin))){
-                            $Filter['min_price']=(int) $productPriceMin;
-                        }
-                        if(!empty(trim($productPriceMax))){
-                            $Filter['max_price']=(int) $productPriceMax;
-                        }
-                        if(!empty(trim($productType))){
-                            $Filter['product_type']= $productType;
-                        }
-                        $results = $this-> userModel->searchAndFilterItemsWithSearchTerm($Filter,$searchedTerm);
-                        $_SESSION['searchTerm'] = $searchedTerm;
-                        // $_SESSION['searchResults'] = $results;
-                        // echo $_SESSION['searchResults'];
+        //             echo json_encode($results);
+        //         }
+        //         else if( !empty(trim($searchedTerm)) )
+        //         {
+        //             // search term has set
+        //             if( !empty(trim($searchedTerm)) and empty(trim($productCategory)) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType))) 
+        //             {
+        //                 // if all filters are empty except search term
+        //                 $results = $this-> userModel->searchItems($searchedTerm);
+        //                 echo json_encode($results);
+        //             }
+        //             else{
+        //                 // search term is not empty and some other fiters are set
+        //                 if(!empty(trim($productCategory))){
+        //                     $Filter['product_category']=$productCategory;
+        //                 }
+        //                 if(!empty(trim($productPriceMin))){
+        //                     $Filter['min_price']=(int) $productPriceMin;
+        //                 }
+        //                 if(!empty(trim($productPriceMax))){
+        //                     $Filter['max_price']=(int) $productPriceMax;
+        //                 }
+        //                 if(!empty(trim($productType))){
+        //                     $Filter['product_type']= $productType;
+        //                 }
+        //                 $results = $this-> userModel->searchAndFilterItemsWithSearchTerm($Filter,$searchedTerm);
+        //                 $_SESSION['searchTerm'] = $searchedTerm;
+        //                 // $_SESSION['searchResults'] = $results;
+        //                 // echo $_SESSION['searchResults'];
         
-                        echo json_encode($results);
-                    }
+        //                 echo json_encode($results);
+        //             }
 
 
-                }
+        //         }
 
-                // echo $searchedTerm;
-                // echo $productCategory;
-                // echo $productType;
-                // echo $productPriceMax;
-                // echo $productPriceMin;
+        //         // echo $searchedTerm;
+        //         // echo $productCategory;
+        //         // echo $productType;
+        //         // echo $productPriceMax;
+        //         // echo $productPriceMin;
       
-            }
+        //     }
       
-        }
+        // }
         public function serviceProviderPublic()
         {
             $id = $_GET['id'];
