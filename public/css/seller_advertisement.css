@@ -372,3 +372,30 @@ body{
   text-decoration: none;
   cursor: pointer;
 }
+
+.feedback{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 3%;
+  margin-right: 10%;
+  border-bottom: 1px solid #636363;
+  border-bottom-width:10% ;
+  padding-bottom: 1vh;
+}
+.feed ,.from,.rate{
+  color: #000;
+  margin: 3vh;
+
+}
+.feed{
+  flex-basis: 80%;
+}
+.from{
+  flex-basis: 15%;
+  /* text-align: center; */
+}
+.rate{
+  flex-basis: 15%;
+}

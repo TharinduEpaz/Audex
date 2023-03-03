@@ -556,24 +556,33 @@
                 if(empty($user)){
                     redirect('users/index');
                 }
-                if(!isLoggedIn()){
-                    $_SESSION['url'] = URL();
-                    redirect('users/login');
-                }else if($_SESSION['user_email'] != $user->email){
-                    redirect($_SESSION['user_type'].'s/getProfile/'.$id);
+                // if(!isLoggedIn()){
+                //     $_SESSION['url'] = URL();
+                //     redirect('users/login');
+                // }else if($_SESSION['user_email'] != $user->email){
+                //     redirect($_SESSION['user_type'].'s/getProfile/'.$id);
+                // }
+
+                if($user->user_type=='buyer'){
+                    $userDetails = $this->userModel->getBuyerDetails($user->email);
+                }else if($user->user_type=='seller'){
+                    $userDetails = $this->userModel->getSellerDetails($user->email);
+                }else if($user->user_type=='service_provider'){
+                    $userDetails = $this->userModel->getService_ProviderDetails($user->email);
                 }
-                $details = $this->userModel->getUserDetails($id);
-                $buyerDetails = $this->userModel->getBuyerDetails($details->email);
                 // if ($details->user_id != $_SESSION['user_id']) {
                 //   $_SESSION['url']=URL();
           
                 //   redirect('users/login');
                 // }
-          
+                $feedbacks=$this->userModel->getFeedbacks($user->email);
+                $feedbackcount=$this->userModel->getFeedbacksCount($user->email);
                 $data =[
                   'id' => $id,
-                  'user' => $details,
-                  'buyer' => $buyerDetails,
+                  'user' => $user,
+                  'userDetails' => $userDetails,
+                  'feedbacks' => $feedbacks,
+                  'feedbackcount' => $feedbackcount
                 ];
                 $this->view('users/getProfile',$data);
               }

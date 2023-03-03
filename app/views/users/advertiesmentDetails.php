@@ -190,7 +190,7 @@
                 <?php } ?>
             </div>
             <div class="seller-detais">
-                <h2 style="text-align: center;"><?php 
+                <h2 style="text-align: center;width:115%"><?php 
                             if( empty($data['seller']->shop_name )){
                                 echo 'Seller';
                             }
@@ -202,7 +202,9 @@
 
                                 
 
+                <a href="<?php echo URLROOT . '/users/getProfile/'.$data['SellerMoreDetails']->user_id;?>">
 
+                            
                 <div class="top_details">
                         <div class="profile_img">
                             <img src="<?php echo URLROOT . '/public/uploads/'.$data['SellerMoreDetails']->profile_pic;?>" alt="Profile Picture">
@@ -246,6 +248,7 @@
                             </div>
                         </div>
                     </div>
+                    </a>
                 <div class="review-seller">
                 <!-- add to watch button is not visible if user is a seller or service provider -->
                 <!-- watch list button should visible if user is not logged in -->

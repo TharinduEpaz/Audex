@@ -441,6 +441,14 @@ date_default_timezone_set("Asia/Kolkata");
             return $row;
         }
 
+        public function getService_ProviderDetails($email){
+            $this->db->query('SELECT * FROM service_provider WHERE email = :email');
+            $this->db->bind(':email' , $email);
+
+            $row = $this->db->single();
+            return $row;
+        }
+
 
         public function getSellerMoreDetails($email){
             $this->db->query('SELECT * FROM user WHERE email = :email');
@@ -449,6 +457,35 @@ date_default_timezone_set("Asia/Kolkata");
             $row = $this->db->single();
             return $row;
         }
+
+        public function getFeedbacks($email){
+            $this->db->query('SELECT * FROM seller_rate_buyer WHERE email_seller = :email');
+            $this->db->bind(':email' , $email);
+
+            $row = $this->db->resultSet();
+            return $row;
+        }
+
+        public function getFeedbacksCount($email){
+            $this->db->query('SELECT * FROM seller_rate_buyer WHERE email_seller = :email');
+            $this->db->bind(':email' , $email);
+            $row = $this->db->resultSet();
+            if($row){
+                $rowCount = $this->db->rowCount();
+                return $rowCount;
+            }else{
+                return NULL;
+            }
+            
+        }
+
+        // public function getFeedbacks($email){
+        //     $this->db->query('SELECT * FROM rate WHERE email_rate_receiver = :email');
+        //     $this->db->bind(':email' , $email);
+
+        //     $row = $this->db->resultSet();
+        //     return $row;
+        // }
 
         public function getAuctionById($id){
             $this->db->query('SELECT * FROM auction WHERE product_id = :id && is_finished=0 && is_active=1');

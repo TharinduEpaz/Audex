@@ -23,18 +23,18 @@
             <div class="form-display">
                 <div class="top_details">
                     <div class="profile_img">
-                        <img src="<?php echo URLROOT . '/public/img/DSC_0863.jpg';?>" alt="Profile Picture">
+                        <img src="<?php echo URLROOT . '/public/uploads/'.$data['user']->profile_pic;?>" alt="Profile Picture">
                     </div>
                     <div class="other_details_profile">
                         <p class="full_name"><?php echo $data['user']->first_name.' '.$data['user']->second_name; ?></p>
                         <div class="stars_date">
                         <div class="stars">
                             <?php $i=0;
-                                        for($i; $i<floor($data['buyer']->rate); $i++): ?>
+                                        for($i; $i<floor($data['userDetails']->rate); $i++): ?>
                                         <i class="fa fa-star"></i>
                                         <?php endfor; ?>
                                         
-                                        <?php if(strpos((string)$data['buyer']->rate, '.')){ ?>
+                                        <?php if(strpos((string)$data['userDetails']->rate, '.')){ ?>
                                         <i class="fa fa-star-half-o"></i>
                                         
                                         <?php $i++;} 
@@ -81,6 +81,44 @@
             </div> 
         </div>
     </div>
+    <h1 style="text-align: center;margin-bottom:2vh;"><?php echo '('.$data['feedbackcount'].') '?>Feedbacks</h1>
+    <div class="feedback" style="font-size:16pt;font-weight:800;">
+        <div class="feed" style="text-align: center;">
+            <h4>Review</h4>
+        </div>
+        <div class="from" style="text-align: left;">
+            <h4>From</h4>
+        </div>
+        <div class="rate" style="text-align: left;">
+            <h4>Rate</h4>
+        </div>
+    </div>
+    <?php foreach($data['feedbacks'] as $feedback): ?>
+        <div class="feedback">
+            <div class="feed">
+                <h5><?php echo $feedback->review; ?></h5>
+            </div>
+            <div class="from">
+                <h5><?php echo $feedback->email_buyer[0]. $feedback->email_buyer[1]. $feedback->email_buyer[2]. $feedback->email_buyer[3].'****'.$feedback->email_buyer[-4].$feedback->email_buyer[-3].$feedback->email_buyer[-2].$feedback->email_buyer[-1]?></h5>
+            </div>
+            <div class="rate">
+                <div class="stars">
+                        <?php $i=0;
+                            for($i; $i<floor($feedback->rate); $i++): ?>
+                            <i class="fa fa-star"></i>
+                            <?php endfor; ?>
+                            
+                            
+                            
+                            <?php  
+                            while($i<5){ ?>
+                            <i class="fa fa-star-o"></i>
+                        <?php $i++; } ?>
+                </div>
+            </div>
+        </div>
+            
+    <?php endforeach; ?>
 </body>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>

@@ -218,6 +218,7 @@
 
                                 
 
+                <a href="<?php echo URLROOT . '/users/getProfile/'.$data['SellerMoreDetails']->user_id;?>">
 
                 <div class="top_details">
                         <div class="profile_img">
@@ -254,6 +255,7 @@
                             </div>
                         </div>
                     </div>
+                </a>
                 <?php if(isset($_SESSION['user_type']) && $_SESSION['user_type']!='seller'){?>
 
                 <div class="review-seller">
