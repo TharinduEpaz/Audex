@@ -146,6 +146,21 @@
             flex-direction: row;
             background-image: none;
             background-color: #E5E9F7;
+            margin-left: 240px;
+            margin-top: 10vh;
+            /* width: 100%; */
+        }
+        .btn-primary{
+            height: 5vh;
+            margin-top: 3vh;
+            font-size: 15pt;
+            font-weight: 800;
+        }
+
+        .btn-primary:hover{
+            background-color: #3423c8;
+            color: #fff;
+            cursor: pointer;
         }
 
         @media (max-width: 768px) {
@@ -250,8 +265,8 @@
             display: flex;
             flex-direction: column;
             flex: 1;
-            margin-left: 240px;
-            margin-top: 6%;
+            margin-left: 20px;
+            /* margin-top: 6%; */
         }
 
         .ad-search-shop {
@@ -352,7 +367,7 @@
         .container-data {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
+            justify-content: flex-start;
             /*align-items: center; */
             margin: 10px;
 
@@ -459,65 +474,65 @@
 </head>
 <body>
     <?php require_once APPROOT . '/views/users/navbar.php';?>
-    <?php echo ($data['category'] == "1") ? 'true' : 'false' ?>;
+    <!-- <?php echo ($data['category'] == "1") ? 'true' : 'false' ?>;
     <?php echo ($data['category'] == "microphone") ? 'true' : 'false' ?>;
     <?php echo ($data['category'] == "speaker") ? 'true' : 'false' ?>;
-    <?php echo ($data['category'] == "amplifier") ? 'true' : 'false' ?>;
+    <?php echo ($data['category'] == "amplifier") ? 'true' : 'false' ?>; -->
 
+    <div class="side-bar">
+        <h3>Filter Products</h3>
+        <form action="<?php echo URLROOT . '/users/shop';?>" method="post">
+            <h4>Category</h4>
+            <div class="radio">
+                <input type="radio" id="all" name="category"  <?php echo ($data['category'] == '1') ? 'checked' : '';  ?> value = ""  >
+                <label for="all">All</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="microphone" name="category" value="microphone" <?php echo ($data['category'] == "microphone") ? 'checked' : '' ?> >
+                <label for="microphone">Microphone</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="speakers" name="category" value="speaker" <?php echo ($data['category'] == "speaker") ? 'checked' : '' ?> >
+                <label for="speakers">Speaker</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="amplifiers" name="category" value="amplifier" <?php echo ($data['category'] == "amplifier") ? 'checked' : '' ?>  >
+                <label for="amplifiers">Amplifier</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="dj" name="category" value="mixer" <?php echo ($data['category'] == "mixer") ? 'checked' : '' ?> >
+                <label for="mixer">Mixer</label>
+            </div>
+
+            <h4>Price</h4>
+            <div class="form-group">
+                <label for="min-price">Min Price</label>
+                <input type="number" class="form-control" id="min-price" name="price-min" placeholder="Enter min price" value = "<?php echo ($data['price-min']) ?>" >
+            </div>
+            <div class="form-group">
+                <label for="max-price">Max Price</label>
+                <input type="number" class="form-control" id="max-price" name="price-max" placeholder="Enter max price" value = "<?php echo ($data['price-max']) ?>">
+            </div>
+
+            <h4>Type</h4>
+            <div class="radio">
+                <input type="radio" id="all-type" name="type" value="" <?php echo ($data['type'] == "1") ? 'checked' : ''; ?> >
+                <label for="all-type">All</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="fixed-price" name="type" value="fixed_price" <?php echo ($data['type'] == "fixed_price") ? 'checked' : ''; ?>>
+                <label for="fixed-price">Fixed Price</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="auction" name="type" value="auction" <?php echo ($data['type'] == "auction") ? 'checked' : ''; ?>>
+                <label for="auction">Auction</label>
+            </div>
+
+            <button type="submit" class="btn-primary">Filter</button>
+        </form>
+    </div>
     <div class="shop-container" >
 
-        <div class="side-bar">
-            <h3>Filter Products</h3>
-            <form action="<?php echo URLROOT . '/users/shop';?>" method="post">
-                <h4>Category</h4>
-                <div class="radio">
-                    <input type="radio" id="all" name="category"  <?php echo ($data['category'] == '1') ? 'checked' : '';  ?> value = ""  >
-                    <label for="all">All</label>
-                </div>
-                <div class="radio">
-                    <input type="radio" id="microphone" name="category" value="microphone" <?php echo ($data['category'] == "microphone") ? 'checked' : '' ?> >
-                    <label for="microphone">Microphone</label>
-                </div>
-                <div class="radio">
-                    <input type="radio" id="speakers" name="category" value="speaker" <?php echo ($data['category'] == "speaker") ? 'checked' : '' ?> >
-                    <label for="speakers">Speaker</label>
-                </div>
-                <div class="radio">
-                    <input type="radio" id="amplifiers" name="category" value="amplifier" <?php echo ($data['category'] == "amplifier") ? 'checked' : '' ?>  >
-                    <label for="amplifiers">Amplifier</label>
-                </div>
-                <div class="radio">
-                    <input type="radio" id="dj" name="category" value="mixer" <?php echo ($data['category'] == "mixer") ? 'checked' : '' ?> >
-                    <label for="mixer">Mixer</label>
-                </div>
-
-                <h4>Price</h4>
-                <div class="form-group">
-                    <label for="min-price">Min Price</label>
-                    <input type="number" class="form-control" id="min-price" name="price-min" placeholder="Enter min price" value = "<?php echo ($data['price-min']) ?>" >
-                </div>
-                <div class="form-group">
-                    <label for="max-price">Max Price</label>
-                    <input type="number" class="form-control" id="max-price" name="price-max" placeholder="Enter max price" value = "<?php echo ($data['price-max']) ?>">
-                </div>
-
-                <h4>Type</h4>
-                <div class="radio">
-                    <input type="radio" id="all-type" name="type" value="" <?php echo ($data['type'] == "1") ? 'checked' : ''; ?> >
-                    <label for="all-type">All</label>
-                </div>
-                <div class="radio">
-                    <input type="radio" id="fixed-price" name="type" value="fixed_price" <?php echo ($data['type'] == "fixed_price") ? 'checked' : ''; ?>>
-                    <label for="fixed-price">Fixed Price</label>
-                </div>
-                <div class="radio">
-                    <input type="radio" id="auction" name="type" value="auction" <?php echo ($data['type'] == "auction") ? 'checked' : ''; ?>>
-                    <label for="auction">Auction</label>
-                </div>
-
-                <button type="submit" class="btn-primary">Filter</button>
-            </form>
-        </div>
 
         <div class="shop-container-details">
 

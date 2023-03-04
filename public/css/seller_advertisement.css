@@ -399,3 +399,46 @@ body{
 .rate{
   flex-basis: 15%;
 }
+.message_review{
+  flex-basis: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom-width:10% ;
+}
+.details{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 3%;
+  margin-right: 10%;
+  border-bottom-width:10% ;
+  padding-bottom: 1vh;
+}
+.forms{
+  flex-basis: 130%;
+}
+.message,.review{
+  background: #002EF9;
+    height: 5vh;
+    width: 130px;
+    color: white;
+    padding: 6% 0%;
+    text-align: center;
+    padding: auto;
+    border-radius: 10px;
+    border: 1px solid #002EF9;
+    font-weight: 600;
+    /* float: left; */
+     margin-top: 3vh;
+}
+.message:hover,.review:hover{
+    background: red;
+    border: 1px solid red;
+    color: white;
+
+    transition: .5s;
+    cursor: pointer;
+}

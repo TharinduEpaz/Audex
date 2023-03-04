@@ -19,6 +19,9 @@
 
     <div class="container_main">
         <?php echo flash('user_deleted');?>
+        <?php echo flash('email_err');?>
+        <?php echo flash('auction_message');?>
+        
         <div class="search">
             <div class="heading">
                 <h1>Find the best <br>Audio Equipment</h1>

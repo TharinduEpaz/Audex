@@ -96,7 +96,7 @@
                             <label for="check_au" >Auction(optional)</label>
                             <input type="checkbox"   name="check_au" class="check_au" >
                             <label class="date" for="date">Ending Date</label>
-                            <select name="date" id="date" class="date">
+                            <select name="date" id="category" class="date">
                               <option value="1">1day</option>
                               <option value="3">3day</option>
                               <option value="5">5day</option>
@@ -157,18 +157,23 @@
                                     }
                                 ?> 
                         <div class="input">
-                            <label class="condition" for="">Condition</label>
-                            <input class="condition" type="text" name="condition"   value="<?php echo $data['condition']?>" >
+                            <label class="condition" for="condition">Condition</label>
+                            <select name="condition" id="category" class="category">
+                              <option value="Used">Used</option>
+                              <option value="New">New</option>
+                            </select>
+                            <!-- <input class="condition" type="text" name="condition"   value="<?php echo $data['condition']?>" > -->
                         </div>
                         <div class="input">
                             <label class="category" for="category">Category&nbsp</label>
                             <select name="category" id="category">
-                              <option value="microphone">Microphone</option>
-                              <option value="dj">DJ</option>
-                              <option value="mixer">Mixer</option>
-                              <option value="amplifier">Amplifier</option>  
-                              <option value="guitar">Guitar</option>
-                              <option value="keyboard">Keyboard</option>
+                              <option value="Microphone">Microphone</option>
+                              <option value="DJ">DJ</option>
+                              <option value="Mixer">Mixer</option>
+                              <option value="Amplifier">Amplifier</option>  
+                              <option value="Guitar">Guitar</option>
+                              <option value="Keyboard">Keyboard</option>
+                              <option value="Drumset">Drumset</option>
 
                             </select>
                         </div>
@@ -284,7 +289,7 @@
 
                                     </script>
                                 </div>
-                                <a href="" class="post" onclick="closeModal1(); return false;">Submit</a>
+                                <!-- <a href="" class="post" onclick="closeModal1(); return false;">Submit</a> -->
                             </div>
                         </div>
                                     
@@ -341,7 +346,7 @@
                                         }
                                 </script>
                                 </div>
-                                <a href="" class="post" style="padding-top:0px" onclick="closeModal2(); return false;">Submit</a>
+                                <!-- <a href="" class="post" style="padding-top:0px" onclick="closeModal2(); return false;">Submit</a> -->
                             </div>
                         </div>
                         

@@ -293,6 +293,7 @@ body{
     font-size: 12pt;
     padding: 10px;
     border-radius: 8px;
+    margin-bottom: .5vh;
   }
   #html_content .post{
     color: white;
@@ -302,4 +303,18 @@ body{
     padding-top: 10px;
     margin-left: 45%;
   }
-  
+  #floating-panel a{
+  background: #002EF9;
+    color: white;
+    padding: 0.5% 2%;
+    text-align: center;
+    padding: auto;
+    border-radius: 10px;
+    border: 1px solid #002EF9;
+    font-weight: 600;
+  }
+  #floating-panel a:hover{
+    background: #F01131;
+    border: 1px solid #F01131;
+    color: white;
+  }

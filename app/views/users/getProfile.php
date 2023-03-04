@@ -14,7 +14,7 @@
     <title>Profile</title>
 </head>
 <body>
-<?php require_once APPROOT . '/views/sellers/navbar.php';?>
+<?php require_once APPROOT . '/views/'.$_SESSION['user_type'].'s/navbar.php';?>
 
     <div class="container">
         
@@ -54,30 +54,41 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-data-area">
-                    <label for="first_name">First Name:</label>
-                    <input type="text" name="first_name" value="<?php echo $data['user']->first_name; ?>" disabled>
+                <div class="details">
+                    <div class="forms">
+                        <div class="form-data-area">
+                            <label for="first_name">First Name:</label>
+                            <input type="text" name="first_name" value="<?php echo $data['user']->first_name; ?>" disabled>
+                        </div>
+                        <div class="form-data-area">
+                            <label for="second_name">Second Name:</label>
+                            <input type="text" name="second_name" value="<?php echo $data['user']->second_name; ?>" disabled>
+                        </div>
+                        <div class="form-data-area">
+                            <label for="email">Email:</label>
+                            <input type="text" name="email" value="<?php echo $data['user']->email; ?>" disabled>
+                        </div>
+                        <div class="form-data-area">
+                            <label for="address1">Address Line 1:</label>
+                            <input type="text" name="address1" value="<?php echo $data['user']->address1; ?>" disabled>
+                        </div>
+                        <div class="form-data-area">
+                            <label for="address2">Address Line 1:</label>
+                            <input type="text" name="address2" value="<?php echo $data['user']->address2; ?>" disabled>
+                        </div>
+                        <div class="form-data-area">
+                            <label for="phone_number">Phone Number:</label>
+                            <input type="text" name="phone_number" value="<?php echo $data['user']->phone_number; ?>" disabled>
+                        </div>  
+
+                    </div>
+                    <div class="message_review">
+                        <a  class="message" href="<?php echo URLROOT . '/users/message';?>" class="btn btn-primary">Message</a>
+                        <a class="review" href="<?php echo URLROOT . '/users/review';?>" class="btn btn-primary">Write Review</a>
+    
+                    </div>
+
                 </div>
-                <div class="form-data-area">
-                    <label for="second_name">Second Name:</label>
-                    <input type="text" name="second_name" value="<?php echo $data['user']->second_name; ?>" disabled>
-                </div>
-                <div class="form-data-area">
-                    <label for="email">Email:</label>
-                    <input type="text" name="email" value="<?php echo $data['user']->email; ?>" disabled>
-                </div>
-                <div class="form-data-area">
-                    <label for="address1">Address Line 1:</label>
-                    <input type="text" name="address1" value="<?php echo $data['user']->address1; ?>" disabled>
-                </div>
-                <div class="form-data-area">
-                    <label for="address2">Address Line 1:</label>
-                    <input type="text" name="address2" value="<?php echo $data['user']->address2; ?>" disabled>
-                </div>
-                <div class="form-data-area">
-                    <label for="phone_number">Phone Number:</label>
-                    <input type="text" name="phone_number" value="<?php echo $data['user']->phone_number; ?>" disabled>
-                </div>  
             </div> 
         </div>
     </div>

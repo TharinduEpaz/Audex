@@ -39,7 +39,7 @@
                             <?php }?>
                         </div>
                     </div>
-                </div>
+            </div>
                 <div class="like-dislike-area">
                         <!-- used two custom attributes one for click event and other one to store liked value when load -->
                         <div id="like-count">

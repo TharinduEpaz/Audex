@@ -156,37 +156,45 @@
                         $_SESSION['attempt']=0;
                         $_SESSION['time'] = date('Y-m-d H:i:s', strtotime('+5 minutes', strtotime(date('Y-m-d H:i:s'))));
                         //Send email
-                        $to=$data['email'];
-                        $sender='audexlk@gmail.com';
-                        $mail_subject='Verify Email Address';
-                        $email_body='<p>Dear '.$data['first_name'].',<br>Thank you for signing up to Audexlk. In order to'; 
-                        $email_body.=' validate your account you need enter the given OTP in the verification page.<br>';
-                        $email_body.='<h3>The OTP</h3><br><h1>'.$data['otp'].'</h1><br>';
-                        $email_body.='Thank you,<br>Audexlk</p>';
-                        // $header="From:{$sender}\r\nContent-Type:text/html;";
-    
-                        $mail = new PHPMailer(true);
-                        $mail->isSMTP();
-                        $mail->Host = 'smtp.gmail.com';
-                        $mail->SMTPAuth = true;
-                        $mail->Username = $sender;
-                        $mail->Password = EMAIL_PASS;
-                        $mail->SMTPSecure = 'ssl';
-                        $mail->Port = 465;
-                        $mail->setFrom($sender);
-                        $mail->addAddress($to);
-                        $mail->isHTML(true);
-                        $mail->Subject = $mail_subject;
-                        $mail->Body = $email_body;
-                        if($mail->send()){
-                            $_SESSION['otp_email']=$data['email'];
-                            //Otp send by email
-                            redirect('users/verifyotp');
-                        }
-                        else{
-                            flash('email_err','Email not sent','alert alert-danger');
-                            $this->view('users/register', $data);
-                        }
+                        try {
+                            $to=$data['email'];
+                            $sender='audexlk@gmail.com';
+                            $mail_subject='Verify Email Address';
+                            $email_body='<p>Dear '.$data['first_name'].',<br>Thank you for signing up to Audexlk. In order to'; 
+                            $email_body.=' validate your account you need enter the given OTP in the verification page.<br>';
+                            $email_body.='<h3>The OTP</h3><br><h1>'.$data['otp'].'</h1><br>';
+                            $email_body.='Thank you,<br>Audexlk</p>';
+                            // $header="From:{$sender}\r\nContent-Type:text/html;";
+                            
+                            $mail = new PHPMailer(true);
+                            $mail->isSMTP();
+                            $mail->Host = 'smtp.gmail.com';
+                            $mail->SMTPAuth = true;
+                            $mail->Username = $sender;
+                            $mail->Password = EMAIL_PASS;
+                            $mail->SMTPSecure = 'ssl';
+                            $mail->Port = 465;
+                            $mail->setFrom($sender);
+                            $mail->addAddress($to);
+                            $mail->isHTML(true);
+                            $mail->Subject = $mail_subject;
+                            $mail->Body = $email_body;
+                            // if($mail->send()){
+                                $mail->send();
+                                $_SESSION['otp_email']=$data['email'];
+                                //Otp send by email
+                                redirect('users/verifyotp');
+                            // }
+                            // else{
+                                // }
+                            } catch (Exception $e) {
+                                flash('email_err','Mail could not be sent. Error: '. $e->getMessage(),'alert alert-danger');
+                                unset($_SESSION['otp_email']);
+                                unset($_SESSION['attempt']);
+                                unset($_SESSION['time']);
+                                $this->view('users/register', $data);
+                            // echo 'Message could not be sent. Error: ', $e->getMessage();
+                            }
                     
                     }else{
                         die('Something went wrong');
@@ -233,6 +241,7 @@
             $dat=date('Y-m-d H:i:s');
             if($this->userModel->updateOtp($data['otp'],$dat,$data['email'])){
                 //Send email
+                try{
                 $to=$data['email'];
                 $sender='audexlk@gmail.com';
                 $mail_subject='Verify Email Address';
@@ -255,14 +264,23 @@
                 $mail->isHTML(true);
                 $mail->Subject = $mail_subject;
                 $mail->Body = $email_body;
-                if($mail->send()){
+                // if($mail->send()){
                     //Otp send by email
+                    $mail->send();
                     $_SESSION['otp_email']=$data['email'];
                     redirect('users/verifyotp');
-                }
-                else{
-                    $data['email_err'] = 'Email not sent';
-                    $this->view('users/register', $data);
+                // }
+                // else{
+                //     $data['email_err'] = 'Email not sent';
+                //     $this->view('users/register', $data);
+                // }
+                } catch (Exception $e) {
+                    flash('email_err','Mail could not be sent. Error: '. $e->getMessage(),'alert alert-danger');
+                    unset($_SESSION['otp_email']);
+                    unset($_SESSION['attempt']);
+                    unset($_SESSION['time']);
+                    redirect('users/register');
+                // echo 'Message could not be sent. Error: ', $e->getMessage();
                 }
             }
         }
@@ -421,6 +439,9 @@
                 unset($_SESSION['otp_email']);
                 unset($_SESSION['attempt']);
                 unset($_SESSION['time']);
+            }
+            if(isLoggedIn()){
+                redirect('users/index');
             }
             //CHECK FOR POST
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -827,36 +848,46 @@
                         $otp=rand(111111,999999);
                         if($this->userModel->updateEmailOTP($otp,$id)){
                             //Send email
-                            $to=$data['email'];
-                            $sender='audexlk@gmail.com';
-                            $mail_subject='Verify Email Address';
-                            $email_body='<p>Dear '.$data['user']->first_name.',<br>In order to change your email address you need to validate your account.'; 
-                            $email_body.=' To validate your account you need enter the given OTP in the verification page.<br>';
-                            $email_body.='<h3>The OTP</h3><br><h1>'.$otp.'</h1><br>';
-                            $email_body.='Thank you,<br>Audexlk</p>';
-                            // $header="From:{$sender}\r\nContent-Type:text/html;";
-                            
-                            $mail = new PHPMailer(true);
-                            $mail->isSMTP();
-                            $mail->Host = 'smtp.gmail.com';
-                            $mail->SMTPAuth = true;
-                            $mail->Username = $sender;
-                            $mail->Password = EMAIL_PASS;
-                            $mail->SMTPSecure = 'ssl';
-                            $mail->Port = 465;
-                            $mail->setFrom($sender);
-                            $mail->addAddress($to);
-                            $mail->isHTML(true);
-                            $mail->Subject = $mail_subject;
-                            $mail->Body = $email_body;
-                            if($mail->send()){
-                                $_SESSION['otp_email']=$data['email'];
-                                //Otp send by email
-                                redirect('users/otp_email/'.$id);
-                            }
-                            else{
-                                flash('email_err','Email not sent','alert alert-danger');
+                            try{
+                                $to=$data['email'];
+                                $sender='audexlk@gmail.com';
+                                $mail_subject='Verify Email Address';
+                                $email_body='<p>Dear '.$data['user']->first_name.',<br>In order to change your email address you need to validate your account.'; 
+                                $email_body.=' To validate your account you need enter the given OTP in the verification page.<br>';
+                                $email_body.='<h3>The OTP</h3><br><h1>'.$otp.'</h1><br>';
+                                $email_body.='Thank you,<br>Audexlk</p>';
+                                // $header="From:{$sender}\r\nContent-Type:text/html;";
+                                
+                                $mail = new PHPMailer(true);
+                                $mail->isSMTP();
+                                $mail->Host = 'smtp.gmail.com';
+                                $mail->SMTPAuth = true;
+                                $mail->Username = $sender;
+                                $mail->Password = EMAIL_PASS;
+                                $mail->SMTPSecure = 'ssl';
+                                $mail->Port = 465;
+                                $mail->setFrom($sender);
+                                $mail->addAddress($to);
+                                $mail->isHTML(true);
+                                $mail->Subject = $mail_subject;
+                                $mail->Body = $email_body;
+                                // if($mail->send()){
+                                    $mail->send();
+                                    $_SESSION['otp_email']=$data['email'];
+                                    //Otp send by email
+                                    redirect('users/otp_email/'.$id);
+                                // }
+                                // else{
+                                    // flash('email_err','Email not sent','alert alert-danger');
+                                    // $this->view('users/change_email', $data);
+                                // }
+                            } catch (Exception $e) {
+                                flash('email_err','Mail could not be sent. Error: '. $e->getMessage(),'alert alert-danger');
+                                unset($_SESSION['otp_email']);
+                                unset($_SESSION['attempt']);
+                                unset($_SESSION['time']);
                                 $this->view('users/change_email', $data);
+                            // echo 'Message could not be sent. Error: ', $e->getMessage();
                             }
                         }
                         else{
@@ -1009,35 +1040,43 @@
                         //Validated
                         $date = date('U', strtotime('+10 minutes', strtotime(date('Y-m-d H:i:s')))); //10 minutes from now{date('U') gives the time stamp}
                             //Send email
-                            $to=$data['email'];
-                            $sender='audexlk@gmail.com';
-                            $mail_subject='Verify Email Address to change password';
-                            $mail = new PHPMailer(true);
-                            $mail->isSMTP();
-                            $mail->Host = 'smtp.gmail.com';
-                            $mail->SMTPAuth = true;
-                            $mail->Username = $sender;
-                            $mail->Password = EMAIL_PASS;
-                            $mail->SMTPSecure = 'ssl';
-                            $mail->Port = 465;
-                            $mail->setFrom($sender);
-                            $mail->addAddress($to);
-                            $mail->isHTML(true);
-                            $email_body='<p>Dear '.$user->first_name.',<br>In order to change your password, you need to validate your account.'; 
-                            $email_body.=' To validate your account <b><a href="'.URLROOT.'/users/forgot_password/'.$user->user_id.'/' . $date.'/'.$user->password.'">Click here</a>.<br>';
-                            $email_body.='Thank you,<br>Audexlk</p>';
-                            // $header="From:{$sender}\r\nContent-Type:text/html;";
-                            
-                            $mail->Subject = $mail_subject;
-                            $mail->Body = $email_body;
-                            if($mail->send()){
-                                flash('email_message','Email sent to change password');
-                                //Otp send by email
-                                redirect('users/login');
-                            }
-                            else{
-                                flash('email_message','Email not sent','alert alert-danger');
+                            try{
+                                $to=$data['email'];
+                                $sender='audexlk@gmail.com';
+                                $mail_subject='Verify Email Address to change password';
+                                $mail = new PHPMailer(true);
+                                $mail->isSMTP();
+                                $mail->Host = 'smtp.gmail.com';
+                                $mail->SMTPAuth = true;
+                                $mail->Username = $sender;
+                                $mail->Password = EMAIL_PASS;
+                                $mail->SMTPSecure = 'ssl';
+                                $mail->Port = 465;
+                                $mail->setFrom($sender);
+                                $mail->addAddress($to);
+                                $mail->isHTML(true);
+                                $email_body='<p>Dear '.$user->first_name.',<br>In order to change your password, you need to validate your account.'; 
+                                $email_body.=' To validate your account <b><a href="'.URLROOT.'/users/forgot_password/'.$user->user_id.'/' . $date.'/'.$user->password.'">Click here</a>.<br>';
+                                $email_body.='Thank you,<br>Audexlk</p>';
+                                // $header="From:{$sender}\r\nContent-Type:text/html;";
+                                
+                                $mail->Subject = $mail_subject;
+                                $mail->Body = $email_body;
+                                // if($mail->send()){
+                                    $mail->send();
+                                    flash('email_message','Email sent to change password');
+                                    //Otp send by email
+                                    redirect('users/login');
+                                // }
+                                // else{
+                                //     flash('email_message','Email not sent','alert alert-danger');
+                                //     $this->view('users/login');
+                                // }
+                            } catch (Exception $e) {
+                                flash('email_err','Mail could not be sent. Error: '. $e->getMessage(),'alert alert-danger');
                                 $this->view('users/login');
+
+                            // echo 'Message could not be sent. Error: ', $e->getMessage();
                             }
                         
                     }else{
@@ -1544,12 +1583,13 @@
                 $data['liked'] = 'notliked';
                 $data['disliked'] = 'notdisliked';
             }   
-            
-            if($SellerMoreDetails->email!=$_SESSION['user_email']){
-                if($this->userModel->update_view_count($id)){
-    
-                }else{
-                    die('Error');
+            if(isLoggedIn()){
+                if($SellerMoreDetails->email!=$_SESSION['user_email']){
+                    if($this->userModel->update_view_count($id)){
+        
+                    }else{
+                        die('Error');
+                    }
                 }
 
             }
@@ -2196,14 +2236,28 @@
         public function approve_reject_bid($product_id,$bid_id,$time){
             if(time() < $time){
                 $advertisement=$this->sellerModel->getAdvertisementById($product_id);
+                $sellerDetails = $this->userModel->getSellerDetails($advertisement->email);
+                $SellerMoreDetails = $this->userModel->getSellerMoreDetails($advertisement->email);
+                $sellerRegDate = $SellerMoreDetails->registered_date;
+                settype($sellerRegDate, 'string');
+                $sellerRegDate = substr($sellerRegDate,0,10);
+    
                 if($advertisement){
                     $data['advertisement'] = $advertisement;
                 }
                 else{
                     die('Something went wrong');
                 }
-                $data=[
-                    'advertisement'=>$advertisement
+                $data = [
+                    'advertisement' => $advertisement,
+                    'seller' => $sellerDetails,
+                    'SellerMoreDetails' => $SellerMoreDetails,
+                    'sellerRegDate' => $sellerRegDate,
+                    'liked' => '',
+                    'disliked' => '',
+                    'watched' => '',
+                    'loadFeedback' =>'',
+                    'loadRate' =>'',
                 ];
                 $auction = $this->userModel->getAuctionById_withfinished($product_id);
                 if($auction){
@@ -2222,6 +2276,11 @@
                 
                 if(isLoggedIn()){
                     if($bid->email_buyer!=$_SESSION['user_email']){
+                        unset($_SESSION['user_id']);
+                        unset($_SESSION['user_email']);
+                        unset($_SESSION['user_name']);
+                        unset($_SESSION['user_type']);
+                        // session_destroy();
                         $_SESSION['url']=URL();
                         redirect('users/login');
                     }
@@ -2246,8 +2305,6 @@
         } 
         
         public function accept_bid($email,$product_id,$bid_id,$price){
-            $result = $this->userModel->updateBidAcceptedStatus($bid_id,$price);
-            if($result){
                 $data=[
                     'email'=>$email,
                     'product_id'=>$product_id,
@@ -2258,49 +2315,58 @@
                 if($user){
                     $data['user'] = $user;
                     //Send email
-                    $to=$data['email'];
-                    $sender='audexlk@gmail.com';
-                    $mail_subject='Your offer for bid has been accepted';
-                    $email_body='<p>Dear '.$data['user']->first_name.',<br><br>';
-                    $email_body.='Your request send to accept the bid has been accepted for the product you have published.To visit the product click <a href="'.URLROOT.'/sellers/bid_list/'.$data['product_id'].'">here</a><br><br>';
-                    $email_body.='Thank you,<br>Audexlk</p>';
-                    // $header="From:{$sender}\r\nContent-Type:text/html;";
-    
-                    $mail = new PHPMailer(true);
-                    $mail->isSMTP();
-                    $mail->Host = 'smtp.gmail.com';
-                    $mail->SMTPAuth = true;
-                    $mail->Username = $sender;
-                    $mail->Password = 'bcoxsurnseqiajuf';
-                    $mail->SMTPSecure = 'ssl';
-                    $mail->Port = 465;
-                    $mail->setFrom($sender);
-                    $mail->addAddress($to);
-                    $mail->isHTML(true);
-                    $mail->Subject = $mail_subject;
-                    $mail->Body = $email_body;
-                    if($mail->send()){
+                    try{
+                        $to=$data['email'];
+                        $sender='audexlk@gmail.com';
+                        $mail_subject='Your offer for bid has been accepted';
+                        $email_body='<p>Dear '.$data['user']->first_name.',<br><br>';
+                        $email_body.='Your request send to accept the bid has been accepted for the product you have published.To visit the product click <a href="'.URLROOT.'/sellers/bid_list/'.$data['product_id'].'">here</a><br><br>';
+                        $email_body.='Thank you,<br>Audexlk</p>';
+                        // $header="From:{$sender}\r\nContent-Type:text/html;";
                         
-                        flash('auction_message', 'Offer Accepted');
-                        redirect('users/index');
-                    }
-                    else{
-                        flash('email_err','Email not sent');
+                        $mail = new PHPMailer(true);
+                        $mail->isSMTP();
+                        $mail->Host = 'smtp.gmail.com';
+                        $mail->SMTPAuth = true;
+                        $mail->Username = $sender;
+                        $mail->Password = 'bcoxsurnseqiajuf';
+                        $mail->SMTPSecure = 'ssl';
+                        $mail->Port = 465;
+                        $mail->setFrom($sender);
+                        $mail->addAddress($to);
+                        $mail->isHTML(true);
+                        $mail->Subject = $mail_subject;
+                        $mail->Body = $email_body;
+                        // if($mail->send()){
+                            $mail->send();
+                            $result = $this->userModel->updateBidAcceptedStatus($bid_id,$price);
+                            if($result){
+                                flash('auction_message', 'Offer Accepted');
+                                redirect('users/index');
+                            }
+                            else{
+                                flash('auction_message', 'Something went wrong,try again later','alert alert-danger');
+                            }
+                        // }
+                        // else{
+                        //     flash('email_err','Email not sent');
+                        //     $this->view('users/index');
+                        // }
+                    } catch (Exception $e) {
+                        flash('email_err','Mail could not be sent. Error: '. $e->getMessage(),'alert alert-danger');
                         $this->view('users/index');
+
+
+                    // echo 'Message could not be sent. Error: ', $e->getMessage();
                     }
                 }
                 else{
                     die('Something went wrong');
                 }
-            }
-            else{
-                die('Something went wrong');
-            }
+            
         }
 
         public function reject_bid($email,$product_id,$bid_id,$price){
-            $result = $this->userModel->updateBidStatus($bid_id,$price);
-            if($result){
                 $data=[
                     'email'=>$email,
                     'product_id'=>$product_id,
@@ -2311,44 +2377,54 @@
                 if($user){
                     $data['user'] = $user;
                     //Send email
-                    $to=$data['email'];
-                    $sender='audexlk@gmail.com';
-                    $mail_subject='Your offer for bid has been rejected';
-                    $email_body='<p>Dear '.$data['user']->first_name.',<br><br>';
-                    $email_body.='Your request send to accept the bid has been rejected for the product you have published.To visit the product click <a href="'.URLROOT.'/sellers/bid_list/'.$data['product_id'].'">here</a><br><br>';
-                    $email_body.='Thank you,<br>Audexlk</p>';
-                    // $header="From:{$sender}\r\nContent-Type:text/html;";
-    
-                    $mail = new PHPMailer(true);
-                    $mail->isSMTP();
-                    $mail->Host = 'smtp.gmail.com';
-                    $mail->SMTPAuth = true;
-                    $mail->Username = $sender;
-                    $mail->Password = 'bcoxsurnseqiajuf';
-                    $mail->SMTPSecure = 'ssl';
-                    $mail->Port = 465;
-                    $mail->setFrom($sender);
-                    $mail->addAddress($to);
-                    $mail->isHTML(true);
-                    $mail->Subject = $mail_subject;
-                    $mail->Body = $email_body;
-                    if($mail->send()){
+                    try{
+                        $to=$data['email'];
+                        $sender='audexlk@gmail.com';
+                        $mail_subject='Your offer for bid has been rejected';
+                        $email_body='<p>Dear '.$data['user']->first_name.',<br><br>';
+                        $email_body.='Your request send to accept the bid has been rejected for the product you have published.To visit the product click <a href="'.URLROOT.'/sellers/bid_list/'.$data['product_id'].'">here</a><br><br>';
+                        $email_body.='Thank you,<br>Audexlk</p>';
+                        // $header="From:{$sender}\r\nContent-Type:text/html;";
                         
-                        flash('auction_message', 'Offer Accepted');
+                        $mail = new PHPMailer(true);
+                        $mail->isSMTP();
+                        $mail->Host = 'smtp.gmail.com';
+                        $mail->SMTPAuth = true;
+                        $mail->Username = $sender;
+                        $mail->Password = 'bcoxsurnseqiajuf';
+                        $mail->SMTPSecure = 'ssl';
+                        $mail->Port = 465;
+                        $mail->setFrom($sender);
+                        $mail->addAddress($to);
+                        $mail->isHTML(true);
+                        $mail->Subject = $mail_subject;
+                        $mail->Body = $email_body;
+                        // if($mail->send()){
+                            $mail->send();
+                            $result = $this->userModel->updateBidStatus($bid_id,$price);
+                            if($result){
+                                flash('auction_message', 'Offer Rejected');
+                                redirect('users/index');
+                            }
+                            else{
+                                flash('auction_message', 'Something went wrong,try again','alert alert-danger');
+                            }
+                        // }
+                        // else{
+                        //     flash('email_err','Email not sent');
+                        //     $this->view('users/index');
+                        // }
+                    } catch (Exception $e) {
+                        flash('email_err','Mail could not be sent. Error: '. $e->getMessage(),'alert alert-danger');
                         redirect('users/index');
-                    }
-                    else{
-                        flash('email_err','Email not sent');
-                        $this->view('users/index');
+
+                    // echo 'Message could not be sent. Error: ', $e->getMessage();
                     }
                 }
                 else{
                     die('Something went wrong');
                 }
-            }
-            else{
-                die('Something went wrong');
-            }
+            
         }
         
         

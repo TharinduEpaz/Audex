@@ -224,7 +224,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'model' => trim($_POST['model']),
                     'type'=> 'fixed_price',
                     'end_date'=>'',
-                    'category' =>trim($_POST['category']),
+                    'category' =>ucwords(trim($_POST['category'])),
                     'title_err' => '',
                     'description_err' => '',
                     'price_err' => '',
@@ -948,46 +948,51 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
         public function aprove_bid($product_id,$bid_id,$email,$price,$name){
             $dat=date('Y-m-d H:i:s');
-            if($this->sellerModel->approve_bid($bid_id,$email,$price,$dat)){
                 //Send email
-                $to=$email;
-                $sender='audexlk@gmail.com';
-                $mail_subject='Approve/Reject a auction offer - Audexlk';
-                
-                // $header="From:{$sender}\r\nContent-Type:text/html;";
+                try{
+                    $to=$email;
+                    $sender='audexlk@gmail.com';
+                    $mail_subject='Approve/Reject a auction offer - Audexlk';
+                    
+                    // $header="From:{$sender}\r\nContent-Type:text/html;";
 
-                $mail = new PHPMailer(true);
-                $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
-                $mail->SMTPAuth = true;
-                $mail->Username = $sender;
-                $mail->Password = 'bcoxsurnseqiajuf';
-                $mail->SMTPSecure = 'ssl';
-                $mail->Port = 465;
-                $mail->setFrom($sender);
-                $mail->addAddress($to);
-                $mail->isHTML(true);
-                $expiring_timestamp = time() + (24*60*60*5); // Expires in 24*5 hours
-                $activation_link = URLROOT.'/users/approve_reject_bid/'.$product_id.'/'.$bid_id.'/' . $expiring_timestamp;
-                $email_body='<p>Dear '.$name.',<br>Thank you for bidding on Audexlk. Seller has been selected you as the winner of his auction.'; 
-                $email_body.=' You can <b>accept or reject</b> his offer by clicking the fllowing link.<b>Link will be expires in 5 days. After that you cannot approve or reject.</b><br><br>';
-                $email_body.='<b><a href="'.URLROOT.'/users/approve_reject_bid/'.$product_id.'/'.$bid_id.'/' . $expiring_timestamp.'">Click here</a></b><br><br>';
-                $email_body.='Thank you,<br>Audexlk</p>';
-                $mail->Subject = $mail_subject;
-                $mail->Body = $email_body;
-                if($mail->send()){
-            // $time=CONVERT_TZ(NOW(),'SYSTEM','Asia/Calcutta');
+                    $mail = new PHPMailer(true);
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = $sender;
+                    $mail->Password = 'bcoxsurnseqiajuf';
+                    $mail->SMTPSecure = 'ssl';
+                    $mail->Port = 465;
+                    $mail->setFrom($sender);
+                    $mail->addAddress($to);
+                    $mail->isHTML(true);
+                    $expiring_timestamp = time() + (24*60*60*5); // Expires in 24*5 hours
+                    $activation_link = URLROOT.'/users/approve_reject_bid/'.$product_id.'/'.$bid_id.'/' . $expiring_timestamp;
+                    $email_body='<p>Dear '.$name.',<br>Thank you for bidding on Audexlk. Seller has been selected you as the winner of his auction.'; 
+                    $email_body.=' You can <b>accept or reject</b> his offer by clicking the fllowing link.<b>Link will be expires in 5 days. After that you cannot approve or reject.</b><br><br>';
+                    $email_body.='<b><a href="'.URLROOT.'/users/approve_reject_bid/'.$product_id.'/'.$bid_id.'/' . $expiring_timestamp.'">Click here</a></b><br><br>';
+                    $email_body.='Thank you,<br>Audexlk</p>';
+                    $mail->Subject = $mail_subject;
+                    $mail->Body = $email_body;
+                    // if($mail->send()){
+                    // $time=CONVERT_TZ(NOW(),'SYSTEM','Asia/Calcutta');
 
-                    //Otp send by email
+                        // Mail sent 
+                        $mail->send();
+                        if($this->sellerModel->approve_bid($bid_id,$email,$price,$dat)){
+                            flash('email_err','Mail sent successfully');
+                            redirect('sellers/bid_list/'.$product_id.'/'.$bid_id);
+                        }else {
+                            flash('email_err','Something went wrong,retry','alert alert-danger');
+                            redirect('sellers/bid_list/'.$product_id.'/'.$bid_id);
+                        }
+                    
+                } catch (Exception $e) {
+                    flash('email_err','Mail could not be sent. Error: '. $e->getMessage(),'alert alert-danger');
                     redirect('sellers/bid_list/'.$product_id.'/'.$bid_id);
                 }
-                else{
-                    redirect('sellers/bid_list/'.$product_id.'/'.$bid_id);
-
-                }
-            }else {
-                redirect('sellers/bid_list/'.$product_id.'/'.$bid_id);
-            }
+            
         }
         public function dashboard(){
             $this->view('service_providers/dashboard');

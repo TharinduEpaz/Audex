@@ -20,7 +20,7 @@
 <?php require_once APPROOT . '/views/sellers/navbar.php';?>
 
     <div class="container" style="background: none;">
-    
+    <?php echo flash('email_err');?>
         <div class="content">
         <div class="image_likes">
             <div class="image">
