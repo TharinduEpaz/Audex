@@ -715,8 +715,7 @@ date_default_timezone_set("Asia/Kolkata");
 
             $row = $this->db->single();
 
-            $this->db->query('DELETE FROM add_watch_list_product WHERE add_watch_list_product.product_id = :p_id AND add_watch_list_product.email_buyer = :email;
-            ');
+            $this->db->query('DELETE FROM add_watch_list_product WHERE add_watch_list_product.product_id = :p_id AND add_watch_list_product.email_buyer = :email; ');
             //Bind value
             $this->db->bind(':email', $row->email);
             $this->db->bind(':p_id', $p_id);
@@ -759,6 +758,28 @@ date_default_timezone_set("Asia/Kolkata");
             
 
             $this->db->query('INSERT INTO add_watch_list_service_provider (email_buyer,email_service_provider) VALUES(:buyer_email,:service_provider_email)');
+            //Bind value
+            $this->db->bind(':buyer_email', $buyer_email->email);
+            $this->db->bind(':service_provider_email', $service_provider_email->email);
+
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        public function removeServiceProviderFromWatchList($buyerId, $serviceProviderId){
+
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $buyerId);
+            $buyer_email = $this->db->single();
+
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $serviceProviderId);
+            $service_provider_email = $this->db->single();
+
+            $this->db->query('DELETE FROM add_watch_list_service_provider WHERE add_watch_list_service_provider.email_buyer = :buyer_email AND add_watch_list_service_provider.email_service_provider = :service_provider_email ; ');
             //Bind value
             $this->db->bind(':buyer_email', $buyer_email->email);
             $this->db->bind(':service_provider_email', $service_provider_email->email);

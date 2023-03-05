@@ -1955,7 +1955,7 @@
             }
           }
 
-          
+        //   this function calls from asvertiesment details page
           public function removeItemFromWatchList($p_id,$u_id){
             if(!isLoggedIn()){
               $_SESSION['url']=URL();
@@ -1968,7 +1968,7 @@
             }
             else{
               if (isset($_POST['remove'])){
-              echo "This Works";
+              
                 $result = $this-> userModel->removeItemFromWatchList($p_id, $u_id);
                 if($result){
                   echo flash('register_success', 'You are registered and can log in');
@@ -1980,8 +1980,42 @@
               }
             }
           }
+          public function removeServiceProviderFromWatchList(){
+            if(!isLoggedIn()){
+              $_SESSION['url']=URL();
+
+              redirect('users/login');
+            }
+            
+            if($_POST['user_id'] == 0){
+              redirect('users/login');
+            }
+            else{
+                $buyerId = $_POST['user_id'];
+                $serviceProviderId = $_POST['service_provider_id'];
+
+                if (isset($_POST['remove'])){
+
+                    $result = $this-> userModel->removeServiceProviderFromWatchList($buyerId, $serviceProviderId);
+                    
+                    if($result){
+                        if ($result) {
+                            echo json_encode(['message' => 'Removed from list']);
+                        } 
+                        // else {
+                        //     echo json_encode(['message' => 'Some thing went wrong']);
+                        // }
+                    }
+                    else{
+                        echo json_encode(['message' => 'Something went wrong']);
+                        die('Something went wrong');
+                }
+        
+              }
+            }
+          }
       
-          
+        //   this function calls from watch list page in buyer profile
           public function removeOneItemFromWatchList($p_id,$u_id){
             if(!isLoggedIn()){
               $_SESSION['url']=URL();
