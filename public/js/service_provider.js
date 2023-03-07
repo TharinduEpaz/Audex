@@ -10,6 +10,7 @@ openEventButtons.forEach(button => {
         openEvent(event)
     })
 });
+
 closeEventButtons.forEach(button => {
     button.addEventListener('click', () => {
         const event = button.closest('.event')
@@ -35,3 +36,6 @@ function closeEvent(event){
     event.classList.remove('active');
     overlay.classList.remove('active');
 }
+
+//show event js code
+

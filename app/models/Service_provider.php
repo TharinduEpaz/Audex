@@ -13,7 +13,6 @@ class Service_provider
 
         $this->db->query('SELECT * FROM user LEFT JOIN service_provider ON user.user_id = service_provider.user_id WHERE service_provider.user_id = :id UNION SELECT * FROM user RIGHT JOIN service_provider ON user.user_id = service_provider.user_id WHERE service_provider.user_id = :id ');
 
-
         $this->db->bind(':id', $id);
         $row = $this->db->single();
 
@@ -37,7 +36,6 @@ class Service_provider
         $this->db->bind(':address2', $arr[7]);
 
         $this->db->execute();
-
         
     }
 
@@ -54,7 +52,6 @@ class Service_provider
 
         // $this->db->query('INSERT INTO events (name, description, date, user_id, location, ticket_link) VALUES (:name, :description, :date, :user_id, :location, :ticketLink)');
 
-
         $this->db->query('INSERT INTO `events` (`name`, `description`, `date`, `user_id`, `public_event`, `location`, `ticket_link`, `time`) VALUES ( :name, :description, :date, :user_id, :public, :location, :ticketLink , 12);');
 
         // $event_details = array($name, $date, $public_event, $location, $link, $description); 
@@ -69,9 +66,7 @@ class Service_provider
 
         $this->db->execute();
 
-        redirect('service_providers/profile/');
-
-    
+        redirect('service_providers/profile/'); 
     }
 
     public function setImage($file_name, $user_id){
@@ -87,9 +82,25 @@ class Service_provider
         $this -> db -> query('SELECT * FROM events WHERE user_id = :id AND MONTH(date) = :month');
         $this -> db -> bind(':id', $user_id);
         $this -> db -> bind(':month', $month);
-        $events = $this -> db -> resultSet();
-        
+        $events = $this -> db -> resultSet();       
         return $events;
+    }
+
+    public function getEventById($event_id){
+        $this -> db -> query('SELECT * FROM events WHERE event_id = :id ');
+        $this -> db -> bind(':id', $event_id);
+        $event = $this -> db -> single();
+        return $event;
+
+    }
+
+    public function getEventOwner($id){
+
+         $this->db->query('SELECT first_name, second_name FROM `user`,`events` WHERE user.user_id = events.user_id and events.event_id = :id;');
+         $this -> db -> bind(':id', $id);
+         $name = $this -> db -> single();
+         return $name;
+
     }
      
 }
