@@ -24,6 +24,7 @@ body {
   border: 1px solid transparent;
   border-radius: 4px;
 }
+
 nav{
   top: 0;
   left: 0;
@@ -203,7 +204,7 @@ nav{
   }
  .container_main{
     width: 100vw;
-    height: 100vh;
+    height: 90vh;
     position: revert;
     margin-top: 10vh;
     /* background-repeat: no-repeat;
@@ -242,10 +243,19 @@ nav{
   }
 } */
 .alert{
+  background: rgb(121, 255, 121);
+    width: 100%;
+    text-align: center;
+    margin-top: 2%;
+    font-weight: 600;
+    padding: 1% 1% 1% 10%;
+}
+.alert-danger{
   background: #ff7373;
     width: 100%;
     text-align: center;
     margin-top: 2%;
+    font-weight: 600;
     padding: 1% 1% 1% 10%;
 }
 .form h1{
@@ -266,6 +276,7 @@ nav{
     padding: 1% 1% 1% 10%;
 }
 .form{
+    position: absolute;
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -273,13 +284,38 @@ nav{
     align-items: left;
     width: 30%;
     margin-left: 10%;
-    height: 100vh;
-    top: 3vh;
+    margin-top: 5%;
+    /* height: 100vh; */
     /* overflow-y: scroll;
   overflow-x:hidden;  
   scroll-behavior: smooth; */
  }
  
+#dia{
+  top: 50vh;
+    left: 50%;
+    width: 140px;
+    height: 90px;
+}
+.btn_close{
+  width: 50px;
+  height: 30px;
+  font-size: 16pt;
+  font-weight: 900;
+}
+.continue{
+  width: 50px;
+  height: 30px;
+  font-size: 16pt;
+  font-weight: 900;
+}
+.close{
+  width: 75px;
+  height: 30px;
+  font-size: 16pt;
+  font-weight: 900;
+}
+
 @media (max-width:768px){
   .form{
       width: 50%;
@@ -359,7 +395,7 @@ nav{
   height: 55px;
   background: rgba(217, 217, 217, 0.7);
   opacity: 0.8;
-  border-radius: 25px 0 0 25px;
+  /* border-radius: 25px 0 0 25px; */
   font-size: 26px;
   border: none;
   padding-inline: 1rem ;
@@ -384,6 +420,7 @@ nav{
 }
 #search-results{
   display: block;
+  z-index: 1;
 }
 #search-results .table {
   width: 731px;

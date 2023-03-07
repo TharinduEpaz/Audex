@@ -1,0 +1,24 @@
+.rating {
+    display: flex;
+    justify-content: space-evenly;
+    width: 25%;
+  }
+  
+  .star {
+    display: inline-block;
+    color: rgba(112, 111, 111, 0.856);
+    cursor: pointer;
+  }
+  
+  .star.selected {
+    color: #001628;
+  }
+  
+  .star:hover,
+  .star:hover~.star {
+    color: #FFCA28;
+  }
+  
+  .as-console-wrapper {
+    max-height: 25px !important
+  }

@@ -15,6 +15,17 @@ body{
     width: 100%;
     padding-top: 3vh;
 }
+.image_likes{
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    /* border: 1px solid; */
+    height: 65vh;
+    justify-content: end;
+    margin-left: 2%;
+    flex-basis: 40%;
+    
+}
 .buttons{
     display: flex;
     flex-direction: row;
@@ -24,15 +35,16 @@ body{
 .content form input{
     background: #002EF9;
     height: 5vh;
-    width: 150px;
+    width: 170px;
     color: white;
     padding: 1% 2% 1% 2%;
-    border-radius: 10px;
-    border: 1px solid #002EF9;
-    font-weight: 600;
-
-    /* float: right; */
+    border-radius: 7px;
+    /* border: 1px solid #002EF9; */
+    font-weight: 800;
+    float: left;
     /* margin-left: 850%; */
+    font-size: 12pt;
+    /* margin-top: 2vh; */
 }
 
 .bid_list, .delete, .accept_bid, .reject_bid{
@@ -73,19 +85,55 @@ body{
 }
 .image{
     height: 65vh;
-    width: 40%;
-    /* padding: 1% 1% 1% 5%; */
-    border: 1px solid #002EF9;
-    border-radius: 25px;
-    margin-left: 2%;
-}
-.image img{
-    width: max-content;
-    float: left;
-    height: 100%;
     width: 100%;
+    padding: 2% ;
+    /* border: 1px solid #002EF9; */
     border-radius: 25px;
+    /* margin-left: 2%; */
+}
+.grid {
+    display: grid;
+    grid-template-columns: 2.25fr .75fr;
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+    height: 100%;
+    grid-template-areas: 
+      "a b"
+      "a c"
+      "a d";
 
+  }
+.img1{
+    border: 1px solid #000000;
+    grid-area: a;
+    background-repeat: no-repeat;
+    background-size: auto 70%;
+    background-position: center;
+    background-color: white;
+}
+.img2,.img3,.img4{
+    border: 1px solid #000000;
+    background-repeat: no-repeat;
+    background-size: auto 70%;
+    background-position: center;
+    background-color: white;
+
+
+}
+.img2{
+    grid-area: b;
+}
+.img2 a:hover, .img3 a:hover, .img4 a:hover{
+    text-decoration: none;
+    color: initial;
+    opacity: 20%;
+    cursor: pointer;
+}
+.img3{
+    grid-area: c;
+}
+.img4{
+    grid-area: d;
 }
 .image a{
     float: right;
@@ -109,10 +157,10 @@ body{
         flex-direction: column;
         justify-content: center;
         align-items: left;
-        margin-left: 60px;
+        /* margin-left: 60px; */
         padding: 1vh 3% 1vh 1.5%;
         /* margin-top: -14vh; */
-        width: 35%;
+        width: 30%;
 
 
 }
@@ -122,7 +170,7 @@ body{
     color: white;
     padding: 1% 2% 1% 2%;
     border-radius: 10px;
-    border: 1px solid #002EF9;
+    /* border: 1px solid #002EF9; */
 }
 .details input:hover{
     transition: 0.5s;
@@ -140,20 +188,20 @@ body{
     font-weight: bold;
     padding: 1% 1% 1% 1%;
     height: 5vh;
-    width: 50%;
+    width: 45%;
 
 }
 .price h4{
-    font-weight: bolder;
-    font-size: 12pt;
-    background: #002EF9;
-    color: white;
+    font-weight: 900;
+    font-size: 20pt;
+    /* background: #002EF9; */
+    color: black;
     text-align: center;
-    padding: 1vh 1%;
-    height: 5vh;
-    width: 200px;
+    /* padding: 1vh 1%; */
+    /* height: 5vh; */
+    /* width: 200px; */
     border-radius: 10px;
-    border: 1px solid #002EF9;
+    /* border: 1px solid #002EF9; */
     margin-top: 2vh;
 }
 .message_bid{
@@ -161,6 +209,14 @@ body{
     flex-direction: row;
     width: 100%;
     padding-top: 3vh;
+    justify-content: space-between;
+}
+.add_watchlist_map{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-top: 3vh;
+    justify-content: space-between;
 }
 .bid_now,.message_seller,.bid_button{
     text-decoration: none;
@@ -206,7 +262,7 @@ body{
     padding: 1% 5% 1% 5%;
     color: black;
     font-weight: 300;
-    margin-top: 7vh;
+    margin-top: -5vh;
 }
 .description p{
     color: black;
@@ -217,6 +273,137 @@ body{
     font-size: 15pt;
     margin-bottom: 1%;
 }
+.seller-detais{
+    display: flex;
+    flex-direction: column;
+    max-width: 23%;
+    min-width: 14%;    
+    margin-right: 8% ;
+    /* border: 1px solid black; */
+    padding-top: 1vh;
+}
+
+#message-to-seller-btn, #review-seller-btn, #submit-review-btn {
+    float: right;
+    width: 85%;
+    height: 5vh;
+    font-size: 16px;
+    background:#002EF9;
+    color: white;
+    padding: 1% 2% 1% 2%;
+    border-radius: 10px;
+    border: 1px solid #002EF9;
+    margin: 9% 12% 3% 2%;
+}
+#message-to-seller-btn:hover, #review-seller-btn:hover, #submit-review-btn:hover {
+    cursor: pointer;
+    background:red;
+    border: 1px solid red;
+}
+.top_details{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 115%;
+    height: 25vh;
+    margin-top: 1vh;
+    background-color: white;
+    /* border-radius: 35px; */
+  }
+  .rating-stars{
+    margin-right: 15px;
+  }
+  .profile_img{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* border: 1px solid black; */
+    margin-left: 3%;
+    flex-basis: 25%;
+    height: 76%;
+    border-radius: 50%;
+  }
+  .profile_img img{
+    width: 90%;
+    border-radius: 50%;
+  }
+  .other_details_profile{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1%;
+    /* border: 1px solid black; */
+    flex-basis: 75%;
+  
+  }
+  .other_details_profile p{
+    /* border: 1px solid black; */
+    color: black;
+    font-weight: 600;
+  }
+  .full_name{
+    font-size: 20pt;
+    text-align: center;
+    /* border: 1px solid black; */
+    width: 100%;
+  }
+  .stars_date{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 6vh;
+    /* background-color: #E5E9F7; */
+    border-radius: 40px;
+    /* border: 1px solid black; */
+    margin: 0;
+  
+  }
+  .stars{
+    height: 3vh;
+    margin-top: 0;
+    margin-right: 15px;
+  }
+  .stars img{
+   width: 50%;
+  }
+  .date{
+    font-size: 8pt;
+    /* margin-right: 2%; */
+  }
+  .likes{
+    flex-basis: 20%;
+    /* border: 1px solid black; */
+  
+  }
+  .dislikes{
+    flex-basis: 20%;
+    /* border: 1px solid black; */
+  
+  }
+  .flags{
+    flex-basis: 20%;
+    /* border: 1px solid black; */
+  
+  }
+  
+  .likes_dislikes{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 6h;
+    /* background-color: #E5E9F7; */
+    border-radius: 40px;
+    /* border: 1px solid black; */
+    margin-top: 2vh;
+    
+  }
 @media(max-width:1200px){
     
     .image{
