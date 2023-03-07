@@ -407,6 +407,7 @@ button:hover {
 }
 
 /* CSS for event pop ups*/
+
 .event{
   position: fixed;
   top:50%;
@@ -545,4 +546,71 @@ button:hover {
 
 .calander-event.service-provider-profile .white-box .calendar .calendar-date .calender-event #event-button:hover {
   background-color: #0062cc; /* Change the background color on hover */
+}
+
+/* add event overlay */
+
+.add-event {
+
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%) scale(0); /* scale 0 is used to hide the event  */
+  /* border: 1px solid black; */
+  border-radius: 10px;
+  z-index: 10;
+  background-color: #E5E9F7;
+  max-width: 600px;
+  max-width: 80%;
+  padding:20px;
+  
+  flex-direction: row;
+  
+}
+
+.add-event .info-settings{
+  display:flex;
+  flex-direction:row;
+}
+.add-event .info-titles{
+  display:flex;
+  flex-direction:column;
+}
+.add-event .info-items form{
+  display: flex;
+flex-direction: column ;
+flex-grow:none;
+}
+.add-event h1{
+  margin-bottom:40px;
+}
+.add-event span{
+  margin-bottom:50px;
+  margin-right:30px;
+}
+.add-event input{
+  margin-bottom:20px;
+  border:none;
+  border-radius:10px;
+  height:40px;
+  margin-left:20px;
+}
+
+
+.add-event.active {
+
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%) scale(1); /* scale 0 is used to hide the event  */
+  /* border: 1px solid black; */
+  border-radius: 10px;
+  z-index: 10;
+  background-color: #E5E9F7;
+  max-width: 600px;
+  max-width: 80%;
+  padding:20px;
+  
+  flex-direction: row;
+  
 }
