@@ -8,15 +8,15 @@ date_default_timezone_set("Asia/Kolkata");
 
         //Register User
         public function register($data,$dat){
-            $this->db->query('INSERT INTO user (first_name, second_name, email, phone_number, user_type,registered_date,password,email_active) VALUES(:first_name, :second_name, :email, :phone,:user_type,:t, :password, 1)');
+            $this->db->query('INSERT INTO user (first_name, second_name, email,  user_type,registered_date,password,otp,email_active) VALUES(:first_name, :second_name, :email,:user_type,:t, :password,:otp, 0)');
             //Bind values
             $this->db->bind(':first_name', $data['first_name']);
             $this->db->bind(':second_name', $data['second_name']);
             $this->db->bind(':email', $data['email']);
-            $this->db->bind(':phone', $data['phone']);
             $this->db->bind(':user_type', $data['user_type']);
             $this->db->bind(':t', $dat);
             $this->db->bind(':password', $data['password']);
+            $this->db->bind(':otp', $data['otp']);
 
             //Execute
             if($this->db->execute()){
@@ -24,6 +24,79 @@ date_default_timezone_set("Asia/Kolkata");
             }else{
                 return false;
             }
+        }
+
+        public function updateUserActivated($email,$time){
+            $this->db->query('UPDATE user  set email_active=1,registered_date=:t WHERE email=:email');
+            //Bind values
+            $this->db->bind(':email', $email);
+            $this->db->bind(':t', $time);
+
+            //Execute
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        public function updateUserPhone($email,$phone){
+            $this->db->query('UPDATE user set phone_number=:phone WHERE email=:email');
+            //Bind values
+            $this->db->bind(':email', $email);
+            $this->db->bind(':phone', $phone);
+
+            //Execute
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+
+        public function updateUserEmail($email, $id){
+            $this->db->query('UPDATE user set email=:email WHERE user_id=:id');
+            //Bind values
+            $this->db->bind(':email', $email);  
+            $this->db->bind(':id', $id);
+
+            //Execute
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        public function updatePhoneOTP($otp,$id){
+            $this->db->query('UPDATE user set phone_otp=:otp WHERE user_id=:id');
+            //Bind values
+            $this->db->bind(':otp', $otp);
+            $this->db->bind(':id', $id);
+
+            //Execute
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
+        public function updateEmailOTP($otp,$id){
+            $this->db->query('UPDATE user set otp=:otp WHERE user_id=:id');
+            //Bind values
+            $this->db->bind(':otp', $otp);
+            $this->db->bind(':id', $id);
+
+            //Execute
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+
         }
 
         //Send Email
@@ -116,7 +189,7 @@ date_default_timezone_set("Asia/Kolkata");
 
         //Login user
         public function login($email, $password,$dat){
-            $this->db->query('SELECT * FROM user WHERE email = :email && email_active=1');
+            $this->db->query('SELECT * FROM user WHERE email = :email AND email_active=1');
             $this->db->bind(':email', $email);
 
             $row = $this->db->single(); //single row
@@ -130,9 +203,44 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
 
+        public function updatePasswordAttempts($email){
+            $this->db->query('UPDATE user set password_wrong_attempts=password_wrong_attempts+1 WHERE email = :email');
+            $this->db->bind(':email', $email);
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
+        public function updatePasswordAttemptsZero($email){
+            $this->db->query('UPDATE user set password_wrong_attempts=0 WHERE email = :email');
+            $this->db->bind(':email', $email);
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+        
+
+        public function suspendAccount($email,$date){
+            $this->db->query('UPDATE user set suspended=1,suspend_end_time=:date WHERE email = :email');
+            $this->db->bind(':email', $email);
+            $this->db->bind(':date', $date);
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
         //Find user by email
         public function findUserByEmail($email){
-            $this->db->query('SELECT * FROM user WHERE email = :email && email_active=1');
+            $this->db->query('SELECT * FROM user WHERE email = :email AND email_active=1');
             //Bind value
             $this->db->bind(':email', $email);
             $row = $this->db->single();
@@ -144,15 +252,134 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
 
+        //Find user by phone number
+        public function findUserByPhone($phone){
+            $this->db->query('SELECT * FROM user WHERE phone_number = :phone');
+            //Bind value
+            $this->db->bind(':phone', $phone);
+            $row = $this->db->single();
+            //Check row
+            if($this->db->rowCount() > 0){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
         //Not activated
         public function notActivated($email){
-            $this->db->query('SELECT * FROM user WHERE email = :email && email_active=0');
+            $this->db->query('SELECT * FROM user WHERE email = :email AND email_active=0');
             $this->db->bind(':email', $email);
             $row = $this->db->single();
 
             if($this->db->rowCount() > 0){
                 return true;
             }else{
+                return false;
+            }
+        }
+
+        public function updateOtp($otp,$time,$email){
+            $this->db->query('UPDATE user set otp=:otp,registered_date=:t WHERE email = :email');
+            $this->db->bind(':email', $email);
+            $this->db->bind(':otp', $otp);
+            $this->db->bind(':t', $time);
+            $row = $this->db->execute(); //single row
+            if($row){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+        public function updatePassword($password,$id){
+            $this->db->query('UPDATE user set password=:password WHERE user_id = :id');
+            $this->db->bind(':id', $id);
+            $this->db->bind(':password', $password);
+            $row = $this->db->execute(); //single row
+            if($row){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
+        public function getUserDetails($id){
+            $this->db->query('SELECT * FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $id);
+            
+            $row = $this->db->single();
+            return $row;
+        }
+
+        public function getUserDetailsByEmail($email){
+            $this->db->query('SELECT * FROM user WHERE email = :email');
+            $this->db->bind(':email' , $email);
+            
+            $row = $this->db->single();
+            return $row;
+        }
+
+        public function updateProfilePicture($data){
+            $this->db->query('UPDATE user SET profile_pic = :profile_picture WHERE user_id = :id ');
+            
+            $this->db->bind(':profile_picture' , $data['image1']);
+            $this->db->bind(':id' , $data['id']);
+            // $this->db->dbh->lastInsertId();
+
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+
+        public function updateProfile($data){
+            $this->db->query('UPDATE user SET first_name = :first_name,second_name = :second_name, address1 = :address1, address2 = :address2, phone_number = :phone_number WHERE user_id = :id ');
+            
+            $this->db->bind(':first_name' , $data['first_name']);
+            $this->db->bind(':second_name' , $data['second_name']);
+            $this->db->bind(':address1' , $data['address1']);
+            $this->db->bind(':address2' , $data['address2']);
+            $this->db->bind(':phone_number' , $data['phone_number']);
+            $this->db->bind(':id' , $data['id']);
+            // $this->db->dbh->lastInsertId();
+
+            if($this->db->execute()){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function deleteUserProfile($id){
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->single();
+
+            $this->db->query('DELETE FROM seller WHERE email = :email');
+            $this->db->bind(':email' , $row->email);
+
+            $result1 = $this->db->execute();
+
+            $this->db->query('UPDATE user SET is_deleted = 1 WHERE email = :email ');    
+            $this->db->bind(':email' , $row->email);
+
+            // if($this->db->execute()){
+            //     return true;
+            // } else {
+            //     return false;
+            // }
+
+            $result2 = $this->db->execute();
+
+            if($result1 && $result2){
+                return true;
+            }
+            else{
                 return false;
             }
         }
@@ -168,10 +395,11 @@ date_default_timezone_set("Asia/Kolkata");
                 return false;
             }
         }
+        
 
         //Get user id
         public function getUserId($email){
-            $this->db->query('SELECT user_id FROM user WHERE email = :email');
+            $this->db->query('SELECT * FROM user WHERE email = :email');
             //Bind value
             $this->db->bind(':email', $email);
             $row = $this->db->single();
@@ -196,6 +424,69 @@ date_default_timezone_set("Asia/Kolkata");
             $row = $this->db->single();
             return $row;
         }
+
+        public function getSellerDetails($email){
+            $this->db->query('SELECT * FROM seller WHERE email = :email');
+            $this->db->bind(':email' , $email);
+
+            $row = $this->db->single();
+            return $row;
+        }
+
+        public function getBuyerDetails($email){
+            $this->db->query('SELECT * FROM buyer WHERE email = :email');
+            $this->db->bind(':email' , $email);
+
+            $row = $this->db->single();
+            return $row;
+        }
+
+        public function getService_ProviderDetails($email){
+            $this->db->query('SELECT * FROM service_provider WHERE email = :email');
+            $this->db->bind(':email' , $email);
+
+            $row = $this->db->single();
+            return $row;
+        }
+
+
+        public function getSellerMoreDetails($email){
+            $this->db->query('SELECT * FROM user WHERE email = :email');
+            $this->db->bind(':email' , $email);
+
+            $row = $this->db->single();
+            return $row;
+        }
+
+        public function getFeedbacks($email){
+            $this->db->query('SELECT * FROM seller_rate_buyer WHERE email_seller = :email');
+            $this->db->bind(':email' , $email);
+
+            $row = $this->db->resultSet();
+            return $row;
+        }
+
+        public function getFeedbacksCount($email){
+            $this->db->query('SELECT * FROM seller_rate_buyer WHERE email_seller = :email');
+            $this->db->bind(':email' , $email);
+            $row = $this->db->resultSet();
+            if($row){
+                $rowCount = $this->db->rowCount();
+                return $rowCount;
+            }else{
+                return NULL;
+            }
+            
+        }
+
+        // public function getFeedbacks($email){
+        //     $this->db->query('SELECT * FROM rate WHERE email_rate_receiver = :email');
+        //     $this->db->bind(':email' , $email);
+
+        //     $row = $this->db->resultSet();
+        //     return $row;
+        // }
+
         public function getAuctionById($id){
             $this->db->query('SELECT * FROM auction WHERE product_id = :id && is_finished=0 && is_active=1');
             $this->db->bind(':id' , $id);
@@ -205,6 +496,18 @@ date_default_timezone_set("Asia/Kolkata");
                 return $row;
             }else{
                 return "Error";
+            }
+        }
+
+        public function update_view_count($id){
+            $this->db->query('UPDATE product SET view_count = view_count + 1 WHERE product_id = :id');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->execute(); //single row
+            if($row){
+                return true;
+            }else{
+                return false;
             }
         }
 
@@ -232,10 +535,9 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
         
-        public function getBidList($bid_id,$price){
-            $this->db->query('SELECT * FROM bid_list WHERE bid_id = :id && price=:price');
+        public function getBidList($bid_id){
+            $this->db->query('SELECT * FROM bid_list WHERE bid_id = :id ');
             $this->db->bind(':id' , $bid_id);
-            $this->db->bind(':price' , $price);
 
             $row = $this->db->single();
             if($row){
@@ -245,10 +547,9 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
 
-        public function updateBidStatus($bid_id,$price){
-            $this->db->query('UPDATE bid_list SET is_rejected=1 WHERE bid_id = :id && price=:price');
+        public function updateBidStatus($bid_id){
+            $this->db->query('UPDATE bid_list SET is_rejected=1 WHERE bid_id = :id ');
             $this->db->bind(':id' , $bid_id);
-            $this->db->bind(':price' , $price);
 
             $row = $this->db->execute(); //single row
             if($row){
@@ -277,7 +578,8 @@ date_default_timezone_set("Asia/Kolkata");
 
             $row = $this->db->single();
 
-            $this->db->query('SELECT * FROM bid INNER JOIN auction ON auction.auction_id = bid.auction_id WHERE auction.auction_id = :id ORDER BY bid.price DESC');
+            // SELECT email_buyer, MAX(price) FROM bid WHERE auction_id = 9 GROUP BY email_buyer ORDER BY(MAX(price)) DESC;
+            $this->db->query('SELECT *,MAX(bid.price) as max_price,MAX(bid.bid_id) as max_bid_id FROM bid INNER JOIN auction ON auction.auction_id = bid.auction_id WHERE auction.auction_id = :id GROUP BY bid.email_buyer ORDER BY MAX(bid.price) DESC');
             $this->db->bind(':id' , $row->auction_id);
             $results = $this->db->resultSet();
             if($results){
@@ -292,12 +594,27 @@ date_default_timezone_set("Asia/Kolkata");
 
             $row = $this->db->single();
 
-            $this->db->query('SELECT * FROM bid INNER JOIN auction ON auction.auction_id = bid.auction_id WHERE auction.auction_id = :id ORDER BY bid.price DESC');
+            $this->db->query('SELECT *,MAX(bid.price) as max_price,MAX(bid.bid_id) as max_bid_id FROM bid INNER JOIN auction ON auction.auction_id = bid.auction_id WHERE auction.auction_id = :id GROUP BY bid.email_buyer ORDER BY MAX(bid.price) DESC');
             $this->db->bind(':id' , $row->auction_id);
             $results = $this->db->resultSet();
             if($results){
                 $rowCount=$this->db->rowCount();
                 return $rowCount;
+            }else{
+                return NULL;
+            }
+        }
+        public function getAllAuctionDetails($id){
+            $this->db->query('SELECT * FROM auction WHERE product_id = :id');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->single();
+
+            $this->db->query('SELECT * FROM bid INNER JOIN auction ON auction.auction_id = bid.auction_id WHERE auction.auction_id = :id ORDER BY bid.price DESC');
+            $this->db->bind(':id' , $row->auction_id);
+            $results = $this->db->resultSet();
+            if($results){
+                return $results;
             }else{
                 return NULL;
             }
@@ -317,6 +634,46 @@ date_default_timezone_set("Asia/Kolkata");
             }else{
                 return false;
             }
+        }
+
+        public function checkIsItemWatched($p_id,$user_id){
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $user_id);
+
+            $row = $this->db->single();
+
+            $this->db->query('SELECT * FROM add_watch_list_product WHERE email_buyer = :email AND product_id = :p_id');
+            //Bind value
+            $this->db->bind(':email', $row->email);
+            $this->db->bind(':p_id', $p_id);
+
+            $result =  $this->db->single();
+
+            return $result;
+
+        }
+        public function getBuyerWatchProducts($email){
+            $this->db->query('SELECT product_id FROM add_watch_list_product WHERE email_buyer = :email');
+            $this->db->bind(':email' , $email);
+            $results = $this->db->resultSet();
+
+            // foreach($results as $result):
+            //     echo gettype($result) . "</br>";
+            //     echo $result->product_id . "</br>";
+            //     echo gettype($result->product_id) . "</br>";
+            // endforeach;
+
+            $items = [];
+            foreach($results as $result):
+                $id = $result->product_id;
+                settype($id,"integer");
+                $this->db->query('SELECT product_id,email,product_title,product_condition,image1,price FROM product WHERE product_id = :id');
+                $this->db->bind(':id' , $id);
+                $item = $this->db->single();
+                array_push($items,$item);
+            endforeach;
+            return $items;
+            
         }
 
         public function update_price($price,$product_id){
@@ -339,7 +696,7 @@ date_default_timezone_set("Asia/Kolkata");
 
             $row = $this->db->single();
 
-            $this->db->query('INSERT INTO view_item (email_buyer,product_id) VALUES(:email,:p_id)');
+            $this->db->query('INSERT INTO add_watch_list_product (email_buyer,product_id) VALUES(:email,:p_id)');
             //Bind value
             $this->db->bind(':email', $row->email);
             $this->db->bind(':p_id', $p_id);
@@ -358,8 +715,7 @@ date_default_timezone_set("Asia/Kolkata");
 
             $row = $this->db->single();
 
-            $this->db->query('DELETE FROM view_item WHERE view_item.product_id = :p_id AND view_item.email_buyer = :email;
-            ');
+            $this->db->query('DELETE FROM add_watch_list_product WHERE add_watch_list_product.product_id = :p_id AND add_watch_list_product.email_buyer = :email; ');
             //Bind value
             $this->db->bind(':email', $row->email);
             $this->db->bind(':p_id', $p_id);
@@ -378,7 +734,7 @@ date_default_timezone_set("Asia/Kolkata");
 
             $row = $this->db->single();
 
-            $this->db->query('DELETE FROM view_item WHERE view_item.product_id = :p_id AND view_item.email_buyer = :email');
+            $this->db->query('DELETE FROM add_watch_list_product WHERE add_watch_list_product.product_id = :p_id AND add_watch_list_product.email_buyer = :email');
             //Bind value
             $this->db->bind(':email', $row->email);
             $this->db->bind(':p_id', $p_id);
@@ -388,6 +744,72 @@ date_default_timezone_set("Asia/Kolkata");
             }else{
                 return false;
             }
+        }
+// add service provider to watch list function
+        public function addServiceProviderToWatchList($buyerId,$serviceProviderId){
+
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $buyerId);
+            $buyer_email = $this->db->single();
+            
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $serviceProviderId);
+            $service_provider_email = $this->db->single();
+            
+
+            $this->db->query('INSERT INTO add_watch_list_service_provider (email_buyer,email_service_provider) VALUES(:buyer_email,:service_provider_email)');
+            //Bind value
+            $this->db->bind(':buyer_email', $buyer_email->email);
+            $this->db->bind(':service_provider_email', $service_provider_email->email);
+
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        public function removeServiceProviderFromWatchList($buyerId, $serviceProviderId){
+
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $buyerId);
+            $buyer_email = $this->db->single();
+
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $serviceProviderId);
+            $service_provider_email = $this->db->single();
+
+            $this->db->query('DELETE FROM add_watch_list_service_provider WHERE add_watch_list_service_provider.email_buyer = :buyer_email AND add_watch_list_service_provider.email_service_provider = :service_provider_email ; ');
+            //Bind value
+            $this->db->bind(':buyer_email', $buyer_email->email);
+            $this->db->bind(':service_provider_email', $service_provider_email->email);
+
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        public function checkIsServiceProviderWatched($buyerId,$serviceProviderId){
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $buyerId);
+            $buyer_email = $this->db->single();
+            
+            $this->db->query('SELECT email FROM user WHERE user_id = :id');
+            $this->db->bind(':id' , $serviceProviderId);
+            $service_provider_email = $this->db->single();
+
+            $this->db->query('SELECT * FROM add_watch_list_service_provider WHERE email_buyer = :buyer_email AND email_service_provider = :service_provider_email');
+            //Bind value
+            $this->db->bind(':buyer_email', $buyer_email->email);
+            $this->db->bind(':service_provider_email', $service_provider_email->email);
+
+
+            $result =  $this->db->single();
+
+            return $result;
+
         }
 
         public function checkAddedLike($p_id,$user_id){
@@ -594,7 +1016,62 @@ date_default_timezone_set("Asia/Kolkata");
             return $results;
 
         }
+        // this function works when filter applyies without a search  term
+        public function searchAndFilterItems($filter){
+            $sql='';
+            foreach($filter as $key=>$value){
+                if($key==='min_price'){
+                    $sql.='price >= :min_price';
+                }
+                else if($key=='max_price'){
+                    $sql.='price <= :max_price';
+                }
+                else{
+                    $sql.=$key." = :".$key."";
+                }
+                $sql.=' AND ';
+            }
+            $sql=substr($sql,0,-4);
+            
+            $this->db->query('SELECT * FROM product WHERE '.$sql);
+            foreach($filter as $key=>$value){
+                $this->db->bind(':'.$key, $value);
+            }
+            $results = $this->db->resultSet();
+            return $results;
+        }
+        // this function calls when search term is set
+        public function searchAndFilterItemsWithSearchTerm($filter,$searchedTerm){
+            $sql='';
+            foreach($filter as $key=>$value){
+                if($key==='min_price'){
+                    $sql.='price >= :min_price';
+                }
+                else if($key=='max_price'){
+                    $sql.='price <= :max_price';
+                }
+                else{
+                    $sql.=$key." = :".$key."";
+                }
+                $sql.=' AND ';
+            }
+            $sql=substr($sql,0,-4);
 
+            // echo $sql;
+            
+            $this->db->query('SELECT * FROM product WHERE product_title LIKE :searchedTerm AND '.$sql);
+            $this->db->bind(':searchedTerm', '%'.$searchedTerm.'%');
+
+            foreach($filter as $key=>$value){
+                $this->db->bind(':'.$key, $value);
+            } 
+            // print_r($this->db);
+            // exit;
+            $results = $this->db->resultSet();
+            return $results;
+        }
+
+        
         public function getServiceProvidersPublic($id){
         
             $this->db->query('SELECT * from service_provider_view WHERE user_id = :id');
@@ -611,5 +1088,114 @@ date_default_timezone_set("Asia/Kolkata");
         //     return $result;
         // }
         
+        public function checkAddedRate($buyer_id, $seller){
+            $this->db->query('SELECT email FROM user WHERE user_id = :buyer_id');
+            $this->db->bind(':buyer_id' , $buyer_id);
+            $row = $this->db->single();
+
+            $this->db->query('SELECT rate FROM seller_rate_buyer WHERE email_buyer = :buyer AND email_seller = :seller ');
+            //Bind value
+            $this->db->bind(':buyer', $row->email);
+            $this->db->bind(':seller', $seller);
+
+            $result =  $this->db->single();
+            
+            // if there no rate value it will be null
+            return $result->rate?? NULL;
+        }
+        public function checkAddedReview($buyer_id, $seller){
+            $this->db->query('SELECT email FROM user WHERE user_id = :buyer_id');
+            $this->db->bind(':buyer_id' , $buyer_id);
+            $row = $this->db->single();
+
+            $this->db->query('SELECT review FROM seller_rate_buyer WHERE email_buyer = :buyer AND email_seller = :seller ');
+            //Bind value
+            $this->db->bind(':buyer', $row->email);
+            $this->db->bind(':seller', $seller);
+
+            $result =  $this->db->single();
+            
+            // if there no rate value it will be null
+            return $result->review?? NULL;
+        }
+        public function rateSeller($rate,$buyer_id,$seller,$review){
+            // get the email from buyer id
+            $this->db->query('SELECT email FROM user WHERE user_id = :buyer_id');
+            $this->db->bind(':buyer_id' , $buyer_id);
+            $row = $this->db->single();
+            
+
+            $this->db->query('INSERT INTO seller_rate_buyer (email_seller,email_buyer,rate,review) VALUES (:seller,:buyer,:rate,:review)');
+            $this->db->bind(':seller', $seller);
+            $this->db->bind(':buyer', $row->email);
+            $this->db->bind(':rate', $rate);
+            $this->db->bind(':review', $review);
+
+            if($this->db->execute()){
+                // if rating sucessful then update the seller table
+                $this->db->query('SELECT avg(rate) as rateNew FROM seller_rate_buyer WHERE email_seller = :seller ');
+                //Bind value
+                $this->db->bind(':seller', $seller);
+                $result1 =  $this->db->single();
+                // update main rate in seller table 
+                $this->db->query('UPDATE seller SET rate = :newRate WHERE email = :seller ');
+                $this->db->bind(':newRate', $result1->rateNew);
+                $this->db->bind(':seller', $seller);
+
+                if($this->db->execute()){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+            
+        }
+        
+        public function updateSellerRate($rating, $buyer_id, $seller,$review){
+            // get the email from buyer id
+            $this->db->query('SELECT email FROM user WHERE user_id = :buyer_id');
+            $this->db->bind(':buyer_id' , $buyer_id);
+            $row = $this->db->single();
+    
+            // update seller's rate given by a particular buyer 
+            $this->db->query('UPDATE seller_rate_buyer SET rate = :rate, review = :review WHERE email_buyer = :buyer AND email_seller = :seller ');
+            //Bind value
+            $this->db->bind(':buyer', $row->email);
+            $this->db->bind(':seller', $seller);
+            $this->db->bind(':rate', $rating);
+            $this->db->bind(':review', $review);
+    
+            if($this->db->execute()){
+                // if rating sucessful then update the seller table
+                $this->db->query('SELECT avg(rate) as rate FROM seller_rate_buyer WHERE email_seller = :seller ');
+                //Bind value
+                $this->db->bind(':seller', $seller);
+                $result1 =  $this->db->single();
+                // update main rate in seller table 
+                $this->db->query('UPDATE seller SET rate = :newRate WHERE email = :seller ');
+                $this->db->bind(':newRate', $result1->rate);
+                $this->db->bind(':seller', $seller);
+
+                if($this->db->execute()){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+
+        public function getSellerFinalRate($seller){
+            $this->db->query('SELECT rate FROM seller WHERE email = :seller ');
+            //Bind value
+            $this->db->bind(':seller', $seller);
+            $result1 = $this->db->single();
+
+            return $result1->rate;
+
+        }
     }
 ?>
