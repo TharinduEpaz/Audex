@@ -42,16 +42,16 @@
                 <h3>Explore Popular Categories</h3>
             </div>
             <div class="explore-btn">
-                <button><img src="<?php echo URLROOT . '/public/img/icons/bi_speaker.png'; ?>" alt="sp"
-                        class="home-icon"></button>
-                <button><img src="<?php echo URLROOT . '/public/img/icons/bxs_guitar-amp.png'; ?>" alt="am"
-                        class="home-icon"></button>
-                <button><img src="<?php echo URLROOT . '/public/img/icons/nimbus_guitar.png'; ?>" alt="gu"
-                        class="home-icon"></button>
-                <button><img src="<?php echo URLROOT . '/public/img/icons/jam_dj.png'; ?>" alt="dj"
-                        class="home-icon"></button>
-                <button><img src="<?php echo URLROOT . '/public/img/icons/Group.png'; ?>" alt="grp"
-                        class="home-icon"></button>
+                <button><a href="<?php echo URLROOT.'/users/shop/speaker'; ?>"><img src="<?php echo URLROOT . '/public/img/icons/bi_speaker.png'; ?>" alt="speaker"
+                        class="home-icon"></a></button>
+                <button><a href="<?php echo URLROOT.'/users/shop/amplifier'; ?>"><img src="<?php echo URLROOT . '/public/img/icons/bxs_guitar-amp.png'; ?>" alt="amplifier"
+                        class="home-icon"></a></button>
+                <button><a href="<?php echo URLROOT.'/users/shop/guitar'; ?>"><img src="<?php echo URLROOT . '/public/img/icons/nimbus_guitar.png'; ?>" alt="guitar"
+                        class="home-icon"></a></button>
+                <button><a href="<?php echo URLROOT.'/users/shop/mixer'; ?>"><img src="<?php echo URLROOT . '/public/img/icons/jam_dj.png'; ?>" alt="dj mixer"
+                        class="home-icon"></a></button>
+                <button><a href="<?php echo URLROOT.'/users/shop/microphone'; ?>"><img src="<?php echo URLROOT . '/public/img/icons/Group.png'; ?>" alt="microphone"
+                        class="home-icon"></a></button>
             </div>
         </div>
     </div>

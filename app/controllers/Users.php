@@ -1108,6 +1108,7 @@
                     $data = [
                         'id' => $id,
                         'time' => $time,
+                        'password' => $password,
                         'new_password' => trim($_POST['new_password']),
                         'confirm_passwd' => trim($_POST['newc_password']),
                         'password_err' => '',
@@ -1159,6 +1160,7 @@
                     $data = [
                         'id' => $id,
                         'time' => $time,
+                        'password' => $password,
                         'new_password' => '',
                         'confirm_passwd' => '',
                         'new_password_err' => '',
@@ -1358,7 +1360,7 @@
             redirect('users/login');
         }
         //Shop
-        public function shop(){
+        public function shop($arg1=NULL){
             if(isset($_SESSION['attempt'])){
                 unset($_SESSION['otp_email']);
                 unset($_SESSION['phone']);
@@ -1438,7 +1440,15 @@
             }
             else{
 
-                $ads  = $this->userModel->getAdvertiesment();   
+                // one argument have provide
+                // this is called by links in the index page
+                if(isset($arg1)){
+                    $ads  = $this->userModel->getAdvertiesmentByCategory($arg1);   
+                }
+                else{
+                    $ads  = $this->userModel->getAdvertiesment();   
+                }
+
                 // get the serchResults session value
                 // print_r($_SESSION);
                 // exit();
@@ -1481,6 +1491,10 @@
                     'type' => '1',
     
                 ];
+                // if $arg1 is set then change the product category to $arg1
+                if(isset($arg1)){
+                    $data['category'] = $arg1;
+                }
 
                 // print_r($data);
                 // exit;
@@ -1506,6 +1520,8 @@
                 unset($_SESSION['searchResults']);
                 unset($_SESSION['searchTerm']);
             }
+
+
 
         }
 
@@ -1885,8 +1901,10 @@
             }
 
             $products = $this->userModel->getBuyerWatchProducts($_SESSION['user_email']);
+            $serviceProviders = $this->userModel->getBuyerWatchServiceProviders($_SESSION['user_email']);
             $data =[
               'products' => $products,
+              'serviceProviders' => $serviceProviders,
             ];
             $this->view('users/watchlist',$data);
       

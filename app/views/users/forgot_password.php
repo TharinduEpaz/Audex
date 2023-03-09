@@ -24,7 +24,7 @@
                 <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
 
             
-            <form action="<?php echo URLROOT . '/users/forgot_password/'.$data['id'].'/'.$data['time']?>" method="post">
+            <form action="<?php echo URLROOT . '/users/forgot_password/'.$data['id'].'/'.$data['time'].'/'.$data['password']?>" method="post">
             
                 <?php
                 
