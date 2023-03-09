@@ -41,20 +41,11 @@
                             <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
                             <input type="text" name="product_id" value="<?php echo $ads->product_id ; ?>" hidden >
                             <input type="submit" value="Remove" name="submit_btn">
-                            <!-- <dialog id="dia">
-                                <div class="top-part">
-                                    <button class="btn_close">X</button>
-                                    <i class="fa-sharp fa-solid fa-xmark"></i>
-                                </div>  
-                                <hr>
-                                <div>
-                                    <button class="continue">OK </button>  
-                                    <button class="close">Close</button>
-                                </div>
-                            </dialog> -->
+
                         </form>
 
                     </div> 
+                    
                 <?php endforeach; ?>
             </div>
         </div>

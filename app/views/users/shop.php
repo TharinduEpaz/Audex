@@ -474,10 +474,6 @@
 </head>
 <body>
     <?php require_once APPROOT . '/views/users/navbar.php';?>
-    <!-- <?php echo ($data['category'] == "1") ? 'true' : 'false' ?>;
-    <?php echo ($data['category'] == "microphone") ? 'true' : 'false' ?>;
-    <?php echo ($data['category'] == "speaker") ? 'true' : 'false' ?>;
-    <?php echo ($data['category'] == "amplifier") ? 'true' : 'false' ?>; -->
 
     <div class="side-bar" style="width:240px">
         <h3>Filter Products</h3>

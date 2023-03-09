@@ -15,45 +15,99 @@ window.addEventListener("DOMContentLoaded",(e)=>{
 addServiceProviderToWatchListForm.addEventListener("submit", (e) =>{
   e.preventDefault();
 
-  const data = new FormData(addServiceProviderToWatchListForm);
-  data.append("add",1);
-  const url = URLROOT+'/users/addServiceProviderToWatchList';
+  if(addServiceProviderToWatchListForm.getAttribute("data-op") == "add" ){
 
-  // console.log(url);
-
-  // for (const pair of data.entries()) {
-  //   console.log(`${pair[0]}, ${pair[1]}`);
-  // }
-  //check user is logged in or not
-  const value = data.get('user_id').trim();
-  if(value == 0){
-    //user is not logged in 
-    window.location.href = URLROOT+'/users/login/';
-  }
-  else
-  {
-    //user is logged in
-    fetch(url,{
-        method : "POST",
-        body : data
+    const data = new FormData(addServiceProviderToWatchListForm);
+    data.append("add",1);
+    const url = URLROOT+'/users/addServiceProviderToWatchList';
   
-    })
-    .then((responce)=>{
-        // console.log(responce);
-        return responce.json();
-    })
-    .then((data)=>{
-      if(data.message == "Added to the list" || data.message == "Alredy in the list"){
-        document.getElementById('add-service-provider-to-watchlist').style.background = "RED";
-        document.getElementById('add-service-provider-to-watchlist').value = "Remove From List";
-        
-      }
+    // console.log(url);
   
-    })
-    .catch( (error)=>{
-        console.log("Error:", error);
-    });
+    // for (const pair of data.entries()) {
+    //   console.log(`${pair[0]}, ${pair[1]}`);
+    // }
+    //check user is logged in or not
+    const value = data.get('user_id').trim();
+    if(value == 0){
+      //user is not logged in 
+      window.location.href = URLROOT+'/users/login/';
+    }
+    else
+    {
+      //user is logged in
+      fetch(url,{
+          method : "POST",
+          body : data
+    
+      })
+      .then((responce)=>{
+          // console.log(responce);
+          return responce.json();
+      })
+      .then((data)=>{
+        if(data.message == "Added to the list" || data.message == "Alredy in the list"){
+          addServiceProviderToWatchListForm.setAttribute("data-op", "remove");
+          document.getElementById('add-service-provider-to-watchlist').style.background = "RED";
+          document.getElementById('add-service-provider-to-watchlist').style.color = "white";
+          document.getElementById('add-service-provider-to-watchlist').value = "Remove From List";
+          
+        }
+    
+      })
+      .catch( (error)=>{
+          console.log("Error:", error);
+      });
+  
+    }
+
 
   }
+  else{
+
+    const data = new FormData(addServiceProviderToWatchListForm);
+    data.append("remove",1);
+    const url = URLROOT+'/users/removeServiceProviderFromWatchList';
+  
+    // console.log(url);
+  
+    // for (const pair of data.entries()) {
+    //   console.log(`${pair[0]}, ${pair[1]}`);
+    // }
+    //check user is logged in or not
+    const value = data.get('user_id').trim();
+    if(value == 0){
+      //user is not logged in 
+      window.location.href = URLROOT+'/users/login/';
+    }
+    else
+    {
+      //user is logged in
+      fetch(url,{
+          method : "POST",
+          body : data
+    
+      })
+      .then((responce)=>{
+          // console.log(responce);
+          return responce.json();
+      })
+      .then((data)=>{
+        if(data.message == "Removed from list" ){
+          addServiceProviderToWatchListForm.setAttribute("data-op", "add");
+          document.getElementById('add-service-provider-to-watchlist').style.background = "blue";
+          document.getElementById('add-service-provider-to-watchlist').style.color = "white";
+          document.getElementById('add-service-provider-to-watchlist').value = "Add To Watchlist";
+          
+        }
+    
+      })
+      .catch( (error)=>{
+          console.log("Error:", error);
+      });
+  
+    }
+
+  }
+
 
 });

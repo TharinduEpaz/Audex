@@ -1360,7 +1360,7 @@
             redirect('users/login');
         }
         //Shop
-        public function shop(){
+        public function shop($arg1=NULL){
             if(isset($_SESSION['attempt'])){
                 unset($_SESSION['otp_email']);
                 unset($_SESSION['phone']);
@@ -1440,7 +1440,15 @@
             }
             else{
 
-                $ads  = $this->userModel->getAdvertiesment();   
+                // one argument have provide
+                // this is called by links in the index page
+                if(isset($arg1)){
+                    $ads  = $this->userModel->getAdvertiesmentByCategory($arg1);   
+                }
+                else{
+                    $ads  = $this->userModel->getAdvertiesment();   
+                }
+
                 // get the serchResults session value
                 // print_r($_SESSION);
                 // exit();
@@ -1483,6 +1491,10 @@
                     'type' => '1',
     
                 ];
+                // if $arg1 is set then change the product category to $arg1
+                if(isset($arg1)){
+                    $data['category'] = $arg1;
+                }
 
                 // print_r($data);
                 // exit;
@@ -1508,6 +1520,8 @@
                 unset($_SESSION['searchResults']);
                 unset($_SESSION['searchTerm']);
             }
+
+
 
         }
 
@@ -1887,8 +1901,10 @@
             }
 
             $products = $this->userModel->getBuyerWatchProducts($_SESSION['user_email']);
+            $serviceProviders = $this->userModel->getBuyerWatchServiceProviders($_SESSION['user_email']);
             $data =[
               'products' => $products,
+              'serviceProviders' => $serviceProviders,
             ];
             $this->view('users/watchlist',$data);
       
@@ -1957,7 +1973,7 @@
             }
           }
 
-          
+        //   this function calls from asvertiesment details page
           public function removeItemFromWatchList($p_id,$u_id){
             if(!isLoggedIn()){
               $_SESSION['url']=URL();
@@ -1970,7 +1986,7 @@
             }
             else{
               if (isset($_POST['remove'])){
-              echo "This Works";
+              
                 $result = $this-> userModel->removeItemFromWatchList($p_id, $u_id);
                 if($result){
                   echo flash('register_success', 'You are registered and can log in');
@@ -1982,8 +1998,42 @@
               }
             }
           }
+          public function removeServiceProviderFromWatchList(){
+            if(!isLoggedIn()){
+              $_SESSION['url']=URL();
+
+              redirect('users/login');
+            }
+            
+            if($_POST['user_id'] == 0){
+              redirect('users/login');
+            }
+            else{
+                $buyerId = $_POST['user_id'];
+                $serviceProviderId = $_POST['service_provider_id'];
+
+                if (isset($_POST['remove'])){
+
+                    $result = $this-> userModel->removeServiceProviderFromWatchList($buyerId, $serviceProviderId);
+                    
+                    if($result){
+                        if ($result) {
+                            echo json_encode(['message' => 'Removed from list']);
+                        } 
+                        // else {
+                        //     echo json_encode(['message' => 'Some thing went wrong']);
+                        // }
+                    }
+                    else{
+                        echo json_encode(['message' => 'Something went wrong']);
+                        die('Something went wrong');
+                }
+        
+              }
+            }
+          }
       
-          
+        //   this function calls from watch list page in buyer profile
           public function removeOneItemFromWatchList($p_id,$u_id){
             if(!isLoggedIn()){
               $_SESSION['url']=URL();
