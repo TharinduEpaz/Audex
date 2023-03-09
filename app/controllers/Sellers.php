@@ -949,6 +949,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
         public function aprove_bid($product_id,$bid_id,$email,$price,$name){
             $dat=date('Y-m-d H:i:s');
                 //Send email
+                $mail = new PHPMailer(true);
                 try{
                     $to=$email;
                     $sender='audexlk@gmail.com';
@@ -956,7 +957,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     
                     // $header="From:{$sender}\r\nContent-Type:text/html;";
 
-                    $mail = new PHPMailer(true);
                     $mail->isSMTP();
                     $mail->Host = 'smtp.gmail.com';
                     $mail->SMTPAuth = true;

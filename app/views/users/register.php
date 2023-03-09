@@ -12,21 +12,8 @@
     <title>Register</title>
 </head>
 <body >
-    <nav>
-        <input type="checkbox" name="check" id="check" onchange="docheck()">
-        <label for="check" class="checkbtn">
-            <i class="fas fa-bars"></i>
-        </label>
-        <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo">
-        <ul>
-            <li><a href="<?php echo URLROOT;?>" class="nav_tags">Home</a></li>
-            <li><a href="#" class="nav_tags">Shop</a></li>
-            <li><a href="#" class="nav_tags">Sound Engineers</a></li>
-            <li><a href="#" class="nav_tags">Events</a></li>
-            <li><a href="<?php echo URLROOT;?>/users/login" class="nav_tags">Login</a></li>
-            <li><a href="<?php echo URLROOT;?>/users/register" class="nav_tags">Sign Up</a></li>
-        </ul>
-    </nav>
+<?php require_once APPROOT . '/views/users/navbar.php';?>
+
     <div class="container_main" style="height:0px;">
         <div id="forms" class="form">
             <h1>Register</h1>

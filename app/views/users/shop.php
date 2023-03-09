@@ -479,7 +479,7 @@
     <?php echo ($data['category'] == "speaker") ? 'true' : 'false' ?>;
     <?php echo ($data['category'] == "amplifier") ? 'true' : 'false' ?>; -->
 
-    <div class="side-bar">
+    <div class="side-bar" style="width:240px">
         <h3>Filter Products</h3>
         <form action="<?php echo URLROOT . '/users/shop';?>" method="post">
             <h4>Category</h4>

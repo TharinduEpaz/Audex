@@ -622,10 +622,9 @@ date_default_timezone_set("Asia/Kolkata");
 
         public function add_bid($price,$auction_id,$dat){
 
-            $this->db->query('INSERT INTO bid (auction_id, email_buyer, name, price, date_time) VALUES (:auction_id, :email_buyer, :name, :price, :t)');
+            $this->db->query('INSERT INTO bid (auction_id, email_buyer, price, date_time) VALUES (:auction_id, :email_buyer,:price, :t)');
             $this->db->bind(':auction_id', $auction_id);
             $this->db->bind(':email_buyer', $_SESSION['user_email']);
-            $this->db->bind(':name', $_SESSION['user_name']);
             $this->db->bind(':price', $price);
             $this->db->bind(':t', $dat);
 

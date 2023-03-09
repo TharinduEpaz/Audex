@@ -156,6 +156,7 @@
                         $_SESSION['attempt']=0;
                         $_SESSION['time'] = date('Y-m-d H:i:s', strtotime('+5 minutes', strtotime(date('Y-m-d H:i:s'))));
                         //Send email
+                        $mail = new PHPMailer(true);
                         try {
                             $to=$data['email'];
                             $sender='audexlk@gmail.com';
@@ -166,7 +167,6 @@
                             $email_body.='Thank you,<br>Audexlk</p>';
                             // $header="From:{$sender}\r\nContent-Type:text/html;";
                             
-                            $mail = new PHPMailer(true);
                             $mail->isSMTP();
                             $mail->Host = 'smtp.gmail.com';
                             $mail->SMTPAuth = true;
@@ -241,6 +241,7 @@
             $dat=date('Y-m-d H:i:s');
             if($this->userModel->updateOtp($data['otp'],$dat,$data['email'])){
                 //Send email
+                $mail = new PHPMailer(true);
                 try{
                 $to=$data['email'];
                 $sender='audexlk@gmail.com';
@@ -251,7 +252,6 @@
                 $email_body.='Thank you,<br>Audexlk</p>';
                 // $header="From:{$sender}\r\nContent-Type:text/html;";
                 
-                $mail = new PHPMailer(true);
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
@@ -848,6 +848,7 @@
                         $otp=rand(111111,999999);
                         if($this->userModel->updateEmailOTP($otp,$id)){
                             //Send email
+                            $mail = new PHPMailer(true);
                             try{
                                 $to=$data['email'];
                                 $sender='audexlk@gmail.com';
@@ -858,7 +859,6 @@
                                 $email_body.='Thank you,<br>Audexlk</p>';
                                 // $header="From:{$sender}\r\nContent-Type:text/html;";
                                 
-                                $mail = new PHPMailer(true);
                                 $mail->isSMTP();
                                 $mail->Host = 'smtp.gmail.com';
                                 $mail->SMTPAuth = true;
@@ -1040,11 +1040,11 @@
                         //Validated
                         $date = date('U', strtotime('+10 minutes', strtotime(date('Y-m-d H:i:s')))); //10 minutes from now{date('U') gives the time stamp}
                             //Send email
+                            $mail = new PHPMailer(true);
                             try{
                                 $to=$data['email'];
                                 $sender='audexlk@gmail.com';
                                 $mail_subject='Verify Email Address to change password';
-                                $mail = new PHPMailer(true);
                                 $mail->isSMTP();
                                 $mail->Host = 'smtp.gmail.com';
                                 $mail->SMTPAuth = true;
@@ -1108,6 +1108,7 @@
                     $data = [
                         'id' => $id,
                         'time' => $time,
+                        'password' => $password,
                         'new_password' => trim($_POST['new_password']),
                         'confirm_passwd' => trim($_POST['newc_password']),
                         'password_err' => '',
@@ -1159,6 +1160,7 @@
                     $data = [
                         'id' => $id,
                         'time' => $time,
+                        'password' => $password,
                         'new_password' => '',
                         'confirm_passwd' => '',
                         'new_password_err' => '',
@@ -2315,6 +2317,7 @@
                 if($user){
                     $data['user'] = $user;
                     //Send email
+                    $mail = new PHPMailer(true);
                     try{
                         $to=$data['email'];
                         $sender='audexlk@gmail.com';
@@ -2324,7 +2327,6 @@
                         $email_body.='Thank you,<br>Audexlk</p>';
                         // $header="From:{$sender}\r\nContent-Type:text/html;";
                         
-                        $mail = new PHPMailer(true);
                         $mail->isSMTP();
                         $mail->Host = 'smtp.gmail.com';
                         $mail->SMTPAuth = true;
@@ -2377,6 +2379,7 @@
                 if($user){
                     $data['user'] = $user;
                     //Send email
+                    $mail = new PHPMailer(true);
                     try{
                         $to=$data['email'];
                         $sender='audexlk@gmail.com';
@@ -2386,7 +2389,6 @@
                         $email_body.='Thank you,<br>Audexlk</p>';
                         // $header="From:{$sender}\r\nContent-Type:text/html;";
                         
-                        $mail = new PHPMailer(true);
                         $mail->isSMTP();
                         $mail->Host = 'smtp.gmail.com';
                         $mail->SMTPAuth = true;
