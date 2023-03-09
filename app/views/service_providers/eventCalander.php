@@ -22,69 +22,113 @@
                 <?php $days_in_month = cal_days_in_month(CAL_GREGORIAN, $data['no'], date('Y')); ?>
 
                 <?php for ($i = 1; $i <= $days_in_month; $i++) : ?>
-                <div class="calendar-date"><?php echo $i; ?>
-                    <div class="calender-event">
-                        <?php $currentMonth = $data['no']; ?>
-                        <?php str_pad($currentMonth, 2, "0", STR_PAD_LEFT); ?>
+                    <div class="calendar-date"><?php echo $i; ?>
 
-                        <?php foreach ($data['events'] as $event) : ?>
-                        <?php $eventMonth = date('m', strtotime($event->date)); ?>
-                        <?php $eventDay = date('d', strtotime($event->date)); ?>
+                        <div class="calender-event">
+                            <?php $currentMonth = $data['no']; ?>
+                            <?php str_pad($currentMonth, 2, "0", STR_PAD_LEFT); ?>
 
-                        <?php if ($eventMonth == $currentMonth && $eventDay == $i) : ?>
-                        <span><button data-event-target = "#event" id="event-button"><?php echo $event->name ?></button></span>
-                        
-                        <?php endif; ?>
-                        <?php endforeach; ?>
+                            <?php foreach ($data['events'] as $event) : ?>
+                                <?php $eventMonth = date('m', strtotime($event->date)); ?>
+                                <?php $eventDay = date('d', strtotime($event->date)); ?>
+
+                                <?php if ($eventMonth == $currentMonth && $eventDay == $i) : ?>
+                                    <span>
+                                        <div data-event-target="#event" id="event-button" onclick="loadevent(<?php echo $event->event_id ?>)"><?php echo $event->name ?></div>
+                                    </span>
+                                <?php else : ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
-                </div>
                 <?php endfor; ?>
             </div>
         </div>
     </div>
-
-    
 </div>
 
 
 <div class="event" id="event">
-    <div class="event-header">
-        <div class="title">Event Name</div>
-        <button data-close-button class="close-button">&times;</button>                  
+    <div class="event-left">
+        <div class="event-header">
+            <div class="title"></div>
+            <button data-close-button class="close-button">&times;</button>
+        </div>
+        <div class="wrapper-for-event">
+        <div class="event-publisher">
+            <div class="event-owenr-image">
+                <img src="" alt="">
+            </div>
+            <span class="owner-name">John Doe</span>
+            
+        </div>
+
+        <div class="event-buttons">
+            <div class="like-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="likes"></span></div>
+            <div class="dislike-button"><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="dislikes"></span></div>
+        </div>
+
+        </div>
+        
+       
+
+        <div class="event-body">
+
+        </div>
+
+
+
     </div>
-    <div class="event-body">
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit harum v/Audex/service_providers/eventCalanderel molestias laudantium nam magni, cum nisi consequuntur commodi id aliquam voluptate cupiditate voluptas quam, laboriosam aut, quidem debitis! Ducimus?
-        Atque hic odio iste laboriosam possimus alias culpa similique fuga obcaecati, perspiciatis aliquam repellat, molestiae voluptatem molestias quibusdam rem quis ullam maxime laborum voluptas vitae tempore quisquam laudantium perferendis. Facere?
-        Aperiam tempora assumenda eius facere, dolorem et esse ullam omnis eaque, cupiditate minima sed voluptas beatae velit maiores obcaecati at officia nihil ut, itaque iure animi expedita commodi! Distinctio, eligendi?
-        Error in provident possimus voluptatibus? Quae reprehenderit voluptatibus expedita eum et accusamus vero omnis provident sequi non repellendus ea nisi maiores dolorum pariatur, doloribus obcaecati minus odio architecto voluptas modi.
-        Quis commodi cupiditate officiis praesentium nisi eligendi ipsa sit atque architecto consectetur excepturi, quisquam repellat id nesciunt pariatur! Natus exercitationem animi itaque voluptas molestias cumque illo enim explicabo maxime deserunt!
+
+    <div class="event-right">
+        <img src="https://images.pexels.com/photos/9493230/pexels-photo-9493230.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="">
     </div>
 
 </div>
 
-<div id="overlay" ></div>
+<div id="overlay"></div>
 
 <script src="<?php echo URLROOT . '/public/js/form.js'; ?>"></script>
 
 <script>
-//keeping the sidebar button clicked at the page
+    //keeping the sidebar button clicked at the page
 
-link = document.querySelector('#calender');
-link.style.background = "#E5E9F7";
-link.style.color = "red";
+    link = document.querySelector('#calender');
+    link.style.background = "#E5E9F7";
+    link.style.color = "red";
 
-error = document.querySelector('.red-alert');
-error.style.color = "#FF0000"
+    error = document.querySelector('.red-alert');
+    error.style.color = "#FF0000"
 
-editButton = document.querySelector('.btn');
+    editButton = document.querySelector('.btn');
 
-if (error) {
+    if (error) {
 
-    editButton.style.animation = "alert 2s ease 0s infinite normal forwards"
-    editButton.style.color = "#FF0000"
-    editButton.style.background = "#E5E9F7"
+        editButton.style.animation = "alert 2s ease 0s infinite normal forwards"
+        editButton.style.color = "#FF0000"
+        editButton.style.background = "#E5E9F7"
 
-}
+    }
+
+    function loadevent(event_id) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var event = JSON.parse(this.responseText);
+
+                document.querySelector(".title").innerHTML = event.event.name;
+                document.querySelector(".event-body").innerHTML = event.event.description;
+                document.querySelector(".owner-name").innerHTML = `${event.name.first_name} ${event.name.second_name}`;
+                document.querySelector('#likes').innerHTML = event.event.likes;
+                document.querySelector('#dislikes').innerHTML = event.event.dislikes;
+
+            }
+        };
+
+        xhttp.open("GET", "http://localhost/Audex/service_providers/getEvent?id=" + event_id, true);
+        xhttp.send();
+
+    }
 </script>
 
 </body>

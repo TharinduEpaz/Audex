@@ -56,9 +56,9 @@
             </div>
 
         </div>
-        <a href="<?php echo URLROOT .'/service_providers/settings'?>" class="btn"> Edit Settings</a></button>
+        <a href="<?php echo URLROOT .'/service_providers/settings'?>" class="btn" id="edit-settings"> Edit Settings</a></button>
         <h2>Events</h2>
-        <a href="<?php echo URLROOT .'/service_providers/addEvent'?>" style="margin-left:10px;">Add Event</a>
+        <a href="<?php echo URLROOT .'/service_providers/addEvent'?>" style="margin-left:10px;" id="add-event">Add Event</a>
         <div class="events">
 
 

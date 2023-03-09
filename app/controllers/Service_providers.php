@@ -301,6 +301,18 @@ class Service_providers extends Controller
         $this->view('service_providers/chat');
     }
 
+    public function getEvent(){
+        $id = $_GET['id'];
+        $event = $this->service_model->getEventById($id);
+        $name = $this->service_model->getEventOwner($id);
+        $data = [
+            'event' => $event,
+            'name' => $name
+        ];
+        echo json_encode($data);
+        return json_encode($data);
+    }
+
  
 
 }
