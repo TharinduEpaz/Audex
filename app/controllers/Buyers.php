@@ -3,14 +3,15 @@
     private $buyerModel;
     public function __construct()
     {
-      if(isset($_SESSION['attempt'])){
-        unset($_SESSION['otp_email']);
-        unset($_SESSION['phone']);
-        unset($_SESSION['attempt']);
-        unset($_SESSION['time']);
-    }
       if(!isLoggedIn()){
-        
+        unset($_SESSION['otp']);
+        unset($_SESSION['email']);
+        unset($_SESSION['password']);
+        unset($_SESSION['first_name']);
+        unset($_SESSION['second_name']);
+        unset($_SESSION['phone']);
+        unset($_SESSION['user_type']);
+        unset($_SESSION['attempt']);
         session_destroy();
         redirect('users/login');
     }
@@ -80,15 +81,14 @@
         redirect('users/login');
       }
       $details = $this->buyerModel->getBuyerDetails($id);
-      $buyerDetails = $this->buyerModel->getBDetails($id);
+
       if ($details->user_id != $_SESSION['user_id']) {
-        redirect('users/index');
+        redirect('users/login');
       }
 
       $data =[
         'id' => $id,
-        'user' => $details,
-        'buyer' => $buyerDetails
+        'user' => $details
       ];
       $this->view('buyers/getProfile',$data);
     }
@@ -104,11 +104,13 @@
           'email' => $_SESSION['user_email'],
           'address1' => trim($_POST['address1']),
           'address2' => trim($_POST['address2']),
+          'phone_number' => trim($_POST['phone_number']),
           'user_id' => $_SESSION['user_id'],
           'first_name_err' => '',
           'second_name_err' => '',
           'address1_err' => '',
           'address2_err' => '',
+          'phone_number_err' => ''
         ];
 
         //validate data
@@ -124,9 +126,12 @@
         if(empty($data['address2'])){
           $data['address2_err'] = 'Please Enter Address Line 2';
         }
+        if(empty($data['phone_number'])){
+          $data['phone_number_err'] = 'Please Enter Phone Number';
+        }
 
 
-        if( empty($data['first_name_err']) && empty($data['second_name_err']) && empty($data['address1_err']) && empty($data['address1_err'] ) ){
+        if( empty($data['first_name_err']) && empty($data['second_name_err']) && empty($data['address1_err']) && empty($data['address1_err'] && empty($data['phone_number_err'])) ){
           //validated
           if($this->buyerModel->updateProfile($data)){
             $_SESSION['user_name'] = $data['first_name'];
@@ -186,20 +191,19 @@
         }
 
         if($this->buyerModel->deleteUserProfile($id)){
-            unset($_SESSION['user_id']);
+          unset($_SESSION['user_id']);
             unset($_SESSION['user_email']);
             unset($_SESSION['user_name']);
             unset($_SESSION['user_type']);
             session_destroy();
-            flash('user_deleted','User deleted successfully');
-          redirect('users/index');
+          redirect('pages/index');
         }
         else{
           die('Something went wrong');
         }
       }
       else{
-        redirect('users/index');
+        redirect('buyer/index');
       }
 
 
@@ -379,22 +383,6 @@
       echo $data['user'];
       $this->view('buyers/test',$data);
 
-    }
-    public function dashboard(){
-      $this->view('service_providers/dashboard');
-    }
-
-    public function reactions($id){
-      if(!isLoggedIn()){
-        $_SESSION['url']=URL();
-        redirect('users/login');
-      }
-
-      $products = $this->buyerModel->getBuyerReactedProducts($_SESSION['user_email']);
-      $data =[
-        'products' => $products,
-      ];
-      $this->view('buyers/reactions',$data);
     }
 
   }  

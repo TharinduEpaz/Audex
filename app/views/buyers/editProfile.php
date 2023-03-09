@@ -25,7 +25,7 @@
             <a href="messages.php"> <i class="fa fa-envelope"></i><span>Messages</span></a>       
         </div>
         <div class="poster_advertisements">
-            <form action="" method="POST" class="form-display-data" >
+            <form action="" method="POST" class="form-display-data">
                 <div class="form-display"> 
                     <h1>Edit Profile Details</h1>
                     <div class="form-data-area">
@@ -50,7 +50,7 @@
                     </div>
                     <div class="form-data-area">
                         <label for="phone_number">Phone Number:<sup>*</sup></label>
-                        <input type="text" name="phone_number" value="<?php echo $data['phone_number']; ?>" class="<?php echo (!empty($data['phone_number_err'])) ? 'invalid' : '' ; ?>" disabled>
+                        <input type="text" name="phone_number" value="<?php echo $data['phone_number']; ?>" class="<?php echo (!empty($data['phone_number_err'])) ? 'invalid' : '' ; ?>" >
                     </div>  
                 </div>
                 <input type="submit"  value="Save" id="edit-button"  >

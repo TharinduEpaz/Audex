@@ -16,21 +16,14 @@ date_default_timezone_set("Asia/Kolkata");
             return $row;
         }
 
-        public function getSellerDetails($id){
-            $this->db->query('SELECT * FROM seller WHERE user_id = :id');
-            $this->db->bind(':id' , $id);
-
-            $row = $this->db->single();
-            return $row;
-        }
-
         public function updateProfile($data){
-            $this->db->query('UPDATE user SET first_name = :first_name,second_name = :second_name, address1 = :address1, address2 = :address2 WHERE user_id = :id ');
+            $this->db->query('UPDATE user SET first_name = :first_name,second_name = :second_name, address1 = :address1, address2 = :address2, phone_number = :phone_number WHERE user_id = :id ');
             
             $this->db->bind(':first_name' , $data['first_name']);
             $this->db->bind(':second_name' , $data['second_name']);
             $this->db->bind(':address1' , $data['address1']);
             $this->db->bind(':address2' , $data['address2']);
+            $this->db->bind(':phone_number' , $data['phone_number']);
             $this->db->bind(':id' , $data['id']);
             // $this->db->dbh->lastInsertId();
 
@@ -86,7 +79,7 @@ date_default_timezone_set("Asia/Kolkata");
         }
 
         public function advertise($data,$dat){
-            $this->db->query('INSERT INTO product (email,product_title,product_condition,product_category,product_type,model_no,brand,image1,image2,image3,address,latitude,longitude,price,p_description) VALUES(:user_email,:title,:condition,:category,:type,:model,:brand,:image1,:image2,:image3,:address,:latitude,:longitude,:price,:description)');
+            $this->db->query('INSERT INTO product (email,product_title,product_condition,product_category,product_type,model_no,brand,image1,image2,image3,price,p_description) VALUES(:user_email,:title,:condition,:category,:type,:model,:brand,:image1,:image2,:image3,:price,:description)');
             //Bind values
             $this->db->bind(':user_email', $data['user_email']);
             $this->db->bind(':title', $data['title']);
@@ -98,9 +91,6 @@ date_default_timezone_set("Asia/Kolkata");
             $this->db->bind(':image1', $data['image1']);
             $this->db->bind(':image2', $data['image2']);
             $this->db->bind(':image3', $data['image3']);
-            $this->db->bind(':address', $data['address']);
-            $this->db->bind(':latitude', $data['latitude']);
-            $this->db->bind(':longitude', $data['longitude']);
             $this->db->bind(':price', $data['price']);
             $this->db->bind(':description', $data['description']);
 

@@ -43,7 +43,7 @@
                     <img src="<?php echo URLROOT.'/public/uploads/'.$advertisement->image1;?>" alt="photo">
                 </div>
                 <p class="one"><?php echo $advertisement->product_title;?></p>
-                <p style="text-align: left;" class="two"><?php echo ucwords($advertisement->product_type);?></p>
+                <p class="two"><?php echo $advertisement->product_type;?></p>
                 <p class="three">
                     <?php if($advertisement->is_paid == 1): ?>
                         <a style="text-decoration:none;color:green;font-weight: 700;pointer-events: none" >Completed</a>
@@ -51,7 +51,7 @@
                         <a style="text-decoration:none;color:red;font-weight: 700" href="<?php echo URLROOT;?>/sellers/complete_payment/<?php echo $advertisement->product_id;?>" >Pay Now</a>
                     <?php endif; ?>
                 </p>
-                <p style="text-align: left;" class="four">Rs.<?php echo $advertisement->price;?></p>
+                <p class="four">Rs.<?php echo $advertisement->price;?></p>
                 <?php if($advertisement->is_paid == 1){ ?>
                 <a class="five" href="<?php echo URLROOT;?>/sellers/edit_advertisement/<?php echo $advertisement->product_id;?>">Edit</a>
                 <?php }else{ ?>

@@ -12,14 +12,17 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
 
         public function __construct(){
-            if(isset($_SESSION['attempt'])){
-                unset($_SESSION['otp_email']);
-                unset($_SESSION['phone']);
-                unset($_SESSION['attempt']);
-                unset($_SESSION['time']);
-            }
             if(!isLoggedIn()){
-                
+                echo "not logged in seller";
+                unset($_SESSION['otp']);
+                unset($_SESSION['email']);
+                unset($_SESSION['password']);
+                unset($_SESSION['first_name']);
+                unset($_SESSION['second_name']);
+                unset($_SESSION['phone']);
+                unset($_SESSION['user_type']);
+                unset($_SESSION['attempt']);
+                session_destroy();
                 $_SESSION['url']=URL();
 
                 redirect('users/login');
@@ -38,28 +41,22 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
         }
 
     public function getProfile($id){ 
-        
-        if(isset($_SESSION['phone'])){
-            unset($_SESSION['phone']);
-            unset($_SESSION['attempt']);
-        }
       if(!isLoggedIn()){
         $_SESSION['url']=URL();
 
         redirect('users/login');
       }
       $details = $this->sellerModel->getUserDetails($id);
-      $sellerDetails = $this->sellerModel->getSellerDetails($id);
 
       if ($details->user_id != $_SESSION['user_id']) {
+        $_SESSION['url']=URL();
 
-        redirect('users/index');
+        redirect('users/login');
       }
 
       $data =[
         'id' => $id,
-        'user' => $details,
-        'seller' => $sellerDetails
+        'user' => $details
       ];
       $this->view('sellers/getProfile',$data);
     }
@@ -81,11 +78,13 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 'email' => $_SESSION['user_email'],
                 'address1' => trim($_POST['address1']),
                 'address2' => trim($_POST['address2']),
+                'phone_number' => trim($_POST['phone_number']),
                 'user_id' => $_SESSION['user_id'],
                 'first_name_err' => '',
                 'second_name_err' => '',
                 'address1_err' => '',
                 'address2_err' => '',
+                'phone_number_err' => ''
               ];
       
               //validate data
@@ -101,9 +100,12 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
               if(empty($data['address2'])){
                 $data['address2_err'] = 'Please Enter Address Line 2';
               }
+              if(empty($data['phone_number'])){
+                $data['phone_number_err'] = 'Please Enter Phone Number';
+              }
       
       
-              if( empty($data['first_name_err']) && empty($data['second_name_err']) && empty($data['address1_err']) && empty($data['address1_err'] ) ){
+              if( empty($data['first_name_err']) && empty($data['second_name_err']) && empty($data['address1_err']) && empty($data['address1_err'] && empty($data['phone_number_err'])) ){
                 //validated
                 if($this->sellerModel->updateProfile($data)){
                   $_SESSION['user_name'] = $data['first_name'];
@@ -148,26 +150,21 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
       
               //check for owner
               if( $user->_id != $_SESSION['user_id'] ){
-                $_SESSION['url']=URL();
+              $_SESSION['url']=URL();
 
                 redirect('users/login');
               }
       
               if($this->sellerModel->deleteUserProfile($id)){
-                unset($_SESSION['user_id']);
-                unset($_SESSION['user_email']);
-                unset($_SESSION['user_name']);
-                unset($_SESSION['user_type']);
-                session_destroy();
-                flash('user_deleted','User deleted successfully');
-                redirect('users/index');
+
+                redirect('users/login');
               }
               else{
                 die('Something went wrong');
               }
             }
             else{
-              redirect('users/index');
+              redirect('seller/index');
             }
       
       
@@ -217,14 +214,11 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1' => '',
                     'image2' => '',
                     'image3' => '',
-                    'address'=>'',
-                    'longitude' => '',
-                    'latitude' => '',
                     'brand' => trim($_POST['brand']),
                     'model' => trim($_POST['model']),
                     'type'=> 'fixed_price',
                     'end_date'=>'',
-                    'category' =>ucwords(trim($_POST['category'])),
+                    'category' =>trim($_POST['category']),
                     'title_err' => '',
                     'description_err' => '',
                     'price_err' => '',
@@ -232,7 +226,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1_err' => '',
                     'image2_err' => '',
                     'image3_err' => '',
-                    'error_geocode' => trim($_POST['error_geocode']),
                     'brand_err' => '',
                     'model_err' => '',
                     'category_err' => '',
@@ -245,16 +238,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     $data['end_date']=date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' + '.$num_of_dates.' days'));
                     // $data['end_date']=date('Y-m-d  H:i:s',$data['end_date']);
                 }
-                if(isset($_POST['show_map'])){
-                    $data['longitude']=trim($_POST['longitude']);
-                    $data['latitude']=trim($_POST['latitude']);
-                    $data['address']=trim($_POST['address']);
-                    
-                }else{
-                    $data['longitude']='';
-                    $data['latitude']='';
-                    $data['address']='';
-                }
+
                 $user_id=$this->userModel->getUserId($data['user_email']);
                 $data['user_id']=$user_id->user_id;
 
@@ -267,10 +251,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 }
                 if(empty($data['price'])){
                     $data['price_err'] = 'Please enter price';
-                }else{
-                    if(!is_numeric($data['price'])) {
-                        $data['price_err'] = 'Please enter valid price';
-                    }
                 }
                 if($data['price']<=0){
                     $data['price_err'] = 'Please enter valid price';
@@ -423,7 +403,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 //     $data['image3_err'] = 'Please upload third image';
                 // }
                 //Make sure no errors
-                if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['error_geocode']) && empty($data['brand_err']) && empty($data['model_err'])){
+                if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['brand_err']) && empty($data['model_err'])){
                     //Validated
                     
                     // if(!empty($_FILES['image3']['name'])){
@@ -441,11 +421,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     //     }
                     // }
                     $dat=date('Y-m-d H:i:s');
-                    if($data['longitude']=='' && $data['latitude']==''){
-                        $data['longitude']='NULL';
-                        $data['latitude']='NULL';
-                        $data['address']='NULL';
-                    }
                     
                     $product_id=$this->sellerModel->advertise($data,$dat);
                     if($product_id!=false){
@@ -476,9 +451,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1' => '',
                     'image2' => '',
                     'image3' => '',
-                    'address' => '',
-                    'longitude' => '',
-                    'latitude' => '',
                     'brand' => '',
                     'model' => '',
                     'category' =>'',
@@ -491,7 +463,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1_err' => '',
                     'image2_err' => '',
                     'image3_err' => '',
-                    'error_geocode' => '',
                     'brand_err' => '',
                     'model_err' => '',
                     'category_err' => ''
@@ -505,7 +476,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
         //Edit add
         public function edit_advertisement($id){
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
-                $advertisement=$this->sellerModel->getAdvertisementById($id);
                 //Sanitize POST array
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
@@ -541,13 +511,8 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 if(empty($data['description'])){
                     $data['description_err'] = 'Please enter description';
                 }
-                if($advertisement->product_type=='auction'){
-                    $data['price']=$advertisement->price;
-                }else{
-                    $data['price']=trim($_POST['price']);
-                    if(empty($data['price'])){
-                        $data['price_err'] = 'Please enter price';
-                    }
+                if(empty($data['price'])){
+                    $data['price_err'] = 'Please enter price';
                 }
                 if(empty($data['category'])){
                     $data['category_err'] = 'Please enter category';
@@ -687,7 +652,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'user_email' => $_SESSION['user_email'],
                     'title' => trim($_POST['title']),
                     'description' => trim($_POST['description']),
-                    'price' => '',
+                    'price' => trim($_POST['price']),
                     'condition' => trim($_POST['condition']),
                     'image1' => $advertisement->image1,
                     'image2' => '',
@@ -707,7 +672,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'category_err' => ''
                 ];
 
-
                 //Validate data
                 if(empty($data['title'])){
                     $data['title_err'] = 'Please enter title';
@@ -715,13 +679,8 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 if(empty($data['description'])){
                     $data['description_err'] = 'Please enter description';
                 }
-                if($advertisement->product_type=='auction'){
-                    $data['price']=$advertisement->price;
-                }else{
-                    $data['price']=trim($_POST['price']);
-                    if(empty($data['price'])){
-                        $data['price_err'] = 'Please enter price';
-                    }
+                if(empty($data['price'])){
+                    $data['price_err'] = 'Please enter price';
                 }
                 if(empty($data['category'])){
                     $data['category_err'] = 'Please enter category';
@@ -811,7 +770,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     }
                 } else {
                     //Load view with errors
-                    $this->view('sellers/complete_payment', $data);
+                    $this->view('sellers/edit_advertisement', $data);
                 }
 
             } else {
@@ -873,18 +832,8 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             // }
         }
 
-        public function bid_list($id){
+        public function bid_list($id,$auction_id){
             $ad = $this->userModel->getAdvertiesmentById($id);
-            if(isLoggedIn()){
-                if($ad->email != $_SESSION['user_email']){
-                        $_SESSION['url'] = URL();
-                        redirect('users/login');
-                    }
-            }else{
-                $_SESSION['url']=URL();
-                redirect('users/login');
-            }
-
             $data['ad'] = $ad;
   
             $auction = $this->userModel->getAuctionById_withfinished($id);
@@ -893,7 +842,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             $auction_details = $this -> userModel->getAuctionDetails($id);
             $auctions_details_no_rows= $this -> userModel->getAuctionDetailsNoRows($id);
 
-           
+            $url=rtrim($_GET['url'],'/');
+            $url=filter_var($url,FILTER_SANITIZE_URL);
+            $data['url']=$url;
 
             $data['check']=0;
             // $bid_list = $this->userModel->getBidList($bid_id);
@@ -908,15 +859,13 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             if($auction_details){
               $data['auctions'] =$auction_details;
               $data['auctions_no_rows'] =$auctions_details_no_rows;
-            //   $data['user']=$this->userModel->findUserDetailsByEmail($auction_details->email_buyer);
 
               for($i=0;$i<$auctions_details_no_rows;$i++){
-                 $bid_list = $this->userModel->getBidList($data['auctions'][$i]->max_bid_id,$data['auctions'][$i]->max_price);
-                 $data['user'][$i]=$this->userModel->findUserDetailsByEmail($data['auctions'][$i]->email_buyer);
+                 $bid_list = $this->userModel->getBidList($data['auctions'][$i]->bid_id,$data['auctions'][$i]->price);
                  if($bid_list!=NULL){
                     if(date('Y-m-d H:i:s', strtotime($bid_list->time. ' + 5 days'))<date('Y-m-d H:i:s') && $bid_list->is_accepted==0 && $bid_list->is_rejected==0){
-                        $this->userModel->updateBidStatus($bid_list->bid_id,$data['auctions'][$i]->max_price);
-                         $bid_list1 = $this->userModel->getBidList($data['auctions'][$i]->max_bid_id,$data['auctions'][$i]->max_price);
+                        $this->userModel->updateBidStatus($bid_list->bid_id,$data['auctions'][$i]->price);
+                         $bid_list1 = $this->userModel->getBidList($data['auctions'][$i]->bid_id,$data['auctions'][$i]->price);
                          $data['bid_list'][$i]=$bid_list1;
 
                     }else{
@@ -948,56 +897,46 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
         public function aprove_bid($product_id,$bid_id,$email,$price,$name){
             $dat=date('Y-m-d H:i:s');
+            if($this->sellerModel->approve_bid($bid_id,$email,$price,$dat)){
                 //Send email
-                try{
-                    $to=$email;
-                    $sender='audexlk@gmail.com';
-                    $mail_subject='Approve/Reject a auction offer - Audexlk';
-                    
-                    // $header="From:{$sender}\r\nContent-Type:text/html;";
+                $to=$email;
+                $sender='audexlk@gmail.com';
+                $mail_subject='Approve/Reject a auction offer - Audexlk';
+                
+                // $header="From:{$sender}\r\nContent-Type:text/html;";
 
-                    $mail = new PHPMailer(true);
-                    $mail->isSMTP();
-                    $mail->Host = 'smtp.gmail.com';
-                    $mail->SMTPAuth = true;
-                    $mail->Username = $sender;
-                    $mail->Password = 'bcoxsurnseqiajuf';
-                    $mail->SMTPSecure = 'ssl';
-                    $mail->Port = 465;
-                    $mail->setFrom($sender);
-                    $mail->addAddress($to);
-                    $mail->isHTML(true);
-                    $expiring_timestamp = time() + (24*60*60*5); // Expires in 24*5 hours
-                    $activation_link = URLROOT.'/users/approve_reject_bid/'.$product_id.'/'.$bid_id.'/' . $expiring_timestamp;
-                    $email_body='<p>Dear '.$name.',<br>Thank you for bidding on Audexlk. Seller has been selected you as the winner of his auction.'; 
-                    $email_body.=' You can <b>accept or reject</b> his offer by clicking the fllowing link.<b>Link will be expires in 5 days. After that you cannot approve or reject.</b><br><br>';
-                    $email_body.='<b><a href="'.URLROOT.'/users/approve_reject_bid/'.$product_id.'/'.$bid_id.'/' . $expiring_timestamp.'">Click here</a></b><br><br>';
-                    $email_body.='Thank you,<br>Audexlk</p>';
-                    $mail->Subject = $mail_subject;
-                    $mail->Body = $email_body;
-                    // if($mail->send()){
-                    // $time=CONVERT_TZ(NOW(),'SYSTEM','Asia/Calcutta');
+                $mail = new PHPMailer(true);
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = $sender;
+                $mail->Password = 'bcoxsurnseqiajuf';
+                $mail->SMTPSecure = 'ssl';
+                $mail->Port = 465;
+                $mail->setFrom($sender);
+                $mail->addAddress($to);
+                $mail->isHTML(true);
+                $expiring_timestamp = time() + (24*60*60*5); // Expires in 24*5 hours
+                $activation_link = URLROOT.'/users/approve_reject_bid/'.$product_id.'/'.$bid_id.'/' .$price.'/'. $expiring_timestamp;
+                $email_body='<p>Dear '.$name.',<br>Thank you for bidding on Audexlk. Seller has been selected you as the winner of his auction.'; 
+                $email_body.=' You can <b>accept or reject</b> his offer by clicking the fllowing link.<b>Link will be expires in 5 days. After that you cannot approve or reject.</b><br><br>';
+                $email_body.='<b>'.$activation_link.'</b><br><br>';
+                $email_body.='Thank you,<br>Audexlk</p>';
+                $mail->Subject = $mail_subject;
+                $mail->Body = $email_body;
+                if($mail->send()){
+            // $time=CONVERT_TZ(NOW(),'SYSTEM','Asia/Calcutta');
 
-                        // Mail sent 
-                        $mail->send();
-                        if($this->sellerModel->approve_bid($bid_id,$email,$price,$dat)){
-                            flash('email_err','Mail sent successfully');
-                            redirect('sellers/bid_list/'.$product_id.'/'.$bid_id);
-                        }else {
-                            flash('email_err','Something went wrong,retry','alert alert-danger');
-                            redirect('sellers/bid_list/'.$product_id.'/'.$bid_id);
-                        }
-                    
-                } catch (Exception $e) {
-                    flash('email_err','Mail could not be sent. Error: '. $e->getMessage(),'alert alert-danger');
+                    //Otp send by email
                     redirect('sellers/bid_list/'.$product_id.'/'.$bid_id);
                 }
-            
-        }
-        public function dashboard(){
-            $this->view('service_providers/dashboard');
-        }
+                else{
+                    redirect('sellers/bid_list/'.$product_id.'/'.$bid_id);
 
-        
+                }
+            }else {
+                redirect('sellers/bid_list/'.$product_id.'/'.$bid_id);
+            }
+        }
         
     }
