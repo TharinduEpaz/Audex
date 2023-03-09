@@ -36,5 +36,5 @@
     define('STRIPE_SUCCESS_URL',URLROOT);
     define('STRIPE_CANCEL_URL',URLROOT);
 
-
+?>
   
