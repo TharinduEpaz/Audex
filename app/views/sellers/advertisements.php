@@ -21,7 +21,7 @@
         <div class="poster_advertisements">
             <h1>Posted Advertisements</h1>
             <div class="header">
-                <div class="image">
+                <div class="image" style="background: none;">
                     <img  class="two" src="" alt="photo">
                 </div>
                 <p class="one">Title</p>
@@ -34,8 +34,8 @@
             </div>
             <?php foreach($data['advertisements'] as $advertisement): ?>
             <div class="advertisements">
-                <div class="image">
-                    <img src="<?php echo URLROOT.'/public/uploads/'.$advertisement->image1;?>" alt="photo">
+                <div class="image" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$advertisement->image1;?>);">
+                    <!-- <img src="<?php echo URLROOT.'/public/uploads/'.$advertisement->image1;?>" alt="photo"> -->
                 </div>
                 <p class="one"><?php echo $advertisement->product_title;?></p>
                 <p style="text-align: left;" class="two"><?php echo ucwords($advertisement->product_type);?></p>

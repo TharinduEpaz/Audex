@@ -75,8 +75,8 @@ nav{
   .dropdown{
     line-height: 9vh;
 
-    padding: 0 10px;
-    border-radius: 3px;
+    /* padding: 0 10px;
+    border-radius: 3px; */
     
   }
   .dropdown:hover{
@@ -94,7 +94,7 @@ nav{
   }
    /* Dropdown Button */
 .dropbtn {
-  background-color: #ffffff;
+  background-color: #FFFFFF;
   color: rgb(0, 0, 0);
   border: none;
   cursor: pointer;
@@ -140,6 +140,7 @@ nav{
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {
   background-color: #ddd;
+  color: red;
 }
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
@@ -184,7 +185,7 @@ nav{
     nav ul li a:hover{
       color: red;
       font-weight: bold;
-      cursor: default;
+      cursor: pointer;
     }
     .nav_tags{
       font-size: 15pt;
@@ -201,6 +202,27 @@ nav{
     #check:checked ~ .container_main{
       margin-top: 60vh;
     }
+    .dropdown{
+      width: 100%;
+    }
+    .dropbtn{
+      width: 100%;
+      font-size: 15pt;
+      background: none;
+      border-top: 1px solid white;
+    }
+    .dropdown-content{
+      background-color: #afb0b1;
+      width: 100%;
+      font-size: 15pt;
+    }
+    .dropdown-content a{
+      width: 100%;
+      font-size: 15pt;
+      border-top: 1px solid white;
+      line-height: 1.5vh;
+    }
+    
   }
  .container_main{
     width: 100vw;

@@ -12,6 +12,7 @@
              ?>
             <li><a href="<?php echo URLROOT.'/users/shop'; ?>" class="nav_tags">Shop</a></li>
             <li><a href="<?php echo URLROOT.'/users/sound_engineers'; ?>" class="nav_tags">Sound Engineers</a></li>
+            <li><a href="<?php echo URLROOT.'/users/sound_engineers'; ?>" class="nav_tags">Event Calendar</a></li>
             <li><a href="<?php echo URLROOT.'/users/eventCalendar'; ?>" class="nav_tags">Events</a></li>
             <?php if(isset($_SESSION['user_id'])){
                 echo '<div class="dropdown">';
