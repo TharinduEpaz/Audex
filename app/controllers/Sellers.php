@@ -995,7 +995,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             
         }
         public function dashboard(){
-            $this->view('service_providers/dashboard');
+            $this->view('sellers/dashboard');
         }
 
         

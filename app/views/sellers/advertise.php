@@ -20,13 +20,8 @@
 <?php require_once APPROOT . '/views/sellers/navbar.php';?>
     
     <div class="container_add">
-        <div class="sidebar">
-                <a href="#"><i class="fas fa-qrcode"></i> <span>Dashboard</span></a>
-                <a href="<?php echo URLROOT.'/sellers/getProfile/'.$_SESSION['user_id']?>"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile Settings</span></a>
-                <a href="<?php echo URLROOT;?>/sellers/advertisements"> <i class="fa fa-ad" aria-hidden="true"></i><span>Advertisements</span></a>
-                <a class="current" href="<?php echo URLROOT;?>/sellers/advertise"><i class="fa-solid fa-dollar-sign" aria-hidden="true"></i><span>Advertise</span></a>
-                <a href="#"> <i class="fa fa-comments"></i><span>Messages</span></a>       
-        </div>
+    <?php require_once APPROOT . '/views/sellers/sidebar.php';?>        
+
         <div class="container">
         <div class="advertisement">
             <div class="add">
@@ -454,6 +449,17 @@
         modal2.style.display = "none";
       }
     });
+
+    //make sidebar button background clicked
+    link = document.querySelector('#advertise');
+    link.style.background = "#E5E9F7";
+    link.style.color = "red";
+
+    //keeping the sidebar button clicked at the page
+    link = document.querySelector('#advertise');
+    link.style.background = "#E5E9F7";
+    link.style.color = "red";
+    link.style.fontWeight = "800";
 	</script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>

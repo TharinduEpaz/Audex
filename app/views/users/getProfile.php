@@ -82,11 +82,12 @@
                         </div>  
 
                     </div>
+                    <?php if($_SESSION['user_email']!=$data['user']->email){?>
                     <div class="message_review">
-                        <a  class="message" href="<?php echo URLROOT . '/users/message';?>" class="btn btn-primary">Message</a>
+                        <a  class="message" href="<?php echo URLROOT . '/users/chat/'.$data['user']->email;?>" class="btn btn-primary">Message</a>
                         <a class="review" href="<?php echo URLROOT . '/users/review';?>" class="btn btn-primary">Write Review</a>
-    
                     </div>
+                    <?php } ?>
 
                 </div>
             </div> 

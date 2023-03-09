@@ -1227,5 +1227,38 @@ date_default_timezone_set("Asia/Kolkata");
             return $result1->rate;
 
         }
+
+        public function getChats($data){
+            $this->db->query('SELECT * FROM chat WHERE sender_email = :email OR receiver_email = :email');
+            //Bind value
+            $this->db->bind(':email', $data['email_sender']);
+            $result1 = $this->db->execute();
+
+            if($result1){
+                $result = $this->db->resultSet();
+                return $result;
+            }else{
+                return false;
+            }
+
+        }
+        public function getCurrentChat($email_sender,$receiver_email){
+            $this->db->query('SELECT * FROM chat WHERE (sender_email = :email_sender AND receiver_email = :receiver_email) OR (sender_email = :receiver_email AND receiver_email = :email_sender)');
+            //Bind value
+            $this->db->bind(':email_sender', $email_sender);
+            $this->db->bind(':receiver_email', $receiver_email);
+            $result1 = $this->db->execute();
+
+            if($result1){
+                $result = $this->db->resultSet();
+                return $result;
+            }else{
+                return false;
+            }
+
+        }
+        
+
+        
     }
 ?>

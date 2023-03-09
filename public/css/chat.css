@@ -1,0 +1,207 @@
+.message_container{
+    display: block;
+    position: absolute;
+    left: 240px;
+    width: calc(100% - 240px);
+    height: 90vh;
+    padding: 2vh 2%;
+    /* border: 1px solid red; */
+}
+.chat{
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 92%;
+    height: 82vh;
+    margin-left: 4%;
+    margin-top: 2vh;
+    /* border: 1px solid blue; */
+}
+.chats{
+    display: flex;
+    flex-direction: row;
+    height: 82vh;
+    width: 100%;
+    
+
+}
+.messages{
+    display: flex;
+    flex-direction: column;
+    /* border: 1px solid red; */
+    height: 100%;
+    flex-basis: 30%;
+    padding: 2vh 2%;
+    background: rgba(0, 46, 249, 0.08);
+
+
+
+}
+.current_chat{
+    display: flex;
+    flex-direction: column;
+    /* border: 1px solid blue; */
+    height: 100%;
+    flex-basis: 70%;
+    background: rgba(0, 46, 249, 0.08);
+    margin-left: 1.5%;
+    width: fit-content;
+    max-width: 70%;
+    overflow: auto;
+}
+
+.message{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 5%;
+    padding: 0% 5%;
+    height: 9%;
+    background: #FFFFFF;
+    border-radius: 10px;
+}
+.message a{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* margin-top: 5%; */
+    /* padding: 0% 5%; */
+    height: 100%;
+    width: 100%;
+    background: #FFFFFF;
+    border-radius: 10px;
+    text-decoration: none;
+    color: black;
+}
+.image{
+    /* border: 1px solid blue; */
+    height: 45px;
+    width: 45px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-size: auto 80%;
+    background-position: center;
+    background-color: white;
+}
+.current_messages{
+    /* border: 1px solid rgb(242, 0, 255); */
+    flex-basis: 80%;
+    /* width: fit-content; */
+    max-width: 100%;
+    overflow: auto;
+}
+.typed{
+    width: 100%;
+    height: fit-content;
+    /* border: 1px solid blue; */
+    margin-top: 2%;
+    padding: 0% 2%;
+    overflow: auto;
+    
+}
+.type{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    border-radius: 20px;
+    width: fit-content;
+    max-width: 90%;
+    overflow: auto;
+    max-width: 70%;
+    padding: 1% 1%;
+    max-width: 80%;
+    
+} 
+.type h5{
+}
+.msg{
+    padding: 6px 10px;
+  border-radius: 6px 0 6px 0;
+  position: relative;
+  color: black;
+  font-weight: 700;
+  font-size: 12px;
+  width: fit-content;
+  max-width: 100%;
+  hyphens: auto;
+  word-break: break-all;
+}
+.right{
+    float: right;
+}
+.blue{
+    background-color: #699BF7;
+}
+.white{
+    background-color: #FFFFFF;
+}
+.left{
+    float: left;
+}
+.enter_message{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+    /* border: 1px solid blue; */
+    flex-basis: 10%;
+}
+form{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+#message{
+    flex-basis: 90%;
+    height: 70%;
+    border: 1px solid white;
+    border-radius: 20px;
+    text-align: right;
+    padding-right: 10px;
+}
+#send_message{
+    background: none;
+    border: none;
+    margin-left: 2%;
+}
+#send_message:hover{
+    cursor: pointer;
+}
+
+@media (max-width: 860px){
+    .message_container {
+        left: 70px;
+        width: calc(100% - 70px);
+        height: 120vh;
+    }
+}
+/* Style the scrollbar track */
+.current_messages::-webkit-scrollbar-track {
+    background-color: #ff0000;
+  }
+  
+  /* Style the scrollbar thumb */
+  .current_messages::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+  }
+  
+  /* Change the scrollbar on hover */
+  .current_messages::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  
+  /* Style the scrollbar buttons */
+  .current_messages::-webkit-scrollbar-button {
+    background-color: #ccc;
+  }
+  
+  /* Style the scrollbar corner */
+  .current_messages::-webkit-scrollbar-corner {
+    background-color: #f1f1f1;
+  }

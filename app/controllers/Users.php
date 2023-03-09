@@ -2660,24 +2660,58 @@
 
         }
         
-        //Event calendar
-        public function eventCalendar(){
-            $this->calendar = new Calendar;
-            $this->calendar->add_event('Birthday', '2023-02-23', 1, 'green');
-            $this->calendar->add_event('blue', '2023-02-03', 1, 'blue');
-            $this->calendar->add_event('burly', '2023-02-13', 1, 'burlywood');
-            $this->calendar->add_event('blue', '2023-02-13', 1, 'blue');
-            $this->calendar->add_event('red', '2023-02-13', 1, 'red');
-            $this->calendar->add_event('aqua', '2023-02-13', 1, 'aquamarine');
-            $this->calendar->add_event('bisq', '2023-02-13', 1, 'bisque');
-            $this->calendar->add_event('green', '2023-03-13', 1, 'green');
-            $data= $this->calendar;
-            $this->view('users/calendar',$data);
-                
-        }
+        
             
         public function map_view(){
             $this->view('users/map_view');
+        }
+
+        public function chat($receiver_email=null){
+            $i=0;
+            $data=[
+                'email_sender'=>$_SESSION['user_email'],
+            ];
+            $chats=$this->userModel->getChats($data);
+            if($chats!=false){
+                    foreach($chats as $chat){
+                        if($chat->sender_email==$_SESSION['user_email']){
+                            $data['email_receiver'][$i]=$chat->receiver_email;
+                            $i++;
+                        }
+                        else{
+                            $data['email_receiver'][$i]=$chat->sender_email;
+                            $i++;
+                        }
+                    }
+                    $i=0;
+                    $data['email_receivers']=array_unique($data['email_receiver']);
+                    $data['email_receivers']=array_values($data['email_receivers']);
+                    foreach($data['email_receivers'] as $email_receiver){
+                        $receiver=$this->userModel->getUserDetailsByEmail($email_receiver);
+                        if(!empty($receiver)){
+                            $data['email_receivers'][$i]=$receiver;
+                            $i++;
+                        }
+                    }
+                    if(!empty($receiver)){
+                        $data['receiver']=$receiver;
+                    }
+                    // $data['chats']=$chats;
+                }
+                if($receiver_email!=null){
+                $data['receiver']=$receiver_email;
+                $receiver=$this->userModel->getUserDetailsByEmail($data['receiver']);
+                if(!empty($receiver)){
+                    $data['receiver_details']=$receiver;
+                }
+                $current_chat=$this->userModel->getCurrentChat($data['email_sender'],$receiver_email);
+                if(!empty($current_chat)){
+                    $data['current_chat']=$current_chat;
+                }
+            }else{
+                $data['receiver']=null;
+            }
+            $this->view('users/chat',$data);
         }
         
     }

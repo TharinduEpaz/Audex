@@ -17,7 +17,7 @@
                     echo '<a href="'.URLROOT . '/'.$_SESSION['user_type'].'s/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
                     echo '<a href="'.URLROOT . '/sellers/advertisements" class="nav_tags">Advertisements</a>';
                     echo '<a href="'.URLROOT . '/sellers/advertise" class="nav_tags">Advertise</a>';
-                    echo '<a href="#" class="nav_tags">Messages</a>';
+                    echo '<a href="'.URLROOT . '/users/chat" class="nav_tags">Messages</a>';
                     echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                 echo '</div>';
             echo '</div> ';

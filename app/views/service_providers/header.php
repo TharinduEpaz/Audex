@@ -24,8 +24,8 @@
     </label>
     <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="">
     <ul>
-        <li><a href="<?php echo URLROOT .'/service_providers/index'?>" class="nav_tags">Home</a></li>
-        <li><a href="#" class="nav_tags">Shop</a></li>
+        <li><a href="<?php echo URLROOT .'/users/index'?>" class="nav_tags">Home</a></li>
+        <li><a href="<?php echo URLROOT.'/users/shop'; ?>" class="nav_tags">Shop</a></li>
         <li><a href="<?php echo URLROOT.'/users/sound_engineers'; ?>" class="nav_tags">Sound Engineers</a></li>
         <li><a href="#" class="nav_tags">Events</a></li>
         <?php if(isset($_SESSION['user_id'])){
@@ -50,5 +50,5 @@
         <a href="<?php echo URLROOT . '/service_providers/profile';?>" id="profile-settings"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile</span></a>
         <a href="<?php echo URLROOT .'/service_providers/feed'?>" id="feed"> <i class="fa fa-ad" aria-hidden="true"></i><span>Feed</span></a>
         <a href="<?php echo URLROOT .'/service_providers/eventCalander?month=current'?>" id="calender"> <i class="fa fa-calendar" aria-hidden="true"></i><span>Calender</span></a>
-        <a href="<?php echo URLROOT .'/service_providers/messages'?>" id="messages"> <i class="fa fa-comments"></i><span>Messages</span></a>       
+        <a href="<?php echo URLROOT .'/users/chat'?>" id="messages"> <i class="fa fa-comments"></i><span>Messages</span></a>       
     </div>

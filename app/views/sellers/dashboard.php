@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/form.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/advertise.css';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/service_provider.css?id=25';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css';?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
@@ -17,6 +18,7 @@
 </head>
 <body>
 <?php require_once APPROOT . '/views/sellers/navbar.php';?>
+<?php require_once APPROOT . '/views/sellers/sidebar.php';?>
 <div class="service-provider-profile">
     <div class="white-box">
 
@@ -66,11 +68,12 @@
     if(msgCount.innerHTML > 0){
         msgCount.style.color = "red";
     }
-    //make sidebar button background clicked
+
+    //keeping the sidebar button clicked at the page
     link = document.querySelector('#dashboard');
     link.style.background = "#E5E9F7";
     link.style.color = "red";
-
+    link.style.fontWeight = "800";
 
     
 

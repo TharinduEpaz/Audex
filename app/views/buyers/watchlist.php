@@ -19,13 +19,7 @@
 
 
     <div class="container">
-        <div class="sidebar">
-            <a href="<?php echo URLROOT . '/buyers/getProfile/'.$_SESSION['user_id'];?>"><i class="fas fa-address-card"></i> <span>My Profile</span></a>
-            <a href="#" class="current"> <i class="far fa-calendar-check" aria-hidden="true"></i><span>Watch List</span></a>
-            <a href="#"> <i class="fa fa-comments-o" aria-hidden="true"></i><span>Feedback</span></a>
-            <a href="#"> <i class="fa fa-thumbs-up" aria-hidden="true"></i><span>Reactions</span></a>
-            <a href="messages.php"> <i class="fa fa-envelope"></i><span>Messages</span></a>       
-        </div>
+    <?php require_once APPROOT . '/views/buyers/sidebar.php';?>        
         <div class="poster_advertisements">
             <div class="box">
                 <?php foreach($data['products'] as $ads) : ?>
@@ -51,6 +45,13 @@
         </div>
     </div>
 </body>
+<script>
+    //keeping the sidebar button clicked at the page
+    link = document.querySelector('#watch_list');
+    link.style.background = "#E5E9F7";
+    link.style.color = "red";
+    link.style.fontWeight = "800";
+</script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 <script src="<?php echo URLROOT . '/public/js/removeWatchListItem.js';?>"></script>
 </html>
