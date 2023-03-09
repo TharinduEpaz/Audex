@@ -37,4 +37,4 @@
     define('STRIPE_CANCEL_URL',URLROOT);
 
 
-  
+  ?>
