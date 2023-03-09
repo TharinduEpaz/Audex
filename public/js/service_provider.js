@@ -1,8 +1,7 @@
 const openEventButtons = document.querySelectorAll('[data-event-target]')
 const closeEventButtons = document.querySelectorAll('[data-close-button]')
 const overlay = document.getElementById('overlay')
-console.log(openEventButtons);
-console.log(closeEventButtons)
+
 
 openEventButtons.forEach(button => {
     button.addEventListener('click',() => {
@@ -37,5 +36,36 @@ function closeEvent(event){
     overlay.classList.remove('active');
 }
 
-//show event js code
+//add event pop up js code
 
+
+const addEventButtons = document.querySelectorAll('[data-add-event]')
+
+console.log(addEventButtons)
+
+addEventButtons.forEach(button => {
+    button.addEventListener('click',() => {
+        const event = document.querySelector(button.dataset.addEvent)
+        console.log(event)
+        addEventDisplay(event)
+    })
+});
+
+function addEventDisplay(event){
+    if(event == null){ console.log('null'); return}
+    event.classList.add('active');
+    overlay.classList.add('active');
+}
+
+overlay.addEventListener('click', () =>{
+    const events = document.querySelectorAll('.add-event.active')
+    events.forEach( event => {
+        closeEventDisplay(event);
+    })
+})
+
+function closeEventDisplay(event){
+    if(event == null) return
+    event.classList.remove('active');
+    overlay.classList.remove('active');
+}
