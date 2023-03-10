@@ -447,3 +447,99 @@ body{
     transition: .5s;
     cursor: pointer;
 }
+
+/* stles for fontent inside modal */
+.review-form label, .review-area-select-star label{
+  margin: 2%;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.star-rating {
+  display: inline-block;
+  height: 3vh;
+  margin: 2%;
+  padding: 1%;
+}
+
+.star-rating .fa {
+  color: #959191;
+  cursor: pointer;
+  height: 3vh;
+
+}
+
+.star-rating .fa:hover,
+.star-rating .fa.selected {
+  color: rgb(231 240 24 / 83%);
+}
+.review-seller{
+  display: flex;
+  flex-direction: column;
+}
+.seller-or-shop-name, .current-rate, .member-since, 
+.buyer-email, .selected-rate, .review-area-select-star{
+  display: flex;
+  flex-direction: row;
+  
+}
+.review-area-select-star {
+  display: flex;
+  height: 6vh;
+
+
+}
+/* .review-form{
+  visibility: hidden;
+} */
+.review-form form{
+  display: flex;
+  flex-direction: column;
+}
+.seller-detais label{
+  font-weight: bold;
+  padding: 1% 1% 1% 1%;
+  height: 3vh;
+  width: 50%;
+}
+.seller-detais input{
+  font-weight: bold;
+  padding: 1% 1% 1% 1%;
+  height: 3vh;
+  width: 50%;
+  background: none;
+  color: black;
+  border: 9px white;
+  border-radius: 0;
+}
+.feedback-area form input[type=text]{
+  border: none;
+  background: none;
+  color: black;
+  width: 70%;
+  height: 3vh;
+
+}
+.feedback-area form input[type=submit]{
+  background: #002EF9;
+
+  color: white;
+  padding: 2% 0%;
+  text-align: center;
+  padding: auto;
+  border-radius: 10px;
+  border: 1px solid #002EF9;
+  font-weight: 600;
+  margin-top: 3vh;
+
+}
+.feedback-area form label{
+width: 30%;
+}
+.feedback-area form textarea{
+  margin: 1%;
+  border: 1px solid;
+  overflow: scroll;
+  border-radius: 0.25rem;
+  padding: 3%;
+}

@@ -1566,6 +1566,7 @@
                 $disliked = $this->userModel->checkAddedDislike($id,$_SESSION['user_id']);
 
                 $loadRate = $this->userModel->checkAddedRate($_SESSION['user_id'],$ad->email);
+                
                 $loadFeedback = $this->userModel->checkAddedReview($_SESSION['user_id'],$ad->email);
                 $data['loadFeedback'] = $loadFeedback;
                 $data['loadRate'] = $loadRate;
@@ -2635,8 +2636,8 @@
             $data = json_decode(file_get_contents('php://input'), true);
 
             $rating = $data['rating'] ?? 0;
-            $buyer_id = $data['buyer'];
-            $seller = $data['seller'];
+            $emai_rater = $data['emai_rater'];
+            $email_rate_receiver = $data['email_rate_receiver'];
             $review = $data['review'];
 
             $results2 = '';
@@ -2644,18 +2645,20 @@
             // echo $rating;
             // echo $buyer_id;
             // echo $seller;
-            $results1 = $this->userModel->checkAddedRate($buyer_id, $seller);
+            $results1 = $this->userModel->checkAddedRate($emai_rater, $email_rate_receiver);
 
             if( empty($results1) ){
-                $results2 = $this-> userModel->rateSeller($rating,$buyer_id,$seller,$review);
+                $date=date('Y-m-d H:i:s');
+                $results2 = $this-> userModel->rateSeller($rating,$emai_rater,$email_rate_receiver,$date,$review);
             }
             else{
-                $results3 = $this->userModel->updateSellerRate($rating, $buyer_id, $seller,$review);
+                $results3 = $this->userModel->updateSellerRate($rating, $emai_rater, $email_rate_receiver,$review);
             }
-            $results4 = $this->userModel->getSellerFinalRate($seller);
+            $results4 = $this->userModel->getRateReceiversFinalRate($email_rate_receiver);
             flash('rating_message', 'Rating added successfully');
             // ,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3
-            echo json_encode(['message' => 'Rating saved','results4'=>$results4,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
+            // echo json_encode(['message' => 'Rating saved','results4'=>$results4,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
+            echo json_encode(['message' => 'Rating saved','result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
 
 
         }

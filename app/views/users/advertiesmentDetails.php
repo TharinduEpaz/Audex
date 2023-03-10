@@ -216,17 +216,17 @@
                                     <!-- <img src="<?php echo URLROOT . '/public/img/stars.png';;?>" alt="Profile Picture"> -->
                                     <div class="current-rate">
                                     <!-- <label for="current-rate" style="display:none">Rate:</label> -->
-                                    <!-- <input type="text" name="current-rate" value="<?php echo $data['seller']->rate ?>" id="current-seller-rate"> -->
+                                    <!-- <input type="text" name="current-rate" value="<?php echo $data['SellerMoreDetails']->rate ?>" id="current-seller-rate"> -->
                                     <div class="rating-stars">
                                         <!-- <span class="rate"><?php echo $data['seller']->rate;?></span>  -->
 
                                         <?php $i=0;
-                                        for($i; $i<floor($data['seller']->rate); $i++): ?>
+                                        for($i; $i<=floor($data['SellerMoreDetails']->rate); $i++): ?>
                                         <i class="fa fa-star"></i>
                                         <?php endfor; ?>
                                         
-                                        <?php if(strpos((string)$data['seller']->rate, '.')){?>
-                                        <i class="fa fa-star-half-o"></i>
+                                        <?php if(strpos((string)$data['SellerMoreDetails']->rate, '.')){?>
+                                        <!-- <i class="fa fa-star-half-o"></i> -->
                                         
                                         <?php $i++;} 
                                         while($i<5){ ?>
@@ -249,10 +249,10 @@
                         </div>
                     </div>
                     </a>
-                <div class="review-seller">
+                <!-- <div class="review-seller"> -->
                 <!-- add to watch button is not visible if user is a seller or service provider -->
                 <!-- watch list button should visible if user is not logged in -->
-                    <?php if(!isLoggedIn()){?>
+                    <!-- <?php if(!isLoggedIn()){?>
                         <div class="write-review">
                             <input type="submit" value="Write Review" id="review-seller-btn">
                         </div>
@@ -260,9 +260,9 @@
                             <div class="write-review">
                                 <input type="submit" value="Write Review" id="review-seller-btn">
                             </div>
-                    <?php } ?>
+                    <?php } ?> -->
 
-                    <div class="review-form">
+                    <!-- <div class="review-form">
                         <div class="review-area-select-star">
                             <label for="select">Select:</label>
                             <div class="star-rating">
@@ -272,24 +272,20 @@
                                 <i class="fa fa-star star" data-value="4"></i>
                                 <i class="fa fa-star star" data-value="5"></i>
                             </div>
-                        </div>
-                        <div class="selected-rate">
-                                    <label for="given-rate">Rate:</label>
-                                    <input type="text" value="<?php echo $data['loadRate'] ?>" id="buyer-selected-rate">
-                                </div>
-                        <div class="feedback-area">
+                        </div> -->
+                        <!-- <div class="selected-rate">
+                            <label for="given-rate">Rate:</label>
+                            <input type="text" value="<?php echo $data['loadRate'] ?>" id="buyer-selected-rate">
+                        </div> -->
+                        <!-- <div class="feedback-area">
                             <form action="" method="post" id="review-write-form">
-
-
                                 <label for="feedback">Feedback:</label>
                                 <textarea  name="review" rows="4" id="submitted-feedback"  ><?php echo $data['loadFeedback'] ?></textarea>
-                                <!-- <?php flash('rating_message');?> -->
                                 <input type="submit" value="Submit" id="submit-review-btn">
 
                             </form>
-                        </div>
-
-                    </div>
+                        </div> -->
+                    <!-- </div> -->
                 </div>
             </div>
         </div>
