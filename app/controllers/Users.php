@@ -2680,52 +2680,7 @@
                 $_SESSION['url'] = URL();
                 redirect('users/login');
             }
-            $i=0;
-            $data=[
-                'email_sender'=>$_SESSION['user_email'],
-            ];
-            $chats=$this->userModel->getChats($data);
-            if($chats!=false){
-                    foreach($chats as $chat){
-                        if($chat->sender_email==$_SESSION['user_email']){
-                            $data['email_receiver'][$i]=$chat->receiver_email;
-                            $i++;
-                        }
-                        else{
-                            $data['email_receiver'][$i]=$chat->sender_email;
-                            $i++;
-                        }
-                    }
-                    $i=0;
-                    $data['email_receivers']=array_unique($data['email_receiver']);
-                    $data['email_receivers']=array_values($data['email_receivers']);
-                    foreach($data['email_receivers'] as $email_receiver){
-                        $receiver=$this->userModel->getUserDetailsByEmail($email_receiver);
-                        if(!empty($receiver)){
-                            $data['email_receivers'][$i]=$receiver;
-                            $i++;
-                        }
-                    }
-                    // $data['chats']=$chats;
-                }
-                if($id!=null){
-                    $data['receiver']=$id;
-                    $receiver=$this->userModel->getUserDetails($data['receiver']);
-                    if(!empty($receiver)){
-                        $data['receiver_details']=$receiver;
-                    }
-                    $current_chat=$this->userModel->getCurrentChat($data['email_sender'],$data['receiver_details']->email);
-                    if(!empty($current_chat)){
-                        $data['current_chat']=$current_chat;
-                    }
-                }else{
-                    $data['receiver']=null;
-                }
-                $this->view('users/chat',$data);
-        }
-        
-    }
-        public function chat($receiver_email=null){
+
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 // this is come from post method (fetch) form
                 
@@ -2783,29 +2738,27 @@
                                 $i++;
                             }
                         }
-                        if(!empty($receiver)){
-                            $data['receiver']=$receiver;
-                        }
                         // $data['chats']=$chats;
                     }
-                    if($receiver_email!=null){
-                    $data['receiver']=$receiver_email;
-                    $receiver=$this->userModel->getUserDetailsByEmail($data['receiver']);
-                    if(!empty($receiver)){
-                        $data['receiver_details']=$receiver;
+                    if($id!=null){
+                        $data['receiver']=$id;
+                        $receiver=$this->userModel->getUserDetails($data['receiver']);
+                        if(!empty($receiver)){
+                            $data['receiver_details']=$receiver;
+                        }
+                        $current_chat=$this->userModel->getCurrentChat($data['email_sender'],$data['receiver_details']->email);
+                        if(!empty($current_chat)){
+                            $data['current_chat']=$current_chat;
+                        }
+                    }else{
+                        $data['receiver']=null;
                     }
-                    $current_chat=$this->userModel->getCurrentChat($data['email_sender'],$receiver_email);
-                    if(!empty($current_chat)){
-                        $data['current_chat']=$current_chat;
-                    }
-                }else{
-                    $data['receiver']=null;
-                }
-                $this->view('users/chat',$data);
+                    $this->view('users/chat',$data);
             }
 
         }
-
+        
+    
         public function chatMessages(){
             $data = json_decode(file_get_contents('php://input'), true);
 
