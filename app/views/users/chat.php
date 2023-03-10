@@ -43,7 +43,7 @@
                             </div>
                             <h5 style="font-size: 16pt;"><?php echo $data['receiver_details']->first_name." ".$data['receiver_details']->second_name;?></h5>
                     </div>
-                    <div class="current_messages">
+                    <div class="current_messages" id="current-messages">
                         <?php if(!empty($data['current_chat'])){?>
                         <?php foreach($data['current_chat'] as $chat): ?>
                             <div class="typed">
@@ -73,7 +73,7 @@
                     <?php }?>
                     </div>
                     <div class="enter_message">
-                        <form action="">
+                        <form action="" id = "chat-form">
                             <input type="text" name="message" id="message" placeholder="Enter your message">
                             <button type="submit" id="send_message"><i class="fas fa-paper-plane"></i></button>
                         </form>
@@ -86,12 +86,110 @@
 </div>
 </body>
 <script>
+
+    // get user email(email sender)  using sessions and check user is logged or not
+    const sender_email = <?php
+                if (isLoggedIn()) {
+                    echo "'".$_SESSION['user_email']."'";
+                }
+                else{
+                    echo "0";
+                }
+            ?>;
+    // get rate receiver's email form profile
+    const receiver_email = <?php echo "'".$receiver->email."'"; ?>;
+
+    
+
     //keeping the sidebar button clicked at the page
     link = document.querySelector('#messages');
     link.style.background = "#E5E9F7";
     link.style.color = "red";
     link.style.fontWeight = "800";
 
+    const chatForm = document.getElementById('chat-form');
+    // console.log(chatForm);
+
+    chatForm.addEventListener('submit', (e)=>{
+        e.preventDefault();
+
+        const formData = new FormData(chatForm);
+        formData.append("add",1);
+
+        //get the form data/sumitted data
+        const message = document.getElementById('message').value;
+        console.log(message);
+
+        // for (const pair of formData.entries()) {
+        //     console.log(`${pair[0]}, ${pair[1]}`);
+        // }
+
+        const url1 = '<?php echo URLROOT?>/users/chat/';
+        fetch(url1, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message,
+                                    sender_email:sender_email,
+                                    receiver_email:receiver_email,
+                                }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+            if(data.message == 'Message Sent'){
+                document.getElementById('message').value = '';
+
+                // window.location.href = '<?php echo URLROOT?>/chat/'+receiver_email;
+            }
+
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+
+    });
+
+    currentChat = document.getElementById("current-messages");
+
+
+    function reloadPage() {
+        urlNew = '<?php echo URLROOT?>/users/chatMessages/';
+        fetch(urlNew,{
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({  sender_email:sender_email,
+                                    receiver_email:receiver_email,
+                                }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            var html = "";
+            // document.documentElement.innerHTML = html;
+
+            for (var i = 0; i < data.message.length; i++) {
+                var result = data.message[i];
+
+                if(result.sender_email == sender_email){
+                    html+= "<div class ='typed'> <div class= 'type right blue'> <div class='msg'> "+ result.message + "<br> <p style='float: right;color:black;font-weight:600;font-size:8pt;' >"+ result.date+"</p> </div> </div> </div>"
+                }
+                else{
+                    html+= "<div class ='typed'> <div class= 'type left white'> <div class='msg'> "+ result.message + "<br> <p style='float: right;color:black;font-weight:600;font-size:8pt;' >"+ result.date+"</p> </div> </div> </div>"
+
+                }
+
+                // console.log(html);
+                // console.log('sender: '+result.sender_email ,"\nReceiver: "+result.receiver_email, "\nMessage: "+result.message, "\nDate: "+result.date);
+
+            }
+            // data.forEach(function(result){
+            //     console.log(result.product_title,result.price,result.product_category);
+            // })
+            // console.log(currentChat);
+            currentChat.innerHTML = html;
+        });
+    }
+    setInterval(reloadPage, 1000);
     
 </script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>

@@ -1248,6 +1248,37 @@ date_default_timezone_set("Asia/Kolkata");
             }
 
         }
+
+        public function AddNewMessage($sender_email,$receiver_email,$date,$message){
+            $this->db->query('INSERT INTO chat (sender_email,receiver_email,date,message) VALUES (:sender_email,:receiver_email,:date,:message)');
+            //Bind value
+            $this->db->bind(':sender_email', $sender_email);
+            $this->db->bind(':receiver_email', $receiver_email);
+            $this->db->bind(':date', $date);
+            $this->db->bind(':message', $message);
+            $result1 = $this->db->execute();
+
+            if($result1){
+               return true;
+            }else{
+                return false;
+            }
+        }
+
+        public function getAllMessages($emai_sender,$email_receiver){
+            $this->db->query('SELECT * FROM chat WHERE (sender_email = :emai_sender AND receiver_email = :email_receiver) OR (receiver_email = :emai_sender AND sender_email = :email_receiver)');
+            //Bind value
+            $this->db->bind(':email_receiver', $email_receiver);
+            $this->db->bind(':emai_sender', $emai_sender);
+            $result1 = $this->db->execute();
+
+            if($result1){
+                $result = $this->db->resultSet();
+                return $result;
+            }else{
+                return false;
+            }
+        }
         
 
         
