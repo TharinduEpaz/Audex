@@ -91,7 +91,7 @@
 </body>
 <script>
 
-function change_img1(){
+    function change_img1(){
         document.getElementById('img1').style.backgroundImage = "url('<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image1;?>')";
     }
     function change_img2(){

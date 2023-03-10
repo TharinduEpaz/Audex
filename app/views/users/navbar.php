@@ -1,3 +1,12 @@
+<?php if(!isset($_SESSION['user_id'])){?> 
+<style>
+    @media (max-width: 862px){
+        nav ul{
+          height: 71vh;
+        }
+    }
+</style>
+<?php } ?>
 <nav>
         <input type="checkbox" name="check" id="check" onchange="docheck()">
         <label for="check" class="checkbtn">

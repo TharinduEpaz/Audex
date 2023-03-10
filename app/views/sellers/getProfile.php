@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/form.css';?>">
-    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/seller_advertisement.css';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css';?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
@@ -24,6 +24,7 @@
             <?php echo flash('phone_message1');?>
             <?php echo flash('photo_message');?>
             <?php echo flash('password_message');?>
+            <?php echo flash('phone_number_error');?>
             <div class="form-display">
                 <div class="top_details">
                     <div class="profile_img">
@@ -119,6 +120,44 @@
             </div>
         </div>
     </div>
+    <h1 style="text-align: center;" class="feedback"><?php echo '('.$data['feedbackcount'].') '?>Feedbacks</h1>
+    <div class="feedback" >
+        <div class="feed" style="text-align: center;">
+            <h4>Review</h4>
+        </div>
+        <div class="from" style="text-align: left;">
+            <h4>From</h4>
+        </div>
+        <div class="rate" style="text-align: left;">
+            <h4>Rate</h4>
+        </div>
+    </div>
+    <?php foreach($data['feedbacks'] as $feedback): ?>
+        <div class="feedback" >
+            <div class="feed">
+                <h5><?php echo $feedback->review; ?></h5>
+            </div>
+            <div class="from">
+                <h5><?php echo $feedback->email_buyer[0]. $feedback->email_buyer[1]. $feedback->email_buyer[2]. $feedback->email_buyer[3].'****'.$feedback->email_buyer[-4].$feedback->email_buyer[-3].$feedback->email_buyer[-2].$feedback->email_buyer[-1]?></h5>
+            </div>
+            <div class="rate">
+                <div class="stars">
+                        <?php $i=0;
+                            for($i; $i<floor($feedback->rate); $i++): ?>
+                            <i class="fa fa-star"></i>
+                            <?php endfor; ?>
+                            
+                            
+                            
+                            <?php  
+                            while($i<5){ ?>
+                            <i class="fa fa-star-o"></i>
+                        <?php $i++; } ?>
+                </div>
+            </div>
+        </div>
+            
+    <?php endforeach; ?>
 </body>
 <script>
     function openModal() {

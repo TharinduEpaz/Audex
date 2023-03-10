@@ -1706,6 +1706,7 @@
 
 
         public function bid($id){
+          $buyerDetails = $this->userModel->getUserDetailsByEmail($_SESSION['user_email']);
           $ad = $this->userModel->getAdvertiesmentById($id);
           $data['ad'] = $ad;
           $i=0;
@@ -1736,7 +1737,12 @@
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             //CHeck if loggedIn
             if(!isLoggedIn()){
-                redirect('pages/index');
+                $_SESSION['URL'] =URL();
+                redirect('users/login');
+            }else if($buyerDetails->phone_number==NULL || $buyerDetails->phone_number=='' || $buyerDetails->phone_number==0 || empty($buyerDetails->phone_number) || $buyerDetails->phone_number==null){
+                flash('phone_number_error','Please add your phone number before bid.<a href="'.URLROOT.'/users/change_phone/'.$buyerDetails->user_id.'">Click Here</a>','alert alert-danger');
+                $data['phone_err']='Please add your phone number before bid.';
+                // redirect('users/bid/'.$id);
             }
 
             // Process form
@@ -1793,7 +1799,7 @@
                 $data['price_err5'] = 'Please enter a more price than or equal to RS.'.$price ;
             }
             
-            if(empty($data['price_err1']) && empty($data['price_err2']) && empty($data['price_err3']) && empty($data['price_err4']) && empty($data['price_err5'])){
+            if(empty($data['price_err1']) && empty($data['price_err2']) && empty($data['price_err3']) && empty($data['price_err4']) && empty($data['price_err5']) && empty($data['phone_err'])){
                 //Validated
             $dat=date('Y-m-d H:i:s');
 
@@ -2669,6 +2675,56 @@
             $this->view('users/map_view');
         }
 
+        public function chat($id=null){
+            if(!isLoggedIn()){
+                $_SESSION['url'] = URL();
+                redirect('users/login');
+            }
+            $i=0;
+            $data=[
+                'email_sender'=>$_SESSION['user_email'],
+            ];
+            $chats=$this->userModel->getChats($data);
+            if($chats!=false){
+                    foreach($chats as $chat){
+                        if($chat->sender_email==$_SESSION['user_email']){
+                            $data['email_receiver'][$i]=$chat->receiver_email;
+                            $i++;
+                        }
+                        else{
+                            $data['email_receiver'][$i]=$chat->sender_email;
+                            $i++;
+                        }
+                    }
+                    $i=0;
+                    $data['email_receivers']=array_unique($data['email_receiver']);
+                    $data['email_receivers']=array_values($data['email_receivers']);
+                    foreach($data['email_receivers'] as $email_receiver){
+                        $receiver=$this->userModel->getUserDetailsByEmail($email_receiver);
+                        if(!empty($receiver)){
+                            $data['email_receivers'][$i]=$receiver;
+                            $i++;
+                        }
+                    }
+                    // $data['chats']=$chats;
+                }
+                if($id!=null){
+                    $data['receiver']=$id;
+                    $receiver=$this->userModel->getUserDetails($data['receiver']);
+                    if(!empty($receiver)){
+                        $data['receiver_details']=$receiver;
+                    }
+                    $current_chat=$this->userModel->getCurrentChat($data['email_sender'],$data['receiver_details']->email);
+                    if(!empty($current_chat)){
+                        $data['current_chat']=$current_chat;
+                    }
+                }else{
+                    $data['receiver']=null;
+                }
+                $this->view('users/chat',$data);
+        }
+        
+    }
         public function chat($receiver_email=null){
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 // this is come from post method (fetch) form

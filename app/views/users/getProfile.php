@@ -14,7 +14,7 @@
     <title>Profile</title>
 </head>
 <body>
-<?php require_once APPROOT . '/views/'.$_SESSION['user_type'].'s/navbar.php';?>
+<?php require_once APPROOT . '/views/users/navbar.php';?>
 
     <div class="container">
         <?php echo flash('rating_message')?>
@@ -83,9 +83,15 @@
                         </div>  
 
                     </div>
-                    <?php if($_SESSION['user_email']!=$data['user']->email){?>
+                    <?php if(isLoggedIn()){
+                    if($_SESSION['user_email']!=$data['user']->email){?>
                         <div class="message_review">
-                            <a  class="message" href="<?php echo URLROOT . '/users/chat/'.$data['user']->email;?>" class="btn btn-primary">Message</a>
+                            <a  class="message" href="<?php echo URLROOT . '/users/chat/'.$data['user']->user_id;?>" class="btn btn-primary">Message</a>
+                        <a class="review" href="<?php echo URLROOT . '/users/review';?>" class="btn btn-primary">Write Review</a>
+                    </div>
+                    <?php }}else{ ?>
+                        <div class="message_review">
+                        <a  class="message" href="<?php echo URLROOT . '/users/chat/'.$data['user']->user_id;?>" class="btn btn-primary">Message</a>
                             <a href="" class="review" onclick="openModal(); return false;">Write Review</a>
                         </div>
                         <div id="myModal" class="modal">

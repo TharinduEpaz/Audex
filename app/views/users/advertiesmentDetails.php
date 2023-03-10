@@ -81,7 +81,7 @@
                     if(isLoggedIn()){
                         if($_SESSION['user_email']!=$data['ad']->email){
                             echo '<div class="message_seller">';
-                            echo '<a href="'.URLROOT.'/users/bid/'.$data['ad']->product_id.'">Message Seller</a>';
+                            echo '<a href="'.URLROOT.'/users/chat/'.$data['SellerMoreDetails']->user_id.'">Message</a>';
                             echo '</div>';
                         }
                     }

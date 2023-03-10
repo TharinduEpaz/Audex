@@ -70,38 +70,62 @@
                         <?php if($data['product_type']!='auction'){?>
                         <div class="input">
                             <label for="">Price</label>
-                            <input class="price" type="text" name="price"  value="<?php echo $data['price']?>"  >
+                            <input class="price" type="number" name="price"  value="<?php echo $data['price']?>"  >
                         </div>
                         <?php }?>
-                        <!-- <div class="input">
-                            <label for="check_au" >Auction(optional)</label>
-                            <input type="checkbox"   name="check_au" class="check_au" >
-                            <label class="date" for="date">Ending Date</label>
-                            <select name="date" id="date" class="date">
-                              <option value="1">1day</option>
-                              <option value="3">3day</option>
-                              <option value="5">5day</option>
-                              <option value="7">7day</option>
+                        <?php
+                                    if(!empty($data['image1_err']) || !empty($data['image2_err']) || !empty($data['image3_err'])){
+                                        echo '<div class="error" style="margin-bottom:5px">';
+                                        if(!empty($data['image1_err'])){
+                                            echo '*'.$data['image1_err'].'<br>';
+                                        echo '</div>';
+                                        }
+                                        if(!empty($data['image2_err'])){
+                                                echo '*'.$data['image2_err'].'<br>';
+                                            echo '</div>';
+                                        }
+                                        if(!empty($data['image3_err'])){
+                                                echo '*'.$data['image3_err'].'<br>';
+                                            }
+                                            echo '</div>';
+                                    }
+                                ?> 
+                        <div class="input_image">
+                            <div class="image">
 
-                            </select>
-                        </div> -->
-                        <!-- <div class="input">
-                            <div class="image">
-                                <label for="image1">Image1:</label>
-                                <input type="file" name="image1"  value="<?php echo dirname(APPROOT).'/public/uploads/'.$data['image1']?>" class="fa-solid" alt="&#xf03e" >
+                                    <input type="file" name="image1" id="file" class="custom-file-input">
+                                <!-- <label for="image1">Choose an image<p class="file-name"></p></label> -->
+                            <!-- <?php
+                                    if(!empty($data['image2_err'])){
+                                    echo '<div class="error">';
+                                        echo '*'.$data['image2_err'].'<br>';
+                                    echo '</div>';
+                                    }
+                                ?>  -->
                             </div>
                             <div class="image">
-                                <label for="image2">Image2:</label>
-                                <input type="file" name="image2"  class="fa-solid" alt="&#xf03e">
+                                <input type="file" name="image2" class="custom-file-input" >
+                                <!-- <label for="image2">Choose an image</label> -->
                             </div>
+                            <!-- <?php
+                                    if(!empty($data['image3_err'])){
+                                    echo '<div class="error">';
+                                        echo '*'.$data['image3_err'].'<br>';
+                                    echo '</div>';
+                                    }
+                                ?>  -->
                             <div class="image">
-                                <label for="image3">Image3:</label>
-                                <input type="file" name="image3" class="fa-solid " alt="&#xf03e" >
+                                <input type="file" name="image3"  class="custom-file-input">
+                                <!-- <label for="image3">Choose an image</label> -->
                             </div>
-                        </div> -->
+                        </div>
                         <div class="input">
-                            <label class="condition" for="">Condition</label>
-                            <input class="condition" type="text" name="condition"   value="<?php echo $data['condition']?>" >
+                            <label class="condition" for="condition">Condition</label>
+                            <select name="condition" id="category" class="category">
+                              <option value="Used">Used</option>
+                              <option value="New">New</option>
+                            </select>
+                            <!-- <input class="condition" type="text" name="condition"   value="<?php echo $data['condition']?>" > -->
                         </div>
                         <div class="input">
                             <label class="category" for="category">Category&nbsp</label>

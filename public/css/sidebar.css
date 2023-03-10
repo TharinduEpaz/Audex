@@ -35,6 +35,20 @@ a:hover, a:active{
   font-size: 23px;
   margin-right: 16px;
 }
+.feedback{
+  font-size: 16pt;
+    font-weight: 800;
+    margin-left: 240px;
+    margin-right: 0px;
+}
+.feedback{
+  text-align: center;
+    margin-bottom: 2vh;
+    margin-left: 240px;
+    margin-right: 0px;
+
+}
+
 
 @media (max-width:860px){
   .sidebar{
@@ -62,6 +76,10 @@ a:hover, a:active{
     width: calc(100% - 70px);
     height: 100vh;
   }
+  .feedback,h1{
+    margin-left: 70px;
+  }
+
 
 }
 .container{

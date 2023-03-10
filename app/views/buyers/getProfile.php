@@ -119,6 +119,44 @@
             </div>
         </div>
     </div>
+    <h1 class="feedback"><?php echo '('.$data['feedbackcount'].') '?>Feedbacks</h1>
+    <div class="feedback" >
+        <div class="feed" style="text-align: center;">
+            <h4>Review</h4>
+        </div>
+        <div class="from" style="text-align: left;">
+            <h4>From</h4>
+        </div>
+        <div class="rate" style="text-align: left;">
+            <h4>Rate</h4>
+        </div>
+    </div>
+    <?php foreach($data['feedbacks'] as $feedback): ?>
+        <div class="feedback" >
+            <div class="feed">
+                <h5><?php echo $feedback->review; ?></h5>
+            </div>
+            <div class="from">
+                <h5><?php echo $feedback->email_buyer[0]. $feedback->email_buyer[1]. $feedback->email_buyer[2]. $feedback->email_buyer[3].'****'.$feedback->email_buyer[-4].$feedback->email_buyer[-3].$feedback->email_buyer[-2].$feedback->email_buyer[-1]?></h5>
+            </div>
+            <div class="rate">
+                <div class="stars">
+                        <?php $i=0;
+                            for($i; $i<floor($feedback->rate); $i++): ?>
+                            <i class="fa fa-star"></i>
+                            <?php endfor; ?>
+                            
+                            
+                            
+                            <?php  
+                            while($i<5){ ?>
+                            <i class="fa fa-star-o"></i>
+                        <?php $i++; } ?>
+                </div>
+            </div>
+        </div>
+            
+    <?php endforeach; ?>
 </body>
 <script>
     function openModal() {
