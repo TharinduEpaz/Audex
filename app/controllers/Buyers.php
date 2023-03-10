@@ -1,6 +1,7 @@
 <?php
   class Buyers extends Controller{
     private $buyerModel;
+    private $userModel;
     public function __construct()
     {
       if(isset($_SESSION['attempt'])){
@@ -18,6 +19,7 @@
     //     redirect($_SESSION['user_type'].'s/index');
     // }
       $this->buyerModel = $this->model('Buyer');
+      $this->userModel = $this->model('User');
     }
     public function index(){
 
@@ -85,10 +87,15 @@
         redirect('users/index');
       }
 
+      $feedbacks=$this->userModel->getFeedbacks($details->email);
+      $feedbackcount=$this->userModel->getFeedbacksCount($details->email);
+
       $data =[
         'id' => $id,
         'user' => $details,
-        'buyer' => $buyerDetails
+        'buyer' => $buyerDetails,
+        'feedbacks' => $feedbacks,
+        'feedbackcount' => $feedbackcount
       ];
       $this->view('buyers/getProfile',$data);
     }

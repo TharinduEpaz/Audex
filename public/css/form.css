@@ -30,7 +30,7 @@ nav{
   left: 0;
   background: #FFFFFF;
   height: 10vh;
-  width: 100%;
+  width: 100vw;
   z-index: 1;
   position: fixed;
 }
@@ -160,7 +160,7 @@ nav{
     display: none;
   }
   
-  @media (max-width: 768px){
+  @media (max-width: 862px){
     .checkbtn{
       display: block;
     }
@@ -391,10 +391,10 @@ nav{
 /* ADDED BY Dinesh */
 .search{
   position: absolute;
-  width: 1220px;
+  width:calc(100% - 100px);
   height: 215px;
-  left: 99px;
   top: 225px;
+  left: 99px;
   display: flex;
   flex-direction: column;
 }
@@ -410,10 +410,11 @@ nav{
 .search-bar .search-form{
   display: flex;
   flex-direction: row;
+  width: 60%;
 }
 .search .search-bar input{
   margin: 0;
-  width: 650px;
+  width: 100%;
   height: 55px;
   background: rgba(217, 217, 217, 0.7);
   opacity: 0.8;
@@ -583,7 +584,7 @@ nav{
 
 }
 .footer{
-    height: 50vh;
+    height: fit-content;
     background-color: #1A1A1B;
     display: flex;
     flex-direction: row;
@@ -593,7 +594,7 @@ nav{
 .footer .section1{
   box-sizing: border-box;
   width:50vw;
-  height: 50vh;
+  height: fit-content;
   padding: 50px;
   
 
@@ -602,7 +603,7 @@ nav{
 .footer .section2{
   box-sizing: border-box;
   width: 50vw;
-  height: 50vh;
+  height: fit-content;
   color: #E5E9F7;
   padding: 50px;
 
@@ -638,3 +639,7 @@ nav{
       margin-left: 3%;
   }
 }
+
+
+
+                      

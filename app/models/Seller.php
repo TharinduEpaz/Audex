@@ -140,7 +140,7 @@ date_default_timezone_set("Asia/Kolkata");
 
         //edit advertisement
         public function edit_advertisement($data){
-            $this->db->query('UPDATE product SET product_title=:title,product_condition=:condition,product_category=:category,model_no=:model,brand=:brand,price=:price,p_description=:description WHERE product_id=:id');
+            $this->db->query('UPDATE product SET product_title=:title,product_condition=:condition,product_category=:category,model_no=:model,brand=:brand,image1=:image1,image2=:image2,image3=:image3,price=:price,p_description=:description WHERE product_id=:id');
             //Bind values
             $this->db->bind(':id', $data['id']);
             // $this->db->bind(':user_email', $data['user_email']);
@@ -150,9 +150,9 @@ date_default_timezone_set("Asia/Kolkata");
             // $this->db->bind(':type', $data['type']);
             $this->db->bind(':model', $data['model']);
             $this->db->bind(':brand', $data['brand']);
-            // $this->db->bind(':image1', $data['image1']);
-            // $this->db->bind(':image2', $data['image2']);
-            // $this->db->bind(':image3', $data['image3']);
+            $this->db->bind(':image1', $data['image1']);
+            $this->db->bind(':image2', $data['image2']);
+            $this->db->bind(':image3', $data['image3']);
             $this->db->bind(':price', $data['price']);
             $this->db->bind(':description', $data['description']);
 
@@ -200,5 +200,42 @@ date_default_timezone_set("Asia/Kolkata");
             }
 
         }
+        public function sellerDetailsWithLikeDislikeCount($email){
+            $this->db->query('SELECT product_id, SUM(liked) as likes,SUM(disliked) as dislikes FROM reaction GROUP BY product_id');
+            $likes_dislikes_count=$this->db->resultSet();
+            $data['likes_dislikes_count']=$likes_dislikes_count;
+            $data['likes']=0;
+            $data['dislikes']=0;
+            if(!empty($likes_dislikes_count)){
+                foreach($likes_dislikes_count as $products){
+                    $this->db->query('SELECT * FROM product WHERE product_id=:id AND is_deleted=0');
+                    $this->db->bind(':id', $products->product_id);
+                    $product=$this->db->single();
+                    if($product->email==$email){
+                        $data['likes']+=$products->likes;
+                        $data['dislikes']+=$products->dislikes;
+                    }
+                }
+            }else{
+                $data['likes']=0;
+                $data['dislikes']=0;
+            }
+            return $data;
+        } 
+        public function sellerNoAuctions($email){
+            $this->db->query('SELECT count(product_id) as count FROM auction WHERE email=:email AND is_active=1');
+            $this->db->bind(':email', $email);
+            $products=$this->db->single();
+            return $products;
+
+        }
+        public function sellerNoViews($email){
+            $this->db->query('SELECT SUM(view_count) as count FROM product WHERE email=:email AND is_deleted=0');
+            $this->db->bind(':email', $email);
+            $products=$this->db->single();
+            return $products;
+
+        }
+        
 
     }

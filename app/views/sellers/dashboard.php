@@ -17,14 +17,35 @@
     <title>Advertisement</title>
 </head>
 <body>
+    <style>
+        p{
+            color: black;
+        }
+        .service-provider-profile {
+          width: calc(100vw - 240px);
+        }
+        .service-provider-profile .white-box .dashboard-item {
+            width: 30%;
+            height: 28vh;
+        }
+        @media (max-width: 860px){
+          .service-provider-profile{
+          width: calc(100vw - 70px);
+          margin-left: 70px;
+        
+          }
+        }
+    </style>
 <?php require_once APPROOT . '/views/sellers/navbar.php';?>
 <?php require_once APPROOT . '/views/sellers/sidebar.php';?>
 <div class="service-provider-profile">
     <div class="white-box">
 
     <div class="dashboard-title">
-        <p>Welcome Mevan !!</p>
+        <p>Welcome <?php echo $_SESSION['user_name'];?> !!</p>
         <p>This is your dashboard</p>
+                <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
+
     </div>
     <div class="dashboard-container">
 
@@ -34,26 +55,26 @@
     </div>
 
     <div class="dashboard-item" id="">
-        <h1 id="profile-views">122</h1>
-        <p>Profile Views</p>
+        <h1 id="profile-views"><?php echo $data['no_auctions']->count ;?></h1>
+        <p>Live Auctions</p>
     </div>
 
     <div class="dashboard-item" id="">
-        <h1 id="Likes">2</h1>
+        <h1 id="Likes"><?php echo $data['likes_dislikes']['likes'];?></h1>
         <p>Total Likes</p>
     </div>
 
     <div class="dashboard-item" id="">
-        <h1 id="Events">2</h1>
-        <p>Events This Month</p>
+        <h1 id="Events"><?php echo $data['likes_dislikes']['dislikes'];?></h1>
+        <p>Total Dislikes</p>
     </div>
     <div class="dashboard-item" id="">
         <h1 id="Flags">0</h1>
         <p>Flags</p>
     </div>
     <div class="dashboard-item" id="">
-        <h1 id="profile">100%</h1>
-        <p>Profile Complete</p>
+        <h1 id="profile"><?php echo $data['no_views']->count;?></h1>
+        <p>Advertisements Views</p>
     </div>
 
     </div>

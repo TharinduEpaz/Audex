@@ -89,8 +89,15 @@
                         </div>
                         <div class="input">
                             <label for="check_au" >Auction(optional)</label>
-                            <input type="checkbox"   name="check_au" class="check_au" >
-                            <label class="date" for="date">Ending Date</label>
+                            <input type="checkbox"   name="check_au" class="check_au" <?php if($data['type']=='auction') echo 'checked';?>>
+                            <?php if($data['type']=='auction') {?>
+                            <label class="date" style="display:block" for="date">Ending Date</label>
+
+                            <?php }else{?>
+                                <label class="date" style="display:none" for="date">Ending Date</label>
+
+                            <?php }?>
+                            <!-- <label class="date" for="date">Ending Date</label> -->
                             <select name="date" id="category" class="date">
                               <option value="1">1day</option>
                               <option value="3">3day</option>
@@ -101,7 +108,7 @@
                         </div>
                                 <?php
                                     if(!empty($data['image1_err']) || !empty($data['image2_err']) || !empty($data['image3_err'])){
-                                        echo '<div class="error">';
+                                        echo '<div class="error" style="margin-bottom:5px">';
                                         if(!empty($data['image1_err'])){
                                             echo '*'.$data['image1_err'].'<br>';
                                         echo '</div>';
@@ -117,8 +124,9 @@
                                     }
                                 ?> 
                         <div class="input_image">
-                            <div class="file-input">
-                                <input type="file" name="image1" id="file" class="custom-file-input">
+                            <div class="image">
+
+                                    <input type="file" name="image1" id="file" class="custom-file-input">
                                 <!-- <label for="image1">Choose an image<p class="file-name"></p></label> -->
                             <!-- <?php
                                     if(!empty($data['image2_err'])){
@@ -225,9 +233,11 @@
                                 }
                             
                         </script> -->
-
-                        <div id="html_content" style="display: none;">
-
+                        <?php if(!empty($data['longitude'])) {?>
+                            <div id="html_content" style="display:block">
+                        <?php }else{?>
+                            <div id="html_content" style="display:none">
+                        <?php }?>
                                 <!-- When spot the place in the map, takes the longitude and latitude and takes the address also -->
                         <div class="input">
                             <a href="" class="post" onclick="openModal1(); return false;">Check on map</a>

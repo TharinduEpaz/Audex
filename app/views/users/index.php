@@ -86,19 +86,8 @@
         <div class="event event5"></div>
         <div class="event event6"></div>
     </div>
-    <div class="footer">
-        <div class="section1">
-            <h1>About us</h1><br><br>
-            <p>Audexlk is an emarket place for sound equipments. We plan to build a marketplace where people can find equipment and professional engineers. We plan to break the boundaries of professional audio equipment renting. Our vision and business model are going towards achieving the same goal.  </p>
-       
-        </div>
-        <div class="section2">
-        <h1>Contact us</h1><br><br>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-       
-        </div>
+    <?php require_once APPROOT . '/views/users/footer.php';?>
 
-    </div>
 
 </body>
 <script>

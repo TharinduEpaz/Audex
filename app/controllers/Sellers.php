@@ -52,14 +52,17 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
       $sellerDetails = $this->sellerModel->getSellerDetails($id);
 
       if ($details->user_id != $_SESSION['user_id']) {
-
         redirect('users/index');
       }
+      $feedbacks=$this->userModel->getFeedbacks($details->email);
+      $feedbackcount=$this->userModel->getFeedbacksCount($details->email);
 
       $data =[
         'id' => $id,
         'user' => $details,
-        'seller' => $sellerDetails
+        'seller' => $sellerDetails,
+        'feedbacks' => $feedbacks,
+        'feedbackcount' => $feedbackcount
       ];
       $this->view('sellers/getProfile',$data);
     }
@@ -203,6 +206,16 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
         //Add product
         public function advertise(){
+            $sellerDetails = $this->userModel->getUserDetailsByEmail($_SESSION['user_email']);
+            if(!isLoggedIn()){
+                $_SESSION['URL'] =URL();
+                redirect('users/login');
+            }else if($sellerDetails->phone_number==NULL || $sellerDetails->phone_number=='' || $sellerDetails->phone_number==0 || empty($sellerDetails->phone_number) || $sellerDetails->phone_number==null){
+                flash('phone_number_error','Please add your phone number before bid.<a href="'.URLROOT.'/users/change_phone/'.$sellerDetails->user_id.'">Click Here</a>','alert alert-danger');
+                $data['phone_err']='Please add your phone number before bid.';
+                redirect('sellers/getProfile/'.$sellerDetails->user_id);
+            }
+
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 //Sanitize POST array
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -547,6 +560,13 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     $data['price']=trim($_POST['price']);
                     if(empty($data['price'])){
                         $data['price_err'] = 'Please enter price';
+                    }else{
+                        if(!is_numeric($data['price'])) {
+                            $data['price_err'] = 'Please enter valid price';
+                        }
+                    }
+                    if($data['price']<=0){
+                        $data['price_err'] = 'Please enter valid price';
                     }
                 }
                 if(empty($data['category'])){
@@ -573,48 +593,144 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 if($data['price']<=0){
                     $data['price_err'] = 'Please enter valid price';
                 }
-                // if(isset($_FILES['image1'])){
-                //     $img_name = $_FILES['image1']['name'];
-                //     $img_size = $_FILES['image1']['size'];
-                //     $tmp_name = $_FILES['image1']['tmp_name'];
-                //     $error = $_FILES['image1']['error'];
+                //Image 1
+                if(!empty($_FILES['image1']['name'])){
+                    $img_name = $_FILES['image1']['name'];
+                    $img_size = $_FILES['image1']['size'];
+                    $tmp_name = $_FILES['image1']['tmp_name'];
+                    $error = $_FILES['image1']['error'];
 
-                //     if($error === 0){
-                //         if($img_size > 12500000){
-                //             $data['image1_err'] = "Sorry, your file is too large.";
-                //         }
-                //         else{
-                //             $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
-                //             $img_ex_lc = strtolower($img_ex);
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image1_err'] = "Sorry, your first image is too large.";
+                        }
+                        else{
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
 
-                //             $allowed_exs = array("jpg", "jpeg", "png"); 
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
 
-                //             if(in_array($img_ex_lc, $allowed_exs)){
-                //                 $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
-                //                 $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
-                //                 move_uploaded_file($tmp_name, $img_upload_path);
-                //                 $data['image1'] = $new_img_name;
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image1'] = $new_img_name;
 
-                //                 // //Insert into database
-                //                 // if($this->sellerModel->addAdvertisement($data)){
-                //                 //     flash('post_message', 'Advertisement Added');
-                //                 //     redirect('sellers/advertisements');
-                //                 // }
-                //                 // else{
-                //                 //     die('Something went wrong');
-                //                 // }
-                //             }
-                //             else{
-                //                 $data['image1_err'] = "You can't upload files of this type";
-                //             }
-                //         }
-                //     }
-                //     else{
-                //         $data['image1_err'] = "Unknown error occurred!";
-                //     }
-                // }else{
-                //     $data['image1_err'] = 'Please upload atleast one image';
+                                // //Insert into database
+                                // if($this->sellerModel->addAdvertisement($data)){
+                                //     flash('post_message', 'Advertisement Added');
+                                //     redirect('sellers/advertisements');
+                                // }
+                                // else{
+                                //     die('Something went wrong');
+                                // }
+                            }
+                            else{
+                                $data['image1_err'] = "You can't upload files of this type";
+                            }
+                        }
+                    }else{
+                        $data['image1'] = $advertisement->image1;
+                    }
+                }else{
+                    $data['image1'] = $advertisement->image1;
+                }
+
+                //Image 2
+                if(!empty($_FILES['image2']['name'])){
+                    $img_name = $_FILES['image2']['name'];
+                    $img_size = $_FILES['image2']['size'];
+                    $tmp_name = $_FILES['image2']['tmp_name'];
+                    $error = $_FILES['image2']['error'];
+
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image2_err'] = "Sorry, your second image is too large.";
+                        }
+                        else{
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
+
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image2'] = $new_img_name;
+
+                                // //Insert into database
+                                // if($this->sellerModel->addAdvertisement($data)){
+                                //     flash('post_message', 'Advertisement Added');
+                                //     redirect('sellers/advertisements');
+                                // }
+                                // else{
+                                //     die('Something went wrong');
+                                // }
+                            }
+                            else{
+                                $data['image2_err'] = "You can't upload files of this type";
+                            }
+                        }
+                    }
+                    else{
+                        $data['image2'] = $advertisement->image2;
+
+                    }
+                 }else{
+                    $data['image2'] = $advertisement->image2;
+
+                }
+                // else{
+                //     $data['image2_err'] = 'Please second first image';
                 // }
+
+
+                //Image 3
+                if(!empty($_FILES['image3']['name'])){
+                    $img_name = $_FILES['image3']['name'];
+                    $img_size = $_FILES['image3']['size'];
+                    $tmp_name = $_FILES['image3']['tmp_name'];
+                    $error = $_FILES['image3']['error'];
+
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image3_err'] = "Sorry, your third image is too large.";
+                        }
+                        else{
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
+
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image3'] = $new_img_name;
+
+                                // //Insert into database
+                                // if($this->sellerModel->addAdvertisement($data)){
+                                //     flash('post_message', 'Advertisement Added');
+                                //     redirect('sellers/advertisements');
+                                // }
+                                // else{
+                                //     die('Something went wrong');
+                                // }
+                            }
+                            else{
+                                $data['image3_err'] = "You can't upload files of this type";
+                            }
+                        }
+                    }
+                    else{
+                        $data['image3'] = $advertisement->image3;
+
+                    }
+                }else{
+                    $data['image3'] = $advertisement->image3;
+
+                }
 
 
                 //Make sure no errors
@@ -995,7 +1111,10 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             
         }
         public function dashboard(){
-            $this->view('sellers/dashboard');
+            $data['likes_dislikes']=$this->sellerModel->sellerDetailsWithLikeDislikeCount($_SESSION['user_email']);
+            $data['no_auctions']=$this->sellerModel->sellerNoAuctions($_SESSION['user_email']);
+            $data['no_views']=$this->sellerModel->sellerNoViews($_SESSION['user_email']);
+            $this->view('sellers/dashboard',$data);
         }
 
         

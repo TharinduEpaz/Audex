@@ -27,7 +27,7 @@
                 <div class="messages">
                     <?php foreach($data['email_receivers'] as $receiver): ?>
                     <div class="message">
-                        <a href="<?php echo URLROOT.'/users/chat/'.$receiver->email ?>">
+                        <a href="<?php echo URLROOT.'/users/chat/'.$receiver->user_id ?>">
                             <div class="image" style="background-image: url(<?php echo URLROOT.'/uploads/'.$receiver->profile_pic;?>);">
                             </div>
                             <h5><?php echo $receiver->first_name." ".$receiver->second_name;?></h5>

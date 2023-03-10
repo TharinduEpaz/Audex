@@ -21,7 +21,7 @@
 <?php require_once APPROOT . '/views/users/navbar.php';?>
 
     <div class="container" style="background: none;">
-    
+    <?php echo flash('phone_number_error');?>
         <div class="content">
         <div class="image_likes">
             <div class="image">

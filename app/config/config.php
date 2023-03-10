@@ -23,6 +23,7 @@
     
     //Email password
     define('EMAIL_PASS', 'bcoxsurnseqiajuf');
+    define('EMAIL', 'audexlk@gmail.com');
 
 
     define('MAPS_API','AIzaSyC5ZntESaneCqqHfq1ngZ1PaHvYbGbsvNA');
