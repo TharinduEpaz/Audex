@@ -75,8 +75,8 @@
 }
 .image{
     /* border: 1px solid blue; */
-    height: 45px;
-    width: 45px;
+    height: 40px;
+    width: 40px;
     margin-right: 5px;
     border-radius: 50%;
     background-repeat: no-repeat;
@@ -177,7 +177,7 @@ form{
     .message_container {
         left: 70px;
         width: calc(100% - 70px);
-        height: 120vh;
+        height: 90vh;
     }
 }
 /* Style the scrollbar track */

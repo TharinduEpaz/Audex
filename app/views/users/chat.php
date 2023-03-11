@@ -24,7 +24,7 @@
         <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
         <div class="chat">
             <div class="chats">
-                <div class="messages">
+                <div class="messages" id="msg">
                     <?php foreach($data['email_receivers'] as $receiver): ?>
                     <div class="message">
                         <a href="<?php echo URLROOT.'/users/chat/'.$receiver->user_id ?>">
@@ -46,7 +46,7 @@
                     <div class="current_messages" id="current-messages">
                         <?php if(!empty($data['current_chat'])){?>
                         <?php foreach($data['current_chat'] as $chat): ?>
-                            <div class="typed">
+                            <div class="typed" id="typed">
                             <?php if($chat->sender_email==$_SESSION['user_email'] ){?>
                                     <div class="type right blue">
                                 <?php }else{?>
@@ -66,7 +66,7 @@
                             </div>
                             <h5 style="font-size: 16pt;"></h5>
                     </div>
-                    <div class="current_messages">
+                    <div class="current_messages" id="current-messages">
                             <div class="typed">
                                     
                             </div>
@@ -97,7 +97,7 @@
                 }
             ?>;
     // get rate receiver's email form profile
-    const receiver_email = <?php echo "'".$receiver->email."'"; ?>;
+    const receiver_email = <?php echo "'".$data['receiver_details']->email."'"; ?>;
 
     
 
@@ -106,6 +106,12 @@
     link.style.background = "#E5E9F7";
     link.style.color = "red";
     link.style.fontWeight = "800";
+
+    
+    currentChat = document.getElementById("current-messages");
+    typed = document.getElementById("typed");
+    messages = document.getElementById("msg");
+
 
     const chatForm = document.getElementById('chat-form');
     // console.log(chatForm);
@@ -124,7 +130,7 @@
         //     console.log(`${pair[0]}, ${pair[1]}`);
         // }
 
-        const url1 = '<?php echo URLROOT?>/users/chat/';
+        const url1 = '<?php echo URLROOT?>/users/chat/<?php echo $data['receiver_details']->user_id;?>';
         fetch(url1, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -138,23 +144,21 @@
             console.log(data.message);
             if(data.message == 'Message Sent'){
                 document.getElementById('message').value = '';
-
                 // window.location.href = '<?php echo URLROOT?>/chat/'+receiver_email;
             }
-
+            
         })
         .catch(error => {
             console.error(error);
         });
-
-
+        
     });
-
-    currentChat = document.getElementById("current-messages");
-
-
+    
+    
+    
+    
     function reloadPage() {
-        urlNew = '<?php echo URLROOT?>/users/chatMessages/';
+        urlNew = '<?php echo URLROOT?>/users/chatMessages/<?php echo $data['receiver_details']->user_id;?>';
         fetch(urlNew,{
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -165,31 +169,42 @@
         .then(response => response.json())
         .then(data => {
             var html = "";
+            var html1="";
             // document.documentElement.innerHTML = html;
+            // console.log(<?php echo $data['receiver_details']->user_id;?>);
+            // console.log(data.message);
+            for(var i=0;i< data.message['email_receivers'].length;i++){
+                var result = data.message['email_receivers'][i];
+                // console.log(result);
+                html1+="<div class='message'><a href='<?php echo URLROOT.'/users/chat/';?>"+result.user_id+"'><div class='image' style='background-image: url(<?php echo URLROOT.'/uploads/'?>"+result.profile_pic+");'></div><h5>"+result.first_name+' '+result.second_name+"</h5></a></div>"
 
-            for (var i = 0; i < data.message.length; i++) {
-                var result = data.message[i];
-
+            }
+            for (var i = 0; i < data.message['current_chat'].length; i++) {
+                var result = data.message['current_chat'][i];
+                console.log(result);
                 if(result.sender_email == sender_email){
                     html+= "<div class ='typed'> <div class= 'type right blue'> <div class='msg'> "+ result.message + "<br> <p style='float: right;color:black;font-weight:600;font-size:8pt;' >"+ result.date+"</p> </div> </div> </div>"
                 }
                 else{
                     html+= "<div class ='typed'> <div class= 'type left white'> <div class='msg'> "+ result.message + "<br> <p style='float: right;color:black;font-weight:600;font-size:8pt;' >"+ result.date+"</p> </div> </div> </div>"
-
+                    
                 }
-
+                
                 // console.log(html);
                 // console.log('sender: '+result.sender_email ,"\nReceiver: "+result.receiver_email, "\nMessage: "+result.message, "\nDate: "+result.date);
-
+                
             }
             // data.forEach(function(result){
-            //     console.log(result.product_title,result.price,result.product_category);
-            // })
-            // console.log(currentChat);
-            currentChat.innerHTML = html;
+                //     console.log(result.product_title,result.price,result.product_category);
+                // })
+                // console.log(currentChat);
+               console.log(html1);
+                messages.innerHTML = html1;
+                currentChat.innerHTML = html;
         });
+
     }
-    setInterval(reloadPage, 1000);
+    setInterval(reloadPage, 500);
     
 </script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
