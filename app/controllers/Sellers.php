@@ -454,6 +454,8 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     //     }
                     // }
                     $dat=date('Y-m-d H:i:s');
+                    $data['date_added']=$dat;
+                    $data['date_expire']=date('Y-m-d H:i:s', strtotime($dat. ' + 30 days'));
                     if($data['longitude']=='' && $data['latitude']==''){
                         $data['longitude']='NULL';
                         $data['latitude']='NULL';

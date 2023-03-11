@@ -13,6 +13,63 @@
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
     <title>Profile</title>
 </head>
+<style>
+    .upload{
+      width: 140px;
+      position: relative;
+      margin: auto;
+      text-align: center;
+    }
+    .upload img{
+      border-radius: 50%;
+      /* border: 8px solid #DCDCDC; */
+      width: 100px;
+      height: 100px;
+    }
+    .upload .rightRound{
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: #00B4FF;
+      width: 32px;
+      height: 32px;
+      line-height: 33px;
+      text-align: center;
+      border-radius: 50%;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .upload .leftRound{
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background: red;
+      width: 32px;
+      height: 32px;
+      line-height: 33px;
+      text-align: center;
+      border-radius: 50%;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .upload .fa{
+      color: white;
+    }
+    .upload input{
+      position: absolute;
+      transform: scale(2);
+      opacity: 0;
+    }
+    .upload input::-webkit-file-upload-button, .upload input[type=submit]{
+      cursor: pointer;
+    }
+    #form{
+        margin-left: -10%;
+        margin-top: 0%;
+        width: 0%;
+        flex-direction: row;
+    }
+</style>
 <body>
 <?php require_once APPROOT . '/views/sellers/navbar.php';?>
 
@@ -28,26 +85,23 @@
             <div class="form-display">
                 <div class="top_details">
                     <div class="profile_img">
-                        <img src="<?php echo URLROOT . '/public/uploads/'.$data['user']->profile_pic;?>" alt="Profile Picture">
-                        <div class="input">
-                            <a href="" class="edit" onclick="openModal(); return false;">Edit</a>
-                            <!-- <a class="edit" href="<?php echo URLROOT.'/users/edit_profile_picture/'.$data['user']->user_id?>">Edit</a> -->
-                            <!-- <a class="edit" href="<?php echo URLROOT.'/users/edit_profile_picture/'.$data['user']->user_id?>">Edit</a> -->
-                        </div>
-                        <div id="myModal" class="modal">
-                            <div class="modal-content">
-
-                                <span class="close" onclick="closeModal()">&times;</span>
-                                <div class="img">
-                                    <form  id="form" action="<?php URLROOT.'users/edit_profile_picture/'.$data['user']->user_id?>" method="post" enctype="multipart/form-data">
-                                    
-                                    <input type="file" name="image1" id="file" class="custom-file-input">
-                                    <input type="submit" value="Upload">
-                                    </form>
-                                    <a href="" class="post" onclick="closeModal(); return false;">Cancel</a>
-                                </div>
+                        <form class="form" id = "form" action="" enctype="multipart/form-data" method="post">
+                            <div class="upload">                    
+                              <img id="image" src="<?php echo URLROOT . '/public/uploads/'.$data['user']->profile_pic;?>" alt="Profile Picture">
+                            <div class="rightRound" id = "upload">
+                              <input type="file" name="image1" id = "image1" accept=".jpg, .jpeg, .png">
+                              <i class = "fa fa-camera"></i>
                             </div>
-                        </div>
+                    
+                            <div class="leftRound" id = "cancel" style = "display: none;">
+                              <i class = "fa fa-times"></i>
+                            </div>
+                            <div class="rightRound" id = "confirm" style = "display: none;">
+                              <input type="submit">
+                              <i class = "fa fa-check"></i>
+                            </div>
+                          </div>
+                        </form>
                     </div>
                     <div class="other_details_profile">
                         <p class="full_name"><?php echo $data['user']->first_name.' '.$data['user']->second_name; ?></p>
@@ -120,7 +174,7 @@
             </div>
         </div>
     </div>
-    <h1 style="text-align: center;" class="feedback"><?php echo '('.$data['feedbackcount'].') '?>Feedbacks</h1>
+    <h1 style="text-align: center;margin-top:5vh" class="feedback"><?php echo '('.$data['feedbackcount'].') '?>Feedbacks</h1>
     <div class="feedback" >
         <div class="feed" style="text-align: center;">
             <h4>Review</h4>
@@ -195,6 +249,43 @@
         modal.style.display = "none";
       }
     }
+
+      document.getElementById("image1").onchange = function(){
+        document.getElementById("image").src = URL.createObjectURL(image1.files[0]); // Preview new image
+
+        document.getElementById("cancel").style.display = "block";
+        document.getElementById("confirm").style.display = "block";
+
+        document.getElementById("upload").style.display = "none";
+      }
+
+      var userImage = document.getElementById('image').src;
+      document.getElementById("cancel").onclick = function(){
+        document.getElementById("image").src = userImage; // Back to previous image
+
+        document.getElementById("cancel").style.display = "none";
+        document.getElementById("confirm").style.display = "none";
+
+        document.getElementById("upload").style.display = "block";
+      }
+      const form= document.getElementById("form");
+      form.addEventListener('submit',e=>{
+          e.preventDefault();
+          const data= new FormData(form);
+          for(const pair of data.entries()){
+              console.log(`${pair[0]}+', '+${pair[1]}`);
+          }
+          fetch("<?php echo URLROOT.'/users/edit_profile_picture/'.$data['user']->user_id?>",{
+              method:'POST',
+              body:data
+          }).then(res=>res.json())
+          .then(data=>{
+              // console.log(data);
+              window.location.href="<?php echo URLROOT.'/sellers/getProfile/'.$data['user']->user_id; ?>";
+              // closeModal();
+          })
+      });
+      
 
     //keeping the sidebar button clicked at the page
     link = document.querySelector('#profile');

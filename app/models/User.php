@@ -519,6 +519,34 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
 
+        public function checkViewCount($id,$email){
+            $this->db->query('SELECT * FROM view_item WHERE product_id = :id AND email_viewer = :email');
+            $this->db->bind(':id' , $id);
+            $this->db->bind(':email' , $email);
+
+            $row = $this->db->single();
+            if($row){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function addViewDetails($id,$email){
+            $this->db->query('INSERT into view_item(product_id,email_viewer) VALUES(:id,:email)');
+            $this->db->bind(':id' , $id);
+            $this->db->bind(':email' , $email);
+
+            $row = $this->db->single();
+            if($row){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+
+
+
         public function getAuctionById_withfinished($id){
             $this->db->query('SELECT * FROM auction WHERE product_id = :id ');
             $this->db->bind(':id' , $id);

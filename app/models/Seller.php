@@ -86,7 +86,7 @@ date_default_timezone_set("Asia/Kolkata");
         }
 
         public function advertise($data,$dat){
-            $this->db->query('INSERT INTO product (email,product_title,product_condition,product_category,product_type,model_no,brand,image1,image2,image3,address,latitude,longitude,price,p_description) VALUES(:user_email,:title,:condition,:category,:type,:model,:brand,:image1,:image2,:image3,:address,:latitude,:longitude,:price,:description)');
+            $this->db->query('INSERT INTO product (email,product_title,product_condition,product_category,product_type,model_no,brand,image1,image2,image3,address,latitude,longitude,price,p_description,date_added,date_expires) VALUES(:user_email,:title,:condition,:category,:type,:model,:brand,:image1,:image2,:image3,:address,:latitude,:longitude,:price,:description,:date_added,:date_expires)');
             //Bind values
             $this->db->bind(':user_email', $data['user_email']);
             $this->db->bind(':title', $data['title']);
@@ -103,6 +103,8 @@ date_default_timezone_set("Asia/Kolkata");
             $this->db->bind(':longitude', $data['longitude']);
             $this->db->bind(':price', $data['price']);
             $this->db->bind(':description', $data['description']);
+            $this->db->bind(':date_added', $data['date_added']);
+            $this->db->bind(':date_expires', $data['date_expire']);
 
             //Execute
             if($this->db->execute()){

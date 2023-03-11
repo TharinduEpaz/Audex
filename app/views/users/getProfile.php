@@ -87,13 +87,14 @@
                     if($_SESSION['user_email']!=$data['user']->email){?>
                         <div class="message_review">
                             <a  class="message" href="<?php echo URLROOT . '/users/chat/'.$data['user']->user_id;?>" class="btn btn-primary">Message</a>
-                        <a class="review" href="<?php echo URLROOT . '/users/review';?>" class="btn btn-primary">Write Review</a>
+                            <a href="" class="review" onclick="openModal(); return false;">Write Review</a>
                     </div>
                     <?php }}else{ ?>
                         <div class="message_review">
                         <a  class="message" href="<?php echo URLROOT . '/users/chat/'.$data['user']->user_id;?>" class="btn btn-primary">Message</a>
                             <a href="" class="review" onclick="openModal(); return false;">Write Review</a>
                         </div>
+                        <?php } ?>
                         <div id="myModal" class="modal">
                             <div class="modal-content">
                                 <span class="close" onclick="closeModal()" style="float: right; z-index: 1; position: inherit; visibility: visible; opacity:100%;">&times;</span>
@@ -129,7 +130,6 @@
                                 </div>
                             </div>
                         </div>
-                    <?php } ?>
 
                 </div>
             </div> 
@@ -262,6 +262,7 @@
         }
         else{
             //user is not logged in 
+            <?php $_SESSION['url']=URL();?>
             window.location.href = '<?php echo URLROOT?>/users/login/';
         }
 

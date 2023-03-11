@@ -117,7 +117,7 @@
 .type h5{
 }
 .msg{
-    padding: 6px 10px;
+  padding: 6px 10px 0px 10px;
   border-radius: 6px 0 6px 0;
   position: relative;
   color: black;

@@ -1602,10 +1602,13 @@
             }   
             if(isLoggedIn()){
                 if($SellerMoreDetails->email!=$_SESSION['user_email']){
-                    if($this->userModel->update_view_count($id)){
-        
-                    }else{
-                        die('Error');
+                    if($this->userModel->checkViewCount($id,$_SESSION['user_email'])==false){
+                        if($this->userModel->update_view_count($id)){
+                            $this->userModel->addViewDetails($id,$_SESSION['user_email']);
+                        }else{
+                            die('Error');
+                        }
+
                     }
                 }
 
