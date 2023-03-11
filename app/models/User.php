@@ -1149,7 +1149,7 @@ date_default_timezone_set("Asia/Kolkata");
         public function checkAddedRate($emai_rater, $email_rate_receiver){
 
 
-            $this->db->query('SELECT rate FROM rate WHERE emai_rater = :emai_rater AND email_rate_receiver = :email_rate_receiver ');
+            $this->db->query('SELECT rate FROM rate WHERE email_rater = :emai_rater AND email_rate_receiver = :email_rate_receiver ');
             //Bind value
             $this->db->bind(':emai_rater', $emai_rater);
             $this->db->bind(':email_rate_receiver', $email_rate_receiver);
@@ -1177,7 +1177,7 @@ date_default_timezone_set("Asia/Kolkata");
         public function rateSeller($rating,$emai_rater,$email_rate_receiver,$date,$review){
             // get the email from buyer id
 
-            $this->db->query('INSERT INTO rate (emai_rater,email_rate_receiver,rate,date,review) VALUES (:emai_rater,:email_rate_receiver,:rate,:date,:review)');
+            $this->db->query('INSERT INTO rate (email_rater,email_rate_receiver,rate,date,review) VALUES (:emai_rater,:email_rate_receiver,:rate,:date,:review)');
             $this->db->bind(':emai_rater', $emai_rater);
             $this->db->bind(':email_rate_receiver', $email_rate_receiver);
             $this->db->bind(':rate', $rating);
@@ -1209,7 +1209,7 @@ date_default_timezone_set("Asia/Kolkata");
         
         public function updateSellerRate($rating, $emai_rater, $email_rate_receiver,$review){
             // update seller's rate given by a particular buyer 
-            $this->db->query('UPDATE rate SET rate = :rate, review = :review WHERE emai_rater = :emai_rater AND email_rate_receiver = :email_rate_receiver ');
+            $this->db->query('UPDATE rate SET rate = :rate, review = :review WHERE email_rater = :emai_rater AND email_rate_receiver = :email_rate_receiver ');
             //Bind value
             $this->db->bind(':emai_rater', $emai_rater);
             $this->db->bind(':email_rate_receiver', $email_rate_receiver);

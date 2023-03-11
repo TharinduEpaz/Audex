@@ -107,18 +107,19 @@
                         <p class="full_name"><?php echo $data['user']->first_name.' '.$data['user']->second_name; ?></p>
                         <div class="stars_date">
                             <div class="stars">
-                            <?php $i=0;
-                                        for($i; $i<floor($data['seller']->rate); $i++): ?>
+                            <?php $i=$data['user']->rate;
+                                        $j=0;
+                                        for($i; $i>=1; $i--){?>
                                         <i class="fa fa-star"></i>
-                                        <?php endfor; ?>
+                                        <?php  $j++;} ?>
                                         
-                                        <?php if(strpos((string)$data['seller']->rate, '.')){ ?>
+                                        <?php if($i>0){ ?>
                                         <i class="fa fa-star-half-o"></i>
                                         
-                                        <?php $i++;} 
-                                        while($i<5){ ?>
+                                        <?php $i--;} 
+                                        while($j<5){ ?>
                                         <i class="fa fa-star-o"></i>
-                                        <?php $i++; } ?>
+                                        <?php $j++; } ?>
                             </div>
                             <div class="date">
                                 <p>Joined : <?php echo date('Y-m-d',strtotime($data['user']->registered_date));; ?></p>
@@ -174,7 +175,7 @@
             </div>
         </div>
     </div>
-    <h1 style="text-align: center;margin-top:5vh" class="feedback"><?php echo '('.$data['feedbackcount'].') '?>Feedbacks</h1>
+    <h1 style="text-align:center;margin-top:10vh" class="feedback"><?php echo '('.$data['feedbackcount'].') '?>Feedbacks</h1>
     <div class="feedback" >
         <div class="feed" style="text-align: center;">
             <h4>Review</h4>
@@ -192,21 +193,23 @@
                 <h5><?php echo $feedback->review; ?></h5>
             </div>
             <div class="from">
-                <h5><?php echo $feedback->email_buyer[0]. $feedback->email_buyer[1]. $feedback->email_buyer[2]. $feedback->email_buyer[3].'****'.$feedback->email_buyer[-4].$feedback->email_buyer[-3].$feedback->email_buyer[-2].$feedback->email_buyer[-1]?></h5>
+                <h5><?php echo $feedback->email_rater[0]. $feedback->email_rater[1]. $feedback->email_rater[2]. $feedback->email_rater[3].'****'.$feedback->email_rater[-4].$feedback->email_rater[-3].$feedback->email_rater[-2].$feedback->email_rater[-1]?></h5>
             </div>
             <div class="rate">
                 <div class="stars">
-                        <?php $i=0;
-                            for($i; $i<floor($feedback->rate); $i++): ?>
-                            <i class="fa fa-star"></i>
-                            <?php endfor; ?>
-                            
-                            
-                            
-                            <?php  
-                            while($i<5){ ?>
-                            <i class="fa fa-star-o"></i>
-                        <?php $i++; } ?>
+                <?php $i=$data['user']->rate;
+                                        $j=0;
+                                        for($i; $i>=1; $i--){?>
+                                        <i class="fa fa-star"></i>
+                                        <?php  $j++;} ?>
+                                        
+                                        <?php if($i>0){ ?>
+                                        <i class="fa fa-star-half-o"></i>
+                                        
+                                        <?php $i--;} 
+                                        while($j<5){ ?>
+                                        <i class="fa fa-star-o"></i>
+                                        <?php $j++; } ?>
                 </div>
             </div>
         </div>

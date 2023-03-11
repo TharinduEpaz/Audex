@@ -220,18 +220,19 @@
                                     <div class="rating-stars">
                                         <!-- <span class="rate"><?php echo $data['seller']->rate;?></span>  -->
 
-                                        <?php $i=0;
-                                        for($i; $i<=floor($data['SellerMoreDetails']->rate); $i++): ?>
+                                        <?php $i=$data['SellerMoreDetails']->rate;
+                                        $j=0;
+                                        for($i; $i>=1; $i--){?>
                                         <i class="fa fa-star"></i>
-                                        <?php endfor; ?>
+                                        <?php  $j++;} ?>
                                         
-                                        <?php if(strpos((string)$data['SellerMoreDetails']->rate, '.')){?>
-                                        <!-- <i class="fa fa-star-half-o"></i> -->
+                                        <?php if($i>0){ ?>
+                                        <i class="fa fa-star-half-o"></i>
                                         
-                                        <?php $i++;} 
-                                        while($i<5){ ?>
+                                        <?php $i--;} 
+                                        while($j<5){ ?>
                                         <i class="fa fa-star-o"></i>
-                                        <?php $i++; } ?>
+                                        <?php $j++; } ?>
                                     </div>                
                                 </div>
                                 </div>
