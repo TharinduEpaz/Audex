@@ -2666,8 +2666,8 @@
             $results4 = $this->userModel->getRateReceiversFinalRate($email_rate_receiver);
             flash('rating_message', 'Rating added successfully');
             // ,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3
-            // echo json_encode(['message' => 'Rating saved','results4'=>$results4,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
-            echo json_encode(['message' => 'Rating saved','result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
+            echo json_encode(['message' => 'Rating saved','results4'=>$results4,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
+            // echo json_encode(['message' => 'Rating saved','result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
 
 
         }
@@ -2683,48 +2683,100 @@
                 $_SESSION['url'] = URL();
                 redirect('users/login');
             }
-            $i=0;
-            $data=[
-                'email_sender'=>$_SESSION['user_email'],
-            ];
-            $chats=$this->userModel->getChats($data);
-            if($chats!=false){
-                    foreach($chats as $chat){
-                        if($chat->sender_email==$_SESSION['user_email']){
-                            $data['email_receiver'][$i]=$chat->receiver_email;
-                            $i++;
+
+            if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                // this is come from post method (fetch) form
+                
+                $data = json_decode(file_get_contents('php://input'), true);
+
+                $message = $data['message'] ?? 0;
+                $emai_sender = $data['sender_email'];
+                $email_receiver = $data['receiver_email'];
+               
+
+                // $results2 = '';
+                // $results3 = '';
+                // echo $message;
+                // echo $emai_sender;
+                // echo $email_receiver;
+                $date=date('Y-m-d H:i:s');
+
+                $newMessage = $this->userModel->AddNewMessage($emai_sender,$email_receiver,$date,$message);
+
+                if($newMessage){
+                    echo json_encode(['message' => 'Message Sent']);
+                }
+                else{
+                    echo json_encode(['message' => 'Message Not Sent']);
+                    
+                }
+
+
+
+            }
+            else{
+                $i=0;
+                $data=[
+                    'email_sender'=>$_SESSION['user_email'],
+                ];
+                $chats=$this->userModel->getChats($data);
+                if($chats!=false){
+                        foreach($chats as $chat){
+                            if($chat->sender_email==$_SESSION['user_email']){
+                                $data['email_receiver'][$i]=$chat->receiver_email;
+                                $i++;
+                            }
+                            else{
+                                $data['email_receiver'][$i]=$chat->sender_email;
+                                $i++;
+                            }
                         }
-                        else{
-                            $data['email_receiver'][$i]=$chat->sender_email;
-                            $i++;
+                        $i=0;
+                        $data['email_receivers']=array_unique($data['email_receiver']);
+                        $data['email_receivers']=array_values($data['email_receivers']);
+                        foreach($data['email_receivers'] as $email_receiver){
+                            $receiver=$this->userModel->getUserDetailsByEmail($email_receiver);
+                            if(!empty($receiver)){
+                                $data['email_receivers'][$i]=$receiver;
+                                $i++;
+                            }
                         }
+                        // $data['chats']=$chats;
                     }
-                    $i=0;
-                    $data['email_receivers']=array_unique($data['email_receiver']);
-                    $data['email_receivers']=array_values($data['email_receivers']);
-                    foreach($data['email_receivers'] as $email_receiver){
-                        $receiver=$this->userModel->getUserDetailsByEmail($email_receiver);
+                    if($id!=null){
+                        $data['receiver']=$id;
+                        $receiver=$this->userModel->getUserDetails($data['receiver']);
                         if(!empty($receiver)){
-                            $data['email_receivers'][$i]=$receiver;
-                            $i++;
+                            $data['receiver_details']=$receiver;
                         }
+                        $current_chat=$this->userModel->getCurrentChat($data['email_sender'],$data['receiver_details']->email);
+                        if(!empty($current_chat)){
+                            $data['current_chat']=$current_chat;
+                        }
+                    }else{
+                        $data['receiver']=null;
                     }
-                    // $data['chats']=$chats;
-                }
-                if($id!=null){
-                    $data['receiver']=$id;
-                    $receiver=$this->userModel->getUserDetails($data['receiver']);
-                    if(!empty($receiver)){
-                        $data['receiver_details']=$receiver;
-                    }
-                    $current_chat=$this->userModel->getCurrentChat($data['email_sender'],$data['receiver_details']->email);
-                    if(!empty($current_chat)){
-                        $data['current_chat']=$current_chat;
-                    }
-                }else{
-                    $data['receiver']=null;
-                }
-                $this->view('users/chat',$data);
+                    $this->view('users/chat',$data);
+            }
+
+        }
+        
+    
+        public function chatMessages(){
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            $emai_sender = $data['sender_email'];
+            $email_receiver = $data['receiver_email'];
+
+            $oldChat = $this->userModel->getAllMessages($emai_sender,$email_receiver);
+
+            if(empty($oldChat)){
+                echo json_encode(['message' => 'No Previous Chat']);
+            }
+            else{
+                echo json_encode(['message' => $oldChat]);
+                
+            }
         }
         
     }
