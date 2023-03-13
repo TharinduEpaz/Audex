@@ -213,9 +213,11 @@ date_default_timezone_set("Asia/Kolkata");
                     $this->db->query('SELECT * FROM product WHERE product_id=:id AND is_deleted=0');
                     $this->db->bind(':id', $products->product_id);
                     $product=$this->db->single();
-                    if($product->email==$email){
-                        $data['likes']+=$products->likes;
-                        $data['dislikes']+=$products->dislikes;
+                    if(!empty($product)){
+                        if($product->email==$email){
+                            $data['likes']+=$products->likes;
+                            $data['dislikes']+=$products->dislikes;
+                        }
                     }
                 }
             }else{

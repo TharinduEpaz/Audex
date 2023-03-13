@@ -555,6 +555,7 @@
             $_SESSION['user_email'] = $user->email;
             $_SESSION['user_name'] = $user->first_name;
             $_SESSION['user_type'] = $user->user_type;
+            $_SESSION['prev_user_type'] ='';
             if(isset($_SESSION['url'])){
                 $url=$_SESSION['url']; // holds url for last page visited.
                 unset($_SESSION['url']);
@@ -2817,6 +2818,26 @@
                 echo json_encode(['message' => $data]);
                 
             // }
+        }
+
+        public function switch_user(){
+            if(!isLoggedIn()){
+                $_SESSION['url'] = URL();
+                redirect('users/login');
+            }
+            if($_SESSION['user_type']!='seller'){
+                $_SESSION['prev_user_type']=$_SESSION['user_type'];
+                $_SESSION['user_type']='seller';
+                flash('user_type_message', 'You are now a seller');
+                redirect('users/index');
+
+            }
+            else if($_SESSION['prev_user_type']!='seller'){
+                $_SESSION['user_type']=$_SESSION['prev_user_type'];
+                flash('user_type_message', 'You are now a '.$_SESSION['prev_user_type']);
+                redirect('users/index');
+            }
+
         }
         
     }

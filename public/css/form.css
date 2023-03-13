@@ -38,6 +38,22 @@ nav{
     margin-top: 2vh;
     margin-left: 2%;
   }
+  .switch{
+    height: 10vh;
+    /* display: flex; */
+    position: absolute;
+    width: -webkit-fill-available;
+  }
+  .switch a{
+    text-decoration: none;
+    color: black;
+    line-height: 10vh;
+    text-align: center;
+    margin-left: 1%;
+  }
+  .switch a:hover{
+    color: green;
+  }
   nav ul{
     float: right;
     margin-right: 3%;
@@ -160,7 +176,7 @@ nav{
     display: none;
   }
   
-  @media (max-width: 862px){
+  @media (max-width: 890px){
     .checkbtn{
       display: block;
     }

@@ -21,6 +21,7 @@
         <?php echo flash('user_deleted');?>
         <?php echo flash('email_err');?>
         <?php echo flash('auction_message');?>
+        <?php echo flash('user_type_message');?>
         
         <div class="search">
             <div class="heading">

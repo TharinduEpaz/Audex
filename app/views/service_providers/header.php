@@ -23,6 +23,12 @@
         <i class="fas fa-bars"></i>
     </label>
     <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="">
+    <?php if(isLoggedIn()){
+                if($_SESSION['user_type']!='seller'){?>
+                    <a href="<?php echo URLROOT;?>/users/switch_user"> switch to selling</a>
+        <?php }elseif($_SESSION['user_type']=='seller' && $_SESSION['prev_user_type']!=''){ ?>
+                    <a href="<?php echo URLROOT;?>/users/switch_user"> switch to <?php echo $_SESSION['prev_user_type'];?></a>
+        <?php }}?> 
     <ul>
         <li><a href="<?php echo URLROOT .'/users/index'?>" class="nav_tags">Home</a></li>
         <li><a href="<?php echo URLROOT.'/users/shop'; ?>" class="nav_tags">Shop</a></li>
