@@ -42,14 +42,14 @@ nav{
     height: 10vh;
     /* display: flex; */
     position: absolute;
-    width: -webkit-fill-available;
+    width: 20%;
   }
   .switch a{
     text-decoration: none;
     color: black;
     line-height: 10vh;
     text-align: center;
-    margin-left: 1%;
+    margin-left: 4%;
   }
   .switch a:hover{
     color: green;
@@ -237,6 +237,9 @@ nav{
       font-size: 15pt;
       border-top: 1px solid white;
       line-height: 1.5vh;
+    }
+    .switch{
+      width: 50%;
     }
     
   }
