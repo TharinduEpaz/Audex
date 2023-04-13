@@ -23,7 +23,7 @@
 
                 <?php for ($i = 1; $i <= $days_in_month; $i++) : ?>
                     <div class="calendar-date"><?php echo $i; ?>
-                    <button data-add-event=".add-event">+</button>
+                        <button data-add-event=".add-event" data-event-date="<?php echo $i; ?>">+</button>
                         <div class="calender-event">
                             <?php $currentMonth = $data['no']; ?>
                             <?php str_pad($currentMonth, 2, "0", STR_PAD_LEFT); ?>
@@ -55,22 +55,22 @@
             <button data-close-button class="close-button">&times;</button>
         </div>
         <div class="wrapper-for-event">
-        <div class="event-publisher">
-            <div class="event-owenr-image">
-                <img src="" alt="">
+            <div class="event-publisher">
+                <div class="event-owenr-image">
+                    <img src="" alt="">
+                </div>
+                <span class="owner-name">John Doe</span>
+
             </div>
-            <span class="owner-name">John Doe</span>
-            
-        </div>
 
-        <div class="event-buttons">
-            <div class="like-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="likes"></span></div>
-            <div class="dislike-button"><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="dislikes"></span></div>
-        </div>
+            <div class="event-buttons">
+                <div class="like-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="likes"></span></div>
+                <div class="dislike-button"><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="dislikes"></span></div>
+            </div>
 
         </div>
-        
-       
+
+
 
         <div class="event-body">
 
@@ -87,39 +87,39 @@
 </div>
 
 <div class="add-event">
-<h1>Add New Event</h1>
-            <div class="info-settings">
+    <h1>Add New Event</h1>
+    <div class="info-settings">
 
-                <div class="info-titles">
-                    <span>Name : </span>
-                    <span>Date : </span>
-                    <span>Public Event : </span>
-                    <span>Location : </span>
-                    <span>Ticket Link : </span>
-                    <span>Description : </span>
-                
-                </div>
-                <div class="info-items">
-                    <form action= "<?php echo URLROOT . '/service_providers/addNewEvent/' ?>" method="post">
-                         <input type="text" name="name" required>
-                        <input type="date" name="date" required> <br>
-                        <input type="hidden" name="public" value="0">
-                        <input type="checkbox" name="public" value="1">
-                       <input type="text" name="location" required>
-                        <input type="text" name="link" required>
-                        <textarea name="description" cols="30" rows="10" required></textarea>
+        <div class="info-titles">
+            <span>Name : </span>
+            <!-- <span>Date : </span> -->
+            <span>Public Event : </span>
+            <span>Location : </span>
+            <span>Ticket Link : </span>
+            <span>Description : </span>
+
+        </div>
+        <div class="info-items">
+            <form action="<?php echo URLROOT . '/service_providers/addNewEvent?date=' ?>" method="post" id="eventForm">
+                <input type="text" name="name" required>
+                <!-- <input type="date" name="date" id="date-input" required> <br> -->
+                <input type="hidden" name="public" value="0">
+                <input type="checkbox" name="public" value="1">
+                <input type="text" name="location" required>
+                <input type="text" name="link" required>
+                <textarea name="description" cols="30" rows="10" required></textarea>
 
 
-                        <section class="buttons" style="margin-top:50px;">
-          
-                        <button id="save" type="submit">Save</button>
-                        <button id="cancel" type="reset" onclick="exit()">Cancel</button>
-                    </section>
-                    </form>
-          </div>
-                   
-                </div>
-    
+                <section class="buttons" style="margin-top:50px;">
+
+                    <button id="save" type="submit">Save</button>
+                    <button id="cancel" type="reset" onclick="exit()">Cancel</button>
+                </section>
+            </form>
+        </div>
+
+    </div>
+
 </div>
 
 
@@ -166,6 +166,9 @@
         xhttp.open("GET", "http://localhost/Audex/service_providers/getEvent?id=" + event_id, true);
         xhttp.send();
 
+        //set the date to today
+
+       let eventForm = document.querySelector('#eventForm');
     }
 </script>
 

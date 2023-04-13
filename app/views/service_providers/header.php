@@ -14,6 +14,25 @@
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
     <title>Audex</title>
     <script defer src="<?php echo URLROOT . '/public/js/service_provider.js'; ?>"></script>
+
+
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <!-- TINY MCE TEXT EDITOR  -->
+    <script>
+      tinymce.init({
+        selector: '#add-post-text',
+        plugins: [
+          'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
+          'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
+          'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
+        ],
+        toolbar: 'undo redo | formatpainter casechange blocks | bold italic backcolor | ' +
+          'alignleft aligncenter alignright alignjustify | ' +
+          'bullist numlist checklist outdent indent | removeformat | a11ycheck code table help'
+      });
+    </script>
+
 </head>
 <body>
 <div class="navbar">
