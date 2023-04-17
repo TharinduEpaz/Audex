@@ -7,7 +7,7 @@
         </div>
 
         <div class="month-display">
-            <span><?php echo $data['month'] ?></span>
+            <span><?php echo $data['month'] . ' ' . $data['year'] ?></span>
         </div>
         <div class="next-button">
             <a href="<?php echo URLROOT . '/service_providers/eventCalander?month=next' ?>">
@@ -22,8 +22,8 @@
                 <?php $days_in_month = cal_days_in_month(CAL_GREGORIAN, $data['no'], date('Y')); ?>
 
                 <?php for ($i = 1; $i <= $days_in_month; $i++) : ?>
-                    <div class="calendar-date"><?php echo $i; ?>
-
+                    <div class="calendar-date"><span><?php echo $i; ?></span>
+                        <button data-add-event=".add-event">+</button>
                         <div class="calender-event">
                             <?php $currentMonth = $data['no']; ?>
                             <?php str_pad($currentMonth, 2, "0", STR_PAD_LEFT); ?>
@@ -55,22 +55,22 @@
             <button data-close-button class="close-button">&times;</button>
         </div>
         <div class="wrapper-for-event">
-        <div class="event-publisher">
-            <div class="event-owenr-image">
-                <img src="" alt="">
+            <div class="event-publisher">
+                <div class="event-owenr-image">
+                    <img src="" alt="">
+                </div>
+                <span class="owner-name">John Doe</span>
+
             </div>
-            <span class="owner-name">John Doe</span>
-            
-        </div>
 
-        <div class="event-buttons">
-            <div class="like-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="likes"></span></div>
-            <div class="dislike-button"><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="dislikes"></span></div>
-        </div>
+            <div class="event-buttons">
+                <div class="like-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="likes"></span></div>
+                <div class="dislike-button"><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="dislikes"></span></div>
+            </div>
 
         </div>
-        
-       
+
+
 
         <div class="event-body">
 
@@ -85,6 +85,106 @@
     </div>
 
 </div>
+
+<div class="add-event">
+<div class="formbold-main-wrapper">
+  
+  <div class="formbold-form-wrapper">
+    <form id="add-event-form">
+        <div class="formbold-input-flex">
+          <div>
+              <label for="eventname" class="formbold-form-label"> Event Name </label>
+              <input
+              type="text"
+              name="eventname"
+              id="eventname"
+              placeholder="DJ Festival"
+              class="formbold-form-input"
+              />
+          </div>
+          <div>
+              <label for="location" class="formbold-form-label"> Location </label>
+              <input
+              type="text"
+              name="location"
+              id="lastname"
+              placeholder="Nelum Pokuna"
+              class="formbold-form-input"
+              />
+          </div>
+        </div>
+
+        <div class="formbold-input-flex">
+          <div>
+              <label for="email" class="formbold-form-label"> Time </label>
+              <input
+              type="time"
+              name="time"
+              id="time"
+              placeholder="12:00 PM"
+              class="formbold-form-input"
+              />
+          </div>
+          <div>
+              <label for="ticket-link" class="formbold-form-label"> Ticket Link (Optional)</label>
+              <input
+              type="text"
+              name="ticket-link"
+              id="phone"
+              placeholder="www.ticketlink.com"
+              class="formbold-form-input"
+              />
+          </div>
+        </div>
+
+        <div class="formbold-input-radio-wrapper">
+            <label for="jobtitle" class="formbold-form-label"> Event Type </label>
+
+            <div class="formbold-radio-flex">
+              <div class="formbold-radio-group">
+                <label class="formbold-radio-label">
+                  <input class="formbold-input-radio" type="radio" name="event-type" id="jobtitle" checked>
+                  Public Event
+                  <span class="formbold-radio-checkmark"></span>
+                </label>
+              </div>
+
+              <div class="formbold-radio-group">
+                <label class="formbold-radio-label">
+                  <input class="formbold-input-radio" type="radio" name="event-type" id="jobtitle">
+                  Private Event
+                  <span class="formbold-radio-checkmark"></span>
+                </label>
+              </div>
+            
+            </div>
+        </div>
+
+        <div>
+            <label for="message" class="formbold-form-label"> Event Description </label>
+            <textarea
+                rows="6"
+                name="description"
+                id="description"
+                placeholder="Type description here..."
+                class="formbold-form-input"
+            ></textarea>
+        </div>
+        <div>
+            <label for="message" class="formbold-form-label"> Image </label>
+            <input type=file name="file" id="file" class="formbold-form-input">
+        </div>
+
+        <button class="formbold-btn">
+            Add Event
+        </button>
+    </form>
+  </div>
+</div>
+
+</div>
+
+
 
 <div id="overlay"></div>
 
@@ -128,6 +228,9 @@
         xhttp.open("GET", "http://localhost/Audex/service_providers/getEvent?id=" + event_id, true);
         xhttp.send();
 
+        //set the date to today
+
+       let eventForm = document.querySelector('#eventForm');
     }
 </script>
 

@@ -190,22 +190,25 @@ class Service_providers extends Controller
 
     public function addEvent()
     {
-
-        $this->view('service_providers/addEvent');
-
-    }
-
-    public function addNewEvent()
-    {
         $errors = [];
+        
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Validate form data
-            $name = $_POST['name'];
-            $date = date('Y-m-d', strtotime($_POST['date']));
+            $name = $_POST['eventname'];
+
+            //getting the date for the event
+            
+            // $day = $_GET['date'];
+            // $year = $_GET['year'];
+            // $date_str = $day . ' ' . $year;
+            $date_str = $_GET['date'];
+            $date = date("Y-m-d", strtotime($date_str));
+            
+            
             $location = $_POST['location'];
-            $link = $_POST['link'];
+            $link = $_POST['ticket-link'];
             $description = $_POST['description'];
-            $public = $_POST['public'];
+            $public = 1;
         
             if (empty($name)) {
                 $errors[] = 'Name is required';
@@ -222,8 +225,11 @@ class Service_providers extends Controller
                 echo "ERROR : " . $e->getMessage();
             }
             
+    }
+}
 
-        }
+
+   
 
 
         ////////////////////////////////////////////////////
@@ -259,7 +265,7 @@ class Service_providers extends Controller
 
         // }
 
-    }
+    
 
     public function dashboard()
     {
@@ -272,15 +278,30 @@ class Service_providers extends Controller
 
         if ($month == 'current') {
             $_SESSION['current'] = date('m');
+            $_SESSION['current_y'] = date('y');
         }
-        if ($month == 'next') {
+        else if ($month == 'next' && $_SESSION['current'] < 12 ) {
             $_SESSION['current'] = $_SESSION['current'] + 1;
+           
         }
-        if ($month == 'previous') {
+
+        else if($month == 'next' && $_SESSION['current'] >= 12){
+            $_SESSION['current_y'] = $_SESSION['current_y'] + 1;
+            $_SESSION['current'] = 01;
+        }
+
+        else if ($month == 'previous' && $_SESSION['current'] > 1) {
             $_SESSION['current'] = $_SESSION['current'] - 1;
         }
+    
+        else if ($month == 'previous' && $_SESSION['current'] <= 1){
+                $_SESSION['current_y'] = $_SESSION['current_y'] - 1;
+                $_SESSION['current'] = 12;
+            }
+        
         
         // Update the displayed month name based on the new value of $current
+        $year = $_SESSION['current_y'];
         $monthName = date('F', mktime(0, 0, 0, $_SESSION['current'], 1));
         
         $events = $this->service_model->getEventsByMonth($_SESSION['user_id'],$_SESSION['current']);
@@ -288,11 +309,9 @@ class Service_providers extends Controller
         $data = [
             'events' => $events,
             'month' => $monthName,
+            'year' => $year,
             'no' => $_SESSION['current']
         ];
-        
-        
-      
     
         $this->view('service_providers/eventCalander',$data);
     }
