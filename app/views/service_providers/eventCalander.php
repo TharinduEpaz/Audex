@@ -7,7 +7,7 @@
         </div>
 
         <div class="month-display">
-            <span><?php echo $data['month'] ?></span>
+            <span><?php echo $data['month'] . ' ' . $data['year'] ?></span>
         </div>
         <div class="next-button">
             <a href="<?php echo URLROOT . '/service_providers/eventCalander?month=next' ?>">
@@ -22,8 +22,8 @@
                 <?php $days_in_month = cal_days_in_month(CAL_GREGORIAN, $data['no'], date('Y')); ?>
 
                 <?php for ($i = 1; $i <= $days_in_month; $i++) : ?>
-                    <div class="calendar-date"><?php echo $i; ?>
-                        <button data-add-event=".add-event" data-event-date="<?php echo $i; ?>">+</button>
+                    <div class="calendar-date"><span><?php echo $i; ?></span>
+                        <button data-add-event=".add-event">+</button>
                         <div class="calender-event">
                             <?php $currentMonth = $data['no']; ?>
                             <?php str_pad($currentMonth, 2, "0", STR_PAD_LEFT); ?>
@@ -87,38 +87,100 @@
 </div>
 
 <div class="add-event">
-    <h1>Add New Event</h1>
-    <div class="info-settings">
-
-        <div class="info-titles">
-            <span>Name : </span>
-            <!-- <span>Date : </span> -->
-            <span>Public Event : </span>
-            <span>Location : </span>
-            <span>Ticket Link : </span>
-            <span>Description : </span>
-
-        </div>
-        <div class="info-items">
-            <form action="<?php echo URLROOT . '/service_providers/addNewEvent?date=' ?>" method="post" id="eventForm">
-                <input type="text" name="name" required>
-                <!-- <input type="date" name="date" id="date-input" required> <br> -->
-                <input type="hidden" name="public" value="0">
-                <input type="checkbox" name="public" value="1">
-                <input type="text" name="location" required>
-                <input type="text" name="link" required>
-                <textarea name="description" cols="30" rows="10" required></textarea>
-
-
-                <section class="buttons" style="margin-top:50px;">
-
-                    <button id="save" type="submit">Save</button>
-                    <button id="cancel" type="reset" onclick="exit()">Cancel</button>
-                </section>
-            </form>
+<div class="formbold-main-wrapper">
+  
+  <div class="formbold-form-wrapper">
+    <form id="add-event-form">
+        <div class="formbold-input-flex">
+          <div>
+              <label for="eventname" class="formbold-form-label"> Event Name </label>
+              <input
+              type="text"
+              name="eventname"
+              id="eventname"
+              placeholder="DJ Festival"
+              class="formbold-form-input"
+              />
+          </div>
+          <div>
+              <label for="location" class="formbold-form-label"> Location </label>
+              <input
+              type="text"
+              name="location"
+              id="lastname"
+              placeholder="Nelum Pokuna"
+              class="formbold-form-input"
+              />
+          </div>
         </div>
 
-    </div>
+        <div class="formbold-input-flex">
+          <div>
+              <label for="email" class="formbold-form-label"> Time </label>
+              <input
+              type="time"
+              name="time"
+              id="time"
+              placeholder="12:00 PM"
+              class="formbold-form-input"
+              />
+          </div>
+          <div>
+              <label for="ticket-link" class="formbold-form-label"> Ticket Link (Optional)</label>
+              <input
+              type="text"
+              name="ticket-link"
+              id="phone"
+              placeholder="www.ticketlink.com"
+              class="formbold-form-input"
+              />
+          </div>
+        </div>
+
+        <div class="formbold-input-radio-wrapper">
+            <label for="jobtitle" class="formbold-form-label"> Event Type </label>
+
+            <div class="formbold-radio-flex">
+              <div class="formbold-radio-group">
+                <label class="formbold-radio-label">
+                  <input class="formbold-input-radio" type="radio" name="event-type" id="jobtitle" checked>
+                  Public Event
+                  <span class="formbold-radio-checkmark"></span>
+                </label>
+              </div>
+
+              <div class="formbold-radio-group">
+                <label class="formbold-radio-label">
+                  <input class="formbold-input-radio" type="radio" name="event-type" id="jobtitle">
+                  Private Event
+                  <span class="formbold-radio-checkmark"></span>
+                </label>
+              </div>
+            
+            </div>
+        </div>
+
+        <div>
+            <label for="message" class="formbold-form-label"> Event Description </label>
+            <textarea
+                rows="6"
+                name="description"
+                id="description"
+                placeholder="Type description here..."
+                class="formbold-form-input"
+            ></textarea>
+        </div>
+        <div>
+            <label for="message" class="formbold-form-label"> Image </label>
+            <input type=file name="file" id="file" class="formbold-form-input">
+        </div>
+
+        <button class="formbold-btn">
+            Add Event
+        </button>
+    </form>
+  </div>
+</div>
 
 </div>
 

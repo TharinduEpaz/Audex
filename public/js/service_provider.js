@@ -41,12 +41,14 @@ function closeEvent(event){
 
 const addEventButtons = document.querySelectorAll('[data-add-event]')
 
-console.log(addEventButtons)
+
+
 
 addEventButtons.forEach(button => {
+    
     button.addEventListener('click',() => {
         const event = document.querySelector(button.dataset.addEvent)
-        console.log(event)
+        eventDate = button.parentElement.firstChild.innerText;
         addEventDisplay(event)
     })
 });
@@ -55,6 +57,7 @@ function addEventDisplay(event){
     if(event == null){ console.log('null'); return}
     event.classList.add('active');
     overlay.classList.add('active');
+    
 }
 
 overlay.addEventListener('click', () =>{
@@ -68,4 +71,48 @@ function closeEventDisplay(event){
     if(event == null) return
     event.classList.remove('active');
     overlay.classList.remove('active');
+    document.getElementById("add-event-form").reset(); //reset the form after closing the pop up
 }
+
+
+//////////////////////////////////////////////////////////
+//////// SUBMIT THE ADD EVENT FORM USING JQUERY //////////
+//////////////////////////////////////////////////////////
+
+let eventYear = document.querySelector('.month-display').innerText;
+
+
+$(document).ready(function() {
+    // Listen for form submit event
+    $('#add-event-form').submit(function(event) {
+
+      // Prevent default form submission
+      event.preventDefault();
+        console.log('form submitted');
+  
+      // Serialize form data
+      var formData = $(this).serialize();
+        
+      //get the date
+      let date  = eventDate + " " + eventYear;
+      
+      // Send AJAX request
+
+      $.ajax({
+        type: 'POST',
+        url: `http://localhost/Audex/service_providers/addEvent?date=${date}`, // URL of PHP file
+        data: formData,
+        success: function(response) {
+          // Handle success response
+          console.log(response);
+          window.location.href = 'http://localhost/Audex/service_providers/eventCalander'
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          // Handle error response
+          console.error(textStatus, errorThrown);
+        }
+      });
+      
+      
+    });
+  });
