@@ -19,11 +19,11 @@
         <div class="calendar">
 
             <div class="calendar-days">
-                <?php $days_in_month = cal_days_in_month(CAL_GREGORIAN, $data['no'], date('Y')); ?>
-
+                <?php $days_in_month = cal_days_in_month(CAL_GREGORIAN, $data['month_no'], date('Y')); ?>
                 <?php for ($i = 1; $i <= $days_in_month; $i++) : ?>
                     <div class="calendar-date"><span><?php echo $i; ?></span>
-                        <button data-add-event=".add-event">+</button>
+            
+                        <button data-add-event=".add-event"> +  </button>
                         <div class="calender-event">
                             <?php $currentMonth = $data['no']; ?>
                             <?php str_pad($currentMonth, 2, "0", STR_PAD_LEFT); ?>
@@ -52,7 +52,11 @@
     <div class="event-left">
         <div class="event-header">
             <div class="title"></div>
+            <div class="date">2020 01 21</div>
+            <div class="time">12 PM</div>
+            
             <button data-close-button class="close-button">&times;</button>
+            
         </div>
         <div class="wrapper-for-event">
             <div class="event-publisher">
@@ -64,8 +68,8 @@
             </div>
 
             <div class="event-buttons">
-                <div class="like-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="likes"></span></div>
-                <div class="dislike-button"><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="dislikes"></span></div>
+                <div class="like-button"><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="likes"></span></div>
+                <div class="dislike-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="dislikes"></span></div>
             </div>
 
         </div>
@@ -90,7 +94,7 @@
 <div class="formbold-main-wrapper">
   
   <div class="formbold-form-wrapper">
-    <form id="add-event-form">
+    <form id="add-event-form" name="add-event" method="POST" enctype="multipart/form-data">
         <div class="formbold-input-flex">
           <div>
               <label for="eventname" class="formbold-form-label"> Event Name </label>
@@ -116,7 +120,7 @@
 
         <div class="formbold-input-flex">
           <div>
-              <label for="email" class="formbold-form-label"> Time </label>
+              <label for="time" class="formbold-form-label"> Time </label>
               <input
               type="time"
               name="time"
@@ -138,12 +142,12 @@
         </div>
 
         <div class="formbold-input-radio-wrapper">
-            <label for="jobtitle" class="formbold-form-label"> Event Type </label>
+            <label for="event-type" class="formbold-form-label"> Event Type </label>
 
             <div class="formbold-radio-flex">
               <div class="formbold-radio-group">
                 <label class="formbold-radio-label">
-                  <input class="formbold-input-radio" type="radio" name="event-type" id="jobtitle" checked>
+                  <input class="formbold-input-radio" type="radio" name="event-type" id="event-type" value="public" checked>
                   Public Event
                   <span class="formbold-radio-checkmark"></span>
                 </label>
@@ -151,7 +155,7 @@
 
               <div class="formbold-radio-group">
                 <label class="formbold-radio-label">
-                  <input class="formbold-input-radio" type="radio" name="event-type" id="jobtitle">
+                  <input class="formbold-input-radio" type="radio" name="event-type" id="event-type" value="private">
                   Private Event
                   <span class="formbold-radio-checkmark"></span>
                 </label>
@@ -161,7 +165,7 @@
         </div>
 
         <div>
-            <label for="message" class="formbold-form-label"> Event Description </label>
+            <label for="description" class="formbold-form-label"> Event Description </label>
             <textarea
                 rows="6"
                 name="description"
@@ -171,14 +175,15 @@
             ></textarea>
         </div>
         <div>
-            <label for="message" class="formbold-form-label"> Image </label>
-            <input type=file name="file" id="file" class="formbold-form-input">
+            <label for="event-img" class="formbold-form-label"> Image </label>
+            <input type=file name="event-img" id="event-img" class="formbold-form-input">
         </div>
 
-        <button class="formbold-btn">
-            Add Event
-        </button>
+        <input type="submit" class="formbold-btn" value="Add Event">
+            
+        
     </form>
+    <span id="output"></span>
   </div>
 </div>
 
@@ -197,18 +202,6 @@
     link.style.background = "#E5E9F7";
     link.style.color = "red";
 
-    error = document.querySelector('.red-alert');
-    error.style.color = "#FF0000"
-
-    editButton = document.querySelector('.btn');
-
-    if (error) {
-
-        editButton.style.animation = "alert 2s ease 0s infinite normal forwards"
-        editButton.style.color = "#FF0000"
-        editButton.style.background = "#E5E9F7"
-
-    }
 
     function loadevent(event_id) {
         var xhttp = new XMLHttpRequest();
@@ -221,6 +214,7 @@
                 document.querySelector(".owner-name").innerHTML = `${event.name.first_name} ${event.name.second_name}`;
                 document.querySelector('#likes').innerHTML = event.event.likes;
                 document.querySelector('#dislikes').innerHTML = event.event.dislikes;
+        
 
             }
         };
