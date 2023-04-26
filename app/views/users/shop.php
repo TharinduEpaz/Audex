@@ -391,6 +391,11 @@
             width: 230px;
             height: 290px;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-radius: 1rem;
+            border: 1px solid ghostwhite;
             /* 4:5 */
         }
 
@@ -403,6 +408,11 @@
         .container-img {
             height: 200px;
             overflow: hidden;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1rem 1rem 0 0;
         }
 
         .container-img img {
@@ -413,6 +423,8 @@
             object-fit: cover;  
             max-width: -webkit-fill-available;
             height: inherit;
+            max-height: -webkit-fill-available;
+
         }
 
         .container-ad .title {
@@ -421,7 +433,17 @@
             overflow: hidden;
             background-color: #E5E9F7;
             border-radius: 0 0 0 0;
-            /* text-align: center; */
+            font-size: 14px;
+            text-align: left;
+            font-weight: 500;
+            line-height: 1.5;
+            color: rgb(56, 68, 36);
+            width: 100%;
+
+        }
+        .container-ad .title a {
+            text-decoration: none;
+            color: black;
         }
         
         .container-ad .title h3 {
@@ -460,7 +482,7 @@
 
         .container-ad .price label{
             padding: 5px 10px;
-            border: none;
+            border: none;                               
             border-radius: 3px;
             background-color: white;
             color: indianred;
@@ -470,7 +492,7 @@
             font-weight: 600;
         }
 
-        </style> 
+    </style> 
 </head>
 <body>
     <?php require_once APPROOT . '/views/users/navbar.php';?>

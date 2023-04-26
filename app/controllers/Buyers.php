@@ -391,7 +391,7 @@
       $this->view('service_providers/dashboard');
     }
 
-    public function reactions($id){
+    public function reactions(){
       if(!isLoggedIn()){
         $_SESSION['url']=URL();
         redirect('users/login');
@@ -401,6 +401,7 @@
       $data =[
         'products' => $products,
       ];
+
       $this->view('buyers/reactions',$data);
     }
 
