@@ -397,9 +397,13 @@
         redirect('users/login');
       }
 
-      $products = $this->buyerModel->getBuyerReactedProducts($_SESSION['user_email']);
+      $likedProducts = $this->buyerModel->getBuyerLikedProducts($_SESSION['user_email']);
+      $dislikedProducts = $this->buyerModel->getBuyerDislikedProducts($_SESSION['user_email']);
+
+
       $data =[
-        'products' => $products,
+        'likedProducts' => $likedProducts,
+        'dislikedProducts' => $dislikedProducts
       ];
 
       $this->view('buyers/reactions',$data);

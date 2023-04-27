@@ -496,7 +496,7 @@
 </head>
 <body>
     <?php require_once APPROOT . '/views/users/navbar.php';?>
-
+    <!-- filtering side-bar -->
     <div class="side-bar" style="width:240px">
         <h3>Filter Products</h3>
         <form action="<?php echo URLROOT . '/users/shop';?>" method="post">

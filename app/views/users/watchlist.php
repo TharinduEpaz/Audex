@@ -205,13 +205,19 @@
         </div>
 
         <div class="poster_advertisements">
-
+            <!-- create link to go between two headers -->
             <button class="switchDivs" onclick="location.href='#partOneProducts'">Watch Products</button>
             <button class="switchDivs" onclick="location.href='#partTwoServiceProvidrs'">Service providers</button>
-
-            <div class = 'topicHeader'> 
-                <h1>Watch Products</h1> 
-            </div>
+            <?php if( sizeof($data['products']) > 0 ) 
+                    echo "<div class = 'topicHeader'> 
+                        <h1>Watch Products</h1> 
+                    </div>";
+                else{
+                    echo "<div class = 'topicHeader'> 
+                        <h1>Your Watchlist Don Not Have Any Watch Products.</h1> 
+                    </div>";
+                }
+            ?>
             <div class="box" id="partOneProducts">
             <?php $i=0;
                 foreach($data['products'] as $ads) : ?>
@@ -259,10 +265,16 @@
                 <?php endforeach; ?>
             </div>
 
-            <div class = 'topicHeader'> 
-                <h1>Service Providers</h1> 
-            </div>
-            
+            <?php if( sizeof($data['serviceProviders']) > 0 ) 
+                    echo "<div class = 'topicHeader'> 
+                        <h1>Service Providers</h1> 
+                    </div>";
+                else{
+                    echo "<div class = 'topicHeader'> 
+                        <h1>Your Watchlist Don Not Have Any Service Providers.</h1> 
+                    </div>";
+                }
+            ?>
             <div class="box" id="partTwoServiceProvidrs">
             <?php $i=0;
                 foreach($data['serviceProviders'] as $people) : ?>
@@ -303,8 +315,4 @@ jQuery(document).ready(function(){
     $.getScript('<?php echo URLROOT . '/public/js/removeSingleServiceProvider.js';?>');
 });
 </script>
-
-<!-- <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
-<script src="<?php echo URLROOT . '/public/js/removeSingleWatchListItem.js';?>"></script>
-<script src="<?php echo URLROOT . '/public/js/removeSingleServiceProvider.js';?>"></script> -->
 </html>
