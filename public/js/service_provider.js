@@ -92,21 +92,24 @@ $(document).ready(function() {
         console.log('form submitted');
   
       // Serialize form data
-      var formData = $(this).serialize();
+    //   var formData = $(this).serialize();
+      var formData = new FormData(this);
         
       //get the date
       let date  = eventDate + " " + eventYear;
-      
+      console.log(formData)
       // Send AJAX request
 
       $.ajax({
         type: 'POST',
         url: `http://localhost/Audex/service_providers/addEvent?date=${date}`, // URL of PHP file
         data: formData,
+        processData: false,
+        contentType: false,
         success: function(response) {
           // Handle success response
           console.log(response);
-          window.location.href = 'http://localhost/Audex/service_providers/eventCalander'
+          //window.location.href = 'http://localhost/Audex/service_providers/eventCalander'
         },
         error: function(jqXHR, textStatus, errorThrown) {
           // Handle error response
@@ -117,3 +120,28 @@ $(document).ready(function() {
       
     });
   });
+
+// const form = document.forms.namedItem("add-event");
+// form.addEventListener(
+//   "submit",
+//   (event) => {
+//     const output = document.querySelector("#output");
+//     const formData = new FormData(form);
+//     console.log(formData);
+//     // formData.append("CustomField", "This is some extra data");
+
+//     const request = new XMLHttpRequest();
+//     request.open("POST",`http://localhost/Audex/service_providers/addEvent?date=${date}`, true);
+
+//     // request.onload = (progress) => {
+//     //   output.innerHTML =
+//     //     request.status === 200
+//     //       ? "Uploaded!"
+//     //       : `Error ${request.status} occurred when trying to upload your file.<br />`;
+//     // };
+
+//     request.send(formData);
+//     event.preventDefault();
+//   },
+//   false
+// );

@@ -52,7 +52,7 @@ class Service_provider
 
         // $this->db->query('INSERT INTO events (name, description, date, user_id, location, ticket_link) VALUES (:name, :description, :date, :user_id, :location, :ticketLink)');
 
-        $this->db->query('INSERT INTO `events` (`name`, `description`, `date`, `user_id`, `public_event`, `location`, `ticket_link`, `time`) VALUES ( :name, :description, :date, :user_id, :public, :location, :ticketLink , 12);');
+        $this->db->query('INSERT INTO `events` (`name`, `description`, `date`, `user_id`, `event_type`, `location`, `ticket_link`, `time`,`image`) VALUES ( :name, :description, :date, :user_id, :public, :location, :ticketLink , :time,:img);');
 
         // $event_details = array($name, $date, $public_event, $location, $link, $description); 
 
@@ -63,10 +63,12 @@ class Service_provider
         $this->db->bind(':ticketLink', $data[4]);
         $this->db->bind(':description', $data[5]);
         $this->db->bind(':user_id', $user_id);
+        $this->db->bind(':img', $data[6]);
+        $this->db->bind(':time',$data[7]);
 
         $this->db->execute();
 
-        redirect('service_providers/profile/'); 
+        // redirect('service_providers/profile/'); 
     }
 
     public function setImage($file_name, $user_id){
