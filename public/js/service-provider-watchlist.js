@@ -94,8 +94,8 @@ addServiceProviderToWatchListForm.addEventListener("submit", (e) =>{
       .then((data)=>{
         if(data.message == "Removed from list" ){
           addServiceProviderToWatchListForm.setAttribute("data-op", "add");
-          document.getElementById('add-service-provider-to-watchlist').style.background = "blue";
-          document.getElementById('add-service-provider-to-watchlist').style.color = "white";
+          document.getElementById('add-service-provider-to-watchlist').style.background = 'buttonface';
+          document.getElementById('add-service-provider-to-watchlist').style.color = 'buttontext';
           document.getElementById('add-service-provider-to-watchlist').value = "Add To Watchlist";
           
         }

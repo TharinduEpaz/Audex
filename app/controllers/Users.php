@@ -1919,7 +1919,7 @@
             ];
             $this->view('users/watchlist',$data);
       
-          }
+        }
       
       
           public function addToWatchList($p_id,$u_id){
@@ -2009,6 +2009,8 @@
               }
             }
           }
+            //this function calls from watch list page in buyer profile which is linked to removeSingleServiceProvider.js
+            //also this function will call from service provider profile page(serviceProviderPublic) which is linked to service-provider-watchlist.js
           public function removeServiceProviderFromWatchList(){
             if(!isLoggedIn()){
               $_SESSION['url']=URL();
