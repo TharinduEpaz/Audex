@@ -1388,12 +1388,20 @@
                 $productPriceMax = $_POST['price-max'];
                 $productType = $_POST['type'];
 
+                // echo $productCategory;
+                // echo $productPriceMax;
+                // echo $productPriceMin;
+                // echo $productType;
+
+                // exit();
+
                 $Filter=[];
 
                 if( empty(trim($productCategory)) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType))) 
                 {
                     // if all filters are empty, then redirect to shop page
-                    redirect('users/shop');
+                    // redirect('users/shop');
+                    echo json_encode($data = []);
                 }
                 // all filters cant be empty
                 if(!empty(trim($productCategory))){
@@ -1414,9 +1422,9 @@
                 }
                 $results = $this-> userModel->searchAndFilterItems($Filter);
 
-                // print_r($data);
-                // exit;
                 $data['ads'] = $results;
+                // print_r($data['ads']);
+                // exit;
 
                 $i=0;
                 foreach($results as $ad):
@@ -1426,7 +1434,8 @@
                         if($auction!='Error'){
                             $data['auction'][$i] = $auction;
                             if($auction->end_date < date("Y-m-d H:i:s") ){
-                                redirect('users/bid_expired/'.$ad->product_id.'/'.$auction->auction_id);
+                                $abc=$this->bid_expired($ad->product_id,$auction->auction_id);
+                                // redirect('users/bid_expired/'.$ad->product_id.'/'.$auction->auction_id);
                             }
                         }else{
                             unset($data['ads'][$i]);
@@ -1435,9 +1444,9 @@
                     $i++;
                 endforeach;
 
+                echo json_encode($data);
 
-
-                $this->view('users/shop',$data);
+                // $this->view('users/shop',$data);
             }
             else{
 
@@ -1508,7 +1517,8 @@
                         if($auction!='Error'){
                             $data['auction'][$i] = $auction;
                             if($auction->end_date < date("Y-m-d H:i:s") ){
-                                redirect('users/bid_expired/'.$ad->product_id.'/'.$auction->auction_id);
+                                $abc=$this->bid_expired($ad->product_id,$auction->auction_id);
+                                // redirect('users/bid_expired/'.$ad->product_id.'/'.$auction->auction_id);
                             }
                         }else{
                             unset($data['ads'][$i]);
@@ -1837,10 +1847,12 @@
         public function bid_expired($product_id,$auction_id){
             $row=$this->userModel->bidExpired($auction_id);
             if($row){
-                redirect('users/shop');
+                return true;
+                // redirect('users/shop');
 
             }else{
-                die('Something went wrong');
+                return false;
+                // die('Something went wrong');
             }
         }
 
@@ -2522,6 +2534,47 @@
             }
       
         }
+        public function shopFilter(){
+            $productCategory = $_POST['category'];
+            $productPriceMin = $_POST['price-min'];
+            $productPriceMax = $_POST['price-max'];
+            $productType = $_POST['type'];
+
+            // echo $productCategory;
+            // echo $productPriceMax;
+            // echo $productPriceMin;
+            // echo $productType;
+
+            // exit();
+
+            $Filter=[];
+            $results = [];
+
+            if( empty(trim($productCategory)) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType))) 
+            {
+                // if all filters are empty
+                // redirect('users/shop');
+                $results = [];
+            }
+            else{
+                if(!empty(trim($productCategory))){
+                    $Filter['product_category']=$productCategory;
+                }
+                if(!empty(trim($productPriceMin))){
+                    $Filter['min_price']=(int) $productPriceMin;
+                }
+                if(!empty(trim($productPriceMax))){
+                    $Filter['max_price']=(int) $productPriceMax;
+                }
+                if(!empty(trim($productType))){
+                   $Filter['product_type']= $productType;
+                }
+                $results = $this-> userModel->searchAndFilterItems($Filter);
+            }
+            echo json_encode($results);
+
+        }
+
         // public function shopSearchItems(){
         //     $searchedTerm = $_POST['search-item'];
 
