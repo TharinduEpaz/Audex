@@ -183,9 +183,7 @@ class Service_providers extends Controller
 
     public function feed()
     {
-
         $this->view('service_providers/feed');
-
     }
 
     public function addEvent()
@@ -195,28 +193,59 @@ class Service_providers extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Validate form data
             $name = $_POST['eventname'];
-
-            //getting the date for the event
-            
-            // $day = $_GET['date'];
-            // $year = $_GET['year'];
-            // $date_str = $day . ' ' . $year;
             $date_str = $_GET['date'];
             $date = date("Y-m-d", strtotime($date_str));
-            
-            
             $location = $_POST['location'];
             $link = $_POST['ticket-link'];
             $description = $_POST['description'];
-            $public = 1;
+            $public = $_POST['event-type'];
+            $time = $_POST['time'];
         
-            if (empty($name)) {
-                $errors[] = 'Name is required';
-            } else if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
-                $errors[] = 'Only letters and white space allowed in name field';
-            }
+            //uploading the image
 
-            $event_details = array($name, $date, $public, $location, $link, $description);
+            $temp_name = $_FILES['event-img']['tmp_name'];
+            $file_name = $_FILES['event-img']['name'];
+            $file_size = $_FILES['event-img']['size'];
+            $file_error = $_FILES['event-img']['error'];
+
+            // Work out the file extension
+            $file_ext = explode('.', $file_name);
+            $file_ext = strtolower(end($file_ext));
+
+            $allowed = array('jpg', 'jpeg', 'png', 'gif');
+
+            // check for errors
+            if ($file_error === 0) {
+                if (in_array($file_ext, $allowed)) {
+                    if ($file_size <= 2097152) {
+                        
+                        // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
+
+                        $file_destination = dirname(APPROOT).'/public/uploads/events/'.$file_name;
+                        
+                        // move_uploaded_file() is the built-in function in PHP that is used to move an uploaded file from its temporary location to a new location on the server
+                        
+                        if (move_uploaded_file($temp_name, $file_destination)) {
+
+                            $img = $file_name;
+
+                        }
+                        else{
+                            echo 'error in  uploading';
+                        }
+                    }
+                    else{
+                        echo 'error large size';
+                    }
+                }
+                else{
+                    echo 'error not allowed this type';
+                }
+            }
+        
+        // SEND THE DATA INTO THE DATABASE USING THE MODEL
+
+            $event_details = array($name, $date, $public, $location, $link, $description,$img,$time);
 
             try {
                 $this->service_model->setEvent($event_details, $_SESSION['user_id']);
@@ -310,7 +339,8 @@ class Service_providers extends Controller
             'events' => $events,
             'month' => $monthName,
             'year' => $year,
-            'no' => $_SESSION['current']
+            'month_no' => $_SESSION['current'],
+            'year_no' => $_SESSION['current_y']
         ];
     
         $this->view('service_providers/eventCalander',$data);
