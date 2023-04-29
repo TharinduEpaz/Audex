@@ -87,6 +87,12 @@
 </body>
 <script>
 
+    //keeping the sidebar button clicked at the page
+    link = document.querySelector('#messages');
+    link.style.background = "#E5E9F7";
+    link.style.color = "red";
+    link.style.fontWeight = "800";
+
     // get user email(email sender)  using sessions and check user is logged or not
     const sender_email = <?php
                 if (isLoggedIn()) {
@@ -98,15 +104,6 @@
             ?>;
     // get rate receiver's email form profile
     const receiver_email = <?php echo "'".$data['receiver_details']->email."'"; ?>;
-
-    
-
-    //keeping the sidebar button clicked at the page
-    link = document.querySelector('#messages');
-    link.style.background = "#E5E9F7";
-    link.style.color = "red";
-    link.style.fontWeight = "800";
-
     
     currentChat = document.getElementById("current-messages");
     typed = document.getElementById("typed");

@@ -1917,173 +1917,174 @@
         // }
 
 
-        public function watchlist(){
-            if(!isLoggedIn()){
-              $_SESSION['url']=URL();
-              redirect('users/login');
-            }
+        // public function watchlist(){
+        //     if(!isLoggedIn()){
+        //       $_SESSION['url']=URL();
+        //       redirect('users/login');
+        //     }
 
-            $products = $this->userModel->getBuyerWatchProducts($_SESSION['user_email']);
-            $serviceProviders = $this->userModel->getBuyerWatchServiceProviders($_SESSION['user_email']);
-            $data =[
-              'products' => $products,
-              'serviceProviders' => $serviceProviders,
-            ];
-            $this->view('users/watchlist',$data);
+        //     $products = $this->userModel->getBuyerWatchProducts($_SESSION['user_email']);
+        //     $serviceProviders = $this->userModel->getBuyerWatchServiceProviders($_SESSION['user_email']);
+        //     $data =[
+        //       'products' => $products,
+        //       'serviceProviders' => $serviceProviders,
+        //     ];
+        //     $this->view('users/watchlist',$data);
       
-        }
+        // }
       
       
-          public function addToWatchList($p_id,$u_id){
-            if(!isLoggedIn()){
-              $_SESSION['url']=URL();
+        //   public function addToWatchList($p_id,$u_id){
+        //     if(!isLoggedIn()){
+        //       $_SESSION['url']=URL();
 
-              redirect('users/login');
-            }
-            echo $_POST['user_id'];
-            if($_POST['user_id'] == 0){
-              redirect('users/login');
-            }
-            else{
-              if (isset($_POST['add'])){
-                $result = $this-> userModel->addItemToWatchList($p_id, $u_id);
-                if($result){
-                  echo flash('register_success', 'You are registered and can log in');
-                }
-                else{
-                  die('Something went wrong');
-                }
+        //       redirect('users/login');
+        //     }
+        //     echo $_POST['user_id'];
+        //     if($_POST['user_id'] == 0){
+        //       redirect('users/login');
+        //     }
+        //     else{
+        //       if (isset($_POST['add'])){
+        //         $result = $this-> userModel->addItemToWatchList($p_id, $u_id);
+        //         if($result){
+        //           echo flash('register_success', 'You are registered and can log in');
+        //         }
+        //         else{
+        //           die('Something went wrong');
+        //         }
         
-              }
-            }
-          }
-          public function addServiceProviderToWatchList(){
-            if(!isLoggedIn()){
-              $_SESSION['url']=URL();
+        //       }
+        //     }
+        //   }
+        //   public function addServiceProviderToWatchList(){
+        //     if(!isLoggedIn()){
+        //       $_SESSION['url']=URL();
 
-              redirect('users/login');
-            }
-            // echo $_POST['user_id'];
+        //       redirect('users/login');
+        //     }
+        //     // echo $_POST['user_id'];
 
-            if($_POST['user_id'] == 0){
-              redirect('users/login');
-            }
-            else{
-                $buyerId = $_POST['user_id'];
-                $serviceProviderId = $_POST['service_provider_id'];
+        //     if($_POST['user_id'] == 0){
+        //       redirect('users/login');
+        //     }
+        //     else{
+        //         $buyerId = $_POST['user_id'];
+        //         $serviceProviderId = $_POST['service_provider_id'];
 
-                // echo $buyerId;
-                // echo $serviceProviderId;
+        //         // echo $buyerId;
+        //         // echo $serviceProviderId;
 
-                if (isset($_POST['add'])){
-                    // check weather service provider is alredy in watch list or not
-                    $result1 = $this->userModel->checkIsServiceProviderWatched($buyerId,$serviceProviderId);
+        //         if (isset($_POST['add'])){
+        //             // check weather service provider is alredy in watch list or not
+        //             $result1 = $this->userModel->checkIsServiceProviderWatched($buyerId,$serviceProviderId);
 
-                    if (empty($result1)) {
-                        $addToList = $this->userModel->addServiceProviderToWatchList($buyerId,$serviceProviderId);
-                        if ($addToList) {
-                            echo json_encode(['message' => 'Added to the list']);
-                        } else {
-                            echo json_encode(['message' => 'Some thing went wrong']);
-                        }
-                    }
-                    else
-                    {
-                        // if service provider is alredy in list then nothig to do
-                        echo json_encode(['message' => 'Alredy in the list']);
-                    }
-                }
-            }
-          }
+        //             if (empty($result1)) {
+        //                 $addToList = $this->userModel->addServiceProviderToWatchList($buyerId,$serviceProviderId);
+        //                 if ($addToList) {
+        //                     echo json_encode(['message' => 'Added to the list']);
+        //                 } else {
+        //                     echo json_encode(['message' => 'Some thing went wrong']);
+        //                 }
+        //             }
+        //             else
+        //             {
+        //                 // if service provider is alredy in list then nothig to do
+        //                 echo json_encode(['message' => 'Alredy in the list']);
+        //             }
+        //         }
+        //     }
+        //   }
 
-        //   this function calls from asvertiesment details page
-          public function removeItemFromWatchList($p_id,$u_id){
-            if(!isLoggedIn()){
-              $_SESSION['url']=URL();
+        // //   this function calls from asvertiesment details page
+        //   public function removeItemFromWatchList($p_id,$u_id){
+        //     if(!isLoggedIn()){
+        //       $_SESSION['url']=URL();
 
-              redirect('users/login');
-            }
-            echo $_POST['user_id'];
-            if($_POST['user_id'] == 0){
-              redirect('users/login');
-            }
-            else{
-              if (isset($_POST['remove'])){
+        //       redirect('users/login');
+        //     }
+        //     echo $_POST['user_id'];
+        //     if($_POST['user_id'] == 0){
+        //       redirect('users/login');
+        //     }
+        //     else{
+        //       if (isset($_POST['remove'])){
               
-                $result = $this-> userModel->removeItemFromWatchList($p_id, $u_id);
-                if($result){
-                  echo flash('register_success', 'You are registered and can log in');
-                }
-                else{
-                  die('Something went wrong');
-                }
+        //         $result = $this-> userModel->removeItemFromWatchList($p_id, $u_id);
+        //         if($result){
+        //           echo flash('register_success', 'You are registered and can log in');
+        //         }
+        //         else{
+        //           die('Something went wrong');
+        //         }
         
-              }
-            }
-          }
-            //this function calls from watch list page in buyer profile which is linked to removeSingleServiceProvider.js
-            //also this function will call from service provider profile page(serviceProviderPublic) which is linked to service-provider-watchlist.js
-          public function removeServiceProviderFromWatchList(){
-            if(!isLoggedIn()){
-              $_SESSION['url']=URL();
+        //       }
+        //     }
+        //   }
+        
+        //     //this function calls from watch list page in buyer profile which is linked to removeSingleServiceProvider.js
+        //     //also this function will call from service provider profile page(serviceProviderPublic) which is linked to service-provider-watchlist.js
+        //   public function removeServiceProviderFromWatchList(){
+        //     if(!isLoggedIn()){
+        //       $_SESSION['url']=URL();
 
-              redirect('users/login');
-            }
+        //       redirect('users/login');
+        //     }
             
-            if($_POST['user_id'] == 0){
-              redirect('users/login');
-            }
-            else{
-                $buyerId = $_POST['user_id'];
-                $serviceProviderId = $_POST['service_provider_id'];
+        //     if($_POST['user_id'] == 0){
+        //       redirect('users/login');
+        //     }
+        //     else{
+        //         $buyerId = $_POST['user_id'];
+        //         $serviceProviderId = $_POST['service_provider_id'];
 
-                if (isset($_POST['remove'])){
+        //         if (isset($_POST['remove'])){
 
-                    $result = $this-> userModel->removeServiceProviderFromWatchList($buyerId, $serviceProviderId);
+        //             $result = $this-> userModel->removeServiceProviderFromWatchList($buyerId, $serviceProviderId);
                     
-                    if($result){
-                        if ($result) {
-                            echo json_encode(['message' => 'Removed from list']);
-                        } 
-                        // else {
-                        //     echo json_encode(['message' => 'Some thing went wrong']);
-                        // }
-                    }
-                    else{
-                        echo json_encode(['message' => 'Something went wrong']);
-                        die('Something went wrong');
-                }
+        //             if($result){
+        //                 if ($result) {
+        //                     echo json_encode(['message' => 'Removed from list']);
+        //                 } 
+        //                 // else {
+        //                 //     echo json_encode(['message' => 'Some thing went wrong']);
+        //                 // }
+        //             }
+        //             else{
+        //                 echo json_encode(['message' => 'Something went wrong']);
+        //                 die('Something went wrong');
+        //         }
         
-              }
-            }
-          }
+        //       }
+        //     }
+        //   }
       
-        //   this function calls from watch list page in buyer profile
-          public function removeOneItemFromWatchList($p_id,$u_id){
-            if(!isLoggedIn()){
-              $_SESSION['url']=URL();
+        // //   this function calls from watch list page in buyer profile
+        //   public function removeOneItemFromWatchList($p_id,$u_id){
+        //     if(!isLoggedIn()){
+        //       $_SESSION['url']=URL();
 
-              redirect('users/login');
-            }
-            echo $_POST['user_id'];
-            if($_POST['user_id'] == 0){
+        //       redirect('users/login');
+        //     }
+        //     echo $_POST['user_id'];
+        //     if($_POST['user_id'] == 0){
                 
-              redirect('users/login');
-            }
-            else{
-              if (isset($_POST['remove'])){
-              echo "This Works";
-                $result = $this-> userModel->removeOneItemFromWatchList($p_id, $u_id);
-                if($result){
-                  echo flash('register_success', 'You are registered and can log in');
-                }
-                else{
-                  die('Something went wrong');
-                }
+        //       redirect('users/login');
+        //     }
+        //     else{
+        //       if (isset($_POST['remove'])){
+        //       echo "This Works";
+        //         $result = $this-> userModel->removeOneItemFromWatchList($p_id, $u_id);
+        //         if($result){
+        //           echo flash('register_success', 'You are registered and can log in');
+        //         }
+        //         else{
+        //           die('Something went wrong');
+        //         }
         
-              }
-            }
-          }
+        //       }
+        //     }
+        //   }
       
         public function addLikeToProduct($p_id, $u_id)
         {

@@ -321,9 +321,10 @@
             border-radius: 3px;
             background-color: white;
             color: black;
-            font-weight: 700;
+            font-weight: 500;
             cursor: pointer;
             height: 6vh;
+            font-size: 3vh;
         }
 
         .ad-search-shop button {
@@ -490,7 +491,7 @@
             padding: 5px 10px;
             border: none;                               
             border-radius: 3px;
-            background-color: white;
+            /* background-color: white; */
             color: indianred;
             /* cursor: pointer; */
             margin-right: 0%;

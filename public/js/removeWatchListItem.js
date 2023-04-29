@@ -29,7 +29,7 @@ removeItemFromWatchListForm.forEach((form)=>{
       // document.getElementById("remove-item-from-watchlist").value = "Please Wait..";
 
       //remove white spaces in user id
-      const url = URLROOT+'/users/removeOneItemFromWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
+      const url = URLROOT+'/buyers/removeOneItemFromWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
 
       console.log(url);
       const data = await fetch(url, {
@@ -39,7 +39,7 @@ removeItemFromWatchListForm.forEach((form)=>{
       const responce = await data.text();
       alert("Removed");
       // form.reset();
-      window.location.href = URLROOT+'/users/watchlist/' + formData.get('user_id').trim() ;
+      window.location.href = URLROOT+'/buyers/watchlist/' + formData.get('user_id').trim() ;
 
     }
 

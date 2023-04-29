@@ -19,7 +19,7 @@ addServiceProviderToWatchListForm.addEventListener("submit", (e) =>{
 
     const data = new FormData(addServiceProviderToWatchListForm);
     data.append("add",1);
-    const url = URLROOT+'/users/addServiceProviderToWatchList';
+    const url = URLROOT+'/buyers/addServiceProviderToWatchList';
   
     // console.log(url);
   
@@ -66,7 +66,7 @@ addServiceProviderToWatchListForm.addEventListener("submit", (e) =>{
 
     const data = new FormData(addServiceProviderToWatchListForm);
     data.append("remove",1);
-    const url = URLROOT+'/users/removeServiceProviderFromWatchList';
+    const url = URLROOT+'/buyers/removeServiceProviderFromWatchList';
   
     // console.log(url);
   

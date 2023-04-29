@@ -170,18 +170,177 @@
       }
     }
 
-//     public function watchlist(){
-//       if(!isLoggedIn()){
-//         redirect('users/login');
-//       }
-// //this should change after orginal db
-//       $products = $this->buyerModel->getBuyerWatchProducts($_SESSION['user_email']);
-//       $data =[
-//         'products' => $products,
-//       ];
-//       $this->view('buyers/watchlist',$data);
+    public function watchlist(){
+      if(!isLoggedIn()){
+        $_SESSION['url']=URL();
+        redirect('users/login');
+      }
 
-//     }
+      $products = $this->buyerModel->getBuyerWatchProducts($_SESSION['user_email']);
+      $serviceProviders = $this->buyerModel->getBuyerWatchServiceProviders($_SESSION['user_email']);
+      $data =[
+        'products' => $products,
+        'serviceProviders' => $serviceProviders,
+      ];
+      $this->view('buyers/watchlist',$data);
+
+    }
+
+    public function addToWatchList($p_id,$u_id){
+      if(!isLoggedIn()){
+        $_SESSION['url']=URL();
+
+        redirect('users/login');
+      }
+      echo $_POST['user_id'];
+      if($_POST['user_id'] == 0){
+        redirect('users/login');
+      }
+      else{
+        if (isset($_POST['add'])){
+          $result = $this->buyerModel->addItemToWatchList($p_id, $u_id);
+          if($result){
+            echo flash('register_success', 'You are registered and can log in');
+          }
+          else{
+            die('Something went wrong');
+          }
+
+        }
+      }
+    }
+
+
+    public function addServiceProviderToWatchList(){
+      if(!isLoggedIn()){
+        $_SESSION['url']=URL();
+
+        redirect('users/login');
+      }
+      // echo $_POST['user_id'];
+
+      if($_POST['user_id'] == 0){
+        redirect('users/login');
+      }
+      else{
+          $buyerId = $_POST['user_id'];
+          $serviceProviderId = $_POST['service_provider_id'];
+
+          // echo $buyerId;
+          // echo $serviceProviderId;
+
+          if (isset($_POST['add'])){
+              // check weather service provider is alredy in watch list or not
+              $result1 = $this->buyerModel->checkIsServiceProviderWatched($buyerId,$serviceProviderId);
+
+              if (empty($result1)) {
+                  $addToList = $this->buyerModel->addServiceProviderToWatchList($buyerId,$serviceProviderId);
+                  if ($addToList) {
+                      echo json_encode(['message' => 'Added to the list']);
+                  } else {
+                      echo json_encode(['message' => 'Some thing went wrong']);
+                  }
+              }
+              else
+              {
+                  // if service provider is alredy in list then nothig to do
+                  echo json_encode(['message' => 'Alredy in the list']);
+              }
+          }
+      }
+    }
+
+    //   this function calls from asvertiesment details page
+    public function removeItemFromWatchList($p_id,$u_id){
+      if(!isLoggedIn()){
+        $_SESSION['url']=URL();
+
+        redirect('users/login');
+      }
+      echo $_POST['user_id'];
+      if($_POST['user_id'] == 0){
+        redirect('users/login');
+      }
+      else{
+        if (isset($_POST['remove'])){
+        
+          $result = $this->buyerModel->removeItemFromWatchList($p_id, $u_id);
+          if($result){
+            echo flash('register_success', 'You are registered and can log in');
+          }
+          else{
+            die('Something went wrong');
+          }
+  
+        }
+      }
+    }
+
+    //this function calls from watch list page in buyer profile which is linked to removeSingleServiceProvider.js
+    //also this function will call from service provider profile page(serviceProviderPublic) which is linked to service-provider-watchlist.js
+    public function removeServiceProviderFromWatchList(){
+      if(!isLoggedIn()){
+        $_SESSION['url']=URL();
+
+        redirect('users/login');
+      }
+      
+      if($_POST['user_id'] == 0){
+        redirect('users/login');
+      }
+      else{
+          $buyerId = $_POST['user_id'];
+          $serviceProviderId = $_POST['service_provider_id'];
+
+          if (isset($_POST['remove'])){
+
+              $result = $this->buyerModel->removeServiceProviderFromWatchList($buyerId, $serviceProviderId);
+              
+              if($result){
+                  if ($result) {
+                      echo json_encode(['message' => 'Removed from list']);
+                  } 
+                  // else {
+                  //     echo json_encode(['message' => 'Some thing went wrong']);
+                  // }
+              }
+              else{
+                  echo json_encode(['message' => 'Something went wrong']);
+                  die('Something went wrong');
+          }
+  
+        }
+      }
+    }
+
+    //   this function calls from watch list page in buyer profile
+    public function removeOneItemFromWatchList($p_id,$u_id){
+      if(!isLoggedIn()){
+        $_SESSION['url']=URL();
+
+        redirect('users/login');
+      }
+      echo $_POST['user_id'];
+      if($_POST['user_id'] == 0){
+          
+        redirect('users/login');
+      }
+      else{
+        if (isset($_POST['remove'])){
+        echo "This Works";
+          $result = $this->buyerModel->removeOneItemFromWatchList($p_id, $u_id);
+          if($result){
+            echo flash('register_success', 'You are registered and can log in');
+          }
+          else{
+            die('Something went wrong');
+          }
+  
+        }
+      }
+    }
+
+
 
     public function deleteProfile($id){
       if( $_SERVER['REQUEST_METHOD'] == 'POST' ){
@@ -211,170 +370,6 @@
 
 
     }
-
-    // public function addToWatchList($p_id,$u_id){
-    //   if(!isLoggedIn()){
-    //     redirect('users/login');
-    //   }
-    //   echo $_POST['user_id'];
-    //   if($_POST['user_id'] == 0){
-    //     redirect('users/login');
-    //   }
-    //   else{
-    //     if (isset($_POST['add'])){
-    //       $result = $this-> buyerModel->addItemToWatchList($p_id, $u_id);
-    //       if($result){
-    //         echo flash('register_success', 'You are registered and can log in');
-    //       }
-    //       else{
-    //         die('Something went wrong');
-    //       }
-  
-    //     }
-    //   }
-    // }
-    
-    // public function removeItemFromWatchList($p_id,$u_id){
-    //   if(!isLoggedIn()){
-    //     redirect('users/login');
-    //   }
-    //   echo $_POST['user_id'];
-    //   if($_POST['user_id'] == 0){
-    //     redirect('users/login');
-    //   }
-    //   else{
-    //     if (isset($_POST['remove'])){
-    //     echo "This Works";
-    //       $result = $this-> buyerModel->removeItemFromWatchList($p_id, $u_id);
-    //       if($result){
-    //         echo flash('register_success', 'You are registered and can log in');
-    //       }
-    //       else{
-    //         die('Something went wrong');
-    //       }
-  
-    //     }
-    //   }
-    // }
-
-    
-    // public function removeOneItemFromWatchList($p_id,$u_id){
-    //   if(!isLoggedIn()){
-    //     redirect('users/login');
-    //   }
-    //   echo $_POST['user_id'];
-    //   if($_POST['user_id'] == 0){
-    //     redirect('users/login');
-    //   }
-    //   else{
-    //     if (isset($_POST['remove'])){
-    //     echo "This Works";
-    //       $result = $this-> buyerModel->removeOneItemFromWatchList($p_id, $u_id);
-    //       if($result){
-    //         echo flash('register_success', 'You are registered and can log in');
-    //       }
-    //       else{
-    //         die('Something went wrong');
-    //       }
-  
-    //     }
-    //   }
-    // }
-
-  // public function addLikeToProduct($p_id, $u_id)
-  // {
-  //   if (!isLoggedIn()) {
-  //     redirect('users/login');
-  //   }
-  //   // $result = $this-> buyerModel->addLikeToProduct($p_id, $u_id);
-
-  //   $json = file_get_contents('php://input');
-  //   $dat = json_decode($json, true);
-
-  //   echo $dat['addLike'];
-  //   echo $dat['user_id'];
-  //   echo $dat['product_id'];
-
-
-  //   if (isset($dat['addLike'])) {
-  //     $result=$this->buyerModel->checkAddedLike($dat['product_id'], $dat['user_id']);
-  //     if (empty($result)) {
-  //       $result = $this->buyerModel->addLikeToProduct($dat['product_id'], $dat['user_id']);
-  //       if ($result) {
-  //         echo flash('register_success', 'You are registered and can log in');
-  //       } else {
-  //         die();
-  //       }
-
-  //     }
-  //   }
-  //   // if (isset($dat['addLike'])){
-  //   //   $result = $this-> buyerModel->addLikeToProduct($dat['product_id'], $dat['user_id']);
-  //   //   if($result){
-  //   //     echo flash('register_success', 'You are registered and can log in');
-  //   //   }
-  //   //   else{
-  //   //     die();
-  //   //   }
-  //   // }
-
-  // }
-
-
-    // public function removeLikeFromProduct($p_id,$u_id){
-    //   if(!isLoggedIn()){
-    //     redirect('users/login');
-    //   }
-    //   // $result = $this-> buyerModel->addLikeToProduct($p_id, $u_id);
-
-    //   $json = file_get_contents('php://input');
-    //   $data = json_decode($json, true);
-
-    //   echo $data['removeLike'];
-    //   echo $data['user_id'];
-    //   echo $data['product_id'];
-    //   //  print_r($dat);
-
-
-    //   if (isset($data['removeLike'])){
-    //     $result = $this-> buyerModel->removeLikeFromProduct($data['product_id'], $data['user_id']);
-    //     if($result){
-    //       echo flash('register_success', 'You are registered and can log in');
-    //     }
-    //     else{
-    //       die('Something went wrong');
-    //     }
-
-    //   }
-    // }
-
-  //   public function searchItems(){
-
-  //     $searchedTerm = $_POST['search-item'];
-      
-  //     if( !isset($_POST['submit']) ){
-  //       // this is for keyup event
-  //       if( strlen($searchedTerm) <3 ){
-  //         echo json_encode([]);
-  //       }else{
-  //         $results = $this-> buyerModel->searchItems($searchedTerm);
-  //         echo json_encode($results);
-  //       }
-  //     }
-  //     else{
-  //       // user has pressed enter
-  //       if( strlen($searchedTerm) <1 ){
-  //         echo json_encode([]);
-  //       }else{
-  //         $results = $this-> buyerModel->searchItems($searchedTerm);
-  //         $_SESSION['searchResults'] = $results;
-  //         echo json_encode($results);
-  //       }
-
-  //     }
-
-  // }
-
     public function test(){
       $email = 'dineshwickramasinghe2000@gmail.com';
       $userDetails = $this->buyerModel->findUserDetailsByEmail($email);
