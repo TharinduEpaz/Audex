@@ -25,7 +25,7 @@
             
                         <button data-add-event=".add-event"> +  </button>
                         <div class="calender-event">
-                            <?php $currentMonth = $data['no']; ?>
+                            <?php $currentMonth = $data['month_no']; ?>
                             <?php str_pad($currentMonth, 2, "0", STR_PAD_LEFT); ?>
 
                             <?php foreach ($data['events'] as $event) : ?>

@@ -7,8 +7,10 @@ window.addEventListener("DOMContentLoaded",(e)=>{
   // add even listner to check status of like when load liked or not liked
   if(addToWatchListForm.getAttribute("data-watchLoad") === "watched"){
       addToWatchListForm.setAttribute("data-op", "remove")
-      document.getElementById("add-to-watchlist").style.backgroundColor = "RED";
-      document.getElementById("add-to-watchlist").value = "Remove From List";
+      // document.getElementById("add-to-watchlist").style.backgroundColor = "RED";
+      // document.getElementById("add-to-watchlist").value = "Remove From List";
+      document.getElementById("heart").style.color = "RED";
+      document.getElementById("heart").innerHTML = "<i class='fa-solid fa-heart'></i>";
   }
 });
 
@@ -45,7 +47,7 @@ addToWatchListForm.addEventListener("submit",async (e)=>{
         modal.close();
         console.log(`You clicked yes button inside the modal.`);
         document.querySelector('body').classList.remove("blur");
-        document.getElementById("add-to-watchlist").value = "Please Wait..";
+        // document.getElementById("add-to-watchlist").value = "Please Wait..";
 
         //remove white spaces in user id
         const url = URLROOT+'/users/addToWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
@@ -57,10 +59,12 @@ addToWatchListForm.addEventListener("submit",async (e)=>{
         });
         const responce = await data.text();
         // alert("added");
-        document.getElementById("add-to-watchlist").value = "Remove From List";
+        // document.getElementById("add-to-watchlist").value = "Remove From List";
+        document.getElementById("heart").style.color = "RED";
+        document.getElementById("heart").innerHTML = "<i class='fa-solid fa-heart'></i>";
         addToWatchListForm.setAttribute("data-op", "remove")
-        document.getElementById("add-to-watchlist").style.backgroundColor = "RED";
-        document.getElementById("add-to-watchlist").style.borderColor = "RED";
+        // document.getElementById("add-to-watchlist").style.backgroundColor = "RED";
+        // document.getElementById("add-to-watchlist").style.borderColor = "RED";
 
         addToWatchListForm.reset(); 
       });
@@ -123,7 +127,7 @@ addToWatchListForm.addEventListener("submit",async (e)=>{
         modal.close();
         console.log(`You clicked yes button inside the modal.`);
         document.querySelector('body').classList.remove("blur");
-        document.getElementById("add-to-watchlist").value = "Please Wait..";
+        // document.getElementById("add-to-watchlist").value = "Please Wait..";
 
         //remove white spaces in user id
         const url = URLROOT+'/users/removeItemFromWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
@@ -135,9 +139,11 @@ addToWatchListForm.addEventListener("submit",async (e)=>{
         });
         const responce = await data.text();
         // alert("added");
-        document.getElementById("add-to-watchlist").value = "Add To Watchlist";
+        // document.getElementById("add-to-watchlist").value = "Add To Watchlist";
+        document.getElementById("heart").style.color = "BLACK";
+        document.getElementById("heart").innerHTML = "<i class='fa-regular fa-heart'></i>";
         addToWatchListForm.setAttribute("data-op", "add")
-        document.getElementById("add-to-watchlist").style.backgroundColor = "Blue";
+        // document.getElementById("add-to-watchlist").style.backgroundColor = "Blue";
         addToWatchListForm.reset(); 
       });
 

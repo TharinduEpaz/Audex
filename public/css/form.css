@@ -243,6 +243,7 @@ nav{
     }
     
   }
+  
  .container_main{
     width: 100vw;
     height: 90vh;
@@ -335,8 +336,10 @@ nav{
 #dia{
   top: 50vh;
     left: 50%;
-    width: 140px;
-    height: 90px;
+    width: 200px;
+    height: 100px;
+    padding: 1%;
+    padding-bottom: 2%;
 }
 .btn_close{
   width: 50px;
@@ -351,7 +354,7 @@ nav{
   font-weight: 900;
 }
 .close{
-  width: 75px;
+  width: 85px;
   height: 30px;
   font-size: 16pt;
   font-weight: 900;

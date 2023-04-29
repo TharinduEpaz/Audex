@@ -39,7 +39,7 @@
                                         <?php if($i>0){ ?>
                                         <i class="fa fa-star-half-o"></i>
                                         
-                                        <?php $i--;} 
+                                        <?php $i--;$j++;} 
                                         while($j<5){ ?>
                                         <i class="fa fa-star-o"></i>
                                         <?php $j++; } ?>
@@ -158,7 +158,7 @@
             </div>
             <div class="rate">
                 <div class="stars">
-                <?php $i=$data['user']->rate;
+                <?php $i=$feedback->rate;
                                         $j=0;
                                         for($i; $i>=1; $i--){?>
                                         <i class="fa fa-star"></i>
@@ -167,7 +167,7 @@
                                         <?php if($i>0){ ?>
                                         <i class="fa fa-star-half-o"></i>
                                         
-                                        <?php $i--;} 
+                                        <?php $i--;$j++;} 
                                         while($j<5){ ?>
                                         <i class="fa fa-star-o"></i>
                                         <?php $j++; } ?>

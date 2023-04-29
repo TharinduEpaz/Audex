@@ -17,7 +17,7 @@
 <body>
 <?php require_once APPROOT . '/views/users/navbar.php';?>
 
-    <div class="container" style="background: none;">
+    <div class="container" style="background: none;height:75vh;">
     
         <div class="content">
             <div class="image_likes">
@@ -42,14 +42,15 @@
             </div>
                 <div class="like-dislike-area">
                         <!-- used two custom attributes one for click event and other one to store liked value when load -->
+                        <button type="submit" onload="likeBtnOnload()" id="product-like-btn" data-like = "addLike" data-likeLoad ="<?php echo $data['liked'] ; ?>" ><i class="fas fa-thumbs-up"></i></button>
                         <div id="like-count">
                             <?php echo $data['likedCount'] ?>
                         </div>
-                        <button type="submit" onload="likeBtnOnload()" id="product-like-btn" data-like = "addLike" data-likeLoad ="<?php echo $data['liked'] ; ?>" ><i class="fas fa-thumbs-up"></i></button>
+                        <div class="middle_divider">|</div>
+                        <button type="submit" id="product-dislike-btn" data-dislike = "addDislike" data-dislikeLoad = "<?php echo $data['disliked'] ; ?>" ><i class="fa-solid fa-thumbs-down"></i></button> 
                         <div id="dislike-count">
                             <?php echo $data['dislikedCount'] ?>
                         </div>
-                        <button type="submit" id="product-dislike-btn" data-dislike = "addDislike" data-dislikeLoad = "<?php echo $data['disliked'] ; ?>" ><i class="fa-solid fa-thumbs-down"></i></button> 
                     </div>
 
             </div>
@@ -98,15 +99,18 @@
                                     <input type="text" name="product_id" value="<?php echo $data['ad']->product_id ; ?>" hidden >
                                     
                                     <div class="button-container">
-                                        <input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist">
+                                        <!-- <input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist"> -->
+                                        <button type="submit" class="heart" id="heart">
+                                                <i class="fa-regular fa-heart"></i>
+                                        </button>
                                     </div>
                                     <dialog id="dia">
-                                        <div class="top-part">
+                                        <div class="top-part" style="margin-bottom: 1vh;">
                                             <button class="btn_close">X</button>
                                             <!-- <i class="fa-sharp fa-solid fa-xmark"></i> -->
                                         </div>  
                                         <hr>
-                                        <div>
+                                        <div style="margin-top: 1vh;">
                                             <button class="continue">OK </button>  
                                             <button class="close">Close</button>
                                         </div>
@@ -123,15 +127,18 @@
                                         <input type="text" name="product_id" value="<?php echo $data['ad']->product_id ; ?>" hidden >
                                         
                                         <div class="button-container">
-                                            <input style="margin-top:2vh" type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist">
+                                            <!-- <input style="margin-top:2vh" type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist"> -->
+                                            <button type="submit" class="heart" id="heart">
+                                                <i class="fa-regular fa-heart"></i>
+                                            </button>
                                         </div>
                                         <dialog id="dia">
-                                            <div class="top-part">
+                                            <div class="top-part" style="margin-bottom: 1vh;">
                                                 <button class="btn_close">X</button>
                                                 <!-- <i class="fa-sharp fa-solid fa-xmark"></i> -->
                                             </div>  
                                             <hr>
-                                            <div>
+                                            <div style="margin-top: 1vh;">
                                                 <button class="continue">OK </button>  
                                                 <button class="close">Close</button>
                                             </div>
@@ -148,7 +155,7 @@
                 <?php if($data['ad']->longitude!='NULL' && $data['ad']->latitude!='NULL'){?>
                     <div class="location">
                         <div class="input">
-                            <a href="" class="post" onclick="openModal(); return false;">Check on map</a>
+                            <a href="" class="post" onclick="openModal(); return false;"><i class="fa-sharp fa-solid fa-map-location-dot"></i></a>
                         </div>
                         <div id="myModal" class="modal">
                             <div class="modal-content">
@@ -229,7 +236,7 @@
                                         <?php if($i>0){ ?>
                                         <i class="fa fa-star-half-o"></i>
                                         
-                                        <?php $i--;} 
+                                        <?php $i--;$j++;} 
                                         while($j<5){ ?>
                                         <i class="fa fa-star-o"></i>
                                         <?php $j++; } ?>
