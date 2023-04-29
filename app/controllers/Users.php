@@ -21,6 +21,16 @@
             $this->buyerModel = $this->model('Buyer');
             $this->sellerModel = $this->model('Seller');
 
+            //Session timeout
+            if(isset($_SESSION['time'])){
+                if(time() - $_SESSION['time'] > 60*30){
+                    // flash('session_expired', 'Your session has expired', 'alert alert-danger');
+                    $this->logout();
+                }else{
+                    $_SESSION['time'] = time();
+                }
+            }
+
         }
 
         public function index(){
@@ -556,6 +566,7 @@
             $_SESSION['user_name'] = $user->first_name;
             $_SESSION['user_type'] = $user->user_type;
             $_SESSION['prev_user_type'] ='';
+            $_SESSION['time']=time();
             if(isset($_SESSION['url'])){
                 $url=$_SESSION['url']; // holds url for last page visited.
                 unset($_SESSION['url']);
@@ -1357,6 +1368,7 @@
             unset($_SESSION['user_email']);
             unset($_SESSION['user_name']);
             unset($_SESSION['user_type']);
+            unset($_SESSION['time']);
             session_destroy();
             redirect('users/login');
         }
@@ -2884,13 +2896,13 @@
             if($_SESSION['user_type']!='seller'){
                 $_SESSION['prev_user_type']=$_SESSION['user_type'];
                 $_SESSION['user_type']='seller';
-                flash('user_type_message', 'You are now a seller');
+                flash('user_type_message', 'You are now a Seller');
                 redirect('users/index');
 
             }
             else if($_SESSION['prev_user_type']!='seller'){
                 $_SESSION['user_type']=$_SESSION['prev_user_type'];
-                flash('user_type_message', 'You are now a '.$_SESSION['prev_user_type']);
+                flash('user_type_message', 'You are now a '.ucwords($_SESSION['prev_user_type']));
                 redirect('users/index');
             }
 

@@ -39,6 +39,7 @@ function myFunction() {
         }
       }
     }
+
 //Add image button
     // const file = document.querySelector('#file');
     // file.addEventListener('change', (e) => {

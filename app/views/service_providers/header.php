@@ -46,13 +46,38 @@
     <label for="check" class="checkbtn">
         <i class="fas fa-bars"></i>
     </label>
-    <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="">
-    <?php if(isLoggedIn()){
-                if($_SESSION['user_type']!='seller'){?>
-                    <a href="<?php echo URLROOT;?>/users/switch_user"> switch to selling</a>
-        <?php }elseif($_SESSION['user_type']=='seller' && $_SESSION['prev_user_type']!=''){ ?>
-                    <a href="<?php echo URLROOT;?>/users/switch_user"> switch to <?php echo $_SESSION['prev_user_type'];?></a>
-        <?php }}?> 
+    <div class="switch">
+            <a href="<?php echo URLROOT;?>/users/index"><img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo"></a>
+        <?php if(isLoggedIn()){
+                    if($_SESSION['user_type']!='seller'){?>
+                        <div class="toggle">
+                            <!-- <h1>Toggle Switch</h1> -->
+                            <label class="toggle_switch">
+                                <input type="checkbox" id="example">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <span class="toggle_a">Switch to <br>Selling</span>
+                        <!-- <a  href="<?php echo URLROOT;?>/users/switch_user"> switch to <br>selling</a> -->
+            <?php }elseif($_SESSION['user_type']=='seller' && $_SESSION['prev_user_type']!=''){ ?>
+                        <div class="toggle">
+                            <!-- <h1>Toggle Switch</h1> -->
+                            <label class="toggle_switch">
+                                <input type="checkbox" id="example" checked >
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <span class="toggle_a">Switch to <br><?php echo ucwords($_SESSION['prev_user_type']);?></span>
+                        <!-- <a href="<?php echo URLROOT;?>/users/switch_user"> switch to <?php echo ucwords($_SESSION['prev_user_type']);?></a> -->
+            <?php }}?> 
+                <script>
+                    document.getElementById("example").addEventListener("change", function() {
+                      // code to run when checkbox is checked
+                      console.log("Checkbox checked!");
+                      window.location.href = "<?php echo URLROOT;?>/users/switch_user";
+                    });
+                </script>
+            </div>
     <ul>
         <li><a href="<?php echo URLROOT .'/users/index'?>" class="nav_tags">Home</a></li>
         <li><a href="<?php echo URLROOT.'/users/shop'; ?>" class="nav_tags">Shop</a></li>
@@ -76,9 +101,9 @@
 </nav>
 </div>
     <div class="sidebar">
-        <a href="<?php echo URLROOT . '/service_providers/dashboard';?>" id="dashboard"><i class="fas fa-qrcode" ></i> <span>Dashboard</span></a>
-        <a href="<?php echo URLROOT . '/service_providers/profile';?>" id="profile-settings"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile</span></a>
-        <a href="<?php echo URLROOT .'/service_providers/feed'?>" id="feed"> <i class="fa fa-ad" aria-hidden="true"></i><span>Feed</span></a>
-        <a href="<?php echo URLROOT .'/service_providers/eventCalander?month=current'?>" id="calender"> <i class="fa fa-calendar" aria-hidden="true"></i><span>Calender</span></a>
-        <a href="<?php echo URLROOT .'/users/chat'?>" id="messages"> <i class="fa fa-comments"></i><span>Messages</span></a>       
+        <a href="<?php echo URLROOT . '/service_providers/dashboard';?>" id="dashboard"> <span>Dashboard</span></a>
+        <a href="<?php echo URLROOT . '/service_providers/profile';?>" id="profile-settings"><span>Profile</span></a>
+        <a href="<?php echo URLROOT .'/service_providers/feed'?>" id="feed"> <span>Feed</span></a>
+        <a href="<?php echo URLROOT .'/service_providers/eventCalander?month=current'?>" id="calender"> <span>Calender</span></a>
+        <a href="<?php echo URLROOT .'/users/chat'?>" id="messages"> <span>Messages</span></a>       
     </div>

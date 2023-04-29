@@ -3,13 +3,38 @@
         <label for="check" class="checkbtn">
             <i class="fas fa-bars"></i>
         </label>
-        <a href="<?php echo URLROOT;?>/users/index"><img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo"></a>
+        <div class="switch">
+            <a href="<?php echo URLROOT;?>/users/index"><img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo"></a>
         <?php if(isLoggedIn()){
-                if($_SESSION['user_type']!='seller'){?>
-                    <a href="<?php echo URLROOT;?>/users/switch_user"> switch to selling</a>
-        <?php }elseif($_SESSION['user_type']=='seller' && $_SESSION['prev_user_type']!=''){ ?>
-                    <a href="<?php echo URLROOT;?>/users/switch_user"> switch to <?php echo $_SESSION['prev_user_type'];?></a>
-        <?php }}?> 
+                    if($_SESSION['user_type']!='seller'){?>
+                        <div class="toggle">
+                            <!-- <h1>Toggle Switch</h1> -->
+                            <label class="toggle_switch">
+                                <input type="checkbox" id="example">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <span class="toggle_a">Switch <br>to <br>Selling</span>
+                        <!-- <a  href="<?php echo URLROOT;?>/users/switch_user"> switch to <br>selling</a> -->
+            <?php }elseif($_SESSION['user_type']=='seller' && $_SESSION['prev_user_type']!=''){ ?>
+                        <div class="toggle">
+                            <!-- <h1>Toggle Switch</h1> -->
+                            <label class="toggle_switch">
+                                <input type="checkbox" id="example" checked >
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <span class="toggle_a">Switch <br>to <br><?php echo ucwords($_SESSION['prev_user_type']);?></span>
+                        <!-- <a href="<?php echo URLROOT;?>/users/switch_user"> switch to <?php echo ucwords($_SESSION['prev_user_type']);?></a> -->
+            <?php }}?> 
+                <script>
+                    document.getElementById("example").addEventListener("change", function() {
+                      // code to run when checkbox is checked
+                      console.log("Checkbox checked!");
+                      window.location.href = "<?php echo URLROOT;?>/users/switch_user";
+                    });
+                </script>
+            </div>
          <ul>
             <li><a href="<?php echo URLROOT;?>/users/index" class="nav_tags">Home</a></li>
             <li><a href="<?php echo URLROOT.'/users/shop'; ?>" class="nav_tags">Shop</a></li>

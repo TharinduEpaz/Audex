@@ -21,6 +21,17 @@ class Service_providers extends Controller
             redirect($_SESSION['user_type'] . 's/index');
         }
 
+        
+        //Session timeout
+        if(isset($_SESSION['time'])){
+            if(time() - $_SESSION['time'] > 60*30){
+                // flash('session_expired', 'Your session has expired', 'alert alert-danger');
+                redirect('users/logout');
+            }else{
+                $_SESSION['time'] = time();
+            }
+        }
+
         $this->service_model = $this->model('Service_provider');
     }
 

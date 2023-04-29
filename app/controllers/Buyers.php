@@ -15,6 +15,18 @@
         session_destroy();
         redirect('users/login');
     }
+
+      //Session timeout
+      if(isset($_SESSION['time'])){
+        if(time() - $_SESSION['time'] > 60*30){
+            // flash('session_expired', 'Your session has expired', 'alert alert-danger');
+            redirect('users/logout');
+        }else{
+            $_SESSION['time'] = time();
+        }
+    }
+  
+    
     //   if($_SESSION['user_type'] != 'buyer'){
     //     redirect($_SESSION['user_type'].'s/index');
     // }

@@ -14,6 +14,7 @@
     <title>Home</title>
 </head>
 <body>
+    
 <?php require_once APPROOT . '/views/users/navbar.php';?>
 
 
@@ -92,6 +93,8 @@
 
 </body>
 <script>
+    
+
 jQuery(document).ready(function(){
     $.getScript('<?php echo URLROOT . '/public/js/form.js';?>');
     $.getScript('<?php echo URLROOT . '/public/js/search.js';?>');

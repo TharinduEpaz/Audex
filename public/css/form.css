@@ -40,9 +40,11 @@ nav{
   }
   .switch{
     height: 10vh;
-    /* display: flex; */
-    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
     width: 20%;
+    float: left;
   }
   .switch a{
     text-decoration: none;
@@ -50,6 +52,15 @@ nav{
     line-height: 10vh;
     text-align: center;
     margin-left: 4%;
+  }
+  .toggle_a{
+    text-decoration: none;
+    color: black;
+    line-height: 2vh;
+    text-align: center;
+    /* margin-left: 4%; */
+    margin-top: 2vh;
+    font-size: 10pt;
   }
   .switch a:hover{
     color: green;
@@ -88,6 +99,52 @@ nav{
 
 
   } */
+
+  .toggle {
+    width: 70px;
+    margin-top: 3vh;
+    margin-left: 10px;
+  }
+  .toggle_switch{
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+
+  }
+  .slider{
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #000000;
+    transition: .4s;
+    border-radius: 34px;
+  }
+  .toggle_switch input{
+    display: none;
+  }
+  .slider:before{
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 5px;
+    bottom: 5px;
+    background-color: #ffffff;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  .toggle_switch input:checked + .slider{
+    background-color: #00ff44;
+  }
+  .toggle_switch input:checked + .slider:before{
+    transform: translateX(20px);
+    /* background-color: #FFFFFF; */
+  }
+
   .dropdown{
     line-height: 9vh;
 
@@ -240,6 +297,9 @@ nav{
     }
     .switch{
       width: 50%;
+    }
+    .toggle_a{
+      margin-top: 3vh;
     }
     
   }

@@ -27,6 +27,18 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             else if($_SESSION['user_type'] != 'seller' && isLoggedIn()){
                 redirect('users/index');
             }
+
+            //Session timeout
+            if(isset($_SESSION['time'])){
+                if(time() - $_SESSION['time'] > 60*30){
+                    // flash('session_expired', 'Your session has expired', 'alert alert-danger');
+                    redirect('users/logout');
+                }else{
+                    $_SESSION['time'] = time();
+                }
+            }
+
+
             $this->sellerModel=$this->model('Seller');
             $this->userModel = $this->model('User');
 
