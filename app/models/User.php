@@ -687,52 +687,52 @@ date_default_timezone_set("Asia/Kolkata");
             return $result;
 
         }
-        public function getBuyerWatchProducts($email){
-            $this->db->query('SELECT product_id FROM add_watch_list_product WHERE email_buyer = :email');
-            $this->db->bind(':email' , $email);
-            $results = $this->db->resultSet();
+        // public function getBuyerWatchProducts($email){
+        //     $this->db->query('SELECT product_id FROM add_watch_list_product WHERE email_buyer = :email');
+        //     $this->db->bind(':email' , $email);
+        //     $results = $this->db->resultSet();
 
-            // foreach($results as $result):
-            //     echo gettype($result) . "</br>";
-            //     echo $result->product_id . "</br>";
-            //     echo gettype($result->product_id) . "</br>";
-            // endforeach;
+        //     // foreach($results as $result):
+        //     //     echo gettype($result) . "</br>";
+        //     //     echo $result->product_id . "</br>";
+        //     //     echo gettype($result->product_id) . "</br>";
+        //     // endforeach;
 
-            $items = [];
-            foreach($results as $result):
-                $id = $result->product_id;
-                settype($id,"integer");
-                $this->db->query('SELECT * FROM product WHERE product_id = :id');
-                $this->db->bind(':id' , $id);
-                $item = $this->db->single();
-                array_push($items,$item);
-            endforeach;
-            return $items;
+        //     $items = [];
+        //     foreach($results as $result):
+        //         $id = $result->product_id;
+        //         settype($id,"integer");
+        //         $this->db->query('SELECT * FROM product WHERE product_id = :id');
+        //         $this->db->bind(':id' , $id);
+        //         $item = $this->db->single();
+        //         array_push($items,$item);
+        //     endforeach;
+        //     return $items;
             
-        }
-        public function getBuyerWatchServiceProviders($email){
-            $this->db->query('SELECT email_service_provider FROM add_watch_list_service_provider WHERE email_buyer = :email');
-            $this->db->bind(':email' , $email);
-            $results = $this->db->resultSet();
+        // }
+        // public function getBuyerWatchServiceProviders($email){
+        //     $this->db->query('SELECT email_service_provider FROM add_watch_list_service_provider WHERE email_buyer = :email');
+        //     $this->db->bind(':email' , $email);
+        //     $results = $this->db->resultSet();
 
-            // foreach($results as $result):
-            //     echo gettype($result) . "</br>";
-            //     echo $result->product_id . "</br>";
-            //     echo gettype($result->product_id) . "</br>";
-            // endforeach;
+        //     // foreach($results as $result):
+        //     //     echo gettype($result) . "</br>";
+        //     //     echo $result->product_id . "</br>";
+        //     //     echo gettype($result->product_id) . "</br>";
+        //     // endforeach;
 
-            $serviceProviders = [];
-            foreach($results as $result):
-                $service_provider_email = $result->email_service_provider;
-                settype($id,"integer");
-                $this->db->query('SELECT * FROM user WHERE email = :service_provider_email');
-                $this->db->bind(':service_provider_email' , $service_provider_email);
-                $service_provider = $this->db->single();
-                array_push($serviceProviders,$service_provider);
-            endforeach;
-            return $serviceProviders;
+        //     $serviceProviders = [];
+        //     foreach($results as $result):
+        //         $service_provider_email = $result->email_service_provider;
+        //         settype($id,"integer");
+        //         $this->db->query('SELECT * FROM user WHERE email = :service_provider_email');
+        //         $this->db->bind(':service_provider_email' , $service_provider_email);
+        //         $service_provider = $this->db->single();
+        //         array_push($serviceProviders,$service_provider);
+        //     endforeach;
+        //     return $serviceProviders;
             
-        }
+        // }
 
         public function update_price($price,$product_id){
 
@@ -747,107 +747,107 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
 
-        public function addItemToWatchList($p_id,$user_id){
+        // public function addItemToWatchList($p_id,$user_id){
 
-            $this->db->query('SELECT email FROM user WHERE user_id = :id');
-            $this->db->bind(':id' , $user_id);
+        //     $this->db->query('SELECT email FROM user WHERE user_id = :id');
+        //     $this->db->bind(':id' , $user_id);
 
-            $row = $this->db->single();
+        //     $row = $this->db->single();
 
-            $this->db->query('INSERT INTO add_watch_list_product (email_buyer,product_id) VALUES(:email,:p_id)');
-            //Bind value
-            $this->db->bind(':email', $row->email);
-            $this->db->bind(':p_id', $p_id);
+        //     $this->db->query('INSERT INTO add_watch_list_product (email_buyer,product_id) VALUES(:email,:p_id)');
+        //     //Bind value
+        //     $this->db->bind(':email', $row->email);
+        //     $this->db->bind(':p_id', $p_id);
 
-            if($this->db->execute()){
-                return true;
-            }else{
-                return false;
-            }
-        }
+        //     if($this->db->execute()){
+        //         return true;
+        //     }else{
+        //         return false;
+        //     }
+        // }
 
-        public function removeItemFromWatchList($p_id,$user_id){
+        // public function removeItemFromWatchList($p_id,$user_id){
 
-            $this->db->query('SELECT email FROM user WHERE user_id = :id');
-            $this->db->bind(':id' , $user_id);
+        //     $this->db->query('SELECT email FROM user WHERE user_id = :id');
+        //     $this->db->bind(':id' , $user_id);
 
-            $row = $this->db->single();
+        //     $row = $this->db->single();
 
-            $this->db->query('DELETE FROM add_watch_list_product WHERE add_watch_list_product.product_id = :p_id AND add_watch_list_product.email_buyer = :email; ');
-            //Bind value
-            $this->db->bind(':email', $row->email);
-            $this->db->bind(':p_id', $p_id);
+        //     $this->db->query('DELETE FROM add_watch_list_product WHERE add_watch_list_product.product_id = :p_id AND add_watch_list_product.email_buyer = :email; ');
+        //     //Bind value
+        //     $this->db->bind(':email', $row->email);
+        //     $this->db->bind(':p_id', $p_id);
 
-            if($this->db->execute()){
-                return true;
-            }else{
-                return false;
-            }
-        }
+        //     if($this->db->execute()){
+        //         return true;
+        //     }else{
+        //         return false;
+        //     }
+        // }
 
-        public function removeOneItemFromWatchList($p_id,$user_id){
+        // public function removeOneItemFromWatchList($p_id,$user_id){
 
-            $this->db->query('SELECT email FROM user WHERE user_id = :id');
-            $this->db->bind(':id' , $user_id);
+        //     $this->db->query('SELECT email FROM user WHERE user_id = :id');
+        //     $this->db->bind(':id' , $user_id);
 
-            $row = $this->db->single();
+        //     $row = $this->db->single();
 
-            $this->db->query('DELETE FROM add_watch_list_product WHERE add_watch_list_product.product_id = :p_id AND add_watch_list_product.email_buyer = :email');
-            //Bind value
-            $this->db->bind(':email', $row->email);
-            $this->db->bind(':p_id', $p_id);
+        //     $this->db->query('DELETE FROM add_watch_list_product WHERE add_watch_list_product.product_id = :p_id AND add_watch_list_product.email_buyer = :email');
+        //     //Bind value
+        //     $this->db->bind(':email', $row->email);
+        //     $this->db->bind(':p_id', $p_id);
 
-            if($this->db->execute()){
-                return true;
-            }else{
-                return false;
-            }
-        }
-// add service provider to watch list function
-        public function addServiceProviderToWatchList($buyerId,$serviceProviderId){
+        //     if($this->db->execute()){
+        //         return true;
+        //     }else{
+        //         return false;
+        //     }
+        // }
+        // add service provider to watch list function
+        // public function addServiceProviderToWatchList($buyerId,$serviceProviderId){
 
-            $this->db->query('SELECT email FROM user WHERE user_id = :id');
-            $this->db->bind(':id' , $buyerId);
-            $buyer_email = $this->db->single();
+        //     $this->db->query('SELECT email FROM user WHERE user_id = :id');
+        //     $this->db->bind(':id' , $buyerId);
+        //     $buyer_email = $this->db->single();
             
-            $this->db->query('SELECT email FROM user WHERE user_id = :id');
-            $this->db->bind(':id' , $serviceProviderId);
-            $service_provider_email = $this->db->single();
+        //     $this->db->query('SELECT email FROM user WHERE user_id = :id');
+        //     $this->db->bind(':id' , $serviceProviderId);
+        //     $service_provider_email = $this->db->single();
             
 
-            $this->db->query('INSERT INTO add_watch_list_service_provider (email_buyer,email_service_provider) VALUES(:buyer_email,:service_provider_email)');
-            //Bind value
-            $this->db->bind(':buyer_email', $buyer_email->email);
-            $this->db->bind(':service_provider_email', $service_provider_email->email);
+        //     $this->db->query('INSERT INTO add_watch_list_service_provider (email_buyer,email_service_provider) VALUES(:buyer_email,:service_provider_email)');
+        //     //Bind value
+        //     $this->db->bind(':buyer_email', $buyer_email->email);
+        //     $this->db->bind(':service_provider_email', $service_provider_email->email);
 
-            if($this->db->execute()){
-                return true;
-            }else{
-                return false;
-            }
-        }
+        //     if($this->db->execute()){
+        //         return true;
+        //     }else{
+        //         return false;
+        //     }
+        // }
 
-        public function removeServiceProviderFromWatchList($buyerId, $serviceProviderId){
+        // public function removeServiceProviderFromWatchList($buyerId, $serviceProviderId){
 
-            $this->db->query('SELECT email FROM user WHERE user_id = :id');
-            $this->db->bind(':id' , $buyerId);
-            $buyer_email = $this->db->single();
+        //     $this->db->query('SELECT email FROM user WHERE user_id = :id');
+        //     $this->db->bind(':id' , $buyerId);
+        //     $buyer_email = $this->db->single();
 
-            $this->db->query('SELECT email FROM user WHERE user_id = :id');
-            $this->db->bind(':id' , $serviceProviderId);
-            $service_provider_email = $this->db->single();
+        //     $this->db->query('SELECT email FROM user WHERE user_id = :id');
+        //     $this->db->bind(':id' , $serviceProviderId);
+        //     $service_provider_email = $this->db->single();
 
-            $this->db->query('DELETE FROM add_watch_list_service_provider WHERE add_watch_list_service_provider.email_buyer = :buyer_email AND add_watch_list_service_provider.email_service_provider = :service_provider_email ; ');
-            //Bind value
-            $this->db->bind(':buyer_email', $buyer_email->email);
-            $this->db->bind(':service_provider_email', $service_provider_email->email);
+        //     $this->db->query('DELETE FROM add_watch_list_service_provider WHERE add_watch_list_service_provider.email_buyer = :buyer_email AND add_watch_list_service_provider.email_service_provider = :service_provider_email ; ');
+        //     //Bind value
+        //     $this->db->bind(':buyer_email', $buyer_email->email);
+        //     $this->db->bind(':service_provider_email', $service_provider_email->email);
 
-            if($this->db->execute()){
-                return true;
-            }else{
-                return false;
-            }
-        }
+        //     if($this->db->execute()){
+        //         return true;
+        //     }else{
+        //         return false;
+        //     }
+        // }
 
         public function checkIsServiceProviderWatched($buyerId,$serviceProviderId){
             $this->db->query('SELECT email FROM user WHERE user_id = :id');

@@ -1,4 +1,4 @@
-const URLROOT = 'http://localhost/Audex';
+// const URLROOT = 'http://localhost/Audex';
 
 // Remove watchlist item being watchlist page
 
@@ -31,7 +31,7 @@ removeServiceProviderFromWatchListForm.forEach((form)=>{
       // document.getElementById("remove-item-from-watchlist").value = "Please Wait..";
 
 
-      const url = URLROOT+'/users/removeServiceProviderFromWatchList';
+      const url = URLROOT+'/buyers/removeServiceProviderFromWatchList';
 
       console.log(url);
 
@@ -45,7 +45,7 @@ removeServiceProviderFromWatchListForm.forEach((form)=>{
       .then((data)=>{
         alert("Removed");
         // form.reset();
-        window.location.href = URLROOT+'/users/watchlist/' + formData.get('user_id').trim() ;
+        window.location.href = URLROOT+'/buyers/watchlist/' + formData.get('user_id').trim()+'/#partTwoServiceProvidrs' ;
 
       })
       .catch( (error)=>{

@@ -321,9 +321,10 @@
             border-radius: 3px;
             background-color: white;
             color: black;
-            font-weight: 700;
+            font-weight: 500;
             cursor: pointer;
             height: 6vh;
+            font-size: 3vh;
         }
 
         .ad-search-shop button {
@@ -415,12 +416,18 @@
             border-radius: 1rem 1rem 0 0;
         }
 
+        .container-img a{
+            width: 100%;
+            height: 100%;
+            display: contents;
+        }
+
         .container-img img {
             /* width: 100%;
             height: 100%;
             object-fit:cover - 
             The image will be clipped to fit given dimension*/
-            object-fit: cover;  
+            object-fit: contain;  
             max-width: -webkit-fill-available;
             height: inherit;
             max-height: -webkit-fill-available;
@@ -484,7 +491,7 @@
             padding: 5px 10px;
             border: none;                               
             border-radius: 3px;
-            background-color: white;
+            /* background-color: white; */
             color: indianred;
             /* cursor: pointer; */
             margin-right: 0%;
@@ -499,7 +506,7 @@
     <!-- filtering side-bar -->
     <div class="side-bar" style="width:240px">
         <h3>Filter Products</h3>
-        <form action="<?php echo URLROOT . '/users/shop';?>" method="post">
+        <form id="shop-filter-form" method="post">
             <h4>Category</h4>
             <div class="radio">
                 <input type="radio" id="all" name="category"  <?php echo ($data['category'] == '1') ? 'checked' : '';  ?> value = ""  >
@@ -520,6 +527,10 @@
             <div class="radio">
                 <input type="radio" id="dj" name="category" value="mixer" <?php echo ($data['category'] == "mixer") ? 'checked' : '' ?> >
                 <label for="mixer">Mixer</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="guitar" name="category" value="guitar" <?php echo ($data['category'] == "guitar") ? 'checked' : '' ?> >
+                <label for="guitar">Guitar</label>
             </div>
 
             <h4>Price</h4>
@@ -546,7 +557,7 @@
                 <label for="auction">Auction</label>
             </div>
 
-            <button type="submit" class="btn-primary">Filter</button>
+            <!-- <button type="submit" class="btn-primary">Filter</button> -->
         </form>
     </div>
     <div class="shop-container" >
@@ -643,16 +654,25 @@
 
             <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
     
-            <div class="container-data">
+            <div class="container-data" id="shop-container-data">
                 <!-- <?php echo $data['type']?>;
                 <?php echo $data['category']?>; -->
                 <?php $i=0;
                 foreach($data['ads'] as $ads) :?>
     
                     <div class="container-ad">
+
                         <div class="container-img">
-                            <img src="<?php echo URLROOT.'/public/uploads/'.$ads->image1;?>" /> 
+                            <a href="<?php  if($ads->product_type == 'auction'){
+                                                echo URLROOT . '/users/auction/'.$ads->product_id;
+                                            }else{
+                                                echo URLROOT . '/users/advertiesmentDetails/'.$ads->product_id;
+                                            }
+                                     ?>">
+                                        <img src="<?php echo URLROOT.'/public/uploads/'.$ads->image1;?>" /> 
+                            </a>
                         </div>
+
                         <div class="title">
                             <h3><a href="<?php if($ads->product_type == 'auction'){
                                         echo URLROOT . '/users/auction/'.$ads->product_id;
@@ -663,6 +683,7 @@
                                 <?php echo $ads->product_title ; ?></a> </h3>
                             <h6><?php echo $ads->p_description ; ?></h6>
                         </div>
+
                         <div class="price">
                             <?php 
                                 if($ads->product_type == 'auction' ){
@@ -678,9 +699,9 @@
                                 }
                                     ?>">
                                     <button type="submit">View </button>
-                            </a>
-                                
+                            </a>  
                         </div>
+
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -713,4 +734,5 @@ jQuery(document).ready(function(){
 
 <script src="<?php echo URLROOT . '/public/js/shop-search.js';?>"></script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
+<script src="<?php echo URLROOT . '/public/js/shopFilter.js';?>"></script>
 </html>

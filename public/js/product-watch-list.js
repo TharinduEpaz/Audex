@@ -50,7 +50,7 @@ addToWatchListForm.addEventListener("submit",async (e)=>{
         // document.getElementById("add-to-watchlist").value = "Please Wait..";
 
         //remove white spaces in user id
-        const url = URLROOT+'/users/addToWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
+        const url = URLROOT+'/buyers/addToWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
 
         console.log(url);
         const data = await fetch(url, {
@@ -130,7 +130,7 @@ addToWatchListForm.addEventListener("submit",async (e)=>{
         // document.getElementById("add-to-watchlist").value = "Please Wait..";
 
         //remove white spaces in user id
-        const url = URLROOT+'/users/removeItemFromWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
+        const url = URLROOT+'/buyers/removeItemFromWatchList/' + formData.get('product_id')+'/'+ formData.get('user_id').trim();
 
         console.log(url);
         const data = await fetch(url, {
