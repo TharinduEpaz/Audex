@@ -14,6 +14,9 @@
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
 
     <style>
+        .poster_advertisements {
+            padding: 0% 0% 1% 0%;
+        }
         .topicHeader h1{
             margin: 25px 0px 15px 20px;
             display: flex;
@@ -22,20 +25,6 @@
             color: darkgrey;
             font-size: 2em;
             font-weight: 500;
-        }
-        .switchDivs{
-            text-decoration: none;
-            font-weight: bolder;
-            font-size: 12pt;
-            background: #002EF9;
-            color: white;
-            text-align: center;
-            padding: 1vh 1%;
-            height: 5vh;
-            width: 22%;
-            border-radius: 7px;
-            border: 1px solid #002EF9;
-            margin: 15px 0px 0px 20px;
         }
         /* box = container-data, box-containt = container-ad */
         .box {
@@ -177,6 +166,54 @@
             cursor: pointer;
             font-size: 10px;
         }
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        /* Style the buttons that are used to open the tab content */
+        .tab button {
+            background-color: #c4cce2;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+            width: 50%;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #97A3F1;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            background-color: #97A3F1;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+        .tabcontent {
+            animation: fadeEffect 1s; /* Fading effect takes 1 second */
+        }
+
+        /* Go from zero to full opacity */
+        @keyframes fadeEffect {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
 
 
     </style>
@@ -190,21 +227,10 @@
     <div class="container">
     <?php require_once APPROOT . '/views/buyers/sidebar.php';?>   
         <div class="poster_advertisements">
-        
-            <!-- create link to go between two headers -->
-            <button class="switchDivs" onclick="location.href='#partOneLikedProducts'">Liked Products</button>
-            <button class="switchDivs" onclick="location.href='#partTwoDisikedProducts'">Disliked Products</button>
-
-            <?php if( sizeof($data['likedProducts']) > 0 ) 
-                    echo "<div class = 'topicHeader'> 
-                        <h1>Liked Products</h1> 
-                    </div>";
-                else{
-                    echo "<div class = 'topicHeader'> 
-                        <h1>Your Watchlist Don Not Have Any Liked Products.</h1> 
-                    </div>";
-                }
-            ?>
+            <div class="tab">
+                <button class="tablinks" onclick="openTab(event, 'partOneLikedProducts')" id="defaultOpen">Liked Products</button>
+                <button class="tablinks" onclick="openTab(event, 'partTwoDisikedProducts')">Disliked Products</button>
+            </div>
             <div class="box" id="partOneLikedProducts">
                 <?php $i=0;
                 foreach($data['likedProducts'] as $ads) : ?>
@@ -243,16 +269,7 @@
                     </div> 
                 <?php endforeach; ?>
             </div>
-            <?php if( sizeof($data['dislikedProducts']) > 0 ) 
-                    echo "<div class = 'topicHeader'> 
-                        <h1>Disliked Products</h1> 
-                    </div>";
-                else{
-                    echo "<div class = 'topicHeader'> 
-                        <h1>Your Watchlist Don Not Have Any Disliked Products.</h1> 
-                    </div>";
-                }
-            ?>
+
             <div class="box" id="partTwoDisikedProducts">
                 <?php $i=0;
                 foreach($data['dislikedProducts'] as $ads) : ?>
@@ -297,6 +314,39 @@
         </div>
     </div>
 </body>
+<script>
+    //keeping the sidebar button clicked at the page
+    link = document.querySelector('#reactions');
+    link.style.background = "#E5E9F7";
+    link.style.color = "red";
+    link.style.fontWeight = "800";
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+
+    function openTab(evt, tabId) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="box" and hide them
+        tabcontent = document.getElementsByClassName("box");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the current tab, and add an "active" class to the button that opened the tab
+        document.getElementById(tabId).style.display = "flex";
+        evt.currentTarget.className += " active";
+    }
+
+
+</script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 <script src="<?php echo URLROOT . '/public/js/removeWatchListItem.js';?>"></script>
 </html>
