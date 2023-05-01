@@ -7,7 +7,7 @@ window.addEventListener("DOMContentLoaded",(e)=>{
   // add even listner to check status of like when load liked or not liked
   if(addServiceProviderToWatchListForm.getAttribute("data-watchLoad") === "watched"){
     addServiceProviderToWatchListForm.setAttribute("data-op", "remove")
-      document.getElementById("add-service-provider-to-watchlist").style.backgroundColor = "RED";
+      document.getElementById("add-service-provider-to-watchlist").style.backgroundColor = "greenyellow";
       document.getElementById('add-service-provider-to-watchlist').value = "Remove From List";
   }
 });
@@ -47,7 +47,7 @@ addServiceProviderToWatchListForm.addEventListener("submit", (e) =>{
       .then((data)=>{
         if(data.message == "Added to the list" || data.message == "Alredy in the list"){
           addServiceProviderToWatchListForm.setAttribute("data-op", "remove");
-          document.getElementById('add-service-provider-to-watchlist').style.background = "RED";
+          document.getElementById('add-service-provider-to-watchlist').style.background = "greenyellow";
           document.getElementById('add-service-provider-to-watchlist').style.color = "white";
           document.getElementById('add-service-provider-to-watchlist').value = "Remove From List";
           
@@ -94,8 +94,8 @@ addServiceProviderToWatchListForm.addEventListener("submit", (e) =>{
       .then((data)=>{
         if(data.message == "Removed from list" ){
           addServiceProviderToWatchListForm.setAttribute("data-op", "add");
-          document.getElementById('add-service-provider-to-watchlist').style.background = 'buttonface';
-          document.getElementById('add-service-provider-to-watchlist').style.color = 'buttontext';
+          document.getElementById('add-service-provider-to-watchlist').style.background = 'gray';
+          document.getElementById('add-service-provider-to-watchlist').style.color = 'white';
           document.getElementById('add-service-provider-to-watchlist').value = "Add To Watchlist";
           
         }

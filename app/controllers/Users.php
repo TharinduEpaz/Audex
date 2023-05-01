@@ -585,6 +585,7 @@
                     unset($_SESSION['attempt']);
                     unset($_SESSION['time']);
                 }
+                // get user data from user table
                 $user=$this->userModel->getUserDetails($id);
                 if(empty($user)){
                     redirect('users/index');
@@ -597,10 +598,13 @@
                 // }
 
                 if($user->user_type=='buyer'){
+                    // get data from buyer table
                     $userDetails = $this->userModel->getBuyerDetails($user->email);
                 }else if($user->user_type=='seller'){
+                    // get data from seller table
                     $userDetails = $this->userModel->getSellerDetails($user->email);
                 }else if($user->user_type=='service_provider'){
+                    // get data from service provider
                     $userDetails = $this->userModel->getService_ProviderDetails($user->email);
                 }
                 // if ($details->user_id != $_SESSION['user_id']) {
@@ -2568,6 +2572,7 @@
                 // if all filters are empty
                 // redirect('users/shop');
                 $results = [];
+                echo json_encode(['message' => 'No filters','results'=>$results]);
             }
             else{
                 if(!empty(trim($productCategory))){
@@ -2583,8 +2588,8 @@
                    $Filter['product_type']= $productType;
                 }
                 $results = $this-> userModel->searchAndFilterItems($Filter);
+                echo json_encode(['message' => 'filters','results'=>$results]);
             }
-            echo json_encode($results);
 
         }
 
@@ -2685,11 +2690,17 @@
         public function serviceProviderPublic()
         {
             $id = $_GET['id'];
+
+            // get user data from user table
+            $user=$this->userModel->getUserDetails($id);
+
+            // get data from service_provider_view table
             $d = $this->userModel->getServiceProvidersPublic($id);
 
 
             $data = [
-                'details' => $d
+                'details' => $d,
+                'user' => $user
             ];
 
             if(isLoggedIn()){

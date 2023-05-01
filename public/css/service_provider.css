@@ -927,4 +927,43 @@ EVENT POP UPS CSS
 }
 
 
+/* this is styles for add to watch list button in service provider public  */
+.add_watch_list form input[type ='submit']{
+  display: block;
+  width: 40%;
+  padding: 1%;
+  height: 5%;
+  margin: 1%;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  background: gray;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+}
+
+.add_watch_list form input[type ='submit']:hover, .message.btn:hover, .review.btn:hover{
+  background-color:#393636;
+  border: none;
+}
+.message_review.service_provider{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+}
+.message.btn, .review.btn{
+  padding: 1%;
+  align-self: flex-start;
+  width: 40%;
+  background: gray;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.review.btn{
+  margin-left: 5%;
+}
+
 

@@ -1,3 +1,5 @@
+// this is for search bar in the shop 
+
 const URLROOT = 'http://localhost/Audex';
 
 const resultTable = document.getElementById("shop-search-results");

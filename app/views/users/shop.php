@@ -574,29 +574,6 @@
                         <button type="submit" > SEARCH </button>
                         <!-- <button  id="advance-search" > Filter </button> -->
                     </div>
-                    <!-- <div class="filter-component" id="filter-content" >
-                        <label for="category">Category:</label>
-                        <select name="category" id="category" class="select-category">
-                            <option value="">All</option>
-                            <option value="microphone">Microphone</option>
-                            <option value="amplifier">Amplifier</option>
-                            <option value="speaker">Speaker</option>
-                            <option value="mixer">Mixer</option>
-                        </select>
-
-                        <label for="price">Price Min:</label>
-                        <input type="text" id="price" name="price-min" placeholder="Price Min" >
-
-                        <label for="price">Price Max:</label>
-                        <input type="text" id="price" name="price-max" placeholder="Price Max" >
-
-                        <label for="Product_type">Type:</label>
-                        <select name="type" id="type" class="select-type">
-                            <option value="">All</option>
-                            <option value="fixed_price">Fixed Price</option>
-                            <option value="auction">Auction</option>
-                        </select>
-                    </div> -->
                 </form>
             </div>
             

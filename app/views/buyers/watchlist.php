@@ -78,7 +78,11 @@
             justify-content: center;
             border-radius: 1rem 1rem 0 0;
         }
-
+        .box-content a{
+            width: 100%;
+            height: 100%;
+            display: contents;
+        }
         .box-content-img img {
             /* width: 100%;
             height: 100%;
@@ -150,19 +154,19 @@
             padding: 5px 10px;
             border: none;                               
             border-radius: 3px;
-            background-color: white;
-            color: indianred;
+            /* background-color: white; */
+            color: black;
             /* cursor: pointer; */
             margin-right: 0%;
             font-size: 10px;
-            font-weight: 600;
+            font-weight: 700;
         }
         .box-content .price form button[type="submit"]{
             display: block;
             padding: 4px 10px;
             border: none;
             border-radius: 8px;
-            background-color: red;
+            background-color: darkgray;
             color: #fff;
             cursor: pointer;
             font-size: 10px;
@@ -241,7 +245,14 @@
                 foreach($data['products'] as $ads) : ?>
                     <div class="box-content">
                         <div class="box-content-img">
-                            <img src="<?php echo URLROOT.'/public/uploads/'.$ads->image1;?>" /> 
+                            <a href="<?php  if($ads->product_type == 'auction'){
+                                                echo URLROOT . '/users/auction/'.$ads->product_id;
+                                            }else{
+                                                echo URLROOT . '/users/advertiesmentDetails/'.$ads->product_id;
+                                            }
+                                     ?>">
+                                        <img src="<?php echo URLROOT.'/public/uploads/'.$ads->image1;?>" /> 
+                            </a>
                         </div>
                         <div class="title">
                             <h3><a href="<?php if($ads->product_type == 'auction'){

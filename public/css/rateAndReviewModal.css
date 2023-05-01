@@ -1,0 +1,78 @@
+/* this is styles specific for rate and review modal */
+
+/* Modal */
+    .modal {
+        display: none; /* hide modal by default */
+        position: fixed; /* position fixed to cover the entire screen */
+        z-index: 1; /* set z-index to make sure modal is on top of other elements */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto; /* enable scrolling if content exceeds screen size */
+        background-color: rgba(0,0,0,0.7); /* set background color with some transparency */
+    }
+    .modal-content{
+        width: 30%;
+        height: 60%;
+        margin: 10% auto;
+    }
+    .close{
+        width: 28px;
+
+    }
+
+    /* Seller review section */
+    .review-seller {
+        margin-top: 20px;
+    }
+
+    /* Review form */
+    .review-form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Rating star container */
+    .review-area-select-star {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    
+    /* Star rating icons */
+    .star-rating i {
+        font-size: 24px;
+        color: #ccc;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+    .star-rating i:hover,
+    .star-rating i.selected {
+        color: #ffc107;
+    }
+
+    /* Feedback form */
+    .feedback-area {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .feedback-area label {
+        margin-bottom: 10px;
+    }
+
+    #submit-review-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    #submit-review-btn:hover {
+        background-color: #3e8e41;
+    }

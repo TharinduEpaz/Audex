@@ -56,11 +56,12 @@ function handleFilterChange() {
     .then(response => response.json())
     .then((data) => {
         // Update the filtered data on the shop page
-        if(data.length >0){
+        if( (data.results.length > 0) && (data.message == 'filters')){
+            console.log(data.results.length, data.message,'come here');
             var htmlLast = "";
-            for (var i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.results.length; i++) {
     
-                var result = data[i];
+                var result = data.results[i];
                 var imgLink = "<img src=" + URLROOT+"/public/uploads/"+ result.image1 +">";
 
                 // check item type
@@ -87,11 +88,21 @@ function handleFilterChange() {
                 }
                 htmlLast = htmlLast + html;
             }
+            document.getElementById("shop-page-search-result-area").innerHTML = '';
             document.getElementById("shop-container-data").innerHTML = htmlLast;
             console.log(htmlLast);
         }
         else{
-            window.location.href = URLROOT+'/users/shop/';
+            if(data.results.length == 0 && data.message == 'filters'){
+                console.log(data.results.length, data.message);
+                var html = "<div class = 'header'> <h1>Filter Results:Not Found !</h1> </div>";
+                document.getElementById("shop-page-search-result-area").innerHTML = html;
+                document.getElementById("shop-container-data").innerHTML = '';
+            }
+            else{
+                console.log(data.results.length, data.message);
+                window.location.href = URLROOT+'/users/shop/';
+            }
         }
  
 
