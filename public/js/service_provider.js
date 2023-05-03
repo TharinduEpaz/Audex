@@ -108,7 +108,7 @@ $(document).ready(function() {
         success: function(response) {
           // Handle success response
           console.log(response);
-          window.location.href = 'http://localhost/Audex/service_providers/eventCalander'
+          //window.location.href = 'http://localhost/Audex/service_providers/eventCalander'
         },
         error: function(jqXHR, textStatus, errorThrown) {
           // Handle error response
@@ -143,6 +143,7 @@ $(document).ready(function() {
 //     event.preventDefault();
 //   },
 //   false
+<<<<<<< HEAD
 // );
 
 
@@ -150,3 +151,6 @@ $(document).ready(function() {
 //////// EVENT LISTNERS FOR THE SERVICE PROVIDER PROFILE /
 //////////////////////////////////////////////////////////
 
+=======
+// );
+>>>>>>> d00d131a1cb95d7cc77576e211e727c845f3d554
