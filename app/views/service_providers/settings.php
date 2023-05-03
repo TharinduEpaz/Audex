@@ -1,78 +1,152 @@
+
 <div class="service-provider-profile">
     <div class="white-box">
         <h1>Edit Profile</h1>
-        <div class="info-settings">
 
-            <div class="info-titles">
-                <span>First Name : </span>
-                <span>Last Name : </span>
-                <span>Address Line 1 : </span>
-                <span>Address Line 2 : </span>
-                <span>Mobile : </span>
-                <span>Profession : </span>
-                <span>Qualifications : </span>
-                <span>Achivements : </span>
-                <span>Edit Description : </span>
-
-            </div>
-            <div class="info-items">
-                <form action="<?php echo URLROOT . '/service_providers/setDetails/' ?>" method="post">
-                    <input type="text" name="first_name" placeholder="<?php echo $data['details']->first_name ?>">
-                    <input type="text" name="second_name" placeholder="<?php echo $data['details']->second_name ?>">
-                    <input type="text" name="address1" placeholder="<?php echo $data['details']->address_line_one ?>">
-                    <input type="text" name="address2" placeholder="<?php echo $data['details']->address_line_two ?>">
-                    <input type="number" name="mobile" placeholder="<?php echo $data['details']->mobile ?>" disabled>
-                    <input type="text" name="profession" placeholder="<?php echo $data['details']->profession ?>">
-                    <input type="text" name="qualifications"
-                        placeholder="<?php echo $data['details']->qualifications ?>">
-                    <input type="text" name="achievements" placeholder="<?php echo $data['details']->achievements ?>">
-                    <textarea name="description" cols="30" rows="10"
-                        placeholder="<?php echo $data['details']->description ?>"></textarea>
-
-                    <!-- Buttons to submit or cancel the form -->
-
-                    <section class="buttons">
-                        <button id="save" type="submit">Save</button>
-                        <button id="cancel" type="reset" onclick="exit()">Cancel</button>
-                    </section>
-                </form>
-            </div>
+<div class="formbold-main-wrapper">
+  <div class="formbold-form-wrapper">
+    <form action="<?php echo URLROOT . '/service_providers/setDetails/' ?>" method="POST">
+      <div class="formbold-input-flex">
+        <div>
+          <label for="firstname" class="formbold-form-label"> First Name </label>
+          <input
+            type="text"
+            name="firstname"
+            id="firstname"
+            placeholder="<?php echo $data['details']->first_name ?>"
+            class="formbold-form-input"
+          />
         </div>
-        <div class="profile-pic-settings">
 
-
-            <?php if($data['details']->profile_image): ?>
-            <img src="<?php echo URLROOT . '/public/uploads/Profile/' . $data['details']->profile_image; ?>">
-            <?php else: ?>
-            <i class="fa fa-user" aria-hidden="true"></i>
-            <?php endif; ?>
-
-            <p>Edit Profile Image</p>
-
-                <form action="<?php echo URLROOT . '/service_providers/setImage/' ?>" method="post"
-                enctype="multipart/form-data">
-                <input type="file" name="profile" id="profile">
-                <button id="save" type="submit">Upload</button>
-
-            </form>
+        <div>
+          <label for="second_name" class="formbold-form-label"> Last Name </label>
+          <input
+            type="text"
+            name="second_name"
+            id="second_name"
+            placeholder="<?php echo $data['details']->second_name ?>"
+            class="formbold-form-input"
+          />
         </div>
-    </div>
+      </div>
+
+      <div class="formbold-input-flex">
+        <div>
+            <label for="email" class="formbold-form-label"> Email </label>
+            <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="example@email.com"
+            class="formbold-form-input"
+            />
+        </div>
+
+        <div>
+            <label class="formbold-form-label">Gender</label>
+
+            <select class="formbold-form-input" name="occupation" id="occupation">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="others">Others</option>
+            </select>
+        </div>
+      </div>
+
+      <div class="formbold-mb-3 formbold-input-wrapp">
+        <label for="mobile" class="formbold-form-label"> Phone </label>
+         
+          <input
+            type="number"
+            name="mobile"
+            id="mobile"
+            placeholder="<?php echo $data['details']->mobile ?>"
+            class="formbold-form-input"
+          />
+       
+      </div>
+
+      <div class="formbold-mb-3">
+        <label for="profession" class="formbold-form-label"> Profession: </label>
+        <input
+          type="text"
+          name="profession"
+          id="profession"
+          placeholder="<?php echo $data['details']->profession ?>"
+          class="formbold-form-input"
+        />
+      </div>
+
+
+      <div class="formbold-mb-3">
+        <label for="address1" class="formbold-form-label"> Address </label>
+
+        <input
+          type="text"
+          name="address1"
+          id="address1"
+          placeholder="<?php echo $data['details']->address_line_one ?>"
+          class="formbold-form-input formbold-mb-3"
+        />
+        <input
+          type="text"
+          name="address2"
+          id="address2"
+          placeholder="<?php echo $data['details']->address_line_two ?>"
+          class="formbold-form-input formbold-mb-3"
+        />
+
+      </div>
+
+      <div class="formbold-mb-3">
+        <label for="qualifications" class="formbold-form-label"> Qualifications: </label>
+        <input
+          type="text"
+          name="qualifications"
+          id="qualifications"
+          placeholder="<?php echo $data['details']->qualifications ?>"
+          class="formbold-form-input"
+        />
+      </div>
+
+      <div class="formbold-mb-3">
+        <label for="achievements" class="formbold-form-label"> Achievements </label>
+        <input
+          type="text"
+          name="achievements"
+          id="achievements"
+          placeholder="<?php echo $data['details']->achievements ?>"
+          class="formbold-form-input"
+        />
+      </div>
+
+      <div class="formbold-mb-3">
+        <label for="description" class="formbold-form-label">
+          Profile Description
+        </label>
+        <textarea
+          rows="6"
+          name="description"
+          id="description"
+          placeholder="<?php echo $data['details']->description ?>"
+          class="formbold-form-input"
+        ></textarea>
+      </div>
+
+      <div class="formbold-form-file-flex">
+        <label for="upload" class="formbold-form-label">
+          Upload Profile Image
+        </label>
+        <input
+          type="file"
+          name="upload"
+          id="upload"
+          class="formbold-form-file"
+        />
+      </div>
+      <button type="submit" class="formbold-btn">Save Settings</button>
+      <button id="cancel" type="reset" onclick="exit()">Cancel</button>
+    </form>
+  </div>
 </div>
 
-<script src="<?php echo URLROOT . '/public/js/form.js'; ?>"></script>
-
-<script>
-//keeping the sidebar button clicked at the page
-
-link = document.querySelector('#profile-settings');
-link.style.background = "#E5E9F7";
-link.style.color = "red";
-
-function exit() {
-    window.location.replace("http://localhost/audex/service_providers/profile");
-}
-</script>
-
-</body>
-
-</html>

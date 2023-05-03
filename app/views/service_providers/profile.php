@@ -11,68 +11,67 @@
             <div class="name-rating">
                 <div class="name">
                     <p id="Name"><?php echo $data['details']->first_name . ' ' . $data['details']->second_name ?></p>
-                    <p id="profession"><?php echo $data['details']->profession?></p>
+                    <i class="fa fa-map-marker" aria-hidden="true"></i><span id="profession"><?php echo $data['details']->address_line_two ?></span>
                 </div>
-                <div class="rating"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star"
-                        aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star"
-                        aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></div>
+                <div class="rating">
+                <?php for($i=0; $i<floor($data['details']->Rating); $i++): ?>
+                <i class="fa fa-star"></i>
+                <?php endfor; ?>
                 </div>
+              
         </div>
-        <div class="profile-info">
-            <div class="description">
-                <h1>About me</h1>
-                <p> <?php if($data['details']->description == ''){
-                    echo '<span class="red-alert">please complete your profile in the profile settings section</span>';
-                }
-                else{
-                    echo $data['details']->description;
-                } ?>
-
-                </p>
-            </div>
-            <div class="info-blocks">
-                <div class="info-titles">
-                    <span>First Name : </span>
-                    <span>Last Name : </span>
-                    <span>Email : </span>
-                    <span>Address Line 1 : </span>
-                    <span>Address Line 2 : </span>
-                    <span>Mobile : </span>
-                    <span>Profession : </span>
-                    <span>Qualifications : </span>
-                    <span>Achivements : </span>
-                </div>
-                <div class="info-items">
-                    <span><?php echo $data['details']->first_name ?></span>
-                    <span><?php echo $data['details']->second_name ?></span>
-                    <span><?php echo $data['details']->email ?></span>
-                    <span><?php echo $data['details']->address_line_one ?></span>
-                    <span><?php echo $data['details']->address_line_two ?></span>
-                    <span><?php echo $data['details']->mobile ?></span>
-                    <span><?php echo $data['details']->profession ?></span>
-                    <span><?php echo $data['details']->qualifications ?></span>
-                    <span><?php echo $data['details']->achievements?></span>
-                </div>
-            </div>
-
-        </div>
-        <a href="<?php echo URLROOT .'/service_providers/settings'?>" class="btn" id="edit-settings"> Edit Settings</a></button>
+          
+        <button id="edit-details" class="btn" onclick="gotoSettings()">Edit Details</button>
+       
+        <!-- <a href="<?php echo URLROOT .'/service_providers/settings'?>" class="btn" id="edit-settings"> Edit Settings</a></button>
         <h2>Events</h2>
         <a href="<?php echo URLROOT .'/service_providers/addEvent'?>" style="margin-left:10px;" id="add-event">Add Event</a>
-        <div class="events">
+        <div class="events"> -->
 
+                    
+        <div class="mid-section profile-title">
+            <div class="other-details">
+                <span>Email</span>
+                <p><?php echo $data['details']->email; ?></p>
+                <span>Qualifications</span>
+                 <p><?php echo $data['details']->qualifications; ?></p>
+                <span>Achievements</span>
+                <p><?php echo $data['details']->achievements; ?></p>
 
-            <?php foreach ($data['events'] as $event):
-                echo '<div class="event">';
-                echo '<h1>' . $event->name . '</h1>';
-                echo '<p>' . $event->date . '</p>';
-                echo '</div>';
+            </div>
+            <div class="profile-description name-rating">
+                <p id="profession">
+                <?php echo $data['details']->profession; ?>
 
-            endforeach;
-
-                ?>
+                </p>
+                <?php echo $data['details']->description; ?>
+            </div>
 
         </div>
+        <p id="upcoming" >Upcoming Events</p>
+        <button class="add-event-btn" onclick="addMoreEvents()">Add More Events</button>
+        <div class="lower-section profile-title">
+            <div class="profile-events">
+                
+                <?php foreach ($data['events'] as $event ): ?>
+                    <div class="event-display">
+                        
+                        <img src="<?php echo URLROOT . '/public/uploads/events/' . $event->image;?>" alt="">
+                        <div class="overlay">
+                            <div class="text"><?php echo $event->name;?></div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                   
+                
+            </div>
+
+        </div>
+
+     
+
+                
+    </div>
     </div>
 
 
@@ -117,6 +116,23 @@ if (error) {
     editButton.style.animation = "alert 2s ease 0s infinite normal forwards"
     editButton.style.color = "#FF0000"
     editButton.style.background = "#E5E9F7"
+}
+
+
+//Edit settings button
+// const editSettingBtn = document.querySelector(".edit-details")
+// console.log(editSettingBtn);
+// editSettingBtn.addEventListener('click',function(){
+//     console.log('working');
+//     window.open('http://localhost/Audex/service_providers/settings', '_self');
+// });
+
+function gotoSettings(){
+    window.open('http://localhost/Audex/service_providers/settings', '_self');
+    
+}
+function addMoreEvents(){
+    window.open('http://localhost/Audex/service_providers/eventCalander?month=current', '_self')
 }
 </script>
 

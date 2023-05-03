@@ -364,6 +364,10 @@ class Service_providers extends Controller
         return json_encode($data);
     }
 
+    public function addNewPost(){
+        $this->view('service_providers/addNewPost');
+    }
+
  
 
 }
