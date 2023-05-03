@@ -227,7 +227,7 @@
                         for (let i = 0; i < value; i++) {
                             stars[i].classList.add('selected');
                         }
-                        document.getElementById('buyer-selected-rate').value = value;
+                        // document.getElementById('buyer-selected-rate').value = value;
                         // document.getElementById('current-seller-rate').value = data.results4;
                     
                 });

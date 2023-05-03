@@ -612,8 +612,12 @@
           
                 //   redirect('users/login');
                 // }
+                
+                //get all feedback this user has 
                 $feedbacks=$this->userModel->getFeedbacks($user->email);
+
                 $feedbackcount=$this->userModel->getFeedbacksCount($user->email);
+                
                 $data =[
                   'id' => $id,
                   'user' => $user,
@@ -2587,7 +2591,7 @@
                 if(!empty(trim($productType))){
                    $Filter['product_type']= $productType;
                 }
-                $results = $this-> userModel->searchAndFilterItems($Filter);
+                $results = $this-> userModel->searchAndFilterItems($Filter);            
                 echo json_encode(['message' => 'filters','results'=>$results]);
             }
 

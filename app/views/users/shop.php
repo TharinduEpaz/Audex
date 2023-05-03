@@ -122,7 +122,8 @@
 
         #shop-search-results{
             display: block;
-            margin-top: -36px;
+            margin-top: -46px;
+            margin-left: -20px;
         }
         #shop-search-results .table {
             width: 692px;
@@ -140,7 +141,7 @@
 
 
         .shop-container {
-            /* max-width: 1200px; */
+            min-width: 1200px;
             margin: 0 auto;
             display: flex;
             flex-direction: row;
@@ -302,7 +303,7 @@
 
         .ad-search-shop input[type="text"] {
             padding: 5px;
-            margin: 0 0 1% -23%;
+            margin: 0 0 1% -28%;
             border: none;
             border-radius: 3px;
             width: 65%;

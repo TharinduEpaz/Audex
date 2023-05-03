@@ -99,7 +99,7 @@
                             // if not log in then show the button to every one
                             if( !isLoggedIn() ){?>
                                 <div class="button-container">
-                                    <input type="submit" value="Add To Watchlist" class="watch" id="add-service-provider-to-watchlist" style="background: blue ; color: white;" >
+                                    <input type="submit" value="Add To Watchlist" class="watch" id="add-service-provider-to-watchlist" " >
                                 </div>
             
                             <?php } else if($_SESSION['user_type'] != 'seller' && $_SESSION['user_type'] != 'service_provider' ){ ?>
@@ -144,8 +144,6 @@
                                         </div>
                                         <div class="feedback-area">
                                             <form action="" method="post" id="review-write-form">
-
-
                                                 <label for="review">Review:</label>
                                                 <textarea  name="review" rows="4" id="submitted-feedback"  ></textarea>
                                                 <!-- <?php echo $data['loadFeedback'] ?> -->
@@ -314,7 +312,7 @@
                         for (let i = 0; i < value; i++) {
                             stars[i].classList.add('selected');
                         }
-                        document.getElementById('buyer-selected-rate').value = value;
+                        // document.getElementById('buyer-selected-rate').value = value;
                         // document.getElementById('current-seller-rate').value = data.results4;
                     
                 });
