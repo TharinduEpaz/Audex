@@ -405,7 +405,11 @@ button:hover {
   display: block;
 }
 
-/* CSS for event pop ups*/
+
+/*//////////////////////////
+EVENT POP UPS CSS
+////////////////////////// */
+
 
 .event{
   position: fixed;
@@ -434,8 +438,23 @@ button:hover {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  height: 700px;
-  width: 700px;
+  height: 800px;
+  width: 540px;
+
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+
+}
+.event .date{
+  position: absolute;
+  margin-top:150px;
+
+
+}
+.event .time{
+  position: absolute;
+  margin-top:150px;
+  margin-left: 100px;
 
 }
 
@@ -444,9 +463,9 @@ button:hover {
   height:100%;
   object-fit: fill; */
 
-  flex-shrink: 0;
+  /* flex-shrink: 0;
   min-width: 100%;
-  min-height: 100%
+  min-height: 100% */
 }
 .event.active{
   transform: translate(-50%,-50%) scale(1); /* scale 0 is used to hide the event  */
@@ -560,7 +579,13 @@ button:hover {
   background-color: #b4b7ba; /* Change the background color on hover */
 }
 
-/* add event overlay */
+
+
+/*//////////////////////////
+ add event overlay 
+////////////////////////// */
+
+
 
 .add-event {
 
@@ -656,7 +681,7 @@ button:hover {
   border-radius: 50%;
 }
 .formbold-radio-label .formbold-input-radio:checked ~ .formbold-radio-checkmark {
-  background-color: #6A64F1;
+  background-color: #002EF9;
 }
 .formbold-radio-checkmark:after {
   content: "";
@@ -694,7 +719,7 @@ button:hover {
   color: #536387;
 }
 .formbold-form-input:focus {
-  border-color: #6a64f1;
+  border-color: #002EF9;
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
 }
 .formbold-form-label {
@@ -713,7 +738,7 @@ button:hover {
   padding: 14px 25px;
   border: none;
   font-weight: 500;
-  background-color: #6A64F1;
+  background-color: #002EF9;
   color: white;
   cursor: pointer;
   margin-top: 25px;
