@@ -1,3 +1,5 @@
+// this is for home page's search bar
+
 const URLROOT = 'http://localhost/Audex';
 
 const resultTable = document.getElementById("search-results-table");

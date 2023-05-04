@@ -122,7 +122,8 @@
 
         #shop-search-results{
             display: block;
-            margin-top: -36px;
+            margin-top: -46px;
+            margin-left: -20px;
         }
         #shop-search-results .table {
             width: 692px;
@@ -140,7 +141,7 @@
 
 
         .shop-container {
-            /* max-width: 1200px; */
+            min-width: 1200px;
             margin: 0 auto;
             display: flex;
             flex-direction: row;
@@ -302,7 +303,7 @@
 
         .ad-search-shop input[type="text"] {
             padding: 5px;
-            margin: 0 0 1% -23%;
+            margin: 0 0 1% -28%;
             border: none;
             border-radius: 3px;
             width: 65%;
@@ -574,29 +575,6 @@
                         <button type="submit" > SEARCH </button>
                         <!-- <button  id="advance-search" > Filter </button> -->
                     </div>
-                    <!-- <div class="filter-component" id="filter-content" >
-                        <label for="category">Category:</label>
-                        <select name="category" id="category" class="select-category">
-                            <option value="">All</option>
-                            <option value="microphone">Microphone</option>
-                            <option value="amplifier">Amplifier</option>
-                            <option value="speaker">Speaker</option>
-                            <option value="mixer">Mixer</option>
-                        </select>
-
-                        <label for="price">Price Min:</label>
-                        <input type="text" id="price" name="price-min" placeholder="Price Min" >
-
-                        <label for="price">Price Max:</label>
-                        <input type="text" id="price" name="price-max" placeholder="Price Max" >
-
-                        <label for="Product_type">Type:</label>
-                        <select name="type" id="type" class="select-type">
-                            <option value="">All</option>
-                            <option value="fixed_price">Fixed Price</option>
-                            <option value="auction">Auction</option>
-                        </select>
-                    </div> -->
                 </form>
             </div>
             

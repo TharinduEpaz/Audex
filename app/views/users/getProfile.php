@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/form.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/seller_advertisement.css';?>">
+
+    <!-- rate and review Modal is for specific styles for rata and review styles for modal -->
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/rateAndReviewModal.css';?>">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
@@ -90,16 +94,18 @@
                     </div>
                     <?php if(isLoggedIn()){
                     if($_SESSION['user_email']!=$data['user']->email){?>
+                    <!-- if user is logged in check user is not equal to seller -->
                         <div class="message_review">
                             <a  class="message" href="<?php echo URLROOT . '/users/chat/'.$data['user']->user_id;?>" class="btn btn-primary">Message</a>
                             <a href="" class="review" onclick="openModal(); return false;">Write Review</a>
-                    </div>
+                        </div>
                     <?php }}else{ ?>
+                        <!-- user is not logged in -->
                         <div class="message_review">
-                        <a  class="message" href="<?php echo URLROOT . '/users/chat/'.$data['user']->user_id;?>" class="btn btn-primary">Message</a>
+                            <a  class="message" href="<?php echo URLROOT . '/users/chat/'.$data['user']->user_id;?>" class="btn btn-primary">Message</a>
                             <a href="" class="review" onclick="openModal(); return false;">Write Review</a>
                         </div>
-                        <?php } ?>
+                    <?php } ?>
                         <div id="myModal" class="modal">
                             <div class="modal-content">
                                 <span class="close" onclick="closeModal()" style="float: right; z-index: 1; position: inherit; visibility: visible; opacity:100%;">&times;</span>
@@ -225,7 +231,7 @@
                         for (let i = 0; i < value; i++) {
                             stars[i].classList.add('selected');
                         }
-                        document.getElementById('buyer-selected-rate').value = value;
+                        // document.getElementById('buyer-selected-rate').value = value;
                         // document.getElementById('current-seller-rate').value = data.results4;
                     
                 });

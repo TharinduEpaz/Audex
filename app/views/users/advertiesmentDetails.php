@@ -111,8 +111,8 @@
                                         </div>  
                                         <hr>
                                         <div style="margin-top: 1vh;">
-                                            <button class="continue">OK </button>  
                                             <button class="close">Close</button>
+                                            <button class="continue">OK </button>  
                                         </div>
                                     </dialog>
                     
@@ -138,9 +138,10 @@
                                                 <!-- <i class="fa-sharp fa-solid fa-xmark"></i> -->
                                             </div>  
                                             <hr>
-                                            <div style="margin-top: 1vh;">
-                                                <button class="continue">OK </button>  
+                                            <div class="bottom-part" style="margin-top: 1vh;">
+                                                <h4>Do You Want To Continue?</h4>
                                                 <button class="close">Close</button>
+                                                <button class="continue">OK </button>  
                                             </div>
                                         </dialog>
                         

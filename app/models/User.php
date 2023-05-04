@@ -1098,6 +1098,8 @@ date_default_timezone_set("Asia/Kolkata");
             $sql=substr($sql,0,-4);
             
             $this->db->query('SELECT * FROM product WHERE '.$sql);
+            // $this->db->query('SELECT * FROM product LEFT JOIN auction ON product.product_id = auction.product_id WHERE '.$sql. 'AND auction.is_active = 1 AND auction.is_finished = 0' );
+
             foreach($filter as $key=>$value){
                 $this->db->bind(':'.$key, $value);
             }

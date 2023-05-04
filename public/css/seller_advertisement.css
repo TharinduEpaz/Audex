@@ -370,13 +370,17 @@ body{
   float: right;
   font-size: 28px;
   font-weight: bold;
+  background: gray;
+  color: white;
+  text-align: center;
 }
 
 .close:hover,
 .close:focus {
-  color: black;
+  color: white;
   text-decoration: none;
   cursor: pointer;
+  background: red;
 }
 
 .feedback{
@@ -458,7 +462,7 @@ body{
 
 .star-rating {
   display: inline-block;
-  height: 3vh;
+  /* height: 3vh; */
   margin: 2%;
   padding: 1%;
 }
@@ -540,7 +544,9 @@ width: 30%;
 .feedback-area form textarea{
   margin: 1%;
   border: 1px solid;
-  overflow: scroll;
+  overflow: hidden;
+  overflow-y: auto;
   border-radius: 0.25rem;
   padding: 3%;
+  resize: none;
 }

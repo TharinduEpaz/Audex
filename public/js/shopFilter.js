@@ -56,42 +56,72 @@ function handleFilterChange() {
     .then(response => response.json())
     .then((data) => {
         // Update the filtered data on the shop page
-        if(data.length >0){
+        if( (data.results.length > 0) && (data.message == 'filters')){
+            console.log(data.results.length, data.message,'come here');
             var htmlLast = "";
-            for (var i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.results.length; i++) {
     
-                var result = data[i];
+                var result = data.results[i];
                 var imgLink = "<img src=" + URLROOT+"/public/uploads/"+ result.image1 +">";
 
                 // check item type
                 if(result.product_type == 'auction'){
                     // item type is auction
-                    var link = "<a href ="+ URLROOT+"/users/auction/"+result.product_id+ " >";
+                    if((result.is_active === '1') && (result.is_finished === '0')){
+                        var link = "<a href ="+ URLROOT+"/users/auction/"+result.product_id+ " >";
+    
+                        html = "<div class='container-ad'> <div class='container-img'> "+
+                                link+imgLink +"</a></div>"+
+                                "<div class = 'title'> <h3>"+link+result.product_title+"</a> </h3> <h6>"+result.p_description+"</h6> </div>"+
+                                "<div class = 'price'> <label>Auction</label> <label for= 'price' >LKR:"+result.price+"</label>"+link+"<button type = 'submit'>View</button></a></div>"+
+                                "</div>";
 
-                    html = "<div class='container-ad'> <div class='container-img'> "+
-                            link+imgLink +"</a></div>"+
-                            "<div class = 'title'> <h3>"+link+result.product_title+"</a> </h3> <h6>"+result.p_description+"</h6> </div>"+
-                            "<div class = 'price'> <label>Auction</label> <label for= 'price' >LKR:"+result.price+"</label>"+link+"<button type = 'submit'>View</button></a></div>"+
-                            "</div>";
+                        htmlLast = htmlLast + html;
+                    }
                             
                 }
                 else{
                     // item type is fixed_price
-                    var link = "<a href ="+ URLROOT+"/users/advertiesmentDetails/"+result.product_id+ " >";
+                    if(result.is_deleted == '0'){
+                        var link = "<a href ="+ URLROOT+"/users/advertiesmentDetails/"+result.product_id+ " >";
+    
+                        html = "<div class='container-ad'> <div class='container-img'> "+
+                                link+imgLink +"</a></div>"+
+                                "<div class = 'title'><h3>"+link+result.product_title+"</a></h3><h6>"+result.p_description+"</h6></div>"+
+                                "<div class = 'price'><label for= 'price' >LKR:"+result.price+"</label>"+link+"<button type = 'submit'>View</button></a></div>"+
+                                "</div>";
 
-                    html = "<div class='container-ad'> <div class='container-img'> "+
-                            link+imgLink +"</a></div>"+
-                            "<div class = 'title'><h3>"+link+result.product_title+"</a></h3><h6>"+result.p_description+"</h6></div>"+
-                            "<div class = 'price'><label for= 'price' >LKR:"+result.price+"</label>"+link+"<button type = 'submit'>View</button></a></div>"+
-                            "</div>";
+                        htmlLast = htmlLast + html;
+                    }
                 }
-                htmlLast = htmlLast + html;
+                
             }
-            document.getElementById("shop-container-data").innerHTML = htmlLast;
+            // check if is there any unexpired values are there
+            if(!(htmlLast === "" ) ){
+                document.getElementById("shop-page-search-result-area").innerHTML = '';
+                document.getElementById("shop-container-data").innerHTML = htmlLast;
+
+            }
+            else{
+                // htmlLast value is empty because no active items
+                var html = "<div class = 'header'> <h1>Filter Results:Not Found !</h1> </div>";
+                document.getElementById("shop-page-search-result-area").innerHTML = html;
+                document.getElementById("shop-container-data").innerHTML = '';
+            }
             console.log(htmlLast);
         }
         else{
-            window.location.href = URLROOT+'/users/shop/';
+            // filters applied but no matching items
+            if(data.results.length == 0 && data.message == 'filters'){
+                console.log(data.results.length, data.message);
+                var html = "<div class = 'header'> <h1>Filter Results:Not Found !</h1> </div>";
+                document.getElementById("shop-page-search-result-area").innerHTML = html;
+                document.getElementById("shop-container-data").innerHTML = '';
+            }
+            else{
+                console.log(data.results.length, data.message);
+                window.location.href = URLROOT+'/users/shop/';
+            }
         }
  
 
