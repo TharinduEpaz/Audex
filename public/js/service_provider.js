@@ -109,7 +109,7 @@ $(document).ready(function() {
         success: function(response) {
           // Handle success response
           console.log(response);
-        //   window.location.href = 'http://localhost/Audex/service_providers/eventCalander'
+          window.location.href = 'http://localhost/Audex/service_providers/eventCalander'
         },
         error: function(jqXHR, textStatus, errorThrown) {
           // Handle error response
