@@ -120,6 +120,8 @@
                                         while($j<5){ ?>
                                         <i class="fa fa-star-o"></i>
                                         <?php $j++; } ?>
+                                        <span>(<?php echo $data['feedbackcount']?>)</span>
+
                             </div>
                             <div class="date">
                                 <p>Joined : <?php echo date('Y-m-d',strtotime($data['user']->registered_date));; ?></p>
@@ -136,10 +138,12 @@
                 <div class="form-data-area">
                     <label for="first_name">First Name:</label>
                     <input type="text" name="first_name" value="<?php echo $data['user']->first_name; ?>" disabled>
+                    <span style="width:16px;margin-left: 2%;"></span>
                 </div>
                 <div class="form-data-area">
                     <label for="second_name">Second Name:</label>
                     <input type="text" name="second_name" value="<?php echo $data['user']->second_name; ?>" disabled>
+                    <span style="width:16px;margin-left: 2%;"></span>
                 </div>
                 <div class="form-data-area">
                     <label for="email">Email:</label>
@@ -149,15 +153,17 @@
                 <div class="form-data-area">
                     <label for="address1">Address Line 1:</label>
                     <input type="text" name="address1" value="<?php echo $data['user']->address1; ?>" disabled>
+                    <span style="width:16px;margin-left: 2%;"></span>
                 </div>
                 <div class="form-data-area">
                     <label for="address2">Address Line 1:</label>
                     <input type="text" name="address2" value="<?php echo $data['user']->address2; ?>" disabled>
+                    <span style="width:16px;margin-left: 2%;"></span>
                 </div>
                 <div class="form-data-area">
                     <label for="password">Password</label>
                     <input type="text" name="password" value="*********" disabled>
-                    <a style="margin-left: 2%;" href="<?php echo URLROOT.'/users/change_password/'.$data['user']->user_id;?>"><i class="fas fa-edit"></i></a>
+                    <a style="margin-left: 2%;" onmouseover="this.style.backgroundColor='white';" href="<?php echo URLROOT.'/users/change_password/'.$data['user']->user_id;?>"><i class="fas fa-edit"></i></a>
                 </div>
                 <div class="form-data-area">
                     <label for="phone_number">Phone Number:</label>

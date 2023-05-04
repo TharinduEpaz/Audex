@@ -20,6 +20,9 @@
         <?php echo flash('rating_message')?>
 
         <div class="poster_advertisements">
+
+                <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
+
             
             <div class="form-display">
                 <div class="top_details">
@@ -43,6 +46,7 @@
                                         while($j<5){ ?>
                                         <i class="fa fa-star-o"></i>
                                         <?php $j++; } ?>
+                                        <span>(<?php echo $data['feedbackcount'][0]->count?>)</span>
                             </div>
                             <div class="date">
                                 <p>Joined : <?php echo date('Y-m-d',strtotime($data['user']->registered_date));; ?></p>
@@ -136,7 +140,7 @@
             </div> 
         </div>
     </div>
-    <h1 style="text-align: center;margin-bottom:2vh;"><?php echo '('.$data['feedbackcount'].') '?>Feedbacks</h1>
+    <h1 style="text-align: center;margin-bottom:2vh;"><?php echo '('.$data['feedbackcount'][0]->count.') '?>Feedbacks</h1>
     <div class="feedback" style="font-size:16pt;font-weight:800;">
         <div class="feed" style="text-align: center;">
             <h4>Review</h4>

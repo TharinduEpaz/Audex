@@ -8,7 +8,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
     class Sellers extends Controller{
         private $sellerModel;
-        private $userModel;
+        // private $userModel;
 
 
         public function __construct(){
@@ -40,7 +40,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
 
             $this->sellerModel=$this->model('Seller');
-            $this->userModel = $this->model('User');
+            // $this->userModel = $this->model('User');
 
         }
 
@@ -62,12 +62,13 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
       }
       $details = $this->sellerModel->getUserDetails($id);
       $sellerDetails = $this->sellerModel->getSellerDetails($id);
+      $feedbackcount=$this->sellerModel->getFeedbacksCount($details->email);
+
 
       if ($details->user_id != $_SESSION['user_id']) {
         redirect('users/index');
       }
-      $feedbacks=$this->userModel->getFeedbacks($details->email);
-      $feedbackcount=$this->userModel->getFeedbacksCount($details->email);
+      $feedbacks=$this->sellerModel->getFeedbacks($details->email);
 
       $data =[
         'id' => $id,
@@ -206,7 +207,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             $data=[
                 'advertisement'=>$advertisement
             ];
-            $auction = $this->userModel->getAuctionById_withfinished($id);
+            $auction = $this->sellerModel->getAuctionById_withfinished($id);
             $data['auction'] = $auction;
             if($data['advertisement']->email!=$_SESSION['user_email']){
                 redirect('sellers/advertisements');
@@ -218,7 +219,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
         //Add product
         public function advertise(){
-            $sellerDetails = $this->userModel->getUserDetailsByEmail($_SESSION['user_email']);
+            $sellerDetails = $this->sellerModel->getUserDetailsByEmail($_SESSION['user_email']);
             if(!isLoggedIn()){
                 $_SESSION['URL'] =URL();
                 redirect('users/login');
@@ -250,6 +251,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'type'=> 'fixed_price',
                     'end_date'=>'',
                     'category' =>ucwords(trim($_POST['category'])),
+                    'district' =>ucwords(trim($_POST['district'])),
                     'title_err' => '',
                     'description_err' => '',
                     'price_err' => '',
@@ -280,7 +282,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     $data['latitude']='';
                     $data['address']='';
                 }
-                $user_id=$this->userModel->getUserId($data['user_email']);
+                $user_id=$this->sellerModel->getUserId($data['user_email']);
                 $data['user_id']=$user_id->user_id;
 
                 //Validate data
@@ -467,7 +469,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     // }
                     $dat=date('Y-m-d H:i:s');
                     $data['date_added']=$dat;
-                    $data['date_expire']=date('Y-m-d H:i:s', strtotime($dat. ' + 30 days'));
+                    $data['date_expire']=date('Y-m-d H:i:s', strtotime($dat. ' + 90 days'));
                     if($data['longitude']=='' && $data['latitude']==''){
                         $data['longitude']='NULL';
                         $data['latitude']='NULL';
@@ -549,6 +551,8 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'brand' => trim($_POST['brand']),
                     'model' => trim($_POST['model']),
                     'category' =>trim($_POST['category']),
+                    'district' => trim($_POST['district']),
+                    'product_type'=>$advertisement->product_type,
                     'title_err' => '',
                     'description_err' => '',
                     'price_err' => '',
@@ -781,6 +785,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'brand' => $advertisement->brand,
                     'model' => $advertisement->model_no,
                     'category' =>$advertisement->product_category,
+                    'district' => $advertisement->district,
                     'product_type'=>$advertisement->product_type,
                     'title_err' => '',
                     'description_err' => '',
@@ -1004,7 +1009,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
         }
 
         public function bid_list($id){
-            $ad = $this->userModel->getAdvertiesmentById($id);
+            //Gets advertisement details
+            $ad = $this->sellerModel->getAdvertiesmentById($id);
+
             if(isLoggedIn()){
                 if($ad->email != $_SESSION['user_email']){
                         $_SESSION['url'] = URL();
@@ -1017,11 +1024,11 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
             $data['ad'] = $ad;
   
-            $auction = $this->userModel->getAuctionById_withfinished($id);
+            $auction = $this->sellerModel->getAuctionById_withfinished($id);
             $data['auction'] = $auction;
             
-            $auction_details = $this -> userModel->getAuctionDetails($id);
-            $auctions_details_no_rows= $this -> userModel->getAuctionDetailsNoRows($id);
+            $auction_details = $this -> sellerModel->getAuctionDetails($id);
+            $auctions_details_no_rows= $this -> sellerModel->getAuctionDetailsNoRows($id);
 
            
 
@@ -1041,12 +1048,12 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             //   $data['user']=$this->userModel->findUserDetailsByEmail($auction_details->email_buyer);
 
               for($i=0;$i<$auctions_details_no_rows;$i++){
-                 $bid_list = $this->userModel->getBidList($data['auctions'][$i]->max_bid_id,$data['auctions'][$i]->max_price);
-                 $data['user'][$i]=$this->userModel->findUserDetailsByEmail($data['auctions'][$i]->email_buyer);
+                 $bid_list = $this->sellerModel->getBidList($data['auctions'][$i]->max_bid_id,$data['auctions'][$i]->max_price);
+                 $data['user'][$i]=$this->sellerModel->findUserDetailsByEmail($data['auctions'][$i]->email_buyer);
                  if($bid_list!=NULL){
                     if(date('Y-m-d H:i:s', strtotime($bid_list->time. ' + 5 days'))<date('Y-m-d H:i:s') && $bid_list->is_accepted==0 && $bid_list->is_rejected==0){
-                        $this->userModel->updateBidStatus($bid_list->bid_id,$data['auctions'][$i]->max_price);
-                         $bid_list1 = $this->userModel->getBidList($data['auctions'][$i]->max_bid_id,$data['auctions'][$i]->max_price);
+                        $this->sellerModel->updateBidStatus($bid_list->bid_id,$data['auctions'][$i]->max_price);
+                         $bid_list1 = $this->sellerModel->getBidList($data['auctions'][$i]->max_bid_id,$data['auctions'][$i]->max_price);
                          $data['bid_list'][$i]=$bid_list1;
 
                     }else{

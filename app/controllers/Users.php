@@ -9,8 +9,8 @@
         require_once dirname(APPROOT).'/app/stripe/init.php';
     class Users extends Controller{
         private $userModel;
-        private $buyerModel;
-        private $sellerModel;
+        // private $buyerModel;
+        // private $sellerModel;
         private $calendar;
 
 
@@ -18,8 +18,8 @@
         public function __construct(){
             
             $this->userModel = $this->model('User');
-            $this->buyerModel = $this->model('Buyer');
-            $this->sellerModel = $this->model('Seller');
+            // $this->buyerModel = $this->model('Buyer');
+            // $this->sellerModel = $this->model('Seller');
 
             //Session timeout
             if(isset($_SESSION['time'])){
@@ -40,9 +40,21 @@
                 unset($_SESSION['attempt']);
                 unset($_SESSION['time']);
             }
-            $data = [
-                'title' => 'Welcome!!!!!'
-              ];
+            //Get hotest auctions
+            $auctions = $this->userModel->getHotestAuctions();
+            //Get popular sound engineers
+            $engineers = $this->userModel->getPopularEngineers();
+            if($auctions!=false){
+                $data['auctions'] = $auctions;
+            }else{
+                $data['auctions'] = [];
+            }
+            if($engineers!=false){
+                $data['engineers'] = $engineers;
+            }else{
+                $data['engineers'] = [];
+            }
+
              
               $this->view('users/index', $data);
         }
@@ -601,7 +613,7 @@
                 }else if($user->user_type=='seller'){
                     $userDetails = $this->userModel->getSellerDetails($user->email);
                 }else if($user->user_type=='service_provider'){
-                    $userDetails = $this->userModel->getService_ProviderDetails($user->email);
+                    $userDetails = $this->userModel->getService_ProviderDetails($user->user_id);
                 }
                 // if ($details->user_id != $_SESSION['user_id']) {
                 //   $_SESSION['url']=URL();
@@ -1716,13 +1728,15 @@
           $auction = $this->userModel->getAuctionById($id);
           $data['auction'] = $auction;
 
-
-          if($SellerMoreDetails->email!=$_SESSION['user_email']){
-            if($this->userModel->update_view_count($id)){
-
-            }else{
-                die('Error');
-            }
+          if(isLoggedIn()){
+              if($SellerMoreDetails->email!=$_SESSION['user_email']){
+                if($this->userModel->update_view_count($id)){
+    
+                }else{
+                    die('Error');
+                }
+    
+              }
 
           }
           $this->view('users/auction',$data);
@@ -1735,6 +1749,9 @@
           $buyerDetails = $this->userModel->getUserDetailsByEmail($_SESSION['user_email']);
           $ad = $this->userModel->getAdvertiesmentById($id);
           $data['ad'] = $ad;
+          $SellerMoreDetails = $this->userModel->getSellerMoreDetails($ad->email);
+          $data['SellerMoreDetails'] = $SellerMoreDetails;
+
           $i=0;
 
           $auction = $this->userModel->getAuctionById($id);
@@ -2325,7 +2342,7 @@
         
         public function approve_reject_bid($product_id,$bid_id,$time){
             if(time() < $time){
-                $advertisement=$this->sellerModel->getAdvertisementById($product_id);
+                $advertisement=$this->userModel->getAdvertisementById($product_id);
                 $sellerDetails = $this->userModel->getSellerDetails($advertisement->email);
                 $SellerMoreDetails = $this->userModel->getSellerMoreDetails($advertisement->email);
                 $sellerRegDate = $SellerMoreDetails->registered_date;

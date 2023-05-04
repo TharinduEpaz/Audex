@@ -23,6 +23,7 @@
         <?php echo flash('email_err');?>
         <?php echo flash('auction_message');?>
         <?php echo flash('user_type_message');?>
+                <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
         
         <div class="search">
             <div class="heading">
@@ -60,22 +61,26 @@
     <div class="hotest_auctions">
 
         <p id="title">Hotest Auctions</p>
-        <div class="auction auction1"><img src="" alt=""></div>
-        <div class="auction auction2"></div>
-        <div class="auction auction3"></div>
-        <div class="auction auction4"></div>
-        <div class="auction auction5"></div>
-        <div class="auction auction6"></div>
+        <?php $i=0;foreach($data['auctions'] as $auction){?>
+            <a href="<?php echo URLROOT.'/users/auction/'.$auction->product_id?>">
+                <div class="auction"><img src="<?php echo URLROOT.'/uploads/'.$auction->image1?>" alt=""></div>
+        </a>
+        <?php $i++;}?>
+        <?php while($i<6){?>
+            <div class="auction"></div>
+        <?php $i++;}?>
 
     </div>
     <div class="popular_engineers">
         <p id="title">Popular Engineers</p>
-        <div class="engineer engineer1"></div>
-        <div class="engineer engineer2"></div>
-        <div class="engineer engineer3"></div>
-        <div class="engineer engineer4"></div>
-        <div class="engineer engineer5"></div>
-        <div class="engineer engineer6"></div>
+        <?php $i=0;foreach($data['engineers'] as $engineer){?>
+            <a href="<?php echo URLROOT.'/users/serviceProviderPublic/'. "?id=$engineer->user_id"?>">
+                <div class="engineer"><img src="<?php echo URLROOT.'/uploads/Profile/'.$engineer->profile_image?>" alt=""></div>
+        </a>
+        <?php $i++;}?>
+        <?php while($i<6){?>
+            <div class="engineer"></div>
+        <?php $i++;}?>
 
     </div>
     <div class="upcoming_events">

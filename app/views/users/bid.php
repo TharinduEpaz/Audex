@@ -124,7 +124,7 @@
                         if($_SESSION['user_email']!=$data['ad']->email){
                             echo '<div class="message_bid">';
                                 echo '<div class="message_seller">';
-                                echo '<a href="'.URLROOT.'/users/message" class="btn">Message Seller</a>';
+                            echo '<a href="'.URLROOT.'/users/chat/'.$data['SellerMoreDetails']->user_id.'"><i class="fas fa-comments"></i>Message</a>';
                                 echo '</div>';
                             echo '</div>';
                         }

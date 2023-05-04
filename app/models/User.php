@@ -433,6 +433,13 @@ date_default_timezone_set("Asia/Kolkata");
             return $row;
         }
 
+        public function getAdvertisementById($id){
+            $this->db->query('SELECT * FROM product WHERE product_id = :id');
+            $this->db->bind(':id', $id);
+            $row = $this->db->single();
+            return $row;
+        }
+
         public function getSellerDetails($email){
             $this->db->query('SELECT * FROM seller WHERE email = :email');
             $this->db->bind(':email' , $email);
@@ -449,9 +456,9 @@ date_default_timezone_set("Asia/Kolkata");
             return $row;
         }
 
-        public function getService_ProviderDetails($email){
-            $this->db->query('SELECT * FROM service_provider WHERE email = :email');
-            $this->db->bind(':email' , $email);
+        public function getService_ProviderDetails($id){
+            $this->db->query('SELECT * FROM service_provider WHERE user_id = :id');
+            $this->db->bind(':id' , $id);
 
             $row = $this->db->single();
             return $row;
@@ -475,12 +482,11 @@ date_default_timezone_set("Asia/Kolkata");
         }
 
         public function getFeedbacksCount($email){
-            $this->db->query('SELECT * FROM rate WHERE email_rate_receiver = :email');
+            $this->db->query('SELECT COUNT(email_rate_receiver) AS count FROM rate WHERE email_rate_receiver = :email');
             $this->db->bind(':email' , $email);
             $row = $this->db->resultSet();
             if($row){
-                $rowCount = $this->db->rowCount();
-                return $rowCount;
+                return $row;
             }else{
                 return NULL;
             }
@@ -1103,13 +1109,13 @@ date_default_timezone_set("Asia/Kolkata");
             $sql='';
             foreach($filter as $key=>$value){
                 if($key==='min_price'){
-                    $sql.='price >= :min_price';
+                    $sql.='product.price >= :min_price';
                 }
                 else if($key=='max_price'){
-                    $sql.='price <= :max_price';
+                    $sql.='product.price <= :max_price';
                 }
                 else{
-                    $sql.=$key." = :".$key."";
+                    $sql.="product".$key." = :".$key."";
                 }
                 $sql.=' AND ';
             }
@@ -1117,7 +1123,8 @@ date_default_timezone_set("Asia/Kolkata");
 
             // echo $sql;
             
-            $this->db->query('SELECT * FROM product WHERE product_title LIKE :searchedTerm AND '.$sql);
+            // $this->db->query('SELECT * FROM product WHERE product_title LIKE :searchedTerm AND '.$sql);
+            $this->db->query('SELECT * FROM product LEFT JOIN auction ON product.product_id = auction.product_id WHERE '.$sql.' AND product.brand="ecwc" AND auction.is_active = 1 AND auction.is_finished = 0');
             $this->db->bind(':searchedTerm', '%'.$searchedTerm.'%');
 
             foreach($filter as $key=>$value){
@@ -1248,7 +1255,7 @@ date_default_timezone_set("Asia/Kolkata");
         }
 
         public function getChats($data){
-            $this->db->query('SELECT * FROM chat WHERE sender_email = :email OR receiver_email = :email');
+            $this->db->query('SELECT * FROM chat WHERE sender_email = :email OR receiver_email = :email ORDER BY chat_id DESC');
             //Bind value
             $this->db->bind(':email', $data['email_sender']);
             $result1 = $this->db->execute();
@@ -1307,6 +1314,30 @@ date_default_timezone_set("Asia/Kolkata");
                 return false;
             }
         }
+        public function getHotestAuctions(){
+            $this->db->query('SELECT * FROM product INNER JOIN auction WHERE product.product_id=auction.product_id AND is_active = 1 ORDER BY end_date ASC LIMIT 6');
+            $result1 = $this->db->execute();
+            if($result1){
+                $result = $this->db->resultSet();
+                return $result;
+            }else{
+                return false;
+            }
+        }
+        public function getPopularEngineers(){
+            $this->db->query('SELECT * FROM user INNER JOIN service_provider WHERE service_provider.user_id=user.user_id AND user.is_deleted=0 AND user.user_type = "service_provider" ORDER BY service_provider.rating DESC LIMIT 6;');
+            $result1 = $this->db->execute();
+            if($result1){
+                $result = $this->db->resultSet();
+                return $result;
+            }else{
+                return false;
+            }
+        }
+
+        
+
+        
         
 
         

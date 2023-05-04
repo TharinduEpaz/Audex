@@ -205,3 +205,18 @@ form{
   .current_messages::-webkit-scrollbar-corner {
     background-color: #f1f1f1;
   }
+  .current_messages {
+    overflow-y: scroll; /* Enable vertical scrollbar */
+    /* height: 200px; Set the height of the div */
+    scroll-behavior: smooth; /* Add smooth scrolling effect */
+    scroll-snap-type: y mandatory; /* Snap to the bottom of the container */
+    scroll-padding-bottom: 20px; /* Add padding to the bottom to avoid content being hidden */
+  }
+  
+  .current_messages::-webkit-scrollbar {
+    width: 6px; /* Width of the scrollbar */
+  }
+  
+  .current_messages::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); /* Color of the scrollbar thumb */
+  }

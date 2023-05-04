@@ -48,8 +48,8 @@
     background: none;
     border: none;
     position: absolute;
-    left: 25%;
-    top: 20vh;
+    left: 35%;
+    top: 72vh;
     font-size: 20pt;
 }
 .heart:hover{
@@ -92,15 +92,15 @@
     border-radius: 2rem;
 }
 .like-dislike-area{
-    width: 30%;
+    width: max-content;
     background-color: #e2e2e2;
     height: 6.5vh;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    padding: 1%;
+    padding: 1% 5%;
     border-radius: 30px;
-    margin-left: 70%;
+    /* margin-left: 70%; */
 }
 .like-dislike-area button{
     margin: 0 0 0 0;
@@ -116,7 +116,7 @@
 #like-count{
     /* padding-left: 1%;
     padding-right: 1%; */
-    width:10% ;
+    width:max-content;
     height: 5vh;
     font-size: 170%;
 }
@@ -130,7 +130,7 @@
     /* margin-left: 6%; */
     /* padding-left: 6%; */
     /* padding-right: 6%; */
-    width:10% ;
+    width:max-content;
     height: 5vh;
     font-size: 170%;
 }

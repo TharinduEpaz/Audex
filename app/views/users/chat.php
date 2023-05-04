@@ -86,6 +86,8 @@
 </div>
 </body>
 <script>
+    var container = document.querySelector('.current_messages');
+    container.scrollTop = container.scrollHeight;
 
     //keeping the sidebar button clicked at the page
     link = document.querySelector('#messages');
@@ -148,6 +150,8 @@
         .catch(error => {
             console.error(error);
         });
+        var container = document.querySelector('.current_messages');
+        container.scrollTop = container.scrollHeight;
         
     });
     
@@ -155,6 +159,8 @@
     
     
     function reloadPage() {
+        // var container = document.querySelector('.current_messages');
+        // container.scrollTop = container.scrollHeight;
         urlNew = '<?php echo URLROOT?>/users/chatMessages/<?php echo $data['receiver_details']->user_id;?>';
         fetch(urlNew,{
             method: 'POST',

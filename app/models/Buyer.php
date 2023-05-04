@@ -433,6 +433,18 @@
             
         }
 
+        public function getFeedbacksCount($email){
+            $this->db->query('SELECT COUNT(email_rate_receiver) AS count FROM rate WHERE email_rate_receiver = :email');
+            $this->db->bind(':email' , $email);
+            $row = $this->db->resultSet();
+            if($row){
+                return $row;
+            }else{
+                return NULL;
+            }
+            
+        }
+
     }
 
 ?>

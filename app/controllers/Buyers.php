@@ -100,7 +100,7 @@
       }
 
       $feedbacks=$this->userModel->getFeedbacks($details->email);
-      $feedbackcount=$this->userModel->getFeedbacksCount($details->email);
+      $feedbackcount=$this->buyerModel->getFeedbacksCount($details->email);
 
       $data =[
         'id' => $id,

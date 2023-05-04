@@ -17,6 +17,7 @@
             <a href="<?php echo URLROOT;?>/users/index"><img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo"></a>
         <?php if(isLoggedIn()){
                     if($_SESSION['user_type']!='seller'){?>
+                    <div class="switch_container">
                         <div class="toggle">
                             <!-- <h1>Toggle Switch</h1> -->
                             <label class="toggle_switch">
@@ -24,17 +25,49 @@
                                 <span class="slider"></span>
                             </label>
                         </div>
-                        <span class="toggle_a">Switch <br>to <br>Selling</span>
+                        <div class="toggle_a">
+                            <div>
+                            <?php if($_SESSION['user_type']=='service_provider'){?>
+                                    <span>Service<br>Provider</span>
+                                <?php }else{?>
+                                <span><?php echo ucwords($_SESSION['user_type']);?></span>
+                                <?php }?>
+                            </div>
+                            <div>
+                                <span>Seller</span>
+                            </div>
+                        </div>
+                        <!-- <span class="toggle_a">Switch <br>to <br>Selling</span> -->
+
+                    </div>
+                        <!-- <span class="toggle_a">Switch <br>to <br>Selling</span> -->
                         <!-- <a  href="<?php echo URLROOT;?>/users/switch_user"> switch to <br>selling</a> -->
             <?php }elseif($_SESSION['user_type']=='seller' && $_SESSION['prev_user_type']!=''){ ?>
+                        
+                        <div class="switch_container">
                         <div class="toggle">
                             <!-- <h1>Toggle Switch</h1> -->
                             <label class="toggle_switch">
-                                <input type="checkbox" id="example" checked >
+                                <input type="checkbox" id="example" checked>
                                 <span class="slider"></span>
                             </label>
                         </div>
-                        <span class="toggle_a">Switch <br>to <br><?php echo ucwords($_SESSION['prev_user_type']);?></span>
+                        <div class="toggle_a">
+                            <div>
+                                <?php if($_SESSION['prev_user_type']=='service_provider'){?>
+                                    <span>Service<br>Provider</span>
+                                    <?php }else{?>
+                                        <span><?php echo ucwords($_SESSION['prev_user_type']);?></span>
+                                        <?php }?>
+                                    </div>
+                                    <div>
+                                        <span>Seller</span>
+                                    </div>
+                        </div>
+                        <!-- <span class="toggle_a">Switch <br>to <br>Selling</span> -->
+
+                    </div>
+                        <!-- <span class="toggle_a">Switch <br>to <br><?php echo ucwords($_SESSION['prev_user_type']);?></span> -->
                         <!-- <a href="<?php echo URLROOT;?>/users/switch_user"> switch to <?php echo ucwords($_SESSION['prev_user_type']);?></a> -->
             <?php }}?> 
                 <script>

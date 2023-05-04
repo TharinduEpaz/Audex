@@ -20,7 +20,9 @@
 </head>
 
 <body>
-    <div class="navbar">
+<?php require_once APPROOT . '/views/users/navbar.php';?>
+
+    <!-- <div class="navbar">
         <nav>
             <input type="checkbox" name="check" id="check" onchange="docheck()">
             <label for="check" class="checkbtn">
@@ -28,9 +30,11 @@
             </label>
             <img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="">
             <ul>
-                <li><a href="<?php echo URLROOT .'/service_providers/index'?>" class="nav_tags">Home</a></li>
-                <li><a href="#" class="nav_tags">Shop</a></li>
-                <li><a href="<?php echo URLROOT.'/users/sound_engineers'; ?>" class="nav_tags">Sound Engineers</a></li>
+            <li><a href="<?php echo URLROOT;?>/users/index" class="nav_tags">Home</a></li>
+            <li><a href="<?php echo URLROOT.'/users/shop'; ?>" class="nav_tags">Shop</a></li>
+            <li><a href="<?php echo URLROOT.'/users/sound_engineers'; ?>" class="nav_tags">Sound Engineers</a></li>
+            <li><a href="#" class="nav_tags">Events</a></li>
+            <li><a href="<?php echo URLROOT.'/users/sound_engineers'; ?>" class="nav_tags">Event Calendar</a></li>
 
 
                 <li><a href="#" class="nav_tags">Events</a></li>
@@ -50,7 +54,7 @@
              ?>
             </ul>
         </nav>
-    </div>
+    </div> -->
 
     <div class="service-provider-profile">
         <div class="white-box">

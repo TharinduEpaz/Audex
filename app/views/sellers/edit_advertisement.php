@@ -27,7 +27,7 @@
         <div class="advertisement">
             <div class="add">
                 <div id="forms" class="form_seller">
-                <?php
+                <!-- <?php
                 if(!empty($data['title_err']) || !empty($data['description_err']) || !empty($data['price_err'])  || !empty($data['condition_err']) || !empty($data['image1_err']) || !empty($data['image2_err']) || !empty($data['image3_err']) || !empty($data['brand_err']) || !empty($data['model_err']) ){
                     echo '<div class="error">';
                         if(!empty($data['title_err'])){
@@ -61,13 +61,26 @@
                     echo '</div>';
                 }
 
-            ?>
+            ?> -->
                     <form action="<?php echo URLROOT . '/sellers/edit_advertisement/'.$data['id'];?>" method="post" enctype="multipart/form-data">
+                    <?php
+                                    if(!empty($data['title_err'])){
+                                    echo '<div class="error">';
+                                        echo '*'.$data['title_err'].'<br>';
+                                    echo '</div>';
+                                    }
+                                ?> 
                         <div class="input">
                             <label for="">Title&nbsp</label>
                             <input class="title" type="text" name="title"  value="<?php echo $data['title']?>" >
                         </div>
-                        <?php if($data['product_type']!='auction'){?>
+                        <?php if($data['product_type']!='auction'){
+                                    if(!empty($data['price_err'])){
+                                    echo '<div class="error">';
+                                        echo '*'.$data['price_err'].'<br>';
+                                    echo '</div>';
+                                    }
+                                ?> 
                         <div class="input">
                             <label for="">Price</label>
                             <input class="price" type="number" name="price"  value="<?php echo $data['price']?>"  >
@@ -130,20 +143,80 @@
                         <div class="input">
                             <label class="category" for="category">Category&nbsp</label>
                             <select name="category" id="category">
-                              <option value="microphone">Microphone</option>
-                              <option value="dj">DJ</option>
-                              <option value="mixer">Mixer</option>
-                              <option value="amplifier">Amplifier</option>                         
+                            <option value="Microphone">Microphone</option>
+                              <option value="DJ">DJ</option>
+                              <option value="Mixer">Mixer</option>
+                              <option value="Amplifier">Amplifier</option>  
+                              <option value="Guitar">Guitar</option>
+                              <option value="Keyboard">Keyboard</option>
+                              <option value="Drumset">Drumset</option>                        
                             </select>
                         </div>
+
+                        <div class="input">
+                            <label class="district" for="district">Select a district&nbsp</label>
+                            <select name="district" id="category">
+                                <option value="Ampara">Ampara</option>
+                                <option value="Anuradhapura">Anuradhapura</option>
+                                <option value="Badulla">Badulla</option>
+                                <option value="Batticaloa">Batticaloa</option>
+                                <option value="Colombo">Colombo</option>
+                                <option value="Galle">Galle</option>
+                                <option value="Gampaha">Gampaha</option>
+                                <option value="Hambantota">Hambantota</option>
+                                <option value="Jaffna">Jaffna</option>
+                                <option value="Kalutara">Kalutara</option>
+                                <option value="Kandy">Kandy</option>
+                                <option value="Kegalle">Kegalle</option>
+                                <option value="Kilinochchi">Kilinochchi</option>
+                                <option value="Kurunegala">Kurunegala</option>
+                                <option value="Mannar">Mannar</option>
+                                <option value="Matale">Matale</option>
+                                <option value="Matara">Matara</option>
+                                <option value="Monaragala">Monaragala</option>
+                                <option value="Mullaitivu">Mullaitivu</option>
+                                <option value="Nuwara Eliya">Nuwara Eliya</option>
+                                <option value="Polonnaruwa">Polonnaruwa</option>
+                                <option value="Puttalam">Puttalam</option>
+                                <option value="Ratnapura">Ratnapura</option>
+                                <option value="Trincomalee">Trincomalee</option>
+                                <option value="Vavuniya">Vavuniya</option>
+
+                            </select>
+                        </div>
+
+                        <?php
+                                    if(!empty($data['model_err'])){
+                                    echo '<div class="error">';
+                                        echo '*'.$data['model_err'].'<br>';
+                                    
+                                    echo '</div>';
+                                    }
+                                ?> 
                         <div class="input">
                             <label class="model" for="">Model No.</label>
                             <input class="model" type="text" name="model"   value="<?php echo $data['model']?>" >
                         </div>
+
+                        <?php
+                                    if(!empty($data['brand_err'])){
+                                    echo '<div class="error">';
+                                        echo '*'.$data['brand_err'].'<br>';
+                                    echo '</div>';
+                                    }
+                                ?> 
                         <div class="input">
                             <label class="brand" for="">Brand Name</label>
                             <input class="brand" type="text" name="brand"   value="<?php echo $data['brand']?>" >
                         </div>
+
+                        <?php
+                                    if(!empty($data['description_err'])){
+                                    echo '<div class="error">';
+                                        echo '*'.$data['description_err'].'<br>';
+                                    echo '</div>';
+                                    }
+                                ?> 
                         <div class="input">
                             <label class="descriptionl" for="">Description</label>
                             <textarea name="description" id="description" class="description" cols="30" rows="15"  value="" ><?php echo $data['description']?></textarea>
