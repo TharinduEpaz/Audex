@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap");
 * {
-  font-family: open sans;
+
 }
 
 .sidebar {
@@ -11,8 +11,9 @@
 .service-provider-profile {
   background-color: #E5E9F7;
   min-height: 90vh;
-  margin-left: 240px;
   padding: 5vh;
+  padding-left: 18vw;
+  
 }
 
 .service-provider-profile .white-box {
@@ -21,83 +22,302 @@
   border-radius: 30px;
   padding: 40px;
   margin-top: 10vh;
+  
 }
 
 .service-provider-profile .profile-title {
+  
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  
+}
+.profile-title .name-rating{
+  margin-left: 3vw;
+}
+.name-rating .rating{
+  margin-top: 20px;
+}
+.profile-description p{
+  font-weight: 700;
+  margin-bottom: 2vh;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  
+}
+.mid-section .profile-description{
+  color: #001A72;
 }
 
-.service-provider-profile .white-box .profile-title .profile-pic img {
+ .profile-pic img {
   border-radius: 50%;
   object-fit: cover;
   width: 200px;
   height: 200px;
-  margin-right: 20px;
+  
+}
+.profile-events{
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 270px;
 }
 
-.service-provider-profile .profile-title .name-rating #Name {
-  font-weight: 600;
+.profile-events .event-display{
+
+  width: 10vw;
+  height: 15vh;
+  margin: 10px;
+  background-color: #c8cad5;
+ 
+  border-radius: 10px;
+
+}
+
+.white-box #upcoming{
+  margin-left: 280px;
+  margin-bottom: 20px;
+  margin-top: 17px;
+}
+.name i{
+  margin-right: 10px;
+}
+.other-details span{
+  font-weight: 700;
+}
+.profile-title #edit-details{
+  margin-left: 100px;
+}
+
+.profile-title #edit-details{
+
+  font-weight: 400;
+  font-size: 1rem;
+  align-items: center;
+  appearance: none;
+  background-color: #776cea;
+ 
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-radius: 20px;
+  border-width: 0;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-flex;
+  
+
+  height: auto;
+  justify-content: center;
+  line-height: 1.5;
+  padding: 6px 40px;
+
+  text-align: center;
+  text-decoration: none;
+  transition: background-color .2s,background-position .2s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: top;
+  white-space: nowrap;
+}
+.add-event-btn{
+
+  font-weight: 400;
+  font-size: 15px;
+  align-items: center;
+  appearance: none;
+  background-color: #776cea;
+ 
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-radius: 20px;
+  border-width: 0;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  
+  margin-left: 20px;
+
+  
+
+  justify-content: center;
+ 
+  padding: 6px 20px;
+
+  text-align: center;
+  text-decoration: none;
+  transition: background-color .2s,background-position .2s;
+  user-select: none;
+  -webkit-user-select: none;
+  
+ 
+}
+
+
+ .name-rating #Name {
+  font-weight: 400;
   font-size: 40px;
 }
+.name-rating{
+  padding: 5vh;
+}
 
-.service-provider-profile .profile-title .name-rating #profession {
+ .name-rating #profession {
   font-weight: 300;
   font-size: 20px;
+  
 }
-
-.service-provider-profile .profile-info .description {
-  width: 600px;
-  margin-right: 200px;
+.other-details, .profile-description{
+  margin-top: 2vh;
+  font-weight: 200;
+  
 }
+.other-details p{
+  margin-bottom: 2vh;
+  word-wrap: break-word;
 
-.service-provider-profile .profile-info {
-  display: flex;
-  margin-top: 50px;
 }
-
-.service-provider-profile .profile-info .info-blocks {
-  display: flex;
+.profile-description{
+  width: 50vw;
 }
-
-.service-provider-profile .profile-info .info-blocks .info-titles {
-  width: 140px;
-}
-
-.service-provider-profile .profile-info .info-blocks .info-titles span {
-  display: block;
-  line-height: 30px;
-  font-weight: 600;
-  background-color: aliceblue;
-  margin-bottom: 5px;
-  border-radius: 5px;
-  padding-left: 10px;
-}
-
-.service-provider-profile .profile-info .info-blocks .info-items span {
-  display: block;
-  margin-left: 20px;
-  line-height: 30px;
-  background-color: aliceblue;
-  margin-bottom: 5px;
-  border-radius: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.events {
-  display: flex;
-  column-gap: 50px;
-  padding-top: 30px;
-}
-
-.events .event {
-  background-color: rgb(202, 200, 200);
-  height: 100px;
+.mid-section .other-details{
   width: 200px;
-  border-radius: 10px;
-  opacity: 50%;
 }
+.rating{
+  background-color: #000000;
+  display: inline-block;
+  padding: 2px 20px;
+  border-radius: 100px;
+}
+.rating i{
+  color:#FFCA28;
+}
+.event-display{
+  overflow: hidden;
+  position: relative;
+ 
+}
+
+.event-display img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  opacity: 1;
+  display: block;
+  transition: .5s ease;
+  backface-visibility: hidden;
+ 
+}
+.overlay {
+  transition: .5s ease;
+  opacity: 0;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: #4248ff;
+
+}
+.lower-section{
+  width:100%;
+}
+
+.event-display:hover .image {
+  opacity: 0.3;
+}
+
+.event-display:hover .overlay {
+  opacity: 0.9;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+  
+}
+
+#profession{
+  font-family: "Inter";
+  font-weight: 600;
+}
+
+/* event popups for profile */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+  z-index: 10;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+
+/* ////////////////////// */
+/* EDIT SETTINGS CSS */
+/* /////////////////////// */
+
 
 #edit-settings {
   margin-left: 0vw;
@@ -165,6 +385,8 @@ button:hover {
 }
 
 /* profile settings CSS */
+
+
 .service-provider-profile .white-box .info-settings {
   display: flex;
 }
@@ -623,10 +845,11 @@ EVENT POP UPS CSS
 }
 
 .formbold-main-wrapper {
+  font-family: Inter;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 48px;
+  padding: 20px;
 }
 
 .formbold-form-wrapper {
