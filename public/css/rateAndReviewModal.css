@@ -13,10 +13,15 @@
         background-color: rgba(0,0,0,0.7); /* set background color with some transparency */
     }
     .modal-content{
-        width: 30%;
-        height: 60%;
+        width: 25%;
+        height: 55%;
         margin: 10% auto;
     }
+
+    .modal-content.serviceProvider{
+        height: 70%;
+    }
+
     .close{
         width: 28px;
 
@@ -37,7 +42,7 @@
     .review-area-select-star {
         display: flex;
         align-items: center;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
     
     /* Star rating icons */
@@ -51,6 +56,23 @@
     .star-rating i:hover,
     .star-rating i.selected {
         color: #ffc107;
+    }
+    
+    /* styles for dropdowns  */
+    select {
+        width: 97%;
+        height: 40px;
+        padding: 10px;
+        font-size: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background: url('http://localhost/Audex/public/img/arrow-down.png') no-repeat right #fff;
+        background-size: 30px;
+        margin: 2%;
     }
 
     /* Feedback form */

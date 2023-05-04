@@ -130,7 +130,7 @@
                         </div>
                     <?php } ?>
                         <div id="myModal" class="modal">
-                            <div class="modal-content">
+                            <div class="modal-content serviceProvider">
                                 <span class="close" onclick="closeModal()" style="float: right; z-index: 1; position: inherit; visibility: visible; opacity:100%;">&times;</span>
                                 
                                 <div class="review-seller">
@@ -145,6 +145,24 @@
                                                 <i class="fa fa-star star" data-value="4"></i>
                                                 <i class="fa fa-star star" data-value="5"></i>
                                             </div>
+                                        </div>
+                                        <div class="event-select">
+                                            <!-- show the events -->
+                                            <label for="event-name">Event Name:</label>
+                                            <select name="event-name" id="event-name" >
+                                                <?php foreach ($data['events'] as $event) { ?>
+                                                    <option value="<?php echo $event->name ?>" ><?php echo $event->name ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                        <div class="event-date-select">
+                                            <!-- show the event dates according to event name -->
+                                            <label for="event-date">Event Date:</label>
+                                            <select id="event-date" name="event-date">
+                                                <!-- load only first date according to first event of array -->
+                                                $event = $data['events'][0];
+                                                <option value="<?php echo $event->date ?>" ><?php echo $event->date ?></option>
+                                            </select>
                                         </div>
                                         <div class="feedback-area">
                                             <form action="" method="post" id="review-write-form">
@@ -290,8 +308,50 @@
     const email_rate_receiver = <?php echo "'".$data['user']->email."'"; ?>;
 
 
-    
+    // set event dates according to event name
+    const eventNameDropdown = document.getElementById("event-name");
+    console.log(document.getElementById("event-name").value)
+    // add an event listener to the event name dropdown to retrieve
+    // the corresponding dates when the user selects an event
+    eventNameDropdown.addEventListener("change", autoSetEventDate);
+    eventNameDropdown.addEventListener("DOMContentLoaded", autoSetEventDate);
 
+    function autoSetEventDate(){
+        const selectedEvent = document.getElementById("event-name").value;
+        console.log("this one",selectedEvent);
+
+        // send a fetch request to a PHP file to retrieve the dates for the selected event
+        const urlEvent = '<?php echo URLROOT?>/users/getEventDates/';
+        fetch(urlEvent,{
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:  JSON.stringify({ serviceProviderEmail: email_rate_receiver,
+                      eventName:selectedEvent,
+                    })
+
+        })
+        .then(response => response.json())
+        .then(data => {
+            // clear the date dropdown
+            var dateDropdown = document.getElementById("event-date");
+            dateDropdown.innerHTML = "";
+
+            // populate the date dropdown with the results
+            data.dates.forEach(dates => {
+                var option = document.createElement("option");
+                option.value = dates.date;
+                option.text = dates.date;
+                dateDropdown.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+
+
+// to open the model when button clicked
     function openModal() {
         reviewWriteForm = document.getElementById("review-write-form");
         const stars = document.querySelectorAll('.star-rating .star');

@@ -141,7 +141,7 @@
 
 
         .shop-container {
-            min-width: 1200px;
+            min-width: 100vw;
             margin: 0 auto;
             display: flex;
             flex-direction: row;
@@ -493,7 +493,7 @@
             border: none;                               
             border-radius: 3px;
             /* background-color: white; */
-            color: indianred;
+            color: black;
             /* cursor: pointer; */
             margin-right: 0%;
             font-size: 10px;

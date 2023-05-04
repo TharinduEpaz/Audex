@@ -464,6 +464,28 @@ date_default_timezone_set("Asia/Kolkata");
             return $row;
         }
 
+        public function getServiceProviderEvents($id){
+            $this->db->query('SELECT * FROM events WHERE user_id = :id');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->resultSet();
+            return $row;
+        }
+
+        public function getEventDates($serviceProviderEmail, $eventName){
+            $this->db->query('SELECT user_id FROM user WHERE email = :serviceProviderEmail');
+            $this->db->bind(':serviceProviderEmail' , $serviceProviderEmail);
+            $row1 = $this->db->single();   
+            
+            $this->db->query('SELECT date FROM events WHERE user_id = :id AND name = :eventName');
+            $this->db->bind(':id' , $row1->user_id);
+            $this->db->bind(':eventName' , $eventName);
+
+            $row = $this->db->resultSet();
+            return $row;
+            
+        }
+
 
         public function getSellerMoreDetails($email){
             $this->db->query('SELECT * FROM user WHERE email = :email');
