@@ -455,8 +455,8 @@ body{
 /* stles for fontent inside modal */
 .review-form label, .review-area-select-star label{
   margin: 2%;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .star-rating {
@@ -541,7 +541,7 @@ body{
 width: 30%;
 }
 .feedback-area form textarea{
-  margin: 1%;
+  margin: 2%;
   border: 1px solid;
   overflow: hidden;
   overflow-y: auto;

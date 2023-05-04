@@ -2701,10 +2701,14 @@
             // get data from service_provider_view table
             $d = $this->userModel->getServiceProvidersPublic($id);
 
+            // get this service provider's events
+            $events = $this->userModel->getServiceProviderEvents($id); 
+
 
             $data = [
                 'details' => $d,
-                'user' => $user
+                'user' => $user,
+                'events' => $events 
             ];
 
             if(isLoggedIn()){
@@ -2717,11 +2721,34 @@
                     $data['watched'] = 'watched';
                 }
             }
+            // print_r($data);
             // print_r($ServiceProviderWatched);
             // exit();
 
             $this->view('users/service_provider_public', $data);
 
+        }
+        // get the event dates according to selected event name
+        // this is calling from fetch api in the service providers page 
+        public function getEventDates(){
+
+            $values = json_decode(file_get_contents('php://input'), true);
+
+            $serviceProviderEmail = $values['serviceProviderEmail'];
+            $eventName = $values['eventName'];
+
+            // echo $serviceProviderEmail;
+            // echo $eventName;
+
+            $dates = $this->userModel->getEventDates($serviceProviderEmail, $eventName);
+
+            $data = [
+                'dates' => $dates
+            ];
+            // print_r($data);
+            // print_r($ServiceProviderWatched);
+            // exit();
+            echo json_encode($data);
         }
 
         public function rateSeller(){
