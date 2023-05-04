@@ -119,7 +119,7 @@
                     }
                     ?>
                     <label for="">Password</label>
-                    <input type="password" name="password"  value="<?php echo $data['passwd']?>" >
+                    <input type="password" id="password" name="password"  value="<?php echo $data['passwd']?>" >
                 </div>
                 <div class="input">
                     <?php
@@ -132,7 +132,7 @@
                     }
                     ?>
                     <label for="">Confirm Password</label>
-                    <input type="password" name="confirm_password"  value="<?php echo $data['confirm_passwd']?>" >
+                    <input type="password" id="confirm_password" name="confirm_password"  value="<?php echo $data['confirm_passwd']?>" >
                 </div>
                 <div class="submit">
                     <input type="submit" name="submit" value="Next" class="button">
@@ -141,6 +141,24 @@
         </div>
     </div>
 </body>
+<script>
+//     function hashPassword(password) {
+//         // Hash the password using SHA-256 algorithm
+//         var hash = CryptoJS.SHA256(password);
+//         return hash.toString(CryptoJS.enc.Base64);
+//     }
+
+// var form = document.querySelector('form');
+// form.addEventListener('submit', function(event) {
+//   // Get the password field and hash the password
+//   var passwordField = document.querySelector('#password');
+//   var hashedPassword = hashPassword(passwordField.value);
+
+//   // Set the hashed password as the value of the password field
+//   passwordField.value = hashedPassword;
+// });
+
+</script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>
 <!-- Closing the connection

@@ -135,10 +135,12 @@
                 <div class="form-data-area">
                     <label for="first_name">First Name:</label>
                     <input type="text" name="first_name" value="<?php echo $data['user']->first_name; ?>" disabled>
+                    <span style="width:16px;margin-left: 2%;"></span>
                 </div>
                 <div class="form-data-area">
                     <label for="second_name">Second Name:</label>
                     <input type="text" name="second_name" value="<?php echo $data['user']->second_name; ?>" disabled>
+                    <span style="width:16px;margin-left: 2%;"></span>
                 </div>
                 <div class="form-data-area">
                     <label for="email">Email:</label>
@@ -148,10 +150,12 @@
                 <div class="form-data-area">
                     <label for="address1">Address Line 1:</label>
                     <input type="text" name="address1" value="<?php echo $data['user']->address1; ?>" disabled>
+                    <span style="width:16px;margin-left: 2%;"></span>
                 </div>
                 <div class="form-data-area">
                     <label for="address2">Address Line 1:</label>
                     <input type="text" name="address2" value="<?php echo $data['user']->address2; ?>" disabled>
+                    <span style="width:16px;margin-left: 2%;"></span>
                 </div>
                 <div class="form-data-area">
                     <label for="password">Password</label>
@@ -174,7 +178,7 @@
             </div>
         </div>
     </div>
-    <h1 class="feedback"><?php echo '('.$data['feedbackcount'].') '?>Feedbacks</h1>
+    <h1 class="feedback"><?php echo '('.$data['feedbackcount'][0]->count.') '?>Feedbacks</h1>
     <div class="feedback" >
         <div class="feed" style="text-align: center;">
             <h4>Review</h4>

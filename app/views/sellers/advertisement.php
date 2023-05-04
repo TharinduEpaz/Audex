@@ -102,6 +102,7 @@
     }
                     
     // Update the count down every 1 second
+    <?php if($data['advertisement']->product_type=='auction'){?>
     var x = setInterval(function() {
       // Get today's date and time
       var now = moment().tz("Asia/Colombo");
@@ -131,6 +132,7 @@
           }
       }
     }, 1000);
+    <?php }?>
 </script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>

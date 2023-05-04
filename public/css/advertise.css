@@ -312,7 +312,7 @@ body{
     /* border-radius: 35px; */
   }
   .rating-stars{
-    margin-right: 15px;
+    /* margin-right: 15px; */
   }
   .profile_img{
     display: flex;
@@ -345,14 +345,14 @@ body{
     font-weight: 600;
   }
   .full_name{
-    font-size: 20pt;
+    font-size: 19pt;
     text-align: center;
     /* border: 1px solid black; */
     width: 100%;
   }
   .stars_date{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -361,12 +361,13 @@ body{
     border-radius: 40px;
     /* border: 1px solid black; */
     margin: 0;
+    margin-top: 2vh;
   
   }
   .stars{
     height: 3vh;
     margin-top: 0;
-    margin-right: 15px;
+    /* margin-right: 15px; */
   }
   .stars img{
    width: 50%;
@@ -386,7 +387,7 @@ body{
   
   }
   .flags{
-    flex-basis: 20%;
+    flex-basis: 100%;
     /* border: 1px solid black; */
   
   }
@@ -396,7 +397,7 @@ body{
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    /* width: 100%; */
     height: 6h;
     /* background-color: #E5E9F7; */
     border-radius: 40px;
@@ -416,6 +417,9 @@ body{
     }
     .image{
         height: 50vh;
+    }
+    .full_name{
+        font-size: 12pt;
     }
 }
 @media (max-width:576px){

@@ -82,7 +82,7 @@
                     if(isLoggedIn()){
                         if($_SESSION['user_email']!=$data['ad']->email){
                             echo '<div class="message_seller">';
-                            echo '<a href="'.URLROOT.'/users/chat/'.$data['SellerMoreDetails']->user_id.'">Message</a>';
+                            echo '<a href="'.URLROOT.'/users/chat/'.$data['SellerMoreDetails']->user_id.'"><i class="fas fa-comments"></i>Message</a>';
                             echo '</div>';
                         }
                     }
@@ -223,26 +223,26 @@
                                 <div class="stars">
                                     <!-- <img src="<?php echo URLROOT . '/public/img/stars.png';;?>" alt="Profile Picture"> -->
                                     <div class="current-rate">
-                                    <!-- <label for="current-rate" style="display:none">Rate:</label> -->
-                                    <!-- <input type="text" name="current-rate" value="<?php echo $data['SellerMoreDetails']->rate ?>" id="current-seller-rate"> -->
-                                    <div class="rating-stars">
-                                        <!-- <span class="rate"><?php echo $data['seller']->rate;?></span>  -->
+                                        <!-- <label for="current-rate" style="display:none">Rate:</label> -->
+                                        <!-- <input type="text" name="current-rate" value="<?php echo $data['SellerMoreDetails']->rate ?>" id="current-seller-rate"> -->
+                                        <div class="rating-stars">
+                                            <!-- <span class="rate"><?php echo $data['seller']->rate;?></span>  -->
 
-                                        <?php $i=$data['SellerMoreDetails']->rate;
-                                        $j=0;
-                                        for($i; $i>=1; $i--){?>
-                                        <i class="fa fa-star"></i>
-                                        <?php  $j++;} ?>
-                                        
-                                        <?php if($i>0){ ?>
-                                        <i class="fa fa-star-half-o"></i>
-                                        
-                                        <?php $i--;$j++;} 
-                                        while($j<5){ ?>
-                                        <i class="fa fa-star-o"></i>
-                                        <?php $j++; } ?>
-                                    </div>                
-                                </div>
+                                            <?php $i=$data['SellerMoreDetails']->rate;
+                                            $j=0;
+                                            for($i; $i>=1; $i--){?>
+                                            <i class="fa fa-star"></i>
+                                            <?php  $j++;} ?>
+                                            
+                                            <?php if($i>0){ ?>
+                                            <i class="fa fa-star-half-o"></i>
+                                            
+                                            <?php $i--;$j++;} 
+                                            while($j<5){ ?>
+                                            <i class="fa fa-star-o"></i>
+                                            <?php $j++; } ?>
+                                        </div>                
+                                    </div>
                                 </div>
                                 
                                 <div class="date">

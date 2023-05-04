@@ -48,6 +48,7 @@
                             <?php echo $data['likedCount'] ?>
                         </div>
                         <button type="submit" onload="likeBtnOnload()" id="product-like-btn" data-like = "addLike" data-likeLoad ="<?php echo $data['liked'] ; ?>" ><i class="fas fa-thumbs-up"></i></button>
+                        <div class="middle_divider">|</div>
                         <div id="dislike-count">
                             <?php echo $data['dislikedCount'] ?>
                         </div>
@@ -85,7 +86,7 @@
                 <div class="message_bid">
                 <?php 
                     if(isLoggedIn()){
-                        if($_SESSION['user_email']!=$data['ad']->email){
+                        if($_SESSION['user_email']!=$data['ad']->email && $_SESSION['user_type']!='seller'){
                             if($data['ad']->product_type=='auction'){
 
                                 echo '<div class="bid_now">';
@@ -93,7 +94,8 @@
                                 echo '</div>';
                             }
                             echo '<div class="message_seller" style="margin-right:0px">';
-                            echo '<a style="margin-right:0px" href="'.URLROOT.'/users/bid/'.$data['ad']->product_id.'">Message Seller</a>';
+                            echo '<a href="'.URLROOT.'/users/chat/'.$data['SellerMoreDetails']->user_id.'"><i class="fas fa-comments"></i>Message</a>';
+
                             echo '</div>';
                         }
                     }
@@ -114,7 +116,10 @@
                                     <input type="text" name="product_id" value="<?php echo $data['ad']->product_id ; ?>" hidden >
                                     
                                     <div class="button-container">
-                                        <input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist" >
+                                        <!-- <input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist" > -->
+                                        <button type="submit" class="heart" id="heart">
+                                                <i class="fa-regular fa-heart"></i>
+                                            </button>
                                     </div>
                                     <dialog id="dia">
                                         <div class="top-part">
@@ -139,7 +144,10 @@
                                         <input type="text" name="product_id" value="<?php echo $data['ad']->product_id ; ?>" hidden >
                                         
                                         <div class="button-container">
-                                            <input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist">
+                                            <!-- <input style="margin-top:2vh" type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist"> -->
+                                            <button type="submit" class="heart" id="heart">
+                                                <i class="fa-regular fa-heart"></i>
+                                            </button>
                                         </div>
                                         <dialog id="dia">
                                             <div class="top-part">
@@ -163,7 +171,8 @@
                 <?php if($data['ad']->longitude!='NULL' && $data['ad']->latitude!='NULL'){?>
                     <div class="location" >
                         <div class="input">
-                            <a style="margin-top:0px;margin-right:4%;border-radius:7px" href="" class="post" onclick="openModal(); return false;">Check on map</a>
+                            <a href="" class="post" onclick="openModal(); return false;"><i class="fa-sharp fa-solid fa-map-location-dot"></i></a>
+                            <!-- <a style="margin-top:0px;margin-right:4%;border-radius:7px" href="" class="post" onclick="openModal(); return false;">Check on map</a> -->
                         </div>
                         <div id="myModal" class="modal">
                             <div class="modal-content">
@@ -227,20 +236,29 @@
                         <div class="other_details_profile">
                             <p class="full_name"><?php echo $data['SellerMoreDetails']->first_name.' '.$data['SellerMoreDetails']->second_name; ?></p>
                             <div class="stars_date">
-                                <div class="stars">
-                                        <?php $i=0;
-                                            for($i; $i<floor($data['seller']->rate); $i++): ?>
+                            <div class="stars">
+                                    <!-- <img src="<?php echo URLROOT . '/public/img/stars.png';;?>" alt="Profile Picture"> -->
+                                    <div class="current-rate">
+                                        <!-- <label for="current-rate" style="display:none">Rate:</label> -->
+                                        <!-- <input type="text" name="current-rate" value="<?php echo $data['SellerMoreDetails']->rate ?>" id="current-seller-rate"> -->
+                                        <div class="rating-stars">
+                                            <!-- <span class="rate"><?php echo $data['seller']->rate;?></span>  -->
+
+                                            <?php $i=$data['SellerMoreDetails']->rate;
+                                            $j=0;
+                                            for($i; $i>=1; $i--){?>
                                             <i class="fa fa-star"></i>
-                                            <?php endfor; ?>
+                                            <?php  $j++;} ?>
                                             
-                                            <?php if(strpos((string)$data['seller']->rate, '.')){?>
+                                            <?php if($i>0){ ?>
                                             <i class="fa fa-star-half-o"></i>
                                             
-                                            <?php $i++;} 
-                                            while($i<5){ ?>
+                                            <?php $i--;$j++;} 
+                                            while($j<5){ ?>
                                             <i class="fa fa-star-o"></i>
-                                        <?php $i++; } ?>
-                                    
+                                            <?php $j++; } ?>
+                                        </div>                
+                                    </div>
                                 </div>
                                 
                                 <div class="date">
@@ -256,7 +274,7 @@
                         </div>
                     </div>
                 </a>
-                <?php if(isset($_SESSION['user_type']) && $_SESSION['user_type']!='seller'){?>
+                <!-- <?php if(isset($_SESSION['user_type']) && $_SESSION['user_type']!='seller'){?>
 
                 <div class="review-seller">
                     <?php if(!isLoggedIn()){?>
@@ -298,7 +316,7 @@
 
                     </div>
                 </div>
-                <?php } ?>
+                <?php } ?> -->
             </div>
         </div>
         <div class="description" style="margin-top: -2vh;">

@@ -16,6 +16,41 @@ date_default_timezone_set("Asia/Kolkata");
             return $row;
         }
 
+        public function getUserDetailsByEmail($email){
+            $this->db->query('SELECT * FROM user WHERE email = :email');
+            $this->db->bind(':email' , $email);
+            
+            $row = $this->db->single();
+            return $row;
+        }
+
+        public function findUserDetailsByEmail($email){
+            $this->db->query('SELECT * FROM user WHERE email = :email');
+            //Bind value
+            $this->db->bind(':email', $email);
+            $row = $this->db->single();
+            //Check row
+            if($this->db->rowCount() > 0){
+                return $row;
+            }else{
+                return false;
+            }
+        }
+
+        //Get user id
+        public function getUserId($email){
+            $this->db->query('SELECT * FROM user WHERE email = :email');
+            //Bind value
+            $this->db->bind(':email', $email);
+            $row = $this->db->single();
+            //Check row
+            if($this->db->rowCount() > 0){
+                return $row;
+            }else{
+                return false;
+            }
+        }
+
         public function getSellerDetails($id){
             $this->db->query('SELECT * FROM seller WHERE user_id = :id');
             $this->db->bind(':id' , $id);
@@ -86,12 +121,13 @@ date_default_timezone_set("Asia/Kolkata");
         }
 
         public function advertise($data,$dat){
-            $this->db->query('INSERT INTO product (email,product_title,product_condition,product_category,product_type,model_no,brand,image1,image2,image3,address,latitude,longitude,price,p_description,date_added,date_expires) VALUES(:user_email,:title,:condition,:category,:type,:model,:brand,:image1,:image2,:image3,:address,:latitude,:longitude,:price,:description,:date_added,:date_expires)');
+            $this->db->query('INSERT INTO product (email,product_title,product_condition,product_category,district,product_type,model_no,brand,image1,image2,image3,address,latitude,longitude,price,p_description,date_added,date_expires) VALUES(:user_email,:title,:condition,:category,:district,:type,:model,:brand,:image1,:image2,:image3,:address,:latitude,:longitude,:price,:description,:date_added,:date_expires)');
             //Bind values
             $this->db->bind(':user_email', $data['user_email']);
             $this->db->bind(':title', $data['title']);
             $this->db->bind(':condition', $data['condition']);
             $this->db->bind(':category', $data['category']);
+            $this->db->bind(':district', $data['district']);
             $this->db->bind(':type', $data['type']);
             $this->db->bind(':model', $data['model']);
             $this->db->bind(':brand', $data['brand']);
@@ -142,13 +178,14 @@ date_default_timezone_set("Asia/Kolkata");
 
         //edit advertisement
         public function edit_advertisement($data){
-            $this->db->query('UPDATE product SET product_title=:title,product_condition=:condition,product_category=:category,model_no=:model,brand=:brand,image1=:image1,image2=:image2,image3=:image3,price=:price,p_description=:description WHERE product_id=:id');
+            $this->db->query('UPDATE product SET product_title=:title,product_condition=:condition,product_category=:category,district=:district,model_no=:model,brand=:brand,image1=:image1,image2=:image2,image3=:image3,price=:price,p_description=:description WHERE product_id=:id');
             //Bind values
             $this->db->bind(':id', $data['id']);
             // $this->db->bind(':user_email', $data['user_email']);
             $this->db->bind(':title', $data['title']);
             $this->db->bind(':condition', $data['condition']);
             $this->db->bind(':category', $data['category']);
+            $this->db->bind(':district', $data['district']);
             // $this->db->bind(':type', $data['type']);
             $this->db->bind(':model', $data['model']);
             $this->db->bind(':brand', $data['brand']);
@@ -240,6 +277,108 @@ date_default_timezone_set("Asia/Kolkata");
             return $products;
 
         }
+
+        public function getAdvertiesmentById($id){
+            $this->db->query('SELECT * FROM product WHERE product_id = :id');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->single();
+            return $row;
+        }
+
+        public function getAuctionById_withfinished($id){
+            $this->db->query('SELECT * FROM auction WHERE product_id = :id ');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->single();
+            if($row){
+                return $row;
+            }else{
+                return "Error";
+            }
+        }
+        
+        public function getAuctionDetails($id){
+            $this->db->query('SELECT * FROM auction WHERE product_id = :id');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->single();
+
+            // SELECT email_buyer, MAX(price) FROM bid WHERE auction_id = 9 GROUP BY email_buyer ORDER BY(MAX(price)) DESC;
+            $this->db->query('SELECT *,MAX(bid.price) as max_price,MAX(bid.bid_id) as max_bid_id FROM bid INNER JOIN auction ON auction.auction_id = bid.auction_id WHERE auction.auction_id = :id GROUP BY bid.email_buyer ORDER BY MAX(bid.price) DESC');
+            $this->db->bind(':id' , $row->auction_id);
+            $results = $this->db->resultSet();
+            if($results){
+                return $results;
+            }else{
+                return NULL;
+            }
+        }
+
+        public function getAuctionDetailsNoRows($id){
+            $this->db->query('SELECT * FROM auction WHERE product_id = :id');
+            $this->db->bind(':id' , $id);
+
+            $row = $this->db->single();
+
+            $this->db->query('SELECT *,MAX(bid.price) as max_price,MAX(bid.bid_id) as max_bid_id FROM bid INNER JOIN auction ON auction.auction_id = bid.auction_id WHERE auction.auction_id = :id GROUP BY bid.email_buyer ORDER BY MAX(bid.price) DESC');
+            $this->db->bind(':id' , $row->auction_id);
+            $results = $this->db->resultSet();
+            if($results){
+                $rowCount=$this->db->rowCount();
+                return $rowCount;
+            }else{
+                return NULL;
+            }
+        }
+
+        public function getFeedbacks($email){
+            $this->db->query('SELECT * FROM rate WHERE email_rate_receiver = :email');
+            $this->db->bind(':email' , $email);
+
+            $row = $this->db->resultSet();
+            return $row;
+        }
+
+        public function getFeedbacksCount($email){
+            $this->db->query('SELECT * FROM rate WHERE email_rate_receiver = :email');
+            $this->db->bind(':email' , $email);
+            $row = $this->db->resultSet();
+            if($row){
+                $rowCount = $this->db->rowCount();
+                return $rowCount;
+            }else{
+                return NULL;
+            }
+            
+        }
+
+        public function getBidList($bid_id){
+            $this->db->query('SELECT * FROM bid_list WHERE bid_id = :id ');
+            $this->db->bind(':id' , $bid_id);
+
+            $row = $this->db->single();
+            if($row){
+                return $row;
+            }else{
+                return NULL;
+            }
+        }
+
+        public function updateBidStatus($bid_id){
+            $this->db->query('UPDATE bid_list SET is_rejected=1 WHERE bid_id = :id ');
+            $this->db->bind(':id' , $bid_id);
+
+            $row = $this->db->execute(); //single row
+            if($row){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        
+        
         
 
     }
