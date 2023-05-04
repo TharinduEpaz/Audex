@@ -1,11 +1,10 @@
 <div class="service-provider-profile">
     <div class="white-box">
         <div class="profile-title">
-            <div class="profile-pic"> <?php if($data['details']->profile_image): ?>
-                <img src="<?php echo URLROOT . '/public/uploads/Profile/' . $data['details']->profile_image; ?>"
-                    id="profile-img">
-                <?php else: ?>
-                <i class="fa fa-user" aria-hidden="true"></i>
+            <div class="profile-pic"> <?php if ($data['details']->profile_image) : ?>
+                    <img src="<?php echo URLROOT . '/public/uploads/Profile/' . $data['details']->profile_image; ?>" id="profile-img">
+                <?php else : ?>
+                    <i class="fa fa-user" aria-hidden="true"></i>
                 <?php endif; ?></i>
             </div>
             <div class="name-rating">
@@ -14,126 +13,159 @@
                     <i class="fa fa-map-marker" aria-hidden="true"></i><span id="profession"><?php echo $data['details']->address_line_two ?></span>
                 </div>
                 <div class="rating">
-                <?php for($i=0; $i<floor($data['details']->Rating); $i++): ?>
-                <i class="fa fa-star"></i>
-                <?php endfor; ?>
+                    <?php for ($i = 0; $i < floor($data['details']->Rating); $i++) : ?>
+                        <i class="fa fa-star"></i>
+                    <?php endfor; ?>
                 </div>
-              
-        </div>
-          
-        <button id="edit-details" class="btn" onclick="gotoSettings()">Edit Details</button>
-       
-        <!-- <a href="<?php echo URLROOT .'/service_providers/settings'?>" class="btn" id="edit-settings"> Edit Settings</a></button>
+            </div>
+            <button id="edit-details" class="btn" onclick="gotoSettings()">Edit Details</button>
+            <!-- <a href="<?php echo URLROOT . '/service_providers/settings' ?>" class="btn" id="edit-settings"> Edit Settings</a></button>
         <h2>Events</h2>
-        <a href="<?php echo URLROOT .'/service_providers/addEvent'?>" style="margin-left:10px;" id="add-event">Add Event</a>
+        <a href="<?php echo URLROOT . '/service_providers/addEvent' ?>" style="margin-left:10px;" id="add-event">Add Event</a>
         <div class="events"> -->
 
-                    
-        <div class="mid-section profile-title">
-            <div class="other-details">
-                <span>Email</span>
-                <p><?php echo $data['details']->email; ?></p>
-                <span>Qualifications</span>
-                 <p><?php echo $data['details']->qualifications; ?></p>
-                <span>Achievements</span>
-                <p><?php echo $data['details']->achievements; ?></p>
-
+            <div class="mid-section profile-title">
+                <div class="other-details">
+                    <span>Email</span>
+                    <p><?php echo $data['details']->email; ?></p>
+                    <span>Qualifications</span>
+                    <p><?php echo $data['details']->qualifications; ?></p>
+                    <span>Achievements</span>
+                    <p><?php echo $data['details']->achievements; ?></p>
+                </div>
+                <div class="profile-description name-rating">
+                    <p id="profession">
+                        <?php echo $data['details']->profession; ?>
+                    </p>
+                    <?php echo $data['details']->description; ?>
+                </div>
             </div>
-            <div class="profile-description name-rating">
-                <p id="profession">
-                <?php echo $data['details']->profession; ?>
+            <p id="upcoming">Upcoming Events</p>
+            <button class="add-event-btn" onclick="addMoreEvents()">Add More Events</button>
+            <div class="lower-section profile-title">
+                <div class="profile-events">
+                    <?php foreach ($data['events'] as $event) : ?>
+                        <div class="event-display">
+                            <img src="<?php echo URLROOT . '/public/uploads/events/' . $event->image; ?>" alt="">
+                            <div class="overlay" data-event-target="#event" class="text" onclick="loadevent(<?php echo $event->event_id ?>)">
+                                <div data-event-target="#event" class="text" onclick="loadevent(<?php echo $event->event_id ?>)"><?php echo $event->name ?></div>
 
-                </p>
-                <?php echo $data['details']->description; ?>
-            </div>
-
-        </div>
-        <p id="upcoming" >Upcoming Events</p>
-        <button class="add-event-btn" onclick="addMoreEvents()">Add More Events</button>
-        <div class="lower-section profile-title">
-            <div class="profile-events">
-                
-                <?php foreach ($data['events'] as $event ): ?>
-                    <div class="event-display">
-                        
-                        <img src="<?php echo URLROOT . '/public/uploads/events/' . $event->image;?>" alt="">
-                        <div class="overlay">
-                            <div class="text"><?php echo $event->name;?></div>
+                            </div>
                         </div>
-                    </div>
+
+                       
+            
+                       
+
+
                     <?php endforeach; ?>
-                   
-                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="event" id="event">
+    <div class="event-left">
+        <div class="event-header">
+            <div class="title"></div>
+            <div class="date">2020 01 21</div>
+            <div class="time">12 PM</div>
+
+            <button data-close-button class="close-button">&times;</button>
+
+        </div>
+        <div class="wrapper-for-event">
+            <div class="event-publisher">
+                <div class="event-owenr-image">
+                    <img src="" alt="">
+                </div>
+                <span class="owner-name">John Doe</span>
+
+            </div>
+
+            <div class="event-buttons">
+                <div class="like-button"><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="likes"></span></div>
+                <div class="dislike-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="dislikes"></span></div>
             </div>
 
         </div>
 
-     
 
-                
+
+        <div class="event-body">
+            
+
+        </div>
+
+        <button class="add-event-btn" id="edit-event-btn">Edit Event</button>             
+
     </div>
+
+
+    <div class="event-right">
+        <img src="https://images.pexels.com/photos/9493230/pexels-photo-9493230.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="">
     </div>
-
-
 
 </div>
 
-<script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
+
+<div id="overlay"></div>
+
+<script src="<?php echo URLROOT . '/public/js/form.js'; ?>"></script>
 
 <script>
-/* When the user clicks on the button,
+    /* When the user clicks on the button,
     toggle between hiding and showing the dropdown content */
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
 
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
             }
         }
     }
-}
 
-//keeping the sidebar button clicked at the page
+    //keeping the sidebar button clicked at the page
 
-link = document.querySelector('#profile-settings');
-link.style.background = "#E5E9F7";
-link.style.color = "red";
+    link = document.querySelector('#profile-settings');
+    link.style.background = "#E5E9F7";
+    link.style.color = "red";
 
-error = document.querySelector('.red-alert');
-error.style.color = "#FF0000"
+    error = document.querySelector('.red-alert');
+    error.style.color = "#FF0000"
 
-editButton = document.querySelector('.btn');
+    editButton = document.querySelector('.btn');
 
-if (error) {
-    editButton.style.animation = "alert 2s ease 0s infinite normal forwards"
-    editButton.style.color = "#FF0000"
-    editButton.style.background = "#E5E9F7"
-}
+    if (error) {
+        editButton.style.animation = "alert 2s ease 0s infinite normal forwards"
+        editButton.style.color = "#FF0000"
+        editButton.style.background = "#E5E9F7"
+    }
 
 
-//Edit settings button
-// const editSettingBtn = document.querySelector(".edit-details")
-// console.log(editSettingBtn);
-// editSettingBtn.addEventListener('click',function(){
-//     console.log('working');
-//     window.open('http://localhost/Audex/service_providers/settings', '_self');
-// });
+    function gotoSettings() {
+        window.open('http://localhost/Audex/service_providers/settings', '_self');
 
-function gotoSettings(){
-    window.open('http://localhost/Audex/service_providers/settings', '_self');
-    
-}
-function addMoreEvents(){
-    window.open('http://localhost/Audex/service_providers/eventCalander?month=current', '_self')
-}
+    }
+
+    function addMoreEvents() {
+        window.open('http://localhost/Audex/service_providers/eventCalander?month=current', '_self')
+    }
+
+    function editEvent(id){
+        
+        window.open(`http://localhost/Audex/service_providers/editEvent?id=${id}`, '_self')
+    }
 </script>
 
 </body>

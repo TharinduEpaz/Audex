@@ -46,6 +46,46 @@ class Service_providers extends Controller
         $this->view('service_providers/profile', $data);
 
     }
+    public function setImage($temp_name, $file_name, $file_size, $file_error){
+    
+
+        // Work out the file extension
+        $file_ext = explode('.', $file_name);
+        $file_ext = strtolower(end($file_ext));
+
+
+        $allowed = array('jpg', 'jpeg', 'png', 'gif');
+
+        // check for errors
+        if ($file_error === 0) {
+            if (in_array($file_ext, $allowed)) {
+                if ($file_size <= 2097152) {
+                    
+                    // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
+
+                    $file_destination = dirname(APPROOT).'/public/uploads/profile/'.$file_name;
+
+                    // move_uploaded_file() is the built-in function in PHP that is used to move an uploaded file from its temporary location to a new location on the server
+                    
+                    if (move_uploaded_file($temp_name, $file_destination)) {
+
+                        $this->service_model->setImage($file_name, $_SESSION['user_id']);
+                    }
+                    else{
+                        echo 'error in  uploading';
+                    }
+                }
+                else{
+
+                    echo 'error large size';
+                }
+            }
+            else{
+                echo 'error not allowed this type';
+            }
+        }
+        redirect('service_providers/profile/');
+    }
     public function settings()
     {
         $details = $this->service_model->getDetails($_SESSION['user_id']);
@@ -69,10 +109,8 @@ class Service_providers extends Controller
 
             if (isset($_POST['profession']) && $_POST['profession'] != '') {
 
-                $profession = $_POST['profession'];
-
-            } else {
-                $profession = $data['details']->profession;
+            $profession = $_POST['profession'];} 
+            else { $profession = $data['details']->profession;
             }
 
             if (isset($_POST['qualifications']) && $_POST['qualifications'] != '') {
@@ -124,6 +162,17 @@ class Service_providers extends Controller
             } else {
                 $address2 = $data['details']->address_line_two;
             }
+
+            if(!empty($_FILES['profile']['name'])){
+             
+                $this->feed();
+                $temp_name = $_FILES['profile']['tmp_name'];
+                $file_name = $_FILES['profile']['name'];
+                $file_size = $_FILES['profile']['size'];
+                $file_error = $_FILES['profile']['error'];
+
+                $this->setImage($temp_name,$file_name,$file_size,$file_error);
+            }
         }
 
         $details = array($profession, $qualifications, $achievements, $description, $first_name, $second_name, $address1, $address2);
@@ -133,55 +182,7 @@ class Service_providers extends Controller
         redirect('service_providers/profile/');
     }
 
-    public function setImage(){
-        
-        // File Properties
-        
-        $temp_name = $_FILES['profile']['tmp_name'];
-        $file_name = $_FILES['profile']['name'];
-        $file_size = $_FILES['profile']['size'];
-        $file_error = $_FILES['profile']['error'];
-
-
-        // Work out the file extension
-        $file_ext = explode('.', $file_name);
-        $file_ext = strtolower(end($file_ext));
-
-
-        $allowed = array('jpg', 'jpeg', 'png', 'gif');
-
-        // check for errors
-        if ($file_error === 0) {
-            if (in_array($file_ext, $allowed)) {
-                if ($file_size <= 2097152) {
-                    
-                    // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
-
-                    $file_destination = dirname(APPROOT).'/public/uploads/profile/'.$file_name;
-                    echo $temp_name . '<br>';
-                    echo $file_destination . '<br>';
-                    
-                    // move_uploaded_file() is the built-in function in PHP that is used to move an uploaded file from its temporary location to a new location on the server
-                    
-                    if (move_uploaded_file($temp_name, $file_destination)) {
-
-                        $this->service_model->setImage($file_name, $_SESSION['user_id']);
-
-                    }
-                    else{
-                        echo 'error in  uploading';
-                    }
-                }
-                else{
-                    echo 'error large size';
-                }
-            }
-            else{
-                echo 'error not allowed this type';
-            }
-        }
-        redirect('service_providers/profile/');
-    }
+    
 
     public function feed()
     {
@@ -233,6 +234,7 @@ class Service_providers extends Controller
 
                         }
                         else{
+                        
                             echo 'error in  uploading';
                         }
                     }
@@ -258,45 +260,6 @@ class Service_providers extends Controller
             
     }
 }
-
-
-   
-
-
-        ////////////////////////////////////////////////////
-
-        // if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        //     if (isset($_POST['name']) && $_POST['name'] != '') {
-        //         $name = $_POST['name'];
-        //     }
-
-        //     if (isset($_POST['date']) && $_POST['date'] != '') {
-        //         $date = $_POST['date'];
-        //     }
-        //     if (isset($_POST['public']) && $_POST['public'] != '') {
-        //         $public_event = $_POST['public_event'];
-        //     }
-
-        //     if (isset($_POST['location']) && $_POST['location'] != '') {
-        //         $location = $_POST['location'];
-        //     }
-
-        //     if (isset($_POST['link']) && $_POST['link'] != '') {
-        //         $link = $_POST['link'];
-        //     }
-
-        //     if (isset($_POST['description']) && $_POST['description'] != '') {
-        //         $description = $_POST['description'];
-        //     }
-
-        //     $event_details = array($name, $date, $public_event, $location, $link, $description);
-
-
-        //     $this->service_model->setEvent($event_details, $_SESSION['user_id']);
-
-        // }
-
-    
 
     public function dashboard()
     {
@@ -368,7 +331,16 @@ class Service_providers extends Controller
         $this->view('service_providers/addNewPost');
     }
 
- 
+    public function editEvent(){
+        $id = $_GET['id'];
+        $event = $this->service_model->getEventById($id);
+        $data = [
+            'event' => $event,
+           
+        ];
+        $this->view('service_providers/editEvent',$data);
+
+    }
 
 }
 

@@ -25,7 +25,7 @@
             
                         <button data-add-event=".add-event"> +  </button>
                         <div class="calender-event">
-                            <?php $currentMonth = $data['no']; ?>
+                            <?php $currentMonth = $data['month_no']; ?>
                             <?php str_pad($currentMonth, 2, "0", STR_PAD_LEFT); ?>
 
                             <?php foreach ($data['events'] as $event) : ?>
@@ -176,7 +176,7 @@
         </div>
         <div>
             <label for="event-img" class="formbold-form-label"> Image </label>
-            <input type=file name="event-img" id="event-img" class="formbold-form-input">
+            <input type="file" name="event-img" id="event-img" class="formbold-form-input">
         </div>
 
         <input type="submit" class="formbold-btn" value="Add Event">
@@ -203,29 +203,7 @@
     link.style.color = "red";
 
 
-    function loadevent(event_id) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var event = JSON.parse(this.responseText);
 
-                document.querySelector(".title").innerHTML = event.event.name;
-                document.querySelector(".event-body").innerHTML = event.event.description;
-                document.querySelector(".owner-name").innerHTML = `${event.name.first_name} ${event.name.second_name}`;
-                document.querySelector('#likes').innerHTML = event.event.likes;
-                document.querySelector('#dislikes').innerHTML = event.event.dislikes;
-        
-
-            }
-        };
-
-        xhttp.open("GET", "http://localhost/Audex/service_providers/getEvent?id=" + event_id, true);
-        xhttp.send();
-
-        //set the date to today
-
-       let eventForm = document.querySelector('#eventForm');
-    }
 </script>
 
 </body>

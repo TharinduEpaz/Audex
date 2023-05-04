@@ -41,6 +41,7 @@ function closeEvent(event){
 
 const addEventButtons = document.querySelectorAll('[data-add-event]')
 
+console.log(addEventButtons);
 
 
 
@@ -108,7 +109,7 @@ $(document).ready(function() {
         success: function(response) {
           // Handle success response
           console.log(response);
-          //window.location.href = 'http://localhost/Audex/service_providers/eventCalander'
+        //   window.location.href = 'http://localhost/Audex/service_providers/eventCalander'
         },
         error: function(jqXHR, textStatus, errorThrown) {
           // Handle error response
@@ -119,6 +120,39 @@ $(document).ready(function() {
       
     });
   });
+
+
+//////////////////////////////////////////////////////////
+//////// LOAD EVENT USING AJAX //////////
+//////////////////////////////////////////////////////////
+
+
+  function loadevent(event_id) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var event = JSON.parse(this.responseText);
+
+            document.querySelector("#edit-event-btn").setAttribute("onclick", `editEvent(${event_id})`);
+
+            document.querySelector(".title").innerHTML = event.event.name;
+            document.querySelector(".event-body").innerHTML = event.event.description;
+            document.querySelector(".owner-name").innerHTML = `${event.name.first_name} ${event.name.second_name}`;
+            document.querySelector('#likes').innerHTML = event.event.likes;
+            document.querySelector('#dislikes').innerHTML = event.event.dislikes;
+            
+          
+
+        }
+    };
+
+    xhttp.open("GET", "http://localhost/Audex/service_providers/getEvent?id=" + event_id, true);
+    xhttp.send();
+
+    //set the date to today
+
+   let eventForm = document.querySelector('#eventForm');
+}
 
 // const form = document.forms.namedItem("add-event");
 // form.addEventListener(
@@ -143,14 +177,3 @@ $(document).ready(function() {
 //     event.preventDefault();
 //   },
 //   false
-<<<<<<< HEAD
-// );
-
-
-//////////////////////////////////////////////////////////
-//////// EVENT LISTNERS FOR THE SERVICE PROVIDER PROFILE /
-//////////////////////////////////////////////////////////
-
-=======
-// );
->>>>>>> d00d131a1cb95d7cc77576e211e727c845f3d554

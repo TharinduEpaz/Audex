@@ -5,7 +5,7 @@
 
 <div class="formbold-main-wrapper">
   <div class="formbold-form-wrapper">
-    <form action="<?php echo URLROOT . '/service_providers/setDetails/' ?>" method="POST">
+    <form action="<?php echo URLROOT . '/service_providers/setDetails/' ?>" method="POST" enctype="multipart/form-data">
       <div class="formbold-input-flex">
         <div>
           <label for="firstname" class="formbold-form-label"> First Name </label>
@@ -134,13 +134,13 @@
       </div>
 
       <div class="formbold-form-file-flex">
-        <label for="upload" class="formbold-form-label">
+        <label for="profile" class="formbold-form-label">
           Upload Profile Image
         </label>
         <input
           type="file"
-          name="upload"
-          id="upload"
+          name="profile"
+          id="profile"
           class="formbold-form-file"
         />
       </div>
