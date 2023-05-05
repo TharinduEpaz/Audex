@@ -2772,7 +2772,7 @@
             $data = json_decode(file_get_contents('php://input'), true);
 
             $rating = $data['rating'] ?? 0;
-            $emai_rater = $data['emai_rater'];
+            $email_rater = $data['email_rater'];
             $email_rate_receiver = $data['email_rate_receiver'];
             $review = $data['review'];
 
@@ -2781,18 +2781,59 @@
             // echo $rating;
             // echo $buyer_id;
             // echo $seller;
-            $results1 = $this->userModel->checkAddedRate($emai_rater, $email_rate_receiver);
+            $results1 = $this->userModel->checkAddedRate($email_rater, $email_rate_receiver);
 
+
+
+            $date=date('Y-m-d H:i:s');
             if( empty($results1) ){
-                $date=date('Y-m-d H:i:s');
-                $results2 = $this-> userModel->rateSeller($rating,$emai_rater,$email_rate_receiver,$date,$review);
+                $results2 = $this-> userModel->rateSeller($rating,$email_rater,$email_rate_receiver,$date,$review);
             }
             else{
-                $results3 = $this->userModel->updateSellerRate($rating, $emai_rater, $email_rate_receiver,$review);
+                $results3 = $this->userModel->updateSellerRate($rating, $email_rater, $email_rate_receiver,$review,$date);
             }
             $results4 = $this->userModel->getRateReceiversFinalRate($email_rate_receiver);
             flash('rating_message', 'Rating added successfully');
             // ,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3
+           
+            // print_r(['message' => 'Rating saved','results4'=>$results4,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
+            // exit();
+            echo json_encode(['message' => 'Rating saved','results4'=>$results4,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
+            // echo json_encode(['message' => 'Rating saved','result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
+
+
+        }
+
+        public function rateServiceProvider(){
+
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            $emailBuyer = $data['emai_rater'];
+            $emailServiceProvider = $data['email_rate_receiver'];
+            $eventName = $data['event'];
+            $eventDate = $data['day'];
+            $rate = $data['rating'] ?? 0;
+            $review = $data['review'];
+
+            $results2 = '';
+            $results3 = '';
+            // echo $rating;
+            // echo $buyer_id;
+            // echo $seller;
+            $results1 = $this->userModel->checkAddedServiceProviderRate($emailBuyer, $emailServiceProvider, $eventName, $eventDate);
+
+            $reviewedDay =date('Y-m-d H:i:s');
+
+            if( empty($results1) ){
+                $results2 = $this-> userModel->rateServiceProvider($emailBuyer, $emailServiceProvider, $eventName, $eventDate, $rate, $review, $reviewedDay);
+            }
+            else{
+                $results3 = $this->userModel->updateServiceProviderRate($emailBuyer, $emailServiceProvider, $eventName, $eventDate, $rate, $review, $reviewedDay);
+            }
+            $results4 = $this->userModel->getRateReceiversFinalRate($emailServiceProvider);
+            flash('rating_message', 'Rating added successfully');
+            // ,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3
+
             echo json_encode(['message' => 'Rating saved','results4'=>$results4,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
             // echo json_encode(['message' => 'Rating saved','result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
 

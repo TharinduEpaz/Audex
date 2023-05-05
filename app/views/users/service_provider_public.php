@@ -316,6 +316,7 @@
     eventNameDropdown.addEventListener("change", autoSetEventDate);
     eventNameDropdown.addEventListener("DOMContentLoaded", autoSetEventDate);
 
+    
     function autoSetEventDate(){
         const selectedEvent = document.getElementById("event-name").value;
         console.log("this one",selectedEvent);
@@ -382,13 +383,16 @@
                 });
             }
             reviewWriteForm.addEventListener("submit",(e)=>{
-                // e.preventDefault();
+                e.preventDefault();
                 //get the form data/sumitted data
                 const feedback = document.getElementById('submitted-feedback').value;
                 console.log(feedback);
                 console.log(value);
 
-                const url1 = '<?php echo URLROOT?>/users/rateSeller/';
+                const selectedEvent = document.getElementById("event-name").value;
+                let eventDate = document.getElementById("event-date").value;
+
+                const url1 = '<?php echo URLROOT?>/users/rateServiceProvider/';
                 fetch(url1, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -396,6 +400,8 @@
                                            review:feedback,
                                            emai_rater:emai_rater,
                                            email_rate_receiver:email_rate_receiver,
+                                           event: selectedEvent,
+                                           day: eventDate,
                                         }),
                 })
                 .then(response => response.json())
