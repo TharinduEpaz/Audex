@@ -674,23 +674,18 @@ nav{
 }
 .hotest_auctions .auction{
   background-color: #cdcfd0;
-  height: 20vh;
+  height: 10vw;
   width: 10vw;
   border-radius: 30px;
   display: flex;
 }
 .hotest_auctions .auction img{
   background-color: #cdcfd0;
-  height: 20vh;
+  height: 10vw;
   width: 10vw;
   border-radius: 30px;
 }
-.popular_engineers .engineer img{
-  background-color: #cdcfd0;
-  height: 20vh;
-  width: 10vw;
-  border-radius: 30px;
-}
+
 .popular_engineers{
      display: flex;
   flex-direction: row;
@@ -704,7 +699,13 @@ nav{
 .popular_engineers .engineer{
 
   background-color: #cdcfd0;
-  height: 20vh;
+  height: 10vw;
+  width: 10vw;
+  border-radius: 30px;
+}
+.popular_engineers .engineer img{
+  background-color: #cdcfd0;
+  height: 10vw;
   width: 10vw;
   border-radius: 30px;
 }
@@ -723,7 +724,7 @@ nav{
 
 .upcoming_events .event{
   background-color: #cdcfd0;
-  height: 20vh;
+  height: 10vw;
   width: 10vw;
   border-radius: 30px;
 
