@@ -1,8 +1,13 @@
 
 <div class="service-provider-profile">
     <div class="white-box">
-        <h1>Edit Profile</h1>
+        <span id="edit-profile-heading">Edit Profile</span>
+        <button class="add-event-btn" id="edit-event-btn">Change Password</button>
+        <button class="add-event-btn" id="edit-event-btn">Change Email</button>
+        <button class="add-event-btn" id="edit-event-btn">Make Payment</button>
 
+        <hr>
+       
 <div class="formbold-main-wrapper">
   <div class="formbold-form-wrapper">
     <form action="<?php echo URLROOT . '/service_providers/setDetails/' ?>" method="POST" enctype="multipart/form-data">
@@ -145,8 +150,31 @@
         />
       </div>
       <button type="submit" class="formbold-btn">Save Settings</button>
-      <button id="cancel" type="reset" onclick="exit()">Cancel</button>
+      <button id="cancel" type="reset"  class="" onclick="exit()">Cancel</button>
     </form>
   </div>
 </div>
+
+
+<script>
+
+
+//make alert window before exiting
+function exit(){
+  var r = confirm("Are you sure you want to exit?");
+  if (r == true) {
+    window.location.href = "<?php echo URLROOT . '/service_providers/profile/' ?>";
+  } else {
+    return
+  }
+}
+
+
+
+
+
+
+
+
+</script>
 

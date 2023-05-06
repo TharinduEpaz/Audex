@@ -318,7 +318,11 @@
 /* EDIT SETTINGS CSS */
 /* /////////////////////// */
 
-
+#edit-profile-heading{
+  font-weight: 200;
+  /* display: block; */
+  font-size:2rem
+}
 #edit-settings {
   margin-left: 0vw;
   width: 800px;
@@ -327,6 +331,13 @@
   background-color: blueviolet;
   color: white;
   border: none;
+}
+hr{
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border: 0;
+  border-top: 1px solid #E5E9F7;
+  width: 100%;
 }
 
 .service-provider-profile .white-box #edit-settings,#add-event {
@@ -360,12 +371,17 @@
 }
 
 #cancel {
-  width: 100px;
-  height: 30px;
-  border-radius: 10px;
-  background-color: rgb(226, 43, 64);
-  color: white;
+  text-align: center;
+  width: 100%;
+  font-size: 16px;
+  border-radius: 5px;
+  padding: 14px 25px;
   border: none;
+  font-weight: 500;
+  background-color: #a30632;
+  color: white;
+  cursor: pointer;
+  margin-top: 25px;
 }
 
 h2 {
@@ -853,8 +869,8 @@ EVENT POP UPS CSS
 }
 
 .formbold-form-wrapper {
-  margin: 0 auto;
-  max-width: 550px;
+  /* margin: 0 auto; */
+  /* max-width: 550px; */
   width: 100%;
   background: white;
 }

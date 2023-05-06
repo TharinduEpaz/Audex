@@ -20,7 +20,6 @@
                 <button type="submit">POST</button>
                 <button type="reset">Cancel</button>
                 </div>
-               
                 </form>
             </div>
 

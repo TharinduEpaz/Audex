@@ -13,9 +13,15 @@
                     <i class="fa fa-map-marker" aria-hidden="true"></i><span id="profession"><?php echo $data['details']->address_line_two ?></span>
                 </div>
                 <div class="rating">
-                    <?php for ($i = 0; $i < floor($data['details']->Rating); $i++) : ?>
+                <?php for($i=0; $i<floor($data['details']->Rating); $i++): ?>
                         <i class="fa fa-star"></i>
-                    <?php endfor; ?>
+                        <?php endfor; ?>
+
+                        <?php if(strpos((string)$data['details']->Rating, '.')): ?>
+                        <i class="fa fa-star-half-o"></i>
+                        <?php endif; ?>
+
+                        <!-- <span style="color:white"><?php echo $data['details']->Rating?></span> -->
                 </div>
             </div>
             <button id="edit-details" class="btn" onclick="gotoSettings()">Edit Details</button>
@@ -52,12 +58,6 @@
 
                             </div>
                         </div>
-
-                       
-            
-                       
-
-
                     <?php endforeach; ?>
                 </div>
             </div>

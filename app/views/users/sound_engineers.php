@@ -15,13 +15,108 @@
     <title><?php echo SITENAME; ?></title>
 </head>
 
+<style>
+    input {
+    line-height: 2em;
+    margin-left: 40px;
+    border-radius: 3px;
+    border: 1px solid #999;
+    padding: 5px 10px;
+  }
+  
+
+
+  .item-group {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin: 10px 10px 30px 10px;
+  }
+  
+  .item-group::after {
+    content: attr(data-name);
+    position: relative;
+    position: relative;
+    top: 20px;
+    display: block;
+    margin-left: -50%;
+  }
+  
+  #collection {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+  
+  #filter-bar {
+    position: fixed;
+    background:fixed;
+    margin-top: 10vh;
+    
+  
+   
+    display: flex;
+    align-items: baseline;
+    background-color: #E5E9F7;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    
+  }
+  
+  #filter li {
+    list-style: none;
+    display: inline-block;
+    cursor: default;
+    padding: 5px 10px;
+  }
+  .sound-eng-profiles{
+    padding-top: 5vh;
+  }
+  #search{
+    width:30vw;
+    border-radius: 10px;
+  }
+  #filter{
+    
+    border-radius: 10px;
+    
+
+  }
+
+  #filter li{
+    margin-left: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+  }
+  .wrapper-filter{
+    display: flex;
+    justify-content: center;
+  }
+  
+  
+</style>
+
 <body>
     <?php require_once APPROOT . '/views/users/navbar.php';?>
+<div class="wrapper-filter">
+    <div id="filter-bar">
+   
+    <input type="text" name="search" value="" id="search" placeholder="Search">
+    <ul id="filter" class="filter-all">
+      <li id="Sound Engineers">Sound Engineers</li>
+      <li id="DJ Artists">DJ Artists</li>
+      <li id="Technicians">Technicians</li>
+      <li id="Other">Other</li>
+    </ul>
+  </div>
+  </div>
 
     <!-- create 4 divs and display 4 profile pics in each div -->
     <div class="sound-eng">
         <?php  foreach ($data as $object): ?>
-        <div class="sound-eng-profiles">
+        <div class="sound-eng-profiles" >
             <div class="profile-image">
                 <?php $id = $object->user_id; ?>
                 <a href="<?php echo URLROOT .'/users/serviceProviderPublic/' . "?id=$id" ?>">
@@ -50,7 +145,10 @@
     </div>
 </body>
 <script>
+
+   
+  
+
 </script>
-<script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 
 </html>
