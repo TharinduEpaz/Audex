@@ -383,7 +383,7 @@
                 });
             }
             reviewWriteForm.addEventListener("submit",(e)=>{
-                e.preventDefault();
+                // e.preventDefault();
                 //get the form data/sumitted data
                 const feedback = document.getElementById('submitted-feedback').value;
                 console.log(feedback);

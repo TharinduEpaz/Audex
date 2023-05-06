@@ -21,7 +21,7 @@
     
         <div class="content">
             <div class="image_likes">
-            <div class="image">
+                <div class="image">
                     <div class="grid">
                         <div id="img1" class="img1" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>)">
                         </div>
@@ -39,7 +39,7 @@
                             <?php }?>
                         </div>
                     </div>
-            </div>
+                </div>
                 <div class="like-dislike-area">
                         <!-- used two custom attributes one for click event and other one to store liked value when load -->
                         <button type="submit" onload="likeBtnOnload()" id="product-like-btn" data-like = "addLike" data-likeLoad ="<?php echo $data['liked'] ; ?>" ><i class="fas fa-thumbs-up"></i></button>
@@ -52,10 +52,12 @@
                             <?php echo $data['dislikedCount'] ?>
                         </div>
                     </div>
-
             </div>
+
+
             <div class="details">
                 <h2><?php echo $data['ad']->product_title?></h2>
+
                 <table>
                     <tr>
                         <td class="name">Category</td>
@@ -74,81 +76,64 @@
                         <td class="value">: <?php echo $data['ad']->product_condition?></td>
                     </tr>
                 </table>
+
                 <div class="price">
                     <h4>LKR&nbsp;<?php echo $data['ad']->price?></h4>
                 </div>
-                <div class="message_bid">
-                <?php 
-                    if(isLoggedIn()){
-                        if($_SESSION['user_email']!=$data['ad']->email){
-                            echo '<div class="message_seller">';
-                            echo '<a href="'.URLROOT.'/users/chat/'.$data['SellerMoreDetails']->user_id.'"><i class="fas fa-comments"></i>Message</a>';
-                            echo '</div>';
-                        }
-                    }
-                ?>
-                <!-- add to watch button is not visible if user is a seller or service provider -->
-                <!-- watch list button should visible if user is not logged in -->
-                <?php
-                    if( !isLoggedIn() ){?>
-                            <div class="add_watch_list">
-                                <form id="add_watch_list_form" method="POST" data-op = "add" data-watchLoad ="<?php echo $data['watched'] ; ?>" >
-                                    <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
-                                    <input type="text" name="user_type" value="buyer" hidden>
-                                    <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
-                                    <input type="text" name="product_id" value="<?php echo $data['ad']->product_id ; ?>" hidden >
-                                    
-                                    <div class="button-container">
-                                        <!-- <input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist"> -->
-                                        <button type="submit" class="heart" id="heart">
-                                                <i class="fa-regular fa-heart"></i>
-                                        </button>
-                                    </div>
-                                    <dialog id="dia">
-                                        <div class="top-part" style="margin-bottom: 1vh;">
-                                            <button class="btn_close">X</button>
-                                            <!-- <i class="fa-sharp fa-solid fa-xmark"></i> -->
-                                        </div>  
-                                        <hr>
-                                        <div style="margin-top: 1vh;">
-                                            <button class="close">Close</button>
-                                            <button class="continue">OK </button>  
-                                        </div>
-                                    </dialog>
-                    
-                                </form>
-                            </div>
-                            <?php } else if($_SESSION['user_type'] != 'seller' && $_SESSION['user_type'] != 'service_provider' ){ ?>
-                                <div class="add_watch_list">
-                                    <form id="add_watch_list_form" method="POST" data-op = "add" data-watchLoad ="<?php echo $data['watched'] ; ?>" >
-                                        <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
-                                        <input type="text" name="user_type" value="buyer" hidden>
-                                        <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
-                                        <input type="text" name="product_id" value="<?php echo $data['ad']->product_id ; ?>" hidden >
-                                        
-                                        <div class="button-container">
-                                            <!-- <input style="margin-top:2vh" type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist"> -->
-                                            <button type="submit" class="heart" id="heart">
-                                                <i class="fa-regular fa-heart"></i>
-                                            </button>
-                                        </div>
-                                        <dialog id="dia">
-                                            <div class="top-part" style="margin-bottom: 1vh;">
-                                                <button class="btn_close">X</button>
-                                                <!-- <i class="fa-sharp fa-solid fa-xmark"></i> -->
-                                            </div>  
-                                            <hr>
-                                            <div class="bottom-part" style="margin-top: 1vh;">
-                                                <h4>Do You Want To Continue?</h4>
-                                                <button class="close">Close</button>
-                                                <button class="continue">OK </button>  
-                                            </div>
-                                        </dialog>
-                        
-                                    </form>
-                                </div>
 
-                <?php }?>
+                <div class="message_bid">
+                    <?php 
+                        if(isLoggedIn()){
+                            if($_SESSION['user_email']!=$data['ad']->email){
+                                echo '<div class="message_seller">';
+                                echo '<a href="'.URLROOT.'/users/chat/'.$data['SellerMoreDetails']->user_id.'"><i class="fas fa-comments"></i>Message</a>';
+                                echo '</div>';
+                            }
+                        }
+                    ?>
+                    <!-- add to watch button is not visible if user is a seller or service provider -->
+                    <!-- watch list button should visible if user is not logged in -->
+
+                    <div class="add_watch_list">
+                        <form id="add_watch_list_form" method="POST" data-op = "add" data-watchLoad ="<?php echo $data['watched'] ; ?>" >
+                            <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
+                            <input type="text" name="user_type" value="buyer" hidden>
+                            <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
+                            <input type="text" name="product_id" value="<?php echo $data['ad']->product_id ; ?>" hidden >
+                            
+                            <div class="button-container">
+                                <!-- <input type="submit" value="Add To Watchlist" class="watch" id="add-to-watchlist"> -->
+
+                            <?php
+                                if( !isLoggedIn() ){?>    
+                                    <button type="submit" class="heart" id="heart">
+                                            <i class="fa-regular fa-heart"></i>
+                                    </button>
+                            <?php }
+                                else if($_SESSION['user_type'] != 'seller' && $_SESSION['user_type'] != 'service_provider' ){ ?>
+                                    <button type="submit" class="heart" id="heart">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </button>
+                            <?php }?>
+                            </div>
+                            <dialog id="dia">
+                                <div class="top-part" style="margin-bottom: 1vh;">
+                                    <button class="btn_close">X</button>
+                                    <!-- <i class="fa-sharp fa-solid fa-xmark"></i> -->
+                                </div>  
+                                <hr>
+                                <div class="bottom-part" style="margin-top: 1vh;">
+                                    <h4>Do You Want To Continue?</h4>
+                                    <button class="close">Close</button>
+                                    <button class="continue">OK </button>  
+                                </div>
+                            </dialog>
+            
+                        </form>
+                    </div>
+
+
+                
                 </div>
 
 
@@ -197,6 +182,8 @@
                     </div>
                 <?php } ?>
             </div>
+
+            
             <div class="seller-detais">
                 <h2 style="text-align: center;width:115%"><?php 
                             if( empty($data['seller']->shop_name )){
@@ -251,8 +238,7 @@
                             </div>
                             <div class="likes_dislikes">
                                 <div class="flags">
-                                <i class="fa-sharp fa-solid fa-flag"> : 0 </i>
-                            
+                                    <i class="fa-sharp fa-solid fa-flag"> : 0 </i>
                                 </div>
                             </div>
                         </div>
@@ -297,13 +283,15 @@
                     <!-- </div> -->
                 </div>
             </div>
-        </div>
-        <div class="description">
-            <h3>Description</h3>
-            <p><?php echo $data['ad']->p_description?></p>
-        </div>
+    </div>
+    <div class="description">
+        <h3>Description</h3>
+        <p><?php echo $data['ad']->p_description?></p>
+    </div>
     </div>
 </body>
+
+
 <script>
     function openModal() {
 			var modal = document.getElementById("myModal");
