@@ -192,7 +192,7 @@
 
     
     // get user email(email rater)  using sessions and check user is logged or not
-    const emai_rater = <?php
+    const email_rater = <?php
                     if (isLoggedIn()) {
                         echo "'".$_SESSION['user_email']."'";
                     }
@@ -217,7 +217,7 @@
             
         // rate functionality======================================================================================================================
 
-        if(emai_rater != "0"){
+        if(email_rater != "0"){
             // user is logged in
        
             for (const star of stars) {
@@ -240,16 +240,19 @@
                 // e.preventDefault();
                 //get the form data/sumitted data
                 const feedback = document.getElementById('submitted-feedback').value;
-                console.log(feedback);
-                console.log(value);
+                // console.log(feedback);
+                // console.log(value);
 
                 const url1 = '<?php echo URLROOT?>/users/rateSeller/';
+
+                // console.log(url1);
+
                 fetch(url1, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ rating: value,
                                            review:feedback,
-                                           emai_rater:emai_rater,
+                                           email_rater:email_rater,
                                            email_rate_receiver:email_rate_receiver,
                                         }),
                 })
