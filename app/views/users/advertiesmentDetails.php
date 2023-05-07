@@ -24,18 +24,40 @@
             <div class="image">
                     <div class="grid">
                         <div id="img1" class="img1" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>)">
+                            <div>
+                                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                            </div>
+                            <div>
+                                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                            </div>
+
                         </div>
                         <div class="img2" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>)">    
-                            <a style="width: 100%;height:100%; " onclick="change_img1(); return false;" ></a>
+                            <a style="width: 100%;height:100%; " onclick="change_img(1); return false;" ></a>
                         </div>
                         <div class="img3" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image2;?>)"> 
                             <?php if($data['ad']->image2!=null){?>  
-                                <a style="width: 100%;height:100%; " onclick="change_img2(); return false;"></a> 
+                                <a style="width: 100%;height:100%; " onclick="change_img(2); return false;"></a> 
                             <?php }?>
                         </div>
                         <div class="img4" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image3;?>)">   
                             <?php if($data['ad']->image3!=null){?>  
-                                <a style="width: 100%;height:100%; " onclick="change_img3(); return false;"></a>
+                                <a style="width: 100%;height:100%; " onclick="change_img(3); return false;"></a>
+                            <?php }?>
+                        </div>
+                        <div class="img5" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image4;?>)">   
+                            <?php if($data['ad']->image4!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img(4); return false;"></a>
+                            <?php }?>
+                        </div>
+                        <div class="img6" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image5;?>)">   
+                            <?php if($data['ad']->image5!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img(5); return false;"></a>
+                            <?php }?>
+                        </div>
+                        <div class="img7" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image6;?>)">   
+                            <?php if($data['ad']->image6!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img(6); return false;"></a>
                             <?php }?>
                         </div>
                     </div>
@@ -78,15 +100,7 @@
                     <h4>LKR&nbsp;<?php echo $data['ad']->price?></h4>
                 </div>
                 <div class="message_bid">
-                <?php 
-                    if(isLoggedIn()){
-                        if($_SESSION['user_email']!=$data['ad']->email){
-                            echo '<div class="message_seller">';
-                            echo '<a href="'.URLROOT.'/users/chat/'.$data['SellerMoreDetails']->user_id.'"><i class="fas fa-comments"></i>Message</a>';
-                            echo '</div>';
-                        }
-                    }
-                ?>
+                
                 <!-- add to watch button is not visible if user is a seller or service provider -->
                 <!-- watch list button should visible if user is not logged in -->
                 <?php
@@ -156,7 +170,7 @@
                 <?php if($data['ad']->longitude!='NULL' && $data['ad']->latitude!='NULL'){?>
                     <div class="location">
                         <div class="input">
-                            <a href="" class="post" onclick="openModal(); return false;"><i class="fa-sharp fa-solid fa-map-location-dot"></i></a>
+                            <a href="" class="location_icon" onclick="openModal(); return false;"><i class="fa-sharp fa-solid fa-location-dot"></i></a>
                         </div>
                         <div id="myModal" class="modal">
                             <div class="modal-content">
@@ -257,6 +271,15 @@
                             </div>
                         </div>
                     </div>
+                            <?php 
+                    if(isLoggedIn()){
+                        if($_SESSION['user_email']!=$data['ad']->email){
+                            echo '<div class="message_seller">';
+                            echo '<a href="'.URLROOT.'/users/chat/'.$data['SellerMoreDetails']->user_id.'"><i class="fas fa-comments"></i>&nbsp&nbspMessage</a>';
+                            echo '</div>';
+                        }
+                    }
+                ?>
                     </a>
                 <!-- <div class="review-seller"> -->
                 <!-- add to watch button is not visible if user is a seller or service provider -->
@@ -297,10 +320,10 @@
                     <!-- </div> -->
                 </div>
             </div>
-        </div>
-        <div class="description">
-            <h3>Description</h3>
-            <p><?php echo $data['ad']->p_description?></p>
+            <div class="description">
+                <h3>Description</h3>
+                <p><?php echo $data['ad']->p_description?></p>
+            </div>
         </div>
     </div>
 </body>
@@ -325,14 +348,34 @@
       }
     });
 
-    function change_img1(){
-        document.getElementById('img1').style.backgroundImage = "url('<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>')";
+//Image change
+    var img=1;
+    var image1 = <?php echo json_encode($data['ad']->image1); ?>;
+    var image2 = <?php echo json_encode($data['ad']->image2); ?>;
+    var image3 = <?php echo json_encode($data['ad']->image3); ?>;
+    var image4 = <?php echo json_encode($data['ad']->image4); ?>;
+    var image5 = <?php echo json_encode($data['ad']->image5); ?>;
+    var image6 = <?php echo json_encode($data['ad']->image6); ?>;
+
+    //To check how many images are there
+    var no_images=0;
+    for(var cnt=1;cnt<=6;cnt++){
+        if(window["image"+cnt]!=""){
+            no_images++;
+        }
     }
-    function change_img2(){
-        document.getElementById('img1').style.backgroundImage = "url('<?php echo URLROOT.'/public/uploads/'.$data['ad']->image2;?>')";
+    function change_img(n){
+        var image1
+        var link= <?php echo json_encode(URLROOT.'/public/uploads/');?>+window['image'+n];
+        document.getElementById("img1").style.backgroundImage = "url('"+link+"')";
+        img=n;
     }
-    function change_img3(){
-        document.getElementById('img1').style.backgroundImage = "url('<?php echo URLROOT.'/public/uploads/'.$data['ad']->image3;?>')";
+    function plusSlides(n){
+        img=(img+n)%no_images;
+        if(img<=0){
+            img=no_images;
+        }
+            change_img(img);   
     }
     // like removeLike functions click event
     const likeBtn = document.getElementById("product-like-btn");

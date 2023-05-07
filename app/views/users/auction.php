@@ -25,19 +25,41 @@
         <div class="image_likes">
                 <div class="image">
                     <div class="grid">
-                        <div id="img1" class="img1" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>)">
+                    <div id="img1" class="img1" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>)">
+                            <div>
+                                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                            </div>
+                            <div>
+                                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                            </div>
+
                         </div>
                         <div class="img2" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>)">    
-                            <a style="width: 100%;height:100%; " onclick="change_img1(); return false;" ></a>
+                            <a style="width: 100%;height:100%; " onclick="change_img(1); return false;" ></a>
                         </div>
                         <div class="img3" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image2;?>)"> 
                             <?php if($data['ad']->image2!=null){?>  
-                                <a style="width: 100%;height:100%; " onclick="change_img2(); return false;"></a> 
+                                <a style="width: 100%;height:100%; " onclick="change_img(2); return false;"></a> 
                             <?php }?>
                         </div>
                         <div class="img4" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image3;?>)">   
                             <?php if($data['ad']->image3!=null){?>  
-                                <a style="width: 100%;height:100%; " onclick="change_img3(); return false;"></a>
+                                <a style="width: 100%;height:100%; " onclick="change_img(3); return false;"></a>
+                            <?php }?>
+                        </div>
+                        <div class="img5" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image4;?>)">   
+                            <?php if($data['ad']->image4!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img(4); return false;"></a>
+                            <?php }?>
+                        </div>
+                        <div class="img6" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image5;?>)">   
+                            <?php if($data['ad']->image5!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img(5); return false;"></a>
+                            <?php }?>
+                        </div>
+                        <div class="img7" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image6;?>)">   
+                            <?php if($data['ad']->image6!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img(6); return false;"></a>
                             <?php }?>
                         </div>
                     </div>
@@ -65,7 +87,7 @@
                 <table>
                     <tr>
                         <td class="name">Category</td>
-                        <td class="value">: <?php echo $data['ad']->product_category?></td>
+                        <td class="value">: <?php echo ucwords($data['ad']->product_category)?></td>
                     </tr>
                     <tr>
                         <td class="name">Model Number</td>
@@ -73,33 +95,18 @@
                     </tr>
                     <tr>
                         <td class="name">Brand name</td>
-                        <td class="value">: <?php echo $data['ad']->brand?></td>
+                        <td class="value">: <?php echo ucwords($data['ad']->brand)?></td>
                     </tr>
                     <tr>
                         <td class="name">Condition</td>
-                        <td class="value">: <?php echo $data['ad']->product_condition?></td>
+                        <td class="value">: <?php echo ucwords($data['ad']->product_condition)?></td>
                     </tr>
                 </table>
                 <div class="price">
                     <h4>LKR&nbsp;<?php echo $data['ad']->price?></h4>
                 </div>
                 <div class="message_bid">
-                <?php 
-                    if(isLoggedIn()){
-                        if($_SESSION['user_email']!=$data['ad']->email && $_SESSION['user_type']!='seller'){
-                            if($data['ad']->product_type=='auction'){
-
-                                echo '<div class="bid_now">';
-                                echo '<a href="'.URLROOT.'/users/bid/'.$data['ad']->product_id.'">Bid Now</a>';
-                                echo '</div>';
-                            }
-                            echo '<div class="message_seller" style="margin-right:0px">';
-                            echo '<a href="'.URLROOT.'/users/chat/'.$data['SellerMoreDetails']->user_id.'"><i class="fas fa-comments"></i>Message</a>';
-
-                            echo '</div>';
-                        }
-                    }
-                ?>
+                
                 </div>
                 <!-- add to watch button is not visible if user is a seller or service provider -->
                 <!-- watch list button should visible if user is not logged in -->
@@ -273,6 +280,22 @@
                             </div>
                         </div>
                     </div>
+                    <?php 
+                    if(isLoggedIn()){
+                        if($_SESSION['user_email']!=$data['ad']->email && $_SESSION['user_type']!='seller'){
+                            echo '<div class="message_seller" style="margin-right:0px">';
+                            echo '<a href="'.URLROOT.'/users/chat/'.$data['SellerMoreDetails']->user_id.'"><i class="fas fa-comments"></i>&nbsp&nbspMESSAGE</a>';
+                            
+                            echo '</div>';
+                            if($data['ad']->product_type=='auction'){
+
+                                echo '<div class="bid_now">';
+                                echo '<a href="'.URLROOT.'/users/bid/'.$data['ad']->product_id.'"><i class="fa-solid fa-gavel"></i>&nbsp&nbspBID NOW</a>';
+                                echo '</div>';
+                            }
+                        }
+                    }
+                ?>
                 </a>
                 <!-- <?php if(isset($_SESSION['user_type']) && $_SESSION['user_type']!='seller'){?>
 
@@ -319,7 +342,7 @@
                 <?php } ?> -->
             </div>
         </div>
-        <div class="description" style="margin-top: -2vh;">
+        <div class="description" >
             <h3>Description</h3>
             <p><?php echo $data['ad']->p_description?></p>
         </div>
@@ -346,14 +369,34 @@ function openModal() {
       }
     });
 
-    function change_img1(){
-        document.getElementById('img1').style.backgroundImage = "url('<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>')";
+//Image change
+    var img=1;
+    var image1 = <?php echo json_encode($data['ad']->image1); ?>;
+    var image2 = <?php echo json_encode($data['ad']->image2); ?>;
+    var image3 = <?php echo json_encode($data['ad']->image3); ?>;
+    var image4 = <?php echo json_encode($data['ad']->image4); ?>;
+    var image5 = <?php echo json_encode($data['ad']->image5); ?>;
+    var image6 = <?php echo json_encode($data['ad']->image6); ?>;
+
+    //To check how many images are there
+    var no_images=0;
+    for(var cnt=1;cnt<=6;cnt++){
+        if(window["image"+cnt]!=""){
+            no_images++;
+        }
     }
-    function change_img2(){
-        document.getElementById('img1').style.backgroundImage = "url('<?php echo URLROOT.'/public/uploads/'.$data['ad']->image2;?>')";
+    function change_img(n){
+        var image1
+        var link= <?php echo json_encode(URLROOT.'/public/uploads/');?>+window['image'+n];
+        document.getElementById("img1").style.backgroundImage = "url('"+link+"')";
+        img=n;
     }
-    function change_img3(){
-        document.getElementById('img1').style.backgroundImage = "url('<?php echo URLROOT.'/public/uploads/'.$data['ad']->image3;?>')";
+    function plusSlides(n){
+        img=(img+n)%no_images;
+        if(img<=0){
+            img=no_images;
+        }
+            change_img(img);   
     }
 // Set the date we're counting down to
 var countDownDate = new Date("<?php echo $data['auction']->end_date;?>").getTime();

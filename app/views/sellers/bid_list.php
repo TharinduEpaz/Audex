@@ -23,44 +23,59 @@
     <?php echo flash('email_err');?>
         <div class="content">
         <div class="image_likes">
+            <!-- Image section -->
             <div class="image">
                     <div class="grid">
-                        <div id="img1" class="img1" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>)">
+                    <div id="img1" class="img1" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>)">
+                            <div>
+                                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                            </div>
+                            <div>
+                                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                            </div>
+
                         </div>
                         <div class="img2" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>)">    
-                            <a style="width: 100%;height:100%; " onclick="change_img1(); return false;" ></a>
+                            <a style="width: 100%;height:100%; " onclick="change_img(1); return false;" ></a>
                         </div>
                         <div class="img3" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image2;?>)"> 
                             <?php if($data['ad']->image2!=null){?>  
-                                <a style="width: 100%;height:100%; " onclick="change_img2(); return false;"></a> 
+                                <a style="width: 100%;height:100%; " onclick="change_img(2); return false;"></a> 
                             <?php }?>
                         </div>
                         <div class="img4" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image3;?>)">   
                             <?php if($data['ad']->image3!=null){?>  
-                                <a style="width: 100%;height:100%; " onclick="change_img3(); return false;"></a>
+                                <a style="width: 100%;height:100%; " onclick="change_img(3); return false;"></a>
+                            <?php }?>
+                        </div>
+                        <div class="img5" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image4;?>)">   
+                            <?php if($data['ad']->image4!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img(4); return false;"></a>
+                            <?php }?>
+                        </div>
+                        <div class="img6" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image5;?>)">   
+                            <?php if($data['ad']->image5!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img(5); return false;"></a>
+                            <?php }?>
+                        </div>
+                        <div class="img7" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image6;?>)">   
+                            <?php if($data['ad']->image6!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img(6); return false;"></a>
                             <?php }?>
                         </div>
                     </div>
                 </div>
         </div>
+        <!-- Auction details section -->
             <div class="auction_details">
                 <h2><?php echo $data['ad']->product_title?></h2>
-                <?php
-                // $currentTime = date('Y-m-d H:i:s');
-                // echo $currentTime;
-                ?>
-                <!-- <?php
-                echo URL().'<br>';
-                echo time();
-                ?> -->
+                <!-- Remaining time showing section -->
                 <div class="time">
                     <p>Time Left:&nbsp;</p>
                     <p id='remaining_time'></p>
                 </div>
 
                 <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
-                <!-- <?php echo '<pre>'; print_r($data['auctions']); echo '</pre>';?> -->
-                <!-- <?php echo $data['auctions'][0]->price;?> -->
                 <table>
                     <tr>
                         <th>Place</th>
@@ -71,131 +86,60 @@
                     <?php 
                         if(!empty($data['auctions'])){
                             $i=0;
+                            $j=0;
                             foreach($data['auctions'] as $auction):
-                            $i++;
+                                $i++;
                         
-                        echo '<tr>';
-                            echo '<td>'.$i.'</td>';
-                            echo '<td>'.$data['user'][$i-1]->first_name[0].$data['user'][$i-1]->first_name[1].'****</td>';
-                            echo '<td>LKR '.$auction->max_price.'</td>';
-                            echo '<td class=\'profile_link\'><a  href=\'' .URLROOT.'/users/getProfile/'.$data['user'][$i-1]->user_id.'\'>Profile</a></td>';
-                            if($i<4 && $data['auctions_no_rows']>3 && $auction->is_active==0){
-                                if($data['bid_list'][$i-1]!=NULL){
-                                    if($data['bid_list'][$i-1]->is_accepted==0 && $data['bid_list'][$i-1]->is_rejected==0){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Email Sent</a></td>';
-                                    }else if($data['bid_list'][$i-1]->is_accepted==1){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none ; color:green\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Approved</a></td>';
-                                        if($data['bid_list'][$i-1]->feedback_given==0){
+                                echo '<tr>';
+                                echo '<td>'.$i.'</td>';
+                                echo '<td>'.$data['user'][$i-1]->first_name[0].$data['user'][$i-1]->first_name[1].'****</td>';
+                                echo '<td>LKR '.$auction->max_price.'</td>';
+                                // Profile link
+                                echo '<td class=\'profile_link\'><a  href=\'' .URLROOT.'/users/getProfile/'.$data['user'][$i-1]->user_id.'\'>Profile</a></td>';
 
-                                            echo '<td id=\'feedback\' class=\'feedback\'><a style=\'pointer-events: none ; color:red\' href=\'' .URLROOT.'/sellers/feedback/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Feedback</a></td>';
-                                        }
-                                        
+                                // Approve bid section
+                                if($auction->is_active==0){// If auction is expired
+                                    // If number of bid rows is greater than 3, then only show the approve button for the first 3 bids
+                                    if(($i<4 && $data['auctions_no_rows']>3) || 
+                                        // If number of bid rows is 3, then only show the approve button for the first 2 bids
+                                        ($i<3 && $data['auctions_no_rows']==3) || 
+                                        // If number of bid rows is less than 3, then only show the approve button for the first 1 bids                               
+                                        ($i<2 && $data['auctions_no_rows']<=2)){
+                                        if($data['bid_list'][$i-1]!=NULL){
+                                            if($data['bid_list'][$i-1]->is_accepted==0 && $data['bid_list'][$i-1]->is_rejected==0){
+                                                echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Email Sent</a></td>';
+                                            }else if($data['bid_list'][$i-1]->is_accepted==1){
+                                                echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none ; color:green\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Approved</a></td>';
+                                                if($data['bid_list'][$i-1]->feedback_given==0){
 
-                                    }else if($data['bid_list'][$i-1]->is_rejected==1){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none; color:red\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Rejected</a></td>';
-                                        if($data['bid_list'][$i-1]->feedback_given==0){
-
-                                            echo '<td id=\'feedback\' class=\'feedback\'><a style=\'pointer-events: none ; color:red\' href=\'' .URLROOT.'/sellers/feedback/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Feedback</a></td>';
-                                        }
-
-                                    }
-                                }else if($data['check']==0){
-                                    echo '<td id=\'approve_link\' class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$data['user'][$i-1]->first_name.'\'>Approve</a></td>';
-
-                                }else{
-                                    echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Approve</a></td>';
-                                }
-                                
-                            }else if($i<3 && $data['auctions_no_rows']=3 && $auction->is_active==0){
-                                if($data['bid_list'][$i-1]!=NULL){
-                                    if($data['bid_list'][$i-1]->is_accepted==0 && $data['bid_list'][$i-1]->is_rejected==0){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Email Sent</a></td>';
-                                    }else if($data['bid_list'][$i-1]->is_accepted==1){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none ; color:green\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Approved</a></td>';
-                                        if($data['bid_list'][$i-1]->feedback_given==0){
-
-                                            echo '<td id=\'feedback\' class=\'feedback\'><a style=\'pointer-events: none ; color:red\' href=\'' .URLROOT.'/sellers/feedback/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Feedback</a></td>';
-                                        }
+                                                    echo '<td id=\'feedback\' class=\'feedback\'><a style=\'pointer-events: none ; color:red\' href=\'' .URLROOT.'/sellers/feedback/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Feedback</a></td>';
+                                                }
 
 
-                                    }else if($data['bid_list'][$i-1]->is_rejected==1){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none; color:red\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Rejected</a></td>';
-                                        if($data['bid_list'][$i-1]->feedback_given==0){
+                                            }else if($data['bid_list'][$i-1]->is_rejected==1){
+                                                echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none; color:red\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Rejected</a></td>';
+                                                $j++;
+                                                if($data['bid_list'][$i-1]->feedback_given==0){
 
-                                            echo '<td id=\'feedback\' class=\'feedback\'><a style=\'pointer-events: none ; color:red\' href=\'' .URLROOT.'/sellers/feedback/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Feedback</a></td>';
+                                                    echo '<td id=\'feedback\' class=\'feedback\'><a style=\'pointer-events: none ; color:red\' href=\'' .URLROOT.'/sellers/feedback/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Feedback</a></td>';
+                                                }
+
+                                            }
+                                        }else if($data['check']==0){
+                                            echo '<td id=\'approve_link\' class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$data['user'][$i-1]->first_name.'\'>Approve</a></td>';
+
+                                        }else{
+                                            echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Approve</a></td>';
                                         }
 
                                     }
-                                }else if($data['check']==0){
-                                    echo '<td id=\'approve_link\' class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$data['user'][$i-1]->first_name.'\'>Approve</a></td>';
-
-                                }else{
-                                    echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Approve</a></td>';
+                                    
                                 }
-                                
-                            }else if($i<2 && $data['auctions_no_rows']<=2 && $auction->is_active==0){
-
-                                if($data['bid_list'][$i-1]!=NULL ){
-                                    echo '<td id=\'approve_link\' class=\'aprove\'>'. date('Y-m-d H:i:s', strtotime($data['bid_list'][$i-1]->time. ' + 5 days')).'</td>';
-                                    if($data['bid_list'][$i-1]->is_accepted==0 && $data['bid_list'][$i-1]->is_rejected==0){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Email Sent</a></td>';
-                                    }else if($data['bid_list'][$i-1]->is_accepted==1){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none ; color:green\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Approved</a></td>';
-                                        if($data['bid_list'][$i-1]->feedback_given==0){
-
-                                            echo '<td id=\'feedback\' class=\'feedback\'><a style=\'pointer-events: none ; color:red\' href=\'' .URLROOT.'/sellers/feedback/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Feedback</a></td>';
-                                        }
-
-
-                                    }else if($data['bid_list'][$i-1]->is_rejected==1){
-                                        echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none; color:red\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Rejected</a></td>';
-                                        if($data['bid_list'][$i-1]->feedback_given==0){
-
-                                            echo '<td id=\'feedback\' class=\'feedback\'><a style=\'pointer-events: none ; color:red\' href=\'' .URLROOT.'/sellers/feedback/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Feedback</a></td>';
-                                        }
-
-
-                                    }
-                                }else if($data['check']==0){
-                                    echo '<td id=\'approve_link\' class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$data['user'][$i-1]->first_name.'\'>Approve</a></td>';
-
-                                }else{
-                                    echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Approve</a></td>';
-                                }
-                            }
-                        echo '</tr>';
-                        endforeach;
+                                echo '</tr>';
+                            endforeach;
                         }
                     ?>
                 </table>
-                <div class="add_bid" >
-                    <?php
-                        if(!empty($data['email_err']) ){
-                            echo '<div class="error">';
-                                if(!empty($data['email_err'])){
-                                    echo '*'.$data['email_err'].'<br>';
-                                }
-                            echo '</div>';
-                        }
-
-                    ?>
-                                    
-                    <!-- <h1><?php echo $data['ad']->product_id.'/'.$auction->auction_id.'/'.$data['auctions'][0]->price.'/'.$data['ad']->price;?></h1> -->
-                    
-                    
-                        
-                </div>
-                <?php 
-                    if(isLoggedIn()){
-                        if($_SESSION['user_email']!=$data['ad']->email){
-                            echo '<div class="message_bid">';
-                                echo '<div class="message_seller">';
-                                echo '<a href="'.URLROOT.'/users/message" class="btn">Message Seller</a>';
-                                echo '</div>';
-                            echo '</div>';
-                        }
-                    }
-                ?>
             </div>
         </div>
         <div class="description" style="margin-top: -2vh;">
@@ -209,14 +153,34 @@
 
 <script>
 
-function change_img1(){
-        document.getElementById('img1').style.backgroundImage = "url('<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>')";
+//Image change
+var img=1;
+    var image1 = <?php echo json_encode($data['ad']->image1); ?>;
+    var image2 = <?php echo json_encode($data['ad']->image2); ?>;
+    var image3 = <?php echo json_encode($data['ad']->image3); ?>;
+    var image4 = <?php echo json_encode($data['ad']->image4); ?>;
+    var image5 = <?php echo json_encode($data['ad']->image5); ?>;
+    var image6 = <?php echo json_encode($data['ad']->image6); ?>;
+
+    //To check how many images are there
+    var no_images=0;
+    for(var cnt=1;cnt<=6;cnt++){
+        if(window["image"+cnt]!=""){
+            no_images++;
+        }
     }
-    function change_img2(){
-        document.getElementById('img1').style.backgroundImage = "url('<?php echo URLROOT.'/public/uploads/'.$data['ad']->image2;?>')";
+    function change_img(n){
+        var image1
+        var link= <?php echo json_encode(URLROOT.'/public/uploads/');?>+window['image'+n];
+        document.getElementById("img1").style.backgroundImage = "url('"+link+"')";
+        img=n;
     }
-    function change_img3(){
-        document.getElementById('img1').style.backgroundImage = "url('<?php echo URLROOT.'/public/uploads/'.$data['ad']->image3;?>')";
+    function plusSlides(n){
+        img=(img+n)%no_images;
+        if(img<=0){
+            img=no_images;
+        }
+            change_img(img);   
     }
                     
     // Update the count down every 1 second

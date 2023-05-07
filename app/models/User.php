@@ -16,7 +16,7 @@ date_default_timezone_set("Asia/Kolkata");
             $this->db->bind(':user_type', $data['user_type']);
             $this->db->bind(':t', $dat);
             $this->db->bind(':password', $data['password']);
-            $this->db->bind(':otp', $data['otp']);
+            $this->db->bind(':otp', $data['otp_hashed']);
 
             //Execute
             if($this->db->execute()){
@@ -202,6 +202,16 @@ date_default_timezone_set("Asia/Kolkata");
                 return false;
             }
         }
+
+
+        public function verifyotp($otp, $otp_hashed){
+            if(password_verify($otp, $otp_hashed)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
 
         public function updatePasswordAttempts($email){
             $this->db->query('UPDATE user set password_wrong_attempts=password_wrong_attempts+1 WHERE email = :email');

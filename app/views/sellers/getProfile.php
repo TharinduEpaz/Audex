@@ -168,7 +168,7 @@
                 <div class="form-data-area">
                     <label for="phone_number">Phone Number:</label>
                     <input type="text" name="phone_number" value="<?php echo $data['user']->phone_number; ?>" disabled>
-                    <a style="margin-left: 2%;" href="<?php echo URLROOT.'/users/change_phone/'.$data['user']->user_id;?>"><?php if($data['user']->phone_number!=NULL){ echo "<i class='fas fa-edit'></i>";}else{ echo "Add";}?></a>
+                    <a style="margin-left: 2%;" href="<?php echo URLROOT.'/users/change_phone/'.$data['user']->user_id;?>"><?php if($data['user']->phone_number!=NULL){ echo "<i class='fas fa-edit'></i>";}else{ echo "<i class='fa-solid fa-plus  style='color: #0b0f64;''></i>";}?></a>
                     
                 </div>  
             </div> 

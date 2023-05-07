@@ -17,7 +17,7 @@
 </head>
 <body>
 <?php require_once APPROOT . '/views/'.$_SESSION['user_type'].'s/navbar.php';?>
-<div class="container">
+<div class="container" style="margin-left: 0%;">
     
     <?php require_once APPROOT . '/views/'.$_SESSION['user_type'].'s/sidebar.php';?>
     <div class="message_container">
@@ -25,7 +25,7 @@
         <div class="chat">
             <div class="chats">
                 <div class="messages" id="msg">
-                    <?php foreach($data['email_receivers'] as $receiver): ?>
+                    <?php if($data['email_receivers'][0]!=''){foreach($data['email_receivers'] as $receiver): ?>
                     <div class="message">
                         <a href="<?php echo URLROOT.'/users/chat/'.$receiver->user_id ?>">
                             <div class="image" style="background-image: url(<?php echo URLROOT.'/uploads/'.$receiver->profile_pic;?>);">
@@ -34,7 +34,7 @@
 
                         </a>
                     </div>
-                    <?php endforeach; ?>
+                    <?php endforeach; }?>
                 </div>
                 <div class="current_chat">
                     <?php if($data['receiver']!=null){ ?>
@@ -86,6 +86,20 @@
 </div>
 </body>
 <script>
+
+    
+    //make sidebar button background clicked
+    link = document.querySelector('#messages');
+    link.style.background = "#E5E9F7";
+    link.style.color = "red";
+
+    //keeping the sidebar button clicked at the page
+    link = document.querySelector('#messages');
+    link.style.background = "#E5E9F7";
+    link.style.color = "red";
+    link.style.fontWeight = "800";
+
+
     var container = document.querySelector('.current_messages');
     container.scrollTop = container.scrollHeight;
 
@@ -208,6 +222,7 @@
 
     }
     setInterval(reloadPage, 500);
+
     
 </script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>

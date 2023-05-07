@@ -23,12 +23,12 @@ class Service_providers extends Controller
 
         
         //Session timeout
-        if(isset($_SESSION['time'])){
-            if(time() - $_SESSION['time'] > 60*30){
+        if(isset($_SESSION['session_time'])){
+            if(time() - $_SESSION['session_time'] > 60*30){
                 // flash('session_expired', 'Your session has expired', 'alert alert-danger');
                 redirect('users/logout');
             }else{
-                $_SESSION['time'] = time();
+                $_SESSION['session_time'] = time();
             }
         }
 

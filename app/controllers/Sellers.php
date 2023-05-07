@@ -29,12 +29,12 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             }
 
             //Session timeout
-            if(isset($_SESSION['time'])){
-                if(time() - $_SESSION['time'] > 60*30){
+            if(isset($_SESSION['session_time'])){
+                if(time() - $_SESSION['session_time'] > 60*30){
                     // flash('session_expired', 'Your session has expired', 'alert alert-danger');
                     redirect('users/logout');
                 }else{
-                    $_SESSION['time'] = time();
+                    $_SESSION['session_time'] = time();
                 }
             }
 
@@ -224,7 +224,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 $_SESSION['URL'] =URL();
                 redirect('users/login');
             }else if($sellerDetails->phone_number==NULL || $sellerDetails->phone_number=='' || $sellerDetails->phone_number==0 || empty($sellerDetails->phone_number) || $sellerDetails->phone_number==null){
-                flash('phone_number_error','Please add your phone number before bid.<a href="'.URLROOT.'/users/change_phone/'.$sellerDetails->user_id.'">Click Here</a>','alert alert-danger');
+                flash('phone_number_error','Please add your phone number before advertise.<a href="'.URLROOT.'/users/change_phone/'.$sellerDetails->user_id.'">Click Here</a>','alert alert-danger');
                 $data['phone_err']='Please add your phone number before bid.';
                 redirect('sellers/getProfile/'.$sellerDetails->user_id);
             }
@@ -243,6 +243,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1' => '',
                     'image2' => '',
                     'image3' => '',
+                    'image4' => '',
+                    'image5' => '',
+                    'image6' => '',
                     'address'=>'',
                     'longitude' => '',
                     'latitude' => '',
@@ -250,7 +253,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'model' => trim($_POST['model']),
                     'type'=> 'fixed_price',
                     'end_date'=>'',
-                    'category' =>ucwords(trim($_POST['category'])),
+                    'category' =>'',
                     'district' =>ucwords(trim($_POST['district'])),
                     'title_err' => '',
                     'description_err' => '',
@@ -259,12 +262,18 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1_err' => '',
                     'image2_err' => '',
                     'image3_err' => '',
+                    'image4_err' => '',
+                    'image5_err' => '',
+                    'image6_err' => '',
                     'error_geocode' => trim($_POST['error_geocode']),
                     'brand_err' => '',
                     'model_err' => '',
                     'category_err' => '',
                     'date_err'=>''
                 ];
+                if(isset($_POST['category'])){
+                    $data['category']=$_POST['category'];
+                }
                 if(isset($_POST['check_au'])){
                     $data['type']='auction';
                     $num_of_dates=trim($_POST['date']);
@@ -303,7 +312,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     $data['price_err'] = 'Please enter valid price';
                 }
                 if(empty($data['category'])){
-                    $data['category_err'] = 'Please enter category';
+                    $data['category_err'] = 'Please check atleast one category';
+                }else{
+                    $data['category']=implode(',',$data['category']);//The implode function is used to concatenate all the values of the 'category' array into a single string separated by commas.
                 }
                 if(empty($data['condition'])){
                     $data['condition_err'] = 'Please enter condition';
@@ -337,15 +348,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                                 $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
                                 move_uploaded_file($tmp_name, $img_upload_path);
                                 $data['image1'] = $new_img_name;
-
-                                // //Insert into database
-                                // if($this->sellerModel->addAdvertisement($data)){
-                                //     flash('post_message', 'Advertisement Added');
-                                //     redirect('sellers/advertisements');
-                                // }
-                                // else{
-                                //     die('Something went wrong');
-                                // }
                             }
                             else{
                                 $data['image1_err'] = "You can't upload files of this type";
@@ -381,15 +383,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                                 $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
                                 move_uploaded_file($tmp_name, $img_upload_path);
                                 $data['image2'] = $new_img_name;
-
-                                // //Insert into database
-                                // if($this->sellerModel->addAdvertisement($data)){
-                                //     flash('post_message', 'Advertisement Added');
-                                //     redirect('sellers/advertisements');
-                                // }
-                                // else{
-                                //     die('Something went wrong');
-                                // }
                             }
                             else{
                                 $data['image2_err'] = "You can't upload files of this type";
@@ -400,9 +393,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                         $data['image2_err'] = "Unknown error occurred!";
                     }
                  }
-                // else{
-                //     $data['image2_err'] = 'Please second first image';
-                // }
 
 
                 //Image 3
@@ -427,15 +417,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                                 $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
                                 move_uploaded_file($tmp_name, $img_upload_path);
                                 $data['image3'] = $new_img_name;
-
-                                // //Insert into database
-                                // if($this->sellerModel->addAdvertisement($data)){
-                                //     flash('post_message', 'Advertisement Added');
-                                //     redirect('sellers/advertisements');
-                                // }
-                                // else{
-                                //     die('Something went wrong');
-                                // }
                             }
                             else{
                                 $data['image3_err'] = "You can't upload files of this type";
@@ -446,27 +427,109 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                         $data['image3_err'] = "Unknown error occurred!";
                     }
                 }
-                // else{
-                //     $data['image3_err'] = 'Please upload third image';
-                // }
+
+                //Image 4
+                if(!empty($_FILES['image4']['name'])){
+                    $img_name = $_FILES['image4']['name'];
+                    $img_size = $_FILES['image4']['size'];
+                    $tmp_name = $_FILES['image4']['tmp_name'];
+                    $error = $_FILES['image4']['error'];
+
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image4_err'] = "Sorry, your third image is too large.";
+                        }
+                        else{
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
+
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image4'] = $new_img_name;
+                            }
+                            else{
+                                $data['image4_err'] = "You can't upload files of this type";
+                            }
+                        }
+                    }
+                    else{
+                        $data['image4_err'] = "Unknown error occurred!";
+                    }
+                }
+
+                //Image 5
+                if(!empty($_FILES['image5']['name'])){
+                    $img_name = $_FILES['image5']['name'];
+                    $img_size = $_FILES['image5']['size'];
+                    $tmp_name = $_FILES['image5']['tmp_name'];
+                    $error = $_FILES['image5']['error'];
+
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image5_err'] = "Sorry, your third image is too large.";
+                        }
+                        else{
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
+
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image5'] = $new_img_name;
+                            }
+                            else{
+                                $data['image5_err'] = "You can't upload files of this type";
+                            }
+                        }
+                    }
+                    else{
+                        $data['image5_err'] = "Unknown error occurred!";
+                    }
+                }
+
+                //Image 6
+                if(!empty($_FILES['image6']['name'])){
+                    $img_name = $_FILES['image6']['name'];
+                    $img_size = $_FILES['image6']['size'];
+                    $tmp_name = $_FILES['image6']['tmp_name'];
+                    $error = $_FILES['image6']['error'];
+
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image6_err'] = "Sorry, your third image is too large.";
+                        }
+                        else{
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
+
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image3'] = $new_img_name;
+                            }
+                            else{
+                                $data['image6_err'] = "You can't upload files of this type";
+                            }
+                        }
+                    }
+                    else{
+                        $data['image6_err'] = "Unknown error occurred!";
+                    }
+                }
                 //Make sure no errors
-                if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['error_geocode']) && empty($data['brand_err']) && empty($data['model_err'])){
+                if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['image4_err']) && empty($data['image5_err']) && empty($data['image6_err']) && empty($data['error_geocode']) && empty($data['brand_err']) && empty($data['model_err'])){
                     //Validated
                     
-                    // if(!empty($_FILES['image3']['name'])){
-                    //     //Get file info
-                    //     $image3_filename=basename($_FILES['image3']['name']);
-                    //     $image3_filetype=pathinfo($image3_filename,PATHINFO_EXTENSION);
-
-                    //     if(in_array($image3_filetype,$allowedTypes)){
-                    //         $image3=$_FILES['image3']['tmp_name'];
-                    //         $image3_content=addslashes(file_get_contents($image3));
-                    //         $data['image3']=$image3_content;
-                    //     }
-                    //     else{
-                    //         $data['image3_err']="Sorry, only JPG, JPEG, PNG, & GIF files are allowed.";
-                    //     }
-                    // }
                     $dat=date('Y-m-d H:i:s');
                     $data['date_added']=$dat;
                     $data['date_expire']=date('Y-m-d H:i:s', strtotime($dat. ' + 90 days'));
@@ -505,6 +568,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1' => '',
                     'image2' => '',
                     'image3' => '',
+                    'image4' => '',
+                    'image5' => '',
+                    'image6' => '',
                     'address' => '',
                     'longitude' => '',
                     'latitude' => '',
@@ -520,6 +586,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1_err' => '',
                     'image2_err' => '',
                     'image3_err' => '',
+                    'image4_err' => '',
+                    'image5_err' => '',
+                    'image6_err' => '',
                     'error_geocode' => '',
                     'brand_err' => '',
                     'model_err' => '',
@@ -548,9 +617,12 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1' => '',
                     'image2' => '',
                     'image3' => '',
+                    'image4' => '',
+                    'image5' => '',
+                    'image6' => '',
                     'brand' => trim($_POST['brand']),
                     'model' => trim($_POST['model']),
-                    'category' =>trim($_POST['category']),
+                    'category' =>'',
                     'district' => trim($_POST['district']),
                     'product_type'=>$advertisement->product_type,
                     'title_err' => '',
@@ -560,11 +632,16 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1_err' => '',
                     'image2_err' => '',
                     'image3_err' => '',
+                    'image4_err' => '',
+                    'image5_err' => '',
+                    'image6_err' => '',
                     'brand_err' => '',
                     'model_err' => '',
                     'category_err' => ''
                 ];
-
+                if(isset($_POST['category'])){
+                    $data['category']=$_POST['category'];
+                }
                 //Validate data
                 if(empty($data['title'])){
                     $data['title_err'] = 'Please enter title';
@@ -588,7 +665,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     }
                 }
                 if(empty($data['category'])){
-                    $data['category_err'] = 'Please enter category';
+                    $data['category_err'] = 'Please check atleast one category';
+                }else{
+                    $data['category']=implode(',',$data['category']);//The implode function is used to concatenate all the values of the 'category' array into a single string separated by commas.
                 }
                 if(empty($data['condition'])){
                     $data['condition_err'] = 'Please enter condition';
@@ -633,15 +712,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                                 $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
                                 move_uploaded_file($tmp_name, $img_upload_path);
                                 $data['image1'] = $new_img_name;
-
-                                // //Insert into database
-                                // if($this->sellerModel->addAdvertisement($data)){
-                                //     flash('post_message', 'Advertisement Added');
-                                //     redirect('sellers/advertisements');
-                                // }
-                                // else{
-                                //     die('Something went wrong');
-                                // }
                             }
                             else{
                                 $data['image1_err'] = "You can't upload files of this type";
@@ -676,15 +746,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                                 $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
                                 move_uploaded_file($tmp_name, $img_upload_path);
                                 $data['image2'] = $new_img_name;
-
-                                // //Insert into database
-                                // if($this->sellerModel->addAdvertisement($data)){
-                                //     flash('post_message', 'Advertisement Added');
-                                //     redirect('sellers/advertisements');
-                                // }
-                                // else{
-                                //     die('Something went wrong');
-                                // }
                             }
                             else{
                                 $data['image2_err'] = "You can't upload files of this type";
@@ -699,9 +760,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     $data['image2'] = $advertisement->image2;
 
                 }
-                // else{
-                //     $data['image2_err'] = 'Please second first image';
-                // }
 
 
                 //Image 3
@@ -726,15 +784,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                                 $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
                                 move_uploaded_file($tmp_name, $img_upload_path);
                                 $data['image3'] = $new_img_name;
-
-                                // //Insert into database
-                                // if($this->sellerModel->addAdvertisement($data)){
-                                //     flash('post_message', 'Advertisement Added');
-                                //     redirect('sellers/advertisements');
-                                // }
-                                // else{
-                                //     die('Something went wrong');
-                                // }
                             }
                             else{
                                 $data['image3_err'] = "You can't upload files of this type";
@@ -748,11 +797,122 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 }else{
                     $data['image3'] = $advertisement->image3;
 
+                }  
+                
+                //Image 4
+                if(!empty($_FILES['image4']['name'])){
+                    $img_name = $_FILES['image4']['name'];
+                    $img_size = $_FILES['image4']['size'];
+                    $tmp_name = $_FILES['image4']['tmp_name'];
+                    $error = $_FILES['image4']['error'];
+
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image4_err'] = "Sorry, your third image is too large.";
+                        }
+                        else{
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
+
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image4'] = $new_img_name;
+                            }
+                            else{
+                                $data['image4_err'] = "You can't upload files of this type";
+                            }
+                        }
+                    }
+                    else{
+                        $data['image4'] = $advertisement->image4;
+
+                    }
+                }else{
+                    $data['image4'] = $advertisement->image4;
+
+                }
+
+                //Image 5
+                if(!empty($_FILES['image5']['name'])){
+                    $img_name = $_FILES['image5']['name'];
+                    $img_size = $_FILES['image5']['size'];
+                    $tmp_name = $_FILES['image5']['tmp_name'];
+                    $error = $_FILES['image5']['error'];
+
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image5_err'] = "Sorry, your third image is too large.";
+                        }
+                        else{
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
+
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image5'] = $new_img_name;
+                            }
+                            else{
+                                $data['image5_err'] = "You can't upload files of this type";
+                            }
+                        }
+                    }
+                    else{
+                        $data['image5'] = $advertisement->image5;
+
+                    }
+                }else{
+                    $data['image5'] = $advertisement->image5;
+
+                }
+
+                //Image 6
+                if(!empty($_FILES['image6']['name'])){
+                    $img_name = $_FILES['image6']['name'];
+                    $img_size = $_FILES['image6']['size'];
+                    $tmp_name = $_FILES['image6']['tmp_name'];
+                    $error = $_FILES['image6']['error'];
+
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image6_err'] = "Sorry, your third image is too large.";
+                        }
+                        else{
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
+
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image6'] = $new_img_name;
+                            }
+                            else{
+                                $data['image6_err'] = "You can't upload files of this type";
+                            }
+                        }
+                    }
+                    else{
+                        $data['image6'] = $advertisement->image6;
+
+                    }
+                }else{
+                    $data['image6'] = $advertisement->image6;
+
                 }
 
 
                 //Make sure no errors
-                if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['brand_err']) && empty($data['model_err'])){
+                if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['image4_err']) && empty($data['image5_err']) && empty($data['image6_err']) && empty($data['brand_err']) && empty($data['model_err'])){
                     //Validated
                     if($this->sellerModel->edit_advertisement($data)){
                         flash('product_message', 'Product Edited');
@@ -782,6 +942,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1' => $advertisement->image1,
                     'image2' => $advertisement->image2,
                     'image3' => $advertisement->image3,
+                    'image4' => $advertisement->image4,
+                    'image5' => $advertisement->image5,
+                    'image6' => $advertisement->image6,
                     'brand' => $advertisement->brand,
                     'model' => $advertisement->model_no,
                     'category' =>$advertisement->product_category,
@@ -794,6 +957,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1_err' => '',
                     'image2_err' => '',
                     'image3_err' => '',
+                    'image4_err' => '',
+                    'image5_err' => '',
+                    'image6_err' => '',
                     'brand_err' => '',
                     'model_err' => '',
                     'category_err' => ''

@@ -121,7 +121,7 @@ date_default_timezone_set("Asia/Kolkata");
         }
 
         public function advertise($data,$dat){
-            $this->db->query('INSERT INTO product (email,product_title,product_condition,product_category,district,product_type,model_no,brand,image1,image2,image3,address,latitude,longitude,price,p_description,date_added,date_expires) VALUES(:user_email,:title,:condition,:category,:district,:type,:model,:brand,:image1,:image2,:image3,:address,:latitude,:longitude,:price,:description,:date_added,:date_expires)');
+            $this->db->query('INSERT INTO product (email,product_title,product_condition,product_category,district,product_type,model_no,brand,image1,image2,image3,image4,image5,image6,address,latitude,longitude,price,p_description,date_added,date_expires) VALUES(:user_email,:title,:condition,:category,:district,:type,:model,:brand,:image1,:image2,:image3,:image4,:image5,:image6,:address,:latitude,:longitude,:price,:description,:date_added,:date_expires)');
             //Bind values
             $this->db->bind(':user_email', $data['user_email']);
             $this->db->bind(':title', $data['title']);
@@ -134,6 +134,9 @@ date_default_timezone_set("Asia/Kolkata");
             $this->db->bind(':image1', $data['image1']);
             $this->db->bind(':image2', $data['image2']);
             $this->db->bind(':image3', $data['image3']);
+            $this->db->bind(':image4', $data['image4']);
+            $this->db->bind(':image5', $data['image5']);
+            $this->db->bind(':image6', $data['image6']);
             $this->db->bind(':address', $data['address']);
             $this->db->bind(':latitude', $data['latitude']);
             $this->db->bind(':longitude', $data['longitude']);
@@ -178,7 +181,7 @@ date_default_timezone_set("Asia/Kolkata");
 
         //edit advertisement
         public function edit_advertisement($data){
-            $this->db->query('UPDATE product SET product_title=:title,product_condition=:condition,product_category=:category,district=:district,model_no=:model,brand=:brand,image1=:image1,image2=:image2,image3=:image3,price=:price,p_description=:description WHERE product_id=:id');
+            $this->db->query('UPDATE product SET product_title=:title,product_condition=:condition,product_category=:category,district=:district,model_no=:model,brand=:brand,image1=:image1,image2=:image2,image3=:image3,image4=:image4,image5=:image5,image6=:image6,price=:price,p_description=:description WHERE product_id=:id');
             //Bind values
             $this->db->bind(':id', $data['id']);
             // $this->db->bind(':user_email', $data['user_email']);
@@ -192,6 +195,9 @@ date_default_timezone_set("Asia/Kolkata");
             $this->db->bind(':image1', $data['image1']);
             $this->db->bind(':image2', $data['image2']);
             $this->db->bind(':image3', $data['image3']);
+            $this->db->bind(':image4', $data['image4']);
+            $this->db->bind(':image5', $data['image5']);
+            $this->db->bind(':image6', $data['image6']);
             $this->db->bind(':price', $data['price']);
             $this->db->bind(':description', $data['description']);
 
