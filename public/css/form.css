@@ -602,6 +602,8 @@ nav{
 }
 #search-results-table > tbody > tr > td > a > div > div.title-and-price{
   align-self: center;
+  margin-left: 10px;
+
 }
 
 .explore{

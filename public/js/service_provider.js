@@ -42,15 +42,13 @@ function closeEvent(event){
 
 const addEventButtons = document.querySelectorAll('[data-add-event]')
 
-console.log(addEventButtons);
-
 
 
 addEventButtons.forEach(button => {
     
     button.addEventListener('click',() => {
         const event = document.querySelector(button.dataset.addEvent)
-        eventDate = button.parentElement.firstChild.innerText;
+        eventDate = button.parentElement.firstChild.innerText; //this date will be used later in the add event function to add the event to the perticular date
         addEventDisplay(event)
     })
 });
@@ -98,7 +96,7 @@ $(document).ready(function() {
         
       //get the date
       let date  = eventDate + " " + eventYear;
-      console.log(formData)
+  
       // Send AJAX request
 
       $.ajax({

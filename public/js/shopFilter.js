@@ -25,6 +25,12 @@ radioButtons.forEach(radioButton => {
     radioButton.addEventListener('change', handleFilterChange);
 });
 
+// Listen for changes to checkbox buttons
+const checkBoxButtons = filterForm.querySelectorAll('input[type="checkbox"]');
+checkBoxButtons.forEach(checkboxButton => {
+    checkboxButton.addEventListener('change', handleFilterChange);
+});
+
 // Listen for changes to number inputs
 const numberInputs = filterForm.querySelectorAll('input[type="number"]');
 numberInputs.forEach(numberInput => {

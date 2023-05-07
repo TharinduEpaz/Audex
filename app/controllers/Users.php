@@ -2579,12 +2579,15 @@
       
         }
         public function shopFilter(){
-            $productCategory = $_POST['category'];
+            // $productCategory = $_POST['category'];
+            $categories = isset($_POST['category']) ? $_POST['category'] : [];
+
             $productPriceMin = $_POST['price-min'];
             $productPriceMax = $_POST['price-max'];
             $productType = $_POST['type'];
 
             // echo $productCategory;
+            // echo $categories;
             // echo $productPriceMax;
             // echo $productPriceMin;
             // echo $productType;
@@ -2594,7 +2597,7 @@
             $Filter=[];
             $results = [];
 
-            if( empty(trim($productCategory)) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType))) 
+            if( empty($categories) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType))) 
             {
                 // if all filters are empty
                 // redirect('users/shop');
@@ -2602,9 +2605,9 @@
                 echo json_encode(['message' => 'No filters','results'=>$results]);
             }
             else{
-                if(!empty(trim($productCategory))){
-                    $Filter['product_category']=$productCategory;
-                }
+                // if(!empty(trim($categories))){
+                //     $Filter['product_category']=$categories;
+                // }
                 if(!empty(trim($productPriceMin))){
                     $Filter['min_price']=(int) $productPriceMin;
                 }
@@ -2614,7 +2617,7 @@
                 if(!empty(trim($productType))){
                    $Filter['product_type']= $productType;
                 }
-                $results = $this-> userModel->searchAndFilterItems($Filter);            
+                $results = $this-> userModel->searchAndFilterItems($Filter,$categories);            
                 echo json_encode(['message' => 'filters','results'=>$results]);
             }
 

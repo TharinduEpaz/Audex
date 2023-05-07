@@ -12,29 +12,36 @@ class Service_provider
     {
 
         $this->db->query('SELECT * FROM user LEFT JOIN service_provider ON user.user_id = service_provider.user_id WHERE service_provider.user_id = :id UNION SELECT * FROM user RIGHT JOIN service_provider ON user.user_id = service_provider.user_id WHERE service_provider.user_id = :id ');
-
         $this->db->bind(':id', $id);
         $row = $this->db->single();
-
         return $row;
 
     }
 
-    public function setDetails($arr, $id)
+    public function setDetails($data, $id)
     {
+        // $details = [
+        //     'profession' => $profession,
+        //     'qualifications' => $qualifications,
+        //     'achievements' => $achievements,
+        //     'description' => $description,
+        //     'first_name' => $first_name,
+        //     'second_name' => $second_name,
+        //     'address1' => $address1,
+        //     'address2' => $address2,
+        // ];
 
-        $this->db->query('UPDATE service_provider,user SET user.first_name = :first_name, user.second_name = :second_name, service_provider.address_line_one = :address1,service_provider.address_line_two = :address2,service_provider.profession = :profession, service_provider.qualifications = :qualifications, service_provider.achievements = :achievements, service_provider.description = :description  WHERE service_provider.user_id = :id AND user.user_id = :id');
-
+        $this->db->query('UPDATE service_provider,user SET user.first_name = :first_name, user.second_name = :second_name, user.phone_number = :phone, service_provider.address_line_one = :address1,service_provider.address_line_two = :address2,service_provider.profession = :profession, service_provider.qualifications = :qualifications, service_provider.achievements = :achievements, service_provider.description = :description  WHERE service_provider.user_id = :id AND user.user_id = :id');
         $this->db->bind(':id', $id);
-        $this->db->bind(':profession', $arr[0]);
-        $this->db->bind(':qualifications', $arr[1]);
-        $this->db->bind(':achievements', $arr[2]);
-        $this->db->bind(':description', $arr[3]);
-        $this->db->bind(':first_name', $arr[4]);
-        $this->db->bind(':second_name', $arr[5]);
-        $this->db->bind(':address1', $arr[6]);
-        $this->db->bind(':address2', $arr[7]);
-
+        $this->db->bind(':profession', $data['profession']);
+        $this->db->bind(':qualifications', $data['qualifications']);
+        $this->db->bind(':achievements', $data['achievements']);
+        $this->db->bind(':description', $data['description']);
+        $this->db->bind(':first_name', $data['first_name']);
+        $this->db->bind(':second_name', $data['second_name']);
+        $this->db->bind(':address1', $data['address1']);
+        $this->db->bind(':address2', $data['address2']);
+        $this->db->bind(':phone', $data['phone']);
         $this->db->execute();
         
     }
@@ -44,8 +51,8 @@ class Service_provider
         $this->db->query('SELECT * FROM events WHERE user_id = :id');
         $this->db->bind(':id', $user_id);
         $events = $this->db->resultSet();
-
         return $events;
+
     }
 
     public function setEvent($data,$user_id){
@@ -81,6 +88,7 @@ class Service_provider
     }
 
     public function getEventsByMonth($user_id,$month){
+
         $this -> db -> query('SELECT * FROM events WHERE user_id = :id AND MONTH(date) = :month');
         $this -> db -> bind(':id', $user_id);
         $this -> db -> bind(':month', $month);
@@ -89,6 +97,7 @@ class Service_provider
     }
 
     public function getEventById($event_id){
+
         $this -> db -> query('SELECT * FROM events WHERE event_id = :id ');
         $this -> db -> bind(':id', $event_id);
         $event = $this -> db -> single();

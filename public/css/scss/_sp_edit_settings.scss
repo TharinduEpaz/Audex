@@ -1,0 +1,200 @@
+
+/* ////////////////////// */
+/* EDIT SETTINGS CSS */
+/* /////////////////////// */
+
+#error-text-box{
+    background-color: #ea6c7b;
+    color: #fffdfd;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    /* display: none; */
+  }
+  
+  
+  form .cancel{
+    
+    font-weight: 400;
+    font-size: 15px;
+    align-items: center;
+    appearance: none;
+    background-color: #ea6c7b;
+   
+    background-size: calc(100% + 20px) calc(100% + 20px);
+    border-radius: 20px;
+    border-width: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    
+    margin-left: 20px;
+  
+    
+  
+    justify-content: center;
+   
+    padding: 6px 20px;
+  
+    text-align: center;
+    text-decoration: none;
+    transition: background-color .2s,background-position .2s;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  #edit-profile-heading{
+    font-weight: 200;
+    /* display: block; */
+    font-size:2rem
+  }
+  #edit-settings {
+    margin-left: 0vw;
+    width: 800px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: blueviolet;
+    color: white;
+    border: none;
+  }
+  hr{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border: 0;
+    border-top: 1px solid #E5E9F7;
+    width: 100%;
+  }
+  
+  .service-provider-profile .white-box #edit-settings,#add-event {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+    text-decoration: none;
+    color: initial;
+    background-color: #1A1A1B;
+    color: #E5E9F7;
+    width: 120px;
+    text-align: center;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 30px;
+    margin-left: 800px;
+  }
+  
+  .service-provider-profile .white-box #edit-settings:hover #add-event:hover {
+    background-color: blueviolet;
+    color: white;
+  }
+  
+  #save {
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: blueviolet;
+    color: white;
+    border: none;
+  }
+  
+  #cancel {
+    text-align: center;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 14px 25px;
+    border: none;
+    font-weight: 500;
+    background-color: #a30632;
+    color: white;
+    cursor: pointer;
+    margin-top: 25px;
+  }
+  
+  h2 {
+    margin-top: 50px;
+    margin-left: 20px;
+    font-weight: 100;
+    font-size: 30px;
+  }
+  
+  button {
+    display: inline;
+  }
+  
+  button:hover {
+    color: rgb(251, 226, 0);
+    animation-delay: 0.2s;
+  }
+  
+  /* profile settings CSS */
+  
+  
+  .service-provider-profile .white-box .info-settings {
+    display: flex;
+  }
+  
+  .service-provider-profile .white-box .info-settings .info-titles {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    line-height: 35px;
+    row-gap: 10px;
+  }
+  
+  .service-provider-profile .white-box .info-settings .info-items input {
+    display: flex;
+    flex-direction: column;
+    line-height: 30px;
+    margin-bottom: 10px;
+  }
+  
+  .service-provider-profile .white-box h1 {
+    margin-bottom: 20px;
+  }
+  
+  .service-provider-profile .white-box .profile-pic-settings {
+    width: 300px;
+    margin-left: 200px;
+    margin-top: 20px;
+  }
+  
+  .service-provider-profile .white-box .profile-pic-settings img {
+    width: 50%;
+    margin-bottom: 20px;
+  }
+  
+  .service-provider-profile .white-box .events .event h1 {
+    text-align: center;
+    color: #1A1A1B;
+    justify-content: center;
+    padding-top: 15px;
+  }
+  
+  .service-provider-profile .white-box .events .event p {
+    text-align: center;
+    color: #1A1A1B;
+    justify-content: center;
+  }
+  
+  @keyframes alert {
+    0% {
+      animation-timing-function: ease-out;
+      transform: scale(1);
+      transform-origin: center center;
+    }
+    10% {
+      animation-timing-function: ease-in;
+      transform: scale(0.91);
+    }
+    17% {
+      animation-timing-function: ease-out;
+      transform: scale(0.98);
+    }
+    33% {
+      animation-timing-function: ease-in;
+      transform: scale(0.87);
+    }
+    45% {
+      animation-timing-function: ease-out;
+      transform: scale(1);
+    }
+  }

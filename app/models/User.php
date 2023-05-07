@@ -1113,8 +1113,29 @@ date_default_timezone_set("Asia/Kolkata");
 
         }
         // this function works when filter applyies without a search  term
-        public function searchAndFilterItems($filter){
+        public function searchAndFilterItems($filter,$categories){
             $sql='';
+            $categorySql = '';
+            
+
+            if (!empty($categories)) {
+                $categorySql = '(';
+
+                // print_r($categories);
+              
+                foreach ($categories as $value) {
+                    $categorySql.= 'product_category = :'.$value;
+
+                    $categorySql.= ' OR ';
+                //   $categoryConditions[] = "product_category = ':category'";
+                }
+                $categorySql=substr($categorySql,0,-3);
+                $categorySql.= ')';
+                // echo $categorySql;
+
+                // $categorySql = "(" . implode(" OR ", $categoryConditions) . ")";
+              }
+
             foreach($filter as $key=>$value){
                 if($key==='min_price'){
                     $sql.='price >= :min_price';
@@ -1127,14 +1148,25 @@ date_default_timezone_set("Asia/Kolkata");
                 }
                 $sql.=' AND ';
             }
-            $sql=substr($sql,0,-4);
+            if(empty($categories)){
+                $sql=substr($sql,0,-4);
+            }
             
-            $this->db->query('SELECT * FROM product WHERE '.$sql);
-            // $this->db->query('SELECT * FROM product LEFT JOIN auction ON product.product_id = auction.product_id WHERE '.$sql. 'AND auction.is_active = 1 AND auction.is_finished = 0' );
+
+
+            $this->db->query('SELECT * FROM product WHERE '.$sql .$categorySql);
+            
 
             foreach($filter as $key=>$value){
                 $this->db->bind(':'.$key, $value);
             }
+            foreach($categories as $value){
+                $this->db->bind(':'.$value, $value);
+            }
+
+            // echo 'SELECT * FROM product WHERE '.$sql .$categorySql;
+            // exit();
+
             $results = $this->db->resultSet();
             return $results;
         }

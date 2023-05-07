@@ -1,0 +1,220 @@
+
+/* //////////////////////////////////////////////////////// */
+/* FEED CSS */
+/* //////////////////////////////////////////////////////// */
+
+.service-provider-profile .feed-item{
+    border-radius: 10px;
+  }
+  
+  
+  .feed_items_container{
+    margin-top: 20px;
+    
+    position: relative;
+    width: 1100px;
+    display: flex;
+    justify-content: flex-start;
+    /* align-items: center; */
+    flex-wrap: wrap;
+    padding: 30px;
+  
+  }
+  
+  .feed_items_container .card{
+    position: relative;
+    max-width: 300px;
+    height: 200px;
+    background:#fff;
+    margin:30px 10px;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 5px 202px rgba(0,0,0,0.2);
+    transition: 0.3s ease-in-out;
+    border-radius:10px;
+  }
+  .feed_items_container .card:hover{
+  
+    height: 370px;
+  
+  }
+  
+  .feed_items_container .card .imgBx{
+    position: relative;
+    width: 260px;
+    height:260px;
+    top : -60px;
+    left: 5px;
+    z-index: 1;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0);
+    /* background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%); */
+    z-index: 1;
+  }
+  
+  .feed_items_container .card .imgBx img{
+    /* position: absolute; */
+    max-width: 100%;
+    border-radius: 4px;
+  }
+  .feed_items_container .card .content{
+    position:relative;
+    margin-top:-150px;
+    /* padding:10px 15px; */
+    text-align: center;
+    color:#111;
+    visibility: hidden;
+    opacity: 0;
+    transition:0.3s ease-in-out;
+  }
+  .feed_items_container .card:hover .content{
+    
+    visibility: visible;
+    opacity:1;
+    /* margin-top:-50px; */
+    transition-delay: 0.3s;
+  }
+  .feed_items_container h2{
+    margin-top: 100px;
+    font-weight: 600;
+  
+  }
+  .feed_items_container p{
+    margin-top:20px;
+  }
+  
+  
+  .button-section{
+    display: flex;
+  }
+  
+  .button-section button[type="submit"],#create-feed-post{
+    margin-left:20px;
+  
+    display: flex;
+    align-items: center;
+    background-color: #007bff; /* Set the background color */
+    color: #fff; /* Set the text color */
+    padding: 10px 20px; /* Set the padding */
+    border: none; /* Remove the border */
+    border-radius: 5px; /* Add some border radius */
+    font-size: 16px; /* Set the font size */
+    cursor: pointer; /* Change the cursor on hover */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a shadow */
+  }
+  
+  .button-section button[type="reset"]{
+    margin-left:20px;
+   
+    display: flex;
+    align-items: center;
+    background-color: #838081; /* Set the background color */
+    color: #fff; /* Set the text color */
+    padding: 10px 20px; /* Set the padding */
+    border: none; /* Remove the border */
+    border-radius: 5px; /* Add some border radius */
+    font-size: 16px; /* Set the font size */
+    cursor: pointer; /* Change the cursor on hover */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a shadow */
+  }
+  
+  .button-section button[type="reset"]:hover {
+    background-color: #d70909; /* Darken the background color on hover */
+  }
+  
+  .service-provider-profile #feed-title{
+    font-size: 3rem;
+    font-weight: 600;
+  }
+  
+  .service-provider-profile #feed-discription{
+    font-family:Open Sans;
+    font-size: 1.5rem;
+    font-weight: 100;
+  }
+  
+  .feed-post-edit-container label{
+    display: block;
+    margin-bottom: 20px;
+    font-family: Inter;
+    margin-top: 10px;
+    font-weight: 300;
+    font-size: 1rem;
+    
+    
+  }
+  .feed-post-edit-container input{
+    border: none; /* Remove the border */
+    border: 1px solid #ccc; /* Add a bottom border */
+    padding: 5px; /* Set the padding */
+    font-size: 16px; /* Set the font size */
+    background-color: transparent; /* Make the background transparent */
+    transition: border-color 0.3s ease-in-out; 
+    border-radius: 10px;
+    width: 100%;
+    height:7vh;
+    font-weight: 600;
+  
+  }
+  
+  .feed-post-edit-container input:focus{
+    outline: none; /* Remove the outline */
+    border-color: #007bff; 
+  }
+  .feed-post-edit-container span{
+    display: block;
+    margin: 20px;
+    font-family: Open Sans;
+  }
+  .feed-post-edit-container .post-pics{
+    display: flex;
+    gap: 10vw;
+    margin-bottom:20px;
+    justify-content: center;
+    padding: 20px;
+    
+  }
+  .feed-post-edit-container .feed-item{
+    position: relative;
+  }
+  
+  
+  /* this is styles for add to watch list button in service provider public  */
+  .add_watch_list form input[type ='submit']{
+    display: block;
+    width: 40%;
+    padding: 1%;
+    height: 5%;
+    margin: 1%;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    background: gray;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+  }
+  
+  .add_watch_list form input[type ='submit']:hover, .message.btn:hover, .review.btn:hover{
+    background-color:#393636;
+    border: none;
+  }
+  .message_review.service_provider{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+  }
+  .message.btn, .review.btn{
+    padding: 1%;
+    align-self: flex-start;
+    width: 40%;
+    background: gray;
+    border: none;
+    border-radius: 0.5rem;
+  }
+  
+  .review.btn{
+    margin-left: 5%;
+  }
+  

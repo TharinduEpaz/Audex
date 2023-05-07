@@ -21,7 +21,7 @@
     
         <div class="content">
             <div class="image_likes">
-            <div class="image">
+                <div class="image">
                     <div class="grid">
                         <div id="img1" class="img1" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['ad']->image1;?>)">
                             <div>
@@ -61,7 +61,7 @@
                             <?php }?>
                         </div>
                     </div>
-            </div>
+                </div>
                 <div class="like-dislike-area">
                         <!-- used two custom attributes one for click event and other one to store liked value when load -->
                         <button type="submit" onload="likeBtnOnload()" id="product-like-btn" data-like = "addLike" data-likeLoad ="<?php echo $data['liked'] ; ?>" ><i class="fas fa-thumbs-up"></i></button>
@@ -74,10 +74,12 @@
                             <?php echo $data['dislikedCount'] ?>
                         </div>
                     </div>
-
             </div>
+
+
             <div class="details">
                 <h2><?php echo $data['ad']->product_title?></h2>
+
                 <table>
                     <tr>
                         <td class="name">Category</td>
@@ -96,9 +98,11 @@
                         <td class="value">: <?php echo $data['ad']->product_condition?></td>
                     </tr>
                 </table>
+
                 <div class="price">
                     <h4>LKR&nbsp;<?php echo $data['ad']->price?></h4>
                 </div>
+<<<<<<< HEAD
                 <div class="message_bid">
                 
                 <!-- add to watch button is not visible if user is a seller or service provider -->
@@ -211,6 +215,8 @@
                     </div>
                 <?php } ?>
             </div>
+
+            
             <div class="seller-detais">
                 <h2 style="text-align: center;width:115%"><?php 
                             if( empty($data['seller']->shop_name )){
@@ -265,8 +271,7 @@
                             </div>
                             <div class="likes_dislikes">
                                 <div class="flags">
-                                <i class="fa-sharp fa-solid fa-flag"> : 0 </i>
-                            
+                                    <i class="fa-sharp fa-solid fa-flag"> : 0 </i>
                                 </div>
                             </div>
                         </div>
@@ -327,6 +332,8 @@
         </div>
     </div>
 </body>
+
+
 <script>
     function openModal() {
 			var modal = document.getElementById("myModal");

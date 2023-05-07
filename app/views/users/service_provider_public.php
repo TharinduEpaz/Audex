@@ -20,7 +20,14 @@
     <style>
     .service-provider-profile {
         margin: auto;
+        padding-left:15vw;
+        padding-right:15vw;
     }
+    .white-box{
+        margin:0;
+       
+    }
+    
     </style>
 </head>
 
@@ -63,20 +70,25 @@
 
     <div class="service-provider-profile">
         <div class="white-box">
-            <div class="profile-title">
-                <div class="profile-pic"> <?php if($data['details']->profile_image): ?>
+
+        <div class="profile-title">
+            <div class="profile-pic"> <?php if($data['details']->profile_image): ?>
                     <img src="<?php echo URLROOT . '/public/uploads/Profile/' . $data['details']->profile_image; ?>"
                         id="profile-img">
                     <?php else: ?>
                     <i class="fa fa-user" aria-hidden="true"></i>
                     <?php endif; ?></i>
-                </div>
+            </div>
+
                 <div class="name-rating">
                     <div class="name">
                         <p id="Name"><?php echo $data['details']->first_name . ' ' . $data['details']->second_name ?>
                         </p>
-                        <p id="profession"><?php echo $data['details']->profession?></p>
-                    </div>
+                        <i class="fa fa-map-marker" aria-hidden="true"></i><span id="profession"><?php echo $data['details']->address_line_two ?></span>
+                </div>
+
+
+
                     <div class="rating"><span class="rate"><?php echo $data['details']->Rating;?></span>
 
                         <?php for($i=0; $i<floor($data['details']->Rating); $i++): ?>
@@ -88,7 +100,15 @@
                         <?php endif; ?>
                
 
+
+
                     </div>
+
+                    <button id="edit-details" class="btn" onclick="gotoSettings()">Edit Details</button>
+
+
+
+                    <!-- ADD TO WATCH LIST  -->
 
                     <div class="add_watch_list">
                         <form id="add_watch_list_service_provider" method="POST" data-op = "add" data-watchLoad ="<?php echo $data['watched'] ; ?>"  >
@@ -96,7 +116,7 @@
                             <input type="text" name="user_type" value="buyer" hidden>
                             <input type="text" name ="user_id" value= " <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0) ; ?>" hidden>
                             <!-- buyer_id -->
-                            <input type="text" name="service_provider_id" value="<?php echo $data['details']->user_id ; ?>" hidden >
+                            <input type="text" name="service_provider_id"  value="<?php echo $data['details']->user_id ; ?>" hidden >
                             <!-- service_provider_id -->
                             
                             <?php
@@ -129,6 +149,14 @@
                             <a href="" class="review btn" onclick="openModal(); return false;">Write Review</a>
                         </div>
                     <?php } ?>
+
+
+
+
+
+                    
+                        <!-- REVIEW MODEL IS HERE -->
+
                         <div id="myModal" class="modal">
                             <div class="modal-content serviceProvider">
                                 <span class="close" onclick="closeModal()" style="float: right; z-index: 1; position: inherit; visibility: visible; opacity:100%;">&times;</span>
@@ -181,77 +209,48 @@
                             </div>
                         </div>
 
+
+
+
+
+
                 </div>
              
-            </div>
-            <!-- <a href="<?php echo URLROOT .'/service_providers/settings'?>" class="btn"> Add to WatchList</a> -->
-            <div class="profile-info">
-                <div class="description">
-                    <h1>About me</h1>
-                    <p> <?php if($data['details']->description == ''){
-                    echo '<span class="red-alert">please complete your profile in the profile settings section</span>';
-                }
-                else{
-                    echo $data['details']->description;
-                } ?>
 
+                        <!-- NEWLY ADDED BY EPA -->
+                        <div class="mid-section profile-title">
+                <div class="other-details">
+                    <span>Email</span>
+                    <p><?php echo $data['details']->email; ?></p>
+                    <span>Qualifications</span>
+                    <p><?php echo $data['details']->qualifications; ?></p>
+                    <span>Achievements</span>
+                    <p><?php echo $data['details']->achievements; ?></p>
+                </div>
+                <div class="profile-description name-rating">
+                    <p id="profession">
+                        <?php echo $data['details']->profession; ?>
                     </p>
+                    <?php echo $data['details']->description; ?>
                 </div>
-                <div class="info-blocks">
-                    <div class="info-titles">
-                        <span>First Name : </span>
-                        <span>Last Name : </span>
-                        <!-- <span>Email : </span> -->
-                        <span>Address Line 1 : </span>
-                        <span>Address Line 2 : </span>
-                        <span>Mobile : </span>
-                        <span>Profession : </span>
-                        <span>Qualifications : </span>
-                        <span>Achivements : </span>
-                    </div>
-                    <div class="info-items">
-                        <span><?php echo $data['details']->first_name ?></span>
-                        <span><?php echo $data['details']->second_name ?></span>
-                        <!-- <span><?php echo $data['details']->email ?></span> -->
-                        <span><?php echo $data['details']->address_line_one ?></span>
-                        <span><?php echo $data['details']->address_line_two ?></span>
-                        <span><?php echo $data['details']->mobile ?></span>
-                        <span><?php echo $data['details']->profession ?></span>
-                        <span><?php echo $data['details']->qualifications ?></span>
-                        <span><?php echo $data['details']->achievements?></span>
-                    </div>
+            </div>
+            <p id="upcoming">Upcoming Events</p>
+            <button class="add-event-btn" onclick="addMoreEvents()">Add More Events</button>
+            <div class="lower-section profile-title">
+                <div class="profile-events">
+                    <?php foreach ($data['events'] as $event) : ?>
+                        <div class="event-display">
+                            <img src="<?php echo URLROOT . '/public/uploads/events/' . $event->image; ?>" alt="">
+                            <div class="overlay" data-event-target="#event" class="text" onclick="loadevent(<?php echo $event->event_id ?>)">
+                                <div data-event-target="#event" class="text" onclick="loadevent(<?php echo $event->event_id ?>)"><?php echo $event->name ?></div>
+
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-                
-
             </div>
-            <h2>Events</h2>
-            <div class="events">
-                <div class=event>
-            </div>
-            <div class=event>
-            </div>
-            <div class=event>
-            </div>
-            <div class=event>
-            </div>
-
-            </div>
-
-            <h2>Recent Feed Posts</h2>
-            <div class="events">
-            <div class=event>
-            </div>
-            <div class=event>
-            </div>
-            <div class=event>
-            </div>
-            <div class=event>
-            </div>
-            </div>
-        </div>
-
-
-
+        </div>     
+    </div>
     </div>
     <script>
     /* When the user clicks on the button,
@@ -383,7 +382,7 @@
                 });
             }
             reviewWriteForm.addEventListener("submit",(e)=>{
-                e.preventDefault();
+                // e.preventDefault();
                 //get the form data/sumitted data
                 const feedback = document.getElementById('submitted-feedback').value;
                 console.log(feedback);
@@ -426,7 +425,7 @@
         }
         else{
             //user is not logged in 
-            <?php $_SESSION['url']=URL();?>
+            // <?php $_SESSION['url']=URL();?>
             window.location.href = '<?php echo URLROOT?>/users/login/';
         }
 
