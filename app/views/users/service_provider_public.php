@@ -425,7 +425,7 @@
         }
         else{
             //user is not logged in 
-            <?php $_SESSION['url']=URL();?>
+            // <?php $_SESSION['url']=URL();?>
             window.location.href = '<?php echo URLROOT?>/users/login/';
         }
 

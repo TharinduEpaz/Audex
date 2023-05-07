@@ -94,24 +94,44 @@
     display: flex;
     justify-content: center;
   }
+  #search-btn{
+    display: inline;
+    margin-left: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+  }
   
   
 </style>
 
 <body>
     <?php require_once APPROOT . '/views/users/navbar.php';?>
-<div class="wrapper-filter">
-    <div id="filter-bar">
-   
-    <input type="text" name="search" value="" id="search" placeholder="Search">
-    <ul id="filter" class="filter-all">
-      <li id="Sound Engineers">Sound Engineers</li>
-      <li id="DJ Artists">DJ Artists</li>
-      <li id="Technicians">Technicians</li>
-      <li id="Other">Other</li>
-    </ul>
-  </div>
-  </div>
+
+    <div class="wrapper-filter">
+      <div id="filter-bar">
+      
+        <div class="ad-search-shop">
+          <!-- this div contains search form in shop page -->
+          <form method="post" class="shop-search-form" id="shop-search-form">
+              <div class="search-component">
+                  <input type="text" name="search" id="search" placeholder="Search">
+                  <button type="submit" id="search-btn"> SEARCH </button>
+                  <!-- <button  id="advance-search" > Filter </button> -->
+              </div>
+          </form>
+        </div>
+
+        <!-- <input type="text" name="search" value="" id="search" placeholder="Search"> -->
+        
+        <ul id="filter" class="filter-all">
+          <li id="Sound Engineers">Sound Engineers</li>
+          <li id="DJ Artists">DJ Artists</li>
+          <li id="Technicians">Technicians</li>
+          <li id="Other">Other</li>
+        </ul>
+      </div>
+    </div>
 
     <!-- create 4 divs and display 4 profile pics in each div -->
     <div class="sound-eng">
