@@ -1,0 +1,175 @@
+
+/*//////////////////////////
+EVENT POP UPS CSS
+////////////////////////// */
+
+
+.event{
+    position: fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%) scale(0); /* scale 0 is used to hide the event  */
+    /* border: 1px solid black; */
+    border-radius: 10px;
+    z-index: 10;
+    background-color: #E5E9F7;
+  
+    
+    display: flex;
+    flex-direction: row;
+  }
+  .event .event-left{
+    /* display: flex; */
+    /* flex-direction: row; */
+    width: 600px;
+    
+  }
+  
+  .event .event-right{
+   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 800px;
+    width: 540px;
+  
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  
+  }
+  .event .date{
+    position: absolute;
+    margin-top:150px;
+  
+  
+  }
+  .event .time{
+    position: absolute;
+    margin-top:150px;
+    margin-left: 100px;
+  
+  }
+  
+  .event .event-right img{
+    /* width: 100%;
+    height:100%;
+    object-fit: fill; */
+  
+    /* flex-shrink: 0;
+    min-width: 100%;
+    min-height: 100% */
+  }
+  .event.active{
+    transform: translate(-50%,-50%) scale(1); /* scale 0 is used to hide the event  */
+  
+  }
+  
+  .event .event-header{
+    padding:30px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* border-bottom: 1px solid black; */
+  
+  }
+  
+  .event-header .title{
+    padding-top:20px;
+    font-size: 3rem;
+    font-weight: bold;
+  }
+  
+  .event-header .close-button{
+      cursor: pointer;
+      border: none;
+      outline: none;
+      background: none;
+      font-size: 2rem;
+      font-weight: bold;
+  }
+  
+  .event-body{
+    /* margin-top: 50px; */
+    padding:30px 30px;
+    font-weight: 300;
+    font-family: open sans;
+  }
+  .event .event-buttons{
+    display: flex;
+    font-size: 20px;
+    gap: 20px;
+    margin-left: 30px;
+  }
+  .event .wrapper-for-event{
+    display: flex;
+    margin-top:5px;
+    
+    justify-content: space-between;
+    padding:30px;
+    align-items: center;
+  }
+  
+  
+  .event .event-publisher{
+    display: inline;
+  }
+  .event .event-publisher i{
+    font-size: 30px;
+    margin-right: 20px;
+  }
+  
+  .event .like-button,.dislike-button{
+    padding: 10px;
+    width: 100px;
+    border: 0.5px solid rgb(57, 55, 55);
+    border-radius: 50px;
+  }
+  #overlay{
+    opacity: 0;
+    position: fixed;
+    top:0;
+    bottom: 0;
+    left:0;
+    right:0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    pointer-events: none; 
+    /* after the overlay is activate we can click on the buttons and the page by setting this pointer events to none */
+  
+    transition: 200ms ease-in-out;
+  }
+  
+  #overlay.active{
+    opacity: 1;
+    pointer-events: all;
+  }
+  
+  .service-provider-profile #event-button {
+    background-color: #007bff; /* Set the background color */
+    color: #fff; /* Set the text color */
+    padding: 5px; /* Add padding to the button */
+    border-radius: 10px; /* Add rounded corners */
+    border: none; /* Remove the border */
+    cursor: pointer; /* Add a pointer cursor on hover */
+  }
+  .calendar button{
+    position: absolute;
+    border-radius: 10px;
+    border:none;
+    background-color: #E5E9F7;
+    padding:5px;
+    margin-top:5px;
+    margin-left:5px;
+    
+  }
+  .calendar button:hover{
+    color: #000000;
+    background-color: #007bff;
+  }
+  
+  .calander-event.service-provider-profile .white-box .calendar .calendar-date .calender-event #event-button:hover {
+    background-color: #b4b7ba; /* Change the background color on hover */
+  }
+  
+  
