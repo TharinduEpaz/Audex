@@ -3,7 +3,7 @@
 <div class="service-provider-profile">
         <div class="white-box">
             <div class="feed-post-edit-container">
-                <form action="<?php echo URLROOT . '/service_providers/postPost';?>" method="POST">
+                <form action="<?php echo URLROOT . '/service_providers/insertPost';?>" method="POST">
                     <label for="post-title">Add Post Title : </label>
                     <input type="text" name="title" id="">
                     <label for="add-post">Create Your Post</label>

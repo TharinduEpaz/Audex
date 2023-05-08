@@ -236,10 +236,6 @@ class Service_providers extends Controller
 
 
 
-    public function feed()
-    {
-        $this->view('service_providers/feed');
-    }
 
     public function addEvent()
     {
@@ -301,7 +297,8 @@ class Service_providers extends Controller
 
             try {
                 $this->service_model->setEvent($event_details, $_SESSION['user_id']);
-            } catch (PDOException $e) {
+            }
+            catch (PDOException $e) {
                 echo "ERROR : " . $e->getMessage();
             }
         }
@@ -331,7 +328,6 @@ class Service_providers extends Controller
             $_SESSION['current_y'] = $_SESSION['current_y'] - 1;
             $_SESSION['current'] = 12;
         }
-
 
         // Update the displayed month name based on the new value of $current
         $year = $_SESSION['current_y'];
@@ -368,10 +364,7 @@ class Service_providers extends Controller
         return json_encode($data);
     }
 
-    public function addNewPost()
-    {
-        $this->view('service_providers/addNewPost');
-    }
+  
 
     public function editEvent()
     {
@@ -379,8 +372,135 @@ class Service_providers extends Controller
         $event = $this->service_model->getEventById($id);
         $data = [
             'event' => $event,
+            'id' => $id
 
         ];
         $this->view('service_providers/editEvent', $data);
     }
+
+    public function editEventDetails(){
+
+        $id = $_GET['id'];
+        $event_name = isset($_POST['eventname']) ? $_POST['eventname'] : '';
+        $location = isset($_POST['location']) ? $_POST['location'] : '';
+        $time = isset($_POST['time']) ? $_POST['time'] : '';
+        $link = isset($_POST['ticket-link']) ? $_POST['ticket-link'] : '';
+        $event_type = $_POST['event-type'];
+        $description = isset($_POST['description']) ? $_POST['description'] : '';
+        
+        //image
+        if(isset($_FILES['event-img'])){
+            $temp_name = $_FILES['event-img']['tmp_name'];
+            $file_name = $_FILES['event-img']['name'];
+            $file_size = $_FILES['event-img']['size'];
+            $file_error = $_FILES['event-img']['error'];
+
+            $file_ext = explode('.', $file_name);
+            $file_ext = strtolower(end($file_ext));
+  
+            $allowed = array('jpg', 'jpeg', 'png', 'gif');
+            $img = '';
+  
+            // check for errors
+            if ($file_error === 0) {
+                if (in_array($file_ext, $allowed)) {
+                    if ($file_size <= 2097152) {
+  
+                        // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
+  
+                        $file_destination = dirname(APPROOT) . '/public/uploads/events/' . $file_name;
+  
+                        // move_uploaded_file() is the built-in function in PHP that is used to move an uploaded file from its temporary location to a new location on the server
+  
+                        if (move_uploaded_file($temp_name, $file_destination)) {
+                            $img = $file_name;
+                            
+                        } else {
+  
+                            echo 'error in  uploading';
+                        }
+                    } else {
+                        echo 'error large size';
+                    }
+                } else {
+                    echo 'error not allowed this type';
+                }
+            }
+        }
+        else{
+            $file_name = '';
+        }
+          // Work out the file extension
+         
+
+        $this->service_model->updateEvent($id, $event_name, $location, $time, $link, $event_type, $description, $img);
+    }
+
+    public function likeDislike(){
+        $id = $_GET['id'];
+        $type = $_GET['type'];
+        $this->service_model->likeDislike($id, $type);
+        $reactions = $this->service_model->getReactions($id);
+        $data = [
+            'reactions' => $reactions,
+            
+        ];
+        echo json_encode($data);
+        return json_encode($data);
+    }
+
+
+    public function feed()
+    {
+        $posts = $this->service_model->getPostsByUser($_SESSION['user_id']);
+        $data = [
+            'posts' => $posts
+        ];
+        $this->view('service_providers/feed', $data);
+    }
+
+    public function feedPost(){
+        $id = $_GET['id'];
+        $post = $this->service_model->getPostById($id);
+        $data = [
+            'post' => $post,
+            
+
+        ];
+        $this->view('service_providers/post', $data);
+
+
+    }
+
+    public function addNewPost()
+    {
+        $this->view('service_providers/addNewPost');
+    }
+
+    public function insertPost(){
+        $user_id = $_SESSION['user_id'];
+        $title = isset($_POST['title']) ? $_POST['title'] : '';
+        $content = isset($_POST['add-post']) ? $_POST['add-post'] : '';
+
+        //image1
+        
+        $image1 = '';
+        $image2 = '';
+        $image3 = '';
+
+        $this->service_model->insertPost($user_id, $title, $content, $image1, $image2, $image3);
+
+     
+        // redirect('service_providers/feed');
+
+    }
+
+    public function setPostImages(){
+
+    }
+
+    
+
+    
+         
 }
