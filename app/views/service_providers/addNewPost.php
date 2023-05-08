@@ -7,7 +7,7 @@
                     <label for="post-title">Add Post Title : </label>
                     <input type="text" name="title" id="" required>
                     <label for="add-post" style="margin-top:40px">Create Your Post (you can resize editor by dragging right bottom corner)</label>
-                    <textarea name="add-post" id="add-post-text" cols="30" rows="10" required></textarea>
+                    <textarea name="add-post" id="add-post-text" cols="30" rows="10"></textarea>
                     <br>
                     <span id="select-photos" >Select photos for your post (at least 1 photo is required)</span>
                     <div class="post-pics">

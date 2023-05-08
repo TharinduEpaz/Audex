@@ -49,10 +49,12 @@ class Service_providers extends Controller
 
         $details = $this->service_model->getDetails($_SESSION['user_id']);
         $events = $this->service_model->getEvents($_SESSION['user_id']);
+        $posts = $this->service_model->getPostsByUser($_SESSION['user_id']);
 
         $data = [
             'details' => $details,
-            'events' => $events
+            'events' => $events,
+            'posts' => $posts
         ];
 
         $this->view('service_providers/profile', $data);

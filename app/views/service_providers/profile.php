@@ -61,6 +61,21 @@
                     <?php endforeach; ?>
                 </div>
             </div>
+            <p id="upcoming">Recent Feed Posts</p>
+            <button class="add-event-btn" onclick="addMorePosts()">Add New Post</button>
+            <div class="lower-section profile-title">
+                <div class="profile-events">
+                    <?php foreach ($data['posts'] as $post) : ?>
+                        <div class="event-display">
+                           
+                            <img src="<?php echo URLROOT . '/public/uploads/feed/' . $post->image1; ?>" alt="">
+                            <div class="overlay" class="text" onclick="">
+                                <div  class="text"><?php echo $post->title ?></div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -167,10 +182,9 @@
         window.open(`http://localhost/Audex/service_providers/editEvent?id=${id}`, '_self')
     }
 
-    
-
-
-   
+    function addMorePosts() {
+        window.open('http://localhost/Audex/service_providers/addNewPost', '_self')
+    }
 
 </script>
 
