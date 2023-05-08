@@ -24,19 +24,41 @@
         <div class="content">
         <div class="image" style="width: 40%;">
                     <div class="grid">
-                        <div id="img1" class="img1" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image1;?>)">
+                    <div id="img1" class="img1" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image1;?>)">
+                            <div>
+                                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                            </div>
+                            <div>
+                                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                            </div>
+
                         </div>
                         <div class="img2" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image1;?>)">    
-                            <a style="width: 100%;height:100%; " onclick="change_img1(); return false;" ></a>
+                            <a style="width: 100%;height:100%; " onclick="change_img(1); return false;" ></a>
                         </div>
                         <div class="img3" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image2;?>)"> 
                             <?php if($data['advertisement']->image2!=null){?>  
-                                <a style="width: 100%;height:100%; " onclick="change_img2(); return false;"></a> 
+                                <a style="width: 100%;height:100%; " onclick="change_img(2); return false;"></a> 
                             <?php }?>
                         </div>
                         <div class="img4" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image3;?>)">   
                             <?php if($data['advertisement']->image3!=null){?>  
-                                <a style="width: 100%;height:100%; " onclick="change_img3(); return false;"></a>
+                                <a style="width: 100%;height:100%; " onclick="change_img(3); return false;"></a>
+                            <?php }?>
+                        </div>
+                        <div class="img5" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image4;?>)">   
+                            <?php if($data['advertisement']->image4!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img(4); return false;"></a>
+                            <?php }?>
+                        </div>
+                        <div class="img6" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image5;?>)">   
+                            <?php if($data['advertisement']->image5!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img(5); return false;"></a>
+                            <?php }?>
+                        </div>
+                        <div class="img7" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image6;?>)">   
+                            <?php if($data['advertisement']->image6!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img(6); return false;"></a>
                             <?php }?>
                         </div>
                     </div>
@@ -133,48 +155,15 @@
                             </div>
                         </div>
                         </a>
-                    <div class="review-seller">
-                    <!-- add to watch button is not visible if user is a seller or service provider -->
-                    <!-- watch list button should visible if user is not logged in -->
-                        <?php if(!isLoggedIn()){?>
-                            <div class="write-review">
-                                <input type="submit" value="Write Review" id="review-seller-btn">
-                            </div>
-                        <?php } else if($_SESSION['user_type'] != 'seller' && $_SESSION['user_type'] != 'service_provider' ){ ?>
-                                <div class="write-review">
-                                    <input type="submit" value="Write Review" id="review-seller-btn">
-                                </div>
-                        <?php } ?>
-    
-                        <div class="review-form">
-                            <div class="review-area-select-star">
-                                <label for="select">Select:</label>
-                                <div class="star-rating">
-                                    <i class="fa fa-star star" data-value="1"></i>
-                                    <i class="fa fa-star star" data-value="2"></i>
-                                    <i class="fa fa-star star" data-value="3"></i>
-                                    <i class="fa fa-star star" data-value="4"></i>
-                                    <i class="fa fa-star star" data-value="5"></i>
-                                </div>
-                            </div>
-                            <div class="selected-rate">
-                                        <label for="given-rate">Rate:</label>
-                                        <input type="text" value="<?php echo $data['loadRate'] ?>" id="buyer-selected-rate">
-                                    </div>
-                            <div class="feedback-area">
-                                <form action="" method="post" id="review-write-form">
-    
-    
-                                    <label for="feedback">Feedback:</label>
-                                    <textarea  name="review" rows="4" id="submitted-feedback"  ><?php echo $data['loadFeedback'] ?></textarea>
-                                    <!-- <?php flash('rating_message');?> -->
-                                    <input type="submit" value="Submit" id="submit-review-btn">
-    
-                                </form>
-                            </div>
-    
-                        </div>
-                    </div>
+                        <?php 
+                    if(isLoggedIn()){
+                        if($_SESSION['user_email']!=$data['advertisement']->email){
+                            echo '<div class="message_seller">';
+                            echo '<a href="'.URLROOT.'/users/chat/'.$data['SellerMoreDetails']->user_id.'"><i class="fas fa-comments"></i>&nbsp&nbspMessage</a>';
+                            echo '</div>';
+                        }
+                    }
+                ?>
                 </div>
         </div>
         <div class="description">
@@ -185,5 +174,36 @@
 </body>
 
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
+<script>
+    //Image change
+    var img=1;
+    var image1 = <?php echo json_encode($data['advertisement']->image1); ?>;
+    var image2 = <?php echo json_encode($data['advertisement']->image2); ?>;
+    var image3 = <?php echo json_encode($data['advertisement']->image3); ?>;
+    var image4 = <?php echo json_encode($data['advertisement']->image4); ?>;
+    var image5 = <?php echo json_encode($data['advertisement']->image5); ?>;
+    var image6 = <?php echo json_encode($data['advertisement']->image6); ?>;
+
+    //To check how many images are there
+    var no_images=0;
+    for(var cnt=1;cnt<=6;cnt++){
+        if(window["image"+cnt]!=""){
+            no_images++;
+        }
+    }
+    function change_img(n){
+        var image1
+        var link= <?php echo json_encode(URLROOT.'/public/uploads/');?>+window['image'+n];
+        document.getElementById("img1").style.backgroundImage = "url('"+link+"')";
+        img=n;
+    }
+    function plusSlides(n){
+        img=(img+n)%no_images;
+        if(img<=0){
+            img=no_images;
+        }
+            change_img(img);   
+    }
+</script>
 </html>
 <!-- Closing the connection

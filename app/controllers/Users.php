@@ -22,12 +22,12 @@
             // $this->sellerModel = $this->model('Seller');
 
             //Session timeout
-            if(isset($_SESSION['time'])){
-                if(time() - $_SESSION['time'] > 60*30){
+            if(isset($_SESSION['session_time'])){
+                if(time() - $_SESSION['session_time'] > 60*30){
                     // flash('session_expired', 'Your session has expired', 'alert alert-danger');
                     $this->logout();
                 }else{
-                    $_SESSION['time'] = time();
+                    $_SESSION['session_time'] = time();
                 }
             }
 
@@ -126,7 +126,7 @@
                 if(empty($data['second_name'])){
                     $data['second_name_err'] = 'Please enter second name';
                 }else{
-                    //Check first name has numbers/special characters
+                    //Check second name has numbers/special characters
                     if(preg_match('/^[a-zA-Z]+$/', $data['second_name'])) {
 
                     } else {
@@ -261,7 +261,7 @@
             $data['otp']=rand(111111,999999);
             $data['otp_hashed'] = password_hash($data['otp'], PASSWORD_DEFAULT);
             $dat=date('Y-m-d H:i:s');
-            if($this->userModel->updateOtp($data['otp'],$dat,$data['email'])){
+            if($this->userModel->updateOtp($data['otp_hashed'],$dat,$data['email'])){
                 //Send email
                 $mail = new PHPMailer(true);
                 try{
@@ -348,7 +348,7 @@
                             $user_details=$this->userModel->findUserDetailsByEmail($email);
                             $data['user']=$user_details;
                             if($user_details){
-                                if($data['otp_entered'] == $user_details->otp){
+                                if($this->userModel->verifyotp($data['otp_entered'],$user_details->otp) ){
                                     //otp matched
                                     $dat=date('Y-m-d H:i:s');
         
@@ -498,6 +498,7 @@
                 else{
                     //User not found
                     $data['email_err'] = 'No user found';
+                    $this->view('users/login', $data);
                 }
 
                 $userData = $this->userModel->findUserDetailsByEmail($data['email']);
@@ -578,7 +579,7 @@
             $_SESSION['user_name'] = $user->first_name;
             $_SESSION['user_type'] = $user->user_type;
             $_SESSION['prev_user_type'] ='';
-            $_SESSION['time']=time();
+            $_SESSION['session_time']=time();
             if(isset($_SESSION['url'])){
                 $url=$_SESSION['url']; // holds url for last page visited.
                 unset($_SESSION['url']);
@@ -698,10 +699,12 @@
                         $_SESSION['attempt'] = 0;
                         $_SESSION['time'] = date('Y-m-d H:i:s', strtotime('+5 minutes', strtotime(date('Y-m-d H:i:s'))));
                         $otp=rand(111111,999999);
-                        if($this->userModel->updatePhoneOTP($otp,$id)){
+                        $otp_hashed = password_hash($otp, PASSWORD_DEFAULT);
+                        //Hashed otp's are checket by SQL query
+                        if($this->userModel->updatePhoneOTP($otp_hashed,$id)){
                             $user = "94722699883";
                             $password = "7884";
-                            $text = urlencode("Dear valued customer, your OTP is $otp. Please enter this OTP to verify your phone number in AudexLK. This expires in 10minutes from now. Thank you . From AUDEXLK");
+                            $text = urlencode("Dear valued customer, your OTP is $otp. Please enter this OTP to verify your phone number in AudexLK.<br>This expires in 10 minutes from now.<br>Thank you.<br>From AUDEXLK");
                             $to = $data['phone'];
 
                             $baseurl ="http://www.textit.biz/sendmsg";
@@ -783,7 +786,7 @@
                                 $user_details=$this->userModel->getUserDetails($id);
                                 $data['user']=$user_details;
                                 if($user_details){
-                                    if($data['otp_entered'] == $user_details->phone_otp){
+                                    if($this->userModel->verifyotp($data['otp_entered'],$user_details->phone_otp)){
                                         //otp matched
                                     
                                         //Update user
@@ -1387,7 +1390,7 @@
             unset($_SESSION['user_email']);
             unset($_SESSION['user_name']);
             unset($_SESSION['user_type']);
-            unset($_SESSION['time']);
+            unset($_SESSION['session_time']);
             session_destroy();
             redirect('users/login');
         }
@@ -1755,6 +1758,9 @@
         public function bid($id){
           $buyerDetails = $this->userModel->getUserDetailsByEmail($_SESSION['user_email']);
           $ad = $this->userModel->getAdvertiesmentById($id);
+          if($ad->email==$_SESSION['user_email']){
+            redirect('users/auction/'.$id);
+          }
           $data['ad'] = $ad;
           $SellerMoreDetails = $this->userModel->getSellerMoreDetails($ad->email);
           $data['SellerMoreDetails'] = $SellerMoreDetails;
@@ -2414,7 +2420,8 @@
 
             }else{
                 $this->userModel->updateBidStatus($bid_id);
-                redirect('pages/index');
+                flash('bid_expired','Your time expired');
+                redirect('users/index');
             }
         } 
         
@@ -2572,12 +2579,15 @@
       
         }
         public function shopFilter(){
-            $productCategory = $_POST['category'];
+            // $productCategory = $_POST['category'];
+            $categories = isset($_POST['category']) ? $_POST['category'] : [];
+
             $productPriceMin = $_POST['price-min'];
             $productPriceMax = $_POST['price-max'];
             $productType = $_POST['type'];
 
             // echo $productCategory;
+            // echo $categories;
             // echo $productPriceMax;
             // echo $productPriceMin;
             // echo $productType;
@@ -2587,7 +2597,7 @@
             $Filter=[];
             $results = [];
 
-            if( empty(trim($productCategory)) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType))) 
+            if( empty($categories) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType))) 
             {
                 // if all filters are empty
                 // redirect('users/shop');
@@ -2595,9 +2605,9 @@
                 echo json_encode(['message' => 'No filters','results'=>$results]);
             }
             else{
-                if(!empty(trim($productCategory))){
-                    $Filter['product_category']=$productCategory;
-                }
+                // if(!empty(trim($categories))){
+                //     $Filter['product_category']=$categories;
+                // }
                 if(!empty(trim($productPriceMin))){
                     $Filter['min_price']=(int) $productPriceMin;
                 }
@@ -2607,7 +2617,7 @@
                 if(!empty(trim($productType))){
                    $Filter['product_type']= $productType;
                 }
-                $results = $this-> userModel->searchAndFilterItems($Filter);            
+                $results = $this-> userModel->searchAndFilterItems($Filter,$categories);            
                 echo json_encode(['message' => 'filters','results'=>$results]);
             }
 
@@ -2851,6 +2861,8 @@
                 $_SESSION['url'] = URL();
                 redirect('users/login');
             }
+            $data['email_receiver'][]='';
+            $data['email_receivers'][]='';
 
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 // this is come from post method (fetch) form
@@ -2884,10 +2896,10 @@
             }
             else{
                 $i=0;
-                $data=[
-                    'email_sender'=>$_SESSION['user_email'],
-                ];
+                $data['email_sender']=$_SESSION['user_email'];
+                
                 $chats=$this->userModel->getChats($data);
+                $data['chat']=$chats;
                 if($chats!=false){
                         foreach($chats as $chat){
                             if($chat->sender_email==$_SESSION['user_email']){

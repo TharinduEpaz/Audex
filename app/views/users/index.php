@@ -23,6 +23,8 @@
         <?php echo flash('email_err');?>
         <?php echo flash('auction_message');?>
         <?php echo flash('user_type_message');?>
+        <?php echo flash('bid_expired');?>
+        
                 <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
         
         <div class="search">

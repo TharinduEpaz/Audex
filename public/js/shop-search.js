@@ -12,6 +12,7 @@ const shopResultArea = document.getElementById("shop-page-search-result-area");
 
 inputField.addEventListener("keyup", (e) =>{
     e.preventDefault();
+    resultTable.style.display = 'block';
 
     
 
@@ -128,6 +129,7 @@ shopSearchForm.addEventListener("submit", (e) =>{
             // resultTable.style.visibility = "hidden"
             document.getElementById('shop-search-results').innerHTML = '';
             document.getElementById('search-result-area').innerHTML = '';
+            resultTable.style.display = 'none';
             
             // shopSearchForm.reset();
             
@@ -139,5 +141,12 @@ shopSearchForm.addEventListener("submit", (e) =>{
             console.log("Error:", error);
         });
 
+    }
+});
+
+
+window.addEventListener("click", function(event) {
+    if (event.target != inputField) {
+        resultTable.style.display = 'none';
     }
 });

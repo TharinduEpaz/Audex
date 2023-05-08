@@ -21,7 +21,7 @@
             display: flex;
             flex-direction: row;
             height: 240px;
-            width: 90%;
+            width: 75%;
             margin: 3%;
             background-color: white;
             border-radius: 15px;
@@ -70,6 +70,8 @@
         
         .result-container .result-title .bottom-part{
             height: 107px;
+            display: flex;
+            flex-direction: column;
         }
 
         .result-title h3{
@@ -92,6 +94,8 @@
             padding: 5px;
             font-weight: 600;
             overflow: hidden;
+            margin: 5px 0px;
+            display: contents;
         }
         .result-title a{
             text-decoration: none;
@@ -105,13 +109,14 @@
             color: #fff;
             cursor: pointer;
             margin: 1px 20px 1px 0px;
+            align-self: end;
         }
         .result-title label{
             border: none;
             border-radius: 3px;
             color: black;
             margin-right: 0%;
-            background: #c85555;
+            /* background: #c85555; */
             padding: 4px;
             margin: 1px 20px 1px -4px;
         }
@@ -122,13 +127,13 @@
 
         #shop-search-results{
             display: block;
-            margin-top: -46px;
-            margin-left: -20px;
+            margin-top: -25px;
+            margin-left: 2.5%;
         }
         #shop-search-results .table {
-            width: 692px;
+            width: 53%;
             border-collapse: collapse;
-            margin-left: 4%;
+            /* margin-left: 3%; */
         } 
         #shop-search-results .table td {
             padding: 12px 15px;
@@ -276,7 +281,8 @@
             text-align: center;
             display: flex;
             flex-direction: column;
-            margin: 0% 3% 2% 3%;
+            margin: 1% 3% 0% 3%;
+            width: 80%;
         }
 
         .ad-search-shop img {
@@ -286,7 +292,7 @@
         .ad-search-shop form {
             display: flex;
             flex-direction: column;
-            margin-top: 10px;
+            /* margin-top: 10px; */
         }
         .search-component{
             margin: 0 1% 1% 0%;
@@ -510,27 +516,23 @@
         <form id="shop-filter-form" method="post">
             <h4>Category</h4>
             <div class="radio">
-                <input type="radio" id="all" name="category"  <?php echo ($data['category'] == '1') ? 'checked' : '';  ?> value = ""  >
-                <label for="all">All</label>
-            </div>
-            <div class="radio">
-                <input type="radio" id="microphone" name="category" value="microphone" <?php echo ($data['category'] == "microphone") ? 'checked' : '' ?> >
+                <input type="checkbox" name="category[]" id="microphone" value="microphone" <?php echo ($data['category'] == "microphone") ? 'checked' : '' ?> >
                 <label for="microphone">Microphone</label>
             </div>
             <div class="radio">
-                <input type="radio" id="speakers" name="category" value="speaker" <?php echo ($data['category'] == "speaker") ? 'checked' : '' ?> >
+                <input type="checkbox" name="category[]" id="speakers" value="speaker" <?php echo ($data['category'] == "speaker") ? 'checked' : '' ?> >
                 <label for="speakers">Speaker</label>
             </div>
             <div class="radio">
-                <input type="radio" id="amplifiers" name="category" value="amplifier" <?php echo ($data['category'] == "amplifier") ? 'checked' : '' ?>  >
+                <input type="checkbox" name="category[]" id="amplifiers" value="amplifier" <?php echo ($data['category'] == "amplifier") ? 'checked' : '' ?>  >
                 <label for="amplifiers">Amplifier</label>
             </div>
             <div class="radio">
-                <input type="radio" id="dj" name="category" value="mixer" <?php echo ($data['category'] == "mixer") ? 'checked' : '' ?> >
+                <input type="checkbox" name="category[]" id="dj" value="mixer" <?php echo ($data['category'] == "mixer") ? 'checked' : '' ?> >
                 <label for="mixer">Mixer</label>
             </div>
             <div class="radio">
-                <input type="radio" id="guitar" name="category" value="guitar" <?php echo ($data['category'] == "guitar") ? 'checked' : '' ?> >
+                <input type="checkbox" name="category[]" id="guitar" value="guitar" <?php echo ($data['category'] == "guitar") ? 'checked' : '' ?> >
                 <label for="guitar">Guitar</label>
             </div>
 
@@ -690,16 +692,16 @@
     </div>
 </body>
 <script>
-const advanceSearchBtn = document.getElementById('advance-search');
-const content = document.getElementById('filter-content');
+// const advanceSearchBtn = document.getElementById('advance-search');
+// const content = document.getElementById('filter-content');
 
-advanceSearchBtn.addEventListener('click', () => {
-  if (content.style.display === 'none') {
-    content.style.display = 'block';
-  } else {
-    content.style.display = 'none';
-  }
-});
+// advanceSearchBtn.addEventListener('click', () => {
+//   if (content.style.display === 'none') {
+//     content.style.display = 'block';
+//   } else {
+//     content.style.display = 'none';
+//   }
+// });
 
 
 jQuery(document).ready(function(){

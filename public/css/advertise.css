@@ -8,6 +8,7 @@ body{
     display: flex;
     flex-direction: column;
     margin-top: 10vh;
+    margin-left: 5%;
 }
 .content{
     display: flex;
@@ -22,7 +23,7 @@ body{
     /* border: 1px solid; */
     height: 65vh;
     justify-content: end;
-    margin-left: 2%;
+    /* margin-left: 2%; */
     flex-basis: 40%;
     
 }
@@ -93,14 +94,17 @@ body{
 }
 .grid {
     display: grid;
-    grid-template-columns: 2.25fr .75fr;
+    grid-template-columns: 5.25fr .75fr;
     grid-column-gap: 5px;
     grid-row-gap: 5px;
     height: 100%;
     grid-template-areas: 
       "a b"
       "a c"
-      "a d";
+      "a d"
+      "a e"
+      "a f"
+      "a g";
 
   }
 .img1{
@@ -110,8 +114,11 @@ body{
     background-size: auto 70%;
     background-position: center;
     background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-.img2,.img3,.img4{
+.img2,.img3,.img4,.img5,.img6,.img7{
     border: 1px solid #000000;
     background-repeat: no-repeat;
     background-size: auto 70%;
@@ -123,7 +130,7 @@ body{
 .img2{
     grid-area: b;
 }
-.img2 a:hover, .img3 a:hover, .img4 a:hover{
+.img2 a:hover, .img3 a:hover, .img4 a:hover , .img5 a:hover , .img6 a:hover , .img7 a:hover{
     text-decoration: none;
     color: initial;
     opacity: 20%;
@@ -135,10 +142,49 @@ body{
 .img4{
     grid-area: d;
 }
+.img5{
+    grid-area: e;
+}
+.img6{
+    grid-area: f;
+}
+.img7{
+    grid-area: g;
+}
 .image a{
     float: right;
     align-items: center;
     justify-content: center;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+    cursor: pointer;
+    /* position: absolute; */
+    /* top: 40%; */
+    /* width: auto; */
+    padding: 16px;
+    /* margin-top: -50px; */
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+    /* right: 0; */
+    /* border-radius: 3px 0 0 3px; */
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+    background-color: rgba(214, 214, 214, 0.8);
+    color: black;
 }
 .time p{
     text-align: center;
@@ -179,7 +225,7 @@ body{
     cursor: pointer;
 }
 .details h2{
-    text-align: center;
+    text-align: left;
     font-size: 20pt;
     font-weight: bolder;
     margin-bottom: 2vh;
@@ -189,14 +235,17 @@ body{
     padding: 1% 1% 1% 1%;
     height: 5vh;
     width: 45%;
-
+    font-size: 15pt;
+}
+.value{
+    font-size: 15pt;
 }
 .price h4{
     font-weight: 900;
     font-size: 20pt;
     /* background: #002EF9; */
     color: black;
-    text-align: center;
+    text-align: left;
     /* padding: 1vh 1%; */
     /* height: 5vh; */
     /* width: 200px; */
@@ -230,9 +279,9 @@ body{
     width: 170px;
     border-radius: 7px;
     border: 1px solid #002EF9;
-    margin-top: 2vh;
+    margin-top: 4vh;
     margin-bottom: 1vh;
-    margin-right: 4%;    
+    /* margin-right: 4%;     */
 }
 .bid_now:hover,.message_seller:hover,.bid_button:hover{
     transition: 0.5s;
@@ -262,11 +311,13 @@ body{
     padding: 1% 5% 1% 5%;
     color: black;
     font-weight: 300;
-    margin-top: -5vh;
+    /* margin-top: -5vh; */
+    padding-left: 1%;
 }
 .description p{
     color: black;
     font-weight: 500;
+    font-size: 15pt;
 }
 .description h3{
     font-weight: bold;
@@ -276,6 +327,8 @@ body{
 .seller-detais{
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     max-width: 23%;
     min-width: 14%;    
     margin-right: 8% ;
@@ -306,9 +359,9 @@ body{
     align-items: center;
     justify-content: center;
     width: 115%;
-    height: 25vh;
+    /* height: 25vh; */
     margin-top: 1vh;
-    background-color: white;
+    /* background-color: white; */
     /* border-radius: 35px; */
   }
   .rating-stars{
@@ -332,7 +385,7 @@ body{
   .other_details_profile{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
     margin-left: 1%;
     /* border: 1px solid black; */
@@ -345,15 +398,16 @@ body{
     font-weight: 600;
   }
   .full_name{
-    font-size: 19pt;
-    text-align: center;
+    font-size: 14pt;
+    text-align: left;
     /* border: 1px solid black; */
     width: 100%;
+    margin: 4% 0% 4% 0%;
   }
   .stars_date{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
     width: 100%;
     height: 6vh;
@@ -361,7 +415,7 @@ body{
     border-radius: 40px;
     /* border: 1px solid black; */
     margin: 0;
-    margin-top: 2vh;
+    /* margin-top: 2vh; */
   
   }
   .stars{
@@ -402,7 +456,7 @@ body{
     /* background-color: #E5E9F7; */
     border-radius: 40px;
     /* border: 1px solid black; */
-    margin-top: 2vh;
+    /* margin-top: 2vh; */
     
   }
 @media(max-width:1200px){

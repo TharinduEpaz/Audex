@@ -107,29 +107,21 @@
                             <div class="image">
 
                                     <input type="file" name="image1" id="file" class="custom-file-input">
-                                <!-- <label for="image1">Choose an image<p class="file-name"></p></label> -->
-                            <!-- <?php
-                                    if(!empty($data['image2_err'])){
-                                    echo '<div class="error">';
-                                        echo '*'.$data['image2_err'].'<br>';
-                                    echo '</div>';
-                                    }
-                                ?>  -->
                             </div>
                             <div class="image">
                                 <input type="file" name="image2" class="custom-file-input" >
-                                <!-- <label for="image2">Choose an image</label> -->
                             </div>
-                            <!-- <?php
-                                    if(!empty($data['image3_err'])){
-                                    echo '<div class="error">';
-                                        echo '*'.$data['image3_err'].'<br>';
-                                    echo '</div>';
-                                    }
-                                ?>  -->
                             <div class="image">
                                 <input type="file" name="image3"  class="custom-file-input">
-                                <!-- <label for="image3">Choose an image</label> -->
+                            </div>
+                            <div class="image">
+                                <input type="file" name="image4"  class="custom-file-input">
+                            </div>
+                            <div class="image">
+                                <input type="file" name="image5"  class="custom-file-input">
+                            </div>
+                            <div class="image">
+                                <input type="file" name="image6"  class="custom-file-input">
                             </div>
                         </div>
                         <div class="input">
@@ -140,17 +132,41 @@
                             </select>
                             <!-- <input class="condition" type="text" name="condition"   value="<?php echo $data['condition']?>" > -->
                         </div>
+                        <?php
+                                    if(!empty($data['category_err'])){
+                                    echo '<div class="error">';
+                                        echo '*'.$data['category_err'].'<br>';
+                                    echo '</div>';
+                                    }
+                                ?> 
+                        <div class="input" style="flex-wrap: wrap;">
+                        <label>Category:</label>
                         <div class="input">
-                            <label class="category" for="category">Category&nbsp</label>
-                            <select name="category" id="category">
-                            <option value="Microphone">Microphone</option>
-                              <option value="DJ">DJ</option>
-                              <option value="Mixer">Mixer</option>
-                              <option value="Amplifier">Amplifier</option>  
-                              <option value="Guitar">Guitar</option>
-                              <option value="Keyboard">Keyboard</option>
-                              <option value="Drumset">Drumset</option>                        
-                            </select>
+                            <input type="checkbox" name="category[]" value="Microphone" id="chkMicrophone">
+                            <label for="chkMicrophone">Microphone</label>
+
+                            <input type="checkbox" name="category[]" value="DJ" id="chkDJ">
+                            <label for="chkDJ">DJ</label>
+
+                            <input type="checkbox" name="category[]" value="Mixer" id="chkMixer">
+                            <label for="chkMixer">Mixer</label>
+                            
+                            <input type="checkbox" name="category[]" value="Mixer" id="chkMixer">
+                            <label for="chkMixer">Percussion/Drums</label>
+                        </div>
+                            <div class="input">
+                                <input type="checkbox" name="category[]" value="Amplifier" id="chkAmplifier">
+                                <label for="chkAmplifier">Amplifier</label>
+    
+                                <input type="checkbox" name="category[]" value="Guitar" id="chkGuitar">
+                                <label for="chkGuitar">Guitar</label>
+    
+                                <input type="checkbox" name="category[]" value="Keyboard" id="chkKeyboard">
+                                <label for="chkKeyboard">Keyboard</label>
+    
+                                <input type="checkbox" name="category[]" value="Drumset" id="chkDrumset">
+                                <label for="chkDrumset">Other</label>
+                            </div>
                         </div>
 
                         <div class="input">

@@ -16,7 +16,7 @@ date_default_timezone_set("Asia/Kolkata");
             $this->db->bind(':user_type', $data['user_type']);
             $this->db->bind(':t', $dat);
             $this->db->bind(':password', $data['password']);
-            $this->db->bind(':otp', $data['otp']);
+            $this->db->bind(':otp', $data['otp_hashed']);
 
             //Execute
             if($this->db->execute()){
@@ -202,6 +202,16 @@ date_default_timezone_set("Asia/Kolkata");
                 return false;
             }
         }
+
+
+        public function verifyotp($otp, $otp_hashed){
+            if(password_verify($otp, $otp_hashed)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
 
         public function updatePasswordAttempts($email){
             $this->db->query('UPDATE user set password_wrong_attempts=password_wrong_attempts+1 WHERE email = :email');
@@ -1103,8 +1113,29 @@ date_default_timezone_set("Asia/Kolkata");
 
         }
         // this function works when filter applyies without a search  term
-        public function searchAndFilterItems($filter){
+        public function searchAndFilterItems($filter,$categories){
             $sql='';
+            $categorySql = '';
+            
+
+            if (!empty($categories)) {
+                $categorySql = '(';
+
+                // print_r($categories);
+              
+                foreach ($categories as $value) {
+                    $categorySql.= 'product_category = :'.$value;
+
+                    $categorySql.= ' OR ';
+                //   $categoryConditions[] = "product_category = ':category'";
+                }
+                $categorySql=substr($categorySql,0,-3);
+                $categorySql.= ')';
+                // echo $categorySql;
+
+                // $categorySql = "(" . implode(" OR ", $categoryConditions) . ")";
+              }
+
             foreach($filter as $key=>$value){
                 if($key==='min_price'){
                     $sql.='price >= :min_price';
@@ -1117,14 +1148,25 @@ date_default_timezone_set("Asia/Kolkata");
                 }
                 $sql.=' AND ';
             }
-            $sql=substr($sql,0,-4);
+            if(empty($categories)){
+                $sql=substr($sql,0,-4);
+            }
             
-            $this->db->query('SELECT * FROM product WHERE '.$sql);
-            // $this->db->query('SELECT * FROM product LEFT JOIN auction ON product.product_id = auction.product_id WHERE '.$sql. 'AND auction.is_active = 1 AND auction.is_finished = 0' );
+
+
+            $this->db->query('SELECT * FROM product WHERE '.$sql .$categorySql);
+            
 
             foreach($filter as $key=>$value){
                 $this->db->bind(':'.$key, $value);
             }
+            foreach($categories as $value){
+                $this->db->bind(':'.$value, $value);
+            }
+
+            // echo 'SELECT * FROM product WHERE '.$sql .$categorySql;
+            // exit();
+
             $results = $this->db->resultSet();
             return $results;
         }

@@ -14,7 +14,7 @@
 <body >
 <?php require_once APPROOT . '/views/users/navbar.php';?>
 
-    <div class="container_main" style="height:0px;">
+    <div class="container_main" style="height:90vh;">
         <div id="forms" class="form">
             <h1>Register</h1>
             <?php
@@ -62,7 +62,7 @@
                         }
                     ?>
                     <label for="">First Name</label>
-                    <input type="text" name="fname" placeholder="First Name"  pattern="[A-Za-z]+" value="<?php echo $data['first_name']?>" >
+                    <input type="text" name="fname" placeholder="First Name"  pattern="[A-Za-z]+" title="First name should only contain letters" value="<?php echo $data['first_name']?>" >
                 </div>
                 <div class="input">
                     <?php
@@ -73,7 +73,7 @@
                         }
                     ?>
                     <label for="">Last Name</label>
-                    <input type="text" name="lname" placeholder="Last Name"  pattern="[A-Za-z]+" value="<?php echo $data['second_name']?>" >
+                    <input type="text" name="lname" placeholder="Last Name"  pattern="[A-Za-z]+" title="Second name should only contain letters" value="<?php echo $data['second_name']?>" >
                 </div>
                 <div class="input">
                     <?php
