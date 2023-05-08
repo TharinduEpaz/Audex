@@ -592,6 +592,10 @@ EVENT POP UPS CSS
   flex-wrap: wrap;
 }
 
+.button-section {
+  display: flex;
+}
+
 .title-section {
   display: flex;
   justify-content: space-between;
