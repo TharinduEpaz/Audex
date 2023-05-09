@@ -214,6 +214,12 @@ class Service_provider
         $this->db->execute();
 
     }
+
+    public function deletePost($id){
+        $this->db->query('DELETE FROM feed_post WHERE post_id = :id');
+        $this->db->bind(':id', $id);
+        $this->db->execute();
+    }
      
 }
 

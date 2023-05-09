@@ -55,7 +55,7 @@
                            
                             <img src="<?php echo URLROOT . '/public/uploads/events/' . $event->image; ?>" alt="">
                             <div class="overlay" data-event-target="#event" class="text" onclick="loadevent(<?php echo $event->event_id ?>)">
-                                <div data-event-target="#event" class="text"><?php echo $event->name ?></div>
+                                <div data-event-target="#event" class="text" ><?php echo $event->name ?></div>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -68,9 +68,9 @@
                     <?php foreach ($data['posts'] as $post) : ?>
                         <div class="event-display">
                            
-                            <img src="<?php echo URLROOT . '/public/uploads/feed/' . $post->image1; ?>" alt="">
+                            <img src="<?php echo URLROOT . '/public/uploads/' . $post->image1; ?>" alt="">
                             <div class="overlay" class="text" onclick="">
-                                <div  class="text"><?php echo $post->title ?></div>
+                                <div  class="text" style="font-size=6px;"><?php echo $post->title ?></div>
                             </div>
                         </div>
                     <?php endforeach; ?>

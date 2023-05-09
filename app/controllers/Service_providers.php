@@ -546,5 +546,11 @@ class Service_providers extends Controller
 
     }
 
+    public function deletePost(){
+        $id = $_GET['id'];
+        $this->service_model->deletePost($id);
+        redirect('service_providers/feed');
+    }
+
 
 }

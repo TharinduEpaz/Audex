@@ -51,9 +51,14 @@
             <?php echo $data['post']->content ?>
         </div>
 
-        </div>
+        <button class="cancel" id="edit-event-btn" type="reset"  onclick="deletePost(<?php echo $data['post']->post_id ?>)">Delete Post</button>
+        
 
+
+        </div>
     </div>
+    
+
 </div>
 
 
@@ -97,4 +102,10 @@
     setInterval(function() {
         plusSlides(1);
     }, 5000);
+
+    function deletePost(id) {
+        if (confirm("Are you sure you want to delete this post?")) {
+            window.location.href = "<?php echo URLROOT . '/service_providers/deletePost?id=' ?>" + id;
+        }
+    }
 </script>

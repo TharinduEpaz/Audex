@@ -596,6 +596,30 @@ EVENT POP UPS CSS
   display: flex;
 }
 
+.cancel {
+  margin-top: 20px;
+  font-weight: 400;
+  font-size: 15px;
+  align-items: center;
+  appearance: none;
+  background-color: #ea6c7b;
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-radius: 20px;
+  border-width: 0;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  margin-left: 20px;
+  justify-content: center;
+  padding: 6px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s, background-position 0.2s;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 .title-section {
   display: flex;
   justify-content: space-between;
