@@ -2784,6 +2784,11 @@
                     $data['watched'] = 'watched';
                 }
             }
+            else{
+                // Item is not in watch list
+                // no watchlist since user is not logged in
+                $data['watched'] = 'notwatched';
+            }
             // print_r($data);
             // print_r($ServiceProviderWatched);
             // exit();
