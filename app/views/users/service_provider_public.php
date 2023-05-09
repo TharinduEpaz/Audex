@@ -136,16 +136,22 @@
                                 <div class="message_review service_provider">
                                     
                                     <a class="message btn" href="<?php echo URLROOT . '/users/chat/' . $data['user']->user_id; ?>" class="btn btn-primary">Message</a>
-                                    <a href="" class="review btn" onclick="openModal(); return false;">Write Review</a>
-                                    
+
+                                    <!-- hide this button if there is no events -->
+                                    <?php if( sizeof($data['events']) ){?>
+                                        <a href="" class="review btn" onclick="openModal(); return false;">Write Review</a>
+                                    <?php } ?>
                                 </div>
                             <?php }
                         } else { ?>
                             <!-- user is not logged in -->
                             
                                 <a class="message btn" href="<?php echo URLROOT . '/users/chat/' . $data['user']->user_id; ?>" class="btn btn-primary">Message</a>
-                                <a href="" class="review btn" onclick="openModal(); return false;">Write Review</a>
-                           
+                                <!-- hide this button if there is no events -->
+                                <?php if( sizeof($data['events']) ){?>
+                                    <a href="" class="review btn" onclick="openModal(); return false;">Write Review</a>
+                                <?php } ?>
+                                
                         <?php } ?>
 
                     </div>

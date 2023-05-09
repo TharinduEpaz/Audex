@@ -1124,7 +1124,7 @@ date_default_timezone_set("Asia/Kolkata");
                 // print_r($categories);
               
                 foreach ($categories as $value) {
-                    $categorySql.= 'product_category = :'.$value;
+                    $categorySql.= 'p.product_category LIKE :'.$value;
 
                     $categorySql.= ' OR ';
                 //   $categoryConditions[] = "product_category = ':category'";
@@ -1138,30 +1138,38 @@ date_default_timezone_set("Asia/Kolkata");
 
             foreach($filter as $key=>$value){
                 if($key==='min_price'){
-                    $sql.='price >= :min_price';
+                    $sql.='p.price >= :min_price';
                 }
                 else if($key=='max_price'){
-                    $sql.='price <= :max_price';
+                    $sql.='p.price <= :max_price';
                 }
                 else{
-                    $sql.=$key." = :".$key."";
+                    $sql.='p.'.$key." = :".$key."";
                 }
                 $sql.=' AND ';
             }
             if(empty($categories)){
                 $sql=substr($sql,0,-4);
             }
-            
+            // product type is auction
+            if( isset($filter['product_type']) &&  $filter['product_type'] == 'auction' ){
+                $this->db->query('SELECT p.*, a.* FROM product p JOIN auction a ON p.product_id = a.product_id WHERE '.$sql .$categorySql);
+            }
+            else if(isset($filter['product_type']) &&  $filter['product_type'] == 'fixed_price'){
+                $this->db->query('SELECT p.* FROM product p WHERE '.$sql .$categorySql);
+            }
+            else{
+                $this->db->query('SELECT p.*, a.* FROM product p LEFT JOIN auction a ON p.product_id = a.product_id WHERE '.$sql .$categorySql);
+                
+            }
 
-
-            $this->db->query('SELECT * FROM product WHERE '.$sql .$categorySql);
             
 
             foreach($filter as $key=>$value){
                 $this->db->bind(':'.$key, $value);
             }
             foreach($categories as $value){
-                $this->db->bind(':'.$value, $value);
+                $this->db->bind(':'.$value, '%'.$value.'%');
             }
 
             // echo 'SELECT * FROM product WHERE '.$sql .$categorySql;

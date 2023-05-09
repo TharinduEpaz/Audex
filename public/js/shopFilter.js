@@ -63,7 +63,7 @@ function handleFilterChange() {
     .then((data) => {
         // Update the filtered data on the shop page
         if( (data.results.length > 0) && (data.message == 'filters')){
-            console.log(data.results.length, data.message,'come here');
+            // console.log(data.results.length, data.message,'come here');
             var htmlLast = "";
             for (var i = 0; i < data.results.length; i++) {
     
@@ -72,8 +72,9 @@ function handleFilterChange() {
 
                 // check item type
                 if(result.product_type == 'auction'){
+                    console.log('come here')
                     // item type is auction
-                    if((result.is_active === '1') && (result.is_finished === '0')){
+                    if((result.is_active == '1') && (result.is_finished == '0')){
                         var link = "<a href ="+ URLROOT+"/users/auction/"+result.product_id+ " >";
     
                         html = "<div class='container-ad'> <div class='container-img'> "+
@@ -81,7 +82,7 @@ function handleFilterChange() {
                                 "<div class = 'title'> <h3>"+link+result.product_title+"</a> </h3> <h6>"+result.p_description+"</h6> </div>"+
                                 "<div class = 'price'> <label>Auction</label> <label for= 'price' >LKR:"+result.price+"</label>"+link+"<button type = 'submit'>View</button></a></div>"+
                                 "</div>";
-
+                        console.log(html);
                         htmlLast = htmlLast + html;
                     }
                             
