@@ -53,14 +53,12 @@
     position: fixed;
     background:fixed;
     margin-top: 10vh;
-    
-  
-   
     display: flex;
     align-items: baseline;
     background-color: #E5E9F7;
     padding-top: 10px;
     padding-bottom: 10px;
+    flex-direction: column;
     
   }
   
@@ -92,7 +90,7 @@
   }
   .wrapper-filter{
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
   }
   #search-btn{
     display: inline;
@@ -101,7 +99,38 @@
     border-radius: 10px;
     padding: 10px;
   }
-  
+
+  /* search result table */
+  #sound-engineer-search-results{
+    display: block;
+    margin-top: -25px;
+    margin-left: 2.5%;
+  }
+  #sound-engineer-search-results .table{
+    /* padding: 12px 15px; */
+    border: 1px solid rgb(169 165 165);
+    background: #ffffff;
+    display: -webkit-box;
+    text-align: left;
+    font-size: 16px;
+    /* width: 53%; */
+    border-collapse: collapse;
+    margin-left: 13%;
+    margin-top: 8%;
+  }
+  .search-result-row-content{
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid rgb(169 165 165);
+  }  
+
+  .search-result-row-content img{
+    width: 60px;
+    height: 60px;
+    margin: 5px;
+  }
   
 </style>
 
@@ -111,26 +140,34 @@
     <div class="wrapper-filter">
       <div id="filter-bar">
       
-        <div class="ad-search-shop">
+        <div class="search-sound-engineers">
           <!-- this div contains search form in shop page -->
-          <form method="post" class="shop-search-form" id="shop-search-form">
+          <form method="post" class="sound-engineers-search-form" id="sound-engineers-search-form">
               <div class="search-component">
-                  <input type="text" name="search" id="search" placeholder="Search">
+                  <input type="text" name="search-term" id="search-service-provider" placeholder="Search">
                   <button type="submit" id="search-btn"> SEARCH </button>
                   <!-- <button  id="advance-search" > Filter </button> -->
               </div>
           </form>
         </div>
 
+        <div id="sound-engineer-search-results">
+          <!-- this div shows search results for keyup events live -->
+        </div>
+
         <!-- <input type="text" name="search" value="" id="search" placeholder="Search"> -->
         
-        <ul id="filter" class="filter-all">
+        <!-- <ul id="filter" class="filter-all">
           <li id="Sound Engineers">Sound Engineers</li>
           <li id="DJ Artists">DJ Artists</li>
           <li id="Technicians">Technicians</li>
           <li id="Other">Other</li>
-        </ul>
+        </ul> -->
       </div>
+    </div>
+
+    <div id="sound-engineers-page-search-result-area">
+      <!-- this div shows search results by searching in sound engineers page -->
     </div>
 
     <!-- create 4 divs and display 4 profile pics in each div -->
@@ -141,7 +178,7 @@
                 <?php $id = $object->user_id; ?>
                 <a href="<?php echo URLROOT .'/users/serviceProviderPublic/' . "?id=$id" ?>">
                 <img src="<?php echo URLROOT .'/public/uploads/Profile/' . $object->profile_image ?>" alt="">
-        </a>
+                </a>
             </div>
 
             <div class="profile-data">
@@ -149,26 +186,22 @@
                 <?php echo "$object->second_name <br>\n"; ?>
                 <p id="profession"><?php echo "$object->profession <br>\n"; ?> </p>
             </div>            
-                <div class="rating-stars">
-                <span class="rate"><?php echo "$object->Rating";?></span> 
+            <div class="rating-stars">
+              <span class="rate"><?php echo "$object->Rating";?></span> 
 
-                <?php for($i=0; $i<floor($object->Rating); $i++): ?>
-                <i class="fa fa-star"></i>
-                <?php endfor; ?>
+              <?php for($i=0; $i<floor($object->Rating); $i++): ?>
+              <i class="fa fa-star"></i>
+              <?php endfor; ?>
 
-                <?php if(strpos((string)$object->Rating, '.')): ?>
-                <i class="fa fa-star-half-o"></i>
-                <?php endif; ?>   
-                </div>                
+              <?php if(strpos((string)$object->Rating, '.')): ?>
+              <i class="fa fa-star-half-o"></i>
+              <?php endif; ?>   
+            </div>                
         </div>
         <?php endforeach;?>
     </div>
 </body>
-<script>
 
-   
-  
-
-</script>
+<script src="<?php echo URLROOT . '/public/js/serviceProviderSearch.js';?>"></script>
 
 </html>

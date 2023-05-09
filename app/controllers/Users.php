@@ -2549,7 +2549,8 @@
         }
         
         
-
+        // This is for serch product
+        // shop-search.js file will call this
         public function searchItems(){
 
             $searchedTerm = $_POST['search-item'];
@@ -2576,8 +2577,8 @@
               }
       
             }
-      
         }
+
         public function shopFilter(){
             // $productCategory = $_POST['category'];
             $categories = isset($_POST['category']) ? $_POST['category'] : [];
@@ -2622,6 +2623,38 @@
             }
 
         }
+
+        // This is for serch sound engineers
+        // serviceProviderSearch.js file will call this
+        public function searchServiceProviders(){
+
+            // $results = [];
+            $searchedTerm = $_POST['search-term'];
+            
+            if( !isset($_POST['submit']) ){
+              // this is for keyup event
+              if( strlen($searchedTerm) <3 ){
+                echo json_encode(['message' => 'no search results','results'=>$results=[] ]);
+              }else{
+                $results = $this-> userModel->searchServiceProviders($searchedTerm);
+                echo json_encode(['message' => 'search results','results'=>$results]);
+              }
+            }
+            else{
+              // user has pressed enter
+              if( strlen($searchedTerm) <1 ){
+                echo json_encode(['message' => 'no search results','results'=>$results=[] ]);
+              }else{
+                $results = $this-> userModel->searchServiceProviders($searchedTerm);
+                // $_SESSION['searchTerm'] = $searchedTerm;
+                // $_SESSION['searchResults'] = $results;
+                // echo $_SESSION['searchResults'];
+                echo json_encode(['message' => 'search results','results'=>$results]);
+              }
+      
+            }
+        }
+        
 
         // public function shopSearchItems(){
         //     $searchedTerm = $_POST['search-item'];
