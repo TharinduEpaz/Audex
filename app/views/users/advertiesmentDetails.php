@@ -79,7 +79,9 @@
 
             <div class="details">
                 <h2><?php echo $data['ad']->product_title?></h2>
-
+                <div class="price">
+                    <h4>LKR&nbsp;<?php echo $data['ad']->price?></h4>
+                </div>
                 <table>
                     <tr>
                         <td class="name">Category</td>
@@ -98,11 +100,6 @@
                         <td class="value">: <?php echo $data['ad']->product_condition?></td>
                     </tr>
                 </table>
-
-                <div class="price">
-                    <h4>LKR&nbsp;<?php echo $data['ad']->price?></h4>
-                </div>
-<<<<<<< HEAD
                 <div class="message_bid">
                 
                 <!-- add to watch button is not visible if user is a seller or service provider -->

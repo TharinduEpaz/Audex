@@ -26,43 +26,8 @@
         <div class="advertisement">
             <div class="add">
                 <div id="forms" class="form_seller">
-                <?php
-                // if(!empty($data['title_err']) || !empty($data['description_err']) || !empty($data['price_err'])  || !empty($data['condition_err']) || !empty($data['image1_err']) || !empty($data['image2_err']) || !empty($data['image3_err']) || !empty($data['brand_err']) || !empty($data['model_err']) ){
-                //     echo '<div class="error">';
-                //         if(!empty($data['title_err'])){
-                //             echo '*'.$data['title_err'].'<br>';
-                //         }
-                //         if(!empty($data['description_err'])){
-                //             echo '*'.$data['description_err'].'<br>';
-                //         }
-                //         if(!empty($data['price_err'])){
-                //             echo '*'.$data['price_err'].'<br>';
-                //         }
-                //         if(!empty($data['condition_err'])){
-                //             echo '*'.$data['condition_err'].'<br>';
-                //         }
-                //         if(!empty($data['image1_err'])){
-                //             echo '*'.$data['image1_err'].'<br>';
-                //         }
-                //         if(!empty($data['image2_err'])){
-                //             echo '*'.$data['image2_err'].'<br>';
-                //         }
-                //         if(!empty($data['image3_err'])){
-                //             echo '*'.$data['image3_err'].'<br>';
-                //         }
-                //         if(!empty($data['brand_err'])){
-                //             echo '*'.$data['brand_err'].'<br>';
-                //         }
-                //         if(!empty($data['model_err'])){
-                //             echo '*'.$data['model_err'].'<br>';
-                //         }
-
-                //     echo '</div>';
-                // }
-
-            ?>
             <h1 style="text-align: center;">Post Advertisement</h1>
-                <?php echo '<pre>'; print_r($data); echo '</pre>';?>
+                <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
 
                     <form action="<?php echo URLROOT . '/sellers/advertise';?>" method="post" enctype="multipart/form-data">
                         <?php

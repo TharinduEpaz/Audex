@@ -120,8 +120,8 @@ date_default_timezone_set("Asia/Kolkata");
             return $row;
         }
 
-        public function advertise($data,$dat){
-            $this->db->query('INSERT INTO product (email,product_title,product_condition,product_category,district,product_type,model_no,brand,image1,image2,image3,image4,image5,image6,address,latitude,longitude,price,p_description,date_added,date_expires) VALUES(:user_email,:title,:condition,:category,:district,:type,:model,:brand,:image1,:image2,:image3,:image4,:image5,:image6,:address,:latitude,:longitude,:price,:description,:date_added,:date_expires)');
+        public function advertise($data,$dat,$id=NULL){
+            $this->db->query('INSERT INTO product (email,product_title,product_condition,product_category,district,product_type,model_no,brand,image1,image2,image3,image4,image5,image6,address,latitude,longitude,price,p_description,date_added,date_expires,repost_prev_id) VALUES(:user_email,:title,:condition,:category,:district,:type,:model,:brand,:image1,:image2,:image3,:image4,:image5,:image6,:address,:latitude,:longitude,:price,:description,:date_added,:date_expires,:id)');
             //Bind values
             $this->db->bind(':user_email', $data['user_email']);
             $this->db->bind(':title', $data['title']);
@@ -144,6 +144,7 @@ date_default_timezone_set("Asia/Kolkata");
             $this->db->bind(':description', $data['description']);
             $this->db->bind(':date_added', $data['date_added']);
             $this->db->bind(':date_expires', $data['date_expire']);
+            $this->db->bind(':id', $id);
 
             //Execute
             if($this->db->execute()){
@@ -178,6 +179,31 @@ date_default_timezone_set("Asia/Kolkata");
                 return false;
             }
         }
+        
+        public function edit_ispaid($id){
+            $this->db->query('UPDATE product SET is_paid=1 WHERE product_id=:id');
+            //Bind values
+            $this->db->bind(':id', $id);
+            //Execute
+            if($this->db->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        public function getRepostById($id){
+            $this->db->query('SELECT * FROM product WHERE repost_prev_id = :id');
+            $this->db->bind(':id', $id);
+            $row = $this->db->execute();
+            //Check row
+            if($this->db->rowCount() > 0){//If there's a row, that means this product is reposted
+                return 1;
+            }else{
+                return 0;
+            }
+        }
+
 
         //edit advertisement
         public function edit_advertisement($data){
