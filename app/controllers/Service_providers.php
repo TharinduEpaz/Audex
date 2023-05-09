@@ -485,62 +485,35 @@ class Service_providers extends Controller
         $content = isset($_POST['add-post']) ? $_POST['add-post'] : '';
 
         //image1
-        $image1 = $this->uploadImage('post-photo-1');
-        $image2 = $this->uploadImage('post-photo-2');
-        $image3 = $this->uploadImage('post-photo-3');
+        // $image1 = $this->uploadImage('post-photo-1');
+        // $image2 = $this->uploadImage('post-photo-2');
+        // $image3 = $this->uploadImage('post-photo-3');
 
-        // //upload the image using bulletproof library
+        foreach($_FILES as $key => $file) { //get upload name: $key
 
-        // $img1 = new Bulletproof\Image($_FILES);
-        // $img1->setSize(10,10485760);
-        // $img1->setDimension(10000,10000);
-
-        // if ($img1["post-photo-1"]) {
-        //     $img1->setName(substr(base64_encode(random_bytes(12)), 0, 20));
-            
-        //     $upload = $img1->upload();
-
-        //     if ($upload) {
-        //        $image1 = $img1->getName() . '.' . $img1->getMime();;    
-        //     } else {
-              
-        //         echo $img1->getError();
-        //     }
-        // }
-
-        // $img2 = new Bulletproof\Image($_FILES);
-        // $img2->setSize(10,10485760);
-        // $img2->setDimension(10000,10000);
-
-        // if ($img2["post-photo-2"]) {
-        //     $img2->setName(substr(base64_encode(random_bytes(12)), 0, 20));
-            
-        //     $upload = $img2->upload();
-
-        //     if ($upload) {
-        //        $image2 = $img2->getName() . '.' . $img2->getMime();;    
-        //     } else {
-              
-        //         echo $img2->getError();
-        //     }
-        // }
-        // $img3 = new Bulletproof\Image($_FILES);
-        // $img3->setSize(10,10485760);
-        // $img3->setDimension(10000,10000);
-
-        // if ($img3["post-photo-3"]) {
-            
-        //     $img3->setName(substr(base64_encode(random_bytes(12)), 0, 20)); //length 20 random name);
-            
-        //     $upload = $img3->upload();
-
-        //     if ($upload) {
-        //        $image3 = $img3->getName() . '.' . $img3->getMime();;    
-        //     } else {
-              
-        //         echo $img3->getError();
-        //     }
-        // }
+            $image = new Bulletproof\Image($file);
+            $image->setName(substr(base64_encode(random_bytes(12)), 0, 20)); 
+            $image->setMime(array('jpg', 'png', 'jpeg'));
+            $image->setSize(10,10485760);
+            $image->setDimension(10000,10000);
+           
+            if($key == 'post-photo-1'){             //which file
+              if($image->upload()){           //upload succeed?
+                $image1 = $image->getName() . '.' . $image->getMime(); //get name
+              }
+            }elseif($key == 'post-photo-2'){        //do it all over again with banner
+              if($image->upload()) {
+                $image2 = $image->getName() . '.' . $image->getMime(); //get name
+                
+              }
+            }
+            elseif($key == 'post-photo-3'){        //do it all over again with banner
+                if($image->upload()) {
+                  $image3 = $image->getName() . '.' . $image->getMime(); //get name
+                  
+                }
+              }
+          }
         
         $this->service_model->insertPost($user_id, $title, $content, $image1, $image2, $image3);
 
