@@ -3062,7 +3062,17 @@
         }
 
         public function calanderPublic(){
-            $id = $_GET['id'];
+         
+
+            if(isset($_GET['id'])){
+                $id = $_GET['id'];
+                $_SESSION['cal_usr_id'] = $id;
+            }
+            else{
+                $id = $_SESSION['cal_usr_id'];
+            }
+
+
             $month = $_GET['month'];
 
            
@@ -3110,6 +3120,17 @@
             ];
             echo json_encode($data);
             return json_encode($data);
+        }
+
+        public function feedPost(){
+            $post_id = $_GET['id'];
+            $post = $this->userModel->getPostById($post_id);
+            
+            $data = [
+                'post' => $post
+            ];
+            $this->view('users/feedPost', $data);
+
         }
     
         

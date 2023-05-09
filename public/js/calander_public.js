@@ -55,8 +55,8 @@ function loadevent(event_id) {
       console.log(event);
       
       
-      document.querySelector(".date").innerText = event.event.date;
-      document.querySelector(".time").innerText = event.event.time;
+      document.querySelector(".date").innerHTML = '<i class="fa fa-calendar" aria-hidden="true"></i>  &nbsp  ' + event.event.date;
+      document.querySelector(".time").innerHTML = '<i class="fa fa-clock-o" aria-hidden="true"></i>  &nbsp   ' + event.event.time;
       document.querySelector(".title").innerHTML = event.event.name;
       document.querySelector(".event-body").innerHTML = event.event.description;
       document.querySelector(

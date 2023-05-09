@@ -1604,6 +1604,15 @@ date_default_timezone_set("Asia/Kolkata");
             $name = $this -> db -> single();
             return $name;
    
-       }  
+       } 
+       
+       public function getPostById($id){
+            
+            $this->db->query('SELECT * FROM `feed_post` WHERE post_id = :id;');
+            $this -> db -> bind(':id', $id);
+            $post = $this -> db -> single();
+            return $post;
+    
+       }
     }
 ?>

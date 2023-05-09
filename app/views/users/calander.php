@@ -39,6 +39,7 @@
         }
     </style>
 </head>
+<?php require_once APPROOT . '/views/users/navbar.php'; ?>
 
 
 
@@ -47,7 +48,7 @@
 
         <div class="header-section">
             <div class="previous-button">
-                <a href="<?php echo URLROOT . '/service_providers/eventCalander?month=previous' ?>">
+                <a href="<?php echo URLROOT . '/users/calanderPublic?month=previous' ?>">
                     <i class="fa fa-chevron-left" aria-hidden="true"></i> </a>
             </div>
 
@@ -57,7 +58,7 @@
                 </span>
             </div>
             <div class="next-button">
-                <a href="<?php echo URLROOT . '/service_providers/eventCalander?month=next' ?>">
+                <a href="<?php echo URLROOT . '/users/calanderPublic?month=next' ?>">
                     <i class="fa fa-chevron-right" aria-hidden="true"></i></a>
             </div>
         </div>
@@ -104,17 +105,15 @@
                 <div class="date">2020 01 21</div>
                 <div class="time">12 PM</div>
 
-                <button data-close-button class="close-button">&times;</button>
+                <!-- <button data-close-button class="close-button">&times;</button> -->
 
             </div>
             <div class="wrapper-for-event">
-                <div class="event-publisher">
-                    <div class="event-owenr-image">
-                        <img src="" alt="">
-                    </div>
+                
+                   
                     <span class="owner-name">John Doe</span>
 
-                </div>
+               
 
                 <div class="event-buttons">
                     <div class="like-button"><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="likes"></span></div>
@@ -132,8 +131,7 @@
         </div>
 
         <div class="event-right">
-            <img src="https://images.pexels.com/photos/9493230/pexels-photo-9493230.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                alt="" id="event-img">
+            <img src="" alt="" id="event-img">
         </div>
 
     </div>
