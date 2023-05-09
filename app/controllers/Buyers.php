@@ -181,7 +181,8 @@
         $this->view('buyers/editProfile',$data);
       }
     }
-
+    // this is buyers watchlist
+    // this will call views/buyers/watchlist.js file 
     public function watchlist(){
       if(!isLoggedIn()){
         $_SESSION['url']=URL();

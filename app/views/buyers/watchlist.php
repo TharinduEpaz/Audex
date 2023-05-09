@@ -304,7 +304,7 @@
                             <!-- <img src="<?php echo URLROOT.'/public/uploads/Profile/'.$people->profile_image;?>" />  -->
                             <?php $id = $people->user_id; ?>
                             <a href="<?php echo URLROOT .'/users/serviceProviderPublic/' . "?id=$id" ?>">
-                                <img src="<?php echo URLROOT .'/public/uploads/' . $people->profile_pic ?>" alt="">
+                                <img src="<?php echo URLROOT .'/public/uploads/Profile/' . $people->profile_image ?>" alt="">
                             </a>
                         </div>
                         <div class="title">

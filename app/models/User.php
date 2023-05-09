@@ -1264,6 +1264,7 @@ date_default_timezone_set("Asia/Kolkata");
         }
 
         public function searchServiceProviders($searchedTerm){
+            // search in both tables user and service provider view
             $this->db->query('SELECT u.*,sv.* FROM user u JOIN service_provider_view sv ON u.user_id = sv.user_id WHERE (u.first_name LIKE :searchedTerm OR u.second_name LIKE :searchedTerm) AND u.user_type = "service_provider"');
             $this->db->bind(':searchedTerm', '%'.$searchedTerm.'%');
 
