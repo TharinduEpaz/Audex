@@ -13,13 +13,13 @@
         background-color: rgba(0,0,0,0.7); /* set background color with some transparency */
     }
     .modal-content{
-        width: 25%;
+        width: 35%;
         height: 55%;
         margin: 10% auto;
     }
 
     .modal-content.serviceProvider{
-        height: 70%;
+        height: 50%;
     }
 
     .close{

@@ -6,7 +6,7 @@
         <div class="switch">
             <a href="<?php echo URLROOT;?>/users/index"><img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo"></a>
             <?php if(isLoggedIn()){
-                    if($_SESSION['user_type']!='seller'){?>
+                    if($_SESSION['user_type']!='seller'  && $_SESSION['user_type']!='admin'){?>
                     <div class="switch_container">
                         <div class="toggle">
                             <!-- <h1>Toggle Switch</h1> -->

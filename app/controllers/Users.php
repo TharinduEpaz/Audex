@@ -2898,6 +2898,7 @@
                 $_SESSION['url'] = URL();
                 redirect('users/login');
             }
+            $data['id']=$id;
             $data['email_receiver'][]='';
             $data['email_receivers'][]='';
 

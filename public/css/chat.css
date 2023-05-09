@@ -222,3 +222,19 @@ form{
     scroll-snap-type: y mandatory; /* Snap to the bottom of the container */
 
   }
+@media(max-width:1200px){
+}
+@media (max-width:768px){
+    
+}
+@media (max-width:576px){
+    .messages{
+        flex-basis: 15%;
+    }
+    .current_chat{
+        flex-basis: 85%;
+    }
+    .message a h5{
+        display: none;
+    }
+}

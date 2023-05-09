@@ -238,5 +238,6 @@
 </body>
 
 <script src="<?php echo URLROOT . '/public/js/serviceProviderSearch.js';?>"></script>
+<script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 
 </html>

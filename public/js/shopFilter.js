@@ -73,7 +73,7 @@ function handleFilterChange() {
                 // check item type
                 if(result.product_type == 'auction'){
                     // item type is auction
-                    if((result.is_active === '1') && (result.is_finished === '0')){
+                    if((result.is_active == '1') && (result.is_finished == '0')){
                         var link = "<a href ="+ URLROOT+"/users/auction/"+result.product_id+ " >";
     
                         html = "<div class='container-ad'> <div class='container-img'> "+

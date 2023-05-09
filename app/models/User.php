@@ -1124,7 +1124,7 @@ date_default_timezone_set("Asia/Kolkata");
                 // print_r($categories);
               
                 foreach ($categories as $value) {
-                    $categorySql.= 'product_category = :'.$value;
+                    $categorySql.= ' product_category LIKE :'.$value;
 
                     $categorySql.= ' OR ';
                 //   $categoryConditions[] = "product_category = ':category'";
@@ -1161,7 +1161,7 @@ date_default_timezone_set("Asia/Kolkata");
                 $this->db->bind(':'.$key, $value);
             }
             foreach($categories as $value){
-                $this->db->bind(':'.$value, $value);
+                $this->db->bind(':'.$value, '%'.$value.'%');
             }
 
             // echo 'SELECT * FROM product WHERE '.$sql .$categorySql;

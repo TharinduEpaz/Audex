@@ -45,24 +45,43 @@
     
 }
 .heart{
-    background: none;
-    border: none;
     position: absolute;
-    left: 42%;
+    left: 39.5%;
     top: 72vh;
     font-size: 20pt;
+    width: 40px;
+    background-color: #d9d9d9;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid #000000;
 }
 .location input{
     background-color: #383838;
 }
 .location_icon{
-    background: none;
-    border: none;
     position: absolute;
     color: black;
-    left: 39%;
+    left: 32%;
     top: 72vh;
     font-size: 20pt;
+    width: 40px;
+    background-color: #d9d9d9;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid #000000;
+
+}
+.location_icon:hover{
+    cursor: pointer;
+    background-color: #d9d9d9;
+    border: 1px solid #000000;
+
 }
 .heart:hover{
     cursor: pointer;
@@ -105,7 +124,7 @@
 }
 .like-dislike-area{
     width: max-content;
-    background-color: #e2e2e2;
+    background-color: #d9d9d9;
     height: 6.5vh;
     display: flex;
     flex-direction: row;
@@ -113,13 +132,15 @@
     padding: 1% 5%;
     border-radius: 30px;
     margin-left: 1%;
+    border: 1px solid #000000;
+
 }
 .like-dislike-area button{
     margin: 0 0 0 0;
     width:20% ;
     /* height: 5vh; */
-    border: 1px solid #e2e2e2;
-    background-color: #e2e2e2;
+    border: 1px solid #d9d9d9;
+    background-color: #d9d9d9;
     border-radius: 0.5rem;
 }
 .like-dislike-area button:hover{
@@ -381,4 +402,33 @@
     border: 1px solid #F01131;
     cursor: pointer;
     color: white;
+}
+@media(max-width:1200px){
+}
+@media (max-width:768px){
+    .location_icon {
+        top: 64vh;
+        left: 73%;
+    }
+    .heart{
+        top: 64vh;
+        left: 83%;
+    }
+    .details{
+        width: 100vw;
+        align-items: center;
+    }
+    #floating-panel{
+        width: 100vw;
+    }
+}
+@media (max-width:576px){
+    .location_icon {
+        top: 64vh;
+        left: 65%;
+    }
+    .heart{
+        top: 64vh;
+        left: 80%;
+    }
 }
