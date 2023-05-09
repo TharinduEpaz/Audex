@@ -20,8 +20,8 @@
     <style>
         .service-provider-profile {
             margin: auto;
-            padding-left: 15vw;
-            padding-right: 15vw;
+            padding-left: 10vw;
+            padding-right: 10vw;
         }
 
         .white-box {
@@ -100,13 +100,13 @@
                     </div>
 
 
-                    <!--  -->
+                    <!-- <?php echo $data['watched']; ?> -->
 
 
                     <!-- ADD TO WATCH LIST  -->
                     <div class="dinesh-wrapper">
                         <div class="add_watch_list">
-                            <form id="add_watch_list_service_provider" method="POST" data-op="add" data-watchLoad="<?php echo $data['watched']; ?>">
+                            <form id="add_watch_list_service_provider" method="POST" data-op="add" data-watchLoad="<?php echo $data['watched']; ?> ">
                                 <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
                                 <input type="text" name="user_type" value="buyer" hidden>
                                 <input type="text" name="user_id" value=" <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0); ?>" hidden>
@@ -117,15 +117,15 @@
                                 <?php
                                 // if not log in then show the button to every one
                                 if (!isLoggedIn()) { ?>
-                                    <div class="button-container">
-                                        <input type="submit" value="Add To Watchlist" class="watch" id="add-service-provider-to-watchlist edit-details" " >
-                                </div>
+                                    
+                                        <input type="submit" value="Add To Watchlist" class="watch" id="add-service-provider-to-watchlist" >
+                             
             
                             <?php } else if ($_SESSION['user_type'] != 'seller' && $_SESSION['user_type'] != 'service_provider') { ?>
                                 <!-- if log in then show the button only to buyers -->
-                                <div class=" button-container">
+                               
                                         <input type="submit" value="Add To Watchlist" class="watch" id="add-service-provider-to-watchlist">
-                                    </div>
+                                    
                                 <?php } ?>
                             </form>
                         </div>
@@ -134,16 +134,24 @@
                             if ($_SESSION['user_email'] != $data['user']->email) { ?>
                                 <!-- if user is logged in check user is not equal to seller -->
                                 <div class="message_review service_provider">
+                                    
                                     <a class="message btn" href="<?php echo URLROOT . '/users/chat/' . $data['user']->user_id; ?>" class="btn btn-primary">Message</a>
-                                    <a href="" class="review btn" onclick="openModal(); return false;">Write Review</a>
+
+                                    <!-- hide this button if there is no events -->
+                                    <?php if( sizeof($data['events']) ){?>
+                                        <a href="" class="review btn" onclick="openModal(); return false;">Write Review</a>
+                                    <?php } ?>
                                 </div>
                             <?php }
                         } else { ?>
                             <!-- user is not logged in -->
                             
                                 <a class="message btn" href="<?php echo URLROOT . '/users/chat/' . $data['user']->user_id; ?>" class="btn btn-primary">Message</a>
-                                <a href="" class="review btn" onclick="openModal(); return false;">Write Review</a>
-                           
+                                <!-- hide this button if there is no events -->
+                                <?php if( sizeof($data['events']) ){?>
+                                    <a href="" class="review btn" onclick="openModal(); return false;">Write Review</a>
+                                <?php } ?>
+                                
                         <?php } ?>
 
                     </div>
@@ -245,7 +253,7 @@
                 </div>
 
                 <p id="upcoming">Recent Feed Posts</p>
-            <button class="add-event-btn" onclick="addMorePosts()">Add New Post</button>
+        
             <div class="lower-section profile-title">
                 <div class="profile-events">
                     <?php foreach ($data['posts'] as $post) : ?>

@@ -146,7 +146,7 @@
     display: -webkit-box;
     text-align: left;
     font-size: 16px;
-    /* width: 53%; */
+    width: 100%;
     border-collapse: collapse;
     margin-left: 13%;
     margin-top: 8%;

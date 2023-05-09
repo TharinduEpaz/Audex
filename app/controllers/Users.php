@@ -2618,7 +2618,10 @@
                 if(!empty(trim($productType))){
                    $Filter['product_type']= $productType;
                 }
-                $results = $this-> userModel->searchAndFilterItems($Filter,$categories);            
+                $results = $this-> userModel->searchAndFilterItems($Filter,$categories);
+                
+                // print_r($results);
+                // exit();
                 echo json_encode(['message' => 'filters','results'=>$results]);
             }
 
@@ -2783,6 +2786,11 @@
                 else{
                     $data['watched'] = 'watched';
                 }
+            }
+            else{
+                // Item is not in watch list
+                // no watchlist since user is not logged in
+                $data['watched'] = 'notwatched';
             }
             // print_r($data);
             // print_r($ServiceProviderWatched);
