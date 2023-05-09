@@ -2763,11 +2763,15 @@
             // get this service provider's events
             $events = $this->userModel->getServiceProviderEvents($id); 
 
+            $posts = $this->userModel->getPostsByUser($id);
+
 
             $data = [
                 'details' => $d,
                 'user' => $user,
-                'events' => $events 
+                'events' => $events,
+                'posts' => $posts 
+
             ];
 
             if(isLoggedIn()){

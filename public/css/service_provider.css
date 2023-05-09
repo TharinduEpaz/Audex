@@ -825,18 +825,35 @@ EVENT POP UPS CSS
 }
 /* this is styles for add to watch list button in service provider public  */
 .add_watch_list form input[type=submit] {
-  display: block;
-  width: 40%;
-  padding: 1%;
-  height: 5%;
-  margin: 1%;
-  border: none;
-  border-radius: 0.5rem;
+  font-weight: 400;
+  font-size: 15px;
+  align-items: center;
+  appearance: none;
+  background-color: #ea6c7b;
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-radius: 20px;
+  border-width: 0;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
   cursor: pointer;
-  background: gray;
-  font-size: 1rem;
-  font-weight: 600;
-  color: white;
+  padding: 6px 20px;
+  height: 40px;
+  justify-content: center;
+  padding: 6px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s, background-position 0.2s;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.dinesh-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: end;
+  gap: 20px;
 }
 
 .add_watch_list form input[type=submit]:hover, .message.btn:hover, .review.btn:hover {
@@ -852,16 +869,30 @@ EVENT POP UPS CSS
 }
 
 .message.btn, .review.btn {
-  padding: 1%;
-  align-self: flex-start;
-  width: 40%;
-  background: gray;
-  border: none;
-  border-radius: 0.5rem;
+  width: 200px;
+  height: 40px;
+  font-weight: 400;
+  font-size: 15px;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  background-color: #8245ec;
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-radius: 20px;
+  border-width: 0;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  padding: 6px 20px;
+  text-decoration: none;
+  transition: background-color 0.2s, background-position 0.2s;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .review.btn {
-  margin-left: 5%;
+  margin-left: 10px;
 }
 
 /* Sound engineers main page CSS */

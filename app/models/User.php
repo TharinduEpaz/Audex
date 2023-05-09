@@ -1563,6 +1563,13 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
 
+        public function getPostsByUser($user_id){
+            $this->db->query('SELECT * FROM feed_post WHERE user_id = :id');
+            $this->db->bind(':id', $user_id);
+            $posts = $this->db->resultSet();
+            return $posts;
+        }
+
         
 
         
