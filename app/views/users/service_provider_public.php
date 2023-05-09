@@ -106,7 +106,7 @@
                     <!-- ADD TO WATCH LIST  -->
                     <div class="dinesh-wrapper">
                         <div class="add_watch_list">
-                            <form id="add_watch_list_service_provider" method="POST" data-op="add" data-watchLoad="<?php echo $data['watched']; ?> ">
+                            <form id="add_watch_list_service_provider" method="POST" data-op="add" data-watchLoad=" ">
                                 <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
                                 <input type="text" name="user_type" value="buyer" hidden>
                                 <input type="text" name="user_id" value=" <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0); ?>" hidden>
@@ -137,6 +137,7 @@
                                     
                                     <a class="message btn" href="<?php echo URLROOT . '/users/chat/' . $data['user']->user_id; ?>" class="btn btn-primary">Message</a>
                                     <a href="" class="review btn" onclick="openModal(); return false;">Write Review</a>
+                                    <button onclick="getCalander(<?php echo $data['details']->user_id ?>)">View Calander</button>
                                     
                                 </div>
                             <?php }
@@ -145,6 +146,7 @@
                             
                                 <a class="message btn" href="<?php echo URLROOT . '/users/chat/' . $data['user']->user_id; ?>" class="btn btn-primary">Message</a>
                                 <a href="" class="review btn" onclick="openModal(); return false;">Write Review</a>
+                                <button class="review btn" onclick="getCalander(<?php echo $data['details']->user_id ?>)">View Calander</button>
                            
                         <?php } ?>
 
@@ -460,6 +462,12 @@
                 modal.style.display = "none";
             }
         });
+
+
+        //getcalander
+        function getCalander(id){
+            window.location.href = '<?php echo URLROOT ?>/users/calanderPublic?id='+id + '&month=current';
+        }
     </script>
 
     <script src="<?php echo URLROOT . '/public/js/form.js'; ?>"></script>

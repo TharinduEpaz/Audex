@@ -230,7 +230,7 @@ EVENT POP UPS CSS
   /* border: 1px solid black; */
   border-radius: 10px;
   z-index: 10;
-  background-color: #E5E9F7;
+  height: 80vh;
   display: flex;
   flex-direction: row;
 }
@@ -239,6 +239,7 @@ EVENT POP UPS CSS
   /* display: flex; */
   /* flex-direction: row; */
   width: 600px;
+  background-color: #E5E9F7;
 }
 
 .event .event-right {
