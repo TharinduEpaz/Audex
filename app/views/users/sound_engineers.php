@@ -18,14 +18,12 @@
 <style>
     input {
     line-height: 2em;
-    margin-left: 40px;
+    /* margin-left: 40px; */
     border-radius: 3px;
     border: 1px solid #999;
     padding: 5px 10px;
   }
   
-
-
   .item-group {
     display: flex;
     flex-direction: row;
@@ -83,14 +81,18 @@
   }
 
   #filter li{
-    margin-left: 20px;
+   
     background-color: #fff;
     border-radius: 10px;
     padding: 10px;
   }
   .wrapper-filter{
     display: flex;
-    /* justify-content: center; */
+    justify-content: center;
+  }
+  #search-service-provider{
+    width: 50vw;
+    border-radius: 10px;
   }
   #search-btn{
     display: inline;
@@ -98,6 +100,37 @@
     background-color: #fff;
     border-radius: 10px;
     padding: 10px;
+
+
+  font-weight: 400;
+  font-size: 1rem;
+  align-items: center;
+  appearance: none;
+  background-color: #776cea;
+ 
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-radius: 20px;
+  border-width: 0;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-flex;
+  
+
+  height: auto;
+  justify-content: center;
+  line-height: 1.5;
+  padding: 6px 40px;
+
+  text-align: center;
+  text-decoration: none;
+  transition: background-color .2s,background-position .2s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: top;
+  white-space: nowrap;
   }
 
   /* search result table */
@@ -131,6 +164,8 @@
     height: 60px;
     margin: 5px;
   }
+
+
   
 </style>
 
