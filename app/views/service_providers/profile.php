@@ -52,10 +52,25 @@
                 <div class="profile-events">
                     <?php foreach ($data['events'] as $event) : ?>
                         <div class="event-display">
+                           
                             <img src="<?php echo URLROOT . '/public/uploads/events/' . $event->image; ?>" alt="">
                             <div class="overlay" data-event-target="#event" class="text" onclick="loadevent(<?php echo $event->event_id ?>)">
-                                <div data-event-target="#event" class="text" onclick="loadevent(<?php echo $event->event_id ?>)"><?php echo $event->name ?></div>
-
+                                <div data-event-target="#event" class="text" ><?php echo $event->name ?></div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <p id="upcoming">Recent Feed Posts</p>
+            <button class="add-event-btn" onclick="addMorePosts()">Add New Post</button>
+            <div class="lower-section profile-title">
+                <div class="profile-events">
+                    <?php foreach ($data['posts'] as $post) : ?>
+                        <div class="event-display">
+                           
+                            <img src="<?php echo URLROOT . '/public/uploads/' . $post->image1; ?>" alt="">
+                            <div class="overlay" class="text" onclick="">
+                                <div  class="text" style="font-size=6px;"><?php echo $post->title ?></div>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -69,8 +84,8 @@
     <div class="event-left">
         <div class="event-header">
             <div class="title"></div>
-            <div class="date">2020 01 21</div>
-            <div class="time">12 PM</div>
+            <div class="event-date"></div>
+            <div class="event-time"></div>
 
             <button data-close-button class="close-button">&times;</button>
 
@@ -85,8 +100,8 @@
             </div>
 
             <div class="event-buttons">
-                <div class="like-button"><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="likes"></span></div>
-                <div class="dislike-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="dislikes"></span></div>
+                <button class="like-button" data-id = "<?php ?>" ><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="likes"></span></button>
+                <button class="dislike-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="dislikes"></span></button>
             </div>
 
         </div>
@@ -98,13 +113,13 @@
 
         </div>
 
-        <button class="add-event-btn" id="edit-event-btn">Edit Event</button>             
+        <button class="add-event-btn" id="edit-event-btn">Edit / Delete Event</button>             
 
     </div>
 
 
     <div class="event-right">
-        <img src="https://images.pexels.com/photos/9493230/pexels-photo-9493230.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="">
+        <img src="" alt="" id="event-img">
     </div>
 
 </div>
@@ -166,6 +181,11 @@
         
         window.open(`http://localhost/Audex/service_providers/editEvent?id=${id}`, '_self')
     }
+
+    function addMorePosts() {
+        window.open('http://localhost/Audex/service_providers/addNewPost', '_self')
+    }
+
 </script>
 
 </body>

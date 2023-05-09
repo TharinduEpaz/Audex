@@ -38,13 +38,16 @@ EVENT POP UPS CSS
     border-bottom-right-radius: 10px;
   
   }
-  .event .date{
+  .event-right img{
+    height: 100%;
+  }
+  .event .event-date{
     position: absolute;
     margin-top:150px;
   
   
   }
-  .event .time{
+  .event .event-time{
     position: absolute;
     margin-top:150px;
     margin-left: 100px;
@@ -168,8 +171,6 @@ EVENT POP UPS CSS
     background-color: #007bff;
   }
   
-  .calander-event.service-provider-profile .white-box .calendar .calendar-date .calender-event #event-button:hover {
+  .calander-event.service-provider-profile  #event-button:hover {
     background-color: #b4b7ba; /* Change the background color on hover */
   }
-  
-  

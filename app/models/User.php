@@ -1171,35 +1171,105 @@ date_default_timezone_set("Asia/Kolkata");
             return $results;
         }
         // this function calls when search term is set
-        public function searchAndFilterItemsWithSearchTerm($filter,$searchedTerm){
-            $sql='';
-            foreach($filter as $key=>$value){
-                if($key==='min_price'){
-                    $sql.='product.price >= :min_price';
-                }
-                else if($key=='max_price'){
-                    $sql.='product.price <= :max_price';
-                }
-                else{
-                    $sql.="product".$key." = :".$key."";
-                }
-                $sql.=' AND ';
-            }
-            $sql=substr($sql,0,-4);
+        // public function searchAndFilterItemsWithSearchTerm($filter,$searchedTerm){
+        //     $sql='';
+        //     foreach($filter as $key=>$value){
+        //         if($key==='min_price'){
+        //             $sql.='product.price >= :min_price';
+        //         }
+        //         else if($key=='max_price'){
+        //             $sql.='product.price <= :max_price';
+        //         }
+        //         else{
+        //             $sql.="product".$key." = :".$key."";
+        //         }
+        //         $sql.=' AND ';
+        //     }
+        //     $sql=substr($sql,0,-4);
 
-            // echo $sql;
+        //     // echo $sql;
             
-            // $this->db->query('SELECT * FROM product WHERE product_title LIKE :searchedTerm AND '.$sql);
-            $this->db->query('SELECT * FROM product LEFT JOIN auction ON product.product_id = auction.product_id WHERE '.$sql.' AND product.brand="ecwc" AND auction.is_active = 1 AND auction.is_finished = 0');
+        //     // $this->db->query('SELECT * FROM product WHERE product_title LIKE :searchedTerm AND '.$sql);
+        //     $this->db->query('SELECT * FROM product LEFT JOIN auction ON product.product_id = auction.product_id WHERE '.$sql.' AND product.brand="ecwc" AND auction.is_active = 1 AND auction.is_finished = 0');
+        //     $this->db->bind(':searchedTerm', '%'.$searchedTerm.'%');
+
+        //     foreach($filter as $key=>$value){
+        //         $this->db->bind(':'.$key, $value);
+        //     } 
+        //     // print_r($this->db);
+        //     // exit;
+        //     $results = $this->db->resultSet();
+        //     return $results;
+        // }
+
+        public function searchAndFilterItemsWithSearchTerm($filter,$categories){
+
+            if( empty($categories) ){
+                $sql='';
+                foreach($filter as $key=>$value){
+                    if($key==='min_price'){
+                        $sql.='product.price >= :min_price';
+                    }
+                    else if($key=='max_price'){
+                        $sql.='product.price <= :max_price';
+                    }
+                    else{
+                        $sql.="product".$key." = :".$key."";
+                    }
+                    $sql.=' AND ';
+                }
+                $sql=substr($sql,0,-4);
+    
+                // echo $sql;
+                
+                $this->db->query('SELECT * FROM product WHERE '.$sql);
+    
+    
+                foreach($filter as $key=>$value){
+                    $this->db->bind(':'.$key, $value);
+                } 
+                // print_r($this->db);
+                // exit;
+                $results = $this->db->resultSet();
+                return $results;
+
+            }
+            else{
+                // Create Query part product table conditions
+                // product.price >= :min_price AND product.condition = :condition AND
+                $sql='';
+                foreach($filter as $key=>$value){
+                    if($key==='min_price'){
+                        $sql.='product.price >= :min_price';
+                    }
+                    else if($key=='max_price'){
+                        $sql.='product.price <= :max_price';
+                    }
+                    else{
+                        $sql.="product".$key." = :".$key."";
+                    }
+                    $sql.=' AND ';
+                }
+                // $sql=substr($sql,0,-4);
+    
+
+                
+                $this->db->query('SELECT p.* FROM product p JOIN ProductCategory pc ON p.product_id = pc.product_id WHERE '.$sql);
+    
+    
+                foreach($filter as $key=>$value){
+                    $this->db->bind(':'.$key, $value);
+                }
+            }
+        }
+
+        public function searchServiceProviders($searchedTerm){
+            $this->db->query('SELECT u.*,sv.* FROM user u JOIN service_provider_view sv ON u.user_id = sv.user_id WHERE (u.first_name LIKE :searchedTerm OR u.second_name LIKE :searchedTerm) AND u.user_type = "service_provider"');
             $this->db->bind(':searchedTerm', '%'.$searchedTerm.'%');
 
-            foreach($filter as $key=>$value){
-                $this->db->bind(':'.$key, $value);
-            } 
-            // print_r($this->db);
-            // exit;
             $results = $this->db->resultSet();
             return $results;
+
         }
 
         
@@ -1491,6 +1561,13 @@ date_default_timezone_set("Asia/Kolkata");
             }else{
                 return false;
             }
+        }
+
+        public function getPostsByUser($user_id){
+            $this->db->query('SELECT * FROM feed_post WHERE user_id = :id');
+            $this->db->bind(':id', $user_id);
+            $posts = $this->db->resultSet();
+            return $posts;
         }
 
         

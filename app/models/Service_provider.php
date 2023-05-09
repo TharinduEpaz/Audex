@@ -113,6 +113,113 @@ class Service_provider
          return $name;
 
     }
+    public function updateEvent($id, $event_name, $location, $time, $link, $event_type, $description, $file_name){
+
+        if($event_name != ''){
+            $this->db->query('UPDATE events SET name = :name WHERE event_id = :id');
+            $this->db->bind(':name', $event_name);
+            $this->db->bind(':id', $id);
+            $this->db->execute();
+        }
+        //location
+        if($location != ''){
+            $this->db->query('UPDATE events SET location = :location WHERE event_id = :id');
+            $this->db->bind(':location', $location);
+            $this->db->bind(':id', $id);
+            $this->db->execute();
+        }
+        //time
+        if($time != ''){
+            $this->db->query('UPDATE events SET time = :time WHERE event_id = :id');
+            $this->db->bind(':time', $time);
+            $this->db->bind(':id', $id);
+            $this->db->execute();
+        }
+        //link
+        if($link != ''){
+            $this->db->query('UPDATE events SET ticket_link = :link WHERE event_id = :id');
+            $this->db->bind(':link', $link);
+            $this->db->bind(':id', $id);
+            $this->db->execute();
+        }
+        //event type
+        if($event_type != ''){
+            $this->db->query('UPDATE events SET event_type = :event_type WHERE event_id = :id');
+            $this->db->bind(':event_type', $event_type);
+            $this->db->bind(':id', $id);
+            $this->db->execute();
+        }
+        //description
+        if($description != ''){
+            $this->db->query('UPDATE events SET description = :description WHERE event_id = :id');
+            $this->db->bind(':description', $description);
+            $this->db->bind(':id', $id);
+            $this->db->execute();
+        }
+        //image
+        if($file_name != ''){
+            $this->db->query('UPDATE events SET image = :image WHERE event_id = :id');
+            $this->db->bind(':image', $file_name);
+            $this->db->bind(':id', $id);
+            $this->db->execute();
+        }
+
+    }
+    public function likeDislike($event_id,$type){
+        switch ($type) {
+            case 'like':
+                $this->db->query('UPDATE events SET likes = likes + 1 WHERE event_id = :id');
+                break;
+            case 'dislike':
+                $this->db->query('UPDATE events SET dislikes = dislikes + 1 WHERE event_id = :id');
+                break;
+            
+            default:
+                break;
+        }
+        $this->db->bind(':id', $event_id);
+        $this->db->execute();
+
+        return $this->getReactions($event_id);
+    }
+
+
+    public function getReactions($id){
+        $this->db->query('SELECT likes,dislikes FROM events WHERE event_id = :id');
+        $this->db->bind(':id', $id);
+        $reactions = $this->db->single();
+        return $reactions;
+    }
+    public function getPostsByUser($user_id){
+        $this->db->query('SELECT * FROM feed_post WHERE user_id = :id');
+        $this->db->bind(':id', $user_id);
+        $posts = $this->db->resultSet();
+        return $posts;
+    }
+
+    public function getPostById($id){
+        $this->db->query('SELECT * FROM feed_post WHERE post_id = :id');
+        $this->db->bind(':id', $id);
+        $post = $this->db->single();
+        return $post;
+    }
+    public function insertPost($user_id, $title, $content, $image1, $image2, $image3){
+        $this->db->query('INSERT INTO feed_post (user_id, title, content, image1, image2, image3) VALUES (:user_id, :title, :content, :image1, :image2, :image3)');
+        $this->db->bind(':user_id', $user_id);
+        $this->db->bind(':title', $title);
+        $this->db->bind(':content', $content);
+        $this->db->bind(':image1', $image1);
+        $this->db->bind(':image2', $image2);
+        $this->db->bind(':image3', $image3);
+        $this->db->execute();
+
+    }
+
+    public function deletePost($id){
+        $this->db->query('DELETE FROM feed_post WHERE post_id = :id');
+        $this->db->bind(':id', $id);
+        $this->db->execute();
+    }
      
 }
 

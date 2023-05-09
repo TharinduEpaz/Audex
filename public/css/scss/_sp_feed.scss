@@ -6,93 +6,83 @@
 .service-provider-profile .feed-item{
     border-radius: 10px;
   }
+  .feed-card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 10vw;
+    border-radius: 10px;
+  }
   
+  .feed-card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+  .feed-card img{
+    border-radius: 10px 10px 0 0;
+  }
   
-  .feed_items_container{
+  .feed-post-container {
+
+    padding: 2px 16px;
+  }
+  .post-section{
+    display: flex;
+    flex-direction: row;
+    gap:20px;
+    justify-content: center;
+    align-items: flex-start;
     margin-top: 20px;
-    
-    position: relative;
-    width: 1100px;
-    display: flex;
-    justify-content: flex-start;
-    /* align-items: center; */
     flex-wrap: wrap;
-    padding: 30px;
-  
   }
-  
-  .feed_items_container .card{
-    position: relative;
-    max-width: 300px;
-    height: 200px;
-    background:#fff;
-    margin:30px 10px;
-    padding: 20px 15px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 5px 202px rgba(0,0,0,0.2);
-    transition: 0.3s ease-in-out;
-    border-radius:10px;
-  }
-  .feed_items_container .card:hover{
-  
-    height: 370px;
-  
-  }
-  
-  .feed_items_container .card .imgBx{
-    position: relative;
-    width: 260px;
-    height:260px;
-    top : -60px;
-    left: 5px;
-    z-index: 1;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0);
-    /* background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%); */
-    z-index: 1;
-  }
-  
-  .feed_items_container .card .imgBx img{
-    /* position: absolute; */
-    max-width: 100%;
-    border-radius: 4px;
-  }
-  .feed_items_container .card .content{
-    position:relative;
-    margin-top:-150px;
-    /* padding:10px 15px; */
-    text-align: center;
-    color:#111;
-    visibility: hidden;
-    opacity: 0;
-    transition:0.3s ease-in-out;
-  }
-  .feed_items_container .card:hover .content{
-    
-    visibility: visible;
-    opacity:1;
-    /* margin-top:-50px; */
-    transition-delay: 0.3s;
-  }
-  .feed_items_container h2{
-    margin-top: 100px;
-    font-weight: 600;
-  
-  }
-  .feed_items_container p{
-    margin-top:20px;
-  }
-  
-  
   .button-section{
     display: flex;
+
+  }
+
+  .cancel{
+    margin-top: 20px;
+    font-weight: 400;
+    font-size: 15px;
+    align-items: center;
+    appearance: none;
+    background-color: #ea6c7b;
+   
+    background-size: calc(100% + 20px) calc(100% + 20px);
+    border-radius: 20px;
+    border-width: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    
+    margin-left: 20px;
+  
+    
+  
+    justify-content: center;
+   
+    padding: 6px 20px;
+  
+    text-align: center;
+    text-decoration: none;
+    transition: background-color .2s,background-position .2s;
+    user-select: none;
+    -webkit-user-select: none;
+  
   }
   
-  .button-section button[type="submit"],#create-feed-post{
-    margin-left:20px;
-  
+
+
+
+  .title-section{
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+
+  }
+  
+  #create-feed-post{
+    margin-left:20px;
+    height: 40px;
+  
     background-color: #007bff; /* Set the background color */
     color: #fff; /* Set the text color */
     padding: 10px 20px; /* Set the padding */
@@ -125,6 +115,7 @@
   .service-provider-profile #feed-title{
     font-size: 3rem;
     font-weight: 600;
+    
   }
   
   .service-provider-profile #feed-discription{
@@ -177,23 +168,178 @@
   .feed-post-edit-container .feed-item{
     position: relative;
   }
+  .post-content{
+    margin-top: 40px;
+    max-width: 1000px;
+  }
+  .feed{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #post-title{
+    font-size: 3rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
   
+
+// image slideshow
+
+* {box-sizing:border-box}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+ 
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
   /* this is styles for add to watch list button in service provider public  */
   .add_watch_list form input[type ='submit']{
-    display: block;
-    width: 40%;
-    padding: 1%;
-    height: 5%;
-    margin: 1%;
-    border: none;
-    border-radius: 0.5rem;
+    font-weight: 400;
+    font-size: 15px;
+    align-items: center;
+    appearance: none;
+    background-color: #ea6c7b;
+   
+    background-size: calc(100% + 20px) calc(100% + 20px);
+    border-radius: 20px;
+    border-width: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
     cursor: pointer;
-    background: gray;
-    font-size: 1rem;
-    font-weight: 600;
-    color: white;
+    padding: 6px 20px;
+    height: 40px;
+   
+    
+    
+  
+    
+  
+    justify-content: center;
+   
+    padding: 6px 20px;
+  
+    text-align: center;
+    text-decoration: none;
+    transition: background-color .2s,background-position .2s;
+    user-select: none;
+    -webkit-user-select: none;
   }
+
+  .dinesh-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items:end;
+    gap: 20px;
+  }
+
   
   .add_watch_list form input[type ='submit']:hover, .message.btn:hover, .review.btn:hover{
     background-color:#393636;
@@ -206,15 +352,41 @@
     justify-content: start;
   }
   .message.btn, .review.btn{
-    padding: 1%;
-    align-self: flex-start;
-    width: 40%;
-    background: gray;
-    border: none;
-    border-radius: 0.5rem;
+    width: 200px;
+    height: 40px;
+    font-weight: 400;
+    font-size: 15px;
+    align-items: center;
+    justify-content: center;
+    appearance: none;
+    background-color: #8245ec;
+   
+    background-size: calc(100% + 20px) calc(100% + 20px);
+    border-radius: 20px;
+    border-width: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    
+    // margin-left: 20px;
+  
+    
+  
+   
+   
+    padding: 6px 20px;
+  
+
+    text-decoration: none;
+    transition: background-color .2s,background-position .2s;
+    user-select: none;
+    -webkit-user-select: none;
   }
   
   .review.btn{
-    margin-left: 5%;
+    margin-left: 10px;
   }
+
+
   

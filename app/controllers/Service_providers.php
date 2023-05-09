@@ -1,5 +1,8 @@
 <?php
 
+require_once dirname(APPROOT) . '/app/vendor/samayo/bulletproof/src/bulletproof.php'; //bulletproof library for file upload
+
+
 class Service_providers extends Controller
 {
 
@@ -23,11 +26,11 @@ class Service_providers extends Controller
 
 
         //Session timeout
-        if(isset($_SESSION['session_time'])){
-            if(time() - $_SESSION['session_time'] > 60*30){
+        if (isset($_SESSION['session_time'])) {
+            if (time() - $_SESSION['session_time'] > 60 * 30) {
                 // flash('session_expired', 'Your session has expired', 'alert alert-danger');
                 redirect('users/logout');
-            }else{
+            } else {
                 $_SESSION['session_time'] = time();
             }
         }
@@ -46,10 +49,12 @@ class Service_providers extends Controller
 
         $details = $this->service_model->getDetails($_SESSION['user_id']);
         $events = $this->service_model->getEvents($_SESSION['user_id']);
+        $posts = $this->service_model->getPostsByUser($_SESSION['user_id']);
 
         $data = [
             'details' => $details,
-            'events' => $events
+            'events' => $events,
+            'posts' => $posts
         ];
 
         $this->view('service_providers/profile', $data);
@@ -91,7 +96,6 @@ class Service_providers extends Controller
                 echo 'error not allowed this type';
             }
         }
-      
     }
     public function settings($errors = [])
     {
@@ -197,10 +201,9 @@ class Service_providers extends Controller
             'phone' => $phone
         ];
 
-        if(empty($this->validateProfileDetails($details))){
+        if (empty($this->validateProfileDetails($details))) {
             $this->service_model->setDetails($details, $_SESSION['user_id']);
-        }
-        else{
+        } else {
             $errors = $this->validateProfileDetails($details);
             $this->settings($errors);
         }
@@ -232,14 +235,10 @@ class Service_providers extends Controller
 
         return $errors;
     }
- 
 
 
 
-    public function feed()
-    {
-        $this->view('service_providers/feed');
-    }
+
 
     public function addEvent()
     {
@@ -332,7 +331,6 @@ class Service_providers extends Controller
             $_SESSION['current'] = 12;
         }
 
-
         // Update the displayed month name based on the new value of $current
         $year = $_SESSION['current_y'];
         $monthName = date('F', mktime(0, 0, 0, $_SESSION['current'], 1));
@@ -368,10 +366,7 @@ class Service_providers extends Controller
         return json_encode($data);
     }
 
-    public function addNewPost()
-    {
-        $this->view('service_providers/addNewPost');
-    }
+
 
     public function editEvent()
     {
@@ -379,8 +374,183 @@ class Service_providers extends Controller
         $event = $this->service_model->getEventById($id);
         $data = [
             'event' => $event,
+            'id' => $id
 
         ];
         $this->view('service_providers/editEvent', $data);
     }
+
+    public function editEventDetails()
+    {
+
+        $id = $_GET['id'];
+        $event_name = isset($_POST['eventname']) ? $_POST['eventname'] : '';
+        $location = isset($_POST['location']) ? $_POST['location'] : '';
+        $time = isset($_POST['time']) ? $_POST['time'] : '';
+        $link = isset($_POST['ticket-link']) ? $_POST['ticket-link'] : '';
+        $event_type = $_POST['event-type'];
+        $description = isset($_POST['description']) ? $_POST['description'] : '';
+
+        //image
+        if (isset($_FILES['event-img'])) {
+            $temp_name = $_FILES['event-img']['tmp_name'];
+            $file_name = $_FILES['event-img']['name'];
+            $file_size = $_FILES['event-img']['size'];
+            $file_error = $_FILES['event-img']['error'];
+
+            $file_ext = explode('.', $file_name);
+            $file_ext = strtolower(end($file_ext));
+
+            $allowed = array('jpg', 'jpeg', 'png', 'gif');
+            $img = '';
+
+            // check for errors
+            if ($file_error === 0) {
+                if (in_array($file_ext, $allowed)) {
+                    if ($file_size <= 2097152) {
+
+                        // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
+
+                        $file_destination = dirname(APPROOT) . '/public/uploads/events/' . $file_name;
+
+                        // move_uploaded_file() is the built-in function in PHP that is used to move an uploaded file from its temporary location to a new location on the server
+
+                        if (move_uploaded_file($temp_name, $file_destination)) {
+                            $img = $file_name;
+                        } else {
+
+                            echo 'error in  uploading';
+                        }
+                    } else {
+                        echo 'error large size';
+                    }
+                } else {
+                    echo 'error not allowed this type';
+                }
+            }
+        } else {
+            $file_name = '';
+        }
+        // Work out the file extension
+
+
+        $this->service_model->updateEvent($id, $event_name, $location, $time, $link, $event_type, $description, $img);
+    }
+
+    public function likeDislike()
+    {
+        $id = $_GET['id'];
+        $type = $_GET['type'];
+        $this->service_model->likeDislike($id, $type);
+        $reactions = $this->service_model->getReactions($id);
+        $data = [
+            'reactions' => $reactions,
+
+        ];
+        echo json_encode($data);
+        return json_encode($data);
+    }
+
+
+    public function feed()
+    {
+        $posts = $this->service_model->getPostsByUser($_SESSION['user_id']);
+        $data = [
+            'posts' => $posts
+        ];
+        $this->view('service_providers/feed', $data);
+    }
+
+    public function feedPost()
+    {
+        $id = $_GET['id'];
+        $post = $this->service_model->getPostById($id);
+        $data = [
+            'post' => $post,
+
+
+        ];
+        $this->view('service_providers/post', $data);
+    }
+
+    public function addNewPost()
+    {
+        $this->view('service_providers/addNewPost');
+    }
+
+    public function insertPost()
+    {
+        $user_id = $_SESSION['user_id'];
+        $title = isset($_POST['title']) ? $_POST['title'] : '';
+        $content = isset($_POST['add-post']) ? $_POST['add-post'] : '';
+
+        //image1
+        // $image1 = $this->uploadImage('post-photo-1');
+        // $image2 = $this->uploadImage('post-photo-2');
+        // $image3 = $this->uploadImage('post-photo-3');
+
+        foreach($_FILES as $key => $file) { //get upload name: $key
+
+            $image = new Bulletproof\Image($file);
+            $image->setName(substr(base64_encode(random_bytes(12)), 0, 20)); 
+            $image->setMime(array('jpg', 'png', 'jpeg'));
+            $image->setSize(10,10485760);
+            $image->setDimension(10000,10000);
+           
+            if($key == 'post-photo-1'){             //which file
+              if($image->upload()){           //upload succeed?
+                $image1 = $image->getName() . '.' . $image->getMime(); //get name
+              }
+            }elseif($key == 'post-photo-2'){        //do it all over again with banner
+              if($image->upload()) {
+                $image2 = $image->getName() . '.' . $image->getMime(); //get name
+                
+              }
+            }
+            elseif($key == 'post-photo-3'){        //do it all over again with banner
+                if($image->upload()) {
+                  $image3 = $image->getName() . '.' . $image->getMime(); //get name
+                  
+                }
+              }
+          }
+        
+        $this->service_model->insertPost($user_id, $title, $content, $image1, $image2, $image3);
+
+
+        // redirect('service_providers/feed');
+
+    }
+
+    public function uploadImage($image)
+    {
+        $text = $image;
+        $image = new Bulletproof\Image($_FILES);
+        $image->setSize(10,10485760);
+        $image->setDimension(10000,10000);
+
+        if ($image["$text"]) {
+            
+            $image->setName(substr(base64_encode(random_bytes(12)), 0, 20)); //length 20 random name);
+            
+            $upload = $image->upload();
+
+            if ($upload) {
+               return $image->getName() . '.' . $image->getMime();;    
+            } else {
+              
+                echo $image->getError();
+                return;
+            }
+        }
+
+    }
+
+    public function deletePost(){
+        $id = $_GET['id'];
+        $this->service_model->deletePost($id);
+        redirect('service_providers/feed');
+    }
+
+
 }

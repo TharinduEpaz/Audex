@@ -14,6 +14,7 @@
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
     <title>Audex</title>
     <script defer src="<?php echo URLROOT . '/public/js/service_provider.js'; ?>"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
@@ -133,10 +134,10 @@
     </ul>
 </nav>
 </div>
-    <div class="sidebar">
-        <a href="<?php echo URLROOT . '/service_providers/dashboard';?>" id="dashboard"> <span>Dashboard</span></a>
-        <a href="<?php echo URLROOT . '/service_providers/profile';?>" id="profile-settings"><span>Profile</span></a>
-        <a href="<?php echo URLROOT .'/service_providers/feed'?>" id="feed"> <span>Feed</span></a>
-        <a href="<?php echo URLROOT .'/service_providers/eventCalander?month=current'?>" id="calender"> <span>Calender</span></a>
-        <a href="<?php echo URLROOT .'/users/chat'?>" id="messages"> <span>Messages</span></a>       
-    </div>
+<div class="sidebar">
+        <a href="<?php echo URLROOT . '/service_providers/dashboard';?>" id="dashboard"><i class="fas fa-qrcode" ></i> <span>Dashboard</span></a>
+        <a href="<?php echo URLROOT . '/service_providers/profile';?>" id="profile-settings"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile</span></a>
+        <a href="<?php echo URLROOT .'/service_providers/feed'?>" id="feed"> <i class="fa fa-ad" aria-hidden="true"></i><span>Feed</span></a>
+        <a href="<?php echo URLROOT .'/service_providers/eventCalander?month=current'?>" id="calender"> <i class="fa fa-calendar" aria-hidden="true"></i><span>Calender</span></a>
+        <a href="<?php echo URLROOT .'/users/chat'?>" id="messages"> <i class="fa fa-comments"></i><span>Messages</span></a>       
+</div>
