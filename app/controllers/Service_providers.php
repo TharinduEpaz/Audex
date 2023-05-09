@@ -485,56 +485,63 @@ class Service_providers extends Controller
         $content = isset($_POST['add-post']) ? $_POST['add-post'] : '';
 
         //image1
-        $image1 = '';
-        $image2 = '';
-        $image3 = '';
+        $image1 = $this->uploadImage('post-photo-1');
+        $image2 = $this->uploadImage('post-photo-2');
+        $image3 = $this->uploadImage('post-photo-3');
 
-        //upload the image using bulletproof library
+        // //upload the image using bulletproof library
 
-        $image = new Bulletproof\Image($_FILES);
-        $image->setSize(10,10485760);
-        $image->setDimension(10000,10000);
+        // $img1 = new Bulletproof\Image($_FILES);
+        // $img1->setSize(10,10485760);
+        // $img1->setDimension(10000,10000);
 
-        if ($image["post-photo-1"]) {
-            $random_image_name =  substr(base64_encode(random_bytes(12)), 0, 20); //length 20 random name
-            $image->setName($random_image_name);
+        // if ($img1["post-photo-1"]) {
+        //     $img1->setName(substr(base64_encode(random_bytes(12)), 0, 20));
             
-            $upload = $image->upload();
-
-            if ($upload) {
-               $image1 = $image->getName() . '.' . $image->getMime();;    
-            } else {
-              
-                echo $image->getError();
-            }
-        }
-        // if ($image["post-photo-2"]) {
-        //     $random_image_name =  substr(base64_encode(random_bytes(12)), 0, 20); //length 20 random name
-        //     $image->setName($random_image_name);
-            
-        //     $upload = $image->upload();
+        //     $upload = $img1->upload();
 
         //     if ($upload) {
-        //        $image2 = $image->getName() . '.' . $image->getMime();;    
+        //        $image1 = $img1->getName() . '.' . $img1->getMime();;    
         //     } else {
               
-        //         echo $image->getError();
+        //         echo $img1->getError();
         //     }
         // }
 
-        // if ($image["post-photo-3"]) {
-    
-        //     $image->setName(substr(base64_encode(random_bytes(12)), 0, 20)); //set random name for the image
+        // $img2 = new Bulletproof\Image($_FILES);
+        // $img2->setSize(10,10485760);
+        // $img2->setDimension(10000,10000);
+
+        // if ($img2["post-photo-2"]) {
+        //     $img2->setName(substr(base64_encode(random_bytes(12)), 0, 20));
             
-        //     $upload = $image->upload();
+        //     $upload = $img2->upload();
 
         //     if ($upload) {
-        //        $image3 = $image->getName() . '.' . $image->getMime();;    
+        //        $image2 = $img2->getName() . '.' . $img2->getMime();;    
         //     } else {
-        //         echo $image->getError();
+              
+        //         echo $img2->getError();
         //     }
         // }
+        // $img3 = new Bulletproof\Image($_FILES);
+        // $img3->setSize(10,10485760);
+        // $img3->setDimension(10000,10000);
 
+        // if ($img3["post-photo-3"]) {
+            
+        //     $img3->setName(substr(base64_encode(random_bytes(12)), 0, 20)); //length 20 random name);
+            
+        //     $upload = $img3->upload();
+
+        //     if ($upload) {
+        //        $image3 = $img3->getName() . '.' . $img3->getMime();;    
+        //     } else {
+              
+        //         echo $img3->getError();
+        //     }
+        // }
+        
         $this->service_model->insertPost($user_id, $title, $content, $image1, $image2, $image3);
 
 
@@ -542,8 +549,29 @@ class Service_providers extends Controller
 
     }
 
-    public function setPostImages($image)
+    public function uploadImage($image)
     {
+        $text = $image;
+        $image = new Bulletproof\Image($_FILES);
+        $image->setSize(10,10485760);
+        $image->setDimension(10000,10000);
+
+        if ($image["$text"]) {
+            
+            $image->setName(substr(base64_encode(random_bytes(12)), 0, 20)); //length 20 random name);
+            
+            $upload = $image->upload();
+
+            if ($upload) {
+               return $image->getName() . '.' . $image->getMime();;    
+            } else {
+              
+                echo $image->getError();
+                return;
+            }
+        }
 
     }
+
+
 }
