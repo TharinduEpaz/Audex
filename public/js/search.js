@@ -1,3 +1,5 @@
+// this is for home page's search bar
+
 const URLROOT = 'http://localhost/Audex';
 
 const resultTable = document.getElementById("search-results-table");
@@ -6,6 +8,23 @@ const inputField = document.getElementById("search-item-term");
 const resultsToShop = document.getElementById("search-result-area");
 // console.log(resultsToShop);
 
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+    }
+    
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function(event) {
+      if (!event.target.matches('.dropbtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
 
 
 

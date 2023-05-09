@@ -1,78 +1,217 @@
+
 <div class="service-provider-profile">
     <div class="white-box">
-        <h1>Edit Profile</h1>
-        <div class="info-settings">
+        <span id="edit-profile-heading">Edit Profile</span>
+        <button class="add-event-btn" id="edit-event-btn">Change Password</button>
+        <button class="add-event-btn" id="edit-event-btn">Change Email</button>
+        <button class="add-event-btn" id="edit-event-btn">Make Payment</button>
 
-            <div class="info-titles">
-                <span>First Name : </span>
-                <span>Last Name : </span>
-                <span>Address Line 1 : </span>
-                <span>Address Line 2 : </span>
-                <span>Mobile : </span>
-                <span>Profession : </span>
-                <span>Qualifications : </span>
-                <span>Achivements : </span>
-                <span>Edit Description : </span>
-
-            </div>
-            <div class="info-items">
-                <form action="<?php echo URLROOT . '/service_providers/setDetails/' ?>" method="post">
-                    <input type="text" name="first_name" placeholder="<?php echo $data['details']->first_name ?>">
-                    <input type="text" name="second_name" placeholder="<?php echo $data['details']->second_name ?>">
-                    <input type="text" name="address1" placeholder="<?php echo $data['details']->address_line_one ?>">
-                    <input type="text" name="address2" placeholder="<?php echo $data['details']->address_line_two ?>">
-                    <input type="number" name="mobile" placeholder="<?php echo $data['details']->mobile ?>" disabled>
-                    <input type="text" name="profession" placeholder="<?php echo $data['details']->profession ?>">
-                    <input type="text" name="qualifications"
-                        placeholder="<?php echo $data['details']->qualifications ?>">
-                    <input type="text" name="achievements" placeholder="<?php echo $data['details']->achievements ?>">
-                    <textarea name="description" cols="30" rows="10"
-                        placeholder="<?php echo $data['details']->description ?>"></textarea>
-
-                    <!-- Buttons to submit or cancel the form -->
-
-                    <section class="buttons">
-                        <button id="save" type="submit">Save</button>
-                        <button id="cancel" type="reset" onclick="exit()">Cancel</button>
-                    </section>
-                </form>
-            </div>
+        <hr>
+        
+            <?php if(!empty($data['errors'])): ?>
+              <?php foreach ($data['errors'] as $error) : ?>
+                <p id="error-text-box" ><?php echo $error ?></p>
+            <?php endforeach; ?>
+          <?php endif; ?>
+       
+        
+<div class="formbold-main-wrapper">
+  <div class="formbold-form-wrapper">
+  
+    <form id="edit-settings-form" action="<?php echo URLROOT . '/service_providers/setDetails/' ?>" method="POST" enctype="multipart/form-data">
+      <div class="formbold-input-flex">
+        <div>
+          <label for="first_name" class="formbold-form-label"> First Name </label>
+          <input
+            type="text"
+            name="first_name"
+            id="first_name"
+            placeholder="<?php echo $data['details']->first_name ?>"
+            pattern="[A-Za-z]+"
+            title="Name should only contain letters"
+            class="formbold-form-input"
+          />
         </div>
-        <div class="profile-pic-settings">
 
-
-            <?php if($data['details']->profile_image): ?>
-            <img src="<?php echo URLROOT . '/public/uploads/Profile/' . $data['details']->profile_image; ?>">
-            <?php else: ?>
-            <i class="fa fa-user" aria-hidden="true"></i>
-            <?php endif; ?>
-
-            <p>Edit Profile Image</p>
-
-                <form action="<?php echo URLROOT . '/service_providers/setImage/' ?>" method="post"
-                enctype="multipart/form-data">
-                <input type="file" name="profile" id="profile">
-                <button id="save" type="submit">Upload</button>
-
-            </form>
+        <div>
+          <label for="second_name" class="formbold-form-label"> Last Name </label>
+          <input
+            type="text"
+            name="second_name"
+            id="second_name"
+            placeholder="<?php echo $data['details']->second_name ?>"
+            class="formbold-form-input"
+            pattern="[A-Za-z]+"
+            title="Name should only contain letters"
+          />
         </div>
-    </div>
+      </div>
+
+      <div class="formbold-input-flex">
+        <div>
+            <label for="email" class="formbold-form-label"> Email </label>
+            <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="example@email.com"
+            class="formbold-form-input"
+            disabled
+            />
+        </div>
+
+        <div>
+        <label for="mobile" class="formbold-form-label"> Phone (0123456789) </label>
+         
+          <input
+            type="phone"
+            name="phone"
+            id="phone"
+            placeholder="<?php echo $data['details']->phone_number ?>"
+            class="formbold-form-input"
+            
+          />
+          <!-- <p style="text-align:right;"></p> -->
+       
+      </div>
+
+       
+      </div>
+
+  
+
+      <div class="formbold-mb-3">
+        <label for="profession" class="formbold-form-label"> Profession: </label>
+        <input
+          type="text"
+          name="profession"
+          id="profession"
+          placeholder="<?php echo $data['details']->profession ?>"
+          class="formbold-form-input"
+          maxlength="30"
+        />
+      </div>
+
+
+      <div class="formbold-mb-3">
+        <label for="address1" class="formbold-form-label"> Address </label>
+
+        <input
+          type="text"
+          name="address1"
+          id="address1"
+          placeholder="<?php echo $data['details']->address_line_one ?>"
+          class="formbold-form-input formbold-mb-3"
+          maxlength="20"
+        />
+        <br>
+        <br>
+        <input
+          type="text"
+          name="address2"
+          id="address2"
+          placeholder="<?php echo $data['details']->address_line_two ?>"
+          class="formbold-form-input formbold-mb-3"
+          maxlength="20"
+        />
+       
+
+      </div>
+      
+      <div class="formbold-mb-3">
+        <label for="qualifications" class="formbold-form-label"> Qualifications: </label>
+        <input
+          type="text"
+          name="qualifications"
+          id="qualifications"
+          placeholder="<?php echo $data['details']->qualifications ?>"
+          class="formbold-form-input"
+          maxlength="100"
+        />
+      </div>
+
+      <div class="formbold-mb-3">
+        <label for="achievements" class="formbold-form-label"> Achievements </label>
+        <input
+          type="text"
+          name="achievements"
+          id="achievements"
+          placeholder="<?php echo $data['details']->achievements ?>"
+          class="formbold-form-input"
+          maxlength="50"
+        />
+      </div>
+
+      <div class="formbold-mb-3">
+        <label for="description" class="formbold-form-label">
+          Profile Description
+        </label>
+        <textarea
+          rows="6"
+          name="description"
+          id="description"
+          placeholder="<?php echo $data['details']->description ?>"
+          class="formbold-form-input"
+          maxlength="1000"
+        ></textarea>
+      </div>
+
+      <div class="formbold-form-file-flex">
+        <label for="profile" class="formbold-form-label">
+          Upload Profile Image
+        </label>
+        <input
+          type="file"
+          name="profile"
+          id="profile"
+          class="formbold-form-file"
+        />
+      </div>
+      <br><br>
+      <button type="submit" class="add-event-btn" id="edit-event-btn">Save Settings</button>
+      <button class="cancel" id="edit-event-btn" type="reset"  onclick="exit()">Cancel</button>
+    </form>
+  </div>
 </div>
 
-<script src="<?php echo URLROOT . '/public/js/form.js'; ?>"></script>
 
 <script>
-//keeping the sidebar button clicked at the page
 
-link = document.querySelector('#profile-settings');
-link.style.background = "#E5E9F7";
-link.style.color = "red";
 
-function exit() {
-    window.location.replace("http://localhost/audex/service_providers/profile");
+//make alert window before exiting
+function exit(){
+  var r = confirm("Are you sure you want to exit?");
+  if (r == true) {
+    window.location.href = "<?php echo URLROOT . '/service_providers/profile/' ?>";
+  } else {
+    return
+  }
 }
+
+//if all of the form inputs are empty then display alert after clicking submit
+let form = document.querySelector('#edit-settings-form');
+
+form.addEventListener('submit', (e) => {
+  let firstname = document.querySelector('#firstname').value;
+  let second_name = document.querySelector('#second_name').value;
+  let email = document.querySelector('#email').value;
+  let profession = document.querySelector('#profession').value;
+  let address1 = document.querySelector('#address1').value;
+  let address2 = document.querySelector('#address2').value;
+  let qualifications = document.querySelector('#qualifications').value;
+  let achievements = document.querySelector('#achievements').value;
+  let description = document.querySelector('#description').value;
+  let profile = document.querySelector('#profile').value;
+
+  if(firstname == '' && second_name == '' && email == ''  && profession == '' && address1 == '' && address2 == '' && qualifications == '' && achievements == '' && description == '' && profile == '' ){
+    alert('Please fill in the form');
+    e.preventDefault();
+  }
+});
+
+
+
+
+
 </script>
 
-</body>
-
-</html>

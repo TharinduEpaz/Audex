@@ -1,7 +1,7 @@
 <?php
     date_default_timezone_set("Asia/Kolkata");
     //DB params
-    // define('DB_HOST', 'audex.cgacsrhbqzk8.ap-northeast-1.rds.amazonaws.com');
+    // define('DB_HOST', 'audex.ci55pw7kjzp5.ap-northeast-1.rds.amazonaws.com');
     // define('DB_USER','root');
     // define('DB_PASS','Audex123');
     // define('DB_NAME','userdb');
@@ -20,6 +20,15 @@
     //Site Name
     define('SITENAME', 'Audex');
 
+    
+    //Email password
+    define('EMAIL_PASS', 'bcoxsurnseqiajuf');
+    define('EMAIL', 'audexlk@gmail.com');
+
+
+    define('MAPS_API','AIzaSyC5ZntESaneCqqHfq1ngZ1PaHvYbGbsvNA');
+    define('GEOCODE','https://maps.googleapis.com/maps/api/geocode/json?key='.MAPS_API);
+
     /*
      * Stripe API configuration
     */ 
@@ -28,5 +37,5 @@
     define('STRIPE_SUCCESS_URL',URLROOT);
     define('STRIPE_CANCEL_URL',URLROOT);
 
-
+?>
   

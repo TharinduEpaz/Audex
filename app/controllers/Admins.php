@@ -4,20 +4,28 @@
         private $adminModel;
 
         public function __construct(){
+          if(isset($_SESSION['attempt'])){
+            unset($_SESSION['otp_email']);
+            unset($_SESSION['phone']);
+            unset($_SESSION['attempt']);
+            unset($_SESSION['time']);
+        }
             if(!isLoggedIn()){
-                unset($_SESSION['otp']);
-                unset($_SESSION['email']);
-                unset($_SESSION['password']);
-                unset($_SESSION['first_name']);
-                unset($_SESSION['second_name']);
-                unset($_SESSION['phone']);
-                unset($_SESSION['user_type']);
-                unset($_SESSION['attempt']);
                 session_destroy();
                 redirect('users/login');
             }
             if($_SESSION['user_type'] != 'admin'){
                 redirect($_SESSION['user_type'].'s/index');
+            }
+
+            //Session timeout
+            if(isset($_SESSION['session_time'])){
+                if(time() - $_SESSION['session_time'] > 60*30){
+                    // flash('session_expired', 'Your session has expired', 'alert alert-danger');
+                    redirect('users/logout');
+                }else{
+                    $_SESSION['session_time'] = time();
+                }
             }
 
             $this->adminModel=$this->model('Admin');

@@ -17,13 +17,7 @@
 <?php require_once APPROOT . '/views/sellers/navbar.php';?>
 
     <div class="container">
-        <div class="sidebar">
-                <a href="#"><i class="fas fa-qrcode"></i> <span>Dashboard</span></a>
-                <a class="current" href="<?php echo URLROOT.'/sellers/getProfile/'.$_SESSION['user_id']?>"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile Settings</span></a>
-                <a href="<?php echo URLROOT;?>/sellers/advertisements"> <i class="fa fa-ad" aria-hidden="true"></i><span>Advertisements</span></a>
-                <a href="<?php echo URLROOT;?>/sellers/advertise"><i class="fa-solid fa-dollar-sign" aria-hidden="true"></i><span>Sell Item</span></a>
-                <a href="#"> <i class="fa fa-comments"></i><span>Messages</span></a>       
-        </div>
+    <?php require_once APPROOT . '/views/sellers/sidebar.php';?>        
         <div class="poster_advertisements">
             <form action="" method="POST" class="form-display-data">
                 <div class="form-display"> 
@@ -45,12 +39,12 @@
                         <input type="text" name="address1" value="<?php echo $data['address1']; ?>" class="<?php echo (!empty($data['address1_err'])) ? 'invalid' : '' ; ?>" >
                     </div>
                     <div class="form-data-area">
-                        <label for="address2">Address Line 1:</label>
+                        <label for="address2">Address Line 2:</label>
                         <input type="text" name="address2" value="<?php echo $data['address2']; ?>" class="<?php echo (!empty($data['address2_err'])) ? 'invalid' : '' ; ?>" >
                     </div>
                     <div class="form-data-area">
                         <label for="phone_number">Phone Number:<sup>*</sup></label>
-                        <input type="text" name="phone_number" value="<?php echo $data['phone_number']; ?>" disabled ?>" >
+                        <input type="text" name="phone_number" value="<?php echo $data['phone_number']; ?>" disabled  >
                     </div>  
                 </div>
                 <input type="submit"  value="Save" id="edit-button"  >
@@ -59,5 +53,12 @@
         </div>
     </div>
 </body>
+<script>
+    //keeping the sidebar button clicked at the page
+    link = document.querySelector('#profile');
+    link.style.background = "#E5E9F7";
+    link.style.color = "red";
+    link.style.fontWeight = "800";
+</script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>

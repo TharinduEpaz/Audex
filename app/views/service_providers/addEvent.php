@@ -17,8 +17,9 @@
                 <div class="info-items">
                     <form action= "<?php echo URLROOT . '/service_providers/addNewEvent/' ?>" method="post">
                          <input type="text" name="name" required>
-                        <input type="text" name="date" required> <br>
-                        <input type="checkbox" name="public">
+                        <input type="date" name="date" required> <br>
+                        <input type="hidden" name="public" value="0">
+                        <input type="checkbox" name="public" value="1">
                        <input type="text" name="location" required>
                         <input type="text" name="link" required>
                         <textarea name="description" cols="30" rows="10" required></textarea>

@@ -144,8 +144,21 @@ body{
   }
 .input_image{
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.image{
+    display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
+}
+.img{
+  height: 40px;
+  width: 40px;
+  margin-right: 5px;
+  border: 1px solid black;
 }
 .fa-solid{
 }
@@ -184,6 +197,7 @@ body{
 .post:hover{
     background: #F01131;
     border: 1px solid #F01131;
+    cursor: pointer;
 }
 .cancel{
     background: #F01131;
@@ -218,4 +232,102 @@ body{
   .add{
     margin-right: 1%;
   }
+  }
+
+  
+  .modal {
+	  display: none;
+	  position: fixed;
+	  z-index: 1;
+	  left: 0;
+	  top: 0;
+	  width: 100%;
+	  height: 100%;
+	  overflow: auto;
+	  background-color: rgba(0, 0, 0, 0.4);
+	}
+  
+	.modal-content {
+    background-color: #fefefe;
+	  margin: 6% auto;
+	  padding: 20px;
+	  border: 1px solid #888;
+	  width: 65%;
+    height: 80%;
+	}
+  
+
+	.close {
+	  color: #aaa;
+	  float: right;
+	  font-size: 28px;
+	  font-weight: bold;
+	}
+
+	.close:hover,
+	.close:focus {
+	  color: black;
+	  text-decoration: none;
+	  cursor: pointer;
+	}
+
+  #floating-panel {
+    position: absolute;
+    top: 10px;
+    left: 25%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: "Roboto", "sans-serif";
+    line-height: 30px;
+    padding-left: 10px;
+  }
+  
+  #floating-panel {
+    position: absolute;
+    top: 5px;
+    left: 45%;
+    margin-left: -180px;
+    width: 550px;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    margin-top: 6vh;
+    font-weight: 800;
+    color: white;
+    text-decoration: none;
+  }
+  #floating-panel input{
+    width: 100%;
+    height: 4vh;
+    font-size: 12pt;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: .5vh;
+  }
+  #html_content .post{
+    color: white;
+    width: 200px;
+    text-align: center;
+    height: 40px;
+    padding-top: 10px;
+    margin-left: 45%;
+  }
+  #floating-panel a{
+  background: #002EF9;
+    color: white;
+    padding: 0.5% 2%;
+    text-align: center;
+    padding: auto;
+    border-radius: 10px;
+    border: 1px solid #002EF9;
+    font-weight: 600;
+  }
+  #floating-panel a:hover{
+    background: #F01131;
+    border: 1px solid #F01131;
+    color: white;
   }

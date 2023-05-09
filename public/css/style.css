@@ -6,7 +6,7 @@
     text-decoration: none;
     list-style: none;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Open Sans';
   }
 
   nav{
@@ -52,6 +52,91 @@
 
 
   }
+
+  .switch{
+    height: 10vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 20%;
+    float: left;
+  }
+  .switch a{
+    text-decoration: none;
+    color: black;
+    line-height: 10vh;
+    text-align: center;
+    margin-left: 4%;
+  }
+  .toggle_a{
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+    color: black;
+    line-height: 2vh;
+    text-align: center;
+    width: 100%;
+    /* margin-left: 4%; */
+    /* margin-top: 2vh; */
+    font-size: 10pt;
+    justify-content: space-between;
+  }
+  .switch a:hover{
+    color: green;
+  }
+
+  .switch_container{
+    display: flex;
+    width: 100px;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 5%;
+  }
+    .toggle {
+      width: 70px;
+      margin-top: 1vh;
+      margin-left: 10px;
+      /* flex-basis: 2vh; */
+    }
+    .toggle_switch{
+      position: relative;
+      display: inline-block;
+      width: 65px;
+      height: 30px;
+  
+    }
+    .slider{
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #000000;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    .toggle_switch input{
+      display: none;
+    }
+    .slider:before{
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 5px;
+      bottom: 5px;
+      background-color: #ffffff;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    .toggle_switch input:checked + .slider{
+      background-color: #00ff44;
+    }
+    .toggle_switch input:checked + .slider:before{
+      transform: translateX(34px);
+      /* background-color: #FFFFFF; */
+    }
   .checkbtn{
     font-size: 25pt;
     color: rgb(0, 0, 0);
@@ -92,6 +177,9 @@
     }
     #check:checked ~ ul{
       left: 0;
+    }
+    .toggle_a{
+      margin-top: 3vh;
     }
   }
  .container{
@@ -442,26 +530,3 @@ display:block;
 
 
 /* FEED */
-
-.feed_items_container{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10vh;
-}
-
-.feed-item{
-
-  width: 20vw;
-  height: 20vh;
-  background-color: #b8d5ec;
-  border-radius: 30px;
-
-}
-.button-section{
-  display: flex;
-  align-items: center;
-}
-
