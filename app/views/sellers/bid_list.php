@@ -20,9 +20,14 @@
 <?php require_once APPROOT . '/views/sellers/navbar.php';?>
 
     <div class="container" style="background: none;">
+    <?php if($data['auction']->is_active==0){if($data['auctions_no_rows']=='' && $data['reposted']!=1){?>
+        <div style="left:80%;top:15vh;position:sticky;" class="message_seller">
+            <a href="<?php echo URLROOT.'/sellers/repost/'.$data['ad']->product_id; ?>">REPOST</a>
+        </div>
+    <?php }}?>
     <?php echo flash('email_err');?>
         <div class="content">
-        <div class="image_likes">
+            <div class="image_likes">
             <!-- Image section -->
             <div class="image">
                     <div class="grid">
@@ -87,13 +92,13 @@
                         if(!empty($data['auctions'])){
                             $i=0;
                             $j=0;
-                            foreach($data['auctions'] as $auction):
+                            foreach($data['auctions'] as $auction): // $data['auctions'] contain all the max bids placed by the users grouped by email and auction details
                                 $i++;
                         
                                 echo '<tr>';
                                 echo '<td>'.$i.'</td>';
-                                echo '<td>'.$data['user'][$i-1]->first_name[0].$data['user'][$i-1]->first_name[1].'****</td>';
-                                echo '<td>LKR '.$auction->max_price.'</td>';
+                                echo '<td>'.$data['user'][$i-1]->first_name[0].$data['user'][$i-1]->first_name[1].'****</td>';//$data['user'] contains the user details of the user who placed the bid
+                                echo '<td>LKR '.$auction->max_price.'</td>'; //Max price placed by the bidder(grouped by email)
                                 // Profile link
                                 echo '<td class=\'profile_link\'><a  href=\'' .URLROOT.'/users/getProfile/'.$data['user'][$i-1]->user_id.'\'>Profile</a></td>';
 
@@ -105,30 +110,28 @@
                                         ($i<3 && $data['auctions_no_rows']==3) || 
                                         // If number of bid rows is less than 3, then only show the approve button for the first 1 bids                               
                                         ($i<2 && $data['auctions_no_rows']<=2)){
-                                        if($data['bid_list'][$i-1]!=NULL){
-                                            if($data['bid_list'][$i-1]->is_accepted==0 && $data['bid_list'][$i-1]->is_rejected==0){
+                                        if($data['bid_list'][$i-1]!=NULL){ //This means the bid is accepted or rejected or email sent
+                                            if($data['bid_list'][$i-1]->is_accepted==0 && $data['bid_list'][$i-1]->is_rejected==0){ //Email sent
                                                 echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Email Sent</a></td>';
-                                            }else if($data['bid_list'][$i-1]->is_accepted==1){
+                                            }else if($data['bid_list'][$i-1]->is_accepted==1){ //Bid accepted
                                                 echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none ; color:green\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Approved</a></td>';
-                                                if($data['bid_list'][$i-1]->feedback_given==0){
-
+                                                if($data['bid_list'][$i-1]->feedback_given==0){ //Feedback not given
                                                     echo '<td id=\'feedback\' class=\'feedback\'><a style=\'pointer-events: none ; color:red\' href=\'' .URLROOT.'/sellers/feedback/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Feedback</a></td>';
                                                 }
-
-
-                                            }else if($data['bid_list'][$i-1]->is_rejected==1){
+                                            }else if($data['bid_list'][$i-1]->is_rejected==1){ //Bid rejected
                                                 echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none; color:red\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Rejected</a></td>';
                                                 $j++;
-                                                if($data['bid_list'][$i-1]->feedback_given==0){
-
+                                                if($data['bid_list'][$i-1]->feedback_given==0){ //Feedback not given
                                                     echo '<td id=\'feedback\' class=\'feedback\'><a style=\'pointer-events: none ; color:red\' href=\'' .URLROOT.'/sellers/feedback/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Feedback</a></td>';
                                                 }
 
                                             }
-                                        }else if($data['check']==0){
+                                        }else if($data['check']==0){ //$data['check']=0 means, there's no any sent email or an accepted bid. There can be rejected bids
+                                            //This is the only link that can be clicked(Approve link)
                                             echo '<td id=\'approve_link\' class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$data['user'][$i-1]->first_name.'\'>Approve</a></td>';
 
                                         }else{
+                                            //This is Approve link, but there are accepted or email sent bid
                                             echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Approve</a></td>';
                                         }
 

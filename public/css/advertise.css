@@ -240,6 +240,9 @@ body{
 .value{
     font-size: 15pt;
 }
+.price{
+    margin-bottom: 2vh;
+}
 .price h4{
     font-weight: 900;
     font-size: 20pt;
@@ -313,6 +316,7 @@ body{
     font-weight: 300;
     /* margin-top: -5vh; */
     padding-left: 1%;
+    width: 95%;
 }
 .description p{
     color: black;
