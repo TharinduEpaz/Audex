@@ -136,9 +136,11 @@
                                 <div class="message_review service_provider">
                                     
                                     <a class="message btn" href="<?php echo URLROOT . '/users/chat/' . $data['user']->user_id; ?>" class="btn btn-primary">Message</a>
-                                    <a href="" class="review btn" onclick="openModal(); return false;">Write Review</a>
-                                    <button onclick="getCalander(<?php echo $data['details']->user_id ?>)">View Calander</button>
-                                    
+
+                                    <!-- hide this button if there is no events -->
+                                    <?php if( sizeof($data['events']) ){?>
+                                        <a href="" class="review btn" onclick="openModal(); return false;">Write Review</a>
+                                    <?php } ?>
                                 </div>
                             <?php }
                         } else { ?>
@@ -146,7 +148,6 @@
                             
                                 <a class="message btn" href="<?php echo URLROOT . '/users/chat/' . $data['user']->user_id; ?>" class="btn btn-primary">Message</a>
                                 <a href="" class="review btn" onclick="openModal(); return false;">Write Review</a>
-                                <button class="review btn" onclick="getCalander(<?php echo $data['details']->user_id ?>)">View Calander</button>
                            
                         <?php } ?>
 

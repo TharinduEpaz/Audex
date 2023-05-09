@@ -16,7 +16,7 @@
         <div class="switch">
             <a href="<?php echo URLROOT;?>/users/index"><img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo"></a>
         <?php if(isLoggedIn()){
-                    if($_SESSION['user_type']!='seller'){?>
+                    if($_SESSION['user_type']!='seller'  && $_SESSION['user_type']!='admin'){?>
                     <div class="switch_container">
                         <div class="toggle">
                             <!-- <h1>Toggle Switch</h1> -->
@@ -79,11 +79,7 @@
                 </script>
             </div>
         <ul>
-            <!-- <li><a href="<?php echo URLROOT;?>/pages/index" class="nav_tags">Home</a></li> -->
-            <?php 
-                    echo '<li><a href="'.URLROOT.'/'.'users/index" class="nav_tags">Home</a></li>';
-                
-             ?>
+            <li><a href="<?php echo URLROOT.'/users/index'; ?>" class="nav_tags">Home</a></li>
             <li><a href="<?php echo URLROOT.'/users/shop'; ?>" class="nav_tags">Shop</a></li>
             <li><a href="<?php echo URLROOT.'/users/sound_engineers'; ?>" class="nav_tags">Sound Engineers</a></li>
             <li><a href="<?php echo URLROOT.'/users/sound_engineers'; ?>" class="nav_tags">Event Calendar</a></li>

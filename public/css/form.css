@@ -479,6 +479,18 @@ nav{
   .form{
       width: 60%;
   }
+  .explore-line{
+    display: none;
+  }
+  .explore .explore-btn{
+    display: none;
+  }
+  .explore .explore-btn button{
+    display: none;
+  }
+  #title{
+    line-height: 6vh;
+  }
 }
  .form form input{
     width: 100%;
@@ -669,22 +681,34 @@ nav{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  height: 50vh;
+  height: fit-content;
   background-color: #E5E9F7;
   justify-content: center;
   gap: 30px;
 }
+.auctions{
+  display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  flex-wrap: wrap;
+    width: 100vw;
+    padding: 3%;
+}
 .hotest_auctions .auction{
   background-color: #cdcfd0;
-  height: 10vw;
-  width: 10vw;
+  height: 150px;
+  width: 150px;
   border-radius: 30px;
   display: flex;
+  margin-bottom: 10px;
+}
+.au{
+  margin-bottom: 10px;
 }
 .hotest_auctions .auction img{
   background-color: #cdcfd0;
-  height: 10vw;
-  width: 10vw;
+  height: 150px;
+  width: 150px;
   border-radius: 30px;
 }
 
@@ -692,7 +716,7 @@ nav{
      display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  height: 50vh;
+  height: fit-content;
   background-color: #E5E9F7;
   justify-content: center;
   gap: 30px;
@@ -701,14 +725,14 @@ nav{
 .popular_engineers .engineer{
 
   background-color: #cdcfd0;
-  height: 10vw;
-  width: 10vw;
+  height: 150px;
+  width: 150px;
   border-radius: 30px;
 }
 .popular_engineers .engineer img{
   background-color: #cdcfd0;
-  height: 10vw;
-  width: 10vw;
+  height: 150px;
+  width: 150px;
   border-radius: 30px;
 }
 
@@ -717,7 +741,7 @@ nav{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  height: 50vh;
+  height: fit-content;
   background-color: #E5E9F7;
   justify-content: center;
   gap: 30px;
@@ -726,11 +750,19 @@ nav{
 
 .upcoming_events .event{
   background-color: #cdcfd0;
-  height: 10vw;
-  width: 10vw;
+  height: 150px;
+  width: 150px;
   border-radius: 30px;
 
 }
+.upcoming_events .event img{
+  background-color: #cdcfd0;
+  height: 150px;
+  width: 150px;
+  border-radius: 30px;
+}
+
+
 .footer{
     height: fit-content;
     background-color: #1A1A1B;

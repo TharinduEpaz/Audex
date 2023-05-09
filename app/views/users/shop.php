@@ -146,7 +146,7 @@
 
 
         .shop-container {
-            min-width: 100vw;
+            width: calc(100vw-240px);
             margin: 0 auto;
             display: flex;
             flex-direction: row;
@@ -271,7 +271,7 @@
             display: flex;
             flex-direction: column;
             flex: 1;
-            margin-left: 20px;
+            margin-left: 40px;
             /* margin-top: 6%; */
         }
 

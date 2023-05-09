@@ -17,7 +17,7 @@
 <body>
 <?php require_once APPROOT . '/views/users/navbar.php';?>
 
-    <div class="container" style="background: none;height:75vh;">
+    <div class="container" style="background: none;height:90vh;width:95vw;">
     
         <div class="content">
             <div class="image_likes">
@@ -215,7 +215,7 @@
 
             
             <div class="seller-detais">
-                <h2 style="text-align: center;width:115%"><?php 
+                <h2 style="text-align: center;width:115%;margin-left: 20%;"><?php 
                             if( empty($data['seller']->shop_name )){
                                 echo 'Seller';
                             }
@@ -231,8 +231,8 @@
 
                             
                 <div class="top_details">
-                        <div class="profile_img">
-                            <img src="<?php echo URLROOT . '/public/uploads/'.$data['SellerMoreDetails']->profile_pic;?>" alt="Profile Picture">
+                        <div class="profile_img" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['SellerMoreDetails']->profile_pic;?>)">
+                            <!-- <img src="<?php echo URLROOT . '/public/uploads/'.$data['SellerMoreDetails']->profile_pic;?>" alt="Profile Picture"> -->
                         </div>
                         <div class="other_details_profile">
                             <p class="full_name"><?php echo $data['SellerMoreDetails']->first_name.' '.$data['SellerMoreDetails']->second_name; ?></p>

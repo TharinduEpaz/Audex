@@ -2618,7 +2618,10 @@
                 if(!empty(trim($productType))){
                    $Filter['product_type']= $productType;
                 }
-                $results = $this-> userModel->searchAndFilterItems($Filter,$categories);            
+                $results = $this-> userModel->searchAndFilterItems($Filter,$categories);
+                
+                // print_r($results);
+                // exit();
                 echo json_encode(['message' => 'filters','results'=>$results]);
             }
 
@@ -2903,6 +2906,7 @@
                 $_SESSION['url'] = URL();
                 redirect('users/login');
             }
+            $data['id']=$id;
             $data['email_receiver'][]='';
             $data['email_receivers'][]='';
 

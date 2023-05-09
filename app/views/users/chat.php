@@ -74,8 +74,13 @@
                     </div>
                     <div class="enter_message">
                         <form action="" id = "chat-form">
+                            <?php if($data['id']!=null){ ?>
                             <input type="text" name="message" id="message" placeholder="Enter your message">
                             <button type="submit" id="send_message"><i class="fas fa-paper-plane"></i></button>
+                            <?php }else{?>
+                                <input type="text" name="message" id="message" placeholder="Enter your message" disabled>
+                                <button type="submit" id="send_message" disabled><i class="fas fa-paper-plane" ></i></button>
+                            <?php }?>
                         </form>
                     </div>
                 </div>
