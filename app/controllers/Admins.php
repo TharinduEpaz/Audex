@@ -202,7 +202,7 @@
         $this->adminModel->setDetails($details);
 
 
-        redirect('admins/profile/');
+        redirect('admins/profiletest/');
         
     }
 
