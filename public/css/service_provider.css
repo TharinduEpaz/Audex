@@ -839,6 +839,8 @@ EVENT POP UPS CSS
   cursor: pointer;
   padding: 6px 20px;
   height: 40px;
+  margin-bottom: 20px;
+  margin-top: 20px;
   justify-content: center;
   padding: 6px 20px;
   text-align: center;
@@ -846,14 +848,6 @@ EVENT POP UPS CSS
   transition: background-color 0.2s, background-position 0.2s;
   user-select: none;
   -webkit-user-select: none;
-}
-
-.dinesh-wrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: end;
-  gap: 20px;
 }
 
 .add_watch_list form input[type=submit]:hover, .message.btn:hover, .review.btn:hover {
