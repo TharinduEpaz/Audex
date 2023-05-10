@@ -1579,11 +1579,48 @@ date_default_timezone_set("Asia/Kolkata");
             return $posts;
         }
 
-        
+        public function getEventsByUser($user_id,$month){
 
-        
-        
+            $this -> db -> query('SELECT * FROM events WHERE user_id = :id AND MONTH(date) = :month');
+            $this -> db -> bind(':id', $user_id);
+            $this -> db -> bind(':month', $month);
+            $events = $this -> db -> resultSet();       
+            return $events;
+        }
 
-        
+        public function getEventsByMonth($user_id,$month){
+
+            $this -> db -> query('SELECT * FROM events WHERE user_id = :id AND MONTH(date) = :month');
+            $this -> db -> bind(':id', $user_id);
+            $this -> db -> bind(':month', $month);
+            $events = $this -> db -> resultSet();       
+            return $events;
+        }
+    
+        public function getEventById($event_id){
+    
+            $this -> db -> query('SELECT * FROM events WHERE event_id = :id ');
+            $this -> db -> bind(':id', $event_id);
+            $event = $this -> db -> single();
+            return $event;
+    
+        }    
+        public function getEventOwner($id){
+
+            $this->db->query('SELECT first_name, second_name FROM `user`,`events` WHERE user.user_id = events.user_id and events.event_id = :id;');
+            $this -> db -> bind(':id', $id);
+            $name = $this -> db -> single();
+            return $name;
+   
+       } 
+       
+       public function getPostById($id){
+            
+            $this->db->query('SELECT * FROM `feed_post` WHERE post_id = :id;');
+            $this -> db -> bind(':id', $id);
+            $post = $this -> db -> single();
+            return $post;
+    
+       }
     }
 ?>

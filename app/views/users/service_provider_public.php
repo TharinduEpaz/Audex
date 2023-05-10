@@ -106,7 +106,7 @@
                     <!-- ADD TO WATCH LIST  -->
                     <div class="dinesh-wrapper">
                         <div class="add_watch_list">
-                            <form id="add_watch_list_service_provider" method="POST" data-op="add" data-watchLoad="<?php echo $data['watched']; ?> ">
+                            <form id="add_watch_list_service_provider" method="POST" data-op="add" data-watchLoad=" ">
                                 <!-- if user is logged in then he have a _SESSION, if not user id value will be 0  -->
                                 <input type="text" name="user_type" value="buyer" hidden>
                                 <input type="text" name="user_id" value=" <?php echo (isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0); ?>" hidden>
@@ -147,11 +147,8 @@
                             <!-- user is not logged in -->
                             
                                 <a class="message btn" href="<?php echo URLROOT . '/users/chat/' . $data['user']->user_id; ?>" class="btn btn-primary">Message</a>
-                                <!-- hide this button if there is no events -->
-                                <?php if( sizeof($data['events']) ){?>
-                                    <a href="" class="review btn" onclick="openModal(); return false;">Write Review</a>
-                                <?php } ?>
-                                
+                                <a href="" class="review btn" onclick="openModal(); return false;">Write Review</a>
+                           
                         <?php } ?>
 
                     </div>
@@ -260,7 +257,7 @@
                         <div class="event-display">
                            
                             <img src="<?php echo URLROOT . '/public/uploads/' . $post->image1; ?>" alt="">
-                            <div class="overlay" class="text" onclick="">
+                            <div class="overlay" class="text" onclick="openPost(<?php echo $post->post_id?>)">
                                 <div  class="text" style="font-size=6px;"><?php echo $post->title ?></div>
                             </div>
                         </div>
@@ -291,23 +288,7 @@
             }
         }
 
-        //keeping the sidebar button clicked at the page
-
-        // link = document.querySelector('#profile-settings');
-        // link.style.background = "#E5E9F7";
-        // link.style.color = "red";
-
-        // error = document.querySelector('.red-alert');
-        // error.style.color = "#FF0000"
-
-        // editButton = document.querySelector('.btn');
-
-        // if (error) {
-        //     editButton.style.animation = "alert 2s ease 0s infinite normal forwards"
-        //     editButton.style.color = "#FF0000"
-        //     editButton.style.background = "#E5E9F7"
-        // }
-
+       
 
 
         // these codes for wtite reviwe form and model
@@ -466,7 +447,17 @@
                 modal.style.display = "none";
             }
         });
+
+
+        //getcalander
+        function getCalander(id){
+            window.location.href = '<?php echo URLROOT ?>/users/calanderPublic?id='+id + '&month=current';
+        }
+        function openPost(id){
+            window.location.href = '<?php echo URLROOT ?>/users/feedPost?id='+id;
+        }
     </script>
+        
 
     <script src="<?php echo URLROOT . '/public/js/form.js'; ?>"></script>
     <script src="<?php echo URLROOT . '/public/js/service-provider-watchlist.js'; ?>"></script>
