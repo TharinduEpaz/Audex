@@ -39,7 +39,7 @@
 <?php require_once APPROOT . '/views/sellers/navbar.php';?>
 <?php require_once APPROOT . '/views/sellers/sidebar.php';?>
 <div class="service-provider-profile">
-    <div class="white-box">
+    <div class="white-box" style="margin-left: 5%;width:72vw">
 
     <div class="dashboard-title">
         <p>Welcome <?php echo $_SESSION['user_name'];?> !!</p>
