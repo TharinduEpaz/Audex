@@ -1156,9 +1156,11 @@ date_default_timezone_set("Asia/Kolkata");
                 $this->db->query('SELECT p.*, a.* FROM product p JOIN auction a ON p.product_id = a.product_id WHERE '.$sql .$categorySql);
             }
             else if(isset($filter['product_type']) &&  $filter['product_type'] == 'fixed_price'){
+                // for product type is fixed price
                 $this->db->query('SELECT p.* FROM product p WHERE '.$sql .$categorySql);
             }
             else{
+                // for all in product type
                 $this->db->query('SELECT p.*, a.* FROM product p LEFT JOIN auction a ON p.product_id = a.product_id WHERE '.$sql .$categorySql);
                 
             }
@@ -1173,6 +1175,43 @@ date_default_timezone_set("Asia/Kolkata");
             }
 
             // echo 'SELECT * FROM product WHERE '.$sql .$categorySql;
+            // exit();
+
+            $results = $this->db->resultSet();
+            return $results;
+        }
+        // this function works when filter service providers
+        public function searchAndFilterServiceProviders($filter){
+            $sql='';
+            
+            foreach($filter as $key=>$value){
+                if($key==='rate'){
+                    $sql.='(spv.Rating <= :rate AND spv.Rating > :rate1)';
+                }
+                else if($key==='address_line_two'){
+                    $sql.='spv.address_line_two = :address_line_two ';
+                }
+                else{
+                    $sql.='spv.'.$key." = :".$key."";
+                }
+                $sql.=' AND ';
+            }
+            if(empty($categories)){
+                $sql=substr($sql,0,-4);
+            }
+            // for all in product type
+            $this->db->query('SELECT u.*, spv.* FROM user u JOIN service_provider_view spv ON u.user_id = spv.user_id WHERE '.$sql);
+
+        // binding values
+            foreach($filter as $key=>$value){
+                $this->db->bind(':'.$key, $value);
+            }
+            if(isset($filter['rate'])){
+                // binding values for :rate1
+                $this->db->bind(':rate1', $filter['rate']-1);
+            }
+
+            // echo 'SELECT u.*, spv.* FROM user u JOIN service_provider_view spv ON u.user_id = spv.user_id WHERE '.$sql;
             // exit();
 
             $results = $this->db->resultSet();

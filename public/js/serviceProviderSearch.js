@@ -90,7 +90,7 @@ soundEngineersSearchForm.addEventListener("submit", (e) =>{
                     var result = data.results[i];
 
                     // var profile_image = result.profile_pic ;
-                    var imgLink = "<img src=" + URLROOT+"/public/uploads/Profile/"+`result.profile_image` +">";
+                    var imgLink = "<img src=" + URLROOT+"/public/uploads/Profile/"+result.profile_image +">";
 
                     var link = "<a href ="+ URLROOT+"/users/serviceProviderPublic/?id="+result.user_id+ " >";
 

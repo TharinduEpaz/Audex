@@ -114,6 +114,20 @@
             
         }
 
+        public function getBuyerReviewedSellers($email){
+            $this->db->query('SELECT * FROM rate WHERE email_rater = :email');
+            $this->db->bind(':email' , $email);
+            $results = $this->db->resultSet();
+            return $results;
+        }
+
+        public function getBuyerReviewedServiceProviders($email){
+            $this->db->query('SELECT * FROM rate_service_provider WHERE email_buyer = :email');
+            $this->db->bind(':email' , $email);
+            $results = $this->db->resultSet();
+            return $results;
+        }
+
         public function addItemToWatchList($p_id,$user_id){
 
             $this->db->query('SELECT email FROM user WHERE user_id = :id');

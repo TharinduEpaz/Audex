@@ -144,6 +144,7 @@
                             <!-- user is not logged in -->
                             
                                 <a class="message btn" href="<?php echo URLROOT . '/users/chat/' . $data['user']->user_id; ?>" class="btn btn-primary">Message</a>
+                                
                                 <a href="" class="review btn" onclick="openModal(); return false;">Write Review</a>
                            
                         <?php } ?>
@@ -189,6 +190,7 @@
                                             $event = $data['events'][0];
                                             <option value="<?php echo $event->date ?>"><?php echo $event->date ?></option>
                                         </select>
+                                        <!-- <input type="date" id="event-date" name="event-date" value="2018-07-22" min="2018-01-01" max="2018-12-31" required /> -->
                                     </div>
                                     <div class="feedback-area">
                                         <form action="" method="post" id="review-write-form">
@@ -301,6 +303,11 @@
         // get rate receiver's email form profile
         const email_rate_receiver = <?php echo "'" . $data['user']->email . "'"; ?>;
 
+        // // set current date to value of input field and max date to current date
+        // var today = new Date().toISOString().substr(0, 10);
+        // document.querySelector("#event-date").value = today;
+        // document.querySelector("#event-date").max = today;
+
 
         // set event dates according to event name
         const eventNameDropdown = document.getElementById("event-name");
@@ -360,7 +367,7 @@
 
             // rate functionality======================================================================================================================
 
-            if (emai_rater != "0") {
+            if (emai_rater != "0" ) {
                 // user is logged in
 
                 for (const star of stars) {
@@ -425,7 +432,6 @@
 
             } else {
                 //user is not logged in 
-                // <?php $_SESSION['url'] = URL(); ?>
                 window.location.href = '<?php echo URLROOT ?>/users/login/';
             }
 
