@@ -880,7 +880,8 @@
                         $_SESSION['attempt'] = 0;
                         $_SESSION['time'] = date('Y-m-d H:i:s', strtotime('+5 minutes', strtotime(date('Y-m-d H:i:s'))));
                         $otp=rand(111111,999999);
-                        if($this->userModel->updateEmailOTP($otp,$id)){
+                        $data['otp_hashed'] = password_hash($otp, PASSWORD_DEFAULT);
+                        if($this->userModel->updateEmailOTP($data['otp_hashed'],$id)){
                             //Send email
                             $mail = new PHPMailer(true);
                             try{
@@ -990,7 +991,8 @@
                                 $user_details=$this->userModel->getUserDetails($id);
                                 $data['user']=$user_details;
                                 if($user_details){
-                                    if($data['otp_entered'] == $user_details->otp){
+                                    //Checking for otp matching. CHecking done in model
+                                    if($this->userModel->verifyotp($data['otp_entered'],$user_details->otp)){
                                         //otp matched
                                     
                                         //Update user
@@ -1040,7 +1042,7 @@
                     redirect($_SESSION['user_type'].'s/getProfile/'.$id);
                 }
             }
-
+            //Email enter page for forgot password
             public function enterEmail(){
                 if(isset($_SESSION['attempt'])){
                     unset($_SESSION['otp_email']);
@@ -1207,7 +1209,7 @@
 
             }
             
-
+            //Change password by using old password
             public function change_password($id){
                 if(isset($_SESSION['attempt'])){
                     unset($_SESSION['otp_email']);

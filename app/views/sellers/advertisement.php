@@ -67,7 +67,7 @@
                     </div>
                 </div>
         </div>
-            <div class="details">
+            <div class="details" style="width: 45%;">
                 <h2><?php echo $data['advertisement']->product_title?></h2>
                 <?php if($data['advertisement']->product_type=='auction'){?>
                     <div class="time">
@@ -78,7 +78,7 @@
                 <table>
                     <tr>
                         <td class="name">Category</td>
-                        <td class="value">: <?php echo $data['advertisement']->product_category?></td>
+                        <td class="value">: <?php echo ucwords($data['advertisement']->product_category)?></td>
                     </tr>
                     <tr>
                         <td class="name">Model Number</td>

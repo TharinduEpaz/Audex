@@ -84,6 +84,7 @@
             <?php echo flash('phone_number_error');?>
             <div class="form-display">
                 <div class="top_details">
+                    <!-- profile image -->
                     <div class="profile_img">
                         <form class="form" id = "form" action="" enctype="multipart/form-data" method="post">
                             <div class="upload">                    

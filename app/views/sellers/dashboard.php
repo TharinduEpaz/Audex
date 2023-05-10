@@ -20,6 +20,7 @@
     <style>
         p{
             color: black;
+            font-weight: 700;
         }
         .service-provider-profile {
           width: calc(100vw - 240px);
@@ -50,8 +51,8 @@
     <div class="dashboard-container">
 
     <div class="dashboard-item" id="">
-        <h1 id="msg-count">2</h1>
-        <p>Unread Messages</p>
+        <h1 id="msg-count" style="color: black;"><?php echo $data['feedbackcount'] ;?></h1>
+        <p>Reviews</p>
     </div>
 
     <div class="dashboard-item" id="">
@@ -69,7 +70,7 @@
         <p>Total Dislikes</p>
     </div>
     <div class="dashboard-item" id="">
-        <h1 id="Flags">0</h1>
+        <h1 id="Flags" style="color: red;">0</h1>
         <p>Flags</p>
     </div>
     <div class="dashboard-item" id="">
