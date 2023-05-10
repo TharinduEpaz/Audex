@@ -2940,7 +2940,7 @@
             $results4 = $this->userModel->getRateReceiversFinalRate($emailServiceProvider);
             flash('rating_message', 'Rating added successfully');
             // ,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3
-
+            // echo $results1;
             echo json_encode(['message' => 'Rating saved','results4'=>$results4,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
             // echo json_encode(['message' => 'Rating saved','result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
 
