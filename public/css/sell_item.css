@@ -331,3 +331,15 @@ body{
     border: 1px solid #F01131;
     color: white;
   }
+  @media(max-width:1200px){
+  }
+  @media (max-width:768px){
+  }
+  @media (max-width:576px){
+    .input{
+      flex-wrap: wrap;
+    }
+    #forms h1{
+      margin-left: 0px;
+    }
+  }

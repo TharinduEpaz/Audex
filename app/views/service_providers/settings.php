@@ -2,9 +2,9 @@
 <div class="service-provider-profile">
     <div class="white-box">
         <span id="edit-profile-heading">Edit Profile</span>
-        <button class="add-event-btn" id="edit-event-btn">Change Password</button>
-        <button class="add-event-btn" id="edit-event-btn">Change Email</button>
-        <button class="add-event-btn" id="edit-event-btn">Make Payment</button>
+        <button class="add-event-btn" id="edit-event-btn" onclick="window.location.href='<?php echo URLROOT.'/users/change_password/'.$data['details']->user_id;?>'">Change Password</button>
+        <button class="add-event-btn" id="edit-event-btn" onclick="window.location.href='<?php echo URLROOT.'/users/change_email/'.$data['details']->user_id;?>'">Change Email</button>
+        <button class="add-event-btn" id="edit-event-btn" onclick="window.location.href='<?php echo URLROOT.'/users/change_password/'.$data['details']->user_id;?>'">Make Payment</button>
 
         <hr>
         

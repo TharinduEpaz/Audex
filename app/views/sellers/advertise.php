@@ -41,7 +41,7 @@
                 <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
 
                             <label for="">Title&nbsp</label>
-                            <input class="title" type="text" name="title"  value="<?php echo $data['title']?>" >
+                            <input class="title" type="text" name="title"  value="<?php echo $data['title']?>" maxlength="80">
                         </div>
                         <?php
                                     if(!empty($data['price_err'])){
@@ -136,29 +136,29 @@
                         <div class="input" style="flex-wrap: wrap;">
                         <label>Category:</label>
                         <div class="input">
-                            <input type="checkbox" name="category[]" value="Microphone" id="chkMicrophone">
+                            <input type="checkbox" name="category[]" value="microphone" id="chkMicrophone">
                             <label for="chkMicrophone">Microphone</label>
 
-                            <input type="checkbox" name="category[]" value="DJ" id="chkDJ">
+                            <input type="checkbox" name="category[]" value="dj" id="chkDJ">
                             <label for="chkDJ">DJ</label>
 
-                            <input type="checkbox" name="category[]" value="Mixer" id="chkMixer">
+                            <input type="checkbox" name="category[]" value="mixer" id="chkMixer">
                             <label for="chkMixer">Mixer</label>
                             
-                            <input type="checkbox" name="category[]" value="Mixer" id="chkMixer">
+                            <input type="checkbox" name="category[]" value="Percussion/Drums" id="chkMixer">
                             <label for="chkMixer">Percussion/Drums</label>
                         </div>
                             <div class="input">
-                                <input type="checkbox" name="category[]" value="Amplifier" id="chkAmplifier">
+                                <input type="checkbox" name="category[]" value="amplifier" id="chkAmplifier">
                                 <label for="chkAmplifier">Amplifier</label>
     
-                                <input type="checkbox" name="category[]" value="Guitar" id="chkGuitar">
+                                <input type="checkbox" name="category[]" value="guitar" id="chkGuitar">
                                 <label for="chkGuitar">Guitar</label>
     
-                                <input type="checkbox" name="category[]" value="Keyboard" id="chkKeyboard">
+                                <input type="checkbox" name="category[]" value="keyboard" id="chkKeyboard">
                                 <label for="chkKeyboard">Keyboard</label>
     
-                                <input type="checkbox" name="category[]" value="Drumset" id="chkDrumset">
+                                <input type="checkbox" name="category[]" value="drumset" id="chkDrumset">
                                 <label for="chkDrumset">Other</label>
                             </div>
                         </div>

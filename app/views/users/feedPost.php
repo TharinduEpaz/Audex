@@ -1,7 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css?id=1425'; ?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/service_provider.css?id=25'; ?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/style.css?id=1445'; ?>">
+
+
+
+    <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
+    <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
+    <title>Audex</title>
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+
+    <!-- JQUERY LIBRARY -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .service-provider-profile {
+            margin: auto;
+            padding-left: 10vw;
+            padding-right: 10vw;
+        }
+
+        .white-box {
+            margin: 0;
+
+        }
+    </style>
+</head>
+<?php require_once APPROOT . '/views/users/navbar.php'; ?>
 <div class="service-provider-profile">
     <div class="white-box">
 <div class="feed">
-    
      <div class="title-section">
             <span id="post-title"><?php echo $data['post']->title ?></span>
             <!-- <button onclick="window.location.href='<?php echo URLROOT . '/service_providers/addNewPost/' ?>'" id="create-feed-post">Create New</button> -->
@@ -51,11 +92,6 @@
         <div class="post-content">
             <?php echo $data['post']->content ?>
         </div>
-
-        <button class="cancel" id="edit-event-btn" type="reset"  onclick="deletePost(<?php echo $data['post']->post_id ?>)">Delete Post</button>
-        
-
-
         </div>
     </div>
     

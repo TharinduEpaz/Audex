@@ -61,39 +61,51 @@
         </div>
     </div>
     <div class="hotest_auctions">
-
         <p id="title">Hotest Auctions</p>
-        <?php $i=0;foreach($data['auctions'] as $auction){?>
-            <a href="<?php echo URLROOT.'/users/auction/'.$auction->product_id?>">
-                <div class="auction"><img src="<?php echo URLROOT.'/uploads/'.$auction->image1?>" alt=""></div>
-        </a>
-        <?php $i++;}?>
-        <?php while($i<6){?>
-            <div class="auction"></div>
-        <?php $i++;}?>
+        <div class="auctions">
+            <?php $i=0;foreach($data['auctions'] as $auction){?>
+                <div class="au">
+                    <a href="<?php echo URLROOT.'/users/auction/'.$auction->product_id?>">
+                        <div class="auction"><img src="<?php echo URLROOT.'/uploads/'.$auction->image1?>" alt=""></div>
+                    </a>
+                </div>
+            <?php $i++;}?>
+            <?php while($i<6){?>
+                <div class="auction"></div>
+            <?php $i++;}?>
+        </div>
 
     </div>
     <div class="popular_engineers">
         <p id="title">Popular Engineers</p>
+        <div class="auctions">
         <?php $i=0;foreach($data['engineers'] as $engineer){?>
+            <div class="au">
             <a href="<?php echo URLROOT.'/users/serviceProviderPublic/'. "?id=$engineer->user_id"?>">
                 <div class="engineer"><img src="<?php echo URLROOT.'/uploads/Profile/'.$engineer->profile_image?>" alt=""></div>
-        </a>
-        <?php $i++;}?>
-        <?php while($i<6){?>
-            <div class="engineer"></div>
-        <?php $i++;}?>
-
+            </a>
+        </div>
+            <?php $i++;}?>
+            <?php while($i<6){?>
+                <div class="engineer"></div>
+            <?php $i++;}?>
+        </div>
     </div>
     <div class="upcoming_events">
 
         <p id="title">Upcoming Events</p>
-        <div class="event event1"></div>
-        <div class="event event2"></div>
-        <div class="event event3"></div>
-        <div class="event event4"></div>
-        <div class="event event5"></div>
-        <div class="event event6"></div>
+        <div class="auctions">
+        <?php $i=0;foreach($data['engineers'] as $engineer){?>
+            <div class="au">
+            <a href="<?php echo URLROOT.'/users/serviceProviderPublic/'. "?id=$engineer->user_id"?>">
+                <div class="event"><img src="<?php echo URLROOT.'/uploads/Profile/'.$engineer->profile_image?>" alt=""></div>
+            </a>
+        </div>
+            <?php $i++;}?>
+            <?php while($i<6){?>
+                <div class="event"></div>
+            <?php $i++;}?>
+        </div>
     </div>
     <?php require_once APPROOT . '/views/users/footer.php';?>
 

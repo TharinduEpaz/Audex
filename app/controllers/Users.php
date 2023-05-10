@@ -2958,6 +2958,7 @@
                 $_SESSION['url'] = URL();
                 redirect('users/login');
             }
+            $data['id']=$id;
             $data['email_receiver'][]='';
             $data['email_receivers'][]='';
 
@@ -3115,5 +3116,78 @@
             }
 
         }
+
+        public function calanderPublic(){
+         
+
+            if(isset($_GET['id'])){
+                $id = $_GET['id'];
+                $_SESSION['cal_usr_id'] = $id;
+            }
+            else{
+                $id = $_SESSION['cal_usr_id'];
+            }
+
+
+            $month = $_GET['month'];
+
+           
+
+        if ($month == 'current') {
+            $_SESSION['current'] = date('m');
+            $_SESSION['current_y'] = date('y');
+        } else if ($month == 'next' && $_SESSION['current'] < 12) {
+            $_SESSION['current'] = $_SESSION['current'] + 1;
+        } else if ($month == 'next' && $_SESSION['current'] >= 12) {
+            $_SESSION['current_y'] = $_SESSION['current_y'] + 1;
+            $_SESSION['current'] = 01;
+        } else if ($month == 'previous' && $_SESSION['current'] > 1) {
+            $_SESSION['current'] = $_SESSION['current'] - 1;
+        } else if ($month == 'previous' && $_SESSION['current'] <= 1) {
+            $_SESSION['current_y'] = $_SESSION['current_y'] - 1;
+            $_SESSION['current'] = 12;
+        }
+
+        // Update the displayed month name based on the new value of $current
+        $year = $_SESSION['current_y'];
+        $monthName = date('F', mktime(0, 0, 0, $_SESSION['current'], 1));
+
+        $events = $this->userModel->getEventsByUser($id, $_SESSION['current']);
+
+        $data = [
+            'events' => $events,
+            'month' => $monthName,
+            'year' => $year,
+            'month_no' => $_SESSION['current'],
+            'year_no' => $_SESSION['current_y']
+        ];
+
+        $this->view('users/calander', $data);
+        }
+
+        public function getEvent()
+        {
+            $id = $_GET['id'];
+            $event = $this->userModel->getEventById($id);
+            $name = $this->userModel->getEventOwner($id);
+            $data = [
+                'event' => $event,
+                'name' => $name
+            ];
+            echo json_encode($data);
+            return json_encode($data);
+        }
+
+        public function feedPost(){
+            $post_id = $_GET['id'];
+            $post = $this->userModel->getPostById($post_id);
+            
+            $data = [
+                'post' => $post
+            ];
+            $this->view('users/feedPost', $data);
+
+        }
+    
         
     }

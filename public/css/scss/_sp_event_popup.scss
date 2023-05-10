@@ -11,17 +11,19 @@ EVENT POP UPS CSS
     transform: translate(-50%,-50%) scale(0); /* scale 0 is used to hide the event  */
     /* border: 1px solid black; */
     border-radius: 10px;
-    z-index: 10;
-    background-color: #E5E9F7;
-  
-    
+    z-index: 10;   
+    height: 80vh;
     display: flex;
     flex-direction: row;
+    
   }
+
   .event .event-left{
     /* display: flex; */
     /* flex-direction: row; */
+    height: 100%;
     width: 600px;
+    background-color: #E5E9F7;
     
   }
   
@@ -31,7 +33,7 @@ EVENT POP UPS CSS
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    height: 800px;
+    height: 100%;
     width: 540px;
   
     border-top-right-radius: 10px;
@@ -42,6 +44,7 @@ EVENT POP UPS CSS
     height: 100%;
   }
   .event .event-date{
+    
     position: absolute;
     margin-top:150px;
   
@@ -65,20 +68,21 @@ EVENT POP UPS CSS
   }
   .event.active{
     transform: translate(-50%,-50%) scale(1); /* scale 0 is used to hide the event  */
-  
   }
   
   .event .event-header{
-    padding:30px 30px;
+    padding:30px 30px 0px 30px;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: left;
+    gap:20px;
     /* border-bottom: 1px solid black; */
   
   }
   
   .event-header .title{
-    padding-top:20px;
+    // padding-top:20px;
     font-size: 3rem;
     font-weight: bold;
   }
@@ -105,12 +109,13 @@ EVENT POP UPS CSS
     margin-left: 30px;
   }
   .event .wrapper-for-event{
+
     display: flex;
     margin-top:5px;
-    
     justify-content: space-between;
     padding:30px;
     align-items: center;
+
   }
   
   

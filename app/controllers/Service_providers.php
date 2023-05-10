@@ -455,9 +455,20 @@ class Service_providers extends Controller
     public function feed()
     {
         $posts = $this->service_model->getPostsByUser($_SESSION['user_id']);
-        $data = [
-            'posts' => $posts
-        ];
+        $is_paid = $this->service_model->is_paid($_SESSION['user_id']);
+        
+
+        if($is_paid){
+            $data = [
+                'posts' => null
+            ];
+        }
+        else{
+            $data = [
+                'posts' => $posts
+            ];
+        }
+
         $this->view('service_providers/feed', $data);
     }
 
