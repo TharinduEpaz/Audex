@@ -41,7 +41,7 @@
                 <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
 
                             <label for="">Title&nbsp</label>
-                            <input class="title" type="text" name="title"  value="<?php echo $data['title']?>" >
+                            <input class="title" type="text" name="title"  value="<?php echo $data['title']?>" maxlength="80">
                         </div>
                         <?php
                                     if(!empty($data['price_err'])){

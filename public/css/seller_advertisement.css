@@ -550,3 +550,18 @@ width: 30%;
   padding: 3%;
   resize: none;
 }
+@media(max-width:1200px){
+}
+@media (max-width:768px){
+  .image{
+    display: none;
+  }
+  .four{
+    display: none;
+  }
+}
+@media (max-width:576px){
+  .two{
+    display: none;
+  }
+}

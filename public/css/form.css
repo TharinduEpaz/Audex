@@ -474,6 +474,9 @@ nav{
   .form{
       width: 50%;
   }
+  .container_main{
+    height: 70vh;
+  }
 }
 @media (max-width:576px){
   .form{
@@ -490,6 +493,12 @@ nav{
   }
   #title{
     line-height: 6vh;
+  }
+  .container_main{
+    height: 50vh;
+  }
+  .search .heading h1{
+    width: 55vw;
   }
 }
  .form form input{
