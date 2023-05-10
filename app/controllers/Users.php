@@ -2274,7 +2274,15 @@
                 unset($_SESSION['attempt']);
                 unset($_SESSION['time']);
             }
-        $data = $this->userModel->getServiceProviders();
+        $details = $this->userModel->getServiceProviders();
+
+        $data = [
+            'details'=> $details,
+            'profession' => '1',
+            'rate' => '',
+            'city' =>  '',
+
+        ];
             
         $this->view('users/sound_engineers', $data);
     }
@@ -2619,6 +2627,50 @@
                    $Filter['product_type']= $productType;
                 }
                 $results = $this-> userModel->searchAndFilterItems($Filter,$categories);
+                
+                // print_r($results);
+                // exit();
+                echo json_encode(['message' => 'filters','results'=>$results]);
+            }
+
+        }
+        // This is for service provider filter
+        public function serviceProviderFilter(){
+
+            $profession = $_POST['profession'];
+            $rating = $_POST['rate'];
+            $district = $_POST['district'];
+
+            // echo $profession;
+            // echo $rating;
+            // echo $district;
+
+            // exit();
+
+            $Filter=[];
+            $results = [];
+
+            if(empty(trim($profession)) and empty(trim($rating)) and empty(trim($district))) 
+            {
+                // if all filters are empty
+                // redirect('users/shop');
+                $results = [];
+                echo json_encode(['message' => 'No filters','results'=>$results]);
+            }
+            else{
+                // if(!empty(trim($categories))){
+                //     $Filter['product_category']=$categories;
+                // }
+                if(!empty(trim($profession))){
+                    $Filter['profession']= $profession;
+                }
+                if(!empty(trim($rating))){
+                    $Filter['rate']=(int) $rating;
+                }
+                if(!empty(trim($district))){
+                   $Filter['address_line_two']= $district;
+                }
+                $results = $this-> userModel->searchAndFilterServiceProviders($Filter);
                 
                 // print_r($results);
                 // exit();
