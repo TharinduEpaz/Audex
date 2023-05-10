@@ -221,6 +221,13 @@ class Service_provider
         $this->db->bind(':id', $id);
         $this->db->execute();
     }
+
+    public function is_paid($id){
+        $this->db->query('SELECT is_paid FROM service_provider WHERE user_id = :id');
+        $this->db->bind(':id', $id);
+        $is_paid = $this->db->single();
+        return $is_paid;
+    }
      
 }
 

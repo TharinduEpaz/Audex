@@ -1,6 +1,7 @@
 <div class="service-provider-profile">
     <div class="white-box">
 <div class="feed">
+    
      <div class="title-section">
             <span id="post-title"><?php echo $data['post']->title ?></span>
             <!-- <button onclick="window.location.href='<?php echo URLROOT . '/service_providers/addNewPost/' ?>'" id="create-feed-post">Create New</button> -->

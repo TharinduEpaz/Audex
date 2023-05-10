@@ -148,14 +148,16 @@
     font-size: 16px;
     width: 100%;
     border-collapse: collapse;
-    margin-left: 13%;
+    
     margin-top: 8%;
+
   }
   .search-result-row-content{
     background-color: white;
     display: flex;
     flex-direction: row;
     align-items: center;
+    width:40vw;
     border: 1px solid rgb(169 165 165);
   }  
 

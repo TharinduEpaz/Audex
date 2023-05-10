@@ -11,12 +11,11 @@ EVENT POP UPS CSS
     transform: translate(-50%,-50%) scale(0); /* scale 0 is used to hide the event  */
     /* border: 1px solid black; */
     border-radius: 10px;
-    z-index: 10;
-    
+    z-index: 10;   
     height: 80vh;
-    
     display: flex;
     flex-direction: row;
+    
   }
 
   .event .event-left{
@@ -69,7 +68,6 @@ EVENT POP UPS CSS
   }
   .event.active{
     transform: translate(-50%,-50%) scale(1); /* scale 0 is used to hide the event  */
-  
   }
   
   .event .event-header{
@@ -111,12 +109,13 @@ EVENT POP UPS CSS
     margin-left: 30px;
   }
   .event .wrapper-for-event{
+
     display: flex;
     margin-top:5px;
-    
     justify-content: space-between;
     padding:30px;
     align-items: center;
+
   }
   
   

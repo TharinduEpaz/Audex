@@ -84,9 +84,6 @@
                         </p>
                         <i class="fa fa-map-marker" aria-hidden="true"></i><span id="profession"><?php echo $data['details']->address_line_two ?></span>
                     </div>
-
-
-
                     <div class="rating"><span class="rate" style="color:white"><?php echo $data['details']->Rating; ?></span>
 
                         <?php for ($i = 0; $i < floor($data['details']->Rating); $i++) : ?>
@@ -113,21 +110,21 @@
                                 <!-- buyer_id -->
                                 <input type="text" name="service_provider_id" value="<?php echo $data['details']->user_id; ?>" hidden>
                                 <!-- service_provider_id -->
-
+                                
                                 <?php
                                 // if not log in then show the button to every one
                                 if (!isLoggedIn()) { ?>
                                     
-                                        <input type="submit" value="Add To Watchlist" class="watch" id="add-service-provider-to-watchlist" >
-                             
-            
-                            <?php } else if ($_SESSION['user_type'] != 'seller' && $_SESSION['user_type'] != 'service_provider') { ?>
-                                <!-- if log in then show the button only to buyers -->
-                               
-                                        <input type="submit" value="Add To Watchlist" class="watch" id="add-service-provider-to-watchlist">
+                                    <input type="submit" value="Add To Watchlist" class="watch" id="add-service-provider-to-watchlist" >
                                     
-                                <?php } ?>
-                            </form>
+                                    
+                                    <?php } else if ($_SESSION['user_type'] != 'seller' && $_SESSION['user_type'] != 'service_provider') { ?>
+                                        <!-- if log in then show the button only to buyers -->
+                                        
+                                        <input type="submit" value="Add To Watchlist" class="watch" id="add-service-provider-to-watchlist">
+                                        <?php } ?>
+                                    </form>
+                                    <button class='message btn'  onclick="getCalander(<?php echo $data['details']->user_id?>)">Get calander</button>
                         </div>
 
                         <?php if (isLoggedIn()) {
