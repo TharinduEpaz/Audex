@@ -7,7 +7,7 @@
         </div>
         <div class="post-section">
 
-        <?php if($data['posts'] != null): ?>
+        <?php if($data['posts'] != 0): ?>
 
             <?php foreach ($data['posts'] as $post) : ?>
                 <div class="feed-card" onclick="gotopost(<?php echo $post->post_id ?>)">

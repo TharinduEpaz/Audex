@@ -172,7 +172,7 @@ class Service_providers extends Controller
 
                 $phone = $_POST['phone'];
             } else {
-                $phone = $data['details']->phone;
+                $phone = $data['details']->phone_number;
             }
 
             if (!empty($_FILES['profile']['name'])) {
@@ -228,7 +228,7 @@ class Service_providers extends Controller
             $nameErr = "Second Name : Only letters and white space allowed";
             array_push($errors, $nameErr);
         }
-        if (!preg_match("/^[0-9]{10}$/", $details['phone'])) {
+        if (!preg_match("/^[0-9]{10}$/", $details['phone']) && !preg_match("/^[0-9]{9}$/", $details['phone'])) {
             $phoneErr = "Phone number should be a 10-digit number";
             array_push($errors, $phoneErr);
         }
@@ -456,11 +456,10 @@ class Service_providers extends Controller
     {
         $posts = $this->service_model->getPostsByUser($_SESSION['user_id']);
         $is_paid = $this->service_model->is_paid($_SESSION['user_id']);
-        
 
-        if($is_paid){
+        if(!$is_paid->is_paid){
             $data = [
-                'posts' => null
+                'posts' => 0
             ];
         }
         else{
