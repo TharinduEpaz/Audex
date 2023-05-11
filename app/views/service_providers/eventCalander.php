@@ -5,7 +5,6 @@
             <a href="<?php echo URLROOT . '/service_providers/eventCalander?month=previous' ?>">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i> </a>
         </div>
-
         <div class="month-display">
             <span><?php echo $data['month'] . ' ' . $data['year'] ?></span>
         </div>
