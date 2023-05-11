@@ -7,8 +7,6 @@
         </div>
         <div class="post-section">
 
-        <?php if($data['posts'] != null): ?>
-
             <?php foreach ($data['posts'] as $post) : ?>
                 <div class="feed-card" onclick="gotopost(<?php echo $post->post_id ?>)">
                     <img src="<?php echo URLROOT . '/public/uploads/' . $post->image1; ?>" alt="post image" style="width:100%">
@@ -17,16 +15,7 @@
                         <p><?php echo substr($post->content, 0, 20) . '....'; ?></p>
                     </div>
                 </div>
-
             <?php endforeach; ?>
-
-        <?php else: ?>
-
-            <span>Please pay before adding any post</span>
-
-        <?php endif; ?>
-
-
         </div>
     </div>
 
