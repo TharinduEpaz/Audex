@@ -136,14 +136,14 @@
                 //Validate password
                 if(empty($data['passwd'])){
                     $data['password_err1'] = 'Please enter a password';
-                }if(strlen($data['password']) < 6){
-                    $data['password_err2'] = 'Password must be at least 6 characters';
+                }if(strlen($data['password']) < 8){
+                    $data['password_err2'] = 'Password must be at least 8 characters';
                 }
                 // if(!preg_match("#[0-9]+#",$data['password'])) {
                 //     $data['password_err3'] = 'Password must contain at least 1 number!';
                 // }if(!preg_match("#[A-Z]+#",$data['password'])) {
                 //     $data['password_err4'] = 'Password must contain at least 1 capital letter!';
-                // }if(!preg_match("#[a-z]+#",$data['password'])) {
+                // }if(!preg_match("#[a-z,A-Z]+#",$data['password'])) {
                 //     $data['password_err5'] = 'Password must contain at least 1 lowercase letter!';
                 /* }if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['password'])) {*/
                 //     $data['password_err6'] = 'Password must contain at least 1 special character!';
@@ -1156,8 +1156,8 @@
                     //Validate new password
                     if(empty($data['new_password'])){
                         $data['new_password_err'] = 'Please enter new password';
-                    }else if(strlen($data['new_password']) < 6){
-                        $data['new_password_err'] = 'Password must be at least 6 characters';
+                    }else if(strlen($data['new_password']) < 8){
+                        $data['new_password_err'] = 'Password must be at least 8 characters';
                     }else if(password_verify($data['new_password'], $user->password)){
                         $data['new_password_err'] = 'New password must be different from current password';
                     }

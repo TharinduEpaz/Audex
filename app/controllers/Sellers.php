@@ -1307,7 +1307,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
 
                 //Make sure no errors
-                if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['image4_err']) && empty($data['image5_err']) && empty($data['image6_err']) && empty($data['brand_err']) && empty($data['model_err'])){
+                if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['category_err']) && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['image4_err']) && empty($data['image5_err']) && empty($data['image6_err']) && empty($data['brand_err']) && empty($data['model_err'])){
                     //Validated
 
                     $dat=date('Y-m-d H:i:s');
@@ -1602,7 +1602,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             }
 
             $data['ad'] = $ad;
-  
             $auction = $this->sellerModel->getAuctionById_withfinished($id); //Gets the auction details of the product(Not need to check whether the auction is finished or not)
             $data['auction'] = $auction;
             

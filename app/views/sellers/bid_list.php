@@ -20,11 +20,6 @@
 <?php require_once APPROOT . '/views/sellers/navbar.php';?>
 
     <div class="container" style="background: none;">
-    <?php if($data['auction']->is_active==0){if($data['auctions_no_rows']=='' && $data['reposted']!=1){?>
-        <div style="left:80%;top:15vh;position:sticky;" class="message_seller">
-            <a href="<?php echo URLROOT.'/sellers/repost/'.$data['ad']->product_id; ?>">REPOST</a>
-        </div>
-    <?php }}?>
     <?php echo flash('email_err');?>
         <div class="content">
             <div class="image_likes">
@@ -144,6 +139,17 @@
                     ?>
                 </table>
             </div>
+            <?php if($data['auction']->is_active==0 && $data['reposted']!=1 ){
+                    if(($data['auctions_no_rows']=='') || ($j==3 && $data['auctions_no_rows']>3) || 
+                    // If number of bid rows is 3, then only show the approve button for the first 2 bids
+                    ($j==2 && $data['auctions_no_rows']==3) || 
+                    // If number of bid rows is less than 3, then only show the approve button for the first 1 bids                               
+                    ($j==1 && $data['auctions_no_rows']<=2)){?>
+                        <div style="left:55%;top:15vh;position:absolute;" class="message_seller">
+                            <a href="<?php echo URLROOT.'/sellers/repost/'.$data['ad']->product_id; ?>">REPOST</a>
+                        </div>
+            <?php   }
+                 }?>
         </div>
         <div class="description" style="margin-top: -2vh;">
             <h3>Description</h3>
