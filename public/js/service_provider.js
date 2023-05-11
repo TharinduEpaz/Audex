@@ -82,15 +82,16 @@ function closeEventDisplay(event) {
 
 function loadevent(event_id) {
     
+    
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var event = JSON.parse(this.responseText);
+      console.log(event);
       
-      document.querySelector(".add-event-btn").setAttribute("onclick", `editEvent(${event_id})`);
-     
-      document.querySelector(".event-date").innerText = event.event.date;
-      document.querySelector(".event-time").innerText = event.event.time;
+      
+      document.querySelector(".date").innerHTML = '<i class="fa fa-calendar" aria-hidden="true"></i>  &nbsp  ' + event.event.date;
+      document.querySelector(".time").innerHTML = '<i class="fa fa-clock-o" aria-hidden="true"></i>  &nbsp   ' + event.event.time;
       document.querySelector(".title").innerHTML = event.event.name;
       document.querySelector(".event-body").innerHTML = event.event.description;
       document.querySelector(
@@ -106,7 +107,7 @@ function loadevent(event_id) {
 
   xhttp.open(
     "GET",
-    "http://localhost/Audex/service_providers/getEvent?id=" + event_id,
+    "http://localhost/Audex/users/getEvent?id=" + event_id,
     true
   );
 
@@ -143,6 +144,7 @@ function loadevent(event_id) {
             // console.log(this.responseText); 
             document.querySelector("#dislikes").innerHTML = res.reactions.dislikes;
             dislike_button.disabled = true;
+            
         }
         } 
     xhttp.open("GET", "http://localhost/Audex/service_providers/likeDislike?id=" + event_id + '&type=dislike', true);
