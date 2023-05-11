@@ -73,32 +73,6 @@
                             <input class="price" type="text" name="price"  value="<?php echo $data['price']?>"  >
                         </div>
                         <?php }?>
-                        <!-- <div class="input">
-                            <label for="check_au" >Auction(optional)</label>
-                            <input type="checkbox"   name="check_au" class="check_au" >
-                            <label class="date" for="date">Ending Date</label>
-                            <select name="date" id="date" class="date">
-                              <option value="1">1day</option>
-                              <option value="3">3day</option>
-                              <option value="5">5day</option>
-                              <option value="7">7day</option>
-
-                            </select>
-                        </div> -->
-                        <!-- <div class="input">
-                            <div class="image">
-                                <label for="image1">Image1:</label>
-                                <input type="file" name="image1"  value="<?php echo dirname(APPROOT).'/public/uploads/'.$data['image1']?>" class="fa-solid" alt="&#xf03e" >
-                            </div>
-                            <div class="image">
-                                <label for="image2">Image2:</label>
-                                <input type="file" name="image2"  class="fa-solid" alt="&#xf03e">
-                            </div>
-                            <div class="image">
-                                <label for="image3">Image3:</label>
-                                <input type="file" name="image3" class="fa-solid " alt="&#xf03e" >
-                            </div>
-                        </div> -->
                         <div class="input">
                             <label class="condition" for="">Condition</label>
                             <input class="condition" type="text" name="condition"   value="<?php echo $data['condition']?>" >

@@ -16,17 +16,12 @@
 <?php require_once APPROOT . '/views/sellers/navbar.php';?>
 
     <div class="container">
-    <div class="sidebar">
-                <a href="#"><i class="fas fa-qrcode"></i> <span>Dashboard</span></a>
-                <a href="<?php echo URLROOT.'/sellers/getProfile/'.$_SESSION['user_id']?>"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile Settings</span></a>
-                <a class="current" href="<?php echo URLROOT;?>/sellers/advertisements"> <i class="fa fa-ad" aria-hidden="true"></i><span>Advertisements</span></a>
-                <a href="<?php echo URLROOT;?>/sellers/advertise"><i class="fa-solid fa-dollar-sign" aria-hidden="true"></i><span>Advertise</span></a>
-                <a href="#"> <i class="fa fa-comments"></i><span>Messages</span></a>       
-        </div>
+    <?php require_once APPROOT . '/views/sellers/sidebar.php';?>        
+
         <div class="poster_advertisements">
             <h1>Posted Advertisements</h1>
             <div class="header">
-                <div class="image">
+                <div class="image" style="background: none;">
                     <img  class="two" src="" alt="photo">
                 </div>
                 <p class="one">Title</p>
@@ -39,19 +34,29 @@
             </div>
             <?php foreach($data['advertisements'] as $advertisement): ?>
             <div class="advertisements">
-                <div class="image">
-                    <img src="<?php echo URLROOT.'/public/uploads/'.$advertisement->image1;?>" alt="photo">
+                <div class="image" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$advertisement->image1;?>);">
+                    <!-- <img src="<?php echo URLROOT.'/public/uploads/'.$advertisement->image1;?>" alt="photo"> -->
                 </div>
                 <p class="one"><?php echo $advertisement->product_title;?></p>
-                <p class="two"><?php echo $advertisement->product_type;?></p>
+                <p style="text-align: left;" class="two"><?php echo ucwords($advertisement->product_type);?></p>
                 <p class="three">
                     <?php if($advertisement->is_paid == 1): ?>
                         <a style="text-decoration:none;color:green;font-weight: 700;pointer-events: none" >Completed</a>
-                    <?php else: ?>
-                        <a style="text-decoration:none;color:red;font-weight: 700" href="<?php echo URLROOT;?>/sellers/complete_payment/<?php echo $advertisement->product_id;?>" >Pay Now</a>
+                    <?php else: 
+                        $data1 = [
+                            'id' => $advertisement->product_id,
+                            'user_email' => $_SESSION['user_email'],
+                            'title' => $advertisement->product_title,
+                            'price' => $advertisement->price,
+                            'image1' => $advertisement->image1,
+                            
+                        ]; 
+
+                        echo "<a style='text-decoration:none;color:red;font-weight: 700' href='".URLROOT."/users/checkout/".$advertisement->product_id."/".urlencode(json_encode($data1))."' >Pay Now</a>"; ?>
+                        <!-- <a style="text-decoration:none;color:red;font-weight: 700" href="<?php echo URLROOT;?>/sellers/complete_payment/<?php echo $advertisement->product_id;?>" >Pay Now</a> -->
                     <?php endif; ?>
                 </p>
-                <p class="four">Rs.<?php echo $advertisement->price;?></p>
+                <p style="text-align: left;" class="four">Rs.<?php echo $advertisement->price;?></p>
                 <?php if($advertisement->is_paid == 1){ ?>
                 <a class="five" href="<?php echo URLROOT;?>/sellers/edit_advertisement/<?php echo $advertisement->product_id;?>">Edit</a>
                 <?php }else{ ?>
@@ -64,5 +69,12 @@
 
     </div>
 </body>
+<script>
+    //keeping the sidebar button clicked at the page
+    link = document.querySelector('#advertisements');
+    link.style.background = "#E5E9F7";
+    link.style.color = "red";
+    link.style.fontWeight = "800";
+</script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>

@@ -41,6 +41,9 @@
     public function lastInsertId(){
         return $this->dbh->lastInsertId();
     }
+    public function escape($value) {
+        return $this->dbh->quote($value);
+    }
 
     //Bined 
     public function bind($param,$value,$type=null){
@@ -82,4 +85,7 @@
     public function rowCount(){
         return $this->stmt->rowCount();
     }
+    // public function escape($value) {
+    //     return $this->dbh->quote($value);
+    // }
  }

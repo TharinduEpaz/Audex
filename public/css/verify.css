@@ -1,3 +1,9 @@
+body{
+    background-image: url('../img/retro-microphone-isolated-color-background 1.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -1;
+}
 .nav{
 }
 .form{
@@ -14,7 +20,7 @@
     height: 6vh;
     background :#002EF9;
     color: white;
-    margin-top: 2vh;
+    margin-top: -1vh;
     border: 1px solid white;
     border-radius: 12px;
 

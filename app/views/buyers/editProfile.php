@@ -17,15 +17,9 @@
 <?php require_once APPROOT . '/views/buyers/navbar.php';?>
 
     <div class="container">
-        <div class="sidebar">
-            <a href="#" class="current"><i class="fas fa-address-card"></i> <span>My Profile</span></a>
-            <a href="<?php echo URLROOT . '/buyers/watchlist';?>"> <i class="far fa-calendar-check" aria-hidden="true"></i><span>Watch List</span></a>
-            <a href="#"> <i class="fa fa-comments-o" aria-hidden="true"></i><span>Feedback</span></a>
-            <a href="#"> <i class="fa fa-thumbs-up" aria-hidden="true"></i><span>Reactions</span></a>
-            <a href="messages.php"> <i class="fa fa-envelope"></i><span>Messages</span></a>       
-        </div>
+        <?php require_once APPROOT . '/views/buyers/sidebar.php';?>        
         <div class="poster_advertisements">
-            <form action="" method="POST" class="form-display-data">
+            <form action="" method="POST" class="form-display-data" >
                 <div class="form-display"> 
                     <h1>Edit Profile Details</h1>
                     <div class="form-data-area">
@@ -50,7 +44,7 @@
                     </div>
                     <div class="form-data-area">
                         <label for="phone_number">Phone Number:<sup>*</sup></label>
-                        <input type="text" name="phone_number" value="<?php echo $data['phone_number']; ?>" class="<?php echo (!empty($data['phone_number_err'])) ? 'invalid' : '' ; ?>" >
+                        <input type="text" name="phone_number" value="<?php echo $data['phone_number']; ?>" class="<?php echo (!empty($data['phone_number_err'])) ? 'invalid' : '' ; ?>" disabled>
                     </div>  
                 </div>
                 <input type="submit"  value="Save" id="edit-button"  >
@@ -59,5 +53,12 @@
         </div>
     </div>
 </body>
+<script>
+    //keeping the sidebar button clicked at the page
+    link = document.querySelector('#profile');
+    link.style.background = "#E5E9F7";
+    link.style.color = "red";
+    link.style.fontWeight = "800";
+</script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>

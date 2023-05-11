@@ -1,9 +1,11 @@
+body{
+    background-color: #E5E9F7;
+}
 .header h1{
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin: 2% 3% 0% 2.5%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     color: darkgrey;
     font-weight: 500;
 
@@ -46,7 +48,7 @@
  .container-ad .title h5{
     color: red;
  }
- .container-img {
+ .container-img{
     width: 100%;
     height: 75%;
     display: flex;
@@ -75,11 +77,14 @@
     overflow: hidden;
     background-color:rgb(214, 214, 239);
     border-radius: 0 0 1rem 1rem;
-
-
-  
   
  }
+
+ .container-ad .title a{
+    text-decoration:none;
+    color: black;
+ }
+
  .container{
     padding-top: 2vh;
  }
@@ -105,3 +110,74 @@
     font-size: 24px;
     
 }
+.shop-search-form{
+    display: flex;
+    flex-direction: row;
+}
+#shop-search-results-table > tbody> tr > td > a > div{
+    display: flex;
+    flex-direction: row;
+}
+#shop-search-results-table > tbody > tr > td > a > div > div.image-pop-up{
+    max-width: 50px;
+}
+#shop-search-results-table > tbody > tr > td > a > div > div.image-pop-up > img{
+    max-width: 100%;
+}
+#shop-search-results-table > tbody > tr > td > a > div > div.title-and-price{
+    align-self: center;
+}
+
+/* 
+#shop-page-search-result-area .container-ad{
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 10px;
+    border-radius: 1rem;
+    border: 1px solid ghostwhite;
+
+    
+ }
+ 
+#shop-page-search-result-area .container-ad .title h5{
+    color: red;
+ }
+#shop-page-search-result-area .container-img{
+    width: 100%;
+    height: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 1rem 1rem 0 0 ;
+    
+ }
+#shop-page-search-result-area .container-img img{
+    max-width: -webkit-fill-available;
+    max-height: -webkit-fill-available;
+
+    
+ }
+#shop-page-search-result-area{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    grid-auto-rows: 450px;
+    grid-gap: 0.3rem;
+}
+
+#shop-page-search-result-area .container-ad .title{
+    font-size: 14px;
+    text-align: left;
+    font-weight: 500;
+    line-height: 1.5;
+    color: rgb(56, 68, 36);
+    width: 100%;
+    height: 25%;
+    overflow: hidden;
+    background-color:rgb(214, 214, 239);
+    border-radius: 0 0 1rem 1rem;
+  
+ }
+  */
