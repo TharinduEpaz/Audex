@@ -80,6 +80,8 @@ body{
 .graph1,.graph2,.graph3,.graph4,.graph5,.graph6{
     width: 30%;
     height: 30%;
+    border: 1px solid;
+    padding: 1%;
 }
 .reject_bid{
     background: red;

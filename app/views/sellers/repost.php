@@ -166,13 +166,13 @@
                             <input type="checkbox" name="category[]" value="Microphone" id="chkMicrophone">
                             <label for="chkMicrophone">Microphone</label>
 
-                            <input type="checkbox" name="category[]" value="DJ" id="chkDJ">
+                            <input type="checkbox" name="category[]" value="dj/mixer" id="chkDJ">
                             <label for="chkDJ">DJ</label>
 
-                            <input type="checkbox" name="category[]" value="Mixer" id="chkMixer">
-                            <label for="chkMixer">Mixer</label>
+                            <input type="checkbox" name="category[]" value="speaker" id="chkMixer">
+                            <label for="chkMixer">Speaker</label>
                             
-                            <input type="checkbox" name="category[]" value="Mixer" id="chkMixer">
+                            <input type="checkbox" name="category[]" value="percussion/drums" id="chkMixer">
                             <label for="chkMixer">Percussion/Drums</label>
                         </div>
                             <div class="input">

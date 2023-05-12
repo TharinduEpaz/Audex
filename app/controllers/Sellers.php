@@ -1323,10 +1323,13 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     }
                     $product_id=$this->sellerModel->advertise($data,$dat,$data['id']);
                     if($product_id){
-                        //As this is a repost, no need to pay again. So updating is_paid in product to 1
-                        if($this->sellerModel->edit_ispaid($product_id)){
-                            flash('product_message', 'Product Reposted');
-                            redirect('sellers/advertisements');
+                        //Change is_deleted to 1 in previous ad
+                        if($this->sellerModel->delete_prev_ad($data['id'])){
+                            //As this is a repost, no need to pay again. So updating is_paid in product to 1
+                            if($this->sellerModel->edit_ispaid($product_id)){
+                                flash('product_message', 'Product Reposted');
+                                redirect('sellers/advertisements');
+                            }
                         }
                     } else {
                         die('Something went wrong');
@@ -1705,10 +1708,49 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             
         }
         public function dashboard(){
-            $data['likes_dislikes']=$this->sellerModel->sellerDetailsWithLikeDislikeCount($_SESSION['user_email']);
+            // $data['likes_dislikes']=$this->sellerModel->sellerDetailsWithLikeDislikeCount($_SESSION['user_email']);
             $data['no_auctions']=$this->sellerModel->sellerNoAuctions($_SESSION['user_email']);
+            $data['no_fixed_ads']=$this->sellerModel->sellerNoFixedAds($_SESSION['user_email']);
             $data['no_views']=$this->sellerModel->sellerNoViews($_SESSION['user_email']);
             $data['feedbackcount']=$this->sellerModel->getFeedbacksCount($_SESSION['user_email']);
+            //View count with dates
+            $data['view_count']=$this->sellerModel->getViewsCount($_SESSION['user_email']);
+            if($data['view_count']==false){
+                $data['view_count']='';
+            }
+            //Likes count with dates
+            $data['likes__dates']=$this->sellerModel->sellerDetailsWithLikeCountDates($_SESSION['user_email']);
+            if($data['likes__dates']==false){
+                $data['likes__dates']='';
+            }
+            $data['startDate'] = new DateTime($data['likes__dates'][0]->date);
+            $data['endDate'] = clone $data['startDate'];
+            $data['endDate']->modify('+3 months');
+            $data['likes_date'] = [];
+            $data['likes_counts'] = [];
+            foreach ($data['likes__dates'] as $item) {
+                $data['likes_date'][] = $item->date;
+                $data['likes_counts'][] = $item->count;
+            }
+            //Dislikes count with dates
+            $data['dislikes__dates']=$this->sellerModel->sellerDetailsWithDislikeCountDates($_SESSION['user_email']);
+            if($data['dislikes__dates']==false){
+                $data['dislikes__dates']='';
+            }
+            $data['startDate_dislikes'] = new DateTime($data['dislikes__dates'][0]->date);
+            $data['endDate_dislikes'] = clone $data['startDate_dislikes'];
+            $data['endDate_dislikes']->modify('+3 months');
+            $data['dislikes_date'] = [];
+            $data['dislikes_counts'] = [];
+            foreach ($data['dislikes__dates'] as $item) {
+                $data['dislikes_date'][] = $item->date;
+                $data['dislikes_counts'][] = $item->count;
+            }
+            //Feedbacks count with related to rate
+            $data['feedbacks_rate']=$this->sellerModel->getFeedbacksRate($_SESSION['user_email']);
+            //Products count
+            $data['products_count']=$this->sellerModel->getProductsCount($_SESSION['user_email']);
+
 
             $this->view('sellers/dashboard',$data);
         }
