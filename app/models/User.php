@@ -1105,7 +1105,7 @@ date_default_timezone_set("Asia/Kolkata");
         }
 
         public function searchItems($searchedTerm){
-            $this->db->query('SELECT * FROM product WHERE product_title LIKE :searchedTerm');
+            $this->db->query('SELECT * FROM product WHERE product_title LIKE :searchedTerm AND is_paid = 1 ');
             $this->db->bind(':searchedTerm', '%'.$searchedTerm.'%');
 
             $results = $this->db->resultSet();
