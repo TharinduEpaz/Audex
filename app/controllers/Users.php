@@ -148,13 +148,11 @@
                 }
                 if(!preg_match("#[0-9]+#",$data['password'])) {
                     $data['password_err3'] = 'Password must contain at least 1 number!';
+                }if(!preg_match("#[A-Z,a-z]+#",$data['password'])) {
+                    $data['password_err4'] = 'Password must contain at least 1 letter!';
                 }
-                // if(!preg_match("#[A-Z]+#",$data['password'])) {
-                //     $data['password_err4'] = 'Password must contain at least 1 capital letter!';
-                // }
-                if(!preg_match("#[a-z,A-Z]+#",$data['password'])) {
-                    $data['password_err5'] = 'Password must contain at least 1 letter!';
-                 }
+                // if(!preg_match("#[a-z]+#",$data['password'])) {
+                //     $data['password_err5'] = 'Password must contain at least 1 lowercase letter!';
                 if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['password'])) {
                     $data['password_err6'] = 'Password must contain at least 1 special character!';
                 }
@@ -1553,6 +1551,7 @@
                     'price-min' => '',
                     'price-max' => '',
                     'type' => '1',
+                    'condition'=> '1',
     
                 ];
                 // if $arg1 is set then change the product category to $arg1
@@ -2651,19 +2650,21 @@
             $productPriceMin = $_POST['price-min'];
             $productPriceMax = $_POST['price-max'];
             $productType = $_POST['type'];
+            $productCondition = $_POST['condition'];
 
             // echo $productCategory;
             // echo $categories;
             // echo $productPriceMax;
             // echo $productPriceMin;
             // echo $productType;
+            // echo $productCondition
 
             // exit();
 
             $Filter=[];
             $results = [];
 
-            if( empty($categories) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType))) 
+            if( empty($categories) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType)) and empty(trim($productCondition)) ) 
             {
                 // if all filters are empty
                 // redirect('users/shop');
@@ -2682,6 +2683,9 @@
                 }
                 if(!empty(trim($productType))){
                    $Filter['product_type']= $productType;
+                }
+                if(!empty(trim($productCondition))){
+                   $Filter['product_condition']= $productCondition;
                 }
                 $results = $this-> userModel->searchAndFilterItems($Filter,$categories);
                 

@@ -125,11 +125,23 @@
             font-size: 14px;
             font-weight: 700;
         }
+        .seller-review, .seller-rate, .seller-mail{
+            margin: 0 0 5px 0;
+        }
         .seller-review{
             display: contents;
         }
         .rate-review{
             margin: 0 0 0 3%;
+        }
+        .buttons-div-edit-delete{
+            display: flex;
+            flex-direction: row;
+            justify-content: end;
+        }
+        .buttons-div-edit-delete button{
+            padding: 0.4%;
+            margin: 0% 0.5%;
         }
         /* Style the tab */
         .tab {
@@ -234,7 +246,10 @@
                         <div class="seller-review">
                             <label for="rate">Given Rate:</label>
                             <span class="rate-review"><?php echo $sellers->review; ?></span>
-
+                        </div>
+                        <div class="buttons-div-edit-delete">
+                            <button type="submit" class="edit-btn"><i class="fa fa-edit"></i></button>
+                            <button type="submit" class="delete"><i class='fa fa-trash'></i></button>
                         </div>
 
                     </div> 
@@ -276,7 +291,10 @@
                         <div class="seller-review">
                             <label for="rate">Given Rate:</label>
                             <span class="rate-review"><?php echo $serviceProviders->review; ?></span>
-
+                        </div>
+                        <div class="buttons-div-edit-delete">
+                            <button type="submit" class="edit-btn"><i class="fa fa-edit"></i></button>
+                            <button type="submit" class="delete"><i class='fa fa-trash'></i></button>
                         </div>
                     </div> 
                 <?php endforeach; ?>

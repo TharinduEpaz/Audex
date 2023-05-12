@@ -190,7 +190,7 @@
             min-height: 90vh;
             max-height: auto;
             background: #1e1e1e;
-            padding-top: 6vh;
+            /* padding-top: 6vh; */
             display: block;
             position: fixed;
             margin-top: 10vh;
@@ -199,6 +199,8 @@
         .side-bar form {
             display: flex;
             flex-direction: column;
+            /* height: 400px;
+            overflow-y: scroll; */
         }
 
         .radio, .form-group{
@@ -538,6 +540,14 @@
                 <input type="checkbox" name="category[]" id="guitar" value="guitar" <?php echo ($data['category'] == "guitar") ? 'checked' : '' ?> >
                 <label for="guitar">Guitar</label>
             </div>
+            <div class="radio">
+                <input type="checkbox" name="category[]" id="keyboard" value="keyboard" <?php echo ($data['category'] == "keyboard") ? 'checked' : '' ?> >
+                <label for="keyboard">Keyboard</label>
+            </div>
+            <div class="radio">
+                <input type="checkbox" name="category[]" id="percussion/drums" value="percussion/drums" <?php echo ($data['category'] == "percussion/drums") ? 'checked' : '' ?> >
+                <label for="percussion/drums">Percussion/Drums</label>
+            </div>
 
             <h4>Price</h4>
             <div class="form-group">
@@ -561,6 +571,20 @@
             <div class="radio">
                 <input type="radio" id="auction" name="type" value="auction" <?php echo ($data['type'] == "auction") ? 'checked' : ''; ?>>
                 <label for="auction">Auction</label>
+            </div>
+
+            <h4>Condition</h4>
+            <div class="radio">
+                <input type="radio" id="all-condition" name="condition" value="" <?php echo ($data['condition'] == "1") ? 'checked' : ''; ?> >
+                <label for="all-type">All</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="used" name="condition" value="Used" <?php echo ($data['condition'] == "Used") ? 'checked' : ''; ?>>
+                <label for="used">Used</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="new" name="condition" value="New" <?php echo ($data['condition'] == "New") ? 'checked' : ''; ?>>
+                <label for="new">New</label>
             </div>
 
             <!-- <button type="submit" class="btn-primary">Filter</button> -->

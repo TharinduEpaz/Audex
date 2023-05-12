@@ -1,6 +1,6 @@
 <?php
     date_default_timezone_set("Asia/Kolkata");
-    //DB params
+    // DB params
     define('DB_HOST', 'audex.ci55pw7kjzp5.ap-northeast-1.rds.amazonaws.com');
     define('DB_USER','root');
     define('DB_PASS','Audex123');
@@ -9,7 +9,7 @@
     // define('DB_HOST', 'localhost');
     // define('DB_USER','root');
     // define('DB_PASS','');
-    // define('DB_NAME','test1');
+    // define('DB_NAME','newtestdb');
 
 
 
