@@ -13,18 +13,28 @@
                     <i class="fa fa-map-marker" aria-hidden="true"></i><span id="profession"><?php echo $data['details']->address_line_two ?></span>
                 </div>
                 <div class="rating">
-                <?php for($i=0; $i<floor($data['details']->Rating); $i++): ?>
+                    <?php for ($i = 0; $i < floor($data['details']->Rating); $i++) : ?>
                         <i class="fa fa-star"></i>
-                        <?php endfor; ?>
+                    <?php endfor; ?>
 
-                        <?php if(strpos((string)$data['details']->Rating, '.')): ?>
+                    <?php if (strpos((string)$data['details']->Rating, '.')) : ?>
                         <i class="fa fa-star-half-o"></i>
-                        <?php endif; ?>
+                    <?php endif; ?>
 
-                        <!-- <span style="color:white"><?php echo $data['details']->Rating?></span> -->
+                    <!-- <span style="color:white"><?php echo $data['details']->Rating ?></span> -->
+
                 </div>
+                <?php if($data['details']->admin_approved == 1): ?>
+            <button id="approved" class="btn" onclick="gotoSettings()"><i class="fa fa-check-circle" style="margin-right:10px" aria-hidden="true" disabled></i>APPROVED BY AUDEX</button>
+            <?php elseif($data['details']->admin_ignored == 1): ?>
+            <button id="ignored" class="btn" onclick="gotoSettings()"><i class="fa fa-times-circle" style="margin-right:10px" aria-hidden="true"></i>APPROVAL ERROR</button>
+            
+            <?php else: ?>
+            <button id="not-approved" class="btn" onclick="gotoSettings()"><i class="fa fa-times-circle" style="margin-right:10px" aria-hidden="true"></i>NOT APPROVED BY AUDEX</button>
+            <?php endif; ?>
             </div>
             <button id="edit-details" class="btn" onclick="gotoSettings()">Edit Details</button>
+
             <!-- <a href="<?php echo URLROOT . '/service_providers/settings' ?>" class="btn" id="edit-settings"> Edit Settings</a></button>
         <h2>Events</h2>
         <a href="<?php echo URLROOT . '/service_providers/addEvent' ?>" style="margin-left:10px;" id="add-event">Add Event</a>
@@ -52,10 +62,10 @@
                 <div class="profile-events">
                     <?php foreach ($data['events'] as $event) : ?>
                         <div class="event-display">
-                           
+
                             <img src="<?php echo URLROOT . '/public/uploads/events/' . $event->image; ?>" alt="">
                             <div class="overlay" data-event-target="#event" class="text" onclick="loadevent(<?php echo $event->event_id ?>)">
-                                <div data-event-target="#event" class="text" ><?php echo $event->name ?></div>
+                                <div data-event-target="#event" class="text"><?php echo $event->name ?></div>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -67,10 +77,10 @@
                 <div class="profile-events">
                     <?php foreach ($data['posts'] as $post) : ?>
                         <div class="event-display">
-                           
+
                             <img src="<?php echo URLROOT . '/public/uploads/' . $post->image1; ?>" alt="">
                             <div class="overlay" class="text" onclick="">
-                                <div  class="text" style="font-size=6px;"><?php echo $post->title ?></div>
+                                <div class="text" style="font-size=6px;"><?php echo $post->title ?></div>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -96,24 +106,17 @@
                     <img src="" alt="">
                 </div>
                 <span class="owner-name">John Doe</span>
-
             </div>
-
             <div class="event-buttons">
-                <button class="like-button" data-id = "<?php ?>" ><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="likes"></span></button>
+                <button class="like-button" data-id="<?php ?>"><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="likes"></span></button>
                 <button class="dislike-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="dislikes"></span></button>
             </div>
 
         </div>
-
-
-
         <div class="event-body">
-            
-
         </div>
 
-        <button class="add-event-btn" id="edit-event-btn">Edit / Delete Event</button>             
+        <button class="add-event-btn" id="edit-event-btn">Edit / Delete Event</button>
 
     </div>
 
@@ -177,15 +180,14 @@
         window.open('http://localhost/Audex/service_providers/eventCalander?month=current', '_self')
     }
 
-    function editEvent(id){
-        
+    function editEvent(id) {
+
         window.open(`http://localhost/Audex/service_providers/editEvent?id=${id}`, '_self')
     }
 
     function addMorePosts() {
         window.open('http://localhost/Audex/service_providers/addNewPost', '_self')
     }
-
 </script>
 
 </body>

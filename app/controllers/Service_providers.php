@@ -50,11 +50,13 @@ class Service_providers extends Controller
         $details = $this->service_model->getDetails($_SESSION['user_id']);
         $events = $this->service_model->getEvents($_SESSION['user_id']);
         $posts = $this->service_model->getPostsByUser($_SESSION['user_id']);
+        
 
         $data = [
             'details' => $details,
             'events' => $events,
-            'posts' => $posts
+            'posts' => $posts,
+            
         ];
 
         $this->view('service_providers/profile', $data);
@@ -313,8 +315,13 @@ class Service_providers extends Controller
 
     public function eventCalander()
     {
+        if (isset($_GET['month'])) {
+            $month = $_GET['month'];
+        } else {
+            $month = 'current';
+        }
 
-        $month = $_GET['month'];
+
 
         if ($month == 'current') {
             $_SESSION['current'] = date('m');
@@ -365,8 +372,6 @@ class Service_providers extends Controller
         echo json_encode($data);
         return json_encode($data);
     }
-
-
 
     public function editEvent()
     {
@@ -457,12 +462,11 @@ class Service_providers extends Controller
         $posts = $this->service_model->getPostsByUser($_SESSION['user_id']);
         $is_paid = $this->service_model->is_paid($_SESSION['user_id']);
 
-        if(!$is_paid->is_paid){
+        if (!$is_paid->is_paid) {
             $data = [
                 'posts' => 0
             ];
-        }
-        else{
+        } else {
             $data = [
                 'posts' => $posts
             ];
@@ -499,32 +503,31 @@ class Service_providers extends Controller
         // $image2 = $this->uploadImage('post-photo-2');
         // $image3 = $this->uploadImage('post-photo-3');
 
-        foreach($_FILES as $key => $file) { //get upload name: $key
+        foreach ($_FILES as $key => $file) { //get upload name: $key
 
             $image = new Bulletproof\Image($file);
-            $image->setName(substr(base64_encode(random_bytes(12)), 0, 20)); 
+            $image->setName(substr(base64_encode(random_bytes(12)), 0, 20));
             $image->setMime(array('jpg', 'png', 'jpeg'));
-            $image->setSize(10,10485760);
-            $image->setDimension(10000,10000);
-           
-            if($key == 'post-photo-1'){             //which file
-              if($image->upload()){           //upload succeed?
-                $image1 = $image->getName() . '.' . $image->getMime(); //get name
-              }
-            }elseif($key == 'post-photo-2'){        //do it all over again with banner
-              if($image->upload()) {
-                $image2 = $image->getName() . '.' . $image->getMime(); //get name
-                
-              }
-            }
-            elseif($key == 'post-photo-3'){        //do it all over again with banner
-                if($image->upload()) {
-                  $image3 = $image->getName() . '.' . $image->getMime(); //get name
-                  
+            $image->setSize(10, 10485760);
+            $image->setDimension(10000, 10000);
+
+            if ($key == 'post-photo-1') {             //which file
+                if ($image->upload()) {           //upload succeed?
+                    $image1 = $image->getName() . '.' . $image->getMime(); //get name
                 }
-              }
-          }
-        
+            } elseif ($key == 'post-photo-2') {        //do it all over again with banner
+                if ($image->upload()) {
+                    $image2 = $image->getName() . '.' . $image->getMime(); //get name
+
+                }
+            } elseif ($key == 'post-photo-3') {        //do it all over again with banner
+                if ($image->upload()) {
+                    $image3 = $image->getName() . '.' . $image->getMime(); //get name
+
+                }
+            }
+        }
+
         $this->service_model->insertPost($user_id, $title, $content, $image1, $image2, $image3);
 
 
@@ -536,31 +539,89 @@ class Service_providers extends Controller
     {
         $text = $image;
         $image = new Bulletproof\Image($_FILES);
-        $image->setSize(10,10485760);
-        $image->setDimension(10000,10000);
+        $image->setSize(10, 10485760);
+        $image->setDimension(10000, 10000);
 
         if ($image["$text"]) {
-            
+
             $image->setName(substr(base64_encode(random_bytes(12)), 0, 20)); //length 20 random name);
-            
+
             $upload = $image->upload();
+            $image->setMime(array('pdf'));
 
             if ($upload) {
-               return $image->getName() . '.' . $image->getMime();;    
+                return $image->getName() . '.' . $image->getMime();;
             } else {
-              
+
                 echo $image->getError();
                 return;
             }
         }
-
     }
 
-    public function deletePost(){
+    public function deletePost()
+    {
         $id = $_GET['id'];
         $this->service_model->deletePost($id);
         redirect('service_providers/feed');
     }
+    public function adminApprove()
+    {
+        $id = $_SESSION['user_id'];
+        $approval = $this->service_model->getApprovalDetails($_SESSION['user_id']);
+        if (!empty($approval)) {
+            $data = [
+                'approval' => $approval
+            ];
+        } else {
+            $data = 0;
+            
+        }
 
 
+
+        if (isset($_POST['submit'])) {
+
+            $temp_name = $_FILES['approve']['tmp_name'];
+            $file_name = $_FILES['approve']['name'];
+            $file_size = $_FILES['approve']['size'];
+            $file_error = $_FILES['approve']['error'];
+
+            $file_ext = explode('.', $file_name);
+            $file_ext = strtolower(end($file_ext));
+
+
+            $allowed = array('pdf');
+
+            // check for errors
+            if ($file_error === 0) {
+                if (in_array($file_ext, $allowed)) {
+                    if ($file_size <= 2097152) {
+
+                        // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
+
+                        $file_destination = dirname(APPROOT) . '/public/uploads/approve/' . basename($_FILES['approve']['name']);
+
+                        // move_uploaded_file() is the built-in function in PHP that is used to move an uploaded file from its temporary location to a new location on the server
+
+                        if (move_uploaded_file($temp_name, $file_destination)) {
+                            $this->service_model->adminApprove($_SESSION['user_id'],$file_name);
+                            
+                        } else {
+                            echo 'error in  uploading';
+
+                        }
+                    } else {
+
+
+                        echo 'error large size';
+                    }
+                } else {
+
+                    echo 'error not allowed this type';
+                }
+
+            }
+        }
+    }
 }

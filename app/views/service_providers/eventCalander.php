@@ -54,7 +54,7 @@
             <div class="date">2020 01 21</div>
             <div class="time">12 PM</div>
             
-            <button data-close-button class="close-button">&times;</button>
+       
             
         </div>
         <div class="wrapper-for-event">
@@ -200,6 +200,8 @@
     link = document.querySelector('#calender');
     link.style.background = "#E5E9F7";
     link.style.color = "red";
+
+    
 
 
 

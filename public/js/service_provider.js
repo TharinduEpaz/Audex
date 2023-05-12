@@ -116,7 +116,6 @@ function loadevent(event_id) {
   //set the date to today
 
   let eventForm = document.querySelector("#eventForm");
-
   like_button = document.querySelector(".like-button");
   dislike_button = document.querySelector(".dislike-button");
   
@@ -135,6 +134,7 @@ function loadevent(event_id) {
         xhttp.send();
 
   });
+
   dislike_button.addEventListener("click", () => {
 
     var xhttp = new XMLHttpRequest();
