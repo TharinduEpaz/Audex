@@ -79,7 +79,7 @@
                         <div class="event-display">
 
                             <img src="<?php echo URLROOT . '/public/uploads/' . $post->image1; ?>" alt="">
-                            <div class="overlay" class="text" onclick="">
+                            <div class="overlay" class="text" onclick="openPost(<?php echo $post->post_id ?>)">
                                 <div class="text" style="font-size=6px;"><?php echo $post->title ?></div>
                             </div>
                         </div>
@@ -131,6 +131,7 @@
 <div id="overlay"></div>
 
 <script src="<?php echo URLROOT . '/public/js/form.js'; ?>"></script>
+<script src="<?php echo URLROOT . '/public/js/sp_profile.js'; ?>"></script>
 
 <script>
     /* When the user clicks on the button,
@@ -153,41 +154,7 @@
         }
     }
 
-    //keeping the sidebar button clicked at the page
-
-    link = document.querySelector('#profile-settings');
-    link.style.background = "#E5E9F7";
-    link.style.color = "red";
-
-    error = document.querySelector('.red-alert');
-    error.style.color = "#FF0000"
-
-    editButton = document.querySelector('.btn');
-
-    if (error) {
-        editButton.style.animation = "alert 2s ease 0s infinite normal forwards"
-        editButton.style.color = "#FF0000"
-        editButton.style.background = "#E5E9F7"
-    }
-
-
-    function gotoSettings() {
-        window.open('http://localhost/Audex/service_providers/settings', '_self');
-
-    }
-
-    function addMoreEvents() {
-        window.open('http://localhost/Audex/service_providers/eventCalander?month=current', '_self')
-    }
-
-    function editEvent(id) {
-
-        window.open(`http://localhost/Audex/service_providers/editEvent?id=${id}`, '_self')
-    }
-
-    function addMorePosts() {
-        window.open('http://localhost/Audex/service_providers/addNewPost', '_self')
-    }
+    
 </script>
 
 </body>

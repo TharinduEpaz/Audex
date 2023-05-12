@@ -193,6 +193,8 @@
 <div id="overlay"></div>
 
 <script src="<?php echo URLROOT . '/public/js/form.js'; ?>"></script>
+<script src="<?php echo URLROOT . '/public/js/calander.js'; ?>"></script>
+
 
 <script>
     //keeping the sidebar button clicked at the page

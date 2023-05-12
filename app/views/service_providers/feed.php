@@ -46,16 +46,11 @@
     link.style.background = "#E5E9F7";
     link.style.color = "red";
 
-    error = document.querySelector('.red-alert');
-    error.style.color = "#FF0000"
+
 
     editButton = document.querySelector('.btn');
 
-    if (error) {
-        editButton.style.animation = "alert 2s ease 0s infinite normal forwards"
-        editButton.style.color = "#FF0000"
-        editButton.style.background = "#E5E9F7"
-    }
+    
 
     function gotopost(id) {
         window.location.href = "<?php echo URLROOT . '/service_providers/feedPost?id=' ?>" + id;
