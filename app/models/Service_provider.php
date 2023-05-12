@@ -165,6 +165,15 @@ class Service_provider
         }
 
     }
+
+    public function deleteEvent($id){
+            
+            $this->db->query('DELETE FROM events WHERE event_id = :id');
+            $this->db->bind(':id', $id);
+            $this->db->execute();
+    
+    }
+
     public function likeDislike($event_id,$type){
         switch ($type) {
             case 'like':
@@ -228,6 +237,22 @@ class Service_provider
         $is_paid = $this->db->single();
         return $is_paid;
     }
+
+    public function adminApprove($id,$file_name){
+        $this->db->query('UPDATE service_provider document = :document WHERE user_id = :id');
+        $this->db->bind(':id', $id);
+        $this->db->bind(':document', $file_name);
+        
+        try {
+            //code...
+            $this->db->execute();
+        } catch (PDOException $th) {
+            //throw $th;
+            echo $th->getMessage();
+        }
+    }
+
+  
      
 }
 

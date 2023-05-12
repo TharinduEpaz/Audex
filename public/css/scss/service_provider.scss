@@ -196,7 +196,7 @@ animation: slide 500ms ease-out 0s 1 normal forwards;
   width: 200px;
 }
 .rating{
-  background-color: #000000;
+  background-color: #ffffff;
   display: inline-block;
   padding: 2px 20px;
   border-radius: 100px;
@@ -265,6 +265,43 @@ animation: slide 500ms ease-out 0s 1 normal forwards;
 #profession{
   font-family: "Inter";
   font-weight: 600;
+}
+
+#approved{
+
+  font-weight: 400;
+  font-size: 1rem;
+  align-items: center;
+  appearance: none;
+  background-color: #55f1a6;
+ 
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-radius: 5px;
+  border-width: 0;
+  box-shadow: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+#not-approved, #ignored{
+
+  font-weight: 400;
+  font-size: 1rem;
+  align-items: center;
+  appearance: none;
+  background-color: #f15555;
+ 
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-radius: 5px;
+  border-width: 0;
+  box-shadow: none;
+  cursor: pointer;
+  padding: 5px;
+}
+#approved:hover, #not-approved:hover, #ignored:hover{
+  color: black;
+  
+  
 }
 
 
