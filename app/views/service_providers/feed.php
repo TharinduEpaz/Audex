@@ -5,13 +5,14 @@
             <button onclick="window.location.href='<?php echo URLROOT . '/service_providers/addNewPost/' ?>'" id="create-feed-post">Create New</button>
 
         </div>
+
         <div class="post-section">
 
         <?php if($data['posts'] != 0): ?>
 
             <?php foreach ($data['posts'] as $post) : ?>
                 <div class="feed-card" onclick="gotopost(<?php echo $post->post_id ?>)">
-                    <img src="<?php echo URLROOT . '/public/uploads/' . $post->image1; ?>" alt="post image" style="width:100%">
+                    <img src="<?php echo URLROOT . '/public/uploads/feed/' . $post->image1; ?>" alt="post image" style="width:100%">
                     <div class="feed-post-container">
                         <h4><b><?php echo $post->title ?></b></h4>
                         <p><?php echo substr($post->content, 0, 20) . '....'; ?></p>
