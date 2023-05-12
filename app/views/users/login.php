@@ -23,6 +23,8 @@
             flash('email_err');
             flash('password_message');
             flash('session_expired');
+            flash('register_fail');
+            
         ?>
             <h1>Login</h1>
             <!-- <?php if(isset($_SESSION['url'])){

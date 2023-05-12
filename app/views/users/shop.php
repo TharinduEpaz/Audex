@@ -146,15 +146,18 @@
 
 
         .shop-container {
-            width: calc(100vw-240px);
             margin: 0 auto;
+            position: absolute;
             display: flex;
             flex-direction: row;
             background-image: none;
             background-color: #E5E9F7;
-            margin-left: 240px;
-            margin-top: 10vh;
-            /* width: 100%; */
+            /* margin-left: 240px; */
+            /* margin-top: 10vh; */
+            /* min-width: 100vw; */
+            top: 10vh;
+            left: 240px;
+            width: calc(100vw - 240px);
         }
         .btn-primary{
             height: 5vh;

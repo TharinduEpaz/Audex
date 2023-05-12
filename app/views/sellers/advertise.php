@@ -52,7 +52,7 @@
                                 ?> 
                         <div class="input">
                             <label for="">Price</label>
-                            <input class="price" type="number" name="price"  placeholder="xxxx.xx" value="<?php echo $data['price']?>"  >
+                            <input class="price" step="0.01" type="number" name="price"  placeholder="xxxx.xx" value="<?php echo $data['price']?>"  >
                         </div>
                         <div class="input">
                             <label for="check_au" >Auction(optional)</label>
@@ -187,13 +187,14 @@
                             <input type="checkbox" name="category[]" value="microphone" id="chkMicrophone">
                             <label for="chkMicrophone">Microphone</label>
 
-                            <input type="checkbox" name="category[]" value="dj" id="chkDJ">
-                            <label for="chkDJ">DJ</label>
+                            <input type="checkbox" name="category[]" value="speaker" id="chkMixer">
+                            <label for="chkMixer">Speaker</label>
 
-                            <input type="checkbox" name="category[]" value="mixer" id="chkMixer">
-                            <label for="chkMixer">Mixer</label>
+                            <input type="checkbox" name="category[]" value="dj/mixer" id="chkDJ">
+                            <label for="chkDJ">DJ/Mixer</label>
+
                             
-                            <input type="checkbox" name="category[]" value="Percussion/Drums" id="chkMixer">
+                            <input type="checkbox" name="category[]" value="percussion/drums" id="chkMixer">
                             <label for="chkMixer">Percussion/Drums</label>
                         </div>
                             <div class="input">
@@ -206,7 +207,7 @@
                                 <input type="checkbox" name="category[]" value="keyboard" id="chkKeyboard">
                                 <label for="chkKeyboard">Keyboard</label>
     
-                                <input type="checkbox" name="category[]" value="drumset" id="chkDrumset">
+                                <input type="checkbox" name="category[]" value="other" id="chkDrumset">
                                 <label for="chkDrumset">Other</label>
                             </div>
                         </div>
@@ -344,8 +345,8 @@
                                                          document.getElementById("address1").innerHTML = "Address: "+response.results[0].formatted_address;
                                                          document.getElementById("latitude").value = latitude;
                                                          document.getElementById("longitude").value = longitude;
-                                                         document.getElementById("p_longi").innerHTML="Longitude: "+longitude;
-                                                         document.getElementById("p_lati").innerHTML="Latitude: "+latitude;
+                                                        //  document.getElementById("p_longi").innerHTML="Longitude: "+longitude;
+                                                        //  document.getElementById("p_lati").innerHTML="Latitude: "+latitude;
                                                        } else {
                                                          window.alert("No results found");
                                                          document.getElementById("error_geocode").value = 'No results found';
@@ -399,8 +400,8 @@
                                                 document.getElementById("address1").innerHTML = "Address: "+document.getElementById("addressInput").value;
                                                 document.getElementById("latitude").value = results[0].geometry.location.lat();
                                                 document.getElementById("longitude").value = results[0].geometry.location.lng();
-                                                document.getElementById("p_longi").innerHTML="Longitude: "+results[0].geometry.location.lng();
-                                                document.getElementById("p_lati").innerHTML="Latitude: "+results[0].geometry.location.lat();
+                                                // document.getElementById("p_longi").innerHTML="Longitude: "+results[0].geometry.location.lng();
+                                                // document.getElementById("p_lati").innerHTML="Latitude: "+results[0].geometry.location.lat();
 
                                                 map2.setCenter(results[0].geometry.location);
                                                 var marker = new google.maps.Marker({
@@ -422,8 +423,8 @@
                         
                                     
                         <div class="input">
-                            <!-- <label id="p_longi" >Longitude: <?php echo $data['longitude']?></label><br> -->
-                            <!-- <label id="p_lati">Latitude: <?php echo $data['latitude']?></label> -->
+                            <label id="p_longi" style="display: none;">Longitude: <?php echo $data['longitude']?></label><br>
+                            <label id="p_lati" style="display: none;">Latitude: <?php echo $data['latitude']?></label>
                             <label id="address1" class="brand" for="" >Address: <?php echo $data['address']?></label>
                         </div>
                         <div class="input" style="height:0vh;">

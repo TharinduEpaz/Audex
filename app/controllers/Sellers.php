@@ -299,6 +299,10 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 if(empty($data['title'])){
                     $data['title_err'] = 'Please enter title';
                 }
+                //Title doesn't contain any special characters
+                else if(!preg_match("/^[a-zA-Z0-9 ]*$/",$data['title'])){
+                    $data['title_err'] = 'Title cannot contain special characters';
+                }
                 if(empty($data['description'])){
                     $data['description_err'] = 'Please enter description';
                 }
@@ -544,7 +548,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     if($product_id!=false){
                         $data1=[
                             'title' => $data['title'],
-                            'image1' => $data['image1'],
                         ];
                         flash('product_message', 'Product Added');
                         // redirect('users/checkout/'.urlencode(base64_encode("$data1")));

@@ -51,7 +51,7 @@
                 </div>
                 <div class="acceptT">
                     <input type="checkbox" name="acceptT" id="">
-                    <label for="acceptT">I hereby accept the <a href="#">terms and conditions</a> of Audexlk</label>
+                    <label for="acceptT">I hereby accept the <a href="<?php echo URLROOT . '/users/termsandconditions'?>">terms and conditions</a> of Audexlk</label>
                 </div>
                 <div class="submit">
                     <input type="submit" name="submit" value="Finish Registration" id="button">

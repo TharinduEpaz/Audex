@@ -58,6 +58,12 @@
              
               $this->view('users/index', $data);
         }
+        //Terms and conditions
+        
+        public function termsandconditions(){
+            $this->view('users/termsandconditions');
+
+        }
 
         //register
         public function register(){
@@ -107,6 +113,7 @@
                         $data['email_err'] = 'Email is already taken';
                     }
                 }
+                //Validate email
                 if (filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
                 } else {
                     $data['email_err'] = "Invalid email";
@@ -139,15 +146,18 @@
                 }if(strlen($data['password']) < 8){
                     $data['password_err2'] = 'Password must be at least 8 characters';
                 }
-                // if(!preg_match("#[0-9]+#",$data['password'])) {
-                //     $data['password_err3'] = 'Password must contain at least 1 number!';
-                // }if(!preg_match("#[A-Z]+#",$data['password'])) {
+                if(!preg_match("#[0-9]+#",$data['password'])) {
+                    $data['password_err3'] = 'Password must contain at least 1 number!';
+                }
+                // if(!preg_match("#[A-Z]+#",$data['password'])) {
                 //     $data['password_err4'] = 'Password must contain at least 1 capital letter!';
-                // }if(!preg_match("#[a-z,A-Z]+#",$data['password'])) {
-                //     $data['password_err5'] = 'Password must contain at least 1 lowercase letter!';
-                /* }if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['password'])) {*/
-                //     $data['password_err6'] = 'Password must contain at least 1 special character!';
                 // }
+                if(!preg_match("#[a-z,A-Z]+#",$data['password'])) {
+                    $data['password_err5'] = 'Password must contain at least 1 letter!';
+                 }
+                if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['password'])) {
+                    $data['password_err6'] = 'Password must contain at least 1 special character!';
+                }
 
                 if(empty($data['confirm_passwd'])){
                     $data['confirm_password_err'] = 'Please confirm the password';
@@ -325,6 +335,7 @@
             if($_SESSION['attempt']<=3){
                 if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     $_SESSION['attempt']++;
+                    
                     // Process form
                     //Sanitize POST data
                     $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -423,6 +434,7 @@
 
                 }
                 else{
+                    
                     //Init data
                     $data = [
                         'first_name' => '',
@@ -450,7 +462,7 @@
                 unset($_SESSION['otp_email']);
                 session_destroy();
                 flash('register_fail', 'You have exceeded the maximum number of attempts');
-                redirect('users/register');
+                redirect('users/login');
             }
 
         }
@@ -486,14 +498,14 @@
                 //Validate password
                 if(empty($data['password'])){
                     $data['password_err'] = 'Please enter password';
-                }elseif(strlen($data['password']) < 6){
-                    $data['password_err'] = 'Password must be at least 6 characters';
                 }
                 
                 //Check for user/email
-                if(!empty($this->userModel->findUserByEmail($data['email']))){
+                if(($this->userModel->findUserByEmail($data['email']))){ 
+                    //User found with email active
                 }
                 else if($this->userModel->notActivated($data['email'])){
+                    //User found with email not active
                 }
                 else{
                     //User not found
@@ -1161,15 +1173,18 @@
                     }else if(password_verify($data['new_password'], $user->password)){
                         $data['new_password_err'] = 'New password must be different from current password';
                     }
-                    // if(!preg_match("#[0-9]+#",$data['new_password'])) {
-                    //     $data['password_err3'] = 'Password must contain at least 1 number!';
-                    // }if(!preg_match("#[A-Z]+#",$data['new_password'])) {
+                    if(!preg_match("#[0-9]+#",$data['new_password'])) {
+                        $data['password_err3'] = 'Password must contain at least 1 number!';
+                    }
+                    // if(!preg_match("#[A-Z]+#",$data['new_password'])) {
                     //     $data['password_err4'] = 'Password must contain at least 1 capital letter!';
-                    // }if(!preg_match("#[a-z]+#",$data['new_password'])) {
-                    //     $data['password_err5'] = 'Password must contain at least 1 lowercase letter!';
-                    /* }if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['new_password'])) {*/
-                    //     $data['password_err6'] = 'Password must contain at least 1 special character!';
                     // }
+                    if(!preg_match("#[a-zA-Z]+#",$data['new_password'])) {
+                        $data['password_err5'] = 'Password must contain at least 1 letter!';
+                     }
+                    if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['new_password'])) {
+                        $data['password_err6'] = 'Password must contain at least 1 special character!';
+                    }
 
                     if(empty($data['confirm_passwd'])){
                         $data['confirm_password_err'] = 'Please confirm the password';
@@ -1258,15 +1273,18 @@
                     }else if(password_verify($data['new_password'], $user->password)){
                         $data['new_password_err'] = 'New password must be different from current password';
                     }
-                    // if(!preg_match("#[0-9]+#",$data['new_password'])) {
-                    //     $data['password_err3'] = 'Password must contain at least 1 number!';
-                    // }if(!preg_match("#[A-Z]+#",$data['new_password'])) {
+                    if(!preg_match("#[0-9]+#",$data['new_password'])) {
+                        $data['password_err3'] = 'Password must contain at least 1 number!';
+                    }
+                    // if(!preg_match("#[A-Z]+#",$data['new_password'])) {
                     //     $data['password_err4'] = 'Password must contain at least 1 capital letter!';
-                    // }if(!preg_match("#[a-z]+#",$data['new_password'])) {
-                    //     $data['password_err5'] = 'Password must contain at least 1 lowercase letter!';
-                    /* }if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['new_password'])) {*/
-                    //     $data['password_err6'] = 'Password must contain at least 1 special character!';
                     // }
+                    if(!preg_match("#[a-zA-Z]+#",$data['new_password'])) {
+                        $data['password_err5'] = 'Password must contain at least 1 letter!';
+                    }
+                    if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['new_password'])) {
+                        $data['password_err6'] = 'Password must contain at least 1 special character!';
+                    }
 
                     if(empty($data['confirm_passwd'])){
                         $data['confirm_password_err'] = 'Please confirm the password';
@@ -1580,7 +1598,9 @@
             $ad = $this->userModel->getAdvertiesmentById($id);
             $likeCount = $this->userModel->checkLikeCount($id);
             $dislikeCount = $this->userModel->checkDislikeCount($id);
-
+            if($ad->is_paid==0){
+                redirect('users/shop');
+            }
 
 
 
@@ -1672,7 +1692,9 @@
 
 
             $ad = $this->userModel->getAdvertiesmentById($id);
-
+            if($ad->is_paid==0){
+                redirect('users/shop');
+            }
 
             // seller details
             $sellerDetails = $this->userModel->getSellerDetails($ad->email);
@@ -2296,6 +2318,13 @@
             $this->view('users/checkout',$data);
 
         }
+        public function checkout_service_provider($user_id,$data1){
+            // $json = file_get_contents($data1);
+            $data = json_decode($data1, true);
+            $data['user_id']=$user_id;
+            $this->view('users/checkout_service_provider',$data);
+
+        }
 
         public function payment(){
 
@@ -2329,6 +2358,7 @@
 
 
         }
+        //Payment completed and updating the database
         public function paid($product_id){
             $data=[
                 'product_id'=>$product_id,
@@ -2342,6 +2372,31 @@
             $amount = 300.00;
             if($redirect_status=='succeeded'){
                 $result = $this->userModel->addPayment($amount,$product_id,$payment_intent,$payment_intent_client_secret,$redirect_status);
+                if($result){
+                    redirect('users/success');
+                }
+                else{
+                    die('Something went wrong');
+                }
+            }
+            $this->view('users/success',$data);
+        
+        
+        }
+
+        public function paid_service_provider($user_id){
+            $data=[
+                'user_id'=>$user_id,
+                'payment_intent' => $_GET['payment_intent'],
+                'payment_intent_client_secret' => $_GET['payment_intent_client_secret'],
+                'redirect_status' => $_GET['redirect_status']
+            ];
+            $payment_intent = $_GET['payment_intent'];
+            $payment_intent_client_secret = $_GET['payment_intent_client_secret'];
+            $redirect_status = $_GET['redirect_status'];
+            $amount = 1500.00;
+            if($redirect_status=='succeeded'){
+                $result = $this->userModel->addPayment_service_provider($amount,$user_id,$payment_intent,$payment_intent_client_secret,$redirect_status);
                 if($result){
                     redirect('users/success');
                 }

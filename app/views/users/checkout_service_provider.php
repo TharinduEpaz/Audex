@@ -13,10 +13,10 @@
     <!-- Display a payment form -->
     <form id="payment-form">
       <div class="product">
-        <img src="<?php echo URLROOT.'/public/uploads/'.$data['image1'];?>" alt="The cover of Stubborn Attachments" />
+        <!-- <img src="<?php echo URLROOT.'/public/uploads/'.$data['image1'];?>" alt="The cover of Stubborn Attachments" /> -->
         <div class="description">
           <h3><?php echo $data['title'];?></h3>
-          <h5>LKR300.00</h5>
+          <h5>LKR1500.00</h5>
         </div>
       </div>
       <div id="link-authentication-element">
@@ -80,7 +80,7 @@
             elements,
             confirmParams: {
               // Make sure to change this to your payment completion page
-              return_url: "<?php echo URLROOT?>/users/paid/<?php echo $data['product_id'];?>",
+              return_url: "<?php echo URLROOT?>/users/paid_service_provider/<?php echo $data['user_id'];?>",
               receipt_email: '<?php echo $_SESSION['user_email'];?>',
             },
           });

@@ -157,7 +157,7 @@
                     <span style="width:16px;margin-left: 2%;"></span>
                 </div>
                 <div class="form-data-area">
-                    <label for="address2">Address Line 1:</label>
+                    <label for="address2">Address Line 2:</label>
                     <input type="text" name="address2" value="<?php echo $data['user']->address2; ?>" disabled>
                     <span style="width:16px;margin-left: 2%;"></span>
                 </div>

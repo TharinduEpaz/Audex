@@ -8,7 +8,7 @@ date_default_timezone_set("Asia/Kolkata");
 
         //Register User
         public function register($data,$dat){
-            $this->db->query('INSERT INTO user (first_name, second_name, email,  user_type,registered_date,password,otp,email_active) VALUES(:first_name, :second_name, :email,:user_type,:t, :password,:otp, 0)');
+            $this->db->query('INSERT INTO user (first_name, second_name, email,  user_type,profile_pic,registered_date,password,otp,email_active) VALUES(:first_name, :second_name, :email,:user_type,"profile.png",:t, :password,:otp, 0)');
             //Bind values
             $this->db->bind(':first_name', $data['first_name']);
             $this->db->bind(':second_name', $data['second_name']);
@@ -1074,7 +1074,7 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
 
-        //Fee payment
+        //Fee payment for product
         public function addPayment($amount,$product_id,$payment_intent,$payment_intent_client_secret,$redirect_status){
             $this->db->query('INSERT INTO payment (amount,payment_method,date,product_id,payment_intent,payment_intent_client_secret,redirect_status) VALUES (:amount,"stripe",NOW(),:product_id,:payment_intent,:payment_intent_client_secret,:redirect_status)');
             //Bind value
@@ -1087,6 +1087,30 @@ date_default_timezone_set("Asia/Kolkata");
             if($this->db->execute()){
                 $this->db->query('UPDATE product SET is_paid = 1 WHERE product_id = :product_id');
                 $this->db->bind(':product_id', $product_id);
+
+                if($this->db->execute()){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+
+        //Fee payment for service provider
+        public function addPayment_service_provider($amount,$user_id,$payment_intent,$payment_intent_client_secret,$redirect_status){
+            $this->db->query('INSERT INTO payment (amount,payment_method,date,service_provider_user_id,payment_intent,payment_intent_client_secret,redirect_status) VALUES (:amount,"stripe",NOW(),:user_id,:payment_intent,:payment_intent_client_secret,:redirect_status)');
+            //Bind value
+            $this->db->bind(':amount', $amount);
+            $this->db->bind(':user_id', $user_id);
+            $this->db->bind(':payment_intent', $payment_intent);
+            $this->db->bind(':payment_intent_client_secret', $payment_intent_client_secret);
+            $this->db->bind(':redirect_status', $redirect_status);
+
+            if($this->db->execute()){
+                $this->db->query('UPDATE service_provider SET is_paid = 1 WHERE user_id = :user_id');
+                $this->db->bind(':user_id', $user_id);
 
                 if($this->db->execute()){
                     return true;
