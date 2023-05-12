@@ -257,44 +257,47 @@ class Service_providers extends Controller
             $public = $_POST['event-type'];
             $time = $_POST['time'];
 
+            
+
             //uploading the image
 
-            $temp_name = $_FILES['event-img']['tmp_name'];
-            $file_name = $_FILES['event-img']['name'];
-            $file_size = $_FILES['event-img']['size'];
-            $file_error = $_FILES['event-img']['error'];
+            $image = new Bulletproof\Image($_FILES);
+            $image->setSize(10, 10485760);
+            $image->setDimension(10000, 10000);
 
-            // Work out the file extension
-            $file_ext = explode('.', $file_name);
-            $file_ext = strtolower(end($file_ext));
-
-            $allowed = array('jpg', 'jpeg', 'png', 'gif');
-
-            // check for errors
-            if ($file_error === 0) {
-                if (in_array($file_ext, $allowed)) {
-                    if ($file_size <= 2097152) {
-
-                        // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
-
-                        $file_destination = dirname(APPROOT) . '/public/uploads/events/' . $file_name;
-
-                        // move_uploaded_file() is the built-in function in PHP that is used to move an uploaded file from its temporary location to a new location on the server
-
-                        if (move_uploaded_file($temp_name, $file_destination)) {
-
-                            $img = $file_name;
-                        } else {
-
-                            echo 'error in  uploading';
-                        }
-                    } else {
-                        echo 'error large size';
-                    }
-                } else {
-                    echo 'error not allowed this type';
-                }
+            if($image["event-img"]){
+                $image->setName(substr(base64_encode(random_bytes(12)), 0, 20)); //length 20 random name);
+              $upload = $image->upload(); 
+            
+              if($upload){
+                $img = $image->getName() . '.' . $image->getMime();
+              }else{
+                echo $image->getError(); 
+              }
             }
+
+        //     $text = $image;
+        //     $image = new Bulletproof\Image($_FILES);
+        //     $image->setSize(10, 10485760);
+        //     $image->setDimension(10000, 10000);
+    
+        //     if ($image["$text"]) {
+    
+        //         $image->setName(substr(base64_encode(random_bytes(12)), 0, 20)); //length 20 random name);
+    
+        //         $upload = $image->upload();
+        //         $image->setMime(array('pdf'));
+    
+        //         if ($upload) {
+        //             return $image->getName() . '.' . $image->getMime();;
+        //         } else {
+    
+        //             echo $image->getError();
+        //             return;
+        //         }
+        //     }
+        // }
+         
 
             // SEND THE DATA INTO THE DATABASE USING THE MODEL
 

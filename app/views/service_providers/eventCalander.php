@@ -84,7 +84,7 @@
     </div>
 
     <div class="event-right">
-        <img src="https://images.pexels.com/photos/9493230/pexels-photo-9493230.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="">
+        <img id='event-image' src="" alt="">
     </div>
 
 </div>
@@ -178,7 +178,7 @@
             <input type="file" name="event-img" id="event-img" class="formbold-form-input">
         </div>
 
-        <input type="submit" class="formbold-btn" value="Add Event">
+        <input type="submit" name="submit" class="formbold-btn" value="Add Event">
             
         
     </form>

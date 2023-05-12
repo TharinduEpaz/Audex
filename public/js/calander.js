@@ -100,8 +100,10 @@ function loadevent(event_id) {
       document.querySelector("#likes").innerHTML = event.event.likes;
       document.querySelector("#dislikes").innerHTML = event.event.dislikes;
       document.querySelector(
-        "#event-img"
-      ).src = `http://localhost/Audex/public/uploads/events/${event.event.image}`;
+        "#event-image"
+      ).src = 'http://localhost/Audex/public/uploads/' + event.event.image;
+ 
+      
     }
   };
 
@@ -131,7 +133,7 @@ $(document).ready(function () {
     // Serialize form data
     //   var formData = $(this).serialize();
     var formData = new FormData(this);
-
+    console.log(formData);
     //get the date
     let date = eventDate + " " + eventYear;
 
