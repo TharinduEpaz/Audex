@@ -42,8 +42,18 @@
                 <p class="three">
                     <?php if($advertisement->is_paid == 1): ?>
                         <a style="text-decoration:none;color:green;font-weight: 700;pointer-events: none" >Completed</a>
-                    <?php else: ?>
-                        <a style="text-decoration:none;color:red;font-weight: 700" href="<?php echo URLROOT;?>/sellers/complete_payment/<?php echo $advertisement->product_id;?>" >Pay Now</a>
+                    <?php else: 
+                        $data1 = [
+                            'id' => $advertisement->product_id,
+                            'user_email' => $_SESSION['user_email'],
+                            'title' => $advertisement->product_title,
+                            'price' => $advertisement->price,
+                            'image1' => $advertisement->image1,
+                            
+                        ]; 
+
+                        echo "<a style='text-decoration:none;color:red;font-weight: 700' href='".URLROOT."/users/checkout/".$advertisement->product_id."/".urlencode(json_encode($data1))."' >Pay Now</a>"; ?>
+                        <!-- <a style="text-decoration:none;color:red;font-weight: 700" href="<?php echo URLROOT;?>/sellers/complete_payment/<?php echo $advertisement->product_id;?>" >Pay Now</a> -->
                     <?php endif; ?>
                 </p>
                 <p style="text-align: left;" class="four">Rs.<?php echo $advertisement->price;?></p>

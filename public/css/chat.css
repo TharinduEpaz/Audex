@@ -161,8 +161,9 @@ form{
     height: 70%;
     border: 1px solid white;
     border-radius: 20px;
-    text-align: right;
+    text-align: left;
     padding-right: 10px;
+    padding-left: 10px;
 }
 #send_message{
     background: none;
