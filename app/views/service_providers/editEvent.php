@@ -2,7 +2,6 @@
     <div class="white-box">
         <div class="edit-event">
             <div class="formbold-main-wrapper">
-
                 <div class="formbold-form-wrapper">
                     <form id="add-event-form" name="add-event" method="POST" enctype="multipart/form-data" action="<?php echo URLROOT . '/service_providers/editEventDetails?id=' . $data['id']; ?>">
                         <div class="formbold-input-flex">
@@ -77,14 +76,15 @@
                             <input type="file" name="event-img" id="event-img" class="formbold-form-input">
                         </div>
                         <div class="buttons" style="margin-top:30px">
-                            <input type="submit" class="add-event-btn" id="edit-event-btn" value="Add Event">
-                            <button class="cancel delete-event" id="edit-event-btn">Delete Event</button>
+                            <input type="submit" class="add-event-btn" id="edit-event-btn" value="Save">
+                           
                         </div>
 
 
 
 
                     </form>
+                    <button class="cancel delete-event" id="edit-event-btn" onclick="deleteEvent(<?php echo $data['event']->event_id?>)">Delete Event</button>
                     <span id="output"></span>
                 </div>
             </div>
@@ -112,6 +112,7 @@
         if (r == true) {
             window.location.href = `http://localhost/Audex/service_providers/deleteEvent?id=${id}`;
         } else {
+            
             
         }
     }

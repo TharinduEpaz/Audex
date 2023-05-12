@@ -165,6 +165,15 @@ class Service_provider
         }
 
     }
+
+    public function deleteEvent($id){
+            
+            $this->db->query('DELETE FROM events WHERE event_id = :id');
+            $this->db->bind(':id', $id);
+            $this->db->execute();
+    
+    }
+
     public function likeDislike($event_id,$type){
         switch ($type) {
             case 'like':

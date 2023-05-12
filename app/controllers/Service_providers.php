@@ -385,6 +385,7 @@ class Service_providers extends Controller
             'id' => $id
 
         ];
+   
         $this->view('service_providers/editEvent', $data);
     }
 
@@ -443,6 +444,15 @@ class Service_providers extends Controller
 
 
         $this->service_model->updateEvent($id, $event_name, $location, $time, $link, $event_type, $description, $img);
+        redirect('service_providers/profile');
+    }
+
+
+    public function deleteEvent(){
+        $id = $_GET['id'];
+        $this->service_model->deleteEvent($id);
+
+        redirect('service_providers/profile');
     }
 
     public function likeDislike()

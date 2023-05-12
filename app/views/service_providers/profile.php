@@ -116,7 +116,7 @@
         <div class="event-body">
         </div>
 
-        <button class="add-event-btn" id="edit-event-btn">Edit / Delete Event</button>
+        <button class="add-event-btn" id="edit-delete-event" onclick="">Edit / Delete Event</button>
 
     </div>
 
@@ -152,6 +152,10 @@
                 }
             }
         }
+    }
+
+    function editDeleteEvent(id){
+        window.location.href = "<?php echo URLROOT . '/service_providers/editEvent?id=' ?>" + id;
     }
 
     
