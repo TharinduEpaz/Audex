@@ -15,13 +15,19 @@
                 <div class="rating">
                     <?php for ($i = 0; $i < floor($data['details']->Rating); $i++) : ?>
                         <i class="fa fa-star"></i>
+                    
                     <?php endfor; ?>
-
                     <?php if (strpos((string)$data['details']->Rating, '.')) : ?>
                         <i class="fa fa-star-half-o"></i>
                     <?php endif; ?>
+                    <?php for ($i = 0; $i < 5 - ceil($data['details']->Rating); $i++) : ?>
+                        <i class="fa fa-star-o"></i>
+                    
+                    <?php endfor; ?>
 
-                    <!-- <span style="color:white"><?php echo $data['details']->Rating ?></span> -->
+                    
+
+                    <!-- <span style="color:black"><?php echo $data['details']->Rating ?></span> -->
 
                 </div>
                 <?php if($data['details']->admin_approved == 1): ?>
@@ -29,6 +35,10 @@
             <?php elseif($data['details']->admin_ignored == 1): ?>
             <button id="ignored" class="btn" onclick="gotoSettings()"><i class="fa fa-times-circle" style="margin-right:10px" aria-hidden="true"></i>APPROVAL ERROR</button>
             
+            <?php elseif($data['details']->approve_document != ''): ?>
+                <button id="ignored" class="btn" onclick="gotoSettings()"><i class="fa fa-times-circle" style="margin-right:10px" aria-hidden="true"></i>APPROVAL PENDING</button>
+
+
             <?php else: ?>
             <button id="not-approved" class="btn" onclick="gotoSettings()"><i class="fa fa-times-circle" style="margin-right:10px" aria-hidden="true"></i>NOT APPROVED BY AUDEX</button>
             <?php endif; ?>
