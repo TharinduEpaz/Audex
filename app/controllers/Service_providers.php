@@ -310,8 +310,46 @@ class Service_providers extends Controller
     }
 
     public function dashboard()
-    {
-        $this->view('service_providers/dashboard');
+    {   
+        $details = $this->service_model->getDetails($_SESSION['user_id']);
+        $post_count = $this->service_model->getPostCount($_SESSION['user_id']);
+        $event_count = $this->service_model->getEventCountforCurrentMonth($_SESSION['user_id']);
+        $likes = $this->service_model->getTotalEventLikes($_SESSION['user_id']);
+
+        $profile_completion = 0;
+
+        if(!$details->profile_image == ''){
+            $profile_completion = $profile_completion + 20;
+        }
+        if(!$details->profession == ''){
+            $profile_completion = $profile_completion + 10;
+        }
+        if(!$details->qualifications == ''){
+            $profile_completion = $profile_completion + 10;
+        }
+        if(!$details->achievements == ''){
+            $profile_completion = $profile_completion + 10;
+        }
+        if(!$details->description == ''){
+            $profile_completion = $profile_completion + 10;
+        }
+        if($details->is_paid == 1){
+            $profile_completion = $profile_completion + 20;
+        }
+        if($details->admin_approved == 1){
+            $profile_completion = $profile_completion + 20;
+        }
+
+        $data = [
+            'post_count' => $post_count,
+            'event_count' => $event_count,
+            'profile_completion' => $profile_completion,
+            'likes' => $likes
+        ];
+        
+
+        
+        $this->view('service_providers/dashboard', $data);
     }
 
     public function eventCalander()
@@ -770,4 +808,7 @@ class Service_providers extends Controller
             }
         }
     }
+
+
+
 }

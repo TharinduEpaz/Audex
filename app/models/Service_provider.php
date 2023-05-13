@@ -258,6 +258,31 @@ class Service_provider
         $this->db->query('SELECT  ');
     }
 
+    public function getPostCount($id){
+        $this->db->query('SELECT COUNT(*) AS count FROM feed_post WHERE user_id = :id');
+        $this->db->bind(':id', $id);
+        $count = $this->db->single();
+        return $count;
+    }
+
+    public function getEventCountforCurrentMonth($id){
+        $this->db->query('SELECT COUNT(*) AS count FROM events WHERE user_id = :id AND MONTH(date) = MONTH(CURRENT_DATE())');
+        $this->db->bind(':id', $id);
+        $count = $this->db->single();
+        return $count;
+    }
+
+    public function getTotalEventLikes($id){
+        $this->db->query('SELECT SUM(likes) as sum FROM events WHERE user_id = :id');
+        $this->db->bind(':id', $id);
+        $count = $this->db->single();
+        return $count;
+    }
+
+    
+
+    
+
   
      
 }
