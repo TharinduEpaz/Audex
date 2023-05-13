@@ -500,9 +500,18 @@ class Service_providers extends Controller
 
     public function addNewPost($errors = [])
     {
-        $data = [
-            'errors' => $errors
-        ];
+      
+        $is_paid = $this->service_model->is_paid($_SESSION['user_id']);
+
+        if (!$is_paid->is_paid) {
+            $data = [
+                'posts' => 0
+            ];
+        } else {
+            $data = [
+                'posts' => 1
+            ];
+        }
         $this->view('service_providers/addNewPost', $data);
     }
 
