@@ -7,15 +7,15 @@
                 <label for="add-post" style="margin-top:40px">Create Your Post (you can resize editor by dragging right bottom corner)</label>
                 <textarea name="add-post" id="add-post-text" cols="30" rows="10"></textarea>
                 <br>
-                <span id="select-photos">Select photos for your post (at least 1 photo is required)</span>
+                <span id="select-photos">Select photos for your post (at least 1 photo is required/max size 5MB)</span>
                 <div class="post-pics">
-                    <input type="file" name="post-photo-1" required>
-                    <input type="file" name="post-photo-2">
-                    <input type="file" name="post-photo-3">
+                    <input type="file" id="file" name="post-photo-1" accept="image/*" required maxlength="5242880"required>
+                    <input type="file" name="post-photo-2" maxlength="2097152">
+                    <input type="file" name="post-photo-3" maxlength="2097152">
                 </div>
                 <div class="button-section">
                     <button type="submit" id="create-feed-post" name='submit'>POST</button>
-                    <button type="reset">Cancel</button>
+                    <button type="reset" onclick="exit()">Cancel</button>
                 </div>
             </form>
         </div>
@@ -44,6 +44,23 @@
         editButton.style.background = "#E5E9F7"
 
     }
+    var uploadField = document.getElementById("file");
+    console.log(uploadField);
+
+uploadField.onchange = function() {
+    if(this.files[0].size > 5242880){
+       alert("File is too big!");
+       this.value = "";
+    };
+};
+
+function exit(){
+    confirm("Are you sure you want to exit?")
+    if(confirm){
+        window.location.href = "<?php echo URLROOT . '/service_providers/feed' ?>"
+    }
+
+}
 </script>
 
 </body>

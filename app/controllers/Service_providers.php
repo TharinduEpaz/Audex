@@ -585,7 +585,7 @@ class Service_providers extends Controller
             // check for errors
             if ($file_error === 0) {
                 if (in_array($file_ext, $allowed)) {
-                    if ($file_size <= 2097152) {
+                    if ($file_size <= 5242880) {
 
                         // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
 
@@ -633,7 +633,7 @@ class Service_providers extends Controller
             // check for errors
             if ($file_error === 0) {
                 if (in_array($file_ext, $allowed)) {
-                    if ($file_size <= 2097152) {
+                    if ($file_size <= 5242880) {
 
                         // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
                         //create a unique name for the image before saving it to the database
@@ -733,7 +733,7 @@ class Service_providers extends Controller
             // check for errors
             if ($file_error === 0) {
                 if (in_array($file_ext, $allowed)) {
-                    if ($file_size <= 2097152) {
+                    if ($file_size <= 5242880) {
 
                         // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
 
