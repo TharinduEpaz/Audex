@@ -1213,7 +1213,7 @@ date_default_timezone_set("Asia/Kolkata");
                     $sql.='(spv.Rating <= :rate AND spv.Rating > :rate1)';
                 }
                 else if($key==='address_line_two'){
-                    $sql.='spv.address_line_two = :address_line_two ';
+                    $sql.='spv.address_line_two LIKE :'.$key ;
                 }
                 else{
                     $sql.='spv.'.$key." = :".$key."";
@@ -1228,7 +1228,12 @@ date_default_timezone_set("Asia/Kolkata");
 
         // binding values
             foreach($filter as $key=>$value){
-                $this->db->bind(':'.$key, $value);
+                if($key == 'address_line_two'){
+                    $this->db->bind(':'.$key, '%'.$value.'%');
+                }
+                else{
+                    $this->db->bind(':'.$key, $value);
+                }
             }
             if(isset($filter['rate'])){
                 // binding values for :rate1

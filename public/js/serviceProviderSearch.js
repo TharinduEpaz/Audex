@@ -36,8 +36,8 @@ inputField.addEventListener("keyup", (e) =>{
         for (var i = 0; i < data.results.length; i++) {
 
             var result = data.results[i];
-            var profile_img = result.profile_pic ;
-            var imgLink = "<img src=" + URLROOT+"/public/uploads/"+profile_img +">";
+
+            var imgLink = "<img src=" + URLROOT+"/public/uploads/Profile/"+result.profile_image +">";
 
             var link = "<a href ="+ URLROOT+"/users/serviceProviderPublic/?id="+result.user_id+ " >";
             html += "<tr>"+
