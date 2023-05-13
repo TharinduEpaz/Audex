@@ -19,6 +19,92 @@
     <script type="text/javascript" src="<?php echo URLROOT . '/public/js/moment.min.js';?>"></script>
     <script type="text/javascript" src="<?php echo URLROOT . '/public/js/moment-timezone-with-data.js';?>"></script>
     <title>Advertisement</title>
+
+    <style>
+/* styles for modal */
+    .modal-content {
+        background-color: #fefefe;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 25%
+
+    }
+
+    .review-area-select-star {
+        display: flex;
+        flex-direction: row;
+        height: 6vh;
+    }
+
+    .review-form form {
+        display: flex;
+        flex-direction: column;
+    }
+    .close {
+        /* color: #aaa; */
+        /* float: right; */
+        font-size: 28px;
+        font-weight: bold;
+        background: gray;
+        color: white;
+        text-align: center;
+        height: 30px;
+        border-radius:0 ;
+    }
+
+    .review-form label, .review-area-select-star label {
+        /* margin: 2%; */
+        font-size: 15px;
+        font-weight: 500;
+    }
+    .star-rating {
+        display: inline-block;
+        /* height: 3vh; */
+        margin: 2%;
+        padding: 1%;
+    }
+    .feedback-area form textarea {
+        margin: 2%;
+        border: 1px solid;
+        overflow: hidden;
+        overflow-y: auto;
+        border-radius: 0.25rem;
+        padding: 3%;
+        resize: none;
+    }
+    #submit-review-btn {
+        text-align: center;
+        /* padding: auto; */
+        /* border-radius: 10px; */
+        /* border: 1px solid #002EF9; */
+        font-weight: 600;
+        /* margin-top: 3vh; */
+        float: right;
+        width: 100%;
+        height: 5vh;
+        /* font-size: 16px; */
+        /* padding: 1% 2% 1% 2%; */
+        /* border-radius: 10px; */
+        /* border: 1px solid #002EF9; */
+        margin: 10px 0% 0% 0%;
+    }
+    .feedback-area form label {
+        width: 30%;
+
+    }
+    #submitted-feedback{
+        margin: 2%;
+        border: 1px solid;
+        overflow: hidden;
+        overflow-y: auto;
+        border-radius: 0.25rem;
+        padding: 3%;
+        resize: none;
+    }
+
+
+    </style>
+
 </head>
 <body>
 <?php require_once APPROOT . '/views/sellers/navbar.php';?>
@@ -240,9 +326,7 @@
 
 
 <script>
-    // get user email(email rater)  using sessions and check user is logged or not
-    
-
+   
 //Image change
 var img=1;
     var image1 = <?php echo json_encode($data['ad']->image1); ?>;
@@ -308,12 +392,15 @@ var img=1;
 
     // rate functionality======================================================================================================================
     function openModal(email) {
-        console.log(email);
         reviewWriteForm = document.getElementById("review-write-form");
         const stars = document.querySelectorAll('.star-rating .star');
+        
         const email_seller = <?php echo json_encode($_SESSION['user_email']); ?>;
         const email_buyer=email;
+        const product_id = <?php echo $data['ad']->product_id  ?>;
         var value = '';
+
+        console.log(email_seller, email_buyer);
         
 		var modal = document.getElementById("myModal");
 		modal.style.display = "block";
@@ -339,7 +426,7 @@ var img=1;
                 });
             }
             reviewWriteForm.addEventListener("submit",(e)=>{
-                e.preventDefault();
+                // e.preventDefault();
                 // const email_buyer = document.getAttribute('date-email').value;
 
 
@@ -349,7 +436,7 @@ var img=1;
                 // console.log(feedback);
                 // console.log(value);
 
-                const url1 = '<?php echo URLROOT?>/users/rateSeller/';
+                const url1 = '<?php echo URLROOT?>/sellers/rateBuyer/';
 
                 // console.log(url1);
 
@@ -358,8 +445,9 @@ var img=1;
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ rating: value,
                                            review:feedback,
-                                           email_buyer:email_seller,
-                                           email_rate_receiver:email_buyer,
+                                           email_seller:email_seller,
+                                           email_buyer:email_buyer,
+                                           product_id:product_id,
                                         }),
                 })
                 .then(response => response.json())
