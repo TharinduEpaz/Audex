@@ -173,12 +173,7 @@ class Service_providers extends Controller
             } else {
                 $address2 = $data['details']->address_line_two;
             }
-            if (isset($_POST['phone']) && $_POST['phone'] != '') {
-
-                $phone = $_POST['phone'];
-            } else {
-                $phone = $data['details']->phone_number;
-            }
+           
 
             if (!empty($_FILES['profile']['name'])) {
 
@@ -203,7 +198,7 @@ class Service_providers extends Controller
             'second_name' => $second_name,
             'address1' => $address1,
             'address2' => $address2,
-            'phone' => $phone
+            
         ];
 
         if (empty($this->validateProfileDetails($details))) {
@@ -233,10 +228,16 @@ class Service_providers extends Controller
             $nameErr = "Second Name : Only letters and white space allowed";
             array_push($errors, $nameErr);
         }
-        if (!preg_match("/^[0-9]{10}$/", $details['phone']) && !preg_match("/^[0-9]{9}$/", $details['phone'])) {
-            $phoneErr = "Phone number should be a 10-digit number";
-            array_push($errors, $phoneErr);
-        }
+
+        // if(isset($FILES['profile']['name'])){
+        $file_size = $_FILES['profile']['size'];
+            if ($file_size > 2097152) {
+                $sizeERR = 'File size must not be larger than 2 MB';
+                array_push($errors, $sizeERR);
+            }
+
+        // }
+
 
         return $errors;
     }

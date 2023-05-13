@@ -89,6 +89,8 @@ function loadevent(event_id) {
       var event = JSON.parse(this.responseText);
       console.log(event);
       
+      document.querySelector('#edit-delete-event').setAttribute('onclick', `editDeleteEvent(${event.event.event_id})`);
+
       
       document.querySelector(".date").innerHTML = '<i class="fa fa-calendar" aria-hidden="true"></i>  &nbsp  ' + event.event.date;
       document.querySelector(".time").innerHTML = '<i class="fa fa-clock-o" aria-hidden="true"></i>  &nbsp   ' + event.event.time;
@@ -177,3 +179,11 @@ $(document).ready(function () {
     });
   });
 });
+
+
+//////////////////////////////////////////////////////////
+
+function editDeleteEvent(id){
+  window.location.href = "http://localhost/Audex/service_providers/editEvent?id=" + id;
+}
+

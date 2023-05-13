@@ -10,7 +10,7 @@
             <div class="name-rating">
                 <div class="name">
                     <p id="Name"><?php echo $data['details']->first_name . ' ' . $data['details']->second_name ?></p>
-                    <i class="fa fa-map-marker" aria-hidden="true"></i><span id="profession"><?php echo $data['details']->address_line_two ?></span>
+                    <i class="fa fa-map-marker" aria-hidden="true"></i><span id="location"><?php echo $data['details']->address_line_two ?></span>
                 </div>
                 <div class="rating">
                     <?php for ($i = 0; $i < floor($data['details']->Rating); $i++) : ?>
@@ -157,6 +157,17 @@
     function editDeleteEvent(id){
         window.location.href = "<?php echo URLROOT . '/service_providers/editEvent?id=' ?>" + id;
     }
+
+    //if the description and profession is empty then display error message to complete the profile
+
+    var profession = document.getElementById("profession").innerText;
+    console.log(profession);
+    
+    if(profession == ''){
+        document.querySelector('.name-rating').innerHTML = "<p style='color:red'>Please complete your profile in settings</p>";
+    }
+  
+
 
     
 </script>

@@ -78,6 +78,8 @@
         <div class="event-body">
 
         </div>
+        <button class="add-event-btn" id="edit-delete-event" onclick="">Edit / Delete Event</button>
+
 
 
 
