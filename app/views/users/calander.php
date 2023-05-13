@@ -36,6 +36,10 @@
         .white-box {
             margin: 0;
 
+            
+        }
+        .sound-eng{
+            margin-left: 10vw;
         }
     </style>
 </head>

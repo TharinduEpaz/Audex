@@ -937,13 +937,16 @@ EVENT POP UPS CSS
   margin-top: 10vh;
   display: flex;
   flex-direction: row;
-  gap: 100px;
+  gap: 50px;
   padding: 10vh;
   justify-content: center;
   background-color: #E5E9F7;
-  width: 100vw;
   height: 100vh;
   flex-wrap: wrap;
+  /* margin-left: 16vw; */
+  padding-left: 15vw;
+  width: 100vw;
+  padding-top: 20vh;
 }
 
 .sound-eng .sound-eng-profiles {
