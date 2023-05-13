@@ -108,7 +108,7 @@ class Service_providers extends Controller
             'errors' => $errors
         ];
         $data1 = [
-            'title' => $details->first_name . ' ' . $details->second_name,
+            'title' => $details->first_name . ' ' . $details->second_name 
         ];
         $this->view('service_providers/settings', $data,$data1);
     }
@@ -178,7 +178,6 @@ class Service_providers extends Controller
                 $phone = $_POST['phone'];
             } else {
                 $phone = $data['details']->phone_number;
-          
             }
 
             if (!empty($_FILES['profile']['name'])) {
@@ -234,7 +233,7 @@ class Service_providers extends Controller
             $nameErr = "Second Name : Only letters and white space allowed";
             array_push($errors, $nameErr);
         }
-        if (!preg_match("/^[0-9]{10}$/", $details['phone'])) {
+        if (!preg_match("/^[0-9]{10}$/", $details['phone']) && !preg_match("/^[0-9]{9}$/", $details['phone'])) {
             $phoneErr = "Phone number should be a 10-digit number";
             array_push($errors, $phoneErr);
         }
@@ -283,6 +282,7 @@ class Service_providers extends Controller
                 echo $image->getError(); 
               }
             }
+
             $event_details = array(
                 $details['name'],
                 $details['date'],
@@ -313,8 +313,46 @@ class Service_providers extends Controller
     }
 
     public function dashboard()
-    {
-        $this->view('service_providers/dashboard');
+    {   
+        $details = $this->service_model->getDetails($_SESSION['user_id']);
+        $post_count = $this->service_model->getPostCount($_SESSION['user_id']);
+        $event_count = $this->service_model->getEventCountforCurrentMonth($_SESSION['user_id']);
+        $likes = $this->service_model->getTotalEventLikes($_SESSION['user_id']);
+
+        $profile_completion = 0;
+
+        if(!$details->profile_image == ''){
+            $profile_completion = $profile_completion + 20;
+        }
+        if(!$details->profession == ''){
+            $profile_completion = $profile_completion + 10;
+        }
+        if(!$details->qualifications == ''){
+            $profile_completion = $profile_completion + 10;
+        }
+        if(!$details->achievements == ''){
+            $profile_completion = $profile_completion + 10;
+        }
+        if(!$details->description == ''){
+            $profile_completion = $profile_completion + 10;
+        }
+        if($details->is_paid == 1){
+            $profile_completion = $profile_completion + 20;
+        }
+        if($details->admin_approved == 1){
+            $profile_completion = $profile_completion + 20;
+        }
+
+        $data = [
+            'post_count' => $post_count,
+            'event_count' => $event_count,
+            'profile_completion' => $profile_completion,
+            'likes' => $likes
+        ];
+        
+
+        
+        $this->view('service_providers/dashboard', $data);
     }
 
     public function eventCalander()
@@ -475,7 +513,6 @@ class Service_providers extends Controller
     {
         $posts = $this->service_model->getPostsByUser($_SESSION['user_id']);
         $is_paid = $this->service_model->is_paid($_SESSION['user_id']);
-        
 
         if (!$is_paid->is_paid) {
             $data = [
@@ -487,6 +524,7 @@ class Service_providers extends Controller
             ];
         }
 
+        $this->view('service_providers/feed', $data);
     }
 
     public function feedPost()
@@ -692,16 +730,16 @@ class Service_providers extends Controller
         $image->setDimension(10000, 10000);
 
         if ($image["$text"]) {
-            
+
             $image->setName(substr(base64_encode(random_bytes(12)), 0, 20)); //length 20 random name);
-            
+
             $upload = $image->upload();
             $image->setMime(array('pdf'));
 
             if ($upload) {
                 return $image->getName() . '.' . $image->getMime();;
             } else {
-              
+
                 echo $image->getError();
                 return;
             }
@@ -714,9 +752,18 @@ class Service_providers extends Controller
         $this->service_model->deletePost($id);
         redirect('service_providers/feed');
     }
+    public function adminApprove()
+    {
+        $id = $_SESSION['user_id'];
 
-
-}
+        // $approval = $this->service_model->getApprovalDetails($_SESSION['user_id']);
+        // if (!empty($approval)) {
+        //     $data = [
+        //         'approval' => $approval
+        //     ];
+        // } else {
+        //     $data = 0;
+        // }
 
 
 
@@ -764,4 +811,7 @@ class Service_providers extends Controller
             }
         }
     }
+
+
+
 }

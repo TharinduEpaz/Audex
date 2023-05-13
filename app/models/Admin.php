@@ -54,6 +54,63 @@
                 redirect('admins/profile');
             }
 
+            public function getserviceproviderdetails(){
+                // $this->db->query('SELECT * FROM user LEFT JOIN service_provider ON user.user_id = service_provider.user_id  UNION SELECT * FROM user RIGHT JOIN service_provider ON user.user_id = service_provider.user_id ');
+                //$this->db->query('SELECT * FROM user INNER JOIN service_provider ON user.user_id = service_provider.user_id ');
+                $this->db->query('SELECT * FROM user INNER JOIN service_provider ON user.user_id = service_provider.user_id WHERE service_provider.admin_approved = 0;');
+                $serviceprovider= $this->db->resultSet();
+                return $serviceprovider;
+            }
+
+            public function getspprofile($id){
+
+                $this->db->query('SELECT * FROM user INNER JOIN service_provider ON user.user_id = service_provider.user_id WHERE user.user_id = :id');
+                $this->db->bind(':id',$id);
+                $serviceprovider= $this->db->resultSet();
+                return $serviceprovider;
+            }
+
+            public function ignoresp($id,$ignore_reason){
+
+                $this->db->query('UPDATE service_provider SET admin_ignored = 1, ignore_reason = :ignore_reason WHERE user_id = :id;');
+                $this->db->bind(':ignore_reason',$ignore_reason);
+                $this->db->bind(':id', $id);
+
+                 if($this->db->execute()){
+                    return true;
+                } else {
+                    return false;
+                }
+
+            }
+
+
+            public function approvesp1($id){
+
+                $this->db->query('UPDATE service_provider SET admin_ignored = 0, admin_approved = 1 WHERE user_id = :id;');
+                $this->db->bind(':id', $id);
+
+                 if($this->db->execute()){
+                    return true;
+                } else {
+                    return false;
+                }
+
+            }
+
+
+            public function approvesp2($id){
+
+                $this->db->query('UPDATE service_provider SET admin_approved = 1 WHERE user_id = :id;');
+                $this->db->bind(':id', $id);
+                $this->db->execute();
+
+                $this->db->query('UPDATE service_provider SET admin_ignored = 0 WHERE user_id = :id;');
+                $this->db->bind(':id', $id);
+                $this->db->execute();
+                
+
+            }
 
 
     }

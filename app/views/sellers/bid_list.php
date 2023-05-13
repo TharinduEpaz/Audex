@@ -115,7 +115,7 @@
                                             }else if($data['bid_list'][$i-1]->is_accepted==1){ //Bid accepted
                                                 echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none ; color:green\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Approved</a></td>';
                                                 if($data['bid_list'][$i-1]->feedback_given==0){ //Feedback not given
-                                                    echo '<td id=\'feedback\' class=\'feedback\'><a href="" onclick="openModal(); return false;" data-email= "'.$data['bid_list'][$i-1]->email_buyer.'" >Feedback</a></td>
+                                                    echo '<td id=\'feedback\' class=\'feedback\'><a href="#" onclick="openModal(\''.$data['bid_list'][$i-1]->email_buyer.'\');" >Feedback</a></td> '?>
 
                                                     <div id="myModal" class="modal">
                                                         <div class="modal-content">
@@ -140,8 +140,7 @@
     
                                                                             <label for="review">Review:</label>
                                                                             <textarea  name="review" rows="4" id="submitted-feedback"  ></textarea>
-                                                                            <!-- <?php echo $data[\'loadFeedback\'] ?> -->
-                                                                            <!-- <?php flash(\'rating_message\');?> -->
+                                                                            <?php echo flash('rating_message');?>
                                                                             <input type="submit" value="Submit" id="submit-review-btn">
     
                                                                         </form>
@@ -152,15 +151,14 @@
                                                             </div>
                                                         </div>
                                                     </div> 
-                                                    ';
-                                                }
+                                                <?php } 
 
                                             }else if($data['bid_list'][$i-1]->is_rejected==1){ //Bid rejected
                                                 echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none; color:red\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Rejected</a></td>';
                                                 $j++;
                                                 if($data['bid_list'][$i-1]->feedback_given==0){ //Feedback not given
-                                                    echo '<td id=\'feedback\' class=\'feedback\'><a href="" onclick="openModal(); return false;" data-email= "'.$data['bid_list'][$i-1]->email_buyer.'" >Feedback</a></td>
-                                                    
+                                                    echo '<td id=\'feedback\' class=\'feedback\'><a href="#" onclick="openModal(\''.$data['bid_list'][$i-1]->email_buyer.'\');" >Feedback</a></td>'
+                                                    ?>
                                                     <div id="myModal" class="modal">
                                                         <div class="modal-content">
                                                             <span class="close" onclick="closeModal()" style="float: right; z-index: 1; position: inherit; visibility: visible; opacity:100%;">&times;</span>
@@ -184,8 +182,7 @@
                                 
                                                                             <label for="review">Review:</label>
                                                                             <textarea  name="review" rows="4" id="submitted-feedback"  ></textarea>
-                                                                          
-                                                                            <!-- <?php flash(\'rating_message\');?> -->
+                                                                            <?php echo flash('rating_message');?>
                                                                             <input type="submit" value="Submit" id="submit-review-btn">
                                 
                                                                         </form>
@@ -196,8 +193,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    ';
-                                                }
+                                               <?php }
                                             }
 
                                         }else if($data['check']==0){ //$data['check']=0 means, there's no any sent email or an accepted bid. There can be rejected bids
@@ -244,7 +240,8 @@
 
 
 <script>
-
+    // get user email(email rater)  using sessions and check user is logged or not
+    
 
 //Image change
 var img=1;
@@ -309,17 +306,20 @@ var img=1;
     }, 1000);
 
 
-    function openModal() {
+    // rate functionality======================================================================================================================
+    function openModal(email) {
+        console.log(email);
         reviewWriteForm = document.getElementById("review-write-form");
         const stars = document.querySelectorAll('.star-rating .star');
+        const email_seller = <?php echo json_encode($_SESSION['user_email']); ?>;
+        const email_buyer=email;
         var value = '';
         
 		var modal = document.getElementById("myModal");
 		modal.style.display = "block";
             
-        // rate functionality======================================================================================================================
 
-        if(emil_seller != ""){
+        if(email_seller != ""){
             // user is logged in
        
             for (const star of stars) {
@@ -339,8 +339,9 @@ var img=1;
                 });
             }
             reviewWriteForm.addEventListener("submit",(e)=>{
+                e.preventDefault();
+                // const email_buyer = document.getAttribute('date-email').value;
 
-                const emil_buyer = document.getAttribute('date-email').value;
 
                 // e.preventDefault();
                 //get the form data/sumitted data
@@ -357,8 +358,8 @@ var img=1;
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ rating: value,
                                            review:feedback,
-                                           email_buyer:email_buyer,
-                                           email_rate_receiver:email_rate_receiver,
+                                           email_buyer:email_seller,
+                                           email_rate_receiver:email_buyer,
                                         }),
                 })
                 .then(response => response.json())

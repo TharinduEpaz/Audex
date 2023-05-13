@@ -99,7 +99,7 @@ function loadevent(event_id) {
         document.querySelector("#dislikes").innerHTML = event.event.dislikes;
         document.querySelector(
           "#event-img"
-        ).src = `http://localhost/Audex/public/uploads/events/${event.event.image}`;
+        ).src = `http://localhost/Audex/public/uploads/${event.event.image}`;
       }
     };
   

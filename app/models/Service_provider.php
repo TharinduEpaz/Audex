@@ -241,7 +241,7 @@ class Service_provider
     }
 
     public function adminApprove($id,$file_name){
-        $this->db->query('UPDATE service_provider document = :document WHERE user_id = :id');
+        $this->db->query('UPDATE service_provider SET approve_document = :document WHERE user_id = :id');
         $this->db->bind(':id', $id);
         $this->db->bind(':document', $file_name);
         
@@ -253,6 +253,35 @@ class Service_provider
             echo $th->getMessage();
         }
     }
+
+    public function getApprovalDetails($id){
+        $this->db->query('SELECT  ');
+    }
+
+    public function getPostCount($id){
+        $this->db->query('SELECT COUNT(*) AS count FROM feed_post WHERE user_id = :id');
+        $this->db->bind(':id', $id);
+        $count = $this->db->single();
+        return $count;
+    }
+
+    public function getEventCountforCurrentMonth($id){
+        $this->db->query('SELECT COUNT(*) AS count FROM events WHERE user_id = :id AND MONTH(date) = MONTH(CURRENT_DATE())');
+        $this->db->bind(':id', $id);
+        $count = $this->db->single();
+        return $count;
+    }
+
+    public function getTotalEventLikes($id){
+        $this->db->query('SELECT SUM(likes) as sum FROM events WHERE user_id = :id');
+        $this->db->bind(':id', $id);
+        $count = $this->db->single();
+        return $count;
+    }
+
+    
+
+    
 
   
      
