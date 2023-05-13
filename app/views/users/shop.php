@@ -209,8 +209,11 @@
         .form-group .form-control{
             border-radius: 5px;
             padding: 5px;
-            border: none;
+            /* border: none; */
             width: 150px;
+        }
+        .input-error {
+            border: 2px solid red;
         }
 
         input[type="radio"],
@@ -552,11 +555,11 @@
             <h4>Price</h4>
             <div class="form-group">
                 <label for="min-price">Min Price</label>
-                <input type="number" class="form-control" id="min-price" name="price-min" placeholder="Enter min price" value = "<?php echo ($data['price-min']) ?>" >
+                <input type="number" class="form-control" id="min-price" name="price-min" min="0" placeholder="Enter min price" value = "<?php echo ($data['price-min']) ?>" >
             </div>
             <div class="form-group">
                 <label for="max-price">Max Price</label>
-                <input type="number" class="form-control" id="max-price" name="price-max" placeholder="Enter max price" value = "<?php echo ($data['price-max']) ?>">
+                <input type="number" class="form-control" id="max-price" name="price-max" min="0" placeholder="Enter max price" value = "<?php echo ($data['price-max']) ?>">
             </div>
 
             <h4>Type</h4>

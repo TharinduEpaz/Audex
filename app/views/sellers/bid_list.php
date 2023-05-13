@@ -184,7 +184,7 @@
                                 
                                                                             <label for="review">Review:</label>
                                                                             <textarea  name="review" rows="4" id="submitted-feedback"  ></textarea>
-                                                                            <!-- <?php echo $data[\'loadFeedback\'] ?> -->
+                                                                          
                                                                             <!-- <?php flash(\'rating_message\');?> -->
                                                                             <input type="submit" value="Submit" id="submit-review-btn">
                                 
@@ -244,11 +244,7 @@
 
 
 <script>
-    // get user email(email rater)  using sessions and check user is logged or not
-    // const emil_buyer = <?php echo "'".$data['user']->email."'"; ?>;
 
-    // get rate receiver's email form profile
-    const emil_seller = <?php echo "'".$data['ad']->email."'"; ?>;
 
 //Image change
 var img=1;
