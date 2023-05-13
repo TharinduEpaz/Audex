@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/advertise.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/bid.css';?>">
+
+    <!-- rate and review Modal is for specific styles for rata and review styles for modal -->
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/rateAndReviewModal.css';?>">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
@@ -111,16 +115,91 @@
                                             }else if($data['bid_list'][$i-1]->is_accepted==1){ //Bid accepted
                                                 echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none ; color:green\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Approved</a></td>';
                                                 if($data['bid_list'][$i-1]->feedback_given==0){ //Feedback not given
-                                                    echo '<td id=\'feedback\' class=\'feedback\'><a style=\'pointer-events: none ; color:red\' href=\'' .URLROOT.'/sellers/feedback/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Feedback</a></td>';
+                                                    echo '<td id=\'feedback\' class=\'feedback\'><a href="" onclick="openModal(); return false;" data-email= "'.$data['bid_list'][$i-1]->email_buyer.'" >Feedback</a></td>
+
+                                                    <div id="myModal" class="modal">
+                                                        <div class="modal-content">
+                                                            <span class="close" onclick="closeModal()" style="float: right; z-index: 1; position: inherit; visibility: visible; opacity:100%;">&times;</span>
+                                                            
+                                                            <div class="review-seller">
+                                                                <!-- start of review form -->
+                                                                <div class="review-form">
+                                                                    <div class="review-area-select-star">
+                                                                        <label for="select">Rate:</label>
+                                                                        <div class="star-rating">
+                                                                            <i class="fa fa-star star" data-value="1"></i>
+                                                                            <i class="fa fa-star star" data-value="2"></i>
+                                                                            <i class="fa fa-star star" data-value="3"></i>
+                                                                            <i class="fa fa-star star" data-value="4"></i>
+                                                                            <i class="fa fa-star star" data-value="5"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="feedback-area">
+                                                                        <form action="" method="post" id="review-write-form">
+    
+    
+                                                                            <label for="review">Review:</label>
+                                                                            <textarea  name="review" rows="4" id="submitted-feedback"  ></textarea>
+                                                                            <!-- <?php echo $data[\'loadFeedback\'] ?> -->
+                                                                            <!-- <?php flash(\'rating_message\');?> -->
+                                                                            <input type="submit" value="Submit" id="submit-review-btn">
+    
+                                                                        </form>
+                                                                    </div>
+    
+                                                                </div>
+                                                                <!-- end of review form -->
+                                                            </div>
+                                                        </div>
+                                                    </div> 
+                                                    ';
                                                 }
+
                                             }else if($data['bid_list'][$i-1]->is_rejected==1){ //Bid rejected
                                                 echo '<td id=\'approve_link\' class=\'aprove\'><a style=\'pointer-events: none; color:red\' href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Rejected</a></td>';
                                                 $j++;
                                                 if($data['bid_list'][$i-1]->feedback_given==0){ //Feedback not given
-                                                    echo '<td id=\'feedback\' class=\'feedback\'><a style=\'pointer-events: none ; color:red\' href=\'' .URLROOT.'/sellers/feedback/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$data['user'][$i-1]->first_name.'\'>Feedback</a></td>';
+                                                    echo '<td id=\'feedback\' class=\'feedback\'><a href="" onclick="openModal(); return false;" data-email= "'.$data['bid_list'][$i-1]->email_buyer.'" >Feedback</a></td>
+                                                    
+                                                    <div id="myModal" class="modal">
+                                                        <div class="modal-content">
+                                                            <span class="close" onclick="closeModal()" style="float: right; z-index: 1; position: inherit; visibility: visible; opacity:100%;">&times;</span>
+                                                            
+                                                            <div class="review-seller">
+                                                                <!-- start of review form -->
+                                                                <div class="review-form">
+                                                                    <div class="review-area-select-star">
+                                                                        <label for="select">Rate:</label>
+                                                                        <div class="star-rating">
+                                                                            <i class="fa fa-star star" data-value="1"></i>
+                                                                            <i class="fa fa-star star" data-value="2"></i>
+                                                                            <i class="fa fa-star star" data-value="3"></i>
+                                                                            <i class="fa fa-star star" data-value="4"></i>
+                                                                            <i class="fa fa-star star" data-value="5"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="feedback-area">
+                                                                        <form action="" method="post" id="review-write-form">
+                                
+                                
+                                                                            <label for="review">Review:</label>
+                                                                            <textarea  name="review" rows="4" id="submitted-feedback"  ></textarea>
+                                                                            <!-- <?php echo $data[\'loadFeedback\'] ?> -->
+                                                                            <!-- <?php flash(\'rating_message\');?> -->
+                                                                            <input type="submit" value="Submit" id="submit-review-btn">
+                                
+                                                                        </form>
+                                                                    </div>
+                                
+                                                                </div>
+                                                                <!-- end of review form -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    ';
                                                 }
-
                                             }
+
                                         }else if($data['check']==0){ //$data['check']=0 means, there's no any sent email or an accepted bid. There can be rejected bids
                                             //This is the only link that can be clicked(Approve link)
                                             echo '<td id=\'approve_link\' class=\'aprove\'><a href=\'' .URLROOT.'/sellers/aprove_bid/'.$data['ad']->product_id.'/'.$auction->max_bid_id.'/'.$auction->email_buyer.'/'.$auction->max_price.'/'.$data['user'][$i-1]->first_name.'\'>Approve</a></td>';
@@ -137,6 +216,10 @@
                             endforeach;
                         }
                     ?>
+
+
+                    
+
                 </table>
             </div>
             <?php if($data['auction']->is_active==0 && $data['reposted']!=1 ){
@@ -161,6 +244,11 @@
 
 
 <script>
+    // get user email(email rater)  using sessions and check user is logged or not
+    // const emil_buyer = <?php echo "'".$data['user']->email."'"; ?>;
+
+    // get rate receiver's email form profile
+    const emil_seller = <?php echo "'".$data['ad']->email."'"; ?>;
 
 //Image change
 var img=1;
@@ -223,6 +311,102 @@ var img=1;
          }
       }
     }, 1000);
+
+
+    function openModal() {
+        reviewWriteForm = document.getElementById("review-write-form");
+        const stars = document.querySelectorAll('.star-rating .star');
+        var value = '';
+        
+		var modal = document.getElementById("myModal");
+		modal.style.display = "block";
+            
+        // rate functionality======================================================================================================================
+
+        if(emil_seller != ""){
+            // user is logged in
+       
+            for (const star of stars) {
+                star.addEventListener('click', function () {
+                    value = parseFloat(this.getAttribute('data-value'));
+
+                        for (const star of stars) {
+                            star.classList.remove('selected');
+                        }
+                
+                        for (let i = 0; i < value; i++) {
+                            stars[i].classList.add('selected');
+                        }
+                        // document.getElementById('buyer-selected-rate').value = value;
+                        // document.getElementById('current-seller-rate').value = data.results4;
+                    
+                });
+            }
+            reviewWriteForm.addEventListener("submit",(e)=>{
+
+                const emil_buyer = document.getAttribute('date-email').value;
+
+                // e.preventDefault();
+                //get the form data/sumitted data
+                const feedback = document.getElementById('submitted-feedback').value;
+                // console.log(feedback);
+                // console.log(value);
+
+                const url1 = '<?php echo URLROOT?>/users/rateSeller/';
+
+                // console.log(url1);
+
+                fetch(url1, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ rating: value,
+                                           review:feedback,
+                                           email_buyer:email_buyer,
+                                           email_rate_receiver:email_rate_receiver,
+                                        }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+            
+                    for (const star of stars) {
+                     star.classList.remove('selected');
+                    }
+            
+                    for (let i = 0; i < value; i++) {
+                     stars[i].classList.add('selected');
+                    }
+                    // document.getElementById('buyer-selected-rate').value = value;
+                    // document.getElementById('current-seller-rate').value = data.results4;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            });
+
+        }
+        else{
+            //user is not logged in 
+            <?php $_SESSION['url']=URL();?>
+            window.location.href = '<?php echo URLROOT?>/users/login/';
+        }
+
+           
+    }
+
+
+    function closeModal() {
+		var modal = document.getElementById("myModal");
+		modal.style.display = "none";
+	}
+    // When the user clicks anywhere outside of the modal, close it
+	var modal = document.getElementById("myModal");
+
+    window.addEventListener("click", function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    });
 </script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>

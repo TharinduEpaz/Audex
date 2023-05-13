@@ -21,7 +21,7 @@
             display: flex;
             flex-direction: row;
             height: 240px;
-            width: 75%;
+            width: 90%;
             margin: 3%;
             background-color: white;
             border-radius: 15px;
@@ -55,7 +55,7 @@
             display: flex;
             flex-direction: column;
             font-weight: 800;
-            width: 730px;
+            width: 90%;
             height: 100%;
             padding: 10px;
             border-radius: 0px 15px 15px 0px;

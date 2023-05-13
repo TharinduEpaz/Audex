@@ -2914,20 +2914,20 @@
         }
         // get the event dates according to selected event name
         // this is calling from fetch api in the service providers page 
-        public function getEventDates(){
+        public function getEventNames(){
 
             $values = json_decode(file_get_contents('php://input'), true);
 
             $serviceProviderEmail = $values['serviceProviderEmail'];
-            $eventName = $values['eventName'];
+            $eventDate = $values['eventDate'];
 
             // echo $serviceProviderEmail;
-            // echo $eventName;
+            // echo $eventDate;
 
-            $dates = $this->userModel->getEventDates($serviceProviderEmail, $eventName);
+            $names = $this->userModel->getEventNames($serviceProviderEmail, $eventDate);
 
             $data = [
-                'dates' => $dates
+                'names' => $names
             ];
             // print_r($data);
             // print_r($ServiceProviderWatched);

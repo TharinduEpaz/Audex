@@ -14,7 +14,7 @@
 <body>
 <?php require_once APPROOT . '/views/users/navbar.php';?>
 
-    <div id="container_main" class="container_main">
+    <div id="container_main" class="container_main" style="height:90vh">
         <div id="forms" class="form" style="margin-top: 20vh;">
         <?php 
             flash('register_success');

@@ -482,14 +482,14 @@ date_default_timezone_set("Asia/Kolkata");
             return $row;
         }
 
-        public function getEventDates($serviceProviderEmail, $eventName){
+        public function getEventNames($serviceProviderEmail, $eventDate){
             $this->db->query('SELECT user_id FROM user WHERE email = :serviceProviderEmail');
             $this->db->bind(':serviceProviderEmail' , $serviceProviderEmail);
             $row1 = $this->db->single();   
             
-            $this->db->query('SELECT date FROM events WHERE user_id = :id AND name = :eventName');
+            $this->db->query('SELECT events.name FROM events WHERE user_id = :id AND date = :eventDate');
             $this->db->bind(':id' , $row1->user_id);
-            $this->db->bind(':eventName' , $eventName);
+            $this->db->bind(':eventDate' , $eventDate);
 
             $row = $this->db->resultSet();
             return $row;
@@ -1472,7 +1472,7 @@ date_default_timezone_set("Asia/Kolkata");
                 //Bind value
                 $this->db->bind(':email_service_provider', $emailServiceProvider);
                 $result1 =  $this->db->single();
-                // update main rate in seller table 
+                // update main rate in user table 
                 $this->db->query('UPDATE user SET rate = :newRate WHERE email = :email_service_provider');
                 $this->db->bind(':newRate', $result1->rateNew);
                 $this->db->bind(':email_service_provider', $emailServiceProvider);

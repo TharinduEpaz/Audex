@@ -694,6 +694,7 @@ nav{
   background-color: #E5E9F7;
   justify-content: center;
   gap: 30px;
+  padding: 0 5% 0 5%;
 }
 .auctions{
   display: flex;
@@ -729,6 +730,7 @@ nav{
   background-color: #E5E9F7;
   justify-content: center;
   gap: 30px;
+  padding: 0 5% 0 5%;
   
 }
 .popular_engineers .engineer{
@@ -754,6 +756,7 @@ nav{
   background-color: #E5E9F7;
   justify-content: center;
   gap: 30px;
+  padding: 0 5% 0 5%;
 
 }
 

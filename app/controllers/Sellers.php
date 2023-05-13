@@ -1655,6 +1655,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
           //   $this->view('users/bid',$data);
   
               //Load view
+            //   print_r($data);
+            //   exit();
+
               $this->view('sellers/bid_list', $data);
   
         }
