@@ -63,7 +63,7 @@ function loadevent(event_id) {
         ".owner-name"
       ).innerHTML = `${event.name.first_name} ${event.name.second_name}`;
       document.querySelector("#likes").innerHTML = event.event.likes;
-      document.querySelector("#dislikes").innerHTML = event.event.dislikes;
+      // document.querySelector("#dislikes").innerHTML = event.event.dislikes;
       document.querySelector(
         "#event-img"
       ).src = `http://localhost/Audex/public/uploads/${event.event.image}`;
@@ -78,19 +78,15 @@ function loadevent(event_id) {
 
   xhttp.send();
 
-  //set the date to today
-
-  let eventForm = document.querySelector("#eventForm");
-
   like_button = document.querySelector(".like-button");
-  dislike_button = document.querySelector(".dislike-button");
+  // dislike_button = document.querySelector(".dislike-button");
   
   like_button.addEventListener("click", () => {
      var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var res = JSON.parse(this.responseText);
-                // console.log(this.responseText); 
+                console.log(this.responseText); 
                 document.querySelector("#likes").innerHTML = res.reactions.likes;
                 like_button.disabled = true;
                 // document.querySelector("#dislikes").innerHTML = event.event.dislikes;
@@ -100,22 +96,7 @@ function loadevent(event_id) {
         xhttp.send();
 
   });
-  dislike_button.addEventListener("click", () => {
 
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            var res = JSON.parse(this.responseText);
-            // console.log(this.responseText); 
-            document.querySelector("#dislikes").innerHTML = res.reactions.dislikes;
-            dislike_button.disabled = true;
-            
-        }
-        } 
-    xhttp.open("GET", "http://localhost/Audex/service_providers/likeDislike?id=" + event_id + '&type=dislike', true);
-    xhttp.send();
-    
-  });
 }
 
 

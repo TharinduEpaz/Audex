@@ -36,11 +36,8 @@
 </div>
 
 <script>
-    //make unread messages number color red
-    var msgCount = document.getElementById("msg-count");
-    if(msgCount.innerHTML > 0){
-        msgCount.style.color = "red";
-    }
+
+   
     //make sidebar button background clicked
     link = document.querySelector('#dashboard');
     link.style.background = "#E5E9F7";

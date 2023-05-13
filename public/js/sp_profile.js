@@ -118,7 +118,7 @@ function loadevent(event_id) {
        var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function () {
               if (this.readyState == 4 && this.status == 200) {
-                  // var res = JSON.parse(this.responseText);
+                  var res = JSON.parse(this.responseText);
                   console.log(this.responseText); 
                   document.querySelector("#likes").innerHTML = res.reactions.likes;
                   like_button.disabled = true;
