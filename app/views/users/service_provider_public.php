@@ -255,7 +255,7 @@
                     <div class="profile-events">
                         <?php foreach ($data['events'] as $event) : ?>
                             <div class="event-display">
-                                <img src="<?php echo URLROOT . '/public/uploads/events/' . $event->image; ?>" alt="">
+                                <img src="<?php echo URLROOT . '/public/uploads/' . $event->image; ?>" alt="">
                                 <div class="overlay" data-event-target="#event" class="text" onclick="loadevent(<?php echo $event->event_id ?>)">
                                     <div data-event-target="#event" class="text" onclick="loadevent(<?php echo $event->event_id ?>)"><?php echo $event->name ?></div>
 
@@ -272,7 +272,7 @@
                     <?php foreach ($data['posts'] as $post) : ?>
                         <div class="event-display">
                            
-                            <img src="<?php echo URLROOT . '/public/uploads/' . $post->image1; ?>" alt="">
+                            <img src="<?php echo URLROOT . '/public/uploads/feed/' . $post->image1; ?>" alt="">
                             <div class="overlay" class="text" onclick="openPost(<?php echo $post->post_id?>)">
                                 <div  class="text" style="font-size=6px;"><?php echo $post->title ?></div>
                             </div>
@@ -283,6 +283,48 @@
             </div>
         </div>
     </div>
+
+    <div class="event" id="event">
+    <div class="event-left">
+        <div class="event-header">
+            <div class="title"></div>
+            <div class="event-date"></div>
+            <div class="event-time"></div>
+
+            <button data-close-button class="close-button">&times;</button>
+
+        </div>
+        <div class="wrapper-for-event">
+            <div class="event-publisher">
+                <div class="event-owenr-image">
+                    <img src="" alt="">
+                </div>
+                <span class="owner-name">John Doe</span>
+            </div>
+            <div class="event-buttons">
+                <button class="like-button" data-id="<?php ?>"><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="likes"></span></button>
+                <!-- <button class="dislike-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="dislikes"></span></button> -->
+            </div>
+
+        </div>
+        <div class="event-body">
+        </div>
+
+        <button class="add-event-btn" id="edit-delete-event" onclick="">Edit / Delete Event</button>
+
+    </div>
+
+
+    <div class="event-right">
+        <img src="" alt="" id="event-img">
+    </div>
+
+</div>
+
+<div id="overlay"></div>
+
+
+
     <script>
         /* When the user clicks on the button,
     toggle between hiding and showing the dropdown content */
@@ -481,7 +523,7 @@
 
     <script src="<?php echo URLROOT . '/public/js/form.js'; ?>"></script>
     <script src="<?php echo URLROOT . '/public/js/service-provider-watchlist.js'; ?>"></script>
-
+    <script src="<?php echo URLROOT . '/public/js/sp_public.js'; ?>"></script>
 </body>
 
 </html>
