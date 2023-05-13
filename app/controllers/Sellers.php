@@ -1719,36 +1719,55 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             //View count with dates
             $data['view_count']=$this->sellerModel->getViewsCount($_SESSION['user_email']);
             if($data['view_count']==false){
-                $data['view_count']='';
+                $data['view_count']=0;
+                $data['empty_view_count']=1;
+
+            }else{
+                $data['empty_view_count']=0;
             }
             //Likes count with dates
-            $data['likes__dates']=$this->sellerModel->sellerDetailsWithLikeCountDates($_SESSION['user_email']);
-            if($data['likes__dates']==false){
-                $data['likes__dates']='';
-            }
-            $data['startDate'] = new DateTime($data['likes__dates'][0]->date);
-            $data['endDate'] = clone $data['startDate'];
-            $data['endDate']->modify('+3 months');
-            $data['likes_date'] = [];
-            $data['likes_counts'] = [];
-            foreach ($data['likes__dates'] as $item) {
-                $data['likes_date'][] = $item->date;
-                $data['likes_counts'][] = $item->count;
+            $data['likes_dates']=$this->sellerModel->sellerDetailsWithLikeCountDates($_SESSION['user_email']);
+            if(!$data['likes_dates']){
+                $data['likes_dates']=0;
+                $data['empty_likes_dates']=1;
+                $data['likes_date'] = [];
+                $data['likes_counts'] = [];
+                $data['startDate']= new DateTime(date('Y-m-d H:i:s'));
+                $data['endDate']= clone $data['startDate'];
+            }else{
+                $data['startDate'] = new DateTime($data['likes_dates'][0]->date);
+                $data['endDate'] = clone $data['startDate'];
+                $data['endDate']->modify('+3 months');
+                $data['likes_date'] = [];
+                $data['empty_likes_dates']=0;
+                $data['likes_counts'] = [];
+                foreach ($data['likes_dates'] as $item) {
+                    $data['likes_date'][] = $item->date;
+                    $data['likes_counts'][] = $item->count;
+                }
             }
             //Dislikes count with dates
-            $data['dislikes__dates']=$this->sellerModel->sellerDetailsWithDislikeCountDates($_SESSION['user_email']);
-            if($data['dislikes__dates']==false){
-                $data['dislikes__dates']='';
+            $data['dislikes_dates']=$this->sellerModel->sellerDetailsWithDislikeCountDates($_SESSION['user_email']);
+            if(!$data['dislikes_dates']){
+                $data['dislikes_dates']=0;
+                $data['empty_dislikes_dates']=1;
+                $data['dislikes_date'] = [];
+                $data['dislikes_counts'] = [];
+                $data['startDate_dislikes']= new DateTime(date('Y-m-d H:i:s'));
+                $data['endDate_dislikes']= clone $data['startDate_dislikes'];
+            }else{
+                $data['startDate_dislikes'] = new DateTime($data['dislikes_dates'][0]->date);
+                $data['endDate_dislikes'] = clone $data['startDate_dislikes'];
+                $data['endDate_dislikes']->modify('+3 months');
+                $data['dislikes_date'] = [];
+                $data['empty_dislikes_dates']=0;
+                $data['dislikes_counts'] = [];
+                foreach ($data['dislikes_dates'] as $item) {
+                    $data['dislikes_date'][] = $item->date;
+                    $data['dislikes_counts'][] = $item->count;
+                }
             }
-            $data['startDate_dislikes'] = new DateTime($data['dislikes__dates'][0]->date);
-            $data['endDate_dislikes'] = clone $data['startDate_dislikes'];
-            $data['endDate_dislikes']->modify('+3 months');
-            $data['dislikes_date'] = [];
-            $data['dislikes_counts'] = [];
-            foreach ($data['dislikes__dates'] as $item) {
-                $data['dislikes_date'][] = $item->date;
-                $data['dislikes_counts'][] = $item->count;
-            }
+
             //Feedbacks count with related to rate
             $data['feedbacks_rate']=$this->sellerModel->getFeedbacksRate($_SESSION['user_email']);
             //Products count

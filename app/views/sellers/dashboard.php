@@ -25,6 +25,8 @@
         }
         .service-provider-profile {
           width: calc(100vw - 240px);
+          margin-left: 240px;
+          padding: 5vh 0vw;
         }
         .service-provider-profile .white-box .dashboard-item {
             width: 30%;
@@ -97,6 +99,7 @@
             //Graph1-Pie chart 1(No of auctions and the fixed prices of the seller)
             const auctionCount = <?php echo $data['no_auctions']->count ;?>;
             const fixedPriceCount = <?php echo $data['no_fixed_ads']->count ;?>;
+            
 
             const data1 = {
                 labels: ['Live Auctions('+auctionCount+')', 'Fixed Prices('+fixedPriceCount+')'],
@@ -134,15 +137,20 @@
                 config1
             );
             
-            //Graph2-Bar chart for the total advertisements views per day
-            var data = <?php echo json_encode($data['view_count']); ?>;
-            // Extract the dates and counts from the data
-            var view_dates = data.map(function(item) {
-                return item.date;
-            });
-            var view_counts = data.map(function(item) {
-                return item.count;
-            });
+            // Graph2-Bar chart for the total advertisements views per day
+            if(<?php echo $data['empty_view_count'] ;?> == 1){
+              view_dates=["2023-01-01","2023-02-01","2023-03-01","2023-04-01","2023-05-01","2023-06-01","2023-07-01","2023-08-01"];
+              view_counts=[0,0,0,0,0,0,0,0];
+            }else{
+              var data = <?php echo json_encode($data['view_count']); ?>;
+              // Extract the dates and counts from the data
+              var view_dates = data.map(function(item) {
+                  return item.date;
+              });
+              var view_counts = data.map(function(item) {
+                  return item.count;
+              });
+            }
             const data2 = {
                 labels: view_dates,
                 datasets: [
@@ -313,49 +321,63 @@
                 document.getElementById('graph3'),
                 config3
             );
-            //Graph4-Bar chart for the total likes/dislikes per day
-            // Retrieve the data passed from the controller
-            var likes_startDate = '<?php echo $data['startDate']->format('Y-m-d'); ?>';
-            var likes_endDate = '<?php echo $data['endDate']->format('Y-m-d'); ?>';
-            var likes_dates = <?php echo json_encode($data['likes_date']); ?>;
-            var likes_counts = <?php echo json_encode($data['likes_counts']); ?>;
-            
-            // Generate an array of dates within the desired range
-            var likes_labels = [];
-            var likes_currentDate = new Date(likes_startDate);
-            likes_endDate = new Date(likes_endDate);
-            
-            while (likes_currentDate <= likes_endDate) {
-                likes_labels.push(likes_currentDate.toISOString().split('T')[0]);
-                likes_currentDate.setDate(likes_currentDate.getDate() + 1);
+            // //Graph4-Bar chart for the total likes/dislikes per day
+            var lik = <?php echo json_encode($data['empty_likes_dates']); ?>;
+            var dislik = <?php echo json_encode($data['empty_dislikes_dates']); ?>;
+            if(lik==1){ //Checks for $data['likes_dates'] is empty 
+              console.log(lik+"empty"+dislik);
+              var likes_labels = ["2023-01-01","2023-02-01","2023-03-01","2023-04-01","2023-05-01","2023-06-01","2023-07-01","2023-08-01"];
+              var likes_data = ["0","0","0","0","0","0","0","0"];
+            }else{ //$data['likes_date'] is not empty
+              // Retrieve the data passed from the controller
+              var likes_startDate = '<?php echo $data['startDate']->format('Y-m-d'); ?>';
+              var likes_endDate = '<?php echo $data['endDate']->format('Y-m-d'); ?>';
+              var likes_dates = <?php echo json_encode($data['likes_date']); ?>;
+              var likes_counts = <?php echo json_encode($data['likes_counts']); ?>;
+              
+              // Generate an array of dates within the desired range
+              var likes_labels = [];
+              var likes_currentDate = new Date(likes_startDate);
+              likes_endDate = new Date(likes_endDate);
+              
+              while (likes_currentDate <= likes_endDate) {
+                  likes_labels.push(likes_currentDate.toISOString().split('T')[0]);
+                  likes_currentDate.setDate(likes_currentDate.getDate() + 1);
+              }
+          
+              // Map count values to the corresponding dates
+              var likes_data = likes_labels.map(function(date) {
+                  var index = likes_dates.indexOf(date);
+                  return index !== -1 ? likes_counts[index] : 0;
+              });
             }
-        
-            // Map count values to the corresponding dates
-            var likes_data = likes_labels.map(function(date) {
-                var index = likes_dates.indexOf(date);
-                return index !== -1 ? likes_counts[index] : 0;
-            });
-
-            var dislikes_startDate = '<?php echo $data['startDate_dislikes']->format('Y-m-d'); ?>';
-            var dislikes_endDate = '<?php echo $data['endDate_dislikes']->format('Y-m-d'); ?>';
-            var dislikes_dates = <?php echo json_encode($data['dislikes_date']); ?>;
-            var dislikes_counts = <?php echo json_encode($data['dislikes_counts']); ?>;
-
-            // Generate an array of dates within the desired range
-            var dislikes_labels = [];
-            var dislikes_currentDate = new Date(dislikes_startDate);
-            dislikes_endDate = new Date(dislikes_endDate);
-
-            while (dislikes_currentDate <= dislikes_endDate) {
-                dislikes_labels.push(dislikes_currentDate.toISOString().split('T')[0]);
-                dislikes_currentDate.setDate(dislikes_currentDate.getDate() + 1);
+            if(dislik==1){ //Checks for $data['dislikes_dates'] is empty 
+              console.log(lik+"notempty"+dislik);
+              var dislikes_labels = ["2023-01-01","2023-02-01","2023-03-01","2023-04-01","2023-05-01","2023-06-01","2023-07-01","2023-08-01"];
+              var dislikes_data = ["0","0","0","0","0","0","0","0"];
+            }else{ //$data['dislikes_date'] is not empty
+              var dislikes_startDate = '<?php echo $data['startDate_dislikes']->format('Y-m-d'); ?>';
+              var dislikes_endDate = '<?php echo $data['endDate_dislikes']->format('Y-m-d'); ?>';
+              var dislikes_dates = <?php echo json_encode($data['dislikes_date']); ?>;
+              var dislikes_counts = <?php echo json_encode($data['dislikes_counts']); ?>;
+  
+              // Generate an array of dates within the desired range
+              var dislikes_labels = [];
+              var dislikes_currentDate = new Date(dislikes_startDate);
+              dislikes_endDate = new Date(dislikes_endDate);
+  
+              while (dislikes_currentDate <= dislikes_endDate) {
+                  dislikes_labels.push(dislikes_currentDate.toISOString().split('T')[0]);
+                  dislikes_currentDate.setDate(dislikes_currentDate.getDate() + 1);
+              }
+  
+              // Map count values to the corresponding dates
+              var dislikes_data = dislikes_labels.map(function(date) {
+                  var index = dislikes_dates.indexOf(date);
+                  return index !== -1 ? dislikes_counts[index] : 0;
+              });
+              
             }
-
-            // Map count values to the corresponding dates
-            var dislikes_data = dislikes_labels.map(function(date) {
-                var index = dislikes_dates.indexOf(date);
-                return index !== -1 ? dislikes_counts[index] : 0;
-            });
 
             const data4 = {
                 labels: likes_labels,dislikes_labels,
@@ -504,6 +526,9 @@
                     y: {
                       beginAtZero: true, //y-axis starts from 0
                       precision: 0,   //Removes decimals from the y-axis values
+                      ticks: {
+                          stepSize: 1 // Forces the y-axis to display only integer values
+                      },
                       grid: {
                         display: true
                       },
