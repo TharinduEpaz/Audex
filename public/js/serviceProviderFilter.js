@@ -97,8 +97,8 @@ function debounce(func, delay) {
               }
               // check if is there any unexpired values are there
               if(!(htmlLast === "" ) ){
-                  // document.getElementById("shop-page-search-result-area").innerHTML = '';
-                  // document.getElementById("shop-container-data").innerHTML = htmlLast;
+                  document.getElementById("sound-engineers-page-search-result-area").innerHTML = '';
+                  document.getElementById("sound-eng").innerHTML = htmlLast;
   
               }
               console.log(htmlLast);
@@ -108,8 +108,8 @@ function debounce(func, delay) {
               if(data.results.length == 0 && data.message == 'filters'){
                   // console.log(data.results.length, data.message);
                   var html = "<div class = 'header'> <h1>Filter Results:Not Found !</h1> </div>";
-                  // document.getElementById("shop-page-search-result-area").innerHTML = html;
-                  // document.getElementById("shop-container-data").innerHTML = '';
+                  document.getElementById("sound-engineers-page-search-result-area").innerHTML = html;
+                  document.getElementById("sound-eng").innerHTML = '';
               }
               else{
                   // no filters applied so redirect to sound engineers page
