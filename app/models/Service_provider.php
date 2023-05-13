@@ -165,6 +165,7 @@ class Service_provider
         }
 
     }
+
     public function likeDislike($event_id,$type){
         switch ($type) {
             case 'like':

@@ -36,6 +36,32 @@
             $this->view('admins/index');
         }
 
+        public function spprofile(){
+          $id = $_GET['id'];
+          
+          $details= $this->adminModel->getspprofile($id);
+          $data =[
+            'details'=> $details
+          ];
+           //print_r($data);
+           //exit();
+          //$this->view('admins/approval',$data);
+          $this->view('admins/spprofile',$data);
+      }
+
+        public function approval(){
+
+          $details= $this->adminModel->getserviceproviderdetails();
+          $data =[
+            'details'=> $details
+          ];
+          // print_r($data);
+          // exit();
+          $this->view('admins/approval',$data);
+
+      }
+
+      
         public function profiletest(){
 
                 $details = $this->adminModel->getadminDetails($_SESSION['user_id']);
@@ -219,6 +245,45 @@
         
     }
 
+    public function ignoresp(){
+      $id = $_GET['id'];
+
+      if ($_SERVER['REQUEST_METHOD']=='POST'){
+
+          if(isset($_POST['ignore-reason'])&& $_POST['ignore-reason'] !=''){
+            $ignore_reason= $_POST['ignore-reason'];
+          }
+
+          
+
+        
+        $this->adminModel->ignoresp($id,$ignore_reason);
+
+        redirect('admins/approval/');
+
+      }
+      
+  }
+
+
+    public function approvesp(){
+
+        $id = $_GET['id'];
+        // $admin_ignored =$_GET['admin_ignored'];
+
+        if ($_SERVER['REQUEST_METHOD']=='POST'){
+
+            
+                $this->adminModel->approvesp2($id);
+            
+          redirect('admins/approval/');
+        }
+
 
     }
+
+
+
+  }
+  
 ?>
