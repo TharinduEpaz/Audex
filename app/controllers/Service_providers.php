@@ -477,21 +477,16 @@ class Service_providers extends Controller
         $is_paid = $this->service_model->is_paid($_SESSION['user_id']);
         
 
-        if($is_paid){
+        if (!$is_paid->is_paid) {
             $data = [
-                'posts' => null
+                'posts' => 0
             ];
-        }
-        else{
+        } else {
             $data = [
                 'posts' => $posts
             ];
         }
-        else{
-            $data = 0;  
-        }
-           
-        $this->view('service_providers/feed', $data);
+
     }
 
     public function feedPost()
@@ -508,9 +503,18 @@ class Service_providers extends Controller
 
     public function addNewPost($errors = [])
     {
-        $data = [
-            'errors' => $errors
-        ];
+      
+        $is_paid = $this->service_model->is_paid($_SESSION['user_id']);
+
+        if (!$is_paid->is_paid) {
+            $data = [
+                'posts' => 0
+            ];
+        } else {
+            $data = [
+                'posts' => 1
+            ];
+        }
         $this->view('service_providers/addNewPost', $data);
     }
 
@@ -593,7 +597,7 @@ class Service_providers extends Controller
             // check for errors
             if ($file_error === 0) {
                 if (in_array($file_ext, $allowed)) {
-                    if ($file_size <= 2097152) {
+                    if ($file_size <= 5242880) {
 
                         // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
 
@@ -641,7 +645,7 @@ class Service_providers extends Controller
             // check for errors
             if ($file_error === 0) {
                 if (in_array($file_ext, $allowed)) {
-                    if ($file_size <= 2097152) {
+                    if ($file_size <= 5242880) {
 
                         // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
                         //create a unique name for the image before saving it to the database
@@ -732,7 +736,7 @@ class Service_providers extends Controller
             // check for errors
             if ($file_error === 0) {
                 if (in_array($file_ext, $allowed)) {
-                    if ($file_size <= 2097152) {
+                    if ($file_size <= 5242880) {
 
                         // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
 
