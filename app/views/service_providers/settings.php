@@ -3,7 +3,7 @@
     <span id="edit-profile-heading">Edit Profile</span>
     <button class="add-event-btn" id="edit-event-btn" onclick="window.location.href='<?php echo URLROOT . '/users/change_password/' . $data['details']->user_id; ?>'">Change Password</button>
     <button class="add-event-btn" id="edit-event-btn" onclick="window.location.href='<?php echo URLROOT . '/users/change_email/' . $data['details']->user_id; ?>'">Change Email</button>
-    <button class="add-event-btn" id="edit-event-btn" onclick="window.location.href='<?php echo URLROOT . '/users/change_password/' . $data['details']->user_id; ?>'">Make Payment</button>
+    <button class="add-event-btn" id="edit-event-btn" onclick="window.location.href='<?php echo URLROOT . '/users/checkout_service_provider/' . $data['details']->user_id.'/'.$data1; ?>'">Make Payment</button>
     <button class="add-event-btn" id="myBtn">Get Admin Approval</button>
     
     <!-- The Modal -->
