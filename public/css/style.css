@@ -14,6 +14,7 @@
     height: 10vh;
     width: 100%;
     position: fixed;
+    z-index: 1;
   }
   nav img{
     margin-top: 2vh;
