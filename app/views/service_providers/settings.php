@@ -104,7 +104,7 @@
             <label for="profile" class="formbold-form-label">
               Upload Profile Image
             </label>
-            <input type="file" name="profile" id="profile" class="formbold-form-file" />
+            <input type="file" name="profile" id="profile" class="formbold-form-file" accept="image/png, image/gif, image/jpeg"/>
           </div>
           <br><br>
           <button type="submit" class="add-event-btn" id="edit-event-btn">Save Settings</button>
