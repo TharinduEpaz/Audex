@@ -167,6 +167,117 @@
     margin: 5px;
   }
 
+  /* styles for sidebar */
+  /* Style the sidebar */
+  .side-bar {
+    /* background-color: #eee;
+    padding: 10px;
+    flex: 0 0 200px; */
+    
+    width: 240px;
+    min-height: 90vh;
+    max-height: auto;
+    background: #E5E9F7;
+    padding-top: 6vh;
+    display: block;
+    position: fixed;
+    margin-top: 10vh;
+
+    left: 0;
+    top: 0;
+  }
+  .side-bar form {
+      display: flex;
+      flex-direction: column;
+  }
+
+  .radio, .form-group{
+    margin-left: 20px;
+  }
+  .form-group .form-control{
+    border-radius: 5px;
+    padding: 5px;
+    border: none;
+    width: 150px;
+  }
+
+  input[type="radio"],
+  input[type="text"] {
+    margin: 5px 0 5px 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  input[type="radio"]:checked {
+    background-color: #333;
+    color: #fff;
+  }
+
+  .checked {
+    color: orange;
+  }
+
+  input[type="text"]:focus {
+    outline: none;
+    border: 2px solid #333;
+  }
+
+  body > div > div.side-bar > form > button {
+    margin: 15px 35px 0 35px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    background-color: white;
+    color: black;
+    font-weight: 700;
+    cursor: pointer;
+    height: 5vh;
+  }
+
+  body > div > div.side-bar > form > button:hover {
+    background-color: red;
+  }
+
+  .side-bar h3 {
+    margin-top: 0;
+    color: red;
+    padding: 10px;
+    }
+  .side-bar h4 {
+    margin-top: 0;
+    color: black;
+    padding: 10px;
+  }
+  
+  .side-bar label {
+    color: black;
+  }
+
+  @media (max-width: 860px){
+    .side-bar {
+      height: auto;
+      width: 70px;
+      left: 0;
+      margin: 10vh 0;
+    }
+  }
+  select{
+    width: 70%;
+    height: 40px;
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: url(http://localhost/Audex/public/img/arrow-down.png) no-repeat right #fff;
+    background-size: 30px;
+    margin: 2%;
+  }
+
 
   
 </style>
@@ -209,7 +320,90 @@
 
     <!-- create 4 divs and display 4 profile pics in each div -->
     <div class="sound-eng">
-        <?php  foreach ($data as $object): ?>
+
+      <!-- filtering side-bar -->
+      <div class="side-bar" style="width:240px">
+        <h3>Filter Service Providers</h3>
+        <form id="service-provider-filter-form" method="post">
+
+          <h4>Profession</h4>
+            <div class="radio">
+              <input type="radio" id="all-type" name="profession" value="" <?php echo ($data['profession'] == "1") ? 'checked' : ''; ?> >
+              <label for="all-type">All</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="Sound engineer" name="profession" value="Sound engineer" <?php echo ($data['profession'] == "Sound engineer") ? 'checked' : ''; ?>>
+              <label for="fixed-price">Sound Engineer</label>
+            </div>
+            <div class="radio">
+              <input type="radio" id="DJ Artist" name="profession" value="DJ Artist" <?php echo ($data['profession'] == "DJ Artist") ? 'checked' : ''; ?> >
+              <label for="auction">DJ Artist</label>
+            </div>
+          
+            <h4>Rate</h4>
+              <div class="radio">
+                <input type="radio" id="any-star" name="rate" value="" <?php echo ($data['rate'] == "") ? 'checked' : ''; ?>>
+                <label for="all-type">Any</label>
+              </div>
+              <div class="radio">
+                <input type="radio" id="one-star" name="rate" value="1" <?php echo ($data['rate'] == "1") ? 'checked' : ''; ?>>
+                <label for="all-type"><i class="fa-sharp fa-solid fa-star checked"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i></label>
+              </div>
+              <div class="radio">
+                <input type="radio" id="two-star" name="rate" value="2" <?php echo ($data['rate'] == "2") ? 'checked' : ''; ?>>
+                <label for="all-type"><i class="fa-sharp fa-solid fa-star checked"></i><i class="fa-sharp fa-solid fa-star checked"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i></label>
+              </div>
+              <div class="radio">
+                <input type="radio" id="three-star" name="rate" value="3" <?php echo ($data['rate'] == "3") ? 'checked' : ''; ?>>
+                <label for="all-type"><i class="fa-sharp fa-solid fa-star checked"></i><i class="fa-sharp fa-solid fa-star checked"></i><i class="fa-sharp fa-solid fa-star checked"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i></label>
+              </div>
+              <div class="radio">
+                <input type="radio" id="four-star" name="rate" value="4" <?php echo ($data['rate'] == "4") ? 'checked' : ''; ?>>
+                <label for="all-type"><i class="fa-sharp fa-solid fa-star checked"></i><i class="fa-sharp fa-solid fa-star checked"></i><i class="fa-sharp fa-solid fa-star checked"></i><i class="fa-sharp fa-solid fa-star checked"></i><i class="fa-sharp fa-solid fa-star"></i></label>
+              </div>
+              <div class="radio">
+                <input type="radio" id="five-star" name="rate" value="5" <?php echo ($data['rate'] == "5") ? 'checked' : ''; ?>>
+                <label for="all-type"><i class="fa-sharp fa-solid fa-star checked"></i><i class="fa-sharp fa-solid fa-star checked"></i><i class="fa-sharp fa-solid fa-star checked"></i><i class="fa-sharp fa-solid fa-star checked"></i><i class="fa-sharp fa-solid fa-star checked"></i></label>
+              </div>
+
+            <h4>District</h4>
+            <div class="radio">
+                <select name="district" id="district">
+                  <option value="">Select District</option>
+                  <option value="Ampara">Ampara</option>
+                  <option value="Anuradhapura">Anuradhapura</option>
+                  <option value="Badulla">Badulla</option>
+                  <option value="Batticaloa">Batticaloa</option>
+                  <option value="Colombo">Colombo</option>
+                  <option value="Galle">Galle</option>
+                  <option value="Gampaha">Gampaha</option>
+                  <option value="Hambantota">Hambantota</option>
+                  <option value="Jaffna">Jaffna</option>
+                  <option value="Kalutara">Kalutara</option>
+                  <option value="Kandy">Kandy</option>
+                  <option value="Kegalle">Kegalle</option>
+                  <option value="Kilinochchi">Kilinochchi</option>
+                  <option value="Kurunegala">Kurunegala</option>
+                  <option value="Mannar">Mannar</option>
+                  <option value="Matale">Matale</option>
+                  <option value="Matara">Matara</option>
+                  <option value="Monaragala">Monaragala</option>
+                  <option value="Mullaitivu">Mullaitivu</option>
+                  <option value="Nuwara Eliya">Nuwara Eliya</option>
+                  <option value="Polonnaruwa">Polonnaruwa</option>
+                  <option value="Puttalam">Puttalam</option>
+                  <option value="Ratnapura">Ratnapura</option>
+                  <option value="Trincomalee">Trincomalee</option>
+                  <option value="Vavuniya">Vavuniya</option>
+                </select>
+              <!-- <select id="cities" name="city">
+                <option value="">Select City</option> -->
+            </div>
+
+        </form>
+      </div>
+
+      <?php  foreach ($data['details'] as $object): ?>
         <div class="sound-eng-profiles" >
             <div class="profile-image">
                 <?php $id = $object->user_id; ?>
@@ -235,11 +429,31 @@
               <?php endif; ?>   
             </div>                
         </div>
-        <?php endforeach;?>
+      <?php endforeach;?>
     </div>
 </body>
 
 <script src="<?php echo URLROOT . '/public/js/serviceProviderSearch.js';?>"></script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
+<script src="<?php echo URLROOT . '/public/js/serviceProviderFilter.js';?>"></script>
+<!-- <script>
+  // List of cities in Sri Lanka
+  const cities = ["Ampara", "Anuradhapura","Badulla","Batticaloa","Colombo","Galle","Gampaha","Hambantota","Jaffna","Kalutara","Kandy","Kegalle","Kilinochchi","Kurunegala","Mannar",
+      "Matale","Matara","Monaragala","Mullaitivu","Nuwara Eliya","Polonnaruwa","Puttalam","Ratnapura","Trincomalee","Vavuniya"
+
+    ];
+
+    // Get a reference to the dropdown element
+    const dropdown = document.getElementById("cities");
+
+    // Loop through the list of cities and create an option for each one
+    for (let i = 0; i < cities.length; i++) {
+      const city = cities[i];
+      const option = document.createElement("option");
+      option.text = city;
+      option.value = city;
+      dropdown.add(option);
+    }
+</script> -->
 
 </html>

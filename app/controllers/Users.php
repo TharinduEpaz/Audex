@@ -58,6 +58,12 @@
              
               $this->view('users/index', $data);
         }
+        //Terms and conditions
+        
+        public function termsandconditions(){
+            $this->view('users/termsandconditions');
+
+        }
 
         //register
         public function register(){
@@ -107,6 +113,7 @@
                         $data['email_err'] = 'Email is already taken';
                     }
                 }
+                //Validate email
                 if (filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
                 } else {
                     $data['email_err'] = "Invalid email";
@@ -136,18 +143,19 @@
                 //Validate password
                 if(empty($data['passwd'])){
                     $data['password_err1'] = 'Please enter a password';
-                }if(strlen($data['password']) < 6){
-                    $data['password_err2'] = 'Password must be at least 6 characters';
+                }if(strlen($data['password']) < 8){
+                    $data['password_err2'] = 'Password must be at least 8 characters';
                 }
-                // if(!preg_match("#[0-9]+#",$data['password'])) {
-                //     $data['password_err3'] = 'Password must contain at least 1 number!';
-                // }if(!preg_match("#[A-Z]+#",$data['password'])) {
-                //     $data['password_err4'] = 'Password must contain at least 1 capital letter!';
-                // }if(!preg_match("#[a-z]+#",$data['password'])) {
+                if(!preg_match("#[0-9]+#",$data['password'])) {
+                    $data['password_err3'] = 'Password must contain at least 1 number!';
+                }if(!preg_match("#[A-Z,a-z]+#",$data['password'])) {
+                    $data['password_err4'] = 'Password must contain at least 1 letter!';
+                }
+                // if(!preg_match("#[a-z]+#",$data['password'])) {
                 //     $data['password_err5'] = 'Password must contain at least 1 lowercase letter!';
-                /* }if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['password'])) {*/
-                //     $data['password_err6'] = 'Password must contain at least 1 special character!';
-                // }
+                if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['password'])) {
+                    $data['password_err6'] = 'Password must contain at least 1 special character!';
+                }
 
                 if(empty($data['confirm_passwd'])){
                     $data['confirm_password_err'] = 'Please confirm the password';
@@ -325,6 +333,7 @@
             if($_SESSION['attempt']<=3){
                 if($_SERVER['REQUEST_METHOD'] == 'POST'){
                     $_SESSION['attempt']++;
+                    
                     // Process form
                     //Sanitize POST data
                     $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -423,6 +432,7 @@
 
                 }
                 else{
+                    
                     //Init data
                     $data = [
                         'first_name' => '',
@@ -450,7 +460,7 @@
                 unset($_SESSION['otp_email']);
                 session_destroy();
                 flash('register_fail', 'You have exceeded the maximum number of attempts');
-                redirect('users/register');
+                redirect('users/login');
             }
 
         }
@@ -486,14 +496,14 @@
                 //Validate password
                 if(empty($data['password'])){
                     $data['password_err'] = 'Please enter password';
-                }elseif(strlen($data['password']) < 6){
-                    $data['password_err'] = 'Password must be at least 6 characters';
                 }
                 
                 //Check for user/email
-                if(!empty($this->userModel->findUserByEmail($data['email']))){
+                if(($this->userModel->findUserByEmail($data['email']))){ 
+                    //User found with email active
                 }
                 else if($this->userModel->notActivated($data['email'])){
+                    //User found with email not active
                 }
                 else{
                     //User not found
@@ -880,7 +890,8 @@
                         $_SESSION['attempt'] = 0;
                         $_SESSION['time'] = date('Y-m-d H:i:s', strtotime('+5 minutes', strtotime(date('Y-m-d H:i:s'))));
                         $otp=rand(111111,999999);
-                        if($this->userModel->updateEmailOTP($otp,$id)){
+                        $data['otp_hashed'] = password_hash($otp, PASSWORD_DEFAULT);
+                        if($this->userModel->updateEmailOTP($data['otp_hashed'],$id)){
                             //Send email
                             $mail = new PHPMailer(true);
                             try{
@@ -990,7 +1001,8 @@
                                 $user_details=$this->userModel->getUserDetails($id);
                                 $data['user']=$user_details;
                                 if($user_details){
-                                    if($data['otp_entered'] == $user_details->otp){
+                                    //Checking for otp matching. CHecking done in model
+                                    if($this->userModel->verifyotp($data['otp_entered'],$user_details->otp)){
                                         //otp matched
                                     
                                         //Update user
@@ -1040,7 +1052,7 @@
                     redirect($_SESSION['user_type'].'s/getProfile/'.$id);
                 }
             }
-
+            //Email enter page for forgot password
             public function enterEmail(){
                 if(isset($_SESSION['attempt'])){
                     unset($_SESSION['otp_email']);
@@ -1154,20 +1166,23 @@
                     //Validate new password
                     if(empty($data['new_password'])){
                         $data['new_password_err'] = 'Please enter new password';
-                    }else if(strlen($data['new_password']) < 6){
-                        $data['new_password_err'] = 'Password must be at least 6 characters';
+                    }else if(strlen($data['new_password']) < 8){
+                        $data['new_password_err'] = 'Password must be at least 8 characters';
                     }else if(password_verify($data['new_password'], $user->password)){
                         $data['new_password_err'] = 'New password must be different from current password';
                     }
-                    // if(!preg_match("#[0-9]+#",$data['new_password'])) {
-                    //     $data['password_err3'] = 'Password must contain at least 1 number!';
-                    // }if(!preg_match("#[A-Z]+#",$data['new_password'])) {
+                    if(!preg_match("#[0-9]+#",$data['new_password'])) {
+                        $data['password_err3'] = 'Password must contain at least 1 number!';
+                    }
+                    // if(!preg_match("#[A-Z]+#",$data['new_password'])) {
                     //     $data['password_err4'] = 'Password must contain at least 1 capital letter!';
-                    // }if(!preg_match("#[a-z]+#",$data['new_password'])) {
-                    //     $data['password_err5'] = 'Password must contain at least 1 lowercase letter!';
-                    /* }if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['new_password'])) {*/
-                    //     $data['password_err6'] = 'Password must contain at least 1 special character!';
                     // }
+                    if(!preg_match("#[a-zA-Z]+#",$data['new_password'])) {
+                        $data['password_err5'] = 'Password must contain at least 1 letter!';
+                     }
+                    if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['new_password'])) {
+                        $data['password_err6'] = 'Password must contain at least 1 special character!';
+                    }
 
                     if(empty($data['confirm_passwd'])){
                         $data['confirm_password_err'] = 'Please confirm the password';
@@ -1207,7 +1222,7 @@
 
             }
             
-
+            //Change password by using old password
             public function change_password($id){
                 if(isset($_SESSION['attempt'])){
                     unset($_SESSION['otp_email']);
@@ -1256,15 +1271,18 @@
                     }else if(password_verify($data['new_password'], $user->password)){
                         $data['new_password_err'] = 'New password must be different from current password';
                     }
-                    // if(!preg_match("#[0-9]+#",$data['new_password'])) {
-                    //     $data['password_err3'] = 'Password must contain at least 1 number!';
-                    // }if(!preg_match("#[A-Z]+#",$data['new_password'])) {
+                    if(!preg_match("#[0-9]+#",$data['new_password'])) {
+                        $data['password_err3'] = 'Password must contain at least 1 number!';
+                    }
+                    // if(!preg_match("#[A-Z]+#",$data['new_password'])) {
                     //     $data['password_err4'] = 'Password must contain at least 1 capital letter!';
-                    // }if(!preg_match("#[a-z]+#",$data['new_password'])) {
-                    //     $data['password_err5'] = 'Password must contain at least 1 lowercase letter!';
-                    /* }if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['new_password'])) {*/
-                    //     $data['password_err6'] = 'Password must contain at least 1 special character!';
                     // }
+                    if(!preg_match("#[a-zA-Z]+#",$data['new_password'])) {
+                        $data['password_err5'] = 'Password must contain at least 1 letter!';
+                    }
+                    if(!preg_match('/[\'^£$%&*()}{@#~?><>,|=!_+¬-]/', $data['new_password'])) {
+                        $data['password_err6'] = 'Password must contain at least 1 special character!';
+                    }
 
                     if(empty($data['confirm_passwd'])){
                         $data['confirm_password_err'] = 'Please confirm the password';
@@ -1533,6 +1551,7 @@
                     'price-min' => '',
                     'price-max' => '',
                     'type' => '1',
+                    'condition'=> '1',
     
                 ];
                 // if $arg1 is set then change the product category to $arg1
@@ -1578,7 +1597,9 @@
             $ad = $this->userModel->getAdvertiesmentById($id);
             $likeCount = $this->userModel->checkLikeCount($id);
             $dislikeCount = $this->userModel->checkDislikeCount($id);
-
+            if($ad->is_paid==0){
+                redirect('users/shop');
+            }
 
 
 
@@ -1670,7 +1691,9 @@
 
 
             $ad = $this->userModel->getAdvertiesmentById($id);
-
+            if($ad->is_paid==0){
+                redirect('users/shop');
+            }
 
             // seller details
             $sellerDetails = $this->userModel->getSellerDetails($ad->email);
@@ -2274,7 +2297,15 @@
                 unset($_SESSION['attempt']);
                 unset($_SESSION['time']);
             }
-        $data = $this->userModel->getServiceProviders();
+        $details = $this->userModel->getServiceProviders();
+
+        $data = [
+            'details'=> $details,
+            'profession' => '1',
+            'rate' => '',
+            'city' =>  '',
+
+        ];
             
         $this->view('users/sound_engineers', $data);
     }
@@ -2284,6 +2315,13 @@
             $data = json_decode($data1, true);
             $data['product_id']=$product_id;
             $this->view('users/checkout',$data);
+
+        }
+        public function checkout_service_provider($user_id,$data1){
+            // $json = file_get_contents($data1);
+            $data = json_decode($data1, true);
+            $data['user_id']=$user_id;
+            $this->view('users/checkout_service_provider',$data);
 
         }
 
@@ -2319,6 +2357,7 @@
 
 
         }
+        //Payment completed and updating the database
         public function paid($product_id){
             $data=[
                 'product_id'=>$product_id,
@@ -2332,6 +2371,31 @@
             $amount = 300.00;
             if($redirect_status=='succeeded'){
                 $result = $this->userModel->addPayment($amount,$product_id,$payment_intent,$payment_intent_client_secret,$redirect_status);
+                if($result){
+                    redirect('users/success');
+                }
+                else{
+                    die('Something went wrong');
+                }
+            }
+            $this->view('users/success',$data);
+        
+        
+        }
+
+        public function paid_service_provider($user_id){
+            $data=[
+                'user_id'=>$user_id,
+                'payment_intent' => $_GET['payment_intent'],
+                'payment_intent_client_secret' => $_GET['payment_intent_client_secret'],
+                'redirect_status' => $_GET['redirect_status']
+            ];
+            $payment_intent = $_GET['payment_intent'];
+            $payment_intent_client_secret = $_GET['payment_intent_client_secret'];
+            $redirect_status = $_GET['redirect_status'];
+            $amount = 1500.00;
+            if($redirect_status=='succeeded'){
+                $result = $this->userModel->addPayment_service_provider($amount,$user_id,$payment_intent,$payment_intent_client_secret,$redirect_status);
                 if($result){
                     redirect('users/success');
                 }
@@ -2586,19 +2650,21 @@
             $productPriceMin = $_POST['price-min'];
             $productPriceMax = $_POST['price-max'];
             $productType = $_POST['type'];
+            $productCondition = $_POST['condition'];
 
             // echo $productCategory;
             // echo $categories;
             // echo $productPriceMax;
             // echo $productPriceMin;
             // echo $productType;
+            // echo $productCondition
 
             // exit();
 
             $Filter=[];
             $results = [];
 
-            if( empty($categories) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType))) 
+            if( empty($categories) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType)) and empty(trim($productCondition)) ) 
             {
                 // if all filters are empty
                 // redirect('users/shop');
@@ -2618,7 +2684,54 @@
                 if(!empty(trim($productType))){
                    $Filter['product_type']= $productType;
                 }
+                if(!empty(trim($productCondition))){
+                   $Filter['product_condition']= $productCondition;
+                }
                 $results = $this-> userModel->searchAndFilterItems($Filter,$categories);
+                
+                // print_r($results);
+                // exit();
+                echo json_encode(['message' => 'filters','results'=>$results]);
+            }
+
+        }
+        // This is for service provider filter
+        public function serviceProviderFilter(){
+
+            $profession = $_POST['profession'];
+            $rating = $_POST['rate'];
+            $district = $_POST['district'];
+
+            // echo $profession;
+            // echo $rating;
+            // echo $district;
+
+            // exit();
+
+            $Filter=[];
+            $results = [];
+
+            if(empty(trim($profession)) and empty(trim($rating)) and empty(trim($district))) 
+            {
+                // if all filters are empty
+                // redirect('users/shop');
+                $results = [];
+                echo json_encode(['message' => 'No filters','results'=>$results]);
+            }
+            else{
+                // if(!empty(trim($categories))){
+                //     $Filter['product_category']=$categories;
+                // }
+                if(!empty(trim($profession))){
+                    $Filter['profession']= $profession;
+                }
+                if(!empty(trim($rating))){
+                    $Filter['rate']=(int) $rating;
+                }
+                if(!empty(trim($district))){
+                   $Filter['address_line_two']= $district;
+                }
+                $results = $this-> userModel->searchAndFilterServiceProviders($Filter);
                 
                 // print_r($results);
                 // exit();
@@ -2888,7 +3001,7 @@
             $results4 = $this->userModel->getRateReceiversFinalRate($emailServiceProvider);
             flash('rating_message', 'Rating added successfully');
             // ,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3
-
+            // echo $results1;
             echo json_encode(['message' => 'Rating saved','results4'=>$results4,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
             // echo json_encode(['message' => 'Rating saved','result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
 

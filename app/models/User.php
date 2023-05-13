@@ -8,7 +8,7 @@ date_default_timezone_set("Asia/Kolkata");
 
         //Register User
         public function register($data,$dat){
-            $this->db->query('INSERT INTO user (first_name, second_name, email,  user_type,registered_date,password,otp,email_active) VALUES(:first_name, :second_name, :email,:user_type,:t, :password,:otp, 0)');
+            $this->db->query('INSERT INTO user (first_name, second_name, email,  user_type,profile_pic,registered_date,password,otp,email_active) VALUES(:first_name, :second_name, :email,:user_type,"profile.png",:t, :password,:otp, 0)');
             //Bind values
             $this->db->bind(':first_name', $data['first_name']);
             $this->db->bind(':second_name', $data['second_name']);
@@ -1074,7 +1074,7 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
 
-        //Fee payment
+        //Fee payment for product
         public function addPayment($amount,$product_id,$payment_intent,$payment_intent_client_secret,$redirect_status){
             $this->db->query('INSERT INTO payment (amount,payment_method,date,product_id,payment_intent,payment_intent_client_secret,redirect_status) VALUES (:amount,"stripe",NOW(),:product_id,:payment_intent,:payment_intent_client_secret,:redirect_status)');
             //Bind value
@@ -1098,6 +1098,30 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
 
+        //Fee payment for service provider
+        public function addPayment_service_provider($amount,$user_id,$payment_intent,$payment_intent_client_secret,$redirect_status){
+            $this->db->query('INSERT INTO payment (amount,payment_method,date,service_provider_user_id,payment_intent,payment_intent_client_secret,redirect_status) VALUES (:amount,"stripe",NOW(),:user_id,:payment_intent,:payment_intent_client_secret,:redirect_status)');
+            //Bind value
+            $this->db->bind(':amount', $amount);
+            $this->db->bind(':user_id', $user_id);
+            $this->db->bind(':payment_intent', $payment_intent);
+            $this->db->bind(':payment_intent_client_secret', $payment_intent_client_secret);
+            $this->db->bind(':redirect_status', $redirect_status);
+
+            if($this->db->execute()){
+                $this->db->query('UPDATE service_provider SET is_paid = 1 WHERE user_id = :user_id');
+                $this->db->bind(':user_id', $user_id);
+
+                if($this->db->execute()){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+
         public function getServiceProviders(){
             $this->db->query('SELECT user_id,first_name,second_name,profile_image,profession,Rating FROM service_provider_view');
             $result = $this->db->resultSet();
@@ -1105,7 +1129,7 @@ date_default_timezone_set("Asia/Kolkata");
         }
 
         public function searchItems($searchedTerm){
-            $this->db->query('SELECT * FROM product WHERE product_title LIKE :searchedTerm');
+            $this->db->query('SELECT * FROM product WHERE product_title LIKE :searchedTerm AND is_paid = 1 ');
             $this->db->bind(':searchedTerm', '%'.$searchedTerm.'%');
 
             $results = $this->db->resultSet();
@@ -1156,9 +1180,11 @@ date_default_timezone_set("Asia/Kolkata");
                 $this->db->query('SELECT p.*, a.* FROM product p JOIN auction a ON p.product_id = a.product_id WHERE '.$sql .$categorySql);
             }
             else if(isset($filter['product_type']) &&  $filter['product_type'] == 'fixed_price'){
+                // for product type is fixed price
                 $this->db->query('SELECT p.* FROM product p WHERE '.$sql .$categorySql);
             }
             else{
+                // for all in product type
                 $this->db->query('SELECT p.*, a.* FROM product p LEFT JOIN auction a ON p.product_id = a.product_id WHERE '.$sql .$categorySql);
                 
             }
@@ -1173,6 +1199,43 @@ date_default_timezone_set("Asia/Kolkata");
             }
 
             // echo 'SELECT * FROM product WHERE '.$sql .$categorySql;
+            // exit();
+
+            $results = $this->db->resultSet();
+            return $results;
+        }
+        // this function works when filter service providers
+        public function searchAndFilterServiceProviders($filter){
+            $sql='';
+            
+            foreach($filter as $key=>$value){
+                if($key==='rate'){
+                    $sql.='(spv.Rating <= :rate AND spv.Rating > :rate1)';
+                }
+                else if($key==='address_line_two'){
+                    $sql.='spv.address_line_two = :address_line_two ';
+                }
+                else{
+                    $sql.='spv.'.$key." = :".$key."";
+                }
+                $sql.=' AND ';
+            }
+            if(empty($categories)){
+                $sql=substr($sql,0,-4);
+            }
+            // for all in product type
+            $this->db->query('SELECT u.*, spv.* FROM user u JOIN service_provider_view spv ON u.user_id = spv.user_id WHERE '.$sql);
+
+        // binding values
+            foreach($filter as $key=>$value){
+                $this->db->bind(':'.$key, $value);
+            }
+            if(isset($filter['rate'])){
+                // binding values for :rate1
+                $this->db->bind(':rate1', $filter['rate']-1);
+            }
+
+            // echo 'SELECT u.*, spv.* FROM user u JOIN service_provider_view spv ON u.user_id = spv.user_id WHERE '.$sql;
             // exit();
 
             $results = $this->db->resultSet();

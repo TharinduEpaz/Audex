@@ -74,7 +74,7 @@ function handleFilterChange() {
                 if(result.product_type == 'auction'){
                     console.log('come here')
                     // item type is auction
-                    if((result.is_active == '1') && (result.is_finished == '0')){
+                    if((result.is_active == '1') && (result.is_finished == '0') && (result.is_paid == '1')){
                         var link = "<a href ="+ URLROOT+"/users/auction/"+result.product_id+ " >";
     
                         html = "<div class='container-ad'> <div class='container-img'> "+
@@ -89,7 +89,7 @@ function handleFilterChange() {
                 }
                 else{
                     // item type is fixed_price
-                    if(result.is_deleted == '0'){
+                    if( (result.is_deleted == '0') && (result.is_paid == '1') ){
                         var link = "<a href ="+ URLROOT+"/users/advertiesmentDetails/"+result.product_id+ " >";
     
                         html = "<div class='container-ad'> <div class='container-img'> "+

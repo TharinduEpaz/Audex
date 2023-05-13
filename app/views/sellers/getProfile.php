@@ -84,6 +84,7 @@
             <?php echo flash('phone_number_error');?>
             <div class="form-display">
                 <div class="top_details">
+                    <!-- profile image -->
                     <div class="profile_img">
                         <form class="form" id = "form" action="" enctype="multipart/form-data" method="post">
                             <div class="upload">                    
@@ -156,7 +157,7 @@
                     <span style="width:16px;margin-left: 2%;"></span>
                 </div>
                 <div class="form-data-area">
-                    <label for="address2">Address Line 1:</label>
+                    <label for="address2">Address Line 2:</label>
                     <input type="text" name="address2" value="<?php echo $data['user']->address2; ?>" disabled>
                     <span style="width:16px;margin-left: 2%;"></span>
                 </div>

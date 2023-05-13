@@ -52,7 +52,7 @@
                                 ?> 
                         <div class="input">
                             <label for="">Price</label>
-                            <input class="price" type="number" name="price"  placeholder="xxxx.xx" value="<?php echo $data['price']?>"  >
+                            <input class="price" step="0.01" type="number" name="price"  placeholder="xxxx.xx" value="<?php echo $data['price']?>"  >
                         </div>
                         <div class="input">
                             <label for="check_au" >Auction(optional)</label>
@@ -90,25 +90,73 @@
                                             echo '</div>';
                                     }
                                 ?> 
+                                <h3 style="text-align: center;margin-bottom:2vh">Images</h3><br>
                         <div class="input_image">
-                            <div class="image">
-
-                                    <input type="file" name="image1" id="file" class="custom-file-input">
+                            <div class="image" id="img1">
+                                    <img id="image_1" src="" alt="Picture">
+                                    <p id="add_image1">Add image:</p>
+                                    <div class="cancel" id="cancel1" style="display:none;">
+                                        <i class="fa fa-times" id="cancel1"></i>
+                                    </div>
+                                    <div class="img_input">
+                                        <input type="file" name="image1" id="image1" class="custom-file-input">
+                                        <i class = "fa fa-camera"></i>
+                                    </div>
                             </div>
-                            <div class="image">
-                                <input type="file" name="image2" class="custom-file-input" >
+                            <div class="image" id="img2" style="display : none;">
+                                    <img id="image_2" src="" alt="Picture">
+                                    <p id="add_image2">Add image:</p>
+                                    <div class="cancel" id="cancel2" style="display:none;">
+                                        <i class="fa fa-times" id="cancel1"></i>
+                                    </div>
+                                    <div class="img_input">
+                                        <input type="file" name="image2" id="image2" class="custom-file-input">
+                                        <i class = "fa fa-camera"></i>
+                                    </div>
                             </div>
-                            <div class="image">
-                                <input type="file" name="image3"  class="custom-file-input">
+                            <div class="image" id="img3" style="display:none">
+                                    <img id="image_3" src="" alt="Picture">
+                                    <p id="add_image3">Add image:</p>
+                                    <div class="cancel" id="cancel3" style="display:none;">
+                                        <i class="fa fa-times" id="cancel1"></i>
+                                    </div>
+                                    <div class="img_input">
+                                        <input type="file" name="image3" id="image3" class="custom-file-input">
+                                        <i class = "fa fa-camera"></i>
+                                    </div>
                             </div>
-                            <div class="image">
-                                <input type="file" name="image4"  class="custom-file-input">
+                            <div class="image" id="img4" style="display:none">
+                                    <img id="image_4" src="" alt="Picture">
+                                    <p id="add_image4">Add image:</p>
+                                    <div class="cancel" id="cancel4" style="display:none;">
+                                        <i class="fa fa-times" id="cancel1"></i>
+                                    </div>
+                                    <div class="img_input">
+                                        <input type="file" name="image4" id="image4" class="custom-file-input">
+                                        <i class = "fa fa-camera"></i>
+                                    </div>
                             </div>
-                            <div class="image">
-                                <input type="file" name="image5"  class="custom-file-input">
+                            <div class="image" id="img5" style="display:none">
+                                    <img id="image_5" src="" alt="Picture">
+                                    <p id="add_image5">Add image:</p>
+                                    <div class="cancel" id="cancel5" style="display:none;">
+                                        <i class="fa fa-times" id="cancel1"></i>
+                                    </div>
+                                    <div class="img_input">
+                                        <input type="file" name="image5" id="image5" class="custom-file-input">
+                                        <i class = "fa fa-camera"></i>
+                                    </div>
                             </div>
-                            <div class="image">
-                                <input type="file" name="image6"  class="custom-file-input">
+                            <div class="image" id="img6" style="display:none">
+                                    <img id="image_6" src="" alt="Picture">
+                                    <p id="add_image6">Add image:</p>
+                                    <div class="cancel" id="cancel6" style="display:none;">
+                                        <i class="fa fa-times" id="cancel1"></i>
+                                    </div>
+                                    <div class="img_input">
+                                        <input type="file" name="image6" id="image6" class="custom-file-input">
+                                        <i class = "fa fa-camera"></i>
+                                    </div>
                             </div>
                         </div>
                         <?php
@@ -139,13 +187,14 @@
                             <input type="checkbox" name="category[]" value="microphone" id="chkMicrophone">
                             <label for="chkMicrophone">Microphone</label>
 
-                            <input type="checkbox" name="category[]" value="dj" id="chkDJ">
-                            <label for="chkDJ">DJ</label>
+                            <input type="checkbox" name="category[]" value="speaker" id="chkMixer">
+                            <label for="chkMixer">Speaker</label>
 
-                            <input type="checkbox" name="category[]" value="mixer" id="chkMixer">
-                            <label for="chkMixer">Mixer</label>
+                            <input type="checkbox" name="category[]" value="dj/mixer" id="chkDJ">
+                            <label for="chkDJ">DJ/Mixer</label>
+
                             
-                            <input type="checkbox" name="category[]" value="Percussion/Drums" id="chkMixer">
+                            <input type="checkbox" name="category[]" value="percussion/drums" id="chkMixer">
                             <label for="chkMixer">Percussion/Drums</label>
                         </div>
                             <div class="input">
@@ -158,7 +207,7 @@
                                 <input type="checkbox" name="category[]" value="keyboard" id="chkKeyboard">
                                 <label for="chkKeyboard">Keyboard</label>
     
-                                <input type="checkbox" name="category[]" value="drumset" id="chkDrumset">
+                                <input type="checkbox" name="category[]" value="other" id="chkDrumset">
                                 <label for="chkDrumset">Other</label>
                             </div>
                         </div>
@@ -296,8 +345,8 @@
                                                          document.getElementById("address1").innerHTML = "Address: "+response.results[0].formatted_address;
                                                          document.getElementById("latitude").value = latitude;
                                                          document.getElementById("longitude").value = longitude;
-                                                         document.getElementById("p_longi").innerHTML="Longitude: "+longitude;
-                                                         document.getElementById("p_lati").innerHTML="Latitude: "+latitude;
+                                                        //  document.getElementById("p_longi").innerHTML="Longitude: "+longitude;
+                                                        //  document.getElementById("p_lati").innerHTML="Latitude: "+latitude;
                                                        } else {
                                                          window.alert("No results found");
                                                          document.getElementById("error_geocode").value = 'No results found';
@@ -351,8 +400,8 @@
                                                 document.getElementById("address1").innerHTML = "Address: "+document.getElementById("addressInput").value;
                                                 document.getElementById("latitude").value = results[0].geometry.location.lat();
                                                 document.getElementById("longitude").value = results[0].geometry.location.lng();
-                                                document.getElementById("p_longi").innerHTML="Longitude: "+results[0].geometry.location.lng();
-                                                document.getElementById("p_lati").innerHTML="Latitude: "+results[0].geometry.location.lat();
+                                                // document.getElementById("p_longi").innerHTML="Longitude: "+results[0].geometry.location.lng();
+                                                // document.getElementById("p_lati").innerHTML="Latitude: "+results[0].geometry.location.lat();
 
                                                 map2.setCenter(results[0].geometry.location);
                                                 var marker = new google.maps.Marker({
@@ -374,8 +423,8 @@
                         
                                     
                         <div class="input">
-                            <label id="p_longi" >Longitude: <?php echo $data['longitude']?></label><br>
-                            <label id="p_lati">Latitude: <?php echo $data['latitude']?></label>
+                            <label id="p_longi" style="display: none;">Longitude: <?php echo $data['longitude']?></label><br>
+                            <label id="p_lati" style="display: none;">Latitude: <?php echo $data['latitude']?></label>
                             <label id="address1" class="brand" for="" >Address: <?php echo $data['address']?></label>
                         </div>
                         <div class="input" style="height:0vh;">
@@ -486,6 +535,145 @@
     link.style.background = "#E5E9F7";
     link.style.color = "red";
     link.style.fontWeight = "800";
+
+
+    //Image preview
+    document.getElementById("image1").onchange = function(){
+        url=URL.createObjectURL(image1.files[0]); // Preview new image
+        if(url!=null){
+            document.getElementById("image_1").style.display = "inherit";
+            document.getElementById("cancel1").style.display = "inherit";
+            document.getElementById("image_1").src = url;
+            var file=document.getElementById("image1");
+            console.log(file.value);
+            document.getElementById("img2").style.display = "inherit";
+            document.getElementById("add_image1").innerHTML = "Change image";
+        }
+    }
+    document.getElementById("image2").onchange = function(){
+        url=URL.createObjectURL(image2.files[0]); // Preview new image
+        if(url!=null){
+            document.getElementById("image_2").style.display = "inherit";
+            document.getElementById("cancel1").style.display = "none";
+            document.getElementById("cancel2").style.display = "inherit";
+
+            document.getElementById("image_2").src = url;
+            document.getElementById("img3").style.display = "inherit";
+            document.getElementById("add_image2").innerHTML = "Change image";
+        }
+    }
+    document.getElementById("image3").onchange = function(){
+        url=URL.createObjectURL(image3.files[0]); // Preview new image
+        if(url!=null){
+            document.getElementById("image_3").style.display = "inherit";
+            document.getElementById("cancel2").style.display = "none";
+            document.getElementById("cancel3").style.display = "inherit";
+
+            document.getElementById("image_3").src = url;
+            document.getElementById("img4").style.display = "inherit";
+            document.getElementById("add_image3").innerHTML = "Change image";
+        }
+    }
+    document.getElementById("image4").onchange = function(){
+        url=URL.createObjectURL(image4.files[0]); // Preview new image
+        if(url!=null){
+            document.getElementById("image_4").style.display = "inherit";
+            document.getElementById("cancel3").style.display = "none";
+            document.getElementById("cancel4").style.display = "inherit";
+
+            document.getElementById("image_4").src = url;
+            document.getElementById("img5").style.display = "inherit";
+            document.getElementById("add_image4").innerHTML = "Change image";
+        }
+    }
+    document.getElementById("image5").onchange = function(){
+        url=URL.createObjectURL(image5.files[0]); // Preview new image
+        if(url!=null){
+            document.getElementById("image_5").style.display = "inherit";
+            document.getElementById("cancel4").style.display = "none";
+            document.getElementById("cancel5").style.display = "inherit";
+
+            document.getElementById("image_5").src = url;
+            document.getElementById("img6").style.display = "inherit";
+            document.getElementById("add_image5").innerHTML = "Change image";
+        }
+    }
+    document.getElementById("image6").onchange = function(){
+        url=URL.createObjectURL(image6.files[0]); // Preview new image
+        if(url!=null){
+            document.getElementById("image_6").style.display = "inherit";
+            document.getElementById("cancel5").style.display = "none";
+            document.getElementById("cancel6").style.display = "inherit";
+
+            document.getElementById("image_6").src = url;
+            document.getElementById("add_image6").innerHTML = "Change image";
+        }
+    }
+    document.getElementById("cancel1").onclick = function(){
+        document.getElementById("image_1").src = ''; // Back to previous image
+        var file=document.getElementById("image1");
+        file.value = null; // Reset file input to null(removing the inputed file)
+        document.getElementById("cancel1").style.display = "none";
+        document.getElementById("image_1").style.display = "none";
+        document.getElementById("img2").style.display = "none";
+        document.getElementById("add_image1").innerHTML = "Add image";
+        
+    }
+    document.getElementById("cancel2").onclick = function(){
+        document.getElementById("image_2").src = ''; // Back to previous image
+        var file=document.getElementById("image2");
+        file.value = null; // Reset file input to null(removing the inputed file)
+        document.getElementById("cancel2").style.display = "none";
+        document.getElementById("cancel1").style.display = "inherit";
+        document.getElementById("image_2").style.display = "none";
+        document.getElementById("img3").style.display = "none";
+        document.getElementById("add_image2").innerHTML = "Add image";
+        
+    }
+    document.getElementById("cancel3").onclick = function(){
+        document.getElementById("image_3").src = ''; // Back to previous image
+        var file=document.getElementById("image3");
+        file.value = null; // Reset file input to null(removing the inputed file)
+        document.getElementById("cancel3").style.display = "none";
+        document.getElementById("cancel2").style.display = "inherit";
+        document.getElementById("image_3").style.display = "none";
+        document.getElementById("img4").style.display = "none";
+        document.getElementById("add_image3").innerHTML = "Add image";
+        
+    }
+    document.getElementById("cancel4").onclick = function(){
+        document.getElementById("image_4").src = ''; // Back to previous image
+        var file=document.getElementById("image4");
+        file.value = null; // Reset file input to null(removing the inputed file)
+        document.getElementById("cancel3").style.display = "inherit";
+        document.getElementById("cancel4").style.display = "none";
+        document.getElementById("image_4").style.display = "none";
+        document.getElementById("img5").style.display = "none";
+        document.getElementById("add_image4").innerHTML = "Add image";
+        
+    }
+    document.getElementById("cancel5").onclick = function(){
+        document.getElementById("image_5").src = ''; // Back to previous image
+        var file=document.getElementById("image5");
+        file.value = null; // Reset file input to null(removing the inputed file)
+        document.getElementById("cancel4").style.display = "inherit";
+        document.getElementById("cancel5").style.display = "none";
+        document.getElementById("image_5").style.display = "none";
+        document.getElementById("img6").style.display = "none";
+        document.getElementById("add_image5").innerHTML = "Add image";
+        
+    }
+    document.getElementById("cancel6").onclick = function(){
+        document.getElementById("image_6").src = ''; // Back to previous image
+        var file=document.getElementById("image6");
+        file.value = null; // Reset file input to null(removing the inputed file)
+        document.getElementById("cancel6").style.display = "none";
+        document.getElementById("cancel5").style.display = "inherit";
+        document.getElementById("image_6").style.display = "none";
+        document.getElementById("add_image6").innerHTML = "Add image";
+        
+    }
+
 	</script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>

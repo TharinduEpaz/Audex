@@ -380,9 +380,28 @@
       else{
         redirect('users/index');
       }
+    }
 
+    // this is for buyer feedback
+    // this will call views/buyers/feedback.js file 
+    public function feedback(){
+      if(!isLoggedIn()){
+        $_SESSION['url']=URL();
+        redirect('users/login');
+      }
+
+      $sellers = $this->buyerModel->getBuyerReviewedSellers($_SESSION['user_email']);
+      $serviceProviders = $this->buyerModel->getBuyerReviewedServiceProviders($_SESSION['user_email']);
+      $data =[
+        'sellers' => $sellers,
+        'serviceProviders' => $serviceProviders,
+      ];
+      // print_r($data);
+      // exit();
+      $this->view('buyers/feedback',$data);
 
     }
+
     public function test(){
       $email = 'dineshwickramasinghe2000@gmail.com';
       $userDetails = $this->buyerModel->findUserDetailsByEmail($email);

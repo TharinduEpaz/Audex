@@ -60,6 +60,29 @@ body{
     /* float: left; */
     /* margin-top: 3vh; */
 }
+.stat_modal{
+    border: 1px solid black;
+    height: max-content;
+    width: 90vw;
+    top: 13vh;
+    left: 5vw;
+    position: absolute;
+    background-color: white;
+    
+}
+.stat{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 2%;
+}
+.graph1,.graph2,.graph3,.graph4,.graph5,.graph6{
+    width: 30%;
+    height: 30%;
+    border: 1px solid;
+    padding: 1%;
+}
 .reject_bid{
     background: red;
     border: #E02727;
