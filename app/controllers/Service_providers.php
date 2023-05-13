@@ -502,7 +502,6 @@ class Service_providers extends Controller
         $reactions = $this->service_model->getReactions($id);
         $data = [
             'reactions' => $reactions,
-
         ];
         echo json_encode($data);
         return json_encode($data);
