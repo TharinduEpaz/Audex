@@ -477,21 +477,16 @@ class Service_providers extends Controller
         $is_paid = $this->service_model->is_paid($_SESSION['user_id']);
         
 
-        if($is_paid){
+        if (!$is_paid->is_paid) {
             $data = [
-                'posts' => null
+                'posts' => 0
             ];
-        }
-        else{
+        } else {
             $data = [
                 'posts' => $posts
             ];
         }
-        else{
-            $data = 0;  
-        }
-           
-        $this->view('service_providers/feed', $data);
+
     }
 
     public function feedPost()
