@@ -1758,6 +1758,47 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             $this->view('sellers/dashboard',$data);
         }
 
+        public function rateBuyer(){
+
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            $email_seller = $data['email_seller'];
+            $email_buyer = $data['email_buyer'];
+            $product_id = $data['product_id'];
+            $rating = $data['rating'] ?? 0;
+            $review = $data['review'];
+
+            $results2 = '';
+            $results3 = '';
+            // echo $rating;
+            // echo $buyer_id;
+            // echo $seller;
+            $results1 = $this->sellerModel->checkAddedRate($email_seller, $email_buyer,$product_id);
+
+
+
+            $date=date('Y-m-d H:i:s');
+            if( empty($results1) ){
+                $results2 = $this-> sellerModel->rateBuyer($email_seller, $email_buyer,$product_id, $rating, $review, $date);
+            }
+            else{
+                $results3 = $this->sellerModel->updateBuyerRate($email_seller, $email_buyer,$product_id, $rating, $review, $date);
+            }
+            $results4 = $this->sellerModel->getRateReceiversFinalRate($email_buyer);
+            flash('rating_message', 'Rating added successfully');
+            // ,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3
+           
+            // print_r(['message' => 'Rating saved','results4'=>$results4,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
+            // exit();
+            echo json_encode(['message' => 'Rating saved','results4'=>$results4,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
+            // echo json_encode(['message' => 'Rating saved','result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
+
+
+        }
+
+
+
+
         
         
     }
