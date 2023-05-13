@@ -2,7 +2,7 @@
 <style>
     @media (max-width: 862px){
         nav ul{
-          height: 71vh;
+          height: 61vh;
         }
     }
 </style>
@@ -15,7 +15,7 @@
         </label>
         <div class="switch">
             <a href="<?php echo URLROOT;?>/users/index"><img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo"></a>
-        <?php if(isLoggedIn()){
+        <?php if(isLoggedIn() && $_SESSION['user_type']!='admin'){
                     if($_SESSION['user_type']!='seller'  && $_SESSION['user_type']!='admin'){?>
                     <div class="switch_container">
                         <div class="toggle">
@@ -82,7 +82,6 @@
             <li><a href="<?php echo URLROOT.'/users/index'; ?>" class="nav_tags">Home</a></li>
             <li><a href="<?php echo URLROOT.'/users/shop'; ?>" class="nav_tags">Shop</a></li>
             <li><a href="<?php echo URLROOT.'/users/sound_engineers'; ?>" class="nav_tags">Sound Engineers</a></li>
-            <li><a href="<?php echo URLROOT.'/users/sound_engineers'; ?>" class="nav_tags">Event Calendar</a></li>
             <li><a href="<?php echo URLROOT.'/users/eventCalendar'; ?>" class="nav_tags">Events</a></li>
             <?php if(isset($_SESSION['user_id'])){
                 echo '<div class="dropdown">';

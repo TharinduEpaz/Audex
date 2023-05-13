@@ -36,8 +36,6 @@
 </div>
 
 <script>
-
-   
     //make sidebar button background clicked
     link = document.querySelector('#dashboard');
     link.style.background = "#E5E9F7";
@@ -47,6 +45,8 @@
     
 
 </script>
+<script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
+
 
 </body>
 
