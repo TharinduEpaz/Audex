@@ -2916,12 +2916,15 @@
 
             $posts = $this->userModel->getPostsByUser($id);
 
+            $approval = $this->userModel->getApprovalPublic($id);
+
 
             $data = [
                 'details' => $d,
                 'user' => $user,
                 'events' => $events,
-                'posts' => $posts 
+                'posts' => $posts,
+                'approval' => $approval
 
             ];
 
