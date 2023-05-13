@@ -50,11 +50,13 @@ class Service_providers extends Controller
         $details = $this->service_model->getDetails($_SESSION['user_id']);
         $events = $this->service_model->getEvents($_SESSION['user_id']);
         $posts = $this->service_model->getPostsByUser($_SESSION['user_id']);
+        
 
         $data = [
             'details' => $details,
             'events' => $events,
-            'posts' => $posts
+            'posts' => $posts,
+            
         ];
 
         $this->view('service_providers/profile', $data);
@@ -175,7 +177,8 @@ class Service_providers extends Controller
 
                 $phone = $_POST['phone'];
             } else {
-                $phone = $data['details']->phone;
+                $phone = $data['details']->phone_number;
+          
             }
 
             if (!empty($_FILES['profile']['name'])) {
@@ -239,67 +242,62 @@ class Service_providers extends Controller
         return $errors;
     }
 
-
-
-
-
     public function addEvent()
     {
         $errors = [];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Validate form data
-            $name = $_POST['eventname'];
-            $date_str = $_GET['date'];
-            $date = date("Y-m-d", strtotime($date_str));
-            $location = $_POST['location'];
-            $link = $_POST['ticket-link'];
-            $description = $_POST['description'];
-            $public = $_POST['event-type'];
-            $time = $_POST['time'];
 
+            // Validate form data
+            
+            $date_str = $_GET['date'];
+
+            $details = [
+            'name' => $_POST['eventname'],
+            'date_str' => $_GET['date'],
+            'date' => date("Y-m-d", strtotime($date_str)),
+            'location' => $_POST['location'],
+            'link' => $_POST['ticket-link'],
+            'description' => $_POST['description'],
+            'public' => $_POST['event-type'],
+            'time' => $_POST['time']
+            ];
+
+            $details = array_map('trim', $details);
+            $details = array_map('stripslashes', $details);
+            $details = array_map('htmlspecialchars', $details);
+    
             //uploading the image
 
-            $temp_name = $_FILES['event-img']['tmp_name'];
-            $file_name = $_FILES['event-img']['name'];
-            $file_size = $_FILES['event-img']['size'];
-            $file_error = $_FILES['event-img']['error'];
+            $image = new Bulletproof\Image($_FILES);
+            $image->setSize(10, 10485760);
+            $image->setDimension(10000, 10000);
 
-            // Work out the file extension
-            $file_ext = explode('.', $file_name);
-            $file_ext = strtolower(end($file_ext));
-
-            $allowed = array('jpg', 'jpeg', 'png', 'gif');
-
-            // check for errors
-            if ($file_error === 0) {
-                if (in_array($file_ext, $allowed)) {
-                    if ($file_size <= 2097152) {
-
-                        // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
-
-                        $file_destination = dirname(APPROOT) . '/public/uploads/events/' . $file_name;
-
-                        // move_uploaded_file() is the built-in function in PHP that is used to move an uploaded file from its temporary location to a new location on the server
-
-                        if (move_uploaded_file($temp_name, $file_destination)) {
-
-                            $img = $file_name;
-                        } else {
-
-                            echo 'error in  uploading';
-                        }
-                    } else {
-                        echo 'error large size';
-                    }
-                } else {
-                    echo 'error not allowed this type';
-                }
+            if($image["event-img"]){
+                $image->setName(substr(base64_encode(random_bytes(12)), 0, 20)); //length 20 random name);
+              $upload = $image->upload(); 
+            
+              if($upload){
+                $img = $image->getName() . '.' . $image->getMime();
+              }else{
+                echo $image->getError(); 
+              }
             }
+            $event_details = array(
+                $details['name'],
+                $details['date'],
+                $details['public'],
+                $details['location'],
+                $details['link'],
+                $details['description'],
+                $img,
+                $details['time']
+            );
 
+    
             // SEND THE DATA INTO THE DATABASE USING THE MODEL
 
-            $event_details = array($name, $date, $public, $location, $link, $description, $img, $time);
+            // $event_details = array($name, $date, $public, $location, $link, $description, $img, $time);
 
             try {
                 $this->service_model->setEvent($event_details, $_SESSION['user_id']);
@@ -309,6 +307,11 @@ class Service_providers extends Controller
         }
     }
 
+
+    public function validateEvent(){
+        
+    }
+
     public function dashboard()
     {
         $this->view('service_providers/dashboard');
@@ -316,8 +319,13 @@ class Service_providers extends Controller
 
     public function eventCalander()
     {
+        if (isset($_GET['month'])) {
+            $month = $_GET['month'];
+        } else {
+            $month = 'current';
+        }
 
-        $month = $_GET['month'];
+
 
         if ($month == 'current') {
             $_SESSION['current'] = date('m');
@@ -369,8 +377,6 @@ class Service_providers extends Controller
         return json_encode($data);
     }
 
-
-
     public function editEvent()
     {
         $id = $_GET['id'];
@@ -380,6 +386,7 @@ class Service_providers extends Controller
             'id' => $id
 
         ];
+   
         $this->view('service_providers/editEvent', $data);
     }
 
@@ -438,6 +445,15 @@ class Service_providers extends Controller
 
 
         $this->service_model->updateEvent($id, $event_name, $location, $time, $link, $event_type, $description, $img);
+        redirect('service_providers/profile');
+    }
+
+
+    public function deleteEvent(){
+        $id = $_GET['id'];
+        $this->service_model->deleteEvent($id);
+
+        redirect('service_providers/profile');
     }
 
     public function likeDislike()
@@ -471,7 +487,10 @@ class Service_providers extends Controller
                 'posts' => $posts
             ];
         }
-
+        else{
+            $data = 0;  
+        }
+           
         $this->view('service_providers/feed', $data);
     }
 
@@ -487,9 +506,12 @@ class Service_providers extends Controller
         $this->view('service_providers/post', $data);
     }
 
-    public function addNewPost()
+    public function addNewPost($errors = [])
     {
-        $this->view('service_providers/addNewPost');
+        $data = [
+            'errors' => $errors
+        ];
+        $this->view('service_providers/addNewPost', $data);
     }
 
     public function insertPost()
@@ -498,41 +520,163 @@ class Service_providers extends Controller
         $title = isset($_POST['title']) ? $_POST['title'] : '';
         $content = isset($_POST['add-post']) ? $_POST['add-post'] : '';
 
-        //image1
-        // $image1 = $this->uploadImage('post-photo-1');
-        // $image2 = $this->uploadImage('post-photo-2');
-        // $image3 = $this->uploadImage('post-photo-3');
+        $image1 = '';
+        $image2 = '';
+        $image3 = '';
 
-        foreach($_FILES as $key => $file) { //get upload name: $key
-
-            $image = new Bulletproof\Image($file);
-            $image->setName(substr(base64_encode(random_bytes(12)), 0, 20)); 
-            $image->setMime(array('jpg', 'png', 'jpeg'));
-            $image->setSize(10,10485760);
-            $image->setDimension(10000,10000);
-           
-            if($key == 'post-photo-1'){             //which file
-              if($image->upload()){           //upload succeed?
-                $image1 = $image->getName() . '.' . $image->getMime(); //get name
-              }
-            }elseif($key == 'post-photo-2'){        //do it all over again with banner
-              if($image->upload()) {
-                $image2 = $image->getName() . '.' . $image->getMime(); //get name
-                
-              }
-            }
-            elseif($key == 'post-photo-3'){        //do it all over again with banner
-                if($image->upload()) {
-                  $image3 = $image->getName() . '.' . $image->getMime(); //get name
-                  
-                }
-              }
-          }
+        $errors = array();
+            
         
+
+       
+
+        if (isset($_POST['submit'])) {
+
+            $temp_name = $_FILES['post-photo-1']['tmp_name'];
+            $file_name = $_FILES['post-photo-1']['name'];
+            $file_size = $_FILES['post-photo-1']['size'];
+            $file_error = $_FILES['post-photo-1']['error'];
+
+            $file_ext = explode('.', $file_name);
+            $file_ext = strtolower(end($file_ext));
+
+
+            $allowed = array('jpg', 'jpeg', 'png', 'gif');
+
+            // check for errors
+            if ($file_error === 0) {
+                if (in_array($file_ext, $allowed)) {
+                    if ($file_size <= 2097152) {
+
+                        // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
+
+                        $file_destination = dirname(APPROOT) . '/public/uploads/feed/' . basename($_FILES['post-photo-1']['name']);
+
+                        // move_uploaded_file() is the built-in function in PHP that is used to move an uploaded file from its temporary location to a new location on the server
+
+                        if (move_uploaded_file($temp_name, $file_destination)) {
+                            $image1 = basename($_FILES['post-photo-1']['name']);
+                            
+                        } else {
+                            
+                                
+                            array_push($errors, "error in  uploading");
+                        }
+                    } else {
+
+
+                        array_push($errors, "error large size");
+                    }
+                } else {
+
+                    array_push($errors, "error not allowed this type");
+                }
+
+            }
+            array_push($errors, "unknown error occured please try later");
+
+        }
+
+        if (isset($_POST['submit'])) {
+
+            $temp_name = $_FILES['post-photo-2']['tmp_name'];
+            $file_name = $_FILES['post-photo-2']['name'];
+            $file_size = $_FILES['post-photo-2']['size'];
+            $file_error = $_FILES['post-photo-2']['error'];
+
+            $file_ext = explode('.', $file_name);
+            $file_ext = strtolower(end($file_ext));
+
+
+            $allowed = array('jpg', 'jpeg', 'png', 'gif');
+
+            // check for errors
+            if ($file_error === 0) {
+                if (in_array($file_ext, $allowed)) {
+                    if ($file_size <= 2097152) {
+
+                        // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
+
+                        $file_destination = dirname(APPROOT) . '/public/uploads/feed/' . basename($_FILES['post-photo-2']['name']);
+
+                        // move_uploaded_file() is the built-in function in PHP that is used to move an uploaded file from its temporary location to a new location on the server
+
+                        if (move_uploaded_file($temp_name, $file_destination)) {
+                            $image2 = basename($_FILES['post-photo-2']['name']);
+                            
+                        } else {
+                                
+                                    
+                            array_push($errors, "error in  uploading");
+
+                        }
+                    } else {
+
+
+                        array_push($errors, "error large size");
+                    }
+                } else {
+
+                    array_push($errors, "error not allowed this type");
+                }
+
+            }
+            array_push($errors, "unknown error occured please try later");
+
+        }
+
+        if (isset($_POST['submit'])) {
+
+            $temp_name = $_FILES['post-photo-3']['tmp_name'];
+            $file_name = $_FILES['post-photo-3']['name'];
+            $file_size = $_FILES['post-photo-3']['size'];
+            $file_error = $_FILES['post-photo-3']['error'];
+
+            $file_ext = explode('.', $file_name);
+            $file_ext = strtolower(end($file_ext));
+
+
+            $allowed = array('jpg', 'jpeg', 'png', 'gif');
+
+            // check for errors
+            if ($file_error === 0) {
+                if (in_array($file_ext, $allowed)) {
+                    if ($file_size <= 2097152) {
+
+                        // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
+                        //create a unique name for the image before saving it to the database
+
+                        $file_destination = dirname(APPROOT) . '/public/uploads/feed/' . basename($_FILES['post-photo-3']['name']);
+
+                        // move_uploaded_file() is the built-in function in PHP that is used to move an uploaded file from its temporary location to a new location on the server
+
+                        if (move_uploaded_file($temp_name, $file_destination)) {
+                            $image3 = basename($_FILES['post-photo-3']['name']);
+                            
+                        } else {
+                                    
+                                        
+                                array_push($errors, "error in  uploading");
+
+                        }
+                    } else {
+
+
+                        array_push($errors, "error large size");
+                    }
+                } else {
+
+                    array_push($errors, "error not allowed this type");
+                }
+
+            }
+            array_push($errors, "unknown error occured please try later");
+        }
+
         $this->service_model->insertPost($user_id, $title, $content, $image1, $image2, $image3);
 
 
-        // redirect('service_providers/feed');
+        redirect('service_providers/feed');
 
     }
 
@@ -540,31 +684,80 @@ class Service_providers extends Controller
     {
         $text = $image;
         $image = new Bulletproof\Image($_FILES);
-        $image->setSize(10,10485760);
-        $image->setDimension(10000,10000);
+        $image->setSize(10, 10485760);
+        $image->setDimension(10000, 10000);
 
         if ($image["$text"]) {
             
             $image->setName(substr(base64_encode(random_bytes(12)), 0, 20)); //length 20 random name);
             
             $upload = $image->upload();
+            $image->setMime(array('pdf'));
 
             if ($upload) {
-               return $image->getName() . '.' . $image->getMime();;    
+                return $image->getName() . '.' . $image->getMime();;
             } else {
               
                 echo $image->getError();
                 return;
             }
         }
-
     }
 
-    public function deletePost(){
+    public function deletePost()
+    {
         $id = $_GET['id'];
         $this->service_model->deletePost($id);
         redirect('service_providers/feed');
     }
 
 
+}
+
+
+
+        if (isset($_POST['submit'])) {
+
+            $temp_name = $_FILES['approve']['tmp_name'];
+            $file_name = $_FILES['approve']['name'];
+            $file_size = $_FILES['approve']['size'];
+            $file_error = $_FILES['approve']['error'];
+
+            $file_ext = explode('.', $file_name);
+            $file_ext = strtolower(end($file_ext));
+
+
+            $allowed = array('pdf');
+
+            // check for errors
+            if ($file_error === 0) {
+                if (in_array($file_ext, $allowed)) {
+                    if ($file_size <= 2097152) {
+
+                        // $file_name_new = $_SESSION['user_id']. 'profile' . '.'  . $file_ext;
+
+                        $file_destination = dirname(APPROOT) . '/public/uploads/approve/' . basename($_FILES['approve']['name']);
+
+                        // move_uploaded_file() is the built-in function in PHP that is used to move an uploaded file from its temporary location to a new location on the server
+
+                        if (move_uploaded_file($temp_name, $file_destination)) {
+                            $this->service_model->adminApprove($_SESSION['user_id'],$file_name);
+                            
+                        } else {
+                            echo 'error in  uploading';
+
+                        }
+                    } else {
+
+
+                        echo 'error large size';
+                    }
+                } else {
+
+                    echo 'error not allowed this type';
+                }
+
+            }
+        }
+    }
 }

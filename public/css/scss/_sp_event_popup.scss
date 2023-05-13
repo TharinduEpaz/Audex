@@ -160,6 +160,8 @@ EVENT POP UPS CSS
     border-radius: 10px; /* Add rounded corners */
     border: none; /* Remove the border */
     cursor: pointer; /* Add a pointer cursor on hover */
+    margin-bottom: 5px;
+    word-wrap: break-word;
   }
   .calendar button{
     position: absolute;

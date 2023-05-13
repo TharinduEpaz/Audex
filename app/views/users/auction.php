@@ -285,13 +285,13 @@
                     <?php 
                     if(isLoggedIn()){
                         if($_SESSION['user_email']!=$data['ad']->email && $_SESSION['user_type']!='seller'){
-                            echo '<div class="message_seller" style="margin-right:0px">';
+                            echo '<div class="message_seller" style="margin-top:-6vh;margin-left:30%">';
                             echo '<a href="'.URLROOT.'/users/chat/'.$data['SellerMoreDetails']->user_id.'"><i class="fas fa-comments"></i>&nbsp&nbspMESSAGE</a>';
                             
                             echo '</div>';
                             if($data['ad']->product_type=='auction'){
 
-                                echo '<div class="bid_now">';
+                                echo '<div class="bid_now" style="margin-left:30%">';
                                 echo '<a href="'.URLROOT.'/users/bid/'.$data['ad']->product_id.'"><i class="fa-solid fa-gavel"></i>&nbsp&nbspBID NOW</a>';
                                 echo '</div>';
                             }
