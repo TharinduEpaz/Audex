@@ -104,10 +104,9 @@
     <div class="event-left">
         <div class="event-header">
             <div class="title"></div>
-            <div class="event-date"></div>
+            <div class="event-date"></div> 
             <div class="event-time"></div>
 
-            <button data-close-button class="close-button">&times;</button>
 
         </div>
         <div class="wrapper-for-event">
