@@ -120,7 +120,7 @@ function loadevent(event_id) {
               if (this.readyState == 4 && this.status == 200) {
                   // var res = JSON.parse(this.responseText);
                   console.log(this.responseText); 
-                  // document.querySelector("#likes").innerHTML = res.reactions.likes;
+                  document.querySelector("#likes").innerHTML = res.reactions.likes;
                   like_button.disabled = true;
                   // document.querySelector("#dislikes").innerHTML = event.event.dislikes;
               }
