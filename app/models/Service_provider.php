@@ -241,7 +241,7 @@ class Service_provider
     }
 
     public function adminApprove($id,$file_name){
-        $this->db->query('UPDATE service_provider document = :document WHERE user_id = :id');
+        $this->db->query('UPDATE service_provider SET approve_document = :document WHERE user_id = :id');
         $this->db->bind(':id', $id);
         $this->db->bind(':document', $file_name);
         
@@ -252,6 +252,10 @@ class Service_provider
             //throw $th;
             echo $th->getMessage();
         }
+    }
+
+    public function getApprovalDetails($id){
+        $this->db->query('SELECT  ');
     }
 
   
