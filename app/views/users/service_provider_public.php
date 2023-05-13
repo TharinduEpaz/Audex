@@ -173,24 +173,25 @@
                                             <i class="fa fa-star star" data-value="5"></i>
                                         </div>
                                     </div>
-                                    <div class="event-select">
-                                        <!-- show the events -->
-                                        <label for="event-name">Event Name:</label>
-                                        <select name="event-name" id="event-name">
-                                            <?php foreach ($data['events'] as $event) { ?>
-                                                <option value="<?php echo $event->name ?>"><?php echo $event->name ?></option>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
                                     <div class="event-date-select">
                                         <!-- show the event dates according to event name -->
                                         <label for="event-date">Event Date:</label>
                                         <select id="event-date" name="event-date">
                                             <!-- load only first date according to first event of array -->
-                                            $event = $data['events'][0];
-                                            <option value="<?php echo $event->date ?>"><?php echo $event->date ?></option>
+                                            <?php foreach ($data['events'] as $event) { ?>
+                                                <option value="<?php echo $event->date ?>"><?php echo $event->date ?></option>
+                                            <?php } ?>
                                         </select>
                                         <!-- <input type="date" id="event-date" name="event-date" value="2018-07-22" min="2018-01-01" max="2018-12-31" required /> -->
+                                    </div>
+                                    <div class="event-select">
+                                        <!-- show the events -->
+                                        <label for="event-name">Event Name:</label>
+                                        <select name="event-name" id="event-name">
+                                            <?php $event = $data['events'][0] ?>
+                                                <option value="<?php echo $event->name ?>"><?php echo $event->name ?></option>
+                                            <?php  ?>
+                                        </select>
                                     </div>
                                     <div class="feedback-area">
                                         <form action="" method="post" id="review-write-form">
@@ -309,21 +310,21 @@
         // document.querySelector("#event-date").max = today;
 
 
-        // set event dates according to event name
-        const eventNameDropdown = document.getElementById("event-name");
-        console.log(document.getElementById("event-name").value)
-        // add an event listener to the event name dropdown to retrieve
-        // the corresponding dates when the user selects an event
-        eventNameDropdown.addEventListener("change", autoSetEventDate);
-        eventNameDropdown.addEventListener("DOMContentLoaded", autoSetEventDate);
+        // set event names according to event date
+        const eventDateDropdown = document.getElementById("event-date");
+        console.log(document.getElementById("event-date").value)
+        // add an event listener to the event date dropdown to retrieve
+        // the corresponding events when the user selects a date
+        eventDateDropdown.addEventListener("change", autoSetEventName);
+        eventDateDropdown.addEventListener("DOMContentLoaded", autoSetEventName);
 
 
-        function autoSetEventDate() {
-            const selectedEvent = document.getElementById("event-name").value;
-            console.log("this one", selectedEvent);
+        function autoSetEventName() {
+            const selectedEventDate = document.getElementById("event-date").value;
+            console.log("this one", selectedEventDate);
 
-            // send a fetch request to a PHP file to retrieve the dates for the selected event
-            const urlEvent = '<?php echo URLROOT ?>/users/getEventDates/';
+            // send a fetch request to a PHP file to retrieve the Event names for the selected date
+            const urlEvent = '<?php echo URLROOT ?>/users/getEventNames/';
             fetch(urlEvent, {
                     method: 'POST',
                     headers: {
@@ -331,22 +332,22 @@
                     },
                     body: JSON.stringify({
                         serviceProviderEmail: email_rate_receiver,
-                        eventName: selectedEvent,
+                        eventDate: selectedEventDate,
                     })
 
                 })
                 .then(response => response.json())
                 .then(data => {
-                    // clear the date dropdown
-                    var dateDropdown = document.getElementById("event-date");
-                    dateDropdown.innerHTML = "";
+                    // clear the event name dropdown
+                    var nameDropdown = document.getElementById("event-name");
+                    nameDropdown.innerHTML = "";
 
                     // populate the date dropdown with the results
-                    data.dates.forEach(dates => {
+                    data.names.forEach(names => {
                         var option = document.createElement("option");
-                        option.value = dates.date;
-                        option.text = dates.date;
-                        dateDropdown.appendChild(option);
+                        option.value = names.name;
+                        option.text = names.name;
+                        nameDropdown.appendChild(option);
                     });
                 })
                 .catch(error => {
