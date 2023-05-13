@@ -3,7 +3,10 @@
     <span id="edit-profile-heading">Edit Profile</span>
     <button class="add-event-btn" id="edit-event-btn" onclick="window.location.href='<?php echo URLROOT . '/users/change_password/' . $data['details']->user_id; ?>'">Change Password</button>
     <button class="add-event-btn" id="edit-event-btn" onclick="window.location.href='<?php echo URLROOT . '/users/change_email/' . $data['details']->user_id; ?>'">Change Email</button>
+    <?php if($data['details']->is_paid == 0): ?>
     <button class="add-event-btn" id="edit-event-btn" onclick="window.location.href='<?php echo URLROOT . '/users/checkout_service_provider/' . $data['details']->user_id.'/'.urlencode(json_encode($data1)); ?>'">Make Payment</button>
+    <?php endif; ?>
+    <button class="add-event-btn" id="edit-event-btn" onclick="window.location.href='<?php echo URLROOT.'/users/change_phone/'.$data['details']->user_id;?>'">Change Phone Number</button>
     <button class="add-event-btn" id="myBtn">Get Admin Approval</button>
     
     <!-- The Modal -->
@@ -56,22 +59,7 @@
             </div>
           </div>
 
-          <div class="formbold-input-flex">
-            <div>
-              <label for="email" class="formbold-form-label"> Email </label>
-              <input type="email" name="email" id="email" placeholder="example@email.com" class="formbold-form-input" disabled />
-            </div>
-
-            <div>
-              <label for="mobile" class="formbold-form-label"> Phone (0123456789) </label>
-
-              <input type="phone" name="phone" id="phone" placeholder="<?php echo $data['details']->phone_number ?>" class="formbold-form-input" />
-              <!-- <p style="text-align:right;"></p> -->
-
-            </div>
-
-
-          </div>
+          
 
 
 
@@ -183,3 +171,4 @@
         }
       }
     </script>
+<script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>

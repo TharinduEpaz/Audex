@@ -468,7 +468,7 @@ date_default_timezone_set("Asia/Kolkata");
                 $rowCount = $this->db->rowCount();
                 return $rowCount;
             }else{
-                return NULL;
+                return 0;
             }
             
         }

@@ -1685,5 +1685,14 @@ date_default_timezone_set("Asia/Kolkata");
             return $post;
     
        }
+
+       public function getApprovalPublic($id){
+
+            $this->db->query('SELECT admin_approved,admin_ignored,approve_document FROM `service_provider` WHERE user_id = :id;');
+            $this -> db -> bind(':id', $id);
+            $post = $this -> db -> single();
+            return $post;
+    
+       }
     }
 ?>

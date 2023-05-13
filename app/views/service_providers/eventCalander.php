@@ -67,8 +67,8 @@
             </div>
 
             <div class="event-buttons">
-                <div class="like-button"><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="likes"></span></div>
-                <div class="dislike-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="dislikes"></span></div>
+                <button class="like-button"><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="likes"></span></button>
+                <!-- <div class="dislike-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="dislikes"></div> -->
             </div>
 
         </div>
@@ -78,6 +78,8 @@
         <div class="event-body">
 
         </div>
+        <button class="add-event-btn" id="edit-delete-event" onclick="">Edit / Delete Event</button>
+
 
 
 

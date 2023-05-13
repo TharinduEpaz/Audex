@@ -84,17 +84,33 @@
                         </p>
                         <i class="fa fa-map-marker" aria-hidden="true"></i><span id="profession"><?php echo $data['details']->address_line_two ?></span>
                     </div>
-                    <div class="rating"><span class="rate" style="color:white"><?php echo $data['details']->Rating; ?></span>
+                    <div class="rating">
 
-                        <?php for ($i = 0; $i < floor($data['details']->Rating); $i++) : ?>
-                            <i class="fa fa-star"></i>
-                        <?php endfor; ?>
-
-                        <?php if (strpos((string)$data['details']->Rating, '.')) : ?>
-                            <i class="fa fa-star-half-o"></i>
-                        <?php endif; ?>
+                    <?php for ($i = 0; $i < floor($data['details']->Rating); $i++) : ?>
+                        <i class="fa fa-star"></i>
+                    
+                    <?php endfor; ?>
+                    <?php if (strpos((string)$data['details']->Rating, '.')) : ?>
+                        <i class="fa fa-star-half-o"></i>
+                    <?php endif; ?>
+                    <?php for ($i = 0; $i < 5 - ceil($data['details']->Rating); $i++) : ?>
+                        <i class="fa fa-star-o"></i>
+                    
+                    <?php endfor; ?>
 
                     </div>
+                    <?php if($data['approval']->admin_approved == 1): ?>
+            <button id="approved" class="btn" onclick="gotoSettings()"><i class="fa fa-check-circle" style="margin-right:10px" aria-hidden="true" disabled></i>APPROVED BY AUDEX</button>
+            <?php elseif($data['approval']->admin_ignored == 1): ?>
+            <button id="ignored" class="btn" onclick="gotoSettings()"><i class="fa fa-times-circle" style="margin-right:10px" aria-hidden="true"></i>APPROVAL ERROR</button>
+            
+            <?php elseif($data['approval']->approve_document != ''): ?>
+                <button id="ignored" class="btn" onclick="gotoSettings()"><i class="fa fa-times-circle" style="margin-right:10px" aria-hidden="true"></i>APPROVAL PENDING</button>
+
+
+            <?php else: ?>
+            <button id="not-approved" class="btn" onclick="gotoSettings()"><i class="fa fa-times-circle" style="margin-right:10px" aria-hidden="true"></i>NOT APPROVED BY AUDEX</button>
+            <?php endif; ?>
 
 
                     <!-- <?php echo $data['watched']; ?> -->

@@ -10,18 +10,24 @@
             <div class="name-rating">
                 <div class="name">
                     <p id="Name"><?php echo $data['details']->first_name . ' ' . $data['details']->second_name ?></p>
-                    <i class="fa fa-map-marker" aria-hidden="true"></i><span id="profession"><?php echo $data['details']->address_line_two ?></span>
+                    <i class="fa fa-map-marker" aria-hidden="true"></i><span id="location"><?php echo $data['details']->address_line_two ?></span>
                 </div>
                 <div class="rating">
                     <?php for ($i = 0; $i < floor($data['details']->Rating); $i++) : ?>
                         <i class="fa fa-star"></i>
+                    
                     <?php endfor; ?>
-
                     <?php if (strpos((string)$data['details']->Rating, '.')) : ?>
                         <i class="fa fa-star-half-o"></i>
                     <?php endif; ?>
+                    <?php for ($i = 0; $i < 5 - ceil($data['details']->Rating); $i++) : ?>
+                        <i class="fa fa-star-o"></i>
+                    
+                    <?php endfor; ?>
 
-                    <!-- <span style="color:white"><?php echo $data['details']->Rating ?></span> -->
+                    
+
+                    <!-- <span style="color:black"><?php echo $data['details']->Rating ?></span> -->
 
                 </div>
                 <?php if($data['details']->admin_approved == 1): ?>
@@ -29,6 +35,10 @@
             <?php elseif($data['details']->admin_ignored == 1): ?>
             <button id="ignored" class="btn" onclick="gotoSettings()"><i class="fa fa-times-circle" style="margin-right:10px" aria-hidden="true"></i>APPROVAL ERROR</button>
             
+            <?php elseif($data['details']->approve_document != ''): ?>
+                <button id="ignored" class="btn" onclick="gotoSettings()"><i class="fa fa-times-circle" style="margin-right:10px" aria-hidden="true"></i>APPROVAL PENDING</button>
+
+
             <?php else: ?>
             <button id="not-approved" class="btn" onclick="gotoSettings()"><i class="fa fa-times-circle" style="margin-right:10px" aria-hidden="true"></i>NOT APPROVED BY AUDEX</button>
             <?php endif; ?>
@@ -109,7 +119,7 @@
             </div>
             <div class="event-buttons">
                 <button class="like-button" data-id="<?php ?>"><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="likes"></span></button>
-                <button class="dislike-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="dislikes"></span></button>
+                <!-- <button class="dislike-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="dislikes"></span></button> -->
             </div>
 
         </div>
@@ -157,6 +167,17 @@
     function editDeleteEvent(id){
         window.location.href = "<?php echo URLROOT . '/service_providers/editEvent?id=' ?>" + id;
     }
+
+    //if the description and profession is empty then display error message to complete the profile
+
+    var profession = document.getElementById("profession").innerText;
+    console.log(profession);
+    
+    if(profession == ''){
+        document.querySelector('.name-rating').innerHTML = "<p style='color:red'>Please complete your profile in settings</p>";
+    }
+  
+
 
     
 </script>

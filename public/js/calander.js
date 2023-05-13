@@ -89,6 +89,8 @@ function loadevent(event_id) {
       var event = JSON.parse(this.responseText);
       console.log(event);
       
+      document.querySelector('#edit-delete-event').setAttribute('onclick', `editDeleteEvent(${event.event.event_id})`);
+
       
       document.querySelector(".date").innerHTML = '<i class="fa fa-calendar" aria-hidden="true"></i>  &nbsp  ' + event.event.date;
       document.querySelector(".time").innerHTML = '<i class="fa fa-clock-o" aria-hidden="true"></i>  &nbsp   ' + event.event.time;
@@ -98,7 +100,7 @@ function loadevent(event_id) {
         ".owner-name"
       ).innerHTML = `${event.name.first_name} ${event.name.second_name}`;
       document.querySelector("#likes").innerHTML = event.event.likes;
-      document.querySelector("#dislikes").innerHTML = event.event.dislikes;
+      // document.querySelector("#dislikes").innerHTML = event.event.dislikes;
       document.querySelector(
         "#event-image"
       ).src = 'http://localhost/Audex/public/uploads/' + event.event.image;
@@ -114,6 +116,25 @@ function loadevent(event_id) {
   );
 
   xhttp.send();
+
+  like_button = document.querySelector(".like-button");
+  // dislike_button = document.querySelector(".dislike-button");
+  
+  like_button.addEventListener("click", () => {
+     var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var res = JSON.parse(this.responseText);
+                console.log(this.responseText); 
+                document.querySelector("#likes").innerHTML = res.reactions.likes;
+                like_button.disabled = true;
+                // document.querySelector("#dislikes").innerHTML = event.event.dislikes;
+            }
+            } 
+        xhttp.open("GET", "http://localhost/Audex/service_providers/likeDislike?id=" + event_id + '&type=like', true);
+        xhttp.send();
+
+  });
 }
 
 
@@ -158,3 +179,11 @@ $(document).ready(function () {
     });
   });
 });
+
+
+//////////////////////////////////////////////////////////
+
+function editDeleteEvent(id){
+  window.location.href = "http://localhost/Audex/service_providers/editEvent?id=" + id;
+}
+

@@ -805,7 +805,11 @@
                                             unset($_SESSION['attempt']);
                                             unset($_SESSION['time']);
                                             flash('phone_message', 'Phone number updated successfully');
-                                            redirect($_SESSION['user_type'].'s/getProfile/'.$id);
+                                            if($_SESSION['user_type']=='service_provider'){
+                                                redirect('service_providers/profile/'.$id);
+                                            }else{
+                                                redirect($_SESSION['user_type'].'s/getProfile/'.$id);
+                                            }
 
                                         }else{
                                             die('Something went wrong');}
@@ -2916,12 +2920,15 @@
 
             $posts = $this->userModel->getPostsByUser($id);
 
+            $approval = $this->userModel->getApprovalPublic($id);
+
 
             $data = [
                 'details' => $d,
                 'user' => $user,
                 'events' => $events,
-                'posts' => $posts 
+                'posts' => $posts,
+                'approval' => $approval
 
             ];
 

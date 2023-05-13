@@ -2,7 +2,7 @@
 <style>
     @media (max-width: 862px){
         nav ul{
-          height: 71vh;
+          height: 61vh;
         }
     }
 </style>
@@ -15,7 +15,7 @@
         </label>
         <div class="switch">
             <a href="<?php echo URLROOT;?>/users/index"><img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo"></a>
-        <?php if(isLoggedIn()){
+        <?php if(isLoggedIn() && $_SESSION['user_type']!='admin'){
                     if($_SESSION['user_type']!='seller'  && $_SESSION['user_type']!='admin'){?>
                     <div class="switch_container">
                         <div class="toggle">
@@ -82,7 +82,6 @@
             <li><a href="<?php echo URLROOT.'/users/index'; ?>" class="nav_tags">Home</a></li>
             <li><a href="<?php echo URLROOT.'/users/shop'; ?>" class="nav_tags">Shop</a></li>
             <li><a href="<?php echo URLROOT.'/users/sound_engineers'; ?>" class="nav_tags">Sound Engineers</a></li>
-            <li><a href="<?php echo URLROOT.'/users/sound_engineers'; ?>" class="nav_tags">Event Calendar</a></li>
             <li><a href="<?php echo URLROOT.'/users/eventCalendar'; ?>" class="nav_tags">Events</a></li>
             <?php if(isset($_SESSION['user_id'])){
                 echo '<div class="dropdown">';
@@ -91,11 +90,11 @@
                     // echo '<a href="'.URLROOT . '/'.$_SESSION['user_type'].'s/dashboard" class="nav_tags">Dashboard</a>';
                     if($_SESSION['user_type']=='service_provider'){
                     echo '<a href="'.URLROOT . '/service_providers/profile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
-                    echo '<a href="'.URLROOT . '/service_providers/dashboard" id="dashboard"><i class="fas fa-qrcode" ></i> <span>Dashboard</span></a>';
+                    echo '<a href="'.URLROOT . '/service_providers/dashboard" id="dashboard"><span>Dashboard</span></a>';
                     // echo '<a href="'.URLROOT . '/service_providers/profile" id="profile-settings"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile</span></a>';
-                    echo '<a href="'.URLROOT .'/service_providers/feed" id="feed"> <i class="fa fa-ad" aria-hidden="true"></i><span>Feed</span></a>';
-                    echo '<a href="'.URLROOT .'/service_providers/eventCalander?month=current" id="calender"> <i class="fa fa-calendar" aria-hidden="true"></i><span>Calender</span></a>';
-                    echo '<a href="'.URLROOT .'/users/chat" id="messages"> <i class="fa fa-comments"></i><span>Messages</span></a>';
+                    echo '<a href="'.URLROOT .'/service_providers/feed" id="feed"><span>Feed</span></a>';
+                    echo '<a href="'.URLROOT .'/service_providers/eventCalander?month=current" id="calender"> <span>Calender</span></a>';
+                    echo '<a href="'.URLROOT .'/users/chat" id="messages"> <span>Messages</span></a>';
 
                     }else if($_SESSION['user_type']=='buyer'){
                         echo '<a href="'.URLROOT . '/buyers/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
