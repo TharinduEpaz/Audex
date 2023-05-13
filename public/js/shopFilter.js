@@ -15,7 +15,7 @@ function debounce(func, delay) {
 }
 
 // Define the handleFilterChange function with debounce
-const handleFilterChangeDebounced = debounce(handleFilterChange, 500);
+const handleFilterChangeDebounced = debounce(handleFilterChange, 400);
 
 const filterForm = document.getElementById('shop-filter-form');
 
@@ -34,7 +34,24 @@ checkBoxButtons.forEach(checkboxButton => {
 // Listen for changes to number inputs
 const numberInputs = filterForm.querySelectorAll('input[type="number"]');
 numberInputs.forEach(numberInput => {
-    numberInput.addEventListener('input', handleFilterChangeDebounced );
+    numberInput.addEventListener('input', function() {
+        if (isNaN(this.value)) {
+            // Display an error message or take other appropriate action
+            console.log("Please enter a valid number.");
+        } else {
+            // Call the handleFilterChangeDebounced function or take other appropriate action
+            // check if number is grater than 0
+            if( this.value<0 ){
+                this.classList.add("input-error"); // add error class
+                console.log("Please enter a valid number.");
+            }
+            else{
+                handleFilterChangeDebounced();
+                this.classList.remove("input-error");
+            }
+        }
+    });
+    // numberInput.addEventListener('input', handleFilterChangeDebounced );
 });
 
 // Listen for changes to select inputs
@@ -49,6 +66,7 @@ function handleFilterChange() {
     const formData = new FormData(filterForm);
 
     for (const pair of formData.entries()) {
+        console.log("This is for validations");
       console.log(`${pair[0]}, ${pair[1]}`);
     }
     
@@ -62,7 +80,7 @@ function handleFilterChange() {
     .then(response => response.json())
     .then((data) => {
         // Update the filtered data on the shop page
-        if( (data.results.length > 0) && (data.message == 'filters')){
+        if( (data.results.length > 0) && (data.message == 'filters') && (data.errors == 'no errors')){
             // console.log(data.results.length, data.message,'come here');
             var htmlLast = "";
             for (var i = 0; i < data.results.length; i++) {
@@ -117,7 +135,8 @@ function handleFilterChange() {
             }
             console.log(htmlLast);
         }
-        else{
+        else if( (data.errors == 'no errors') ){
+            // no errors
             // filters applied but no matching items
             if(data.results.length == 0 && data.message == 'filters'){
                 console.log(data.results.length, data.message);
@@ -128,6 +147,17 @@ function handleFilterChange() {
             else{
                 console.log(data.results.length, data.message);
                 window.location.href = URLROOT+'/users/shop/';
+            }
+        }
+        else{
+            // there is errors
+            if((data.errors == 'min price error')){
+                document.getElementById('max-price').classList.remove("input-error");
+                document.getElementById('min-price').classList.add("input-error");
+            }
+            else{
+                document.getElementById('min-price').classList.remove("input-error");
+                document.getElementById('max-price').classList.add("input-error");
             }
         }
  

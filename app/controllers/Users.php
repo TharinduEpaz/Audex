@@ -2663,35 +2663,70 @@
 
             $Filter=[];
             $results = [];
-
-            if( empty($categories) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType)) and empty(trim($productCondition)) ) 
-            {
-                // if all filters are empty
-                // redirect('users/shop');
-                $results = [];
-                echo json_encode(['message' => 'No filters','results'=>$results]);
+            $errors = 'no errors';
+            // validation for $productPriceMin
+            if( !empty(trim($productPriceMin)) ){
+                if( (int)($productPriceMin)<0 ){
+                    // price is lower than zero
+                    $errors = 'min price error';
+                    echo json_encode(['message' => 'filters','results'=>$results, 'errors'=>$errors]);
+                }
+                else if( ((int)($productPriceMin)>0) and !empty(trim($productPriceMax)) ){
+                    // min price is heigher than zero and max price is not empty
+                    // but min price > max price
+                    if( (int)($productPriceMin) > (int)($productPriceMax) ){
+                        $errors = 'max price error';
+                        echo json_encode(['message' => 'filters','results'=>$results, 'errors'=>$errors]);
+                    }
+                }
             }
-            else{
-                // if(!empty(trim($categories))){
-                //     $Filter['product_category']=$categories;
-                // }
-                if(!empty(trim($productPriceMin))){
-                    $Filter['min_price']=(int) $productPriceMin;
+            else if( !empty(trim($productPriceMax)) ){
+                // validation for $productPriceMax
+                if( (int)($productPriceMax)<0 ){
+                    // price is lower than zero
+                    $errors = 'max price error';
+                    echo json_encode(['message' => 'filters','results'=>$results, 'errors'=>$errors]);
                 }
-                if(!empty(trim($productPriceMax))){
-                    $Filter['max_price']=(int) $productPriceMax;
+                else if( ((int)($productPriceMax)>0) and !empty(trim($productPriceMin)) ){
+                    if( (int)($productPriceMin) > (int)($productPriceMax) ){
+                        $errors = 'max price error';
+                        echo json_encode(['message' => 'filters','results'=>$results, 'errors'=>$errors]);
+                    }
                 }
-                if(!empty(trim($productType))){
-                   $Filter['product_type']= $productType;
+            }
+
+
+            if($errors == 'no errors'){
+
+                if( empty($categories) and empty(trim($productPriceMin)) and empty(trim($productPriceMax)) and empty(trim($productType)) and empty(trim($productCondition)) ) 
+                {
+                    // if all filters are empty
+                    // redirect('users/shop');
+                    // $results = [];
+                    echo json_encode(['message' => 'No filters','results'=>$results,'errors'=>$errors]);
                 }
-                if(!empty(trim($productCondition))){
-                   $Filter['product_condition']= $productCondition;
+                else{
+                    // if(!empty(trim($categories))){
+                    //     $Filter['product_category']=$categories;
+                    // }
+                    if(!empty(trim($productPriceMin))){
+                        $Filter['min_price']=(int) $productPriceMin;
+                    }
+                    if(!empty(trim($productPriceMax))){
+                        $Filter['max_price']=(int) $productPriceMax;
+                    }
+                    if(!empty(trim($productType))){
+                       $Filter['product_type']= $productType;
+                    }
+                    if(!empty(trim($productCondition))){
+                       $Filter['product_condition']= $productCondition;
+                    }
+                    $results = $this-> userModel->searchAndFilterItems($Filter,$categories);
+                    
+                    // print_r($results);
+                    // exit();
+                    echo json_encode(['message' => 'filters','results'=>$results,'errors'=>$errors]);
                 }
-                $results = $this-> userModel->searchAndFilterItems($Filter,$categories);
-                
-                // print_r($results);
-                // exit();
-                echo json_encode(['message' => 'filters','results'=>$results]);
             }
 
         }

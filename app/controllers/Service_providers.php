@@ -107,7 +107,10 @@ class Service_providers extends Controller
             'details' => $details,
             'errors' => $errors
         ];
-        $this->view('service_providers/settings', $data);
+        $data1 = [
+            'title' => $details->first_name . ' ' . $details->second_name 
+        ];
+        $this->view('service_providers/settings', $data,$data1);
     }
 
     public function setDetails()
