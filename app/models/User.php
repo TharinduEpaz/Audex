@@ -1565,6 +1565,7 @@ date_default_timezone_set("Asia/Kolkata");
 
         }
 
+        // Sender inna chats tika gannawa
         public function getChats($data){
             $this->db->query('SELECT * FROM chat WHERE sender_email = :email OR receiver_email = :email ORDER BY chat_id DESC');
             //Bind value
@@ -1579,6 +1580,7 @@ date_default_timezone_set("Asia/Kolkata");
             }
 
         }
+        //Sender and reciever dennama inna chats tika gannawa
         public function getCurrentChat($email_sender,$receiver_email){
             $this->db->query('SELECT * FROM chat WHERE (sender_email = :email_sender AND receiver_email = :receiver_email) OR (sender_email = :receiver_email AND receiver_email = :email_sender)');
             //Bind value
