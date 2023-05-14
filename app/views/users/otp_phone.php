@@ -20,14 +20,14 @@
 <?php require_once APPROOT . '/views/users/navbar.php';?>
     
     <div class="container_main">
-        <div class="form">
+        <div class="form" style="margin-top: 25vh;">
             <h1>Verify OTP</h1>
             
             <?php
                 echo '<div class="error">';
                 echo '<div class="attempt">';
                 
-                echo 'Attempt '.$_SESSION['attempt'].'<br>';
+                echo 'Attempt '.(5-$_SESSION['attempt']).'<br>';
                 echo '</div>';
                 if(!empty($data['otp_err'])   ){
                     echo '*'.$data['otp_err'].'<br>';

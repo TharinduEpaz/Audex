@@ -97,12 +97,8 @@
             </div>
             <div class="seller-detais">
                     <h2 style="text-align: center;width:115%"><?php 
-                                if( empty($data['seller']->shop_name )){
                                     echo 'Seller';
-                                }
-                                else{
-                                    echo 'Shop';
-                                }
+                                
                             ?> Details</h2>
                             
     
@@ -127,11 +123,11 @@
                                             <!-- <span class="rate"><?php echo $data['seller']->rate;?></span>  -->
     
                                             <?php $i=0;
-                                            for($i; $i<floor($data['seller']->rate); $i++): ?>
+                                            for($i; $i<floor($data['SellerMoreDetails']->rate); $i++): ?>
                                             <i class="fa fa-star"></i>
                                             <?php endfor; ?>
                                             
-                                            <?php if(strpos((string)$data['seller']->rate, '.')){?>
+                                            <?php if(strpos((string)$data['SellerMoreDetails']->rate, '.')){?>
                                             <i class="fa fa-star-half-o"></i>
                                             
                                             <?php $i++;} 

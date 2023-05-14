@@ -2419,7 +2419,7 @@
         public function approve_reject_bid($product_id,$bid_id,$time){
             if(time() < $time){
                 $advertisement=$this->userModel->getAdvertisementById($product_id);
-                $sellerDetails = $this->userModel->getSellerDetails($advertisement->email);
+                // $sellerDetails = $this->userModel->getSellerDetails($advertisement->email);
                 $SellerMoreDetails = $this->userModel->getSellerMoreDetails($advertisement->email);
                 $sellerRegDate = $SellerMoreDetails->registered_date;
                 settype($sellerRegDate, 'string');
@@ -2433,7 +2433,6 @@
                 }
                 $data = [
                     'advertisement' => $advertisement,
-                    'seller' => $sellerDetails,
                     'SellerMoreDetails' => $SellerMoreDetails,
                     'sellerRegDate' => $sellerRegDate,
                     'liked' => '',

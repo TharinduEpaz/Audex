@@ -20,13 +20,8 @@
 <?php require_once APPROOT . '/views/admins/navbar.php';?>
    
     <div class="container">
-    <div class="sidebar">
-                <a href="<?php echo URLROOT;?>/admins/profiletest"><i class="fas fa-qrcode"></i> <span>My Profile</span></a>
-                <a href="<?php echo URLROOT;?>/admins/mangeuser"> <i class="fa fa-cog" aria-hidden="true"></i><span>Manage Users</span></a>
-                <a href="#"> <i class="fas fa-bookmark" aria-hidden="true"></i><span>Flags</span></a>
-                <a href="<?php echo URLROOT;?>/admins/approval"> <i class="fas fa-check-circle" aria-hidden="true"></i><span>Approvals</span></a>
-                <!-- <a href="#"> <i class="fas fa-child"></i><span>Help</span></a>        -->
-        </div>
+    <?php require_once APPROOT . '/views/admins/sidebar.php';?>        
+
     <div class="poster_advertisements1">
         <div class="whitebox1">
 
@@ -78,14 +73,14 @@
 
             </div>
 
-            <div class="charts">
+            <div class="charts" style="display: flex;">
 
                 <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
-                <div class="graph1" style="margin-bottom: 2vh;">
+                <div class="graph1" style="margin-bottom: 2vh;width:100%">
                     <canvas id="graph1" width="20px" height="20px"></canvas>
                 </div>
 
-                <div class="graph2" style="margin-bottom: 2vh;">
+                <div class="graph2" style="margin-bottom: 2vh;width:100%">
                 <canvas id="graph2" width="20px" height="20px"></canvas>
                 </div>
 
@@ -271,5 +266,10 @@
         // var url = 'http://localhost/Audex/admins/adminviewreport/';
         window.location.href="<?php echo URLROOT . '/admins/adminviewreport/';?>"
     }
+     //keeping the sidebar button clicked at the page
+     link = document.querySelector('#dashboard');
+    link.style.background = "#E5E9F7";
+    link.style.color = "red";
+    link.style.fontWeight = "800";
 </script>
 </html>

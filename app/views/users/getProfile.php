@@ -75,14 +75,6 @@
                             <input type="text" name="email" value="<?php echo $data['user']->email; ?>" disabled>
                         </div>
                         <div class="form-data-area">
-                            <label for="address1">Address Line 1:</label>
-                            <input type="text" name="address1" value="<?php echo $data['user']->address1; ?>" disabled>
-                        </div>
-                        <div class="form-data-area">
-                            <label for="address2">Address Line 1:</label>
-                            <input type="text" name="address2" value="<?php echo $data['user']->address2; ?>" disabled>
-                        </div>
-                        <div class="form-data-area">
                             <label for="phone_number">Phone Number:</label>
                             <input type="text" name="phone_number" value="<?php echo $data['user']->phone_number; ?>" disabled>
                         </div>  
