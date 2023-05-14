@@ -376,12 +376,32 @@
       public function manageuser(){
 
         $admins=$this->adminModel->getadmins();
+        $users=$this->adminModel->get_users();
         $data=[
-          'admins'=>$admins
+          'admins'=>$admins,
+          'users'=>$users
         ];
 
         $this->view('admins/manageuser',$data);
-    }
+      }
+
+      public function suspend($id){
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+          $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+                $data = [
+                    'reason' => trim($_POST['reason'])
+                  ];
+          $this->adminModel->user_suspend($id,$data['reason']);
+          redirect('admins/manageuser');
+        }
+        $this->adminModel->user_suspend($id);
+        redirect('admins/manageuser');
+      }
+      public function unsuspend($id){
+        $this->adminModel->user_unsuspend($id);
+        redirect('admins/manageuser');
+      }
 
 
   }

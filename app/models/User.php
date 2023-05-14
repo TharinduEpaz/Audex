@@ -405,6 +405,18 @@ date_default_timezone_set("Asia/Kolkata");
                 return false;
             }
         }
+        public function getsuspend($email){
+            $this->db->query('SELECT is_admin_suspend FROM user WHERE email = :email');
+            //Bind value
+            $this->db->bind(':email', $email);
+            $row = $this->db->execute();
+            //Check row
+            if($this->db->rowCount() > 0){
+                return $row;
+            }else{
+                return false;
+            }
+        }
         
 
         //Get user id
