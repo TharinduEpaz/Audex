@@ -319,10 +319,38 @@
     </div>
 
     <!-- create 4 divs and display 4 profile pics in each div -->
-    <div class="sound-eng">
+    <div class="sound-eng" id="sound-eng">
+      <?php  foreach ($data['details'] as $object): ?>
+        <div class="sound-eng-profiles" >
+            <div class="profile-image">
+                <?php $id = $object->user_id; ?>
+                <a href="<?php echo URLROOT .'/users/serviceProviderPublic/' . "?id=$id" ?>">
+                <img src="<?php echo URLROOT .'/public/uploads/Profile/' . $object->profile_image ?>" alt="">
+                </a>
+            </div>
 
-      <!-- filtering side-bar -->
-      <div class="side-bar" style="width:240px">
+            <div class="profile-data">
+                <?php echo "$object->first_name \n"; ?>
+                <?php echo "$object->second_name <br>\n"; ?>
+                <p id="profession"><?php echo "$object->profession <br>\n"; ?> </p>
+            </div>            
+            <div class="rating-stars">
+              <span class="rate"><?php echo "$object->Rating";?></span> 
+
+              <?php for($i=0; $i<floor($object->Rating); $i++): ?>
+              <i class="fa fa-star"></i>
+              <?php endfor; ?>
+
+              <?php if(strpos((string)$object->Rating, '.')): ?>
+              <i class="fa fa-star-half-o"></i>
+              <?php endif; ?>   
+            </div>                
+        </div>
+      <?php endforeach;?>
+    </div>
+
+ <!-- filtering side-bar -->
+ <div class="side-bar" style="width:240px">
         <h3>Filter Service Providers</h3>
         <form id="service-provider-filter-form" method="post">
 
@@ -403,34 +431,6 @@
         </form>
       </div>
 
-      <?php  foreach ($data['details'] as $object): ?>
-        <div class="sound-eng-profiles" >
-            <div class="profile-image">
-                <?php $id = $object->user_id; ?>
-                <a href="<?php echo URLROOT .'/users/serviceProviderPublic/' . "?id=$id" ?>">
-                <img src="<?php echo URLROOT .'/public/uploads/Profile/' . $object->profile_image ?>" alt="">
-                </a>
-            </div>
-
-            <div class="profile-data">
-                <?php echo "$object->first_name \n"; ?>
-                <?php echo "$object->second_name <br>\n"; ?>
-                <p id="profession"><?php echo "$object->profession <br>\n"; ?> </p>
-            </div>            
-            <div class="rating-stars">
-              <span class="rate"><?php echo "$object->Rating";?></span> 
-
-              <?php for($i=0; $i<floor($object->Rating); $i++): ?>
-              <i class="fa fa-star"></i>
-              <?php endfor; ?>
-
-              <?php if(strpos((string)$object->Rating, '.')): ?>
-              <i class="fa fa-star-half-o"></i>
-              <?php endif; ?>   
-            </div>                
-        </div>
-      <?php endforeach;?>
-    </div>
 </body>
 
 <script src="<?php echo URLROOT . '/public/js/serviceProviderSearch.js';?>"></script>
