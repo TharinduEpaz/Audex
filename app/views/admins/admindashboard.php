@@ -11,6 +11,7 @@
     
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/seller_advertisement.css';?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
     <title>Manage User</title>
@@ -26,7 +27,7 @@
                 <a href="<?php echo URLROOT;?>/admins/approval"> <i class="fas fa-check-circle" aria-hidden="true"></i><span>Approvals</span></a>
                 <!-- <a href="#"> <i class="fas fa-child"></i><span>Help</span></a>        -->
         </div>
-    <div class="poster_advertisements">
+    <div class="poster_advertisements1">
         <div class="whitebox1">
 
             <div class="view-report">
@@ -38,7 +39,7 @@
                 <div class="cardBox">
                    <div class="card"> 
                     <div>
-                        <div class="numbers">100</div>
+                        <div class="numbers"><?php echo $data['details'][0]->num_users; ?></div>
                         <div class="cardName">Users</div>
                     </div>
                     <div class="iconBox">
@@ -48,7 +49,7 @@
 
                    <div class="card"> 
                     <div>
-                        <div class="numbers">100</div>
+                        <div class="numbers"><?php echo $data['details'][0]->num_sellers; ?></div>
                         <div class="cardName">Sellers</div>
                     </div>
                     <div class="iconBox">
@@ -57,7 +58,7 @@
 
                    <div class="card"> 
                     <div>
-                        <div class="numbers">100</div>
+                        <div class="numbers"><?php echo $data['details'][0]->num_service_providers; ?></div>
                         <div class="cardName">Service Providers</div>
                     </div>
                     <div class="iconBox">
@@ -66,7 +67,7 @@
 
                    <div class="card"> 
                     <div>
-                        <div class="numbers">100</div>
+                        <div class="numbers"><?php echo $data['details'][0]->num_products; ?></div>
                         <div class="cardName">Products</div>
                     </div>
                     <div class="iconBox">
@@ -79,20 +80,176 @@
 
             <div class="charts">
 
+                <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
+                <div class="graph1" style="margin-bottom: 2vh;">
+                    <canvas id="graph1" width="20px" height="20px"></canvas>
+                </div>
 
+                <div class="graph2" style="margin-bottom: 2vh;">
+                <canvas id="graph2" width="20px" height="20px"></canvas>
+                </div>
 
             </div>
+            <script>
+                //Graph1-Pie chart 1(No of auctions and the fixed prices of the seller)
+            const auctionCount = <?php echo $data['producttype'][0]->count ;?>;
+            const fixedPriceCount = <?php echo $data['producttype'][1]->count ;?>;
+            
+
+            const data1 = {
+                labels: ['Auctions('+auctionCount+')', 'Fixed Prices('+fixedPriceCount+')'],
+                datasets: [
+                  {
+                    data: [auctionCount, fixedPriceCount],
+                    backgroundColor: ['#ff6384', '#36a2eb'],
+                    borderWidth: 1
+                  }
+                ]
+            };
+        
+            const config1 = {
+              type: 'pie',
+              data: data1,
+              options: {
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'top',
+                  },
+                  title: {
+                    display: true,
+                    text: 'Auctions vs Fixed Prices',
+                        color: 'black',
+                        font: {
+                          size: 14
+                        }
+                  }
+                }
+              },
+            };
+            var myChart1 = new Chart(
+                document.getElementById('graph1'),
+                config1
+            );
+
+            //Graph2-Line chart for the products added in this year
+            var view_count = <?php echo json_encode($data['viewcount']); ?>;
+            // Extract the dates and counts from the data
+            var view_count = view_count.map(function(item) {
+                return item;
+            });
+            const data2 = {
+                labels: ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"],
+                datasets: [
+                  {
+                    data:  view_count,
+                    label: 'View count',
+                    borderColor: "rgba(0, 123, 255, 1)",
+                  }
+                ]
+            };
+            const config2 = {
+              type: 'bar',
+              data: data2,
+              options: {
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'top',
+                  },
+                  title: {
+                    display: true,
+                    text: 'Products added in this year',
+                        color: 'black',
+                        font: {
+                          size: 14
+                        }
+                  }
+                },
+                scales: {
+                    x: {
+                      beginAtZero: true,
+                      grid: {
+                        display: false
+                      },
+                      ticks: {
+                        color: 'black',
+                        font: {
+                          size: 14
+                        }
+                      },
+                      title: {
+                        display: true,
+                        text: 'Month',
+                        color: 'black',
+                        font: {
+                          size: 14
+                        }
+                      }
+                    },
+                    y: {
+                      beginAtZero: true, //y-axis starts from 0
+                      precision: 0,   //Removes decimals from the y-axis values
+                      ticks: {
+                          stepSize: 1 // Forces the y-axis to display only integer values
+                      },
+                      grid: {
+                        display: true
+                      },
+                      ticks: {
+                        stepSize: 1, // Forces the y-axis to display only integer values
+                        color: 'black',
+                        font: {
+                          size: 14
+                        }
+                      },
+                      title: {
+                        display: true,
+                        text: 'Products added count',
+                        color: 'black',
+                        font: {
+                          size: 14
+                        }
+                      }
+                    }
+                }
+              },
+            };
+            var myChart = new Chart(
+                document.getElementById('graph2'),
+                config2
+            );
+            </script>
 
             <div class="top-rated-sellers">
                 <div class="cardHeader">
-                    <h4>Top Rated Sellers</h4>
+                    <h3>Top Rated Sellers</h3>
                 </div>
                 <table class="seller-table">
+                <thead>
+                            <tr>
+                            
+                            <th> Profile Image</th>
+                            <th>First Name</th>
+                            <th>Second Name</th>
+                            <th>Email</th>
+                            <th>Registered Date</th>
+                            </tr>
+                        </thead>
+                    <tbody>
+                    <?php foreach ($data['toprated'] as $detail):  ?>
                     <tr>
                         <td>
-                            <div class="imgBx"><img src="<?php echo URLROOT.'/public/uploads/profile/Profile-Pic-square.png';?>"></div>
-                        </td>                   
+                            <div class="imgBx"><img src="<?php echo URLROOT.'/public/uploads/'.$detail->profile_pic;?>"></div>
+                        </td>
+                        <td class="td-except"><?php echo $detail->first_name?></td>
+                        <td class="td-except"><?php echo $detail->second_name?></td>
+                        <td class="td-except"><?php echo $detail->email?></td>
+                        <td class="td-except"><?php echo $detail->registered_date?></td>
+
                      </tr>
+                     <?php endforeach; ?>
+                     </tbody>
                 </table>
 
 

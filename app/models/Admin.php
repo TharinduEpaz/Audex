@@ -131,6 +131,53 @@
                 return $reportdetails;
             }
 
+            
+            public function getcounts(){
+
+                $this->db->query('SELECT
+                (SELECT COUNT(*) FROM `user` WHERE `user_type` !=\'admin\') AS num_users,
+                (SELECT COUNT(*) FROM `user` WHERE `user_type` = \'service_provider\') AS num_service_providers,
+                (SELECT COUNT(*) FROM `user` WHERE `user_type` = \'seller\') AS num_sellers,
+                (SELECT COUNT(*) FROM `product`) AS num_products');
+                $getcounts= $this->db->resultSet();
+                return $getcounts;
+            }
+
+            
+            public function gettopratedsellers(){
+
+                $this->db->query('SELECT * FROM user WHERE user_type = \'seller\' AND rate >= 4.0 AND rate <= 5.0 ORDER BY rate DESC LIMIT 5');
+                $gettopratedsellers= $this->db->resultSet();
+                return $gettopratedsellers;
+            }
+
+            public function producttypecount(){
+
+                $this->db->query('SELECT COUNT(*) AS count, product_type
+                FROM product
+                GROUP BY product_type;
+                ');
+                $producttypecount= $this->db->resultSet();
+                return $producttypecount;
+            }
+            public function getviewcount(){
+                $month[]='';
+                for($i=0;$i<12;$i++){
+                    $this->db->query('SELECT COUNT(view_id) AS view_count FROM view_item WHERE MONTH(date)=:i GROUP BY MONTH(date)');
+                    
+                    $this->db->bind(':i', $i+1);
+                    $mont=$this->db->resultSet();
+                    if($mont!=null){
+                        $month[$i]=$mont[0]->view_count;
+                    }else{
+                        $month[$i]=0;
+                    }
+                }
+                return $month;
+            }
+
+
+
     }
 
 
