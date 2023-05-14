@@ -170,21 +170,22 @@
   /* styles for sidebar */
   /* Style the sidebar */
   .side-bar {
-    /* background-color: #eee;
-    padding: 10px;
-    flex: 0 0 200px; */
-    
     width: 240px;
     min-height: 90vh;
     max-height: auto;
-    background: #E5E9F7;
+    background: #ffffff;
     padding-top: 6vh;
     display: block;
     position: fixed;
     margin-top: 10vh;
-
     left: 0;
     top: 0;
+    padding-left: 12px;
+    box-sizing: border-box;
+    /* border-right: 0.2px solid gray; */
+    -webkit-box-shadow: 12px 0px 116px -46px rgba(0,0,0,0.67);
+    -moz-box-shadow: 12px 0px 116px -46px rgba(0,0,0,0.67);
+    box-shadow: 12px 0px 116px -46px rgba(0,0,0,0.1);
   }
   .side-bar form {
       display: flex;

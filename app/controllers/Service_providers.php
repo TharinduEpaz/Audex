@@ -815,7 +815,10 @@ class Service_providers extends Controller
 
             }
         }
+        $this->profile();
     }
+
+    
 
 
 
