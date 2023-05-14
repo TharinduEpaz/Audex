@@ -66,7 +66,7 @@
                     </div>
                 </div>
         </div>
-            <div class="auction_details">
+            <div class="auction_details" style="height: fit-content;margin-top: 10vh;">
                 <h2><?php echo $data['ad']->product_title?></h2>
                 <h3>Price:&nbsp;<?php echo $data['ad']->price?></h3>
                 <!-- <?php echo date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' + 10 days'));?> -->

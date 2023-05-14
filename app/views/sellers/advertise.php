@@ -452,6 +452,7 @@
     </div>
 </body>
 <script>
+    //Map check button
     document.addEventListener('DOMContentLoaded', function() {
         var checkbox = document.getElementById('show_map');
         var htmlContent = document.getElementById('html_content');

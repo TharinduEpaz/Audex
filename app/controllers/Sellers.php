@@ -61,7 +61,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
         redirect('users/login');
       }
       $details = $this->sellerModel->getUserDetails($id);
-      $sellerDetails = $this->sellerModel->getSellerDetails($id);
       $feedbackcount=$this->sellerModel->getFeedbacksCount($details->email);
 
 
@@ -73,7 +72,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
       $data =[
         'id' => $id,
         'user' => $details,
-        'seller' => $sellerDetails,
         'feedbacks' => $feedbacks,
         'feedbackcount' => $feedbackcount
       ];
@@ -1043,16 +1041,16 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     $data['category']=$_POST['category'];
                 }
 
-                // if(isset($_POST['show_map'])){
-                //     $data['longitude']=trim($_POST['longitude']);
-                //     $data['latitude']=trim($_POST['latitude']);
-                //     $data['address']=trim($_POST['address']);
+                if(isset($_POST['show_map'])){
+                    $data['longitude']=trim($_POST['longitude']);
+                    $data['latitude']=trim($_POST['latitude']);
+                    $data['address']=trim($_POST['address']);
                     
-                // }else{
-                //     $data['longitude']='';
-                //     $data['latitude']='';
-                //     $data['address']='';
-                // }
+                }else{
+                    $data['longitude']='';
+                    $data['latitude']='';
+                    $data['address']='';
+                }
 
                 //Validate data
                 if(empty($data['title'])){
@@ -1368,6 +1366,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'district' => $advertisement->district,
                     'product_type'=>$advertisement->product_type,
                     'title_err' => '',
+                    'longitude' => $advertisement->longitude,
+                    'latitude' => $advertisement->latitude,
+                    'address' => $advertisement->address,
                     'description_err' => '',
                     'price_err' => '',
                     'condition_err' => '',
@@ -1735,9 +1736,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 $data['startDate']= new DateTime(date('Y-m-d H:i:s'));
                 $data['endDate']= clone $data['startDate'];
             }else{
-                $data['startDate'] = new DateTime($data['likes_dates'][0]->date);
+                $data['startDate'] = new DateTime(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' - 1 months')));
                 $data['endDate'] = clone $data['startDate'];
-                $data['endDate']->modify('+3 months');
+                $data['endDate']->modify('+1 months');
                 $data['likes_date'] = [];
                 $data['empty_likes_dates']=0;
                 $data['likes_counts'] = [];
@@ -1756,9 +1757,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 $data['startDate_dislikes']= new DateTime(date('Y-m-d H:i:s'));
                 $data['endDate_dislikes']= clone $data['startDate_dislikes'];
             }else{
-                $data['startDate_dislikes'] = new DateTime($data['dislikes_dates'][0]->date);
+                $data['startDate_dislikes'] = new DateTime(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' - 1 months')));
                 $data['endDate_dislikes'] = clone $data['startDate_dislikes'];
-                $data['endDate_dislikes']->modify('+3 months');
+                $data['endDate_dislikes']->modify('+1 months');
                 $data['dislikes_date'] = [];
                 $data['empty_dislikes_dates']=0;
                 $data['dislikes_counts'] = [];

@@ -20,29 +20,6 @@
             <?php
             echo flash('Account_deleted');
             echo flash('email_err');
-                // if(!empty($data['first_name_err']) || !empty($data['second_name_err']) || !empty($data['email_err']) || !empty($data['phone_err']) || !empty($data['password_err'])  || !empty($data['email_not_activated_err'])){
-                //     echo '<div class="error">';
-                //         if(!empty($data['first_name_err'])){
-                //             echo '*'.$data['first_name_err'].'<br>';
-                //         }
-                //         if(!empty($data['second_name_err'])){
-                //             echo '*'.$data['second_name_err'].'<br>';
-                //         }
-                //         if(!empty($data['email_err'])){
-                //             echo '*'.$data['email_err'].'<br>';
-                //         }
-                //         if(!empty($data['phone_err'])){
-                //             echo '*'.$data['phone_err'].'<br>';
-                //         }
-                //         if(!empty($data['password_err'])){
-                //             echo '*'.$data['password_err'].'<br>';
-                //         }
-                //         if(!empty($data['email_not_activated_err'])){
-                //             echo '*'.$data['email_not_activated_err'].'<br>';
-                //         }
-
-                //     echo '</div>';
-                // }
 
             ?>
             <form action="<?php echo URLROOT . '/users/register';?>" method="post">
@@ -90,7 +67,6 @@
                     <label for="type">Account type</label>
                         <select name="type" id="type">
                             <option value="buyer">Buyer</option>
-                            <option value="seller">Seller</option>
                             <option value="service_provider">Service Provider</option>                         
                         </select>
                 </div>

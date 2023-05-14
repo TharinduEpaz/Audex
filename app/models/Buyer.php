@@ -448,6 +448,20 @@
             
         }
 
+        public function getFeedbacks($email){
+            $this->db->query('SELECT * FROM rate WHERE email_rate_receiver = :email');
+            $this->db->bind(':email' , $email);
+            $row = $this->db->resultSet();
+            return $row;
+        }
+
+        public function getFeedbacks_seller_rated($email){
+            $this->db->query('SELECT * FROM seller_rate_buyer WHERE email_buyer = :email');
+            $this->db->bind(':email' , $email);
+            $row = $this->db->resultSet();
+            return $row;
+        }
+
         public function getFeedbacksCount($email){
             $this->db->query('SELECT COUNT(email_rate_receiver) AS count FROM rate WHERE email_rate_receiver = :email');
             $this->db->bind(':email' , $email);
@@ -457,7 +471,16 @@
             }else{
                 return NULL;
             }
-            
+        }
+        public function getFeedbacksCount_seller_rated($email){
+            $this->db->query('SELECT COUNT(email_buyer) AS count FROM seller_rate_buyer WHERE email_buyer = :email');
+            $this->db->bind(':email' , $email);
+            $row = $this->db->resultSet();
+            if($row){
+                return $row;
+            }else{
+                return NULL;
+            }
         }
 
     }

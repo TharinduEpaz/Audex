@@ -500,7 +500,6 @@ date_default_timezone_set("Asia/Kolkata");
         public function getSellerMoreDetails($email){
             $this->db->query('SELECT * FROM user WHERE email = :email');
             $this->db->bind(':email' , $email);
-
             $row = $this->db->single();
             return $row;
         }
@@ -508,7 +507,13 @@ date_default_timezone_set("Asia/Kolkata");
         public function getFeedbacks($email){
             $this->db->query('SELECT * FROM rate WHERE email_rate_receiver = :email');
             $this->db->bind(':email' , $email);
+            $row = $this->db->resultSet();
+            return $row;
+        }
 
+        public function getFeedbacks_seller_rated($email){
+            $this->db->query('SELECT * FROM seller_rate_buyer WHERE email_buyer = :email');
+            $this->db->bind(':email' , $email);
             $row = $this->db->resultSet();
             return $row;
         }
@@ -522,16 +527,17 @@ date_default_timezone_set("Asia/Kolkata");
             }else{
                 return NULL;
             }
-            
         }
-
-        // public function getFeedbacks($email){
-        //     $this->db->query('SELECT * FROM rate WHERE email_rate_receiver = :email');
-        //     $this->db->bind(':email' , $email);
-
-        //     $row = $this->db->resultSet();
-        //     return $row;
-        // }
+        public function getFeedbacksCount_seller_rated($email){
+            $this->db->query('SELECT COUNT(email_buyer) AS count FROM seller_rate_buyer WHERE email_buyer = :email');
+            $this->db->bind(':email' , $email);
+            $row = $this->db->resultSet();
+            if($row){
+                return $row;
+            }else{
+                return NULL;
+            }
+        }
 
         public function getAuctionById($id){
             $this->db->query('SELECT * FROM auction WHERE product_id = :id && is_finished=0 && is_active=1');
@@ -1615,7 +1621,7 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
         public function getHotestAuctions(){
-            $this->db->query('SELECT * FROM product INNER JOIN auction WHERE product.product_id=auction.product_id AND is_active = 1 ORDER BY end_date ASC LIMIT 6');
+            $this->db->query('SELECT * FROM product INNER JOIN auction WHERE product.product_id=auction.product_id AND auction.is_active = 1 AND product.is_paid=1 ORDER BY auction.end_date ASC LIMIT 6');
             $result1 = $this->db->execute();
             if($result1){
                 $result = $this->db->resultSet();
@@ -1625,7 +1631,7 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
         public function getPopularEngineers(){
-            $this->db->query('SELECT * FROM user INNER JOIN service_provider WHERE service_provider.user_id=user.user_id AND user.is_deleted=0 AND user.user_type = "service_provider" ORDER BY service_provider.rating DESC LIMIT 6;');
+            $this->db->query('SELECT * FROM user INNER JOIN service_provider WHERE service_provider.user_id=user.user_id AND user.is_deleted=0 AND user.user_type = "service_provider" AND service_provider.is_paid=1 ORDER BY service_provider.rating DESC LIMIT 6;');
             $result1 = $this->db->execute();
             if($result1){
                 $result = $this->db->resultSet();
