@@ -76,6 +76,17 @@
                 <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
 
     </div>
+        <div class="form-div">
+          <form method="POST" action="">
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date" name="start-date" min="<?php echo date('Y-m-d', strtotime("-1 year")); ?>" max="<?php echo date('Y-m-d'); ?>">
+            
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date" name="end-date" min="<?php echo date('Y-m-d', strtotime("-1 year")); ?>" max="<?php echo date('Y-m-d'); ?>">
+            
+            <button type="submit">Filter</button>
+          </form>
+        </div>
         <div class="stat">
             <div class="graph1" style="margin-bottom: 2vh;">
                 <canvas id="graph1" width="20px" height="20px"></canvas>
@@ -96,6 +107,26 @@
         <!-- <button class="btn_print" id="btn_print">Print</button> -->
 
         <script>
+
+            const startDateInput = document.querySelector('#start-date');
+            const endDateInput = document.querySelector('#end-date');
+
+            startDateInput.addEventListener('change', updateQuery);
+            endDateInput.addEventListener('change', updateQuery);
+
+            function updateQuery() {
+            const startDate = startDateInput.value;
+            const endDate = endDateInput.value;
+
+            // Update the URL with the selected dates
+            const url = window.location.href.split('?')[0]; // Remove any existing query parameters
+            const params = new URLSearchParams(window.location.search);
+            params.set('start_date', startDate);
+            params.set('end_date', endDate);
+            window.history.replaceState({}, '', `${url}?${params.toString()}`);
+            }
+
+
             //Graph1-Pie chart 1(No of auctions and the fixed prices of the seller)
             const auctionCount = <?php echo $data['no_auctions']->count ;?>;
             const fixedPriceCount = <?php echo $data['no_fixed_ads']->count ;?>;
