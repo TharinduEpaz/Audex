@@ -104,8 +104,8 @@
                         echo '<a href="'.URLROOT . '/users/chat" class="nav_tags">Messages</a>';}
                     else if($_SESSION['user_type']=='admin'){
                             echo '<a href="'.URLROOT . '/admins/profiletest/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
-                            echo '<a href="'.URLROOT . '/admins/dashboard" class="nav_tags">Dashboard</a>';
-                            echo '<a href="'.URLROOT . '/users/chat" class="nav_tags">Help</a>';
+                            echo '<a href="'.URLROOT . '/admins/admindashboard" class="nav_tags">Dashboard</a>';
+                            
                     }else if($_SESSION['user_type']=='seller'){
                         echo '<a href="'.URLROOT . '/sellers/dashboard" class="nav_tags">Dashboard</a>';
                         echo '<a href="'.URLROOT . '/'.$_SESSION['user_type'].'s/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';

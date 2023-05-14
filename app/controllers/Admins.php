@@ -282,8 +282,35 @@
 
     }
 
+    public function admindashboard(){
+
+        $this->view('admins/admindashboard');
+
+
+      }
+
+
+      public function adminviewreport(){
+
+        $details= $this->adminModel->getreportdetails();
+        $total=$this->adminModel->gettotalpayment();
+        $data =[
+          'details'=> $details, 'total'=>$total->total
+        ];
+        // print_r($data);
+        // exit();
+        $this->view('admins/adminviewreport',$data);
+
+      }
 
 
   }
+
+
+
+
+
+
+  
   
 ?>
