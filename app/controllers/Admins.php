@@ -150,12 +150,6 @@
           }
 
 
-
-        public function manageuser(){
-
-
-            $this->view('admins/manageuser');
-        }
         
 
 
@@ -332,6 +326,17 @@
           $this->view('admins/reports',$data);
   
       }
+
+
+      public function manageuser(){
+
+        $admins=$this->adminModel->getadmins();
+        $data=[
+          'admins'=>$admins
+        ];
+
+        $this->view('admins/manageuser',$data);
+    }
 
 
   }
