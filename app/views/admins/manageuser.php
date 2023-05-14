@@ -26,8 +26,8 @@
                 <!-- <a href="#"> <i class="fas fa-child"></i><span>Help</span></a>        -->
         </div>
     <div class="poster_advertisements">
-        <div class="whitebox">
-            <div class="section1">
+        <div class="whitebox" style ="height:auto">
+            <!-- <div class="section1">
             <input type="text" placeholder="Search..">
             <button class="searchbtn">Search</button>
             </div>
@@ -62,7 +62,7 @@
                 
                 </div>
             </div>
-            </div>
+            </div> -->
 
             
             
