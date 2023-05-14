@@ -611,7 +611,7 @@ EVENT POP UPS CSS
 .feed-card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
-  width: 10vw;
+  width: 15vw;
   border-radius: 10px;
 }
 
@@ -625,13 +625,16 @@ EVENT POP UPS CSS
 
 .feed-post-container {
   padding: 2px 16px;
+  height: 10vh;
+  overflow: hidden;
+  padding: 2px 16px;
 }
 
 .post-section {
   display: flex;
   flex-direction: row;
   gap: 20px;
-  justify-content: center;
+  justify-content: space-around;
   align-items: flex-start;
   margin-top: 20px;
   flex-wrap: wrap;
