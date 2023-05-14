@@ -16,6 +16,19 @@
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
     <title>Manage User</title>
 </head>
+<style>
+    .approved{
+        width: 20%;
+        height: 20vh;
+        /* border: 1px solid; */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background: #E5E9F7;
+        border-radius: 15px;
+    }
+</style>
 <body>
 <?php require_once APPROOT . '/views/admins/navbar.php';?>
     <div class="container">
@@ -29,119 +42,19 @@
                 <!-- <a href="#"> <i class="fas fa-child"></i><span>Help</span></a>        -->
         </div>
     <div class="poster_advertisements">
-    <div class="form-display" style="height:auto;padding:20px;">
-    <div class="table_container">
-        <div class="approval_title"><h1 style="text-align: center;"> Service Provider Reports</h1></div>
-                   <h3>Service Providers Approved and Paid</h3> <br>
-                  
-         
-                   <table class="serviceprovider_request">
-                        <thead>
-                            <tr>
-                            
-                            <th>User ID</th>
-                            <th>Profession</th>
-                            <th>Likes</th>
-                            <th>Rating</th>
-                            
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                        
-                        <?php foreach ($data['service_provider_report'] as $detail) : ?>
-
-                                <tr>                                   
-                                    <td><?php echo $detail->user_id?></td>
-                                    <td><?php echo $detail->profession?></td>
-                                    <td> <?php echo $detail->likes?></td>
-                                    <td><?php echo $detail->Rating?></td>
-                                </tr>
-                        <?php endforeach; ?>
-                            
-                        
-                            
-                        </tbody>
-                    </table>
-                    <br>
-                    <br>
-                    <br>
-
-                   <h3>Service Providers who has low ratings</h3><br> 
-
-
-                   <table class="serviceprovider_request">
-                        <thead>
-                            <tr>
-                            
-                            <th>User ID</th>
-                            <th>Profession</th>
-                            <th>Likes</th>
-                            <th>Rating</th>
-                            
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                        
-                        <?php foreach ($data['low_service_providers'] as $detail) : ?>
-
-                                <tr>                                   
-                                    <td><?php echo $detail->user_id?></td>
-                                    <td><?php echo $detail->profession?></td>
-                                    <td> <?php echo $detail->likes?></td>
-                                    <td><?php echo $detail->Rating?></td>
-                                </tr>
-                        <?php endforeach; ?>
-                            
-                        
-                            
-                        </tbody>
-                    </table>
-
-                    <!-- do the same for top rated service providers -->
-                    <!-- <?php print_r($data['top_rated'])?> -->
-                    <br>
-                    <br>
-                    <br>
-
-                     <h3>Service Providers who has high ratings</h3><br>
-                        <table class="serviceprovider_request">
-                            <thead>
-                                <tr>
-                                
-                                <th>User ID</th>
-                                <th>Profession</th>
-                                <th>Likes</th>
-                                <th>Rating</th>
-                                
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                            
-                            <?php foreach ($data['top_rated'] as $detail) : ?>
-    
-                                    <tr>                                   
-                                        <td><?php echo $detail->user_id?></td>
-                                        <td><?php echo $detail->profession?></td>
-                                        <td> <?php echo $detail->likes?></td>
-                                        <td><?php echo $detail->Rating?></td>
-                                    </tr>
-                            <?php endforeach; ?>
-                                
-                            
-                                
-                            </tbody>
-
-             
-
+        <div class="form-display" style="height:auto;padding:20px;">
+            <div class="table_container">
+                <div class="approval_title"><h1 style="text-align: center;"> Service Provider Reports</h1></div>
+                    <div class="approved" onclick="approved()">
+                    <h3>Service Providers Approved and Paid</h3>
+                    </div>
+                    <div class="approved"  onclick="low_ratings()">
+                    <h3>Service Providers who has low ratings</h3>
+                    </div>
+                    <div class="approved"  onclick="high_ratings()">
+                    <h3>Service Providers who has high ratings</h3>
+                    </div>
                 </div>
-
-              
-
-
-
             </div>
         </div> 
 
