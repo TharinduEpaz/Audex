@@ -1705,5 +1705,15 @@ date_default_timezone_set("Asia/Kolkata");
             return $post;
     
        }
+
+       public function getPublicEvents(){
+            
+                $this->db->query('SELECT * FROM `events` WHERE `event_type` = "public";');
+                $events = $this -> db -> resultSet();
+                return $events;
+        
+       }
+        
+       
     }
 ?>

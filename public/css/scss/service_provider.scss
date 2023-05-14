@@ -164,6 +164,36 @@ animation: slide 500ms ease-out 0s 1 normal forwards;
   
  
 }
+.copy-link-btn{
+
+  font-weight: 400;
+  font-size: 15px;
+  align-items: center;
+  appearance: none;
+  background-color: #776cea;
+ 
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-radius: 10px;
+  border-width: 0;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+
+
+  
+
+  justify-content: center;
+ 
+  padding: 6px 20px;
+
+  text-align: center;
+  text-decoration: none;
+  transition: background-color .2s,background-position .2s;
+  user-select: none;
+  -webkit-user-select: none;
+
+}
 
 
  .name-rating #Name {
@@ -251,7 +281,7 @@ animation: slide 500ms ease-out 0s 1 normal forwards;
 
 .text {
   color: white;
-  font-size: 20px;
+  font-size: 12px;
   position: absolute;
   top: 50%;
   left: 50%;

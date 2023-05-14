@@ -129,7 +129,7 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  vertical-align: top;
+  
   white-space: nowrap;
   }
 
