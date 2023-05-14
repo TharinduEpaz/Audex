@@ -459,6 +459,8 @@ EVENT POP UPS CSS
   background-color: #ffffff;
   max-width: 600px;
   max-width: 80%;
+  -webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.32);
+  box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.32);
   flex-direction: row;
 }
 
@@ -1324,7 +1326,7 @@ EVENT POP UPS CSS
 
 .text {
   color: white;
-  font-size: 20px;
+  font-size: 12px;
   position: absolute;
   top: 50%;
   left: 50%;

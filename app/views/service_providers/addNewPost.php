@@ -13,9 +13,9 @@
                     <br>
                     <span id="select-photos">Select photos for your post (at least 1 photo is required/max size 5MB)</span>
                     <div class="post-pics">
-                        <input type="file" id="file" name="post-photo-1" accept="image/*" required maxlength="5242880" required>
-                        <input type="file" name="post-photo-2" maxlength="2097152">
-                        <input type="file" name="post-photo-3" maxlength="2097152">
+                        <input type="file" id="file1" name="post-photo-1" accept="image/*" required maxlength="5242880" required>
+                        <input type="file" id="file2" name="post-photo-2" maxlength="2097152">
+                        <input type="file" id="file3" name="post-photo-3" maxlength="2097152">
                     </div>
                     <div class="button-section">
                         <button type="submit" id="create-feed-post" name='submit'>POST</button>
@@ -45,23 +45,34 @@
     link.style.background = "#E5E9F7";
     link.style.color = "red";
 
-    error = document.querySelector('.red-alert');
-    error.style.color = "#FF0000"
+    
 
     editButton = document.querySelector('.btn');
 
-    if (error) {
 
-        editButton.style.animation = "alert 2s ease 0s infinite normal forwards"
-        editButton.style.color = "#FF0000"
-        editButton.style.background = "#E5E9F7"
-
-    }
-    var uploadField = document.getElementById("file");
+    var uploadField = document.getElementById("file1");
     console.log(uploadField);
 
     uploadField.onchange = function() {
-        if (this.files[0].size > 5242880) {
+        if (this.files[0].size > 2000000) {
+            alert("File is too big!");
+            this.value = "";
+        };
+    };
+    var uploadField2 = document.getElementById("file2");
+    console.log(uploadField);
+
+    uploadField2.onchange = function() {
+        if (this.files[0].size > 2000000) {
+            alert("File is too big!");
+            this.value = "";
+        };
+    };
+    var uploadField3 = document.getElementById("file3");
+    console.log(uploadField);
+
+    uploadField3.onchange = function() {
+        if (this.files[0].size > 2000000) {
             alert("File is too big!");
             this.value = "";
         };

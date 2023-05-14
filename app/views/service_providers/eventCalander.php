@@ -92,14 +92,19 @@
 </div>
 
 <div class="add-event">
-<?php if (!empty($data['errors'])) : ?>
-      <?php foreach ($data['errors'] as $error) : ?>
-        <p id="error-text-box"><?php echo $error ?></p>
-      <?php endforeach; ?>
-    <?php endif; ?>
+
+
+
+       
+      
 <div class="formbold-main-wrapper">
   
   <div class="formbold-form-wrapper">
+  <?php if ($data['is_paid']->is_paid == 0): ?>
+    <p id="error-text-box">You cannot add event until you complete the payment</p>
+    <p style="font-weight:200; margin-top:10px; text-align: center;">Please complete your payment in profile settings</p>
+
+<?php else: ?>
     <form id="add-event-form" name="add-event" method="POST" enctype="multipart/form-data">
         <div class="formbold-input-flex">
           <div>
@@ -193,6 +198,8 @@
         
     </form>
     <span id="output"></span>
+
+    <?php endif; ?>
   </div>
 </div>
 
@@ -212,10 +219,6 @@
     link = document.querySelector('#calender');
     link.style.background = "#E5E9F7";
     link.style.color = "red";
-
-    
-
-
 
 </script>
 

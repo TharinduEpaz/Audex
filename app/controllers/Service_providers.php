@@ -365,7 +365,6 @@ class Service_providers extends Controller
         }
 
 
-
         if ($month == 'current') {
             $_SESSION['current'] = date('m');
             $_SESSION['current_y'] = date('y');
@@ -386,13 +385,15 @@ class Service_providers extends Controller
         $monthName = date('F', mktime(0, 0, 0, $_SESSION['current'], 1));
 
         $events = $this->service_model->getEventsByMonth($_SESSION['user_id'], $_SESSION['current']);
+        $is_paid = $this->service_model->is_paid($_SESSION['user_id']);
 
         $data = [
             'events' => $events,
             'month' => $monthName,
             'year' => $year,
             'month_no' => $_SESSION['current'],
-            'year_no' => $_SESSION['current_y']
+            'year_no' => $_SESSION['current_y'],
+            'is_paid' => $is_paid
         ];
 
         $this->view('service_providers/eventCalander', $data);
@@ -565,6 +566,10 @@ class Service_providers extends Controller
         $image1 = '';
         $image2 = '';
         $image3 = '';
+
+        $title = htmlspecialchars($title);
+        $content = htmlspecialchars($content);
+        
 
         $errors = array();
             

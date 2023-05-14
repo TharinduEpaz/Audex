@@ -49,7 +49,7 @@
         </div>
 
         <div class="post-content">
-            <?php echo $data['post']->content ?>
+            <?php echo htmlspecialchars_decode($data['post']->content); ?>
         </div>
 
         <button class="cancel" id="edit-event-btn" type="reset"  onclick="deletePost(<?php echo $data['post']->post_id ?>)">Delete Post</button>
