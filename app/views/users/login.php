@@ -14,7 +14,7 @@
 <body>
 <?php require_once APPROOT . '/views/users/navbar.php';?>
 
-    <div id="container_main" class="container_main">
+    <div id="container_main" class="container_main" style="height:90vh">
         <div id="forms" class="form" style="margin-top: 20vh;">
         <?php 
             flash('register_success');
@@ -23,6 +23,8 @@
             flash('email_err');
             flash('password_message');
             flash('session_expired');
+            flash('register_fail');
+            
         ?>
             <h1>Login</h1>
             <!-- <?php if(isset($_SESSION['url'])){

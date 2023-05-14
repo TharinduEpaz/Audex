@@ -21,7 +21,7 @@
             display: flex;
             flex-direction: row;
             height: 240px;
-            width: 75%;
+            width: 90%;
             margin: 3%;
             background-color: white;
             border-radius: 15px;
@@ -55,7 +55,7 @@
             display: flex;
             flex-direction: column;
             font-weight: 800;
-            width: 730px;
+            width: 90%;
             height: 100%;
             padding: 10px;
             border-radius: 0px 15px 15px 0px;
@@ -146,15 +146,18 @@
 
 
         .shop-container {
-            min-width: 100vw;
             margin: 0 auto;
+            position: absolute;
             display: flex;
             flex-direction: row;
             background-image: none;
             background-color: #E5E9F7;
-            margin-left: 240px;
-            margin-top: 10vh;
-            /* width: 100%; */
+            /* margin-left: 240px; */
+            /* margin-top: 10vh; */
+            /* min-width: 100vw; */
+            top: 10vh;
+            left: 240px;
+            width: calc(100vw - 240px);
         }
         .btn-primary{
             height: 5vh;
@@ -187,7 +190,7 @@
             min-height: 90vh;
             max-height: auto;
             background: #1e1e1e;
-            padding-top: 6vh;
+            /* padding-top: 6vh; */
             display: block;
             position: fixed;
             margin-top: 10vh;
@@ -196,6 +199,8 @@
         .side-bar form {
             display: flex;
             flex-direction: column;
+            /* height: 400px;
+            overflow-y: scroll; */
         }
 
         .radio, .form-group{
@@ -204,8 +209,11 @@
         .form-group .form-control{
             border-radius: 5px;
             padding: 5px;
-            border: none;
+            /* border: none; */
             width: 150px;
+        }
+        .input-error {
+            border: 2px solid red;
         }
 
         input[type="radio"],
@@ -271,7 +279,7 @@
             display: flex;
             flex-direction: column;
             flex: 1;
-            margin-left: 20px;
+            margin-left: 40px;
             /* margin-top: 6%; */
         }
 
@@ -535,15 +543,23 @@
                 <input type="checkbox" name="category[]" id="guitar" value="guitar" <?php echo ($data['category'] == "guitar") ? 'checked' : '' ?> >
                 <label for="guitar">Guitar</label>
             </div>
+            <div class="radio">
+                <input type="checkbox" name="category[]" id="keyboard" value="keyboard" <?php echo ($data['category'] == "keyboard") ? 'checked' : '' ?> >
+                <label for="keyboard">Keyboard</label>
+            </div>
+            <div class="radio">
+                <input type="checkbox" name="category[]" id="percussion/drums" value="percussion/drums" <?php echo ($data['category'] == "percussion/drums") ? 'checked' : '' ?> >
+                <label for="percussion/drums">Percussion/Drums</label>
+            </div>
 
             <h4>Price</h4>
             <div class="form-group">
                 <label for="min-price">Min Price</label>
-                <input type="number" class="form-control" id="min-price" name="price-min" placeholder="Enter min price" value = "<?php echo ($data['price-min']) ?>" >
+                <input type="number" class="form-control" id="min-price" name="price-min" min="0" placeholder="Enter min price" value = "<?php echo ($data['price-min']) ?>" >
             </div>
             <div class="form-group">
                 <label for="max-price">Max Price</label>
-                <input type="number" class="form-control" id="max-price" name="price-max" placeholder="Enter max price" value = "<?php echo ($data['price-max']) ?>">
+                <input type="number" class="form-control" id="max-price" name="price-max" min="0" placeholder="Enter max price" value = "<?php echo ($data['price-max']) ?>">
             </div>
 
             <h4>Type</h4>
@@ -558,6 +574,20 @@
             <div class="radio">
                 <input type="radio" id="auction" name="type" value="auction" <?php echo ($data['type'] == "auction") ? 'checked' : ''; ?>>
                 <label for="auction">Auction</label>
+            </div>
+
+            <h4>Condition</h4>
+            <div class="radio">
+                <input type="radio" id="all-condition" name="condition" value="" <?php echo ($data['condition'] == "1") ? 'checked' : ''; ?> >
+                <label for="all-type">All</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="used" name="condition" value="Used" <?php echo ($data['condition'] == "Used") ? 'checked' : ''; ?>>
+                <label for="used">Used</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="new" name="condition" value="New" <?php echo ($data['condition'] == "New") ? 'checked' : ''; ?>>
+                <label for="new">New</label>
             </div>
 
             <!-- <button type="submit" class="btn-primary">Filter</button> -->

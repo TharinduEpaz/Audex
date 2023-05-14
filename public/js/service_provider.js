@@ -82,16 +82,16 @@ function closeEventDisplay(event) {
 
 function loadevent(event_id) {
     
+    
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var event = JSON.parse(this.responseText);
+      console.log(event);
       
-      document.querySelector(".add-event-btn").setAttribute("onclick", `editEvent(${event_id})`);
-     
-
-      document.querySelector(".event-date").innerText = event.event.date;
-      document.querySelector(".event-time").innerText = event.event.time;
+      
+      document.querySelector(".date").innerHTML = '<i class="fa fa-calendar" aria-hidden="true"></i>  &nbsp  ' + event.event.date;
+      document.querySelector(".time").innerHTML = '<i class="fa fa-clock-o" aria-hidden="true"></i>  &nbsp   ' + event.event.time;
       document.querySelector(".title").innerHTML = event.event.name;
       document.querySelector(".event-body").innerHTML = event.event.description;
       document.querySelector(
@@ -107,7 +107,7 @@ function loadevent(event_id) {
 
   xhttp.open(
     "GET",
-    "http://localhost/Audex/service_providers/getEvent?id=" + event_id,
+    "http://localhost/Audex/users/getEvent?id=" + event_id,
     true
   );
 
@@ -116,7 +116,6 @@ function loadevent(event_id) {
   //set the date to today
 
   let eventForm = document.querySelector("#eventForm");
-
   like_button = document.querySelector(".like-button");
   dislike_button = document.querySelector(".dislike-button");
   
@@ -135,6 +134,7 @@ function loadevent(event_id) {
         xhttp.send();
 
   });
+
   dislike_button.addEventListener("click", () => {
 
     var xhttp = new XMLHttpRequest();
@@ -152,6 +152,50 @@ function loadevent(event_id) {
     
   });
 }
+
+
+
+//////////////////////////////////////////////////////////
+//////// SUBMIT THE ADD EVENT FORM USING JQUERY //////////
+//////////////////////////////////////////////////////////
+
+let eventYear = document.querySelector(".month-display").innerText;
+
+$(document).ready(function () {
+  // Listen for form submit event
+  $("#add-event-form").submit(function (event) {
+    // Prevent default form submission
+    event.preventDefault();
+    console.log("form submitted");
+
+    // Serialize form data
+    //   var formData = $(this).serialize();
+    var formData = new FormData(this);
+
+    //get the date
+    let date = eventDate + " " + eventYear;
+
+    // Send AJAX request
+
+    $.ajax({
+      type: "POST",
+      url: `http://localhost/Audex/service_providers/addEvent?date=${date}`, // URL of PHP file
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        // Handle success response
+   
+        window.location.href =
+          "http://localhost/Audex/service_providers/eventCalander";
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        // Handle error response
+        console.error(textStatus, errorThrown);
+      },
+    });
+  });
+});
 
 
 

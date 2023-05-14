@@ -31,7 +31,7 @@ class Service_provider
         //     'address2' => $address2,
         // ];
 
-        $this->db->query('UPDATE service_provider,user SET user.first_name = :first_name, user.second_name = :second_name, user.phone_number = :phone, service_provider.address_line_one = :address1,service_provider.address_line_two = :address2,service_provider.profession = :profession, service_provider.qualifications = :qualifications, service_provider.achievements = :achievements, service_provider.description = :description  WHERE service_provider.user_id = :id AND user.user_id = :id');
+        $this->db->query('UPDATE service_provider,user SET user.first_name = :first_name, user.second_name = :second_name, service_provider.address_line_one = :address1,service_provider.address_line_two = :address2,service_provider.profession = :profession, service_provider.qualifications = :qualifications, service_provider.achievements = :achievements, service_provider.description = :description  WHERE service_provider.user_id = :id AND user.user_id = :id');
         $this->db->bind(':id', $id);
         $this->db->bind(':profession', $data['profession']);
         $this->db->bind(':qualifications', $data['qualifications']);
@@ -166,31 +166,75 @@ class Service_provider
 
     }
 
-    public function likeDislike($event_id,$type){
-        switch ($type) {
-            case 'like':
-                $this->db->query('UPDATE events SET likes = likes + 1 WHERE event_id = :id');
-                break;
-            case 'dislike':
-                $this->db->query('UPDATE events SET dislikes = dislikes + 1 WHERE event_id = :id');
-                break;
+    public function deleteEvent($id){
             
-            default:
-                break;
-        }
-        $this->db->bind(':id', $event_id);
-        $this->db->execute();
+            $this->db->query('DELETE FROM events WHERE event_id = :id');
+            $this->db->bind(':id', $id);
+            $this->db->execute();
+    
+    }
 
-        return $this->getReactions($event_id);
+    public function likeDislike($event_id){
+        
+           
+                $this->db->query('UPDATE events SET likes = likes + 1 WHERE event_id = :id');
+                $this->db->bind(':id', $event_id);
+                $this->db->execute();
+
+                $this->db->query('INSERT INTO evet_like (event_id, user_id,liked) VALUES (:event_id, :user_id,0)');
+                $this->db->bind(':event_id', $event_id);
+                $this->db->bind(':user_id', $_SESSION['user_id']);
+                
+                try {
+                    $this->db->execute();
+                } catch (PDOException $e) {
+                    $this->db->query('UPDATE events SET likes = likes - 1 WHERE event_id = :id');
+                    $this->db->bind(':id', $event_id);
+                    $this->db->execute();
+                    return false;
+                }
+                
+                return $this->getReactions($event_id);
+    }
+
+    public function checkLiked($user_id,$event_id){
+        $this->db->query('SELECT * FROM evet_like WHERE event_id = :event_id AND user_id = :user_id');
+        $this->db->bind(':event_id', $event_id);
+        $this->db->bind(':user_id', $user_id);
+
+      
+            $liked = $this->db->single();
+       
+        
+
+        return $liked;   
+              
+         
+    }
+
+    public function getDislikedOrNot($user_id,$event_id){
+        $this->db->query('SELECT * FROM evet_like WHERE event_id = :event_id AND user_id = :user_id');
+        $this->db->bind(':event_id', $event_id);
+        $this->db->bind(':user_id', $user_id);
+        $disliked = $this->db->single();
+
+        
+            if($disliked->disliked == 1){
+                return true;
+            }else{
+                return false;
+            }
+            
     }
 
 
     public function getReactions($id){
-        $this->db->query('SELECT likes,dislikes FROM events WHERE event_id = :id');
+        $this->db->query('SELECT likes FROM events WHERE event_id = :id');
         $this->db->bind(':id', $id);
         $reactions = $this->db->single();
         return $reactions;
     }
+    
     public function getPostsByUser($user_id){
         $this->db->query('SELECT * FROM feed_post WHERE user_id = :id');
         $this->db->bind(':id', $user_id);
@@ -221,6 +265,60 @@ class Service_provider
         $this->db->bind(':id', $id);
         $this->db->execute();
     }
+
+    public function is_paid($id){
+
+        $this->db->query('SELECT is_paid FROM service_provider WHERE user_id = :id');
+        $this->db->bind(':id', $id);
+        $is_paid = $this->db->single();
+        return $is_paid;
+            
+    }
+
+    public function adminApprove($id,$file_name){
+        $this->db->query('UPDATE service_provider SET approve_document = :document WHERE user_id = :id');
+        $this->db->bind(':id', $id);
+        $this->db->bind(':document', $file_name);
+        
+        try {
+            //code...
+            $this->db->execute();
+        } catch (PDOException $th) {
+            //throw $th;
+            echo $th->getMessage();
+        }
+    }
+
+    public function getApprovalDetails($id){
+        $this->db->query('SELECT  ');
+    }
+
+    public function getPostCount($id){
+        $this->db->query('SELECT COUNT(*) AS count FROM feed_post WHERE user_id = :id');
+        $this->db->bind(':id', $id);
+        $count = $this->db->single();
+        return $count;
+    }
+
+    public function getEventCountforCurrentMonth($id){
+        $this->db->query('SELECT COUNT(*) AS count FROM events WHERE user_id = :id AND MONTH(date) = MONTH(CURRENT_DATE())');
+        $this->db->bind(':id', $id);
+        $count = $this->db->single();
+        return $count;
+    }
+
+    public function getTotalEventLikes($id){
+        $this->db->query('SELECT SUM(likes) as sum FROM events WHERE user_id = :id');
+        $this->db->bind(':id', $id);
+        $count = $this->db->single();
+        return $count;
+    }
+
+    
+
+    
+
+  
      
 }
 

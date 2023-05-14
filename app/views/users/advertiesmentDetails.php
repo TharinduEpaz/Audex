@@ -17,7 +17,7 @@
 <body>
 <?php require_once APPROOT . '/views/users/navbar.php';?>
 
-    <div class="container" style="background: none;height:75vh;">
+    <div class="container" style="background: none;height:90vh;width:95vw;">
     
         <div class="content">
             <div class="image_likes">
@@ -79,7 +79,9 @@
 
             <div class="details">
                 <h2><?php echo $data['ad']->product_title?></h2>
-
+                <div class="price">
+                    <h4>LKR&nbsp;<?php echo $data['ad']->price?></h4>
+                </div>
                 <table>
                     <tr>
                         <td class="name">Category</td>
@@ -98,11 +100,6 @@
                         <td class="value">: <?php echo $data['ad']->product_condition?></td>
                     </tr>
                 </table>
-
-                <div class="price">
-                    <h4>LKR&nbsp;<?php echo $data['ad']->price?></h4>
-                </div>
-<<<<<<< HEAD
                 <div class="message_bid">
                 
                 <!-- add to watch button is not visible if user is a seller or service provider -->
@@ -218,7 +215,7 @@
 
             
             <div class="seller-detais">
-                <h2 style="text-align: center;width:115%"><?php 
+                <h2 style="text-align: center;width:115%;margin-left: 20%;"><?php 
                             if( empty($data['seller']->shop_name )){
                                 echo 'Seller';
                             }
@@ -234,8 +231,8 @@
 
                             
                 <div class="top_details">
-                        <div class="profile_img">
-                            <img src="<?php echo URLROOT . '/public/uploads/'.$data['SellerMoreDetails']->profile_pic;?>" alt="Profile Picture">
+                        <div class="profile_img" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['SellerMoreDetails']->profile_pic;?>)">
+                            <!-- <img src="<?php echo URLROOT . '/public/uploads/'.$data['SellerMoreDetails']->profile_pic;?>" alt="Profile Picture"> -->
                         </div>
                         <div class="other_details_profile">
                             <p class="full_name"><?php echo $data['SellerMoreDetails']->first_name.' '.$data['SellerMoreDetails']->second_name; ?></p>
@@ -279,7 +276,7 @@
                             <?php 
                     if(isLoggedIn()){
                         if($_SESSION['user_email']!=$data['ad']->email){
-                            echo '<div class="message_seller">';
+                            echo '<div class="message_seller" style="margin-top:-6vh;margin-left:30%;">';
                             echo '<a href="'.URLROOT.'/users/chat/'.$data['SellerMoreDetails']->user_id.'"><i class="fas fa-comments"></i>&nbsp&nbspMessage</a>';
                             echo '</div>';
                         }

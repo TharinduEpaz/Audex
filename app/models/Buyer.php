@@ -104,13 +104,28 @@
             foreach($results as $result):
                 $service_provider_email = $result->email_service_provider;
                 settype($id,"integer");
-                $this->db->query('SELECT * FROM user WHERE email = :service_provider_email');
+                // search in both tables user and service provider view
+                $this->db->query('SELECT u.*,sv.* FROM user u JOIN service_provider_view sv ON u.user_id = sv.user_id WHERE email = :service_provider_email');
                 $this->db->bind(':service_provider_email' , $service_provider_email);
                 $service_provider = $this->db->single();
                 array_push($serviceProviders,$service_provider);
             endforeach;
             return $serviceProviders;
             
+        }
+
+        public function getBuyerReviewedSellers($email){
+            $this->db->query('SELECT * FROM rate WHERE email_rater = :email');
+            $this->db->bind(':email' , $email);
+            $results = $this->db->resultSet();
+            return $results;
+        }
+
+        public function getBuyerReviewedServiceProviders($email){
+            $this->db->query('SELECT * FROM rate_service_provider WHERE email_buyer = :email');
+            $this->db->bind(':email' , $email);
+            $results = $this->db->resultSet();
+            return $results;
         }
 
         public function addItemToWatchList($p_id,$user_id){

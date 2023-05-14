@@ -5,7 +5,6 @@
             <a href="<?php echo URLROOT . '/service_providers/eventCalander?month=previous' ?>">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i> </a>
         </div>
-
         <div class="month-display">
             <span><?php echo $data['month'] . ' ' . $data['year'] ?></span>
         </div>
@@ -55,7 +54,7 @@
             <div class="date">2020 01 21</div>
             <div class="time">12 PM</div>
             
-            <button data-close-button class="close-button">&times;</button>
+       
             
         </div>
         <div class="wrapper-for-event">
@@ -68,8 +67,8 @@
             </div>
 
             <div class="event-buttons">
-                <div class="like-button"><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="likes"></span></div>
-                <div class="dislike-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="dislikes"></span></div>
+                <button class="like-button"><i class="fas fa-thumbs-up"></i>&nbsp&nbsp<span id="likes"></span></button>
+                <!-- <div class="dislike-button"><i class="fas fa-thumbs-down"></i>&nbsp&nbsp<span id="dislikes"></div> -->
             </div>
 
         </div>
@@ -79,18 +78,25 @@
         <div class="event-body">
 
         </div>
+        <button class="add-event-btn" id="edit-delete-event" onclick="">Edit / Delete Event</button>
+
 
 
 
     </div>
 
     <div class="event-right">
-        <img src="https://images.pexels.com/photos/9493230/pexels-photo-9493230.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="">
+        <img id='event-image' src="" alt="">
     </div>
 
 </div>
 
 <div class="add-event">
+<?php if (!empty($data['errors'])) : ?>
+      <?php foreach ($data['errors'] as $error) : ?>
+        <p id="error-text-box"><?php echo $error ?></p>
+      <?php endforeach; ?>
+    <?php endif; ?>
 <div class="formbold-main-wrapper">
   
   <div class="formbold-form-wrapper">
@@ -104,16 +110,18 @@
               id="eventname"
               placeholder="DJ Festival"
               class="formbold-form-input"
+              required
               />
           </div>
           <div>
-              <label for="location" class="formbold-form-label"> Location </label>
+              <label for="location" class="formbold-form-label"> Location/Platform </label>
               <input
               type="text"
               name="location"
               id="lastname"
               placeholder="Nelum Pokuna"
               class="formbold-form-input"
+              required
               />
           </div>
         </div>
@@ -127,6 +135,7 @@
               id="time"
               placeholder="12:00 PM"
               class="formbold-form-input"
+              required
               />
           </div>
           <div>
@@ -176,10 +185,10 @@
         </div>
         <div>
             <label for="event-img" class="formbold-form-label"> Image </label>
-            <input type="file" name="event-img" id="event-img" class="formbold-form-input">
+            <input type="file" name="event-img" id="event-img" class="formbold-form-input" required>
         </div>
 
-        <input type="submit" class="formbold-btn" value="Add Event">
+        <input type="submit" name="submit" class="formbold-btn" value="Add Event">
             
         
     </form>
@@ -194,6 +203,8 @@
 <div id="overlay"></div>
 
 <script src="<?php echo URLROOT . '/public/js/form.js'; ?>"></script>
+<script src="<?php echo URLROOT . '/public/js/calander.js'; ?>"></script>
+
 
 <script>
     //keeping the sidebar button clicked at the page
@@ -201,6 +212,8 @@
     link = document.querySelector('#calender');
     link.style.background = "#E5E9F7";
     link.style.color = "red";
+
+    
 
 
 

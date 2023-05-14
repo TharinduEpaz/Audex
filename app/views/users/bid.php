@@ -20,7 +20,7 @@
 <body>
 <?php require_once APPROOT . '/views/users/navbar.php';?>
 
-    <div class="container" style="background: none;">
+    <div class="container" style="background: none;width:95vw">
     <?php echo flash('phone_number_error');?>
         <div class="content">
         <div class="image_likes">
@@ -125,18 +125,18 @@
                     <!-- <h1><?php echo $data['ad']->product_id.'/'.$auction->auction_id.'/'.$data['auctions'][0]->price.'/'.$data['ad']->price;?></h1> -->
                     
                     
-                    <button id="form-trigger" class="bid_button">BID</button>
+                    <button id="form-trigger"  class="bid_button">BID</button>
                         <div class="pop_up">
 
                                 <form action="<?php echo URLROOT.'/users/bid/'.$data['ad']->product_id?>" class="bid" method="post">
     
                                     <!-- <label for="price">Price</label> -->
-                                    <input class="price" type="number" step="0.01" name="price"  placeholder="xxxx.xx"   ><br>
+                                    <input style="margin-top: 2vh;margin-bottom:0vh;" class="price" type="number" step="0.01" name="price"  placeholder="xxxx.xx"   ><br>
                                     <div class="add_bid1">
-                                    <input type="submit" name="submit" value="Bid" class="bid_button"><br>
-                                    <button type="button" id="form-close" class="close">Cancel</button>
+                                    <input type="submit" style="margin: 0%;" name="submit" value="Bid" class="bid_button">
+                                    <button style="margin-left: 2%;" type="button" id="form-close" class="close">Cancel</button>
                                     </div>
-                                        <p>* By clicking BID button, you are accepting to buy the product if you become the winner</p>
+                                        <p style="margin-top: 2vh;">* By clicking BID button, you are accepting to buy the product if you become the winner</p>
                                 </form>
                         </div>
                         

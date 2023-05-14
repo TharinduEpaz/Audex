@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo MAPS_API;?>&callback=initMap&libraries=placesMap&v=weekly"></script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo MAPS_API;?>&callback=initMap&libraries=placesMap&v=weekly"></script> -->
     <title>Advertisement</title>
 </head>
 <body>
@@ -74,8 +74,13 @@
                     </div>
                     <div class="enter_message">
                         <form action="" id = "chat-form">
+                            <?php if($data['id']!=null){ ?>
                             <input type="text" name="message" id="message" placeholder="Enter your message">
                             <button type="submit" id="send_message"><i class="fas fa-paper-plane"></i></button>
+                            <?php }else{?>
+                                <input type="text" name="message" id="message" placeholder="Enter your message" disabled>
+                                <button type="submit" id="send_message" disabled><i class="fas fa-paper-plane" ></i></button>
+                            <?php }?>
                         </form>
                     </div>
                 </div>
@@ -86,28 +91,14 @@
 </div>
 </body>
 <script>
-
-    
-    //make sidebar button background clicked
-    link = document.querySelector('#messages');
-    link.style.background = "#E5E9F7";
-    link.style.color = "red";
-
     //keeping the sidebar button clicked at the page
     link = document.querySelector('#messages');
     link.style.background = "#E5E9F7";
     link.style.color = "red";
     link.style.fontWeight = "800";
-
 
     var container = document.querySelector('.current_messages');
     container.scrollTop = container.scrollHeight;
-
-    //keeping the sidebar button clicked at the page
-    link = document.querySelector('#messages');
-    link.style.background = "#E5E9F7";
-    link.style.color = "red";
-    link.style.fontWeight = "800";
 
     // get user email(email sender)  using sessions and check user is logged or not
     const sender_email = <?php

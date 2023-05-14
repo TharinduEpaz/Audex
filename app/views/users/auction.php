@@ -19,7 +19,7 @@
 <body>
 <?php require_once APPROOT . '/views/users/navbar.php';?>
 
-    <div class="container" style="background: none;">
+    <div class="container" style="background: none;width:95vw;">
     
         <div class="content">
         <div class="image_likes">
@@ -129,16 +129,17 @@
                                             </button>
                                     </div>
                                     <dialog id="dia">
-                                        <div class="top-part">
-                                            <button class="btn_close">X</button>
-                                            <!-- <i class="fa-sharp fa-solid fa-xmark"></i> -->
-                                        </div>  
-                                        <hr>
-                                        <div>
-                                            <button class="continue">OK </button>  
-                                            <button class="close">Close</button>
-                                        </div>
-                                    </dialog>
+                                            <div class="top-part" style="margin-bottom: 1vh;">
+                                                <button class="btn_close">X</button>
+                                                <!-- <i class="fa-sharp fa-solid fa-xmark"></i> -->
+                                            </div>  
+                                            <hr>
+                                            <div class="bottom-part" style="margin-top: 1vh;">
+                                                <h4>Do You Want To Continue?</h4>
+                                                <button class="close">Close</button>
+                                                <button class="continue">OK </button>  
+                                            </div>
+                                        </dialog>
                     
                                 </form>
                             </div>
@@ -157,14 +158,15 @@
                                             </button>
                                         </div>
                                         <dialog id="dia">
-                                            <div class="top-part">
+                                            <div class="top-part" style="margin-bottom: 1vh;">
                                                 <button class="btn_close">X</button>
                                                 <!-- <i class="fa-sharp fa-solid fa-xmark"></i> -->
                                             </div>  
                                             <hr>
-                                            <div>
-                                                <button class="continue">OK </button>  
+                                            <div class="bottom-part" style="margin-top: 1vh;">
+                                                <h4>Do You Want To Continue?</h4>
                                                 <button class="close">Close</button>
+                                                <button class="continue">OK </button>  
                                             </div>
                                         </dialog>
                         
@@ -178,7 +180,7 @@
                 <?php if($data['ad']->longitude!='NULL' && $data['ad']->latitude!='NULL'){?>
                     <div class="location" >
                         <div class="input">
-                            <a href="" class="post" onclick="openModal(); return false;"><i class="fa-sharp fa-solid fa-map-location-dot"></i></a>
+                        <a href="" class="location_icon" onclick="openModal(); return false;"><i class="fa-sharp fa-solid fa-location-dot"></i></a>
                             <!-- <a style="margin-top:0px;margin-right:4%;border-radius:7px" href="" class="post" onclick="openModal(); return false;">Check on map</a> -->
                         </div>
                         <div id="myModal" class="modal">
@@ -222,7 +224,7 @@
             </div>
             
             <div class="seller-detais">
-                <h2 style="text-align: center;"><?php 
+                <h2 style="text-align: center;margin-left:15%;"><?php 
                             if( empty($data['seller']->shop_name )){
                                 echo 'Seller';
                             }
@@ -237,8 +239,8 @@
                 <a href="<?php echo URLROOT . '/users/getProfile/'.$data['SellerMoreDetails']->user_id;?>">
 
                 <div class="top_details">
-                        <div class="profile_img">
-                            <img src="<?php echo URLROOT . '/public/uploads/'.$data['SellerMoreDetails']->profile_pic;?>" alt="Profile Picture">
+                        <div class="profile_img" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['SellerMoreDetails']->profile_pic;?>)">
+                            <!-- <img src="<?php echo URLROOT . '/public/uploads/'.$data['SellerMoreDetails']->profile_pic;?>" alt="Profile Picture"> -->
                         </div>
                         <div class="other_details_profile">
                             <p class="full_name"><?php echo $data['SellerMoreDetails']->first_name.' '.$data['SellerMoreDetails']->second_name; ?></p>
@@ -283,13 +285,13 @@
                     <?php 
                     if(isLoggedIn()){
                         if($_SESSION['user_email']!=$data['ad']->email && $_SESSION['user_type']!='seller'){
-                            echo '<div class="message_seller" style="margin-right:0px">';
+                            echo '<div class="message_seller" style="margin-top:-6vh;margin-left:30%">';
                             echo '<a href="'.URLROOT.'/users/chat/'.$data['SellerMoreDetails']->user_id.'"><i class="fas fa-comments"></i>&nbsp&nbspMESSAGE</a>';
                             
                             echo '</div>';
                             if($data['ad']->product_type=='auction'){
 
-                                echo '<div class="bid_now">';
+                                echo '<div class="bid_now" style="margin-left:30%">';
                                 echo '<a href="'.URLROOT.'/users/bid/'.$data['ad']->product_id.'"><i class="fa-solid fa-gavel"></i>&nbsp&nbspBID NOW</a>';
                                 echo '</div>';
                             }
@@ -710,5 +712,6 @@ var countDownDate = new Date("<?php echo $data['auction']->end_date;?>").getTime
 
 </script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
+<script src="<?php echo URLROOT . '/public/js/product-watch-list.js';?>"></script>
 </html>
 <!-- Closing the connection-->

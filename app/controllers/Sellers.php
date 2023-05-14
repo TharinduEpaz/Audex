@@ -219,13 +219,14 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
         //Add product
         public function advertise(){
-            $sellerDetails = $this->sellerModel->getUserDetailsByEmail($_SESSION['user_email']);
+            $sellerDetails = $this->sellerModel->getUserDetailsByEmail($_SESSION['user_email']);//Gets seller details
             if(!isLoggedIn()){
                 $_SESSION['URL'] =URL();
                 redirect('users/login');
+                //If the seller didn't add his phone number
             }else if($sellerDetails->phone_number==NULL || $sellerDetails->phone_number=='' || $sellerDetails->phone_number==0 || empty($sellerDetails->phone_number) || $sellerDetails->phone_number==null){
                 flash('phone_number_error','Please add your phone number before advertise.<a href="'.URLROOT.'/users/change_phone/'.$sellerDetails->user_id.'">Click Here</a>','alert alert-danger');
-                $data['phone_err']='Please add your phone number before bid.';
+                $data['phone_err']='Please add your phone number before advertise.';
                 redirect('sellers/getProfile/'.$sellerDetails->user_id);
             }
 
@@ -297,6 +298,10 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 //Validate data
                 if(empty($data['title'])){
                     $data['title_err'] = 'Please enter title';
+                }
+                //Title doesn't contain any special characters
+                else if(!preg_match("/^[a-zA-Z0-9 ]*$/",$data['title'])){
+                    $data['title_err'] = 'Title cannot contain special characters';
                 }
                 if(empty($data['description'])){
                     $data['description_err'] = 'Please enter description';
@@ -543,7 +548,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     if($product_id!=false){
                         $data1=[
                             'title' => $data['title'],
-                            'image1' => $data['image1'],
                         ];
                         flash('product_message', 'Product Added');
                         // redirect('users/checkout/'.urlencode(base64_encode("$data1")));
@@ -912,7 +916,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
 
                 //Make sure no errors
-                if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['image4_err']) && empty($data['image5_err']) && empty($data['image6_err']) && empty($data['brand_err']) && empty($data['model_err'])){
+                if(empty($data['title_err']) && empty($data['category_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['image4_err']) && empty($data['image5_err']) && empty($data['image6_err']) && empty($data['brand_err']) && empty($data['model_err'])){
                     //Validated
                     if($this->sellerModel->edit_advertisement($data)){
                         flash('product_message', 'Product Edited');
@@ -972,30 +976,47 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             
         }
 
-
-        public function complete_payment($id){
+        //Reposting an expired auction with no bids/accepted bids
+        public function repost($id){
+            $reposted=$this->sellerModel->getRepostById($id);
+            if($reposted==1){
+                redirect('sellers/advertisements');
+            }
+            $data['reposted']=$reposted;
             if($_SERVER['REQUEST_METHOD'] == 'POST'){
-                //Sanitize POST array
-                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
                 $advertisement=$this->sellerModel->getAdvertisementById($id);
                 //Check for owner
                 if($advertisement->email != $_SESSION['user_email']){
                     redirect('sellers/advertisements');
                 }
+                if($advertisement->product_type!="auction"){
+                    redirect('sellers/advertisements');
+                }
+                //Sanitize POST array
+                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
                 $data = [
                     'id' => $id,
                     'user_email' => $_SESSION['user_email'],
                     'title' => trim($_POST['title']),
                     'description' => trim($_POST['description']),
-                    'price' => '',
+                    'price' => trim($_POST['price']),
                     'condition' => trim($_POST['condition']),
-                    'image1' => $advertisement->image1,
+                    'image1' => '',
                     'image2' => '',
                     'image3' => '',
+                    'image4' => '',
+                    'image5' => '',
+                    'image6' => '',
+                    'address'=>'',
+                    'longitude' => '',
+                    'latitude' => '',
                     'brand' => trim($_POST['brand']),
                     'model' => trim($_POST['model']),
-                    'category' =>trim($_POST['category']),
+                    'category' =>'',
+                    'type' =>'auction',
+                    'district' => trim($_POST['district']),
+                    'product_type'=>$advertisement->product_type,
                     'title_err' => '',
                     'description_err' => '',
                     'price_err' => '',
@@ -1003,11 +1024,35 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1_err' => '',
                     'image2_err' => '',
                     'image3_err' => '',
+                    'image4_err' => '',
+                    'image5_err' => '',
+                    'image6_err' => '',
+                    // 'error_geocode' => trim($_POST['error_geocode']),
                     'brand_err' => '',
                     'model_err' => '',
                     'category_err' => ''
                 ];
 
+                $user_id=$this->sellerModel->getUserId($data['user_email']);
+                $data['user_id']=$user_id->user_id;
+                //Calculating end date
+                $num_of_dates=trim($_POST['date']);
+                $data['end_date']=date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' + '.$num_of_dates.' days'));
+
+                if(isset($_POST['category'])){
+                    $data['category']=$_POST['category'];
+                }
+
+                // if(isset($_POST['show_map'])){
+                //     $data['longitude']=trim($_POST['longitude']);
+                //     $data['latitude']=trim($_POST['latitude']);
+                //     $data['address']=trim($_POST['address']);
+                    
+                // }else{
+                //     $data['longitude']='';
+                //     $data['latitude']='';
+                //     $data['address']='';
+                // }
 
                 //Validate data
                 if(empty($data['title'])){
@@ -1016,29 +1061,24 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 if(empty($data['description'])){
                     $data['description_err'] = 'Please enter description';
                 }
-                if($advertisement->product_type=='auction'){
-                    $data['price']=$advertisement->price;
+                if(empty($data['price'])){
+                    $data['price_err'] = 'Please enter price';
                 }else{
-                    $data['price']=trim($_POST['price']);
-                    if(empty($data['price'])){
-                        $data['price_err'] = 'Please enter price';
+                    if(!is_numeric($data['price'])) {
+                        $data['price_err'] = 'Please enter valid price';
                     }
                 }
+                if($data['price']<=0){
+                    $data['price_err'] = 'Please enter valid price';
+                }
                 if(empty($data['category'])){
-                    $data['category_err'] = 'Please enter category';
+                    $data['category_err'] = 'Please check atleast one category';
+                }else{
+                    $data['category']=implode(',',$data['category']);//The implode function is used to concatenate all the values of the 'category' array into a single string separated by commas.
                 }
                 if(empty($data['condition'])){
                     $data['condition_err'] = 'Please enter condition';
                 }
-                // if(empty($data['image1'])){
-                //     $data['image1_err'] = 'Please enter image1';
-                // }
-                // if(empty($data['image2'])){
-                //     $data['image2_err'] = 'Please enter image2';
-                // }
-                // if(empty($data['image3'])){
-                //     $data['image3_err'] = 'Please enter image3';
-                // }
                 if(empty($data['brand'])){
                     $data['brand_err'] = 'Please enter brand';
                 }
@@ -1048,71 +1088,255 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 if($data['price']<=0){
                     $data['price_err'] = 'Please enter valid price';
                 }
-                // if(isset($_FILES['image1'])){
-                //     $img_name = $_FILES['image1']['name'];
-                //     $img_size = $_FILES['image1']['size'];
-                //     $tmp_name = $_FILES['image1']['tmp_name'];
-                //     $error = $_FILES['image1']['error'];
+                //Image 1
+                if(!empty($_FILES['image1']['name'])){
+                    $img_name = $_FILES['image1']['name'];
+                    $img_size = $_FILES['image1']['size'];
+                    $tmp_name = $_FILES['image1']['tmp_name'];
+                    $error = $_FILES['image1']['error'];
 
-                //     if($error === 0){
-                //         if($img_size > 12500000){
-                //             $data['image1_err'] = "Sorry, your file is too large.";
-                //         }
-                //         else{
-                //             $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
-                //             $img_ex_lc = strtolower($img_ex);
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image1_err'] = "Sorry, your first image is too large.";
+                        }
+                        else{
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
 
-                //             $allowed_exs = array("jpg", "jpeg", "png"); 
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
 
-                //             if(in_array($img_ex_lc, $allowed_exs)){
-                //                 $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
-                //                 $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
-                //                 move_uploaded_file($tmp_name, $img_upload_path);
-                //                 $data['image1'] = $new_img_name;
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image1'] = $new_img_name;
+                            }
+                            else{
+                                $data['image1_err'] = "You can't upload files of this type";
+                            }
+                        }
+                    }else{
+                        $data['image1'] = $advertisement->image1;
+                    }
+                }else{
+                    $data['image1'] = $advertisement->image1;
+                }
 
-                //                 // //Insert into database
-                //                 // if($this->sellerModel->addAdvertisement($data)){
-                //                 //     flash('post_message', 'Advertisement Added');
-                //                 //     redirect('sellers/advertisements');
-                //                 // }
-                //                 // else{
-                //                 //     die('Something went wrong');
-                //                 // }
-                //             }
-                //             else{
-                //                 $data['image1_err'] = "You can't upload files of this type";
-                //             }
-                //         }
-                //     }
-                //     else{
-                //         $data['image1_err'] = "Unknown error occurred!";
-                //     }
-                // }else{
-                //     $data['image1_err'] = 'Please upload atleast one image';
-                // }
+                //Image 2
+                if(!empty($_FILES['image2']['name'])){
+                    $img_name = $_FILES['image2']['name'];
+                    $img_size = $_FILES['image2']['size'];
+                    $tmp_name = $_FILES['image2']['tmp_name'];
+                    $error = $_FILES['image2']['error'];
+
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image2_err'] = "Sorry, your second image is too large.";
+                        }
+                        else{
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
+
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image2'] = $new_img_name;
+                            }
+                            else{
+                                $data['image2_err'] = "You can't upload files of this type";
+                            }
+                        }
+                    }
+                    else{
+                        $data['image2'] = $advertisement->image2;
+
+                    }
+                 }else{
+                    $data['image2'] = $advertisement->image2;
+
+                }
+
+
+                //Image 3
+                if(!empty($_FILES['image3']['name'])){
+                    $img_name = $_FILES['image3']['name'];
+                    $img_size = $_FILES['image3']['size'];
+                    $tmp_name = $_FILES['image3']['tmp_name'];
+                    $error = $_FILES['image3']['error'];
+
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image3_err'] = "Sorry, your third image is too large.";
+                        }
+                        else{
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
+
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image3'] = $new_img_name;
+                            }
+                            else{
+                                $data['image3_err'] = "You can't upload files of this type";
+                            }
+                        }
+                    }
+                    else{
+                        $data['image3'] = $advertisement->image3;
+
+                    }
+                }else{
+                    $data['image3'] = $advertisement->image3;
+
+                }  
+                
+                //Image 4
+                if(!empty($_FILES['image4']['name'])){
+                    $img_name = $_FILES['image4']['name'];
+                    $img_size = $_FILES['image4']['size'];
+                    $tmp_name = $_FILES['image4']['tmp_name'];
+                    $error = $_FILES['image4']['error'];
+
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image4_err'] = "Sorry, your third image is too large.";
+                        }
+                        else{
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
+
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image4'] = $new_img_name;
+                            }
+                            else{
+                                $data['image4_err'] = "You can't upload files of this type";
+                            }
+                        }
+                    }
+                    else{
+                        $data['image4'] = $advertisement->image4;
+
+                    }
+                }else{
+                    $data['image4'] = $advertisement->image4;
+
+                }
+
+                //Image 5
+                if(!empty($_FILES['image5']['name'])){
+                    $img_name = $_FILES['image5']['name'];
+                    $img_size = $_FILES['image5']['size'];
+                    $tmp_name = $_FILES['image5']['tmp_name'];
+                    $error = $_FILES['image5']['error'];
+
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image5_err'] = "Sorry, your third image is too large.";
+                        }
+                        else{
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
+
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image5'] = $new_img_name;
+                            }
+                            else{
+                                $data['image5_err'] = "You can't upload files of this type";
+                            }
+                        }
+                    }
+                    else{
+                        $data['image5'] = $advertisement->image5;
+
+                    }
+                }else{
+                    $data['image5'] = $advertisement->image5;
+
+                }
+
+                //Image 6
+                if(!empty($_FILES['image6']['name'])){
+                    $img_name = $_FILES['image6']['name'];
+                    $img_size = $_FILES['image6']['size'];
+                    $tmp_name = $_FILES['image6']['tmp_name'];
+                    $error = $_FILES['image6']['error'];
+
+                    if($error === 0){
+                        if($img_size > 12500000){
+                            $data['image6_err'] = "Sorry, your third image is too large.";
+                        }
+                        else{
+                            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+                            $img_ex_lc = strtolower($img_ex);
+
+                            $allowed_exs = array("jpg", "jpeg", "png"); 
+
+                            if(in_array($img_ex_lc, $allowed_exs)){
+                                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+                                $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+                                move_uploaded_file($tmp_name, $img_upload_path);
+                                $data['image6'] = $new_img_name;
+                            }
+                            else{
+                                $data['image6_err'] = "You can't upload files of this type";
+                            }
+                        }
+                    }
+                    else{
+                        $data['image6'] = $advertisement->image6;
+
+                    }
+                }else{
+                    $data['image6'] = $advertisement->image6;
+
+                }
 
 
                 //Make sure no errors
-                if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['brand_err']) && empty($data['model_err'])){
+                if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['category_err']) && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['image4_err']) && empty($data['image5_err']) && empty($data['image6_err']) && empty($data['brand_err']) && empty($data['model_err'])){
                     //Validated
-                    if($this->sellerModel->edit_advertisement($data)){
-                        flash('product_message', 'Product Edited');
-                        $data1 = [
-                            'id' => $id,
-                            'user_email' => $_SESSION['user_email'],
-                            'title' => $data['title'],
-                            'price' => $data['price'],
-                            'image1' => $data['image1'],
-                            
-                        ];
-                        redirect('users/checkout/'.$data['id'].'/'.urlencode(json_encode($data1)));
 
+                    $dat=date('Y-m-d H:i:s');
+                    $data['date_added']=$dat;
+                    $data['date_expire']=date('Y-m-d H:i:s', strtotime($dat. ' + 90 days'));
+                    if($data['longitude']=='' && $data['latitude']==''){
+                        $data['longitude']='NULL';
+                        $data['latitude']='NULL';
+                        $data['address']='NULL';
+                    }
+                    $product_id=$this->sellerModel->advertise($data,$dat,$data['id']);
+                    if($product_id){
+                        //Change is_deleted to 1 in previous ad
+                        if($this->sellerModel->delete_prev_ad($data['id'])){
+                            //As this is a repost, no need to pay again. So updating is_paid in product to 1
+                            if($this->sellerModel->edit_ispaid($product_id)){
+                                flash('product_message', 'Product Reposted');
+                                redirect('sellers/advertisements');
+                            }
+                        }
                     } else {
                         die('Something went wrong');
                     }
                 } else {
                     //Load view with errors
-                    $this->view('sellers/complete_payment', $data);
+                    $this->view('sellers/repost', $data);
                 }
 
             } else {
@@ -1120,6 +1344,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 $advertisement=$this->sellerModel->getAdvertisementById($id);
                 //Check for owner
                 if($advertisement->email != $_SESSION['user_email']){
+                    redirect('sellers/advertisements');
+                }
+                if($advertisement->product_type!="auction"){
                     redirect('sellers/advertisements');
                 }
                 $data = [
@@ -1132,9 +1359,13 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1' => $advertisement->image1,
                     'image2' => $advertisement->image2,
                     'image3' => $advertisement->image3,
+                    'image4' => $advertisement->image4,
+                    'image5' => $advertisement->image5,
+                    'image6' => $advertisement->image6,
                     'brand' => $advertisement->brand,
                     'model' => $advertisement->model_no,
                     'category' =>$advertisement->product_category,
+                    'district' => $advertisement->district,
                     'product_type'=>$advertisement->product_type,
                     'title_err' => '',
                     'description_err' => '',
@@ -1143,17 +1374,204 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'image1_err' => '',
                     'image2_err' => '',
                     'image3_err' => '',
+                    'image4_err' => '',
+                    'image5_err' => '',
+                    'image6_err' => '',
                     'brand_err' => '',
                     'model_err' => '',
                     'category_err' => ''
                 ];
-                
+                $user_id=$this->sellerModel->getUserId($data['user_email']);
+                $data['user_id']=$user_id->user_id;
 
-                $this->view('sellers/complete_payment', $data);
+                $this->view('sellers/repost', $data);
             }
 
             
         }
+
+
+        // public function complete_payment($id){
+        //     if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        //         //Sanitize POST array
+        //         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+        //         $advertisement=$this->sellerModel->getAdvertisementById($id);
+        //         //Check for owner
+        //         if($advertisement->email != $_SESSION['user_email']){
+        //             redirect('sellers/advertisements');
+        //         }
+        //         $data = [
+        //             'id' => $id,
+        //             'user_email' => $_SESSION['user_email'],
+        //             'title' => trim($_POST['title']),
+        //             'description' => trim($_POST['description']),
+        //             'price' => '',
+        //             'condition' => trim($_POST['condition']),
+        //             'image1' => $advertisement->image1,
+        //             'image2' => '',
+        //             'image3' => '',
+        //             'brand' => trim($_POST['brand']),
+        //             'model' => trim($_POST['model']),
+        //             'category' =>trim($_POST['category']),
+        //             'title_err' => '',
+        //             'description_err' => '',
+        //             'price_err' => '',
+        //             'condition_err' => '',
+        //             'image1_err' => '',
+        //             'image2_err' => '',
+        //             'image3_err' => '',
+        //             'brand_err' => '',
+        //             'model_err' => '',
+        //             'category_err' => ''
+        //         ];
+
+
+        //         //Validate data
+        //         if(empty($data['title'])){
+        //             $data['title_err'] = 'Please enter title';
+        //         }
+        //         if(empty($data['description'])){
+        //             $data['description_err'] = 'Please enter description';
+        //         }
+        //         if($advertisement->product_type=='auction'){
+        //             $data['price']=$advertisement->price;
+        //         }else{
+        //             $data['price']=trim($_POST['price']);
+        //             if(empty($data['price'])){
+        //                 $data['price_err'] = 'Please enter price';
+        //             }
+        //         }
+        //         if(empty($data['category'])){
+        //             $data['category_err'] = 'Please enter category';
+        //         }
+        //         if(empty($data['condition'])){
+        //             $data['condition_err'] = 'Please enter condition';
+        //         }
+        //         // if(empty($data['image1'])){
+        //         //     $data['image1_err'] = 'Please enter image1';
+        //         // }
+        //         // if(empty($data['image2'])){
+        //         //     $data['image2_err'] = 'Please enter image2';
+        //         // }
+        //         // if(empty($data['image3'])){
+        //         //     $data['image3_err'] = 'Please enter image3';
+        //         // }
+        //         if(empty($data['brand'])){
+        //             $data['brand_err'] = 'Please enter brand';
+        //         }
+        //         if(empty($data['model'])){
+        //             $data['model_err'] = 'Please enter model';
+        //         }
+        //         if($data['price']<=0){
+        //             $data['price_err'] = 'Please enter valid price';
+        //         }
+        //         // if(isset($_FILES['image1'])){
+        //         //     $img_name = $_FILES['image1']['name'];
+        //         //     $img_size = $_FILES['image1']['size'];
+        //         //     $tmp_name = $_FILES['image1']['tmp_name'];
+        //         //     $error = $_FILES['image1']['error'];
+
+        //         //     if($error === 0){
+        //         //         if($img_size > 12500000){
+        //         //             $data['image1_err'] = "Sorry, your file is too large.";
+        //         //         }
+        //         //         else{
+        //         //             $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
+        //         //             $img_ex_lc = strtolower($img_ex);
+
+        //         //             $allowed_exs = array("jpg", "jpeg", "png"); 
+
+        //         //             if(in_array($img_ex_lc, $allowed_exs)){
+        //         //                 $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+        //         //                 $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
+        //         //                 move_uploaded_file($tmp_name, $img_upload_path);
+        //         //                 $data['image1'] = $new_img_name;
+
+        //         //                 // //Insert into database
+        //         //                 // if($this->sellerModel->addAdvertisement($data)){
+        //         //                 //     flash('post_message', 'Advertisement Added');
+        //         //                 //     redirect('sellers/advertisements');
+        //         //                 // }
+        //         //                 // else{
+        //         //                 //     die('Something went wrong');
+        //         //                 // }
+        //         //             }
+        //         //             else{
+        //         //                 $data['image1_err'] = "You can't upload files of this type";
+        //         //             }
+        //         //         }
+        //         //     }
+        //         //     else{
+        //         //         $data['image1_err'] = "Unknown error occurred!";
+        //         //     }
+        //         // }else{
+        //         //     $data['image1_err'] = 'Please upload atleast one image';
+        //         // }
+
+
+        //         //Make sure no errors
+        //         if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['brand_err']) && empty($data['model_err'])){
+        //             //Validated
+        //             if($this->sellerModel->edit_advertisement($data)){
+        //                 flash('product_message', 'Product Edited');
+        //                 $data1 = [
+        //                     'id' => $id,
+        //                     'user_email' => $_SESSION['user_email'],
+        //                     'title' => $data['title'],
+        //                     'price' => $data['price'],
+        //                     'image1' => $data['image1'],
+                            
+        //                 ];
+        //                 redirect('users/checkout/'.$data['id'].'/'.urlencode(json_encode($data1)));
+
+        //             } else {
+        //                 die('Something went wrong');
+        //             }
+        //         } else {
+        //             //Load view with errors
+        //             $this->view('sellers/complete_payment', $data);
+        //         }
+
+        //     } else {
+        //         //Get existing post from model
+        //         $advertisement=$this->sellerModel->getAdvertisementById($id);
+        //         //Check for owner
+        //         if($advertisement->email != $_SESSION['user_email']){
+        //             redirect('sellers/advertisements');
+        //         }
+        //         $data = [
+        //             'id' => $id,
+        //             'user_email' => $advertisement->email,
+        //             'title' => $advertisement->product_title,
+        //             'description' => $advertisement->p_description,
+        //             'price' => $advertisement->price,
+        //             'condition' => $advertisement->product_condition,
+        //             'image1' => $advertisement->image1,
+        //             'image2' => $advertisement->image2,
+        //             'image3' => $advertisement->image3,
+        //             'brand' => $advertisement->brand,
+        //             'model' => $advertisement->model_no,
+        //             'category' =>$advertisement->product_category,
+        //             'product_type'=>$advertisement->product_type,
+        //             'title_err' => '',
+        //             'description_err' => '',
+        //             'price_err' => '',
+        //             'condition_err' => '',
+        //             'image1_err' => '',
+        //             'image2_err' => '',
+        //             'image3_err' => '',
+        //             'brand_err' => '',
+        //             'model_err' => '',
+        //             'category_err' => ''
+        //         ];
+                
+
+        //         $this->view('sellers/complete_payment', $data);
+        //     }
+
+            
+        // }
 
         public function delete_advertisement($id){
             // if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -1176,10 +1594,11 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
         public function bid_list($id){
             //Gets advertisement details
-            $ad = $this->sellerModel->getAdvertiesmentById($id);
-
+            $ad = $this->sellerModel->getAdvertiesmentById($id);//Advertiesement details
+            $reposted=$this->sellerModel->getRepostById($id); //If reposted=1, that means this product is reposted
+            $data['reposted']=$reposted;
             if(isLoggedIn()){
-                if($ad->email != $_SESSION['user_email']){
+                if($ad->email != $_SESSION['user_email']){//If not the owner of the posted advertisement
                         $_SESSION['url'] = URL();
                         redirect('users/login');
                     }
@@ -1189,25 +1608,16 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             }
 
             $data['ad'] = $ad;
-  
-            $auction = $this->sellerModel->getAuctionById_withfinished($id);
+            $auction = $this->sellerModel->getAuctionById_withfinished($id); //Gets the auction details of the product(Not need to check whether the auction is finished or not)
             $data['auction'] = $auction;
             
-            $auction_details = $this -> sellerModel->getAuctionDetails($id);
+            $auction_details = $this -> sellerModel->getAuctionDetails($id); //Gets all the current placed bids 
             $auctions_details_no_rows= $this -> sellerModel->getAuctionDetailsNoRows($id);
 
            
 
             $data['check']=0;
-            // $bid_list = $this->userModel->getBidList($bid_id);
-            // $data['bid_list'] = $bid_list;
-            // if($bid_list!=NULL){
-            //     if(date('Y-m-d H:i:s', strtotime($bid_list->time. ' + 5 days'))<date('Y-m-d H:i:s')){
-            //         $this->userModel->updateBidStatus($bid_list->bid_id);
-            //     }
-            // }
-            //   $data['bid_list_no_rows'] = $bid_list->num_rows;
-            
+            $data['auctions_no_rows'] ='';
             if($auction_details){
               $data['auctions'] =$auction_details;
               $data['auctions_no_rows'] =$auctions_details_no_rows;
@@ -1245,6 +1655,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
           //   $this->view('users/bid',$data);
   
               //Load view
+            //   print_r($data);
+            //   exit();
+
               $this->view('sellers/bid_list', $data);
   
         }
@@ -1298,11 +1711,112 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             
         }
         public function dashboard(){
-            $data['likes_dislikes']=$this->sellerModel->sellerDetailsWithLikeDislikeCount($_SESSION['user_email']);
+            // $data['likes_dislikes']=$this->sellerModel->sellerDetailsWithLikeDislikeCount($_SESSION['user_email']);
             $data['no_auctions']=$this->sellerModel->sellerNoAuctions($_SESSION['user_email']);
+            $data['no_fixed_ads']=$this->sellerModel->sellerNoFixedAds($_SESSION['user_email']);
             $data['no_views']=$this->sellerModel->sellerNoViews($_SESSION['user_email']);
+            $data['feedbackcount']=$this->sellerModel->getFeedbacksCount($_SESSION['user_email']);
+            //View count with dates
+            $data['view_count']=$this->sellerModel->getViewsCount($_SESSION['user_email']);
+            if($data['view_count']==false){
+                $data['view_count']=0;
+                $data['empty_view_count']=1;
+
+            }else{
+                $data['empty_view_count']=0;
+            }
+            //Likes count with dates
+            $data['likes_dates']=$this->sellerModel->sellerDetailsWithLikeCountDates($_SESSION['user_email']);
+            if(!$data['likes_dates']){
+                $data['likes_dates']=0;
+                $data['empty_likes_dates']=1;
+                $data['likes_date'] = [];
+                $data['likes_counts'] = [];
+                $data['startDate']= new DateTime(date('Y-m-d H:i:s'));
+                $data['endDate']= clone $data['startDate'];
+            }else{
+                $data['startDate'] = new DateTime($data['likes_dates'][0]->date);
+                $data['endDate'] = clone $data['startDate'];
+                $data['endDate']->modify('+3 months');
+                $data['likes_date'] = [];
+                $data['empty_likes_dates']=0;
+                $data['likes_counts'] = [];
+                foreach ($data['likes_dates'] as $item) {
+                    $data['likes_date'][] = $item->date;
+                    $data['likes_counts'][] = $item->count;
+                }
+            }
+            //Dislikes count with dates
+            $data['dislikes_dates']=$this->sellerModel->sellerDetailsWithDislikeCountDates($_SESSION['user_email']);
+            if(!$data['dislikes_dates']){
+                $data['dislikes_dates']=0;
+                $data['empty_dislikes_dates']=1;
+                $data['dislikes_date'] = [];
+                $data['dislikes_counts'] = [];
+                $data['startDate_dislikes']= new DateTime(date('Y-m-d H:i:s'));
+                $data['endDate_dislikes']= clone $data['startDate_dislikes'];
+            }else{
+                $data['startDate_dislikes'] = new DateTime($data['dislikes_dates'][0]->date);
+                $data['endDate_dislikes'] = clone $data['startDate_dislikes'];
+                $data['endDate_dislikes']->modify('+3 months');
+                $data['dislikes_date'] = [];
+                $data['empty_dislikes_dates']=0;
+                $data['dislikes_counts'] = [];
+                foreach ($data['dislikes_dates'] as $item) {
+                    $data['dislikes_date'][] = $item->date;
+                    $data['dislikes_counts'][] = $item->count;
+                }
+            }
+
+            //Feedbacks count with related to rate
+            $data['feedbacks_rate']=$this->sellerModel->getFeedbacksRate($_SESSION['user_email']);
+            //Products count
+            $data['products_count']=$this->sellerModel->getProductsCount($_SESSION['user_email']);
+
+
             $this->view('sellers/dashboard',$data);
         }
+
+        public function rateBuyer(){
+
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            $email_seller = $data['email_seller'];
+            $email_buyer = $data['email_buyer'];
+            $product_id = $data['product_id'];
+            $rating = $data['rating'] ?? 0;
+            $review = $data['review'];
+
+            $results2 = '';
+            $results3 = '';
+            // echo $rating;
+            // echo $buyer_id;
+            // echo $seller;
+            $results1 = $this->sellerModel->checkAddedRate($email_seller, $email_buyer,$product_id);
+
+
+
+            $date=date('Y-m-d H:i:s');
+            if( empty($results1) ){
+                $results2 = $this-> sellerModel->rateBuyer($email_seller, $email_buyer,$product_id, $rating, $review, $date);
+            }
+            else{
+                $results3 = $this->sellerModel->updateBuyerRate($email_seller, $email_buyer,$product_id, $rating, $review, $date);
+            }
+            $results4 = $this->sellerModel->getRateReceiversFinalRate($email_buyer);
+            flash('rating_message', 'Rating added successfully');
+            // ,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3
+           
+            // print_r(['message' => 'Rating saved','results4'=>$results4,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
+            // exit();
+            echo json_encode(['message' => 'Rating saved','results4'=>$results4,'result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
+            // echo json_encode(['message' => 'Rating saved','result1'=>$results1,'result2'=>$results2,'result3'=>$results3]);
+
+
+        }
+
+
+
 
         
         

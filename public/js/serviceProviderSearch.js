@@ -36,8 +36,8 @@ inputField.addEventListener("keyup", (e) =>{
         for (var i = 0; i < data.results.length; i++) {
 
             var result = data.results[i];
-            var profile_img = result.profile_pic ;
-            var imgLink = "<img src=" + URLROOT+"/public/uploads/"+profile_img +">";
+
+            var imgLink = "<img src=" + URLROOT+"/public/uploads/Profile/"+result.profile_image +">";
 
             var link = "<a href ="+ URLROOT+"/users/serviceProviderPublic/?id="+result.user_id+ " >";
             html += "<tr>"+
@@ -90,14 +90,26 @@ soundEngineersSearchForm.addEventListener("submit", (e) =>{
                     var result = data.results[i];
 
                     // var profile_image = result.profile_pic ;
-                    var imgLink = "<img src=" + URLROOT+"/public/uploads/Profile/"+`result.profile_image` +">";
+                    var imgLink = "<img src=" + URLROOT+"/public/uploads/Profile/"+result.profile_image +">";
 
                     var link = "<a href ="+ URLROOT+"/users/serviceProviderPublic/?id="+result.user_id+ " >";
+
+                    // to display full stars
+                    let strarsFull = '';
+                    for(var i = 0; i< Math.floor(result.Rating); i++ ){
+                        strarsFull += "<i class='fa fa-star'></i>";
+                    }
+
+                    // to display half stars
+                    let halfStars = '';
+                    if (result.Rating.indexOf('.') !== -1) {
+                        halfStars = '<i class="fa fa-star-half-o"></i>';
+                    }
 
                     html += "<div class = 'sound-eng-profiles'>"+ 
                                 "<div class = 'profile-image'>"+ link+imgLink +"</a></div>"+
                                 "<div class ='profile-data'>"+ result.first_name+" "+result.second_name +"<br>"+"<p id ='profession'>"+result.profession+"</p></div>"+
-                                "<div class = 'rating-stars'><span class ='rate'>"+result.rate+"</span>"+"</div>"+
+                                "<div class = 'rating-stars'><span class ='rate'>"+result.Rating+ strarsFull+halfStars+"</span>"+"</div>"+
                             "</div>" ;
                         
                 }
