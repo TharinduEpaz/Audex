@@ -61,13 +61,17 @@
                 </div>
                 <div class="profile-description name-rating">
                     <p id="profession">
+                    
                         <?php echo $data['details']->profession; ?>
+                        <input type="hidden" value="http://localhost/Audex/users/serviceProviderPublic?id=<?php echo $data['details']->user_id?>" id="myInput">
+                        <button onclick="myFunction()" style="margin-left:20px" class="add-event-btn">Copy public link</button>
                     </p>
+
                     <?php echo $data['details']->description; ?>
                 </div>
             </div>
             <p id="upcoming">Upcoming Events</p>
-            <button class="add-event-btn" onclick="addMoreEvents()">Add More Events</button>
+            <button class="add-event-btn" onclick="addMoreEvents()"><i class="fa fa-plus" aria-hidden="true"></i></button>
             <div class="lower-section profile-title">
                 <div class="profile-events">
                     <?php foreach ($data['events'] as $event) : ?>
@@ -82,7 +86,7 @@
                 </div>
             </div>
             <p id="upcoming">Recent Feed Posts</p>
-            <button class="add-event-btn" onclick="addMorePosts()">Add New Post</button>
+            <button class="add-event-btn" onclick="addMorePosts()"><i class="fa fa-plus" aria-hidden="true"></i></button>
             <div class="lower-section profile-title">
                 <div class="profile-events">
                     <?php foreach ($data['posts'] as $post) : ?>
@@ -176,6 +180,21 @@
         document.querySelector('.name-rating').innerHTML = "<p style='color:red'>Please complete your profile in settings</p>";
     }
   
+
+    function myFunction() {
+  // Get the text field
+  var copyText = document.getElementById("myInput");
+
+  // Select the text field
+  copyText.select();
+  
+
+   // Copy the text inside the text field
+  navigator.clipboard.writeText(copyText.value);
+
+  // Alert the copied text
+//   alert("Copied the text: " + copyText.value);
+}
 
 
     
