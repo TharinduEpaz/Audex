@@ -1,0 +1,138 @@
+.whitebox1 {
+    background-color: rgb(255, 255, 255);
+    min-height: 80vh;
+    height: auto;
+    border-radius: 30px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column ;
+    justify-content: left;
+    /* align-items: center; */
+}
+
+.whitebox1 .view-report{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
+
+.view-report-btn{
+    margin-left: 20px;
+    padding: 10px 20px;
+    background-color: #2e3ac2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+.view-report h4{
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.payment-detail {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .payment-detail th,
+  .payment-detail td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .payment-detail th {
+    background-color: #f2f2f2;
+  }
+  
+  .payment-detail tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .payment-detail tbody tr:hover {
+    background-color: #e5e5e5;
+  }
+  
+  .print-btn{
+    margin-left: 20px;
+    padding: 10px 20px;
+    background-color: #c73a3a;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size:18px;
+  }
+
+  .print-button-area{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    padding-bottom: 20px;
+
+  }
+
+  #payment_detail_table tbody tr:last-child td {
+    font-weight: bold;
+    font-size: 30px;
+    padding-top: 20px;
+  }
+  
+  .cardBox{
+    position:relative;
+    width: 100%;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-gap:30px;
+  }
+
+  .cardBox .card{
+    position: relative;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    box-shadow: 0 7px 25px rgba(0,0,0,0.08); 
+  }
+
+  .cardBox .card .numbers{
+    position: relative;
+    font-weight: 500;
+    font-size: 2.5em;
+    color: rgb(25, 119, 233);  
+  } 
+
+  .cardBox .card .cardName{
+    color: rgb(91, 89, 89);
+    font-size: 1.1em;
+    margin-top: 5px;
+  }
+
+  .cardBox .card .iconBox{
+    font-size: 2em;
+    color: black;
+  }
+
+ .cardBox .card:hover{
+  background: rgb(25, 119, 233);
+ }
+
+ .cardBox .card:hover .numbers,
+ .cardBox .card:hover .cardName,
+ .cardBox .card:hover .iconBox{
+  color: white;
+ }
+
+ .charts{
+  height: 20px;
+  width: 100%;
+  background-color: #808189;
+ }

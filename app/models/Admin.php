@@ -113,6 +113,24 @@
             }
 
 
+
+
+            public function getreportdetails(){
+
+                $this->db->query('SELECT * FROM payment');
+                $reportdetails= $this->db->resultSet();
+                return $reportdetails;
+            }
+
+
+
+            public function gettotalpayment(){
+
+                $this->db->query('SELECT SUM(amount) AS total FROM payment');
+                $reportdetails= $this->db->single();
+                return $reportdetails;
+            }
+
     }
 
 
