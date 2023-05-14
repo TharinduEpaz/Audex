@@ -326,7 +326,7 @@
             var dislik = <?php echo json_encode($data['empty_dislikes_dates']); ?>;
             if(lik==1){ //Checks for $data['likes_dates'] is empty 
               console.log(lik+"empty"+dislik);
-              var likes_labels = ["2023-01-01","2023-02-01","2023-03-01","2023-04-01","2023-05-01","2023-06-01","2023-07-01","2023-08-01"];
+              var likes_labels = ["2023-01-01","2023-01-02","2023-01-03","2023-01-04","2023-01-05","2023-01-06","2023-01-07","2023-01-08"];
               var likes_data = ["0","0","0","0","0","0","0","0"];
             }else{ //$data['likes_date'] is not empty
               // Retrieve the data passed from the controller
@@ -353,7 +353,7 @@
             }
             if(dislik==1){ //Checks for $data['dislikes_dates'] is empty 
               console.log(lik+"notempty"+dislik);
-              var dislikes_labels = ["2023-01-01","2023-02-01","2023-03-01","2023-04-01","2023-05-01","2023-06-01","2023-07-01","2023-08-01"];
+              var dislikes_labels = ["2023-01-01","2023-01-02","2023-01-03","2023-01-04","2023-01-05","2023-01-06","2023-01-07","2023-01-08"];
               var dislikes_data = ["0","0","0","0","0","0","0","0"];
             }else{ //$data['dislikes_date'] is not empty
               var dislikes_startDate = '<?php echo $data['startDate_dislikes']->format('Y-m-d'); ?>';
@@ -411,7 +411,7 @@
                   },
                   title: {
                     display: true,
-                    text: 'Total likes/dislikes per day for 3 months',
+                    text: 'Total likes/dislikes per day for a month',
                         color: 'black',
                         font: {
                           size: 14

@@ -216,12 +216,7 @@
             
             <div class="seller-detais">
                 <h2 style="text-align: center;width:115%;margin-left: 20%;"><?php 
-                            if( empty($data['seller']->shop_name )){
                                 echo 'Seller';
-                            }
-                            else{
-                                echo 'Shop';
-                            }
                         ?> Details</h2>
                         
 
@@ -231,7 +226,7 @@
 
                             
                 <div class="top_details">
-                        <div class="profile_img" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['SellerMoreDetails']->profile_pic;?>)">
+                        <div class="profile_img" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['SellerMoreDetails']->profile_pic;?>);background-size: cover;">
                             <!-- <img src="<?php echo URLROOT . '/public/uploads/'.$data['SellerMoreDetails']->profile_pic;?>" alt="Profile Picture"> -->
                         </div>
                         <div class="other_details_profile">
@@ -267,9 +262,6 @@
                                 </div>
                             </div>
                             <div class="likes_dislikes">
-                                <div class="flags">
-                                    <i class="fa-sharp fa-solid fa-flag"> : 0 </i>
-                                </div>
                             </div>
                         </div>
                     </div>

@@ -68,7 +68,7 @@ function debounce(func, delay) {
               for (var i = 0; i < data.results.length; i++) {
                   // console.log('come here to loop',i);
                   var result = data.results[i];
-                  var imgLink = "<img src=" + URLROOT+"/public/uploads/Profile/"+ result.image1 +">";
+                  var imgLink = "<img src=" + URLROOT+"/public/uploads/Profile/"+ result.profile_image +">";
 
                   var link = "<a href ="+ URLROOT+"/users/serviceProviderPublic/?id="+result.user_id+ " >";
 
@@ -114,7 +114,7 @@ function debounce(func, delay) {
               else{
                   // no filters applied so redirect to sound engineers page
                   console.log(data.results.length, data.message);
-                  // window.location.href = URLROOT+'/users/sound_engineers/';
+                  window.location.href = URLROOT+'/users/sound_engineers/';
               }
           }
    

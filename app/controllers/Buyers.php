@@ -98,10 +98,14 @@
       if ($details->user_id != $_SESSION['user_id']) {
         redirect('users/index');
       }
-
-      $feedbacks=$this->userModel->getFeedbacks($details->email);
-      $feedbackcount=$this->buyerModel->getFeedbacksCount($details->email);
-
+      $feedbacks_normal=$this->buyerModel->getFeedbacks($details->email);
+      $feedbacks_seller_rated=$this->buyerModel->getFeedbacks_seller_rated($details->email);
+      $feedbacks = array_merge($feedbacks_normal, $feedbacks_seller_rated);
+      
+      $feedbackcount_normal=$this->buyerModel->getFeedbacksCount($details->email);
+      $feedbackcount_seller_rated=$this->buyerModel->getFeedbacksCount_seller_rated($details->email);
+      $feedbackcount = $feedbackcount_normal + $feedbackcount_seller_rated;
+                
       $data =[
         'id' => $id,
         'user' => $details,

@@ -22,7 +22,7 @@
                 <a href="<?php echo URLROOT;?>/admins/manageuser"> <i class="fa fa-cog" aria-hidden="true"></i><span>Manage Users</span></a>
                 <a href="#"> <i class="fas fa-bookmark" aria-hidden="true"></i><span>Flags</span></a>
                 <a href="#"> <i class="fas fa-check-circle" aria-hidden="true"></i><span>Approvals</span></a>
-                <a href="#"> <i class="fas fa-child"></i><span>Help</span></a>       
+                <!-- <a href="#"> <i class="fas fa-child"></i><span>Help</span></a>        -->
         </div>
         <div class="poster_advertisements">
             <h1>Profile Details</h1>

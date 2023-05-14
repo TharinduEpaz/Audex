@@ -25,6 +25,7 @@
       /* border: 8px solid #DCDCDC; */
       width: 100px;
       height: 100px;
+      object-fit: cover;
     }
     .upload .rightRound{
       position: absolute;
@@ -129,10 +130,6 @@
                             </div>
                         </div>
                         <div class="likes_dislikes">
-                            <div class="flags">
-                            <i class="fa-sharp fa-solid fa-flag"> : 0</i>
-
-                            </div>
                         </div>
                     </div>
                 </div>
