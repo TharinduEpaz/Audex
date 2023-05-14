@@ -1,0 +1,165 @@
+.approval_title {
+    margin-top: 20px;
+    margin-bottom:30px; /* Add a margin at the bottom */
+  }
+  
+  .table_container {
+    width: 100%;
+    overflow-x: auto;
+    position: relative;
+  }
+  
+  .serviceprovider_request {
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  .serviceprovider_request th,
+  .serviceprovider_request td {
+    padding: 8px;
+    text-align: left;
+    white-space: nowrap;
+    /*overflow: hidden;*/
+    text-overflow: ellipsis;
+  }
+  
+  .serviceprovider_request th:nth-child(4),
+  .serviceprovider_request td:nth-child(4) {
+    text-align: center;
+  }
+
+  .serviceprovider_request th:nth-child(5){
+    text-align: left;
+  }
+  
+  .btn-container {
+    display: flex;
+    justify-content: flex-start;
+  }
+  
+  .view-button {
+    padding: 5px 10px;
+    background-color: #337ab7;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .approve-button {
+    padding: 5px 10px;
+    background-color: #06740b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  .ignore-button {
+    padding: 5px 10px;
+    background-color: #ef3824;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  /* modal form */
+
+  .ignore-form {
+      display: grid;
+      grid-template-columns: auto;
+      grid-gap: 10px;
+      margin-top: 60px;
+      width: 90%;
+      height: 250px;
+      padding: 15px;
+      background-color: rgb(228 235 229);
+      border-radius: 5px;
+      margin-left: 25px;
+  }
+  
+  button[type="submit"] {
+    display: block;
+    width: 80%;
+    padding: 10px;
+    background-color: #ee5151;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 50px;
+  }
+
+  .form-display1{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin: 5px 20px 20px 20px;
+    width: 95%;
+    height: auto;
+    background-color: white;
+    border-radius: 1.4rem;
+  }
+
+
+
+  .pdf-approve {
+    margin-bottom: 20px;
+  }
+  
+  .form-ignore{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 10px;
+    
+  }
+
+  
+
+  .section_1 input[type="text"],
+.section_1 input[type="submit"] {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+}
+
+.section_1 .form-approve input[type="submit"] {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+.section_1 .form-ignore input[type="submit"] {
+  background-color: #d72828;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.section_1 .form-approve input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+
+.section_1 .form-ignore input[type="submit"]:hover {
+  background-color: #c13636;
+}
+
+#back_btn {
+  background-color: #434acf;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#back_btn:hover {
+  background-color: #999;
+}

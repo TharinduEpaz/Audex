@@ -146,6 +146,119 @@ body{
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+.image{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: flex-end;
+    margin-right: 5vh;
+}
+.image p{
+  color: black;
+  margin-right: 3vw;
+font-weight: 300;
+}
+#image_1{
+  border: 1px solid black;
+    height: 8vw;
+    width: 8vw;
+    margin-right: 1vw;
+    margin-bottom: 2vh;
+    border-radius: 10px;
+    padding: 2%;
+    display: none;
+}
+#image_2{
+  border: 1px solid black;
+    height: 8vw;
+    width: 8vw;
+    margin-right: 1vw;
+    margin-bottom: 2vh;
+    border-radius: 10px;
+    padding: 2%;
+    display: none;
+}
+#image_3{
+  border: 1px solid black;
+    height: 8vw;
+    width: 8vw;
+    margin-right: 1vw;
+    margin-bottom: 2vh;
+    border-radius: 10px;
+    padding: 2%;
+    display: none;
+}
+#image_4{
+  border: 1px solid black;
+    height: 8vw;
+    width: 8vw;
+    margin-right: 1vw;
+    margin-bottom: 2vh;
+    border-radius: 10px;
+    padding: 2%;
+    display: none;
+}
+#image_5{
+  border: 1px solid black;
+    height: 8vw;
+    width: 8vw;
+    margin-right: 1vw;
+    margin-bottom: 2vh;
+    border-radius: 10px;
+    padding: 2%;
+    display: none;
+}
+#image_6{
+  border: 1px solid black;
+    height: 8vw;
+    width: 8vw;
+    margin-right: 1vw;
+    margin-bottom: 2vh;
+    border-radius: 10px;
+    padding: 2%;
+    display: none;
+}
+.img{
+  height: 40px;
+  width: 40px;
+  margin-right: 5px;
+  border: 1px solid black;
+}
+.img_input{
+  position: absolute;
+    background: #00B4FF;
+    width: 32px;
+    height: 32px;
+    line-height: 33px;
+    text-align: center;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+.img_input input{
+  position: absolute;
+  transform: scale(2);
+  opacity: 0;
+}
+.img_input i{
+  color: white;
+  /* font-size: 20px; */
+}
+#cancel1,#cancel2,#cancel3,#cancel4,#cancel5,#cancel6{
+  /* display: inherit;  */
+    margin-right: -3vw;
+    /* margin-left: 30vw; */
+    width: 32px;
+    height: 32px;
+    line-height: 25px;
+    text-align: left;
+    border-radius: 50%;
+    position: absolute;
 }
 .fa-solid{
 }
@@ -184,6 +297,7 @@ body{
 .post:hover{
     background: #F01131;
     border: 1px solid #F01131;
+    cursor: pointer;
 }
 .cancel{
     background: #F01131;
@@ -218,4 +332,114 @@ body{
   .add{
     margin-right: 1%;
   }
+  }
+
+  
+  .modal {
+	  display: none;
+	  position: fixed;
+	  z-index: 1;
+	  left: 0;
+	  top: 0;
+	  width: 100%;
+	  height: 100%;
+	  overflow: auto;
+	  background-color: rgba(0, 0, 0, 0.4);
+	}
+  
+	.modal-content {
+    background-color: #fefefe;
+	  margin: 6% auto;
+	  padding: 20px;
+	  border: 1px solid #888;
+	  width: 65%;
+    height: 80%;
+	}
+  
+
+	.close {
+	  color: #aaa;
+	  float: right;
+	  font-size: 28px;
+	  font-weight: bold;
+	}
+
+	.close:hover,
+	.close:focus {
+	  color: black;
+	  text-decoration: none;
+	  cursor: pointer;
+	}
+
+  #floating-panel {
+    position: absolute;
+    top: 10px;
+    left: 25%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: "Roboto", "sans-serif";
+    line-height: 30px;
+    padding-left: 10px;
+  }
+  
+  #floating-panel {
+    position: absolute;
+    top: 5px;
+    left: 45%;
+    margin-left: -180px;
+    width: 550px;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    margin-top: 6vh;
+    font-weight: 800;
+    color: white;
+    text-decoration: none;
+  }
+  #floating-panel input{
+    width: 100%;
+    height: 4vh;
+    font-size: 12pt;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: .5vh;
+  }
+  #html_content .post{
+    color: white;
+    width: 200px;
+    text-align: center;
+    height: 40px;
+    padding-top: 10px;
+    margin-left: 45%;
+  }
+  #floating-panel a{
+  background: #002EF9;
+    color: white;
+    padding: 0.5% 2%;
+    text-align: center;
+    padding: auto;
+    border-radius: 10px;
+    border: 1px solid #002EF9;
+    font-weight: 600;
+  }
+  #floating-panel a:hover{
+    background: #F01131;
+    border: 1px solid #F01131;
+    color: white;
+  }
+  @media(max-width:1200px){
+  }
+  @media (max-width:768px){
+  }
+  @media (max-width:576px){
+    .input{
+      flex-wrap: wrap;
+    }
+    #forms h1{
+      margin-left: 0px;
+    }
   }

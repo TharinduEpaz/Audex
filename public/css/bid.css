@@ -26,14 +26,14 @@
     color: red;
 }
 .add_bid{
-    width: 130%;
+    /* width: 130%; */
 }
 .add_bid1{
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: -1vh;
+    margin: 1vh;
 }
 .time{
     display: flex;
@@ -92,10 +92,14 @@
     box-shadow: 0 0 10px #000;
   }
   .close{
-        width: 85px;
-        height: 30px;
-        font-size: 12pt;
-        font-weight: 900;
+    width: 85px;
+    height: 30px;
+    font-size: 12pt;
+    font-weight: 400;
+    border: none;
+    border-radius: 10px;
+    background: gray;
+    color: white;
   }
   .close:hover{
     cursor: pointer;
@@ -107,22 +111,17 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    padding-top: 3vh;
+    /* padding-top: 3vh; */
 }
 .bid .bid_button{
-    width: 100px;
-    border: 1px solid black;
-    /* flex-basis: 10%; */
-    margin-left: 20px;
-    margin-bottom: 2vh;
-    background: #002EF9;
-    height: 5vh;
-    width: 80px;
+    width: 85px;
+    height: 30px;
+    font-size: 12pt;
+    font-weight: 400;
+    border: none;
+    border-radius: 10px;
+    background: gray;
     color: white;
-    padding: 1vh 2% 1vh 2%;
-    border-radius: 5px;
-    /* float: right; */
-    margin-left: 10%;
 
 }
 .bid .bid_button:hover{
@@ -143,4 +142,17 @@
     padding-top: 1vh;
     margin-left: 25%;
     margin-top: -2vh;
+}
+@media(max-width:1200px){
+}
+@media (max-width:768px){
+    .auction_details{
+        margin-top: 5vh;
+    }
+    .pop_up{
+        height:fit-content;
+        width: fit-content;
+    }
+}
+@media (max-width:576px){
 }

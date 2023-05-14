@@ -3,20 +3,85 @@
         <label for="check" class="checkbtn">
             <i class="fas fa-bars"></i>
         </label>
-        <a href="<?php echo URLROOT;?>/users/index"><img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo"></a>
+        <div class="switch">
+            <a href="<?php echo URLROOT;?>/users/index"><img src="<?php echo URLROOT . '/public/img/image 1.png';?>" alt="logo"></a>
+            <?php if(isLoggedIn() && $_SESSION['user_type']!='admin'){
+                    if($_SESSION['user_type']!='seller'  ){?>
+                    <div class="switch_container">
+                        <div class="toggle">
+                            <!-- <h1>Toggle Switch</h1> -->
+                            <label class="toggle_switch">
+                                <input type="checkbox" id="example">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle_a">
+                            <div>
+                            <?php if($_SESSION['user_type']=='service_provider'){?>
+                                    <span>Service<br>Provider</span>
+                                <?php }else{?>
+                                <span><?php echo ucwords($_SESSION['user_type']);?></span>
+                                <?php }?>
+                            </div>
+                            <div>
+                                <span>Seller</span>
+                            </div>
+                        </div>
+                        <!-- <span class="toggle_a">Switch <br>to <br>Selling</span> -->
+
+                    </div>
+                        <!-- <span class="toggle_a">Switch <br>to <br>Selling</span> -->
+                        <!-- <a  href="<?php echo URLROOT;?>/users/switch_user"> switch to <br>selling</a> -->
+            <?php }elseif($_SESSION['user_type']=='seller' && $_SESSION['prev_user_type']!=''){ ?>
+                        
+                        <div class="switch_container">
+                        <div class="toggle">
+                            <!-- <h1>Toggle Switch</h1> -->
+                            <label class="toggle_switch">
+                                <input type="checkbox" id="example" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle_a">
+                            <div>
+                                <?php if($_SESSION['prev_user_type']=='service_provider'){?>
+                                    <span>Service<br>Provider</span>
+                                    <?php }else{?>
+                                        <span><?php echo ucwords($_SESSION['prev_user_type']);?></span>
+                                        <?php }?>
+                                    </div>
+                                    <div>
+                                        <span>Seller</span>
+                                    </div>
+                        </div>
+                        <!-- <span class="toggle_a">Switch <br>to <br>Selling</span> -->
+
+                    </div>
+                        <!-- <span class="toggle_a">Switch <br>to <br><?php echo ucwords($_SESSION['prev_user_type']);?></span> -->
+                        <!-- <a href="<?php echo URLROOT;?>/users/switch_user"> switch to <?php echo ucwords($_SESSION['prev_user_type']);?></a> -->
+            <?php }}?> 
+                <script>
+                    document.getElementById("example").addEventListener("change", function() {
+                      // code to run when checkbox is checked
+                      console.log("Checkbox checked!");
+                      window.location.href = "<?php echo URLROOT;?>/users/switch_user";
+                    });
+                </script>
+            </div>
          <ul>
             <li><a href="<?php echo URLROOT;?>/users/index" class="nav_tags">Home</a></li>
             <li><a href="<?php echo URLROOT.'/users/shop'; ?>" class="nav_tags">Shop</a></li>
             <li><a href="<?php echo URLROOT.'/users/sound_engineers'; ?>" class="nav_tags">Sound Engineers</a></li>
-            <li><a href="#" class="nav_tags">Events</a></li>
+            <!-- <li><a href="#" class="nav_tags">Events</a></li> -->
             <?php if(isset($_SESSION['user_id'])){
                 echo '<div class="dropdown">';
                 echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
                 echo '<div id="myDropdown" class="dropdown-content">';
-                    // echo '<a href="'.URLROOT . '/sellers/dashboard" class="nav_tags">Dashboard</a>';
+                    echo '<a href="'.URLROOT . '/sellers/dashboard" class="nav_tags">Dashboard</a>';
                     echo '<a href="'.URLROOT . '/'.$_SESSION['user_type'].'s/getProfile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
                     echo '<a href="'.URLROOT . '/sellers/advertisements" class="nav_tags">Advertisements</a>';
                     echo '<a href="'.URLROOT . '/sellers/advertise" class="nav_tags">Advertise</a>';
+                    echo '<a href="'.URLROOT . '/users/chat" class="nav_tags">Messages</a>';
                     echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                 echo '</div>';
             echo '</div> ';

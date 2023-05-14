@@ -2,4 +2,6 @@
 app/.htaccess
 app/config/config.php
 public/.htaccess
+doc.md
+todo.txt
 

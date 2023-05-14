@@ -1,0 +1,100 @@
+/* this is styles specific for rate and review modal */
+
+/* Modal */
+    .modal {
+        display: none; /* hide modal by default */
+        position: fixed; /* position fixed to cover the entire screen */
+        z-index: 1; /* set z-index to make sure modal is on top of other elements */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto; /* enable scrolling if content exceeds screen size */
+        background-color: rgba(0,0,0,0.7); /* set background color with some transparency */
+    }
+    .modal-content{
+        width: 35%;
+        height: 55%;
+        margin: 10% auto;
+    }
+
+    .modal-content.serviceProvider{
+        height: 50%;
+    }
+
+    .close{
+        width: 28px;
+
+    }
+
+    /* Seller review section */
+    .review-seller {
+        margin-top: 20px;
+    }
+
+    /* Review form */
+    .review-form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Rating star container */
+    .review-area-select-star {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+    
+    /* Star rating icons */
+    .star-rating i {
+        font-size: 24px;
+        color: #ccc;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+    .star-rating i:hover,
+    .star-rating i.selected {
+        color: #ffc107;
+    }
+    
+    /* styles for dropdowns  */
+    select {
+        width: 97%;
+        height: 40px;
+        padding: 10px;
+        font-size: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background: url('http://localhost/Audex/public/img/arrow-down.png') no-repeat right #fff;
+        background-size: 30px;
+        margin: 2%;
+    }
+
+    /* Feedback form */
+    .feedback-area {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .feedback-area label {
+        margin-bottom: 10px;
+    }
+
+    #submit-review-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    #submit-review-btn:hover {
+        background-color: #3e8e41;
+    }

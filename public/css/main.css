@@ -391,8 +391,7 @@ nav ul li:hover a {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  -moz-column-gap: 10px;
-       column-gap: 10px;
+  column-gap: 10px;
 }
 
 .explore .explore-btn button {

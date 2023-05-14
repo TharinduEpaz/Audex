@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/form.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/advertise.css';?>">
+    <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/advertiesmentDetails.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css';?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
@@ -13,6 +14,7 @@
     
     <script type="text/javascript" src="<?php echo URLROOT . '/public/js/moment.min.js';?>"></script>
     <script type="text/javascript" src="<?php echo URLROOT . '/public/js/moment-timezone-with-data.js';?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Advertisement</title>
 </head>
 <body>
@@ -23,11 +25,50 @@
     <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?>
     <?php echo $data['auction']->end_date;?> -->
         <div class="content">
+        <div class="image_likes">
             <div class="image">
-                <img src="<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image1;?>" alt="">
-                <!-- <a href="">next</a> -->
-            </div>
-            <div class="details">
+                    <div class="grid">
+                    <div id="img1" class="img1" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image1;?>)">
+                            <div>
+                                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                            </div>
+                            <div>
+                                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                            </div>
+
+                        </div>
+                        <div class="img2" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image1;?>)">    
+                            <a style="width: 100%;height:100%; " onclick="change_img(1); return false;" ></a>
+                        </div>
+                        <div class="img3" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image2;?>)"> 
+                            <?php if($data['advertisement']->image2!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img(2); return false;"></a> 
+                            <?php }?>
+                        </div>
+                        <div class="img4" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image3;?>)">   
+                            <?php if($data['advertisement']->image3!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img(3); return false;"></a>
+                            <?php }?>
+                        </div>
+                        <div class="img5" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image4;?>)">   
+                            <?php if($data['advertisement']->image4!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img(4); return false;"></a>
+                            <?php }?>
+                        </div>
+                        <div class="img6" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image5;?>)">   
+                            <?php if($data['advertisement']->image5!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img(5); return false;"></a>
+                            <?php }?>
+                        </div>
+                        <div class="img7" style="background-image: url(<?php echo URLROOT.'/public/uploads/'.$data['advertisement']->image6;?>)">   
+                            <?php if($data['advertisement']->image6!=null){?>  
+                                <a style="width: 100%;height:100%; " onclick="change_img(6); return false;"></a>
+                            <?php }?>
+                        </div>
+                    </div>
+                </div>
+        </div>
+            <div class="details" style="width: 45%;">
                 <h2><?php echo $data['advertisement']->product_title?></h2>
                 <?php if($data['advertisement']->product_type=='auction'){?>
                     <div class="time">
@@ -38,7 +79,7 @@
                 <table>
                     <tr>
                         <td class="name">Category</td>
-                        <td class="value">: <?php echo $data['advertisement']->product_category?></td>
+                        <td class="value">: <?php echo ucwords($data['advertisement']->product_category)?></td>
                     </tr>
                     <tr>
                         <td class="name">Model Number</td>
@@ -58,23 +99,174 @@
                 </div>
                 <div class="buttons">
                     <?php if($data['advertisement']->product_type=='auction'){?>
-                    <button type="button" class="bid_list" onclick="location.href='<?php echo URLROOT;?>/sellers/bid_list/<?php echo $data['advertisement']->product_id.'/'.$data['auction']->auction_id;?>'">Bid list</button>
+                    <button type="button" class="bid_list" onclick="location.href='<?php echo URLROOT;?>/sellers/bid_list/<?php echo $data['advertisement']->product_id;?>'">Bid list</button>
                     <?php }?>
                     <button type="button" class="delete" onclick="location.href='<?php echo URLROOT;?>/sellers/delete_advertisement/<?php echo $data['advertisement']->product_id;?>'"> Delete</button>    
                     
+                    
+                </div>
+                <button type="button" style="margin-left: 0%;top: 15vh;position: absolute;left: 85vw;padding:0%" class="delete" onclick="openModal()"> Statistics</button>    
+                <div class="stat_modal" id="myModal" style="display:none">
+                <span class="close" style="margin-right: 1%;color:black;" onclick="closeModal()">&times;</span>
+                    <div class="stat">
+                        <div class="graph1">
+                            <canvas id="graph1" width="20px" height="20px"></canvas>
+                        </div>
+                        <div class="graph2">
+                            <canvas id="graph2" width="20px" height="20px"></canvas>
+                        </div>
+                        <div class="graph3">
+                            <canvas id="graph3" width="20px" height="20px"></canvas>
+                        </div>
+                        <div class="graph4">
+                            <canvas id="graph4" width="20px" height="20px"></canvas>
+                        </div>
+                        <div class="graph5">
+                            <canvas id="graph5" width="20px" height="20px"></canvas>
+                        </div>
+                        <div class="graph5">
+                            <canvas id="graph6" width="20px" height="20px"></canvas>
+                        </div>
+                    </div>
 
+                        <script>
+                            const data1 = {
+                                    labels: [
+                                        "Mon","Tue","Wed","Thu","Fri","Sat","Sun"
+                                    ],
+                                    datasets: [{
+                                            label: "Vacant Bikes",
+                                            data: [180,200,150,120,100,150,200],
+                                            borderColor: "rgba(255, 99, 132, 1)",
+                                            backgroundColor: "rgba(255, 99, 132, 0.2)",
+                                            fill: true,
+                                            tension: 0.1,
+                                        },
+                                        {
+                                            label: "Occupied Bikes",
+                                            data: [100,80,120,150,200,150,100],
+                                            borderColor: "rgba(54, 162, 235, 1)",
+                                            backgroundColor: "rgba(54, 162, 235, 0.2)",
+                                            fill: true,
+                                            tension: 0.4,
+                                        },
+                                    ]
+                            };
+                        
+                                const config1 = {
+                                    type: 'bar',
+                                    data: data1,
+                                    options: {
+                                        plugins: {
+                                            legend: {
+                                                position: "top",
+                                            },
+                                        },
+                                        scales: {
+                                            x: {
+                                                display: true,
+                                                title: {
+                                                    display: true,
+                                                    text: "Days",
+                                                },
+                                            },
+                                            y: {
+                                                display: true,
+                                                title: {
+                                                    display: true,
+                                                    text: "Number of Bikes",
+                                                },
+                                                suggestedMin: 50,
+                                            },
+                                        },
+                                    },
+                                };
+                                var myChart = new Chart(
+                                    document.getElementById('graph1'),
+                                    config1
+                                );
+                                var myChart = new Chart(
+                                    document.getElementById('graph2'),
+                                    config1
+                                );
+                                var myChart = new Chart(
+                                    document.getElementById('graph3'),
+                                    config1
+                                );
+                                var myChart = new Chart(
+                                    document.getElementById('graph4'),
+                                    config1
+                                );
+                                var myChart = new Chart(
+                                    document.getElementById('graph5'),
+                                    config1
+                                );
+                                var myChart = new Chart(
+                                    document.getElementById('graph6'),
+                                    config1
+                                );
+                        </script>
                 </div>
             </div>
         </div>
-        <div class="description">
+        <div class="description" style="margin-top: -2vh;">
             <h3>Description</h3>
             <p><?php echo $data['advertisement']->p_description?></p>
         </div>
     </div>
 </body>
 <script>
+    function openModal() {
+			var modal = document.getElementById("myModal");
+			modal.style.display = "block";
+           
+    }
+
+    function closeModal() {
+			var modal = document.getElementById("myModal");
+			modal.style.display = "none";
+	}
+    // When the user clicks anywhere outside of the modal, close it
+	var modal = document.getElementById("myModal");
+
+    window.addEventListener("click", function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    });
+
+//Image change
+var img=1;
+    var image1 = <?php echo json_encode($data['advertisement']->image1); ?>;
+    var image2 = <?php echo json_encode($data['advertisement']->image2); ?>;
+    var image3 = <?php echo json_encode($data['advertisement']->image3); ?>;
+    var image4 = <?php echo json_encode($data['advertisement']->image4); ?>;
+    var image5 = <?php echo json_encode($data['advertisement']->image5); ?>;
+    var image6 = <?php echo json_encode($data['advertisement']->image6); ?>;
+
+    //To check how many images are there
+    var no_images=0;
+    for(var cnt=1;cnt<=6;cnt++){
+        if(window["image"+cnt]!=""){
+            no_images++;
+        }
+    }
+    function change_img(n){
+        var image1
+        var link= <?php echo json_encode(URLROOT.'/public/uploads/');?>+window['image'+n];
+        document.getElementById("img1").style.backgroundImage = "url('"+link+"')";
+        img=n;
+    }
+    function plusSlides(n){
+        img=(img+n)%no_images;
+        if(img<=0){
+            img=no_images;
+        }
+            change_img(img);   
+    }
                     
     // Update the count down every 1 second
+    <?php if($data['advertisement']->product_type=='auction'){?>
     var x = setInterval(function() {
       // Get today's date and time
       var now = moment().tz("Asia/Colombo");
@@ -104,6 +296,7 @@
           }
       }
     }, 1000);
+    <?php }?>
 </script>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
 </html>

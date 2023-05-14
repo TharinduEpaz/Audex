@@ -4,20 +4,28 @@
         private $adminModel;
 
         public function __construct(){
+          if(isset($_SESSION['attempt'])){
+            unset($_SESSION['otp_email']);
+            unset($_SESSION['phone']);
+            unset($_SESSION['attempt']);
+            unset($_SESSION['time']);
+        }
             if(!isLoggedIn()){
-                unset($_SESSION['otp']);
-                unset($_SESSION['email']);
-                unset($_SESSION['password']);
-                unset($_SESSION['first_name']);
-                unset($_SESSION['second_name']);
-                unset($_SESSION['phone']);
-                unset($_SESSION['user_type']);
-                unset($_SESSION['attempt']);
                 session_destroy();
                 redirect('users/login');
             }
             if($_SESSION['user_type'] != 'admin'){
                 redirect($_SESSION['user_type'].'s/index');
+            }
+
+            //Session timeout
+            if(isset($_SESSION['session_time'])){
+                if(time() - $_SESSION['session_time'] > 60*30){
+                    // flash('session_expired', 'Your session has expired', 'alert alert-danger');
+                    redirect('users/logout');
+                }else{
+                    $_SESSION['session_time'] = time();
+                }
             }
 
             $this->adminModel=$this->model('Admin');
@@ -28,6 +36,32 @@
             $this->view('admins/index');
         }
 
+        public function spprofile(){
+          $id = $_GET['id'];
+          
+          $details= $this->adminModel->getspprofile($id);
+          $data =[
+            'details'=> $details
+          ];
+           //print_r($data);
+           //exit();
+          //$this->view('admins/approval',$data);
+          $this->view('admins/spprofile',$data);
+      }
+
+        public function approval(){
+
+          $details= $this->adminModel->getserviceproviderdetails();
+          $data =[
+            'details'=> $details
+          ];
+          // print_r($data);
+          // exit();
+          $this->view('admins/approval',$data);
+
+      }
+
+      
         public function profiletest(){
 
                 $details = $this->adminModel->getadminDetails($_SESSION['user_id']);
@@ -202,7 +236,7 @@
         $this->adminModel->setDetails($details);
 
 
-        redirect('admins/profile/');
+        redirect('admins/profiletest/');
         
     }
 
@@ -211,6 +245,72 @@
         
     }
 
+    public function ignoresp(){
+      $id = $_GET['id'];
+
+      if ($_SERVER['REQUEST_METHOD']=='POST'){
+
+          if(isset($_POST['ignore-reason'])&& $_POST['ignore-reason'] !=''){
+            $ignore_reason= $_POST['ignore-reason'];
+          }
+
+          
+
+        
+        $this->adminModel->ignoresp($id,$ignore_reason);
+
+        redirect('admins/approval/');
+
+      }
+      
+  }
+
+
+    public function approvesp(){
+
+        $id = $_GET['id'];
+        // $admin_ignored =$_GET['admin_ignored'];
+
+        if ($_SERVER['REQUEST_METHOD']=='POST'){
+
+            
+                $this->adminModel->approvesp2($id);
+            
+          redirect('admins/approval/');
+        }
+
 
     }
+
+    public function admindashboard(){
+
+        $this->view('admins/admindashboard');
+
+
+      }
+
+
+      public function adminviewreport(){
+
+        $details= $this->adminModel->getreportdetails();
+        $total=$this->adminModel->gettotalpayment();
+        $data =[
+          'details'=> $details, 'total'=>$total->total
+        ];
+        // print_r($data);
+        // exit();
+        $this->view('admins/adminviewreport',$data);
+
+      }
+
+
+  }
+
+
+
+
+
+
+  
+  
 ?>
