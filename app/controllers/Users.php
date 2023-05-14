@@ -613,12 +613,6 @@
                 if(empty($user)){
                     redirect('users/index');
                 }
-                // if(!isLoggedIn()){
-                //     $_SESSION['url'] = URL();
-                //     redirect('users/login');
-                // }else if($_SESSION['user_email'] != $user->email){
-                //     redirect($_SESSION['user_type'].'s/getProfile/'.$id);
-                // }
 
                 if($user->user_type=='buyer'){
                     // get data from buyer table
@@ -629,16 +623,16 @@
                 }else if($user->user_type=='service_provider'){
                     $userDetails = $this->userModel->getService_ProviderDetails($user->user_id);
                 }
-                // if ($details->user_id != $_SESSION['user_id']) {
-                //   $_SESSION['url']=URL();
-          
-                //   redirect('users/login');
-                // }
                 
                 //get all feedback this user has 
-                $feedbacks=$this->userModel->getFeedbacks($user->email);
+                $feedbacks_normal=$this->userModel->getFeedbacks($user->email);
+                $feedbacks_seller_rated=$this->userModel->getFeedbacks_seller_rated($user->email);
+                $feedbacks = array_merge($feedbacks_normal, $feedbacks_seller_rated);
+                
 
-                $feedbackcount=$this->userModel->getFeedbacksCount($user->email);
+                $feedbackcount_normal=$this->userModel->getFeedbacksCount($user->email);
+                $feedbackcount_seller_rated=$this->userModel->getFeedbacksCount_seller_rated($user->email);
+                $feedbackcount = $feedbackcount_normal + $feedbackcount_seller_rated;
                 
                 $data =[
                   'id' => $id,
@@ -1608,7 +1602,7 @@
 
 
             // seller details
-            $sellerDetails = $this->userModel->getSellerDetails($ad->email);
+            // $sellerDetails = $this->userModel->getSellerDetails($ad->email);
             $SellerMoreDetails = $this->userModel->getSellerMoreDetails($ad->email);
             $sellerRegDate = $SellerMoreDetails->registered_date;
             settype($sellerRegDate, 'string');
@@ -1618,7 +1612,7 @@
                 'ad' => $ad,
                 'likedCount' => $likeCount,
                 'dislikedCount' => $dislikeCount,
-                'seller' => $sellerDetails,
+                // 'seller' => $sellerDetails,
                 'SellerMoreDetails' => $SellerMoreDetails,
                 'sellerRegDate' => $sellerRegDate,
                 'liked' => '',
@@ -1672,9 +1666,9 @@
             }   
             if(isLoggedIn()){
                 if($SellerMoreDetails->email!=$_SESSION['user_email']){
-                    if($this->userModel->checkViewCount($id,$_SESSION['user_email'])==false){
-                        if($this->userModel->update_view_count($id)){
-                            $this->userModel->addViewDetails($id,$_SESSION['user_email']);
+                    if($this->userModel->checkViewCount($id,$_SESSION['user_email'])==false){ // CHeck if there's previuos views for the viewer
+                        if($this->userModel->update_view_count($id)){ //Update view count in product table
+                            $this->userModel->addViewDetails($id,$_SESSION['user_email']); //Add view details to view table
                         }else{
                             die('Error');
                         }
@@ -1700,7 +1694,6 @@
             }
 
             // seller details
-            $sellerDetails = $this->userModel->getSellerDetails($ad->email);
             $SellerMoreDetails = $this->userModel->getSellerMoreDetails($ad->email);
             $sellerRegDate = $SellerMoreDetails->registered_date;
             settype($sellerRegDate, 'string');
@@ -1710,7 +1703,6 @@
                 'ad' => $ad,
                 'likedCount' => $likeCount,
                 'dislikedCount' => $dislikeCount,
-                'seller' => $sellerDetails,
                 'SellerMoreDetails' => $SellerMoreDetails,
                 'sellerRegDate' => $sellerRegDate,
                 'liked' => '',
@@ -2383,6 +2375,9 @@
                 }
             }
             $this->view('users/success',$data);
+        //\Stripe\PaymentInten::retriever('$data['payment_intent']'); .By using this code we can retrieve all the payement details
+        // from stripe and we can check whether the our previously recieved data is correct or not.
+        //Or else we need to use webhooks to check the payment status. To do that we need to create a webhook endpoint in our server and need to host the server.
         
         
         }
@@ -3291,6 +3286,15 @@
             $this->view('users/feedPost', $data);
 
         }
+
+         public function events(){
+            $events = $this->userModel->getPublicEvents();
+            $data = [
+                'events' => $events
+            ];
+            $this->view('users/events', $data);
+
+         }
     
         
     }

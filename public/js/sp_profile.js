@@ -88,7 +88,7 @@ function loadevent(event_id) {
         
         document.querySelector('#edit-delete-event').setAttribute('onclick', `editDeleteEvent(${event.event.event_id})`);
         
-        document.querySelector(".event-date").innerHTML = '<i class="fa fa-calendar" aria-hidden="true"></i>  &nbsp  ' + event.event.date;
+        document.querySelector(".event-date").innerHTML = '<i class="fa fa-calendar" aria-hidden="true"></i>  &nbsp  ' + event.event.date + '<br>';
         document.querySelector(".event-time").innerHTML = '<i class="fa fa-clock-o" aria-hidden="true"></i>  &nbsp   ' + event.event.time;
         document.querySelector(".title").innerHTML = event.event.name;
         document.querySelector(".event-body").innerHTML = event.event.description;

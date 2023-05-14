@@ -46,7 +46,7 @@
                     <input type="number" name="otp"  class="otp1" placeholder="0" pattern="[0-9]{6}" onpaste="false" >                   
                 </div>
                 <div class="submit">
-                    <input type="submit" name="submit" value="Change phone number" id="button">
+                    <input type="submit" name="submit" value="Submit" id="button">
                 </div>
             </form>
         </div>

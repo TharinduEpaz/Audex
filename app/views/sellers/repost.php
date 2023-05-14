@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sidebar.css';?>">
     <link rel="stylesheet" href="<?php echo URLROOT . '/public/css/sELL_ITEM.css';?>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo MAPS_API;?>&callback=init1&libraries=placesMap&v=weekly"></script>
     <!-- <script src="https://kit.fontawesome.com/a076d05399.js" ></script> -->
     <script src="https://kit.fontawesome.com/128d66c486.js" crossorigin="anonymous"></script>
     <title>Edit Advertisement</title>
 </head>
-<body>
+<body onload="initMap();init1()">
 <?php require_once APPROOT . '/views/sellers/navbar.php';?>
 
     <div class="container_add">
@@ -167,7 +168,7 @@
                             <label for="chkMicrophone">Microphone</label>
 
                             <input type="checkbox" name="category[]" value="dj/mixer" id="chkDJ">
-                            <label for="chkDJ">DJ</label>
+                            <label for="chkDJ">DJ/Mixer</label>
 
                             <input type="checkbox" name="category[]" value="speaker" id="chkMixer">
                             <label for="chkMixer">Speaker</label>
@@ -259,6 +260,163 @@
                             <textarea name="description" id="description" class="description" cols="30" rows="15"  value="" maxlength=""><?php echo $data['description']?></textarea>
                             
                         </div>
+                        <?php
+                                    if(!empty($data['error_geocode'])){
+                                    echo '<div class="error">';
+                                        echo '*'.$data['error_geocode'].'<br>';
+                                    echo '</div>';
+                                    }
+                                ?> 
+                        <div class="input">
+                            <label for="show-map" >Location(optional)</label>
+                            <input type="checkbox" id="show_map"  name="show_map" class="show_map" <?php if(!empty($data['longitude'])) echo 'checked';?>>
+                        </div>
+                        <!-- <script>
+                            
+                                if(<?php echo !empty($data['longitude'])?>){
+                                    document.getElementById("html_content").style.display = "block";
+                                }
+                            
+                        </script> -->
+                        <?php if(!empty($data['longitude'])) {?>
+                            <div id="html_content" style="display:block">
+                        <?php }else{?>
+                            <div id="html_content" style="display:none">
+                        <?php }?>
+                                <!-- When spot the place in the map, takes the longitude and latitude and takes the address also -->
+                        <div class="input">
+                            <a href="" class="post" onclick="openModal1(); return false;">Check on map</a>
+                        </div>
+                        <div id="myModal1" class="modal">
+                            <div class="modal-content">
+                                <span class="close" onclick="closeModal1()">&times;</span>
+                                <div id="map" style="width: 100%; height: 90%;">
+                                    <script>
+                                        var geocoder;
+                                        var map;
+                                        var longitude;
+                                        var latitude;
+                                        var position;
+                                        function initMap() {
+                                            var colombo = {lat: 6.9271, lng: 79.8612};
+                                               var map = new google.maps.Map(document.getElementById('map'), {
+                                                   zoom: 12,
+                                                   center: colombo
+                                            
+                                               });
+                                               var marker = new google.maps.Marker({
+                                                   position: colombo,
+                                                   map: map,
+                                                   draggable: true
+                                               });
+                                               google.maps.event.addListener(marker, 'dragend', function(event) {
+                                                   console.log(event.latLng.lat());
+                                                   console.log(event.latLng.lng());
+                                                   longitude = event.latLng.lng();
+                                                   latitude = event.latLng.lat();
+                                                   var position = marker.getPosition();
+                                                   geocoder = new google.maps.Geocoder();
+
+                                                   geocoder.geocode({ location: position }).then((response) => {
+                                                       if (response.results[0]) {
+
+                                                         console.log("ADDEREES:-"+response.results[0].formatted_address);
+                                                         document.getElementById("address").value = response.results[0].formatted_address;
+                                                         document.getElementById("address1").innerHTML = "Address: "+response.results[0].formatted_address;
+                                                         document.getElementById("latitude").value = latitude;
+                                                         document.getElementById("longitude").value = longitude;
+                                                        //  document.getElementById("p_longi").innerHTML="Longitude: "+longitude;
+                                                        //  document.getElementById("p_lati").innerHTML="Latitude: "+latitude;
+                                                       } else {
+                                                         window.alert("No results found");
+                                                         document.getElementById("error_geocode").value = 'No results found';
+
+                                                       }
+                                                     })
+                                                     .catch((e) => document.getElementById("error_geocode").value = 'Geocoder failed due to: ' + e);
+                                               });
+                                        }
+
+                                    </script>
+                                </div>
+                                <!-- <a href="" class="post" onclick="closeModal1(); return false;">Submit</a> -->
+                            </div>
+                        </div>
+                                    
+
+                        
+                        <!-- When entered address, gets longitude and latitude -->
+                        <div class="input">
+                            <a href="" class="post" onclick="openModal2(); return false;">Add address</a>
+                        </div>
+                        <div id="myModal2" class="modal">
+                            <div class="modal-content">
+                                <div id="floating-panel">
+                                  <input id="addressInput" type="text" value="UCSC,Sri Lanka" />
+                                  <a href="" onclick="codeAddress(); return false;">Adress</a>
+                                </div>
+                                <span class="close" onclick="closeModal2()">&times;</span>
+                                <div id="map2" style="width: 100%; height: 90%; margin-bottom:10px">
+                                    
+                                    <script>
+                                        var geocoder2;
+                                        var map2;
+
+                                        function init1(){
+                                            map2 = new google.maps.Map(document.getElementById("map2"), {
+                                                zoom: 8,
+                                                center: { lat: 6.9271, lng: 79.8612 },
+                                            });
+                                        }
+
+                                        function codeAddress() {
+                                            geocoder2 = new google.maps.Geocoder();
+                                            var address = document.getElementById('addressInput').value;
+                                            geocoder2.geocode( { 'address': address}, function(results, status) {
+                                            if (status == 'OK') {
+                                                console.log("lati:"+results[0].geometry.location.lat());
+                                                console.log("longi:"+results[0].geometry.location.lng());
+                                                document.getElementById("address").value = document.getElementById("addressInput").value;
+                                                document.getElementById("address1").innerHTML = "Address: "+document.getElementById("addressInput").value;
+                                                document.getElementById("latitude").value = results[0].geometry.location.lat();
+                                                document.getElementById("longitude").value = results[0].geometry.location.lng();
+                                                // document.getElementById("p_longi").innerHTML="Longitude: "+results[0].geometry.location.lng();
+                                                // document.getElementById("p_lati").innerHTML="Latitude: "+results[0].geometry.location.lat();
+
+                                                map2.setCenter(results[0].geometry.location);
+                                                var marker = new google.maps.Marker({
+                                                  map: map2,
+                                                  position: results[0].geometry.location
+                                              });
+                                            } else {
+                                              document.getElementById("error_geocode").value = 'Geocode was not successful for the following reason: ' + status;
+                                              alert('Geocode was not successful for the following reason: ' + status);
+                                            }
+                                            });
+                                        }
+                                </script>
+                                </div>
+                                <!-- <a href="" class="post" style="padding-top:0px" onclick="closeModal2(); return false;">Submit</a> -->
+                            </div>
+                        </div>
+                        
+                        
+                                    
+                        <div class="input">
+                            <label id="p_longi" style="display: none;">Longitude: <?php echo $data['longitude']?></label><br>
+                            <label id="p_lati" style="display: none;">Latitude: <?php echo $data['latitude']?></label>
+                            <label id="address1" class="brand" for="" >Address: <?php echo $data['address']?></label>
+                        </div>
+                        <div class="input" style="height:0vh;">
+                            <input id="address" class="address" type="hidden" name="address"  >
+                            <input id="error_geocode" class="error_geocode" type="hidden" name="error_geocode"  >
+                        </div>
+                        <div class="input" style="height:0vh;">
+                            <input type="hidden" id="latitude" name="latitude"  value="<?php echo $data['latitude']?>"><br>
+                            <input type="hidden" id="longitude" name="longitude"  value="<?php echo $data['longitude']?>"><br>
+                            
+                        </div>
+                    </div>
                         <div class="submit">
                             <input type="submit" name="submit" value="Repost" class="post">
                             <a class="cancel" href="<?php echo URLROOT;?>/sellers/bid_list/<?php echo $data['id']?>">Cancel</a>
@@ -274,6 +432,80 @@
     </div>
 </body>
 <script>
+    //Map check button
+    document.addEventListener('DOMContentLoaded', function() {
+        var checkbox = document.getElementById('show_map');
+        var htmlContent = document.getElementById('html_content');
+        
+        if (checkbox && htmlContent) {
+            
+            checkbox.addEventListener('change', function() {
+                if (checkbox.checked) {
+                    htmlContent.style.display = 'block';
+                } else {
+                    console.log("notchecked");
+                    
+                    htmlContent.style.display = 'none';
+                }
+            });
+        }
+    });
+		function openModal1() {
+			var modal = document.getElementById("myModal1");
+			modal.style.display = "block";
+            // <?php if(empty($data['longitude'])){?>
+            //     document.getElementById("longitude").value = '79.8612';
+            //     document.getElementById("latitude").value = '6.9271';
+            //     document.getElementById("p_longi").innerHTML="Longitude: 79.8612";
+            //     document.getElementById("p_lati").innerHTML="Latitude: 6.9271";
+            //     document.getElementById("address1").innerHTML = "Address: Colombo, Sri Lanka";
+
+            
+            // <?php }?>
+           
+		}
+        
+        function openModal2() {
+            var modal = document.getElementById("myModal2");
+            modal.style.display = "block";
+            // console.log(map2);
+            // <?php if(empty($data['longitude'])){?>
+            //     document.getElementById("longitude").value = '79.8612';
+            //     document.getElementById("latitude").value = '6.9271';
+            //     document.getElementById("p_longi").innerHTML="Longitude: 79.8612";
+            //     document.getElementById("p_lati").innerHTML="Latitude: 6.9271";
+            //     document.getElementById("address1").innerHTML = "Address: Colombo, Sri Lanka";
+            
+            // <?php }?>
+            
+        }
+
+
+		function closeModal1() {
+			var modal = document.getElementById("myModal1");
+			modal.style.display = "none";
+		}
+        function closeModal2() {
+			var modal = document.getElementById("myModal2");
+			modal.style.display = "none";
+		}
+
+        // When the user clicks anywhere outside of the modal, close it
+	var modal = document.getElementById("myModal1");
+	var modal2 = document.getElementById("myModal2");
+
+    window.addEventListener("click", function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    });
+
+    window.addEventListener("click", function(event) {
+      if (event.target == modal2) {
+        modal2.style.display = "none";
+      }
+    });
+    //Images
     var img1 = <?php echo json_encode($data['image1']); ?>;
     var img2 = <?php echo json_encode($data['image2']); ?>;
     var img3 = <?php echo json_encode($data['image3']); ?>;

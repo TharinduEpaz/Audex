@@ -25,6 +25,7 @@
       /* border: 8px solid #DCDCDC; */
       width: 100px;
       height: 100px;
+      object-fit: cover;
     }
     .upload .rightRound{
       position: absolute;
@@ -68,6 +69,10 @@
         margin-top: 0%;
         width: 0%;
         flex-direction: row;
+    }
+    .feedback{
+        margin-left: 240px;
+        margin-right: 0px;
     }
 </style>
 <body>
@@ -125,10 +130,6 @@
                             </div>
                         </div>
                         <div class="likes_dislikes">
-                            <div class="flags">
-                            <i class="fa-sharp fa-solid fa-flag"> : 0</i>
-
-                            </div>
                         </div>
                     </div>
                 </div>

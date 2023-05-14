@@ -61,7 +61,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
         redirect('users/login');
       }
       $details = $this->sellerModel->getUserDetails($id);
-      $sellerDetails = $this->sellerModel->getSellerDetails($id);
       $feedbackcount=$this->sellerModel->getFeedbacksCount($details->email);
 
 
@@ -73,7 +72,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
       $data =[
         'id' => $id,
         'user' => $details,
-        'seller' => $sellerDetails,
         'feedbacks' => $feedbacks,
         'feedbackcount' => $feedbackcount
       ];
@@ -1043,16 +1041,16 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     $data['category']=$_POST['category'];
                 }
 
-                // if(isset($_POST['show_map'])){
-                //     $data['longitude']=trim($_POST['longitude']);
-                //     $data['latitude']=trim($_POST['latitude']);
-                //     $data['address']=trim($_POST['address']);
+                if(isset($_POST['show_map'])){
+                    $data['longitude']=trim($_POST['longitude']);
+                    $data['latitude']=trim($_POST['latitude']);
+                    $data['address']=trim($_POST['address']);
                     
-                // }else{
-                //     $data['longitude']='';
-                //     $data['latitude']='';
-                //     $data['address']='';
-                // }
+                }else{
+                    $data['longitude']='';
+                    $data['latitude']='';
+                    $data['address']='';
+                }
 
                 //Validate data
                 if(empty($data['title'])){
@@ -1368,6 +1366,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     'district' => $advertisement->district,
                     'product_type'=>$advertisement->product_type,
                     'title_err' => '',
+                    'longitude' => $advertisement->longitude,
+                    'latitude' => $advertisement->latitude,
+                    'address' => $advertisement->address,
                     'description_err' => '',
                     'price_err' => '',
                     'condition_err' => '',
@@ -1390,188 +1391,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             
         }
 
-
-        // public function complete_payment($id){
-        //     if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        //         //Sanitize POST array
-        //         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-        //         $advertisement=$this->sellerModel->getAdvertisementById($id);
-        //         //Check for owner
-        //         if($advertisement->email != $_SESSION['user_email']){
-        //             redirect('sellers/advertisements');
-        //         }
-        //         $data = [
-        //             'id' => $id,
-        //             'user_email' => $_SESSION['user_email'],
-        //             'title' => trim($_POST['title']),
-        //             'description' => trim($_POST['description']),
-        //             'price' => '',
-        //             'condition' => trim($_POST['condition']),
-        //             'image1' => $advertisement->image1,
-        //             'image2' => '',
-        //             'image3' => '',
-        //             'brand' => trim($_POST['brand']),
-        //             'model' => trim($_POST['model']),
-        //             'category' =>trim($_POST['category']),
-        //             'title_err' => '',
-        //             'description_err' => '',
-        //             'price_err' => '',
-        //             'condition_err' => '',
-        //             'image1_err' => '',
-        //             'image2_err' => '',
-        //             'image3_err' => '',
-        //             'brand_err' => '',
-        //             'model_err' => '',
-        //             'category_err' => ''
-        //         ];
-
-
-        //         //Validate data
-        //         if(empty($data['title'])){
-        //             $data['title_err'] = 'Please enter title';
-        //         }
-        //         if(empty($data['description'])){
-        //             $data['description_err'] = 'Please enter description';
-        //         }
-        //         if($advertisement->product_type=='auction'){
-        //             $data['price']=$advertisement->price;
-        //         }else{
-        //             $data['price']=trim($_POST['price']);
-        //             if(empty($data['price'])){
-        //                 $data['price_err'] = 'Please enter price';
-        //             }
-        //         }
-        //         if(empty($data['category'])){
-        //             $data['category_err'] = 'Please enter category';
-        //         }
-        //         if(empty($data['condition'])){
-        //             $data['condition_err'] = 'Please enter condition';
-        //         }
-        //         // if(empty($data['image1'])){
-        //         //     $data['image1_err'] = 'Please enter image1';
-        //         // }
-        //         // if(empty($data['image2'])){
-        //         //     $data['image2_err'] = 'Please enter image2';
-        //         // }
-        //         // if(empty($data['image3'])){
-        //         //     $data['image3_err'] = 'Please enter image3';
-        //         // }
-        //         if(empty($data['brand'])){
-        //             $data['brand_err'] = 'Please enter brand';
-        //         }
-        //         if(empty($data['model'])){
-        //             $data['model_err'] = 'Please enter model';
-        //         }
-        //         if($data['price']<=0){
-        //             $data['price_err'] = 'Please enter valid price';
-        //         }
-        //         // if(isset($_FILES['image1'])){
-        //         //     $img_name = $_FILES['image1']['name'];
-        //         //     $img_size = $_FILES['image1']['size'];
-        //         //     $tmp_name = $_FILES['image1']['tmp_name'];
-        //         //     $error = $_FILES['image1']['error'];
-
-        //         //     if($error === 0){
-        //         //         if($img_size > 12500000){
-        //         //             $data['image1_err'] = "Sorry, your file is too large.";
-        //         //         }
-        //         //         else{
-        //         //             $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
-        //         //             $img_ex_lc = strtolower($img_ex);
-
-        //         //             $allowed_exs = array("jpg", "jpeg", "png"); 
-
-        //         //             if(in_array($img_ex_lc, $allowed_exs)){
-        //         //                 $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
-        //         //                 $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
-        //         //                 move_uploaded_file($tmp_name, $img_upload_path);
-        //         //                 $data['image1'] = $new_img_name;
-
-        //         //                 // //Insert into database
-        //         //                 // if($this->sellerModel->addAdvertisement($data)){
-        //         //                 //     flash('post_message', 'Advertisement Added');
-        //         //                 //     redirect('sellers/advertisements');
-        //         //                 // }
-        //         //                 // else{
-        //         //                 //     die('Something went wrong');
-        //         //                 // }
-        //         //             }
-        //         //             else{
-        //         //                 $data['image1_err'] = "You can't upload files of this type";
-        //         //             }
-        //         //         }
-        //         //     }
-        //         //     else{
-        //         //         $data['image1_err'] = "Unknown error occurred!";
-        //         //     }
-        //         // }else{
-        //         //     $data['image1_err'] = 'Please upload atleast one image';
-        //         // }
-
-
-        //         //Make sure no errors
-        //         if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['brand_err']) && empty($data['model_err'])){
-        //             //Validated
-        //             if($this->sellerModel->edit_advertisement($data)){
-        //                 flash('product_message', 'Product Edited');
-        //                 $data1 = [
-        //                     'id' => $id,
-        //                     'user_email' => $_SESSION['user_email'],
-        //                     'title' => $data['title'],
-        //                     'price' => $data['price'],
-        //                     'image1' => $data['image1'],
-                            
-        //                 ];
-        //                 redirect('users/checkout/'.$data['id'].'/'.urlencode(json_encode($data1)));
-
-        //             } else {
-        //                 die('Something went wrong');
-        //             }
-        //         } else {
-        //             //Load view with errors
-        //             $this->view('sellers/complete_payment', $data);
-        //         }
-
-        //     } else {
-        //         //Get existing post from model
-        //         $advertisement=$this->sellerModel->getAdvertisementById($id);
-        //         //Check for owner
-        //         if($advertisement->email != $_SESSION['user_email']){
-        //             redirect('sellers/advertisements');
-        //         }
-        //         $data = [
-        //             'id' => $id,
-        //             'user_email' => $advertisement->email,
-        //             'title' => $advertisement->product_title,
-        //             'description' => $advertisement->p_description,
-        //             'price' => $advertisement->price,
-        //             'condition' => $advertisement->product_condition,
-        //             'image1' => $advertisement->image1,
-        //             'image2' => $advertisement->image2,
-        //             'image3' => $advertisement->image3,
-        //             'brand' => $advertisement->brand,
-        //             'model' => $advertisement->model_no,
-        //             'category' =>$advertisement->product_category,
-        //             'product_type'=>$advertisement->product_type,
-        //             'title_err' => '',
-        //             'description_err' => '',
-        //             'price_err' => '',
-        //             'condition_err' => '',
-        //             'image1_err' => '',
-        //             'image2_err' => '',
-        //             'image3_err' => '',
-        //             'brand_err' => '',
-        //             'model_err' => '',
-        //             'category_err' => ''
-        //         ];
-                
-
-        //         $this->view('sellers/complete_payment', $data);
-        //     }
-
-            
-        // }
 
         public function delete_advertisement($id){
             // if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -1735,9 +1554,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 $data['startDate']= new DateTime(date('Y-m-d H:i:s'));
                 $data['endDate']= clone $data['startDate'];
             }else{
-                $data['startDate'] = new DateTime($data['likes_dates'][0]->date);
+                $data['startDate'] = new DateTime(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' - 1 months')));
                 $data['endDate'] = clone $data['startDate'];
-                $data['endDate']->modify('+3 months');
+                $data['endDate']->modify('+1 months');
                 $data['likes_date'] = [];
                 $data['empty_likes_dates']=0;
                 $data['likes_counts'] = [];
@@ -1756,9 +1575,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                 $data['startDate_dislikes']= new DateTime(date('Y-m-d H:i:s'));
                 $data['endDate_dislikes']= clone $data['startDate_dislikes'];
             }else{
-                $data['startDate_dislikes'] = new DateTime($data['dislikes_dates'][0]->date);
+                $data['startDate_dislikes'] = new DateTime(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' - 1 months')));
                 $data['endDate_dislikes'] = clone $data['startDate_dislikes'];
-                $data['endDate_dislikes']->modify('+3 months');
+                $data['endDate_dislikes']->modify('+1 months');
                 $data['dislikes_date'] = [];
                 $data['empty_dislikes_dates']=0;
                 $data['dislikes_counts'] = [];

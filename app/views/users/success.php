@@ -11,7 +11,11 @@
       <a href="mailto:audexlk@gamil.com">audexlk@gmail.com</a>.
     </p>
         <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
-        <a class="to_advertisements" href="<?php echo URLROOT;?>/sellers/advertisements">Back To Advertisements</a>
+        <?php if($_SESSION['user_type'] == 'seller'){?>
+            <a class="to_advertisements" href="<?php echo URLROOT;?>/sellers/advertisements">Back To Advertisements</a>
+        <?php }else if($_SESSION['user_type'] == 'service_provider'){?>
+            <a class="to_advertisements" href="<?php echo URLROOT;?>/service_providers/profile/<?php echo $_SESSION['user_id']?>">Back To Profile</a>
+        <?php }?>
 
   </section>
 </body>

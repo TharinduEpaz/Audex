@@ -333,7 +333,7 @@ date_default_timezone_set("Asia/Kolkata");
             for($i=0;$i<5;$i++){
                 $this->db->query('SELECT count(email_rate_receiver) as count FROM rate WHERE email_rate_receiver=:email AND rate=:i GROUP BY rate');
                 $this->db->bind(':email', $email);
-                $this->db->bind(':i', $i);
+                $this->db->bind(':i', $i+1);
                 $rat=$this->db->resultSet();
                 if($rat!=null){
                     $rate[$i]=$rat[0]->count;
