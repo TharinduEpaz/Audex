@@ -3,33 +3,36 @@
     <span id="edit-profile-heading">Edit Profile</span>
     <button class="add-event-btn" id="edit-event-btn" onclick="window.location.href='<?php echo URLROOT . '/users/change_password/' . $data['details']->user_id; ?>'">Change Password</button>
     <button class="add-event-btn" id="edit-event-btn" onclick="window.location.href='<?php echo URLROOT . '/users/change_email/' . $data['details']->user_id; ?>'">Change Email</button>
-    <?php if($data['details']->is_paid == 0): ?>
-    <button class="add-event-btn" id="edit-event-btn" onclick="window.location.href='<?php echo URLROOT . '/users/checkout_service_provider/' . $data['details']->user_id.'/'.urlencode(json_encode($data1)); ?>'">Make Payment</button>
+    <?php if ($data['details']->is_paid == 0) : ?>
+      <button class="add-event-btn" id="edit-event-btn" onclick="window.location.href='<?php echo URLROOT . '/users/checkout_service_provider/' . $data['details']->user_id . '/' . urlencode(json_encode($data1)); ?>'">Make Payment</button>
     <?php endif; ?>
-    <button class="add-event-btn" id="edit-event-btn" onclick="window.location.href='<?php echo URLROOT.'/users/change_phone/'.$data['details']->user_id;?>'">Change Phone Number</button>
-    <button class="add-event-btn" id="myBtn">Get Admin Approval</button>
-    
+    <button class="add-event-btn" id="edit-event-btn" onclick="window.location.href='<?php echo URLROOT . '/users/change_phone/' . $data['details']->user_id; ?>'">Change Phone Number</button>
+
+    <?php if ($data['details']->admin_approved == 0 || $data['details']->admin_ignored == 1) : ?>
+      <button class="add-event-btn" id="myBtn">Get Admin Approval</button>
+    <?php endif; ?>
+
     <!-- The Modal -->
     <div id="myModal" class="modal">
 
       <!-- Modal content -->
       <div class="modal-content">
         <span class="close">&times;</span>
-        <form action="<?php echo URLROOT . '/service_providers/adminApprove/'?>" enctype="multipart/form-data" method="POST">
-        <div class="formbold-form-file-flex">
-          <?php if($data != 0 && $data['details']->admin_ignored == 1): ?>
-    
-            <span style="color:red">Your request is ignored because : </span>
-            <span><?php echo $data['details']->ignore_reason?></span>
-          <?php endif; ?>
+        <form action="<?php echo URLROOT . '/service_providers/adminApprove/' ?>" enctype="multipart/form-data" method="POST">
+          <div class="formbold-form-file-flex">
+            <?php if ($data != 0 && $data['details']->admin_ignored == 1) : ?>
+
+              <span style="color:red">Your request is ignored because : </span>
+              <span><?php echo $data['details']->ignore_reason ?></span>
+            <?php endif; ?>
             <label for="profile" class="formbold-form-label">
               Upload your qualifications in PDF format you can upload your degrees and certificates or the past experiences
             </label>
             <input type="file" name="approve" id="approve" class="formbold-form-file" />
           </div>
           <button name="submit" type="submit" class="add-event-btn" style="margin-top:40px">Submit to Admin</button>
-          
-          
+
+
         </form>
       </div>
 
@@ -59,7 +62,7 @@
             </div>
           </div>
 
-          
+
 
 
 
@@ -72,10 +75,10 @@
           <div class="formbold-mb-3">
             <label for="address1" class="formbold-form-label"> Address </label>
 
-            <input type="text" name="address1" id="address1" placeholder="<?php echo $data['details']->address_line_one ?>" class="formbold-form-input formbold-mb-3" maxlength="20" />
+            <input type="text" name="address1" id="address1" placeholder="<?php echo $data['details']->address_line_one ?>" class="formbold-form-input formbold-mb-3" maxlength="100" />
             <br>
             <br>
-            <input type="text" name="address2" id="address2" placeholder="<?php echo $data['details']->address_line_two ?>" class="formbold-form-input formbold-mb-3" maxlength="20" />
+            <input type="text" name="address2" id="address2" placeholder="<?php echo $data['details']->address_line_two ?>" class="formbold-form-input formbold-mb-3" maxlength="100" />
 
 
           </div>
@@ -101,10 +104,10 @@
             <label for="profile" class="formbold-form-label">
               Upload Profile Image
             </label>
-            <input type="file" name="profile" id="profile" class="formbold-form-file" />
+            <input type="file" name="profile" id="profile" class="formbold-form-file" accept="image/png, image/gif, image/jpeg" />
           </div>
           <br><br>
-          <button type="submit" class="add-event-btn" id="edit-event-btn">Save Settings</button>
+          <button type="submit" class="add-event-btn" id="edit-event-btn" name='submit'>Save Settings</button>
           <button class="cancel" id="edit-event-btn" type="reset" onclick="exit()">Cancel</button>
         </form>
       </div>
@@ -123,25 +126,37 @@
       }
 
       //if all of the form inputs are empty then display alert after clicking submit
-      let form = document.querySelector('#edit-settings-form');
+      const form = document.getElementById('edit-settings-form');
 
-      form.addEventListener('submit', (e) => {
-        let firstname = document.querySelector('#firstname').value;
-        let second_name = document.querySelector('#second_name').value;
-        let email = document.querySelector('#email').value;
-        let profession = document.querySelector('#profession').value;
-        let address1 = document.querySelector('#address1').value;
-        let address2 = document.querySelector('#address2').value;
-        let qualifications = document.querySelector('#qualifications').value;
-        let achievements = document.querySelector('#achievements').value;
-        let description = document.querySelector('#description').value;
-        let profile = document.querySelector('#profile').value;
+      // form.addEventListener('submit', function(event) {
+      //   event.preventDefault();
+      //   validateForm();
+      // });
 
-        if (firstname == '' && second_name == '' && email == '' && profession == '' && address1 == '' && address2 == '' && qualifications == '' && achievements == '' && description == '' && profile == '') {
-          alert('Please fill in the form');
-          e.preventDefault();
-        }
-      });
+      // function validateForm() {
+      //   // get all form fields
+      //   const formFields = document.querySelectorAll('#myForm input, #myForm textarea');
+
+      //   // check if all fields are empty
+      //   const allFieldsEmpty = Array.from(formFields).every(field => field.value.trim() === '');
+
+      //   // if all fields are empty, alert the user and don't submit the form
+      //   if (!allFieldsEmpty) {
+      //     alert('Please fill out at least one field before submitting the form.');
+      //     return;
+      //   }
+
+      //   // if not all fields are empty, submit the form
+      //   form.submit();
+      // }
+      var uploadField = document.getElementById("profile");
+
+      uploadField.onchange = function() {
+        if (this.files[0].size > 5000000) {
+          alert("File is too big!");
+          this.value = "";
+        };
+      };
 
 
 
@@ -171,4 +186,4 @@
         }
       }
     </script>
-<script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
+    <script src="<?php echo URLROOT . '/public/js/form.js'; ?>"></script>

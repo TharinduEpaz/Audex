@@ -14,8 +14,8 @@
                 <div class="feed-card" onclick="gotopost(<?php echo $post->post_id ?>)">
                     <img src="<?php echo URLROOT . '/public/uploads/feed/' . $post->image1; ?>" alt="post image" style="width:100%">
                     <div class="feed-post-container">
-                        <h4><b><?php echo $post->title ?></b></h4>
-                        <p><?php echo substr($post->content, 0, 20) . '....'; ?></p>
+                        <h4><b><?php echo $post->title?></b></h4>
+                        
                     </div>
                 </div>
             <?php endforeach; ?>

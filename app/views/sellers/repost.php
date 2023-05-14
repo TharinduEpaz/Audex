@@ -168,7 +168,7 @@
                             <label for="chkMicrophone">Microphone</label>
 
                             <input type="checkbox" name="category[]" value="dj/mixer" id="chkDJ">
-                            <label for="chkDJ">DJ</label>
+                            <label for="chkDJ">DJ/Mixer</label>
 
                             <input type="checkbox" name="category[]" value="speaker" id="chkMixer">
                             <label for="chkMixer">Speaker</label>

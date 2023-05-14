@@ -3286,6 +3286,15 @@
             $this->view('users/feedPost', $data);
 
         }
+
+         public function events(){
+            $events = $this->userModel->getPublicEvents();
+            $data = [
+                'events' => $events
+            ];
+            $this->view('users/events', $data);
+
+         }
     
         
     }
