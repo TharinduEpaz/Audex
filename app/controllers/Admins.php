@@ -284,7 +284,18 @@
 
     public function admindashboard(){
 
-        $this->view('admins/admindashboard');
+        $details=$this->adminModel->getcounts();
+        $toprated=$this->adminModel->gettopratedsellers();
+        $producttype=$this->adminModel->producttypecount();
+        $viewcount=$this->adminModel->getviewcount();
+        
+        $data=[
+          'details'=>$details,
+          'toprated'=>$toprated,
+          'producttype'=>$producttype,
+          'viewcount'=>$viewcount
+        ];
+        $this->view('admins/admindashboard',$data);
 
 
       }
@@ -295,7 +306,8 @@
         $details= $this->adminModel->getreportdetails();
         $total=$this->adminModel->gettotalpayment();
         $data =[
-          'details'=> $details, 'total'=>$total->total
+          'details'=> $details, 
+          'total'=>$total->total
         ];
         // print_r($data);
         // exit();
