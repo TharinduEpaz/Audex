@@ -89,7 +89,7 @@
                                     <td><?php echo $detail->amount?></td>
                                     <td> <?php echo $detail->date?></td>
                                     <td> <?php echo $detail->product_id?></td>
-                                    <td> <?php echo $detail->profile_id?></td>
+                                    <td> <?php echo $detail->service_provider_user_id?></td>
                                     <td> <?php echo $detail->payment_intent?></td>
                                     <td> <?php echo $detail->redirect_status?></td>
                                     

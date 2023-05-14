@@ -25,10 +25,10 @@
     <div class="poster_advertisements1">
         <div class="whitebox1">
 
-            <div class="view-report">
+            <!-- <div class="view-report">
                 <h4>View report from here</h4>
                 <button class="view-report-btn" onclick="viewreport()" >View</button>
-            </div>
+            </div> -->
             <div class="dashboard-content">
 
                 <div class="cardBox">

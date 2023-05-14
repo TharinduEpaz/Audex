@@ -228,6 +228,39 @@
                 
                     
             }
+            public function getTopSeller(){
+                    
+                $this->db->query('SELECT user_id, email, first_name, rate FROM user ORDER BY rate DESC LIMIT 10;');
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+                
+            }
+            public function getlowSeller(){
+                    
+                $this->db->query('SELECT user_id, email, first_name, rate FROM user ORDER BY rate ASC LIMIT 10;');
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+                
+            }
+            public function seller_product_count(){
+                    
+                $this->db->query('SELECT email, count(product_id) as count FROM product WHERE is_deleted=0 GROUP BY email ORDER BY count(product_id) DESC;');
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+                
+            }
+            public function trending_products(){
+                    
+                $this->db->query('SELECT *,count(view_item.product_id) as count FROM product INNER JOIN view_item WHERE product.is_deleted=0 AND product.product_id=view_item.product_id GROUP BY view_item.product_id ORDER BY count(view_item.product_id) DESC;');
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+                
+            }
+            
 
 
 
