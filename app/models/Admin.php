@@ -124,6 +124,20 @@
 
 
 
+            public function getadmins(){
+
+                $this->db->query('SELECT *
+                FROM `user`
+                WHERE user_type = \'admin\' AND user_id !=:id;
+                ');
+                $this->db->bind(':id',($_SESSION['user_id']));
+                $admins= $this->db->resultSet();
+                return $admins;
+            }
+
+
+
+
             public function gettotalpayment(){
 
                 $this->db->query('SELECT SUM(amount) AS total FROM payment');
@@ -175,6 +189,92 @@
                 }
                 return $month;
             }
+
+            public function getserviceProviderReport(){
+                $this->db->query('SELECT 
+                user_id,
+                profession,
+                qualifications,
+                profile_views,
+                likes,
+                Rating
+              FROM 
+                service_provider
+              WHERE 
+                admin_approved = 1
+                AND is_paid = 1
+              ORDER BY 
+                Rating DESC
+              LIMIT 10;');
+
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+            }
+
+            public function getLowServiceProviders(){
+
+                $this->db->query('SELECT 
+                user_id,
+                profession,
+                qualifications,
+                profile_views,
+                likes,
+                Rating
+              FROM 
+                service_provider
+              WHERE 
+                Rating < 2
+              ORDER BY 
+                Rating ASC;');
+
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+                
+            }
+            public function getTopServiceProviders(){
+                    
+                    $this->db->query('SELECT user_id, profession, qualifications, likes, Rating FROM service_provider ORDER BY Rating DESC LIMIT 10;');
+    
+                    $serviceProviderReport= $this->db->resultSet();
+                    return $serviceProviderReport;
+                
+                    
+            }
+            public function getTopSeller(){
+                    
+                $this->db->query('SELECT user_id, email, first_name, rate FROM user ORDER BY rate DESC LIMIT 10;');
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+                
+            }
+            public function getlowSeller(){
+                    
+                $this->db->query('SELECT user_id, email, first_name, rate FROM user ORDER BY rate ASC LIMIT 10;');
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+                
+            }
+            public function seller_product_count(){
+                    
+                $this->db->query('SELECT email, count(product_id) as count FROM product WHERE is_deleted=0 GROUP BY email ORDER BY count(product_id) DESC;');
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+                
+            }
+            public function trending_products(){
+                    
+                $this->db->query('SELECT *,count(view_item.product_id) as count FROM product INNER JOIN view_item WHERE product.is_deleted=0 AND product.product_id=view_item.product_id GROUP BY view_item.product_id ORDER BY count(view_item.product_id) DESC;');
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+                
+            }
+            
 
 
 

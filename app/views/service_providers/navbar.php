@@ -78,8 +78,14 @@
                 echo '<div class="dropdown">';
                     echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp</button>';
                     echo '<div id="myDropdown" class="dropdown-content">';
-                        echo '<a href="'.URLROOT . '/service_providers/profile" class="nav_tags">Profile</a>';
-                        echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
+                        // echo '<a href="'.URLROOT . '/service_providers/profile" class="nav_tags">Profile</a>';
+                        // echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
+                        echo '<a href="'.URLROOT . '/service_providers/profile/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
+                        echo '<a href="'.URLROOT . '/service_providers/dashboard" id="dashboard"><span>Dashboard</span></a>';
+                        // echo '<a href="'.URLROOT . '/service_providers/profile" id="profile-settings"> <i class="fa fa-cog" aria-hidden="true"></i><span>Profile</span></a>';
+                        echo '<a href="'.URLROOT .'/service_providers/feed" id="feed"><span>Feed</span></a>';
+                        echo '<a href="'.URLROOT .'/service_providers/eventCalander?month=current" id="calender"> <span>Calender</span></a>';
+                        echo '<a href="'.URLROOT .'/users/chat" id="messages"> <span>Messages</span></a>';
                     echo '</div>';
                 echo '</div> ';
             }

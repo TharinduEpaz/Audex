@@ -18,52 +18,42 @@
 <?php require_once APPROOT . '/views/admins/navbar.php';?>
    
     <div class="container">
-    <div class="sidebar">
-                <a href="<?php echo URLROOT;?>/admins/profiletest"><i class="fas fa-qrcode"></i> <span>My Profile</span></a>
-                <a class="current" href="<?php echo URLROOT;?>/admins/mangeuser"> <i class="fa fa-cog" aria-hidden="true"></i><span>Manage Users</span></a>
-                <a href="#"> <i class="fas fa-bookmark" aria-hidden="true"></i><span>Flags</span></a>
-                <a href="<?php echo URLROOT;?>/admins/approval"> <i class="fas fa-check-circle" aria-hidden="true"></i><span>Approvals</span></a>
-                <!-- <a href="#"> <i class="fas fa-child"></i><span>Help</span></a>        -->
-        </div>
+    <?php require_once APPROOT . '/views/admins/sidebar.php';?>        
+
     <div class="poster_advertisements">
-        <div class="whitebox">
-            <div class="section1">
-            <input type="text" placeholder="Search..">
-            <button class="searchbtn">Search</button>
-            </div>
-
-
+        <div class="whitebox" style ="height:auto">
+          
             <div class="section2">
-            <h2>Recently marked accounts</h2>
-            <div class="information">
-                <ul id="first">
-                    <li id="sus"">Mark : Suspend</li>
-                    <li>Flag_id : 86436464</li>
-                    <li>User_id : 27243864</li>
-                    
-                 
-                </ul>
-                <div class="button">
-                    <button id="act">Action</button>
-                    <button id="ign">Ignore</button>
-                   <button id="rev">Review</button>
-                </div>
-                   <ul id="second">
-                    <li id="del">Mark : delete</li>
-                    <li>Flag_id : 86436464</li>
-                    <li>User_id : 27243864</li>
-                    
-                 
-                </ul>
-                <div class="button">
-                    <button id="act">Action</button>
-                    <button id="ign">Ignore</button>
-                   <button id="rev">Review</button>
-                
-                </div>
-            </div>
-            </div>
+                <h3>Admins</h3>
 
+                <table class="admin-table">
+
+                <thead>
+                            <tr>
+                            
+                            <th>First Name</th>
+                            <th>Second Name</th>
+                            <th>Email</th>
+                            <th>registered date</th>
+                           
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($data['admins'] as $admins) : ?>
+                            
+                        
+                                     <tr>                                   
+                                    <td><?php echo $admins->first_name?></td>
+                                    <td><?php echo $admins->second_name?></td>
+                                    <td><?php echo $admins->email?></td>
+                                    <td><?php echo $admins->registered_date?></td>
+
+
+                        <?php endforeach; ?>
+
+                </table>
+
+            </div>
             
             
             <div class="section3">
@@ -71,11 +61,54 @@
                 <a href="<?php echo URLROOT .'/admins/addadmin'?>" class="btn1"> click</a></button>
             </div>
         
-        </div>        
+            </div>  
+        
+        
+                <div class="user-list">
+
+                <h3>Users</h3>
+
+                <table class="user-table">
+
+                <thead>
+                    <tr>
+            
+                        <th>User-Id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email date</th>
+                        <th>User user type</th>
+                        </tr>
+                </thead>
+                <tbody>
+                        <!-- <?php foreach ($data['admins'] as $admins) : ?> -->
             
         
+                        <tr>                                   
+                        <td>1</td>
+                        <td>lahiru</td>
+                        <td>kavishka</td>
+                        <td>123@gmail.com</td>
+                        <td>seller</td>
 
+
+                         <!-- <?php endforeach; ?> -->
+
+                    </table>
+
+                            
+        </div>
+            
     </div>
+
+</div>
 </body>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
+<script>
+     //keeping the sidebar button clicked at the page
+     link = document.querySelector('#manage_users');
+    link.style.background = "#E5E9F7";
+    link.style.color = "red";
+    link.style.fontWeight = "800";
+</script>
 </html>

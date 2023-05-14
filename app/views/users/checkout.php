@@ -13,7 +13,7 @@
     <!-- Display a payment form -->
     <form id="payment-form">
       <div class="product">
-        <img src="<?php echo URLROOT.'/public/uploads/'.$data['image1'];?>" alt="The cover of Stubborn Attachments" />
+        <img src="<?php echo URLROOT.'/public/uploads/'.$data['image1'];?>" alt="The image" />
         <div class="description">
           <h3><?php echo $data['title'];?></h3>
           <h5>LKR300.00</h5>

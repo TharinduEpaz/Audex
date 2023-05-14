@@ -150,12 +150,6 @@
           }
 
 
-
-        public function manageuser(){
-
-
-            $this->view('admins/manageuser');
-        }
         
 
 
@@ -314,6 +308,80 @@
         $this->view('admins/adminviewreport',$data);
 
       }
+
+      public function reports(){
+          $this->view('admins/reports');
+  
+      }
+
+      public function approvedservice_providers(){
+        $serviceProvider=$this->adminModel->getserviceProviderReport();
+        $data =[
+          'service_provider_report' => $serviceProvider
+        ];
+        $this->view('admins/service_providers_approved',$data);
+      }
+      public function lowratings(){
+        $lowServiceProviders = $this->adminModel->getLowServiceProviders();
+        $data =[
+          'low_service_providers' => $lowServiceProviders
+        ];
+        $this->view('admins/serviceproviderslowratings',$data);
+      }
+      public function highratings(){
+        $topRated = $this->adminModel->getTopServiceProviders();
+        $data =[
+          'top_rated' => $topRated
+        ];
+        $this->view('admins/serviceprovidershighratings',$data);
+      }
+      public function seller_highratings(){
+        $topRated = $this->adminModel->getTopSeller();
+        $data =[
+          'top_rated' => $topRated
+        ];
+        $this->view('admins/sellerhighratings',$data);
+      }
+      public function seller_lowratings(){
+        $topRated = $this->adminModel->getlowSeller();
+        $data =[
+          'top_rated' => $topRated
+        ];
+        $this->view('admins/sellerlowratings',$data);
+      }
+      public function seller_product_count(){
+        $topRated = $this->adminModel->seller_product_count();
+        $sum=0;
+        foreach($topRated as $value){
+          $sum=$sum+$value->count;
+        }
+        $data =[
+          'top_rated' => $topRated,
+          'sum' => $sum
+        ];
+        $this->view('admins/seller_product_count',$data);
+      }
+      public function trending_products(){
+        $topRated = $this->adminModel->trending_products();
+        $data =[
+          'top_rated' => $topRated
+        ];
+        $this->view('admins/trending_products',$data);
+      }
+      
+      
+
+
+
+      public function manageuser(){
+
+        $admins=$this->adminModel->getadmins();
+        $data=[
+          'admins'=>$admins
+        ];
+
+        $this->view('admins/manageuser',$data);
+    }
 
 
   }

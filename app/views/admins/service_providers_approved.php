@@ -22,57 +22,43 @@
     <?php require_once APPROOT . '/views/admins/sidebar.php';?>        
 
     <div class="poster_advertisements">
-    <div class="form-display">
+    <div class="form-display" style="height:auto;padding:20px;">
     <div class="table_container">
-        <div class="approval_title"><h1 style="text-align: center;"> Service Provider Approvals</h1></div>
-                    <table class="serviceprovider_request">
+        <div class="approval_title"></div>
+                   <h3 style="text-align: center;">Service Providers Approved and Paid</h3> <br>
+                   <table class="serviceprovider_request">
                         <thead>
                             <tr>
                             
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Payment</th>
-                            <th>Action</th>
+                            <th>User ID</th>
+                            <th>Profession</th>
+                            <th>Likes</th>
+                            <th>Rating</th>
+                            
                             </tr>
                         </thead>
                         <tbody>
-                            
-                        
-                        <?php foreach ($data['details'] as $detail) : ?>
+                        <?php foreach ($data['service_provider_report'] as $detail) : ?>
 
                                 <tr>                                   
-                                    <td><?php echo $detail->first_name?></td>
-                                    <td><?php echo $detail->second_name?></td>
-                                    <td> <?php echo $detail->email?></td>
-                                    <td><?php if($detail->is_paid==0){echo 'No';}else{echo 'Yes';}?></td>
-                                    <td>
-                                        <div class="btn-container">
-                                            <button id="view_btn" class="view-button" onclick="viewspprofile(<?php echo $detail->user_id?>)">view</button>
-                                             
-                                            <!-- <button id="approve_btn" class="approve-button">Approve</button> -->
-                                            <!-- <button id="ignore_btn" class="ignore-button">Ignore</button> -->
-                                        </div>  
-                                    </td>
+                                    <td><?php echo $detail->user_id?></td>
+                                    <td><?php echo $detail->profession?></td>
+                                    <td> <?php echo $detail->likes?></td>
+                                    <td><?php echo $detail->Rating?></td>
                                 </tr>
                         <?php endforeach; ?>
-                            
-                        
-                            
                         </tbody>
                     </table>
+                    <br>
+                    <br>
+                    <br>
                 </div>
-
-              
-
-
-
             </div>
         </div> 
 
     </div>
 
-</script>
+
 
 
 
@@ -82,13 +68,8 @@
 <script>
 
 
-function viewspprofile(userID) {
-    
-    var url = 'http://localhost/Audex/admins/spprofile?id=' + userID;
-    window.open(url, '_self');
-}
- //keeping the sidebar button clicked at the page
- link = document.querySelector('#approvals');
+//keeping the sidebar button clicked at the page
+link = document.querySelector('#reports');
     link.style.background = "#E5E9F7";
     link.style.color = "red";
     link.style.fontWeight = "800";

@@ -546,6 +546,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     if($product_id!=false){
                         $data1=[
                             'title' => $data['title'],
+                            'image1' => $data['image1'],
                         ];
                         flash('product_message', 'Product Added');
                         // redirect('users/checkout/'.urlencode(base64_encode("$data1")));

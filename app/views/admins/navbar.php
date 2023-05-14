@@ -79,6 +79,10 @@
                 echo '<div id="myDropdown" class="dropdown-content">';
                     echo '<a href="'.URLROOT . '/admins/profiletest/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
                     echo '<a href="'.URLROOT . '/admins/admindashboard" class="nav_tags">Dashboard</a>';
+                    // echo '<a href="'.URLROOT . '/admins/profiletest" class="nav_tags">My Profile</a>';
+                    echo '<a href="'.URLROOT . '/admins/manageuser" class="nav_tags">Manage Users</a>';
+                    echo '<a href="'.URLROOT . '/admins/reports" class="nav_tags">Reports</a>';
+                    echo '<a href="'.URLROOT . '/admins/approval" class="nav_tags">Approvals</a>';
                     echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                 echo '</div>';
             echo '</div> ';

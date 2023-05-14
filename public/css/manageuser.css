@@ -2,7 +2,7 @@
 
 .whitebox{
     background-color: rgb(255, 255, 255);
-    min-height:80vh;
+    /* min-height:80vh; */
     border-radius: 30px;
     padding: 40px;
     display: flex;
@@ -54,7 +54,7 @@
     background-repeat: no-repeat;
     transition: 0.5s;
 }
-
+/* 
 .section2 {
     background-color: azure;
     margin: 40px;
@@ -63,7 +63,7 @@
     padding-bottom: 30px;
     width: 80%;
     
-}
+} */
 #sus{
     float: right;
     margin-right: 50px;
@@ -121,14 +121,14 @@ h2{
     margin-right: 50px;
 }
 
-.section3{
+/* .section3{
     display: block;
   margin-left: auto;
   margin-right: auto;
   width: 90%;
-  margin-top: 5vh;
+  margin-top: 100px;
     
-}
+} */
 
 #addadmin{
     background-color: rgb(0, 255, 34);
@@ -143,7 +143,7 @@ h2{
 
 /* button css */
 
-.poster_advertisements .whitebox .section3 .btn1 {
+/* .poster_advertisements .whitebox .section3 .btn1 {
   -webkit-appearance: button;
   appearance: button;
 
@@ -158,12 +158,12 @@ h2{
   padding: 10px;
   
   
-}
+} */
 
-.poster_advertisements .whitebox .section3 .btn1:hover{
+/* .poster_advertisements .whitebox .section3 .btn1:hover{
   background-color: blueviolet;
   color:white
-}
+} */
 
 .poster_advertisements .table_container {
   margin: 0 1rem 0 1rem;
@@ -182,4 +182,89 @@ h2{
   margin-bottom: auto;
   justify-content: center;
   box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.3);
+}
+.section2  {
+  text-align: center;
+  width: 100%;
+  
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 10px;
+}
+
+.admin-table thead {
+  background-color: #f1f1f1;
+}
+
+.admin-table th {
+  font-weight: bold;
+}
+
+.admin-table td {
+  border-bottom: 1px solid #ccc;
+}
+
+
+.section3 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.section3 h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.section3 .btn1 {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.section3 .btn1:hover {
+  background-color: #45a049;
+}
+
+.user-list {
+  margin-top: 20px;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-table th,
+.user-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.user-table th {
+  background-color: #f2f2f2;
+}
+
+.user-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+.section2 {
+  margin-top: 20px;
+}
+
+.section2 h3, .user-list h3  {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
 }

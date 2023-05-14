@@ -2419,7 +2419,7 @@
         public function approve_reject_bid($product_id,$bid_id,$time){
             if(time() < $time){
                 $advertisement=$this->userModel->getAdvertisementById($product_id);
-                $sellerDetails = $this->userModel->getSellerDetails($advertisement->email);
+                // $sellerDetails = $this->userModel->getSellerDetails($advertisement->email);
                 $SellerMoreDetails = $this->userModel->getSellerMoreDetails($advertisement->email);
                 $sellerRegDate = $SellerMoreDetails->registered_date;
                 settype($sellerRegDate, 'string');
@@ -2433,7 +2433,6 @@
                 }
                 $data = [
                     'advertisement' => $advertisement,
-                    'seller' => $sellerDetails,
                     'SellerMoreDetails' => $SellerMoreDetails,
                     'sellerRegDate' => $sellerRegDate,
                     'liked' => '',
@@ -3056,7 +3055,7 @@
                 $_SESSION['url'] = URL();
                 redirect('users/login');
             }
-            $data['id']=$id;
+            $data['id']=$id; //id!=null means a chat is selected
             $data['email_receiver'][]='';
             $data['email_receivers'][]='';
 
@@ -3094,24 +3093,24 @@
                 $i=0;
                 $data['email_sender']=$_SESSION['user_email'];
                 
-                $chats=$this->userModel->getChats($data);
+                $chats=$this->userModel->getChats($data); //get all chats of the current user
                 $data['chat']=$chats;
-                if($chats!=false){
+                if($chats!=false){ //if there are chats
                         foreach($chats as $chat){
-                            if($chat->sender_email==$_SESSION['user_email']){
+                            if($chat->sender_email==$_SESSION['user_email']){ //table eke dn log una user sender nan, table eke receiverva $data['email_receiver'] array ekata add krnwa
                                 $data['email_receiver'][$i]=$chat->receiver_email;
                                 $i++;
                             }
-                            else{
+                            else{ //table eke dn log una user receiver nan, table eke senderva $data['email_receiver'] array ekata add krnwa
                                 $data['email_receiver'][$i]=$chat->sender_email;
                                 $i++;
                             }
                         }
                         $i=0;
-                        $data['email_receivers']=array_unique($data['email_receiver']);
-                        $data['email_receivers']=array_values($data['email_receivers']);
+                        $data['email_receivers']=array_unique($data['email_receiver']); //remove duplicate emails
+                        $data['email_receivers']=array_values($data['email_receivers']);//The array_values() function in PHP returns all the values of an array while preserving their original order
                         foreach($data['email_receivers'] as $email_receiver){
-                            $receiver=$this->userModel->getUserDetailsByEmail($email_receiver);
+                            $receiver=$this->userModel->getUserDetailsByEmail($email_receiver); //get user details of each reciever email
                             if(!empty($receiver)){
                                 $data['email_receivers'][$i]=$receiver;
                                 $i++;
@@ -3121,7 +3120,7 @@
                     }
                     if($id!=null){
                         $data['receiver']=$id;
-                        $receiver=$this->userModel->getUserDetails($data['receiver']);
+                        $receiver=$this->userModel->getUserDetails($data['receiver']); //get user details of the selected chat
                         if(!empty($receiver)){
                             $data['receiver_details']=$receiver;
                         }
@@ -3137,7 +3136,7 @@
 
         }
         
-    
+    //Chat view eke chat messages senderge eewa dakunatai recieverge eewa wamatai ganna function eka
         public function chatMessages($id=null){
             $data = json_decode(file_get_contents('php://input'), true);
 
@@ -3179,7 +3178,8 @@
                     if(!empty($receiver)){
                         $data['receiver_details']=$receiver;
                     }
-                    $current_chat=$this->userModel->getCurrentChat($data['email_sender'],$data['receiver_details']->email);
+                    //Sender and reciever dennama inna chats tika gannawa
+                    $current_chat=$this->userModel->getCurrentChat($data['email_sender'],$data['receiver_details']->email); 
                     if(!empty($current_chat)){
                         $data['current_chat']=$current_chat;
                     }

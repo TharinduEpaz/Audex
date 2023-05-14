@@ -28,7 +28,7 @@
                 echo '<div class="error">';
                 echo '<div class="attempt">';
 
-                echo 'Attempt '.$_SESSION['attempt'].'<br>';
+                echo 'Attempt '.(5-$_SESSION['attempt']).'<br>';
                 echo '</div>';
 
                 if(!empty($data['otp_err'])   ){

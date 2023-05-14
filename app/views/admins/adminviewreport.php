@@ -55,13 +55,8 @@
 <?php require_once APPROOT . '/views/admins/navbar.php';?>
    
     <div class="container">
-    <div class="sidebar">
-                <a href="<?php echo URLROOT;?>/admins/profiletest"><i class="fas fa-qrcode"></i> <span>My Profile</span></a>
-                <a href="<?php echo URLROOT;?>/admins/mangeuser"> <i class="fa fa-cog" aria-hidden="true"></i><span>Manage Users</span></a>
-                <a href="#"> <i class="fas fa-bookmark" aria-hidden="true"></i><span>Flags</span></a>
-                <a href="<?php echo URLROOT;?>/admins/approval"> <i class="fas fa-check-circle" aria-hidden="true"></i><span>Approvals</span></a>
-                <!-- <a href="#"> <i class="fas fa-child"></i><span>Help</span></a>        -->
-        </div>
+    <?php require_once APPROOT . '/views/admins/sidebar.php';?>        
+
     <div class="poster_advertisements">
         <div class="whitebox1">
 
@@ -94,7 +89,7 @@
                                     <td><?php echo $detail->amount?></td>
                                     <td> <?php echo $detail->date?></td>
                                     <td> <?php echo $detail->product_id?></td>
-                                    <td> <?php echo $detail->profile_id?></td>
+                                    <td> <?php echo $detail->service_provider_user_id?></td>
                                     <td> <?php echo $detail->payment_intent?></td>
                                     <td> <?php echo $detail->redirect_status?></td>
                                     
@@ -132,6 +127,11 @@
             window.print();
         }
     }
+     //keeping the sidebar button clicked at the page
+     link = document.querySelector('#reports');
+    link.style.background = "#E5E9F7";
+    link.style.color = "red";
+    link.style.fontWeight = "800";
 
 </script>
 
