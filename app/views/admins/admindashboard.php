@@ -22,8 +22,8 @@
     <div class="container">
     <div class="sidebar">
                 <a href="<?php echo URLROOT;?>/admins/profiletest"><i class="fas fa-qrcode"></i> <span>My Profile</span></a>
-                <a href="<?php echo URLROOT;?>/admins/mangeuser"> <i class="fa fa-cog" aria-hidden="true"></i><span>Manage Users</span></a>
-                <a href="#"> <i class="fas fa-bookmark" aria-hidden="true"></i><span>Flags</span></a>
+                <a href="<?php echo URLROOT;?>/admins/mangeuser"> <i class="fa fa-cog" aria-hidden="true"></i><span>Admins</span></a>
+                <a class="current"href="<?php echo URLROOT;?>/admins/admindashboard"> <i class="fas fa-bookmark" aria-hidden="true"></i><span>Dashboard</span></a>
                 <a href="<?php echo URLROOT;?>/admins/approval"> <i class="fas fa-check-circle" aria-hidden="true"></i><span>Approvals</span></a>
                 <!-- <a href="#"> <i class="fas fa-child"></i><span>Help</span></a>        -->
         </div>
@@ -132,7 +132,7 @@
                 config1
             );
 
-            //Graph2-Line chart for the products added in this year
+            //Graph2-Line chart for the views count in this year
             var view_count = <?php echo json_encode($data['viewcount']); ?>;
             // Extract the dates and counts from the data
             var view_count = view_count.map(function(item) {
@@ -159,7 +159,7 @@
                   },
                   title: {
                     display: true,
-                    text: 'Products added in this year',
+                    text: 'Views count in this year',
                         color: 'black',
                         font: {
                           size: 14
@@ -205,7 +205,7 @@
                       },
                       title: {
                         display: true,
-                        text: 'Products added count',
+                        text: 'Views count',
                         color: 'black',
                         font: {
                           size: 14
