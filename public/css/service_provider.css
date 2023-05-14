@@ -1242,6 +1242,28 @@ EVENT POP UPS CSS
   -webkit-user-select: none;
 }
 
+.copy-link-btn {
+  font-weight: 400;
+  font-size: 15px;
+  align-items: center;
+  appearance: none;
+  background-color: #776cea;
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-radius: 10px;
+  border-width: 0;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  justify-content: center;
+  padding: 6px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s, background-position 0.2s;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 .name-rating #Name {
   font-weight: 400;
   font-size: 40px;

@@ -84,10 +84,6 @@
                 </div>
 
     </div>
-
-
-    
-
     <div class="event" id="event">
     <div class="event-left">
         <div class="event-header">
