@@ -120,55 +120,56 @@ class Service_providers extends Controller
         $data = [
             'details' => $details
         ];
+        $flag = 0;
 
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if (isset($_POST['profession']) && $_POST['profession'] != '') {
-
+                $flag = 1;
                 $profession = $_POST['profession'];
             } else {
                 $profession = $data['details']->profession;
             }
 
             if (isset($_POST['qualifications']) && $_POST['qualifications'] != '') {
-
+                $flag = 1;
                 $qualifications = $_POST['qualifications'];
             } else {
                 $qualifications = $data['details']->qualifications;
             }
             if (isset($_POST['achievements']) && $_POST['achievements'] != '') {
-
+                $flag = 1;
                 $achievements = $_POST['achievements'];
             } else {
                 $achievements = $data['details']->achievements;
             }
             if (isset($_POST['description']) && $_POST['description'] != '') {
-
+                $flag = 1;
                 $description = $_POST['description'];
             } else {
                 $description = $data['details']->description;
             }
             if (isset($_POST['first_name']) && $_POST['first_name'] != '') {
-
+                $flag = 1;
                 $first_name = $_POST['first_name'];
             } else {
                 $first_name = $data['details']->first_name;
             }
             if (isset($_POST['second_name']) && $_POST['second_name'] != '') {
-
+                $flag = 1;
                 $second_name = $_POST['second_name'];
             } else {
                 $second_name = $data['details']->second_name;
             }
             if (isset($_POST['address1']) && $_POST['address1'] != '') {
-
+                $flag = 1;
                 $address1 = $_POST['address1'];
             } else {
                 $address1 = $data['details']->address_line_one;
             }
             if (isset($_POST['address2']) && $_POST['address2'] != '') {
-
+                $flag = 1;
                 $address2 = $_POST['address2'];
             } else {
                 $address2 = $data['details']->address_line_two;
@@ -177,13 +178,13 @@ class Service_providers extends Controller
 
             if (!empty($_FILES['profile']['name'])) {
 
-
+                $flag = 1;
                 $temp_name = $_FILES['profile']['tmp_name'];
                 $file_name = $_FILES['profile']['name'];
                 $file_size = $_FILES['profile']['size'];
                 $file_error = $_FILES['profile']['error'];
 
-                $this->setImage($temp_name, $file_name, $file_size, $file_error);
+                
             }
         }
 
@@ -201,19 +202,29 @@ class Service_providers extends Controller
             
         ];
 
-        if (empty($this->validateProfileDetails($details))) {
+        if (empty($this->validateProfileDetails($details,$flag))) {
+            $this->setImage($temp_name, $file_name, $file_size, $file_error);
             $this->service_model->setDetails($details, $_SESSION['user_id']);
+
         } else {
-            $errors = $this->validateProfileDetails($details);
+            $errors = $this->validateProfileDetails($details,$flag);
             $this->settings($errors);
         }
 
         redirect('service_providers/profile/');
     }
 
-    public function validateProfileDetails($details)
+    public function validateProfileDetails($details,$flag)
     {
+        
         $errors = array();
+       
+
+       
+        if(!$flag){
+        array_push($errors, 'fill at least one field before submitting the form');
+        }
+
 
         $details = array_map('trim', $details);
         $details = array_map('stripslashes', $details);
