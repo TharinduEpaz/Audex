@@ -176,6 +176,59 @@
                 return $month;
             }
 
+            public function getserviceProviderReport(){
+                $this->db->query('SELECT 
+                user_id,
+                profession,
+                qualifications,
+                profile_views,
+                likes,
+                Rating
+              FROM 
+                service_provider
+              WHERE 
+                admin_approved = 1
+                AND is_paid = 1
+              ORDER BY 
+                Rating DESC
+              LIMIT 10;');
+
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+            }
+
+            public function getLowServiceProviders(){
+
+                $this->db->query('SELECT 
+                user_id,
+                profession,
+                qualifications,
+                profile_views,
+                likes,
+                Rating
+              FROM 
+                service_provider
+              WHERE 
+                Rating < 2
+              ORDER BY 
+                Rating ASC;');
+
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+                
+            }
+            public function getTopServiceProviders(){
+                    
+                    $this->db->query('SELECT user_id, profession, qualifications, likes, Rating FROM service_provider ORDER BY Rating DESC LIMIT 10;');
+    
+                    $serviceProviderReport= $this->db->resultSet();
+                    return $serviceProviderReport;
+                
+                    
+            }
+
 
 
     }

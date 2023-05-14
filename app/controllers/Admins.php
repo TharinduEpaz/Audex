@@ -315,6 +315,24 @@
 
       }
 
+      public function reports(){
+          
+          // $details= $this->adminModel->getreportdetails();
+          // $total=$this->adminModel->gettotalpayment();
+          $serviceProvider=$this->adminModel->getserviceProviderReport();
+          $lowServiceProviders = $this->adminModel->getLowServiceProviders();
+          $topRated = $this->adminModel->getTopServiceProviders();
+          $data =[
+            'service_provider_report' => $serviceProvider,
+            'low_service_providers' => $lowServiceProviders,
+            'top_rated' => $topRated
+            
+          ];
+         
+          $this->view('admins/reports',$data);
+  
+      }
+
 
   }
 
