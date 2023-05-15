@@ -1,4 +1,10 @@
 <?php
+ use \PHPMailer\PHPMailer\PHPMailer;
+ use \PHPMailer\PHPMailer\Exception;
+
+ require dirname(APPROOT).'/app/phpmailer/src/Exception.php';
+ require dirname(APPROOT).'/app/phpmailer/src/PHPMailer.php';
+ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
     class Admins extends Controller{
         private $adminModel;
@@ -386,6 +392,7 @@
       }
 
       public function suspend($id){
+        $user=$this->adminModel->getadminDetails($id);
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
           $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
@@ -393,13 +400,83 @@
                     'reason' => trim($_POST['reason'])
                   ];
           $this->adminModel->user_suspend($id,$data['reason']);
+          //Send email
+          $mail = new PHPMailer(true);
+          try {
+              $to=$user->email;
+              $sender='audexlk@gmail.com';
+              $mail_subject='Suspend Account';
+              $email_body='<p>Dear '.$user->first_name.',<br>Your account has been suspended for following reason. <br><hr>'; 
+              $email_body.='<b>Reason: '.$data['reason'].'</b><br><br>';
+              $email_body.='Thank you,<br>Audexlk</p>';
+              // $header="From:{$sender}\r\nContent-Type:text/html;";
+              
+              $mail->isSMTP();
+              $mail->Host = 'smtp.gmail.com';
+              $mail->SMTPAuth = true;
+              $mail->Username = $sender;
+              $mail->Password = EMAIL_PASS;
+              $mail->SMTPSecure = 'ssl';
+              $mail->Port = 465;
+              $mail->setFrom($sender);
+              $mail->addAddress($to);
+              $mail->isHTML(true);
+              $mail->Subject = $mail_subject;
+              $mail->Body = $email_body;
+              // if($mail->send()){
+                  $mail->send();
+                  //Otp send by email
+                  redirect('/admins/manageuser');
+              // }
+              // else{
+                  // }
+              } catch (Exception $e) {
+                  flash('email_err','Mail could not be sent. Error: '. $e->getMessage(),'alert alert-danger');
+                  redirect('/admins/manageuser');
+              // echo 'Message could not be sent. Error: ', $e->getMessage();
+              }
           redirect('admins/manageuser');
         }
         $this->adminModel->user_suspend($id);
         redirect('admins/manageuser');
       }
       public function unsuspend($id){
+        $user=$this->adminModel->getadminDetails($id);
         $this->adminModel->user_unsuspend($id);
+        //Send email
+        $mail = new PHPMailer(true);
+        try {
+            $to=$user->email;
+            $sender='audexlk@gmail.com';
+            $mail_subject='Unuspend Account';
+            $email_body='<p>Dear '.$user->first_name.',<br>Your account has been unsuspended. <br>'; 
+            $email_body.='Thank you,<br>Audexlk</p>';
+            // $header="From:{$sender}\r\nContent-Type:text/html;";
+            
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = $sender;
+            $mail->Password = EMAIL_PASS;
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port = 465;
+            $mail->setFrom($sender);
+            $mail->addAddress($to);
+            $mail->isHTML(true);
+            $mail->Subject = $mail_subject;
+            $mail->Body = $email_body;
+            // if($mail->send()){
+                $mail->send();
+                //Otp send by email
+                redirect('admins/manageuser');
+            // }
+            // else{
+                // }
+            } catch (Exception $e) {
+                flash('email_err','Mail could not be sent. Error: '. $e->getMessage(),'alert alert-danger');
+                redirect('/admins/manageuser');
+            // echo 'Message could not be sent. Error: ', $e->getMessage();
+            }
         redirect('admins/manageuser');
       }
 
