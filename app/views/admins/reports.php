@@ -77,9 +77,6 @@
             <div class="approved"  onclick="trending_products()">
             <h3>Trending products</h3>
             </div>
-            <div class="approved"  onclick="seller_high_ratings()">
-            <h3>Trending Sellers</h3>
-            </div>
         </div>
         <h1 style="text-align: center;"> Service Provider Reports</h1>
         <div class="approval_title">

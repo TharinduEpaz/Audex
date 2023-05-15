@@ -306,8 +306,15 @@ date_default_timezone_set("Asia/Kolkata");
             }
             return $data;
         } 
-        public function sellerDetailsWithLikeCountDates($email){
-            $this->db->query('SELECT DATE(reaction.date_time) as date, count(reaction.product_id) as count FROM reaction INNER JOIN product ON reaction.product_id=product.product_id WHERE product.email=:email AND reaction.liked=1 AND product.is_deleted=0 GROUP BY DATE(reaction.date_time)');
+        public function sellerDetailsWithLikeCountDates($email, $start = NULL, $end = NULL){
+            if($start == NULL AND $end == NULL){
+                $this->db->query('SELECT DATE(reaction.date_time) as date, count(reaction.product_id) as count FROM reaction INNER JOIN product ON reaction.product_id=product.product_id WHERE product.email=:email AND reaction.liked=1 AND product.is_deleted=0 GROUP BY DATE(reaction.date_time)');
+            }
+            else{
+                $this->db->query('SELECT DATE(reaction.date_time) as date, count(reaction.product_id) as count FROM reaction INNER JOIN product ON reaction.product_id=product.product_id WHERE product.email=:email AND reaction.liked=1 AND product.is_deleted=0 AND reaction.date_time BETWEEN :start AND :end GROUP BY DATE(reaction.date_time)');
+                $this->db->bind(':start', $start);
+                $this->db->bind(':end', $end);
+            }
             $this->db->bind(':email', $email);
             $likes=$this->db->resultSet();
             if($this->db->rowCount()>0){
@@ -317,8 +324,15 @@ date_default_timezone_set("Asia/Kolkata");
             }
 
         }
-        public function sellerDetailsWithDislikeCountDates($email){
-            $this->db->query('SELECT DATE(reaction.date_time) as date, count(reaction.product_id) as count FROM reaction INNER JOIN product ON reaction.product_id=product.product_id WHERE product.email=:email AND reaction.disliked=1 AND product.is_deleted=0 GROUP BY DATE(reaction.date_time)');
+        public function sellerDetailsWithDislikeCountDates($email, $start = NULL, $end = NULL){
+            if($start == NULL AND $end == NULL){
+                $this->db->query('SELECT DATE(reaction.date_time) as date, count(reaction.product_id) as count FROM reaction INNER JOIN product ON reaction.product_id=product.product_id WHERE product.email=:email AND reaction.disliked=1 AND product.is_deleted=0 GROUP BY DATE(reaction.date_time)');
+            }
+            else{
+                $this->db->query('SELECT DATE(reaction.date_time) as date, count(reaction.product_id) as count FROM reaction INNER JOIN product ON reaction.product_id=product.product_id WHERE product.email=:email AND reaction.disliked=1 AND product.is_deleted=0 AND reaction.date_time BETWEEN :start AND :end  GROUP BY DATE(reaction.date_time)');
+                $this->db->bind(':start', $start);
+                $this->db->bind(':end', $end);
+            }
             $this->db->bind(':email', $email);
             $likes=$this->db->resultSet();
             if($this->db->rowCount()>0){
@@ -328,17 +342,35 @@ date_default_timezone_set("Asia/Kolkata");
             }
 
         }
-        public function getFeedbacksRate($email){
+        public function getFeedbacksRate($email, $start = NULL, $end = NULL){
             $rate[]='';
-            for($i=0;$i<5;$i++){
-                $this->db->query('SELECT count(email_rate_receiver) as count FROM rate WHERE email_rate_receiver=:email AND rate=:i GROUP BY rate');
-                $this->db->bind(':email', $email);
-                $this->db->bind(':i', $i+1);
-                $rat=$this->db->resultSet();
-                if($rat!=null){
-                    $rate[$i]=$rat[0]->count;
-                }else{
-                    $rate[$i]=0;
+            if( $start == NULL AND $end == NULL ){
+                for($i=0;$i<5;$i++){
+                    $this->db->query('SELECT count(email_rate_receiver) as count FROM rate WHERE email_rate_receiver=:email AND rate=:i GROUP BY rate');
+                    $this->db->bind(':email', $email);
+                    $this->db->bind(':i', $i+1);
+                    $rat=$this->db->resultSet();
+                    if($rat!=null){
+                        $rate[$i]=$rat[0]->count;
+                    }else{
+                        $rate[$i]=0;
+                    }
+                }
+            }
+            else{
+                for($i=0;$i<5;$i++){
+                    $this->db->query('SELECT count(email_rate_receiver) as count FROM rate WHERE email_rate_receiver=:email AND rate=:i AND `date` BETWEEN :start AND :end GROUP BY rate');
+                    $this->db->bind(':start', $start);
+                    $this->db->bind(':end', $end);
+                    
+                    $this->db->bind(':email', $email);
+                    $this->db->bind(':i', $i+1);
+                    $rat=$this->db->resultSet();
+                    if($rat!=null){
+                        $rate[$i]=$rat[0]->count;
+                    }else{
+                        $rate[$i]=0;
+                    }
                 }
             }
             return $rate;
@@ -364,23 +396,44 @@ date_default_timezone_set("Asia/Kolkata");
 
         
 
-        public function sellerNoAuctions($email){
-            $this->db->query('SELECT count(product_id) as count FROM auction WHERE email=:email AND is_active=1');
+        public function sellerNoAuctions($email,$start = NULL, $end = NULL){
+            if($start==NULL AND $end== NULL){
+                $this->db->query('SELECT count(product_id) as count FROM auction WHERE email=:email AND is_active=1');
+            }
+            else{
+                $this->db->query('SELECT count(product_id) as count FROM auction WHERE email=:email AND is_active=1 AND `start_date` BETWEEN :start AND :end ');
+                $this->db->bind(':start', $start);
+                $this->db->bind(':end', $end);
+            }
             $this->db->bind(':email', $email);
             $products=$this->db->single();
             return $products;
 
         }
-        public function sellerNoFixedAds($email){
-            $this->db->query('SELECT count(product_id) as count FROM product WHERE email=:email AND product_type="fixed_price" AND is_deleted=0');
+        public function sellerNoFixedAds($email,$start = NULL, $end = NULL){
+            if($start == null AND $end == NULL){
+                $this->db->query('SELECT count(product_id) as count FROM product WHERE email=:email AND product_type="fixed_price" AND is_deleted=0 ');
+            }
+            else{
+                $this->db->query('SELECT count(product_id) as count FROM product WHERE email=:email AND product_type="fixed_price" AND is_deleted=0 AND `date_added` BETWEEN :start AND :end');
+                $this->db->bind(':start', $start);
+                $this->db->bind(':end', $end);
+            }
             $this->db->bind(':email', $email);
             $products=$this->db->single();
             return $products;
 
         }
         
-        public function getViewsCount($email){
-            $this->db->query('SELECT DATE(view_item.date) AS date ,count(view_item.product_id) AS count FROM view_item INNER JOIN product ON view_item.product_id=product.product_id WHERE product.email=:email AND product.is_deleted=0 GROUP BY  DATE(view_item.date)');
+        public function getViewsCount($email,$start = NULL, $end = NULL){
+            if($start == NULL AND $end ==NULL){
+                $this->db->query('SELECT DATE(view_item.date) AS date ,count(view_item.product_id) AS count FROM view_item INNER JOIN product ON view_item.product_id=product.product_id WHERE product.email=:email AND product.is_deleted=0 GROUP BY  DATE(view_item.date)');
+            }
+            else{
+                $this->db->query('SELECT DATE(view_item.date) AS date ,count(view_item.product_id) AS count FROM view_item INNER JOIN product ON view_item.product_id=product.product_id WHERE product.email=:email AND product.is_deleted=0 AND product.date_added BETWEEN :start AND :end  GROUP BY  DATE(view_item.date)');
+                $this->db->bind(':start', $start);
+                $this->db->bind(':end', $end);
+            }
             $this->db->bind(':email', $email);
             $products=$this->db->resultset();
             if($this->db->rowCount()>0){
@@ -390,8 +443,15 @@ date_default_timezone_set("Asia/Kolkata");
             }
 
         }
-        public function sellerNoViews($email){
-            $this->db->query('SELECT SUM(view_count) as count FROM product WHERE email=:email AND is_deleted=0');
+        public function sellerNoViews($email ,$start = NULL, $end = NULL){
+            if($start == NULL AND $end == NULL){
+                $this->db->query('SELECT SUM(view_count) as count FROM product WHERE email=:email AND is_deleted=0');
+            }
+            else{
+                $this->db->query('SELECT SUM(view_count) as count FROM product WHERE email=:email AND is_deleted=0 AND date_added BETWEEN :start AND :end');
+                $this->db->bind(':start', $start);
+                $this->db->bind(':end', $end);
+            }
             $this->db->bind(':email', $email);
             $products=$this->db->single();
             return $products;
@@ -460,8 +520,15 @@ date_default_timezone_set("Asia/Kolkata");
             return $row;
         }
 
-        public function getFeedbacksCount($email){
-            $this->db->query('SELECT * FROM rate WHERE email_rate_receiver = :email');
+        public function getFeedbacksCount($email, $start= NULL, $end = NULL){
+            if($start==NULL AND $end==NULL){
+                $this->db->query('SELECT * FROM rate WHERE email_rate_receiver = :email');
+            }
+            else{
+                $this->db->query('SELECT * FROM rate WHERE email_rate_receiver = :email AND rate.date BETWEEN :start AND :end');
+                $this->db->bind(':start', $start);
+                $this->db->bind(':end', $end);
+            }
             $this->db->bind(':email' , $email);
             $row = $this->db->resultSet();
             if($row){

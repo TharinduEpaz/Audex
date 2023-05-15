@@ -280,12 +280,35 @@
             }
             public function trending_products(){
                     
-                $this->db->query('SELECT *,count(view_item.product_id) as count FROM product INNER JOIN view_item WHERE product.is_deleted=0 AND product.product_id=view_item.product_id GROUP BY view_item.product_id ORDER BY count(view_item.product_id) DESC;');
+                $this->db->query('SELECT *,count(view_item.product_id) as count FROM product INNER JOIN view_item WHERE product.is_deleted=0 AND product.product_id=view_item.product_id GROUP BY view_item.product_id ORDER BY count(view_item.product_id) DESC LIMIT 10;');
                 $serviceProviderReport= $this->db->resultSet();
                 return $serviceProviderReport;
             
                 
             }
+            public function get_users(){
+                    
+                $this->db->query('SELECT * FROM user WHERE (user_type=\'service_provider\' OR user_type=\'buyer\') AND is_deleted=0 AND email_active=1;');
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+                
+            }
+            public function user_suspend($id, $reason){
+                    
+                $this->db->query('UPDATE user SET is_admin_suspend=1, admin_suspend_reason=:reason WHERE user_id=:id;');
+                $this->db->bind(':id', $id);
+                $this->db->bind(':reason', $reason);
+                $this->db->execute();   
+            }
+            public function user_unsuspend($id){
+                    
+                $this->db->query('UPDATE user SET is_admin_suspend=0 , admin_suspend_reason=NULL WHERE user_id=:id;');
+                $this->db->bind(':id', $id);
+                $this->db->execute();   
+            }
+            
+
             
 
 

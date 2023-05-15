@@ -106,6 +106,9 @@
                     else if($_SESSION['user_type']=='admin'){
                             echo '<a href="'.URLROOT . '/admins/profiletest/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
                             echo '<a href="'.URLROOT . '/admins/admindashboard" class="nav_tags">Dashboard</a>';
+                            echo '<a href="'.URLROOT . '/admins/manageuser" class="nav_tags">Manage Users</a>';
+                            echo '<a href="'.URLROOT . '/admins/reports" class="nav_tags">Reports</a>';
+                            echo '<a href="'.URLROOT . '/admins/approval" class="nav_tags">Approvals</a>';
                             
                     }else if($_SESSION['user_type']=='seller'){
                         echo '<a href="'.URLROOT . '/sellers/dashboard" class="nav_tags">Dashboard</a>';

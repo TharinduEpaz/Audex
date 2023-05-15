@@ -512,6 +512,11 @@
                 }
 
                 $userData = $this->userModel->findUserDetailsByEmail($data['email']);
+                // $suspend=$this->userModel->getsuspend($data['email']);
+                // if(($suspend!=false) && ($suspend->is_admin_suspend == 1)){
+                //     flash('login_fail', 'Account suspended by admin. Reason:'.$userData->admin_suspend_reason , 'alert alert-danger');
+                //     redirect('users/login');
+                // }
                 if(!empty($userData) && $userData->is_deleted == 1){
                     $data = [
                         'email' => '',
@@ -525,6 +530,8 @@
                 }else if(!empty($userData) && $userData->email_active==0){
                     $data['email_not_activated_err']='Email is not activated, <a href=\''.URLROOT.'/users/activate_email/'.$data['email'].'\'> click to activate again</a>';
                 }
+
+                
                     //not a deleted account
                     //Make sure errors are empty
                     if($userData->password_wrong_attempts<=3){
