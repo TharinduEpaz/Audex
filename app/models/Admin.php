@@ -136,6 +136,18 @@
             }
 
 
+            public function getusers(){
+
+                $this->db->query('SELECT *
+                FROM `user`
+                WHERE user_type != \'admin\' AND user_id !=:id;
+                ');
+                $this->db->bind(':id',($_SESSION['user_id']));
+                $admins= $this->db->resultSet();
+                return $admins;
+            }
+
+
 
 
             public function gettotalpayment(){

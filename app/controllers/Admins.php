@@ -178,66 +178,100 @@
     }
 
 
-        public function setDetails()
-    {
         
+    
+      public function setDetails()
+      {
+          if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+              // Retrieve form data
+              $first_name = isset($_POST['first_name']) && $_POST['first_name'] != '' ? $_POST['first_name'] : '';
+              $second_name = isset($_POST['second_name']) && $_POST['second_name'] != '' ? $_POST['second_name'] : '';
+              $email = isset($_POST['email']) && $_POST['email'] != '' ? $_POST['email'] : '';
+              $address1 = isset($_POST['address1']) && $_POST['address1'] != '' ? $_POST['address1'] : '';
+              $address2 = isset($_POST['address2']) && $_POST['address2'] != '' ? $_POST['address2'] : '';
+              $mobile = isset($_POST['mobile']) && $_POST['mobile'] != '' ? $_POST['mobile'] : '';
+              $password = isset($_POST['password']) && $_POST['password'] != '' ? $_POST['password'] : '';
+              $confirm_password = isset($_POST['confirm_password']) && $_POST['confirm_password'] != '' ? $_POST['confirm_password'] : '';
+      
+              // Validate the password and confirm password
+              if ($password !== $confirm_password) {
+                  // Passwords do not match, display an alert message
+                  flash('Password_Error','Password Does Not Match','alert alert-danger');
+                 
+                 redirect('admins/addadmin/');
+              } else {
+                  // Passwords match, proceed with the rest of the logic
+      
+                  // Hash the password
+                  $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+      
+                  // Store the details
+                  $details = array($first_name, $second_name, $email, $address1, $address2, $mobile, $hashed_password);
+      
+                  $this->adminModel->setDetails($details);
+      
+                  redirect('admins/profiletest/');
+              }
+          }
+      }
+      
 
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
            
-            if (isset($_POST['first_name'])&& $_POST['first_name'] != '') {
+        //     if (isset($_POST['first_name'])&& $_POST['first_name'] != '') {
 
-                $first_name = $_POST['first_name'];
-            }
+        //         $first_name = $_POST['first_name'];
+        //     }
 
-           if(isset($_POST['second_name'])&& $_POST['second_name'] != '') {
+        //    if(isset($_POST['second_name'])&& $_POST['second_name'] != '') {
 
-                $second_name = $_POST['second_name'];
-            }
+        //         $second_name = $_POST['second_name'];
+        //     }
 
-            if(isset($_POST['email'])&& $_POST['email'] != '') {
+        //     if(isset($_POST['email'])&& $_POST['email'] != '') {
 
-                $email = $_POST['email'];
-            }
+        //         $email = $_POST['email'];
+        //     }
 
-            if(isset($_POST['address1'])&& $_POST['address1'] != '') {
+        //     if(isset($_POST['address1'])&& $_POST['address1'] != '') {
 
-                $address1 = $_POST['address1'];
-            }
+        //         $address1 = $_POST['address1'];
+        //     }
 
-            if(isset($_POST['address2'])&& $_POST['address2'] != '') {
+        //     if(isset($_POST['address2'])&& $_POST['address2'] != '') {
 
-                $address2 = $_POST['address2'];
-            }
+        //         $address2 = $_POST['address2'];
+        //     }
 
-            if(isset($_POST['mobile'])&& $_POST['mobile'] != '') {
+        //     if(isset($_POST['mobile'])&& $_POST['mobile'] != '') {
 
-                $mobile = $_POST['mobile'];
-            }
+        //         $mobile = $_POST['mobile'];
+        //     }
 
-            if(isset($_POST['password'])&& $_POST['password'] != '') {
+        //     if(isset($_POST['password'])&& $_POST['password'] != '') {
 
                 
-                $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
-            }
+        //         $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
+        //     }
            
         
 
-        $details = array($first_name, $second_name, $email, $address1,$address2,$mobile,$password,);
+        // $details = array($first_name, $second_name, $email, $address1,$address2,$mobile,$password,);
 
-        /*$this->adminmodel->setDetails($details,$_SESSION['user_id']); */
-        $this->adminModel->setDetails($details);
+        // /*$this->adminmodel->setDetails($details,$_SESSION['user_id']); */
+        // $this->adminModel->setDetails($details);
 
 
-        redirect('admins/profiletest/');
+        // redirect('admins/profiletest/');
         
-    }
+    // }
 
 
 
         
-    }
+    // }
 
     public function ignoresp(){
       $id = $_GET['id'];
@@ -376,6 +410,7 @@
       public function manageuser(){
 
         $admins=$this->adminModel->getadmins();
+        $users=$this->adminModel->getusers();
         $data=[
           'admins'=>$admins
         ];

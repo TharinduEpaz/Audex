@@ -29,7 +29,9 @@ poster_advertisements_admin {
     flex-direction: column;
     width: 200px;
     line-height: 35px;
-    row-gap: 10px;
+    row-gap: 9px;
+    /* column-gap: 5px; */
+    margin-bottom: 32px;
 }
 .poster_advertisements_admin .white-box .info-settings .info-items input{
     display: flex;

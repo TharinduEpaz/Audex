@@ -16,8 +16,10 @@
 </head>
 <body>
 <?php require_once APPROOT . '/views/admins/navbar.php';?>
+
     <div class="container">
-    <?php require_once APPROOT . '/views/admins/sidebar.php';?>        
+    <?php require_once APPROOT . '/views/admins/sidebar.php';?>
+    <?php echo flash('Password_Error')?>;        
 
     <div class="poster_advertisements_admin">
         <div class="white-box">
@@ -32,6 +34,7 @@
             <span>Address Line 2 : </span>
             <span>Mobile : </span>
             <span>Password: </span>
+            <span>Confirm Password</span>
             
         </div>
 <div class="info-items">
@@ -43,6 +46,7 @@
         <input type="text" name="address2" placeholder="" required>
         <input type="number" name="mobile" placeholder="" required>
         <input type="password" name="password" placeholder="" required>
+        <input type="password" name="confirm_password" placeholder="" required>
         
         <section class="buttons">
 
@@ -67,6 +71,15 @@
     link.style.background = "#E5E9F7";
     link.style.color = "red";
     link.style.fontWeight = "800";
+
+</script>
+<script>
+
+function exit() {
+    
+    var url = 'http://localhost/Audex/admins/manageuser';
+    window.open(url, '_self');
+}
 
 </script>
 </html>
