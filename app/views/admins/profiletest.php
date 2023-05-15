@@ -21,6 +21,7 @@
 
         <div class="poster_advertisements">
         <div class="form-display"> 
+            <?php var_dump($data)?>
             <!-- <?php echo $_SESSION['user_id'];?> -->
                 <h1>My Profile Details</h1>
                 <div class="form-data-area">
