@@ -406,15 +406,15 @@ date_default_timezone_set("Asia/Kolkata");
             }
         }
         public function getsuspend($email){
-            $this->db->query('SELECT is_admin_suspend FROM user WHERE email = :email');
+            $this->db->query('SELECT is_admin_suspend FROM user WHERE email = :email AND is_admin_suspend=1');
             //Bind value
             $this->db->bind(':email', $email);
             $row = $this->db->execute();
             //Check row
             if($this->db->rowCount() > 0){
-                return $row;
+                return 1;
             }else{
-                return false;
+                return 0;
             }
         }
         
@@ -1145,6 +1145,13 @@ date_default_timezone_set("Asia/Kolkata");
             $result = $this->db->resultSet();
             return $result;
         }
+        
+        // public function getServiceProviders(){
+            
+        //     $this->db->query('SELECT u., spv. FROM user u JOIN service_provider_view spv ON u.user_id = spv.user_id');
+        //     $result = $this->db->resultSet();
+        //     return $result;
+        // }
 
         public function searchItems($searchedTerm){
             $this->db->query('SELECT * FROM product WHERE product_title LIKE :searchedTerm AND is_paid = 1 ');
@@ -1366,6 +1373,7 @@ date_default_timezone_set("Asia/Kolkata");
             return $results;
 
         }
+        
 
         
         public function getServiceProvidersPublic($id){

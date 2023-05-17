@@ -111,6 +111,8 @@
 
     <div class="container" style="background: none;">
     <?php echo flash('email_err');?>
+    <?php echo flash('bid_have');?>
+    
         <div class="content">
             <div class="image_likes">
             <!-- Image section -->

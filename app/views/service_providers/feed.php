@@ -24,7 +24,7 @@
 
             <span>Please pay before adding any post</span>
         
-            <button class="add-event-btn" id="edit-event-btn" onclick="">Make Payment</button>
+            <!-- <button class="add-event-btn" id="edit-event-btn" onclick="">Make Payment</button> -->
             
 
         <?php endif; ?>

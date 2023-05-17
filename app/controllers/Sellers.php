@@ -207,6 +207,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             ];
             $auction = $this->sellerModel->getAuctionById_withfinished($id);
             $data['auction'] = $auction;
+            //Get bids
+            $bids=$this->sellerModel->getBids($auction->auction_id);
+            $data['bids']=$bids;
             if($data['advertisement']->email!=$_SESSION['user_email']){
                 redirect('sellers/advertisements');
             }
@@ -1695,9 +1698,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             // echo $buyer_id;
             // echo $seller;
             $results1 = $this->sellerModel->checkAddedRate($email_seller, $email_buyer,$product_id);
-
-
-
             $date=date('Y-m-d H:i:s');
             if( empty($results1) ){
                 $results2 = $this-> sellerModel->rateBuyer($email_seller, $email_buyer,$product_id, $rating, $review, $date);

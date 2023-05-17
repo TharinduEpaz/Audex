@@ -92,7 +92,7 @@
             </div>
             
             
-            <div class="section3">
+            <div class="section3" style="display: none;">
                 <h1> Add a new admin
                 <a href="<?php echo URLROOT .'/admins/addadmin'?>" class="btn1"> click</a></button>
             </div>

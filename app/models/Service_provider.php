@@ -41,7 +41,7 @@ class Service_provider
         $this->db->bind(':second_name', $data['second_name']);
         $this->db->bind(':address1', $data['address1']);
         $this->db->bind(':address2', $data['address2']);
-        $this->db->bind(':phone', $data['phone']);
+        // $this->db->bind(':phone', $data['phone']);
         $this->db->execute();
         
     }

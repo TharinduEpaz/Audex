@@ -218,32 +218,11 @@
 
             <div class="top-rated-sellers">
                 <div class="cardHeader">
-                    <h3>Top Rated Sellers</h3>
                 </div>
                 <table class="seller-table">
-                <thead>
-                            <tr>
-                            
-                            <th> Profile Image</th>
-                            <th>First Name</th>
-                            <th>Second Name</th>
-                            <th>Email</th>
-                            <th>Registered Date</th>
-                            </tr>
-                        </thead>
+              
                     <tbody>
-                    <?php foreach ($data['toprated'] as $detail):  ?>
-                    <tr>
-                        <td>
-                            <div class="imgBx"><img src="<?php echo URLROOT.'/public/uploads/'.$detail->profile_pic;?>"></div>
-                        </td>
-                        <td class="td-except"><?php echo $detail->first_name?></td>
-                        <td class="td-except"><?php echo $detail->second_name?></td>
-                        <td class="td-except"><?php echo $detail->email?></td>
-                        <td class="td-except"><?php echo $detail->registered_date?></td>
-
-                     </tr>
-                     <?php endforeach; ?>
+                    
                      </tbody>
                 </table>
 

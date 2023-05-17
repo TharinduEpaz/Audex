@@ -76,7 +76,7 @@
                 <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
 
     </div>
-        <div class="form-div">
+        <div class="form-div" style="display: none;">
           <form method="POST" action="">
             <label for="start-date">Start Date:</label>
             <input type="date" id="start-date" name="start-date" min="<?php echo date('Y-m-d', strtotime("-1 year")); ?>" max="<?php echo date('Y-m-d'); ?>">

@@ -60,7 +60,7 @@
                     <p><?php echo $data['details']->achievements; ?></p>
                   
                     <input type="hidden" value="http://localhost/Audex/users/serviceProviderPublic?id=<?php echo $data['details']->user_id?>" id="myInput">
-                        <button onclick="myFunction()"  class="copy-link-btn">Copy public link</button>
+                        <button onclick="myFunction1()"  class="copy-link-btn">Copy public link</button>
                 </div>
                 <div class="profile-description name-rating">
                 
@@ -185,7 +185,7 @@
     }
   
 
-    function myFunction() {
+    function myFunction1() {
   // Get the text field
   var copyText = document.getElementById("myInput");
 
@@ -197,7 +197,7 @@
   navigator.clipboard.writeText(copyText.value);
 
   // Alert the copied text
-//   alert("Copied the text: " + copyText.value);
+  alert("Copied the text: " + copyText.value);
 }
 
 

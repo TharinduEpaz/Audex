@@ -656,6 +656,23 @@ date_default_timezone_set("Asia/Kolkata");
 
         }
         
+        public function getBids($id){
+            $this->db->query('SELECT * FROM bid WHERE auction_id=:id');
+            //Bind value
+            $this->db->bind(':id', $id);
+            $results = $this->db->resultSet();
+            if($results){
+                return $results;
+            }else{
+                return 0;
+            }
+            
+
+        }
+        
+        
+        
+        
         
 
     }

@@ -22,8 +22,8 @@
 
     <div class="container" style="background: none;">
     
-    <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?>
-    <?php echo $data['auction']->end_date;?> -->
+    <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
+    <!-- <?php echo $data['auction']->end_date;?> -->
         <div class="content">
         <div class="image_likes">
             <div class="image">
@@ -101,8 +101,12 @@
                     <?php if($data['advertisement']->product_type=='auction'){?>
                     <button type="button" class="bid_list" onclick="location.href='<?php echo URLROOT;?>/sellers/bid_list/<?php echo $data['advertisement']->product_id;?>'">Bid list</button>
                     <?php }?>
+                    <?php if($data['bids']==0){ ?>
                     <button type="button" class="delete" onclick="location.href='<?php echo URLROOT;?>/sellers/delete_advertisement/<?php echo $data['advertisement']->product_id;?>'"> Delete</button>    
-                    
+                    <?php }else{ ?>
+                    <button type="button" class="delete" onclick="alert('You cannot delete this advertisement because there are bids for this advertisement.')"> Delete</button>
+                    <!-- <button type="button" class="delete" onclick="bidnow()"> Delete</button> -->
+                        <?php }?>
                     
                 </div>
             </div>
@@ -120,6 +124,7 @@
         modal.style.display = "none";
       }
     });
+
 
 //Image change
 var img=1;

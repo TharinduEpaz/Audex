@@ -512,11 +512,13 @@
                 }
 
                 $userData = $this->userModel->findUserDetailsByEmail($data['email']);
-                // $suspend=$this->userModel->getsuspend($data['email']);
-                // if(($suspend!=false) && ($suspend->is_admin_suspend == 1)){
-                //     flash('login_fail', 'Account suspended by admin. Reason:'.$userData->admin_suspend_reason , 'alert alert-danger');
-                //     redirect('users/login');
-                // }
+                $suspend=$this->userModel->getsuspend($data['email']);
+                // print_r($suspend);
+                // die();
+                if($suspend == 1){
+                    flash('login_fail', 'Account suspended by admin.' , 'alert alert-danger');
+                    redirect('users/login');
+                }
                 if(!empty($userData) && $userData->is_deleted == 1){
                     $data = [
                         'email' => '',
