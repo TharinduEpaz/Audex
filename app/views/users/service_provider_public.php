@@ -140,7 +140,7 @@
                                         <input type="submit" value="Add To Watchlist" class="watch" id="add-service-provider-to-watchlist">
                                         <?php } ?>
                                     </form>
-                                    <button class='message btn'  onclick="getCalander(<?php echo $data['details']->user_id?>)">Get calander</button>
+                                    <button class='message btn'style="margin-top=-2vh"  onclick="getCalander(<?php echo $data['details']->user_id?>)">Get calander</button>
                         </div>
 
                         <?php if (isLoggedIn()) {

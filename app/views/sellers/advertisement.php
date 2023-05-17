@@ -22,8 +22,8 @@
 
     <div class="container" style="background: none;">
     
-    <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?>
-    <?php echo $data['auction']->end_date;?> -->
+    <!-- <?php echo '<pre>'; print_r($data); echo '</pre>';?> -->
+    <!-- <?php echo $data['auction']->end_date;?> -->
         <div class="content">
         <div class="image_likes">
             <div class="image">
@@ -101,111 +101,13 @@
                     <?php if($data['advertisement']->product_type=='auction'){?>
                     <button type="button" class="bid_list" onclick="location.href='<?php echo URLROOT;?>/sellers/bid_list/<?php echo $data['advertisement']->product_id;?>'">Bid list</button>
                     <?php }?>
+                    <?php if($data['bids']==0){ ?>
                     <button type="button" class="delete" onclick="location.href='<?php echo URLROOT;?>/sellers/delete_advertisement/<?php echo $data['advertisement']->product_id;?>'"> Delete</button>    
+                    <?php }else{ ?>
+                    <button type="button" class="delete" onclick="alert('You cannot delete this advertisement because there are bids for this advertisement.')"> Delete</button>
+                    <!-- <button type="button" class="delete" onclick="bidnow()"> Delete</button> -->
+                        <?php }?>
                     
-                    
-                </div>
-                <button type="button" style="margin-left: 0%;top: 15vh;position: absolute;left: 85vw;padding:0%" class="delete" onclick="openModal()"> Statistics</button>    
-                <div class="stat_modal" id="myModal" style="display:none">
-                <span class="close" style="margin-right: 1%;color:black;" onclick="closeModal()">&times;</span>
-                    <div class="stat">
-                        <div class="graph1">
-                            <canvas id="graph1" width="20px" height="20px"></canvas>
-                        </div>
-                        <div class="graph2">
-                            <canvas id="graph2" width="20px" height="20px"></canvas>
-                        </div>
-                        <div class="graph3">
-                            <canvas id="graph3" width="20px" height="20px"></canvas>
-                        </div>
-                        <div class="graph4">
-                            <canvas id="graph4" width="20px" height="20px"></canvas>
-                        </div>
-                        <div class="graph5">
-                            <canvas id="graph5" width="20px" height="20px"></canvas>
-                        </div>
-                        <div class="graph5">
-                            <canvas id="graph6" width="20px" height="20px"></canvas>
-                        </div>
-                    </div>
-
-                        <script>
-                            const data1 = {
-                                    labels: [
-                                        "Mon","Tue","Wed","Thu","Fri","Sat","Sun"
-                                    ],
-                                    datasets: [{
-                                            label: "Vacant Bikes",
-                                            data: [180,200,150,120,100,150,200],
-                                            borderColor: "rgba(255, 99, 132, 1)",
-                                            backgroundColor: "rgba(255, 99, 132, 0.2)",
-                                            fill: true,
-                                            tension: 0.1,
-                                        },
-                                        {
-                                            label: "Occupied Bikes",
-                                            data: [100,80,120,150,200,150,100],
-                                            borderColor: "rgba(54, 162, 235, 1)",
-                                            backgroundColor: "rgba(54, 162, 235, 0.2)",
-                                            fill: true,
-                                            tension: 0.4,
-                                        },
-                                    ]
-                            };
-                        
-                                const config1 = {
-                                    type: 'bar',
-                                    data: data1,
-                                    options: {
-                                        plugins: {
-                                            legend: {
-                                                position: "top",
-                                            },
-                                        },
-                                        scales: {
-                                            x: {
-                                                display: true,
-                                                title: {
-                                                    display: true,
-                                                    text: "Days",
-                                                },
-                                            },
-                                            y: {
-                                                display: true,
-                                                title: {
-                                                    display: true,
-                                                    text: "Number of Bikes",
-                                                },
-                                                suggestedMin: 50,
-                                            },
-                                        },
-                                    },
-                                };
-                                var myChart = new Chart(
-                                    document.getElementById('graph1'),
-                                    config1
-                                );
-                                var myChart = new Chart(
-                                    document.getElementById('graph2'),
-                                    config1
-                                );
-                                var myChart = new Chart(
-                                    document.getElementById('graph3'),
-                                    config1
-                                );
-                                var myChart = new Chart(
-                                    document.getElementById('graph4'),
-                                    config1
-                                );
-                                var myChart = new Chart(
-                                    document.getElementById('graph5'),
-                                    config1
-                                );
-                                var myChart = new Chart(
-                                    document.getElementById('graph6'),
-                                    config1
-                                );
-                        </script>
                 </div>
             </div>
         </div>
@@ -216,24 +118,13 @@
     </div>
 </body>
 <script>
-    function openModal() {
-			var modal = document.getElementById("myModal");
-			modal.style.display = "block";
-           
-    }
-
-    function closeModal() {
-			var modal = document.getElementById("myModal");
-			modal.style.display = "none";
-	}
-    // When the user clicks anywhere outside of the modal, close it
-	var modal = document.getElementById("myModal");
 
     window.addEventListener("click", function(event) {
       if (event.target == modal) {
         modal.style.display = "none";
       }
     });
+
 
 //Image change
 var img=1;

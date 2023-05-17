@@ -1,4 +1,10 @@
 <?php
+ use \PHPMailer\PHPMailer\PHPMailer;
+ use \PHPMailer\PHPMailer\Exception;
+
+ require dirname(APPROOT).'/app/phpmailer/src/Exception.php';
+ require dirname(APPROOT).'/app/phpmailer/src/PHPMailer.php';
+ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
 
     class Admins extends Controller{
         private $adminModel;
@@ -150,12 +156,6 @@
           }
 
 
-
-        public function manageuser(){
-
-
-            $this->view('admins/manageuser');
-        }
         
 
 
@@ -284,7 +284,18 @@
 
     public function admindashboard(){
 
-        $this->view('admins/admindashboard');
+        $details=$this->adminModel->getcounts();
+        $toprated=$this->adminModel->gettopratedsellers();
+        $producttype=$this->adminModel->producttypecount();
+        $viewcount=$this->adminModel->getviewcount();
+        
+        $data=[
+          'details'=>$details,
+          'toprated'=>$toprated,
+          'producttype'=>$producttype,
+          'viewcount'=>$viewcount
+        ];
+        $this->view('admins/admindashboard',$data);
 
 
       }
@@ -295,12 +306,178 @@
         $details= $this->adminModel->getreportdetails();
         $total=$this->adminModel->gettotalpayment();
         $data =[
-          'details'=> $details, 'total'=>$total->total
+          'details'=> $details, 
+          'total'=>$total->total
         ];
         // print_r($data);
         // exit();
         $this->view('admins/adminviewreport',$data);
 
+      }
+
+      public function reports(){
+          $this->view('admins/reports');
+  
+      }
+
+      public function approvedservice_providers(){
+        $serviceProvider=$this->adminModel->getserviceProviderReport();
+        $data =[
+          'service_provider_report' => $serviceProvider
+        ];
+        $this->view('admins/service_providers_approved',$data);
+      }
+      public function lowratings(){
+        $lowServiceProviders = $this->adminModel->getLowServiceProviders();
+        $data =[
+          'low_service_providers' => $lowServiceProviders
+        ];
+        $this->view('admins/serviceproviderslowratings',$data);
+      }
+      public function highratings(){
+        $topRated = $this->adminModel->getTopServiceProviders();
+        $data =[
+          'top_rated' => $topRated
+        ];
+        $this->view('admins/serviceprovidershighratings',$data);
+      }
+      public function seller_highratings(){
+        $topRated = $this->adminModel->getTopSeller();
+        $data =[
+          'top_rated' => $topRated
+        ];
+        $this->view('admins/sellerhighratings',$data);
+      }
+      public function seller_lowratings(){
+        $topRated = $this->adminModel->getlowSeller();
+        $data =[
+          'top_rated' => $topRated
+        ];
+        $this->view('admins/sellerlowratings',$data);
+      }
+      public function seller_product_count(){
+        $topRated = $this->adminModel->seller_product_count();
+        $sum=0;
+        foreach($topRated as $value){
+          $sum=$sum+$value->count;
+        }
+        $data =[
+          'top_rated' => $topRated,
+          'sum' => $sum
+        ];
+        $this->view('admins/seller_product_count',$data);
+      }
+      public function trending_products(){
+        $topRated = $this->adminModel->trending_products();
+        $data =[
+          'top_rated' => $topRated
+        ];
+        $this->view('admins/trending_products',$data);
+      }
+      
+      
+
+
+
+      public function manageuser(){
+
+        $admins=$this->adminModel->getadmins();
+        $users=$this->adminModel->get_users();
+        $data=[
+          'admins'=>$admins,
+          'users'=>$users
+        ];
+
+        $this->view('admins/manageuser',$data);
+      }
+
+      public function suspend($id){
+        $user=$this->adminModel->getadminDetails($id);
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+          $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+                $data = [
+                    'reason' => trim($_POST['reason'])
+                  ];
+          $this->adminModel->user_suspend($id,$data['reason']);
+          //Send email
+          $mail = new PHPMailer(true);
+          try {
+              $to=$user->email;
+              $sender='audexlk@gmail.com';
+              $mail_subject='Suspend Account';
+              $email_body='<p>Dear '.$user->first_name.',<br>Your account has been suspended for following reason. <br><hr>'; 
+              $email_body.='<b>Reason: '.$data['reason'].'</b><br><br>';
+              $email_body.='Thank you,<br>Audexlk</p>';
+              // $header="From:{$sender}\r\nContent-Type:text/html;";
+              
+              $mail->isSMTP();
+              $mail->Host = 'smtp.gmail.com';
+              $mail->SMTPAuth = true;
+              $mail->Username = $sender;
+              $mail->Password = EMAIL_PASS;
+              $mail->SMTPSecure = 'ssl';
+              $mail->Port = 465;
+              $mail->setFrom($sender);
+              $mail->addAddress($to);
+              $mail->isHTML(true);
+              $mail->Subject = $mail_subject;
+              $mail->Body = $email_body;
+              // if($mail->send()){
+                  $mail->send();
+                  //Otp send by email
+                  redirect('/admins/manageuser');
+              // }
+              // else{
+                  // }
+              } catch (Exception $e) {
+                  flash('email_err','Mail could not be sent. Error: '. $e->getMessage(),'alert alert-danger');
+                  redirect('/admins/manageuser');
+              // echo 'Message could not be sent. Error: ', $e->getMessage();
+              }
+          redirect('admins/manageuser');
+        }
+        $this->adminModel->user_suspend($id);
+        redirect('admins/manageuser');
+      }
+      public function unsuspend($id){
+        $user=$this->adminModel->getadminDetails($id);
+        $this->adminModel->user_unsuspend($id);
+        //Send email
+        $mail = new PHPMailer(true);
+        try {
+            $to=$user->email;
+            $sender='audexlk@gmail.com';
+            $mail_subject='Unuspend Account';
+            $email_body='<p>Dear '.$user->first_name.',<br>Your account has been unsuspended. <br>'; 
+            $email_body.='Thank you,<br>Audexlk</p>';
+            // $header="From:{$sender}\r\nContent-Type:text/html;";
+            
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = $sender;
+            $mail->Password = EMAIL_PASS;
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port = 465;
+            $mail->setFrom($sender);
+            $mail->addAddress($to);
+            $mail->isHTML(true);
+            $mail->Subject = $mail_subject;
+            $mail->Body = $email_body;
+            // if($mail->send()){
+                $mail->send();
+                //Otp send by email
+                redirect('admins/manageuser');
+            // }
+            // else{
+                // }
+            } catch (Exception $e) {
+                flash('email_err','Mail could not be sent. Error: '. $e->getMessage(),'alert alert-danger');
+                redirect('/admins/manageuser');
+            // echo 'Message could not be sent. Error: ', $e->getMessage();
+            }
+        redirect('admins/manageuser');
       }
 
 

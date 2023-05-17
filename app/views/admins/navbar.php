@@ -72,13 +72,17 @@
             <li><a href="<?php echo URLROOT;?>/users/index" class="nav_tags">Home</a></li>
             <li><a href="<?php echo URLROOT.'/users/shop'; ?>" class="nav_tags">Shop</a></li>
             <li><a href="<?php echo URLROOT.'/users/sound_engineers'; ?>" class="nav_tags">Sound Engineers</a></li>
-            <!-- <li><a href="#" class="nav_tags">Events</a></li> -->
+            <li><a href="<?php echo URLROOT.'/users/events'; ?>" class="nav_tags">Events</a></li>
             <?php if(isset($_SESSION['user_id'])){
                 echo '<div class="dropdown">';
                 echo '<button onclick="myFunction()" class="dropbtn">Hi '.$_SESSION['user_name']. ' &nbsp<i class="fa-solid fa-caret-down"></i></button>';
                 echo '<div id="myDropdown" class="dropdown-content">';
                     echo '<a href="'.URLROOT . '/admins/profiletest/'.$_SESSION['user_id'].'" class="nav_tags">Profile</a>';
                     echo '<a href="'.URLROOT . '/admins/admindashboard" class="nav_tags">Dashboard</a>';
+                    // echo '<a href="'.URLROOT . '/admins/profiletest" class="nav_tags">My Profile</a>';
+                    echo '<a href="'.URLROOT . '/admins/manageuser" class="nav_tags">Manage Users</a>';
+                    echo '<a href="'.URLROOT . '/admins/reports" class="nav_tags">Reports</a>';
+                    echo '<a href="'.URLROOT . '/admins/approval" class="nav_tags">Approvals</a>';
                     echo '<a href="'.URLROOT . '/users/logout" class="nav_tags">Logout</a>';
                 echo '</div>';
             echo '</div> ';

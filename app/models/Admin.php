@@ -124,12 +124,182 @@
 
 
 
+            public function getadmins(){
+
+                $this->db->query('SELECT *
+                FROM `user`
+                WHERE user_type = \'admin\' AND user_id !=:id;
+                ');
+                $this->db->bind(':id',($_SESSION['user_id']));
+                $admins= $this->db->resultSet();
+                return $admins;
+            }
+
+
+
+
             public function gettotalpayment(){
 
                 $this->db->query('SELECT SUM(amount) AS total FROM payment');
                 $reportdetails= $this->db->single();
                 return $reportdetails;
             }
+
+            
+            public function getcounts(){
+
+                $this->db->query('SELECT
+                (SELECT COUNT(*) FROM `user` WHERE `user_type` !=\'admin\') AS num_users,
+                (SELECT COUNT(*) FROM `user` WHERE `user_type` = \'service_provider\') AS num_service_providers,
+                (SELECT COUNT(*) FROM `user` WHERE `user_type` = \'seller\') AS num_sellers,
+                (SELECT COUNT(*) FROM `product`) AS num_products');
+                $getcounts= $this->db->resultSet();
+                return $getcounts;
+            }
+
+            
+            public function gettopratedsellers(){
+
+                $this->db->query('SELECT * FROM user WHERE user_type = \'seller\' AND rate >= 4.0 AND rate <= 5.0 ORDER BY rate DESC LIMIT 5');
+                $gettopratedsellers= $this->db->resultSet();
+                return $gettopratedsellers;
+            }
+
+            public function producttypecount(){
+
+                $this->db->query('SELECT COUNT(*) AS count, product_type
+                FROM product
+                GROUP BY product_type;
+                ');
+                $producttypecount= $this->db->resultSet();
+                return $producttypecount;
+            }
+            public function getviewcount(){
+                $month[]='';
+                for($i=0;$i<12;$i++){
+                    $this->db->query('SELECT COUNT(view_id) AS view_count FROM view_item WHERE MONTH(date)=:i GROUP BY MONTH(date)');
+                    
+                    $this->db->bind(':i', $i+1);
+                    $mont=$this->db->resultSet();
+                    if($mont!=null){
+                        $month[$i]=$mont[0]->view_count;
+                    }else{
+                        $month[$i]=0;
+                    }
+                }
+                return $month;
+            }
+
+            public function getserviceProviderReport(){
+                $this->db->query('SELECT 
+                user_id,
+                profession,
+                qualifications,
+                profile_views,
+                likes,
+                Rating
+              FROM 
+                service_provider
+              WHERE 
+                admin_approved = 1
+                AND is_paid = 1
+              ORDER BY 
+                Rating DESC
+              LIMIT 10;');
+
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+            }
+
+            public function getLowServiceProviders(){
+
+                $this->db->query('SELECT 
+                user_id,
+                profession,
+                qualifications,
+                profile_views,
+                likes,
+                Rating
+              FROM 
+                service_provider
+              WHERE 
+                Rating < 2
+              ORDER BY 
+                Rating ASC;');
+
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+                
+            }
+            public function getTopServiceProviders(){
+                    
+                    $this->db->query('SELECT user_id, profession, qualifications, likes, Rating FROM service_provider ORDER BY Rating DESC LIMIT 10;');
+    
+                    $serviceProviderReport= $this->db->resultSet();
+                    return $serviceProviderReport;
+                
+                    
+            }
+            public function getTopSeller(){
+                    
+                $this->db->query('SELECT user_id, email, first_name, rate FROM user ORDER BY rate DESC LIMIT 10;');
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+                
+            }
+            public function getlowSeller(){
+                    
+                $this->db->query('SELECT user_id, email, first_name, rate FROM user ORDER BY rate ASC LIMIT 10;');
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+                
+            }
+            public function seller_product_count(){
+                    
+                $this->db->query('SELECT email, count(product_id) as count FROM product WHERE is_deleted=0 GROUP BY email ORDER BY count(product_id) DESC;');
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+                
+            }
+            public function trending_products(){
+                    
+                $this->db->query('SELECT *,count(view_item.product_id) as count FROM product INNER JOIN view_item WHERE product.is_deleted=0 AND product.product_id=view_item.product_id GROUP BY view_item.product_id ORDER BY count(view_item.product_id) DESC LIMIT 10;');
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+                
+            }
+            public function get_users(){
+                    
+                $this->db->query('SELECT * FROM user WHERE (user_type=\'service_provider\' OR user_type=\'buyer\') AND is_deleted=0 AND email_active=1;');
+                $serviceProviderReport= $this->db->resultSet();
+                return $serviceProviderReport;
+            
+                
+            }
+            public function user_suspend($id, $reason){
+                    
+                $this->db->query('UPDATE user SET is_admin_suspend=1, admin_suspend_reason=:reason WHERE user_id=:id;');
+                $this->db->bind(':id', $id);
+                $this->db->bind(':reason', $reason);
+                $this->db->execute();   
+            }
+            public function user_unsuspend($id){
+                    
+                $this->db->query('UPDATE user SET is_admin_suspend=0 , admin_suspend_reason=NULL WHERE user_id=:id;');
+                $this->db->bind(':id', $id);
+                $this->db->execute();   
+            }
+            
+
+            
+
+
 
     }
 

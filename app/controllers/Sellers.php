@@ -207,6 +207,9 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             ];
             $auction = $this->sellerModel->getAuctionById_withfinished($id);
             $data['auction'] = $auction;
+            //Get bids
+            $bids=$this->sellerModel->getBids($auction->auction_id);
+            $data['bids']=$bids;
             if($data['advertisement']->email!=$_SESSION['user_email']){
                 redirect('sellers/advertisements');
             }
@@ -546,6 +549,7 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
                     if($product_id!=false){
                         $data1=[
                             'title' => $data['title'],
+                            'image1' => $data['image1'],
                         ];
                         flash('product_message', 'Product Added');
                         // redirect('users/checkout/'.urlencode(base64_encode("$data1")));
@@ -1392,188 +1396,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
         }
 
 
-        // public function complete_payment($id){
-        //     if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        //         //Sanitize POST array
-        //         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-        //         $advertisement=$this->sellerModel->getAdvertisementById($id);
-        //         //Check for owner
-        //         if($advertisement->email != $_SESSION['user_email']){
-        //             redirect('sellers/advertisements');
-        //         }
-        //         $data = [
-        //             'id' => $id,
-        //             'user_email' => $_SESSION['user_email'],
-        //             'title' => trim($_POST['title']),
-        //             'description' => trim($_POST['description']),
-        //             'price' => '',
-        //             'condition' => trim($_POST['condition']),
-        //             'image1' => $advertisement->image1,
-        //             'image2' => '',
-        //             'image3' => '',
-        //             'brand' => trim($_POST['brand']),
-        //             'model' => trim($_POST['model']),
-        //             'category' =>trim($_POST['category']),
-        //             'title_err' => '',
-        //             'description_err' => '',
-        //             'price_err' => '',
-        //             'condition_err' => '',
-        //             'image1_err' => '',
-        //             'image2_err' => '',
-        //             'image3_err' => '',
-        //             'brand_err' => '',
-        //             'model_err' => '',
-        //             'category_err' => ''
-        //         ];
-
-
-        //         //Validate data
-        //         if(empty($data['title'])){
-        //             $data['title_err'] = 'Please enter title';
-        //         }
-        //         if(empty($data['description'])){
-        //             $data['description_err'] = 'Please enter description';
-        //         }
-        //         if($advertisement->product_type=='auction'){
-        //             $data['price']=$advertisement->price;
-        //         }else{
-        //             $data['price']=trim($_POST['price']);
-        //             if(empty($data['price'])){
-        //                 $data['price_err'] = 'Please enter price';
-        //             }
-        //         }
-        //         if(empty($data['category'])){
-        //             $data['category_err'] = 'Please enter category';
-        //         }
-        //         if(empty($data['condition'])){
-        //             $data['condition_err'] = 'Please enter condition';
-        //         }
-        //         // if(empty($data['image1'])){
-        //         //     $data['image1_err'] = 'Please enter image1';
-        //         // }
-        //         // if(empty($data['image2'])){
-        //         //     $data['image2_err'] = 'Please enter image2';
-        //         // }
-        //         // if(empty($data['image3'])){
-        //         //     $data['image3_err'] = 'Please enter image3';
-        //         // }
-        //         if(empty($data['brand'])){
-        //             $data['brand_err'] = 'Please enter brand';
-        //         }
-        //         if(empty($data['model'])){
-        //             $data['model_err'] = 'Please enter model';
-        //         }
-        //         if($data['price']<=0){
-        //             $data['price_err'] = 'Please enter valid price';
-        //         }
-        //         // if(isset($_FILES['image1'])){
-        //         //     $img_name = $_FILES['image1']['name'];
-        //         //     $img_size = $_FILES['image1']['size'];
-        //         //     $tmp_name = $_FILES['image1']['tmp_name'];
-        //         //     $error = $_FILES['image1']['error'];
-
-        //         //     if($error === 0){
-        //         //         if($img_size > 12500000){
-        //         //             $data['image1_err'] = "Sorry, your file is too large.";
-        //         //         }
-        //         //         else{
-        //         //             $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); //Extension type of image(jpg,png)
-        //         //             $img_ex_lc = strtolower($img_ex);
-
-        //         //             $allowed_exs = array("jpg", "jpeg", "png"); 
-
-        //         //             if(in_array($img_ex_lc, $allowed_exs)){
-        //         //                 $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
-        //         //                 $img_upload_path = dirname(APPROOT).'/public/uploads/'.$new_img_name;
-        //         //                 move_uploaded_file($tmp_name, $img_upload_path);
-        //         //                 $data['image1'] = $new_img_name;
-
-        //         //                 // //Insert into database
-        //         //                 // if($this->sellerModel->addAdvertisement($data)){
-        //         //                 //     flash('post_message', 'Advertisement Added');
-        //         //                 //     redirect('sellers/advertisements');
-        //         //                 // }
-        //         //                 // else{
-        //         //                 //     die('Something went wrong');
-        //         //                 // }
-        //         //             }
-        //         //             else{
-        //         //                 $data['image1_err'] = "You can't upload files of this type";
-        //         //             }
-        //         //         }
-        //         //     }
-        //         //     else{
-        //         //         $data['image1_err'] = "Unknown error occurred!";
-        //         //     }
-        //         // }else{
-        //         //     $data['image1_err'] = 'Please upload atleast one image';
-        //         // }
-
-
-        //         //Make sure no errors
-        //         if(empty($data['title_err']) && empty($data['description_err']) && empty($data['price_err'])  && empty($data['condition_err']) && empty($data['image1_err']) && empty($data['image2_err']) && empty($data['image3_err']) && empty($data['brand_err']) && empty($data['model_err'])){
-        //             //Validated
-        //             if($this->sellerModel->edit_advertisement($data)){
-        //                 flash('product_message', 'Product Edited');
-        //                 $data1 = [
-        //                     'id' => $id,
-        //                     'user_email' => $_SESSION['user_email'],
-        //                     'title' => $data['title'],
-        //                     'price' => $data['price'],
-        //                     'image1' => $data['image1'],
-                            
-        //                 ];
-        //                 redirect('users/checkout/'.$data['id'].'/'.urlencode(json_encode($data1)));
-
-        //             } else {
-        //                 die('Something went wrong');
-        //             }
-        //         } else {
-        //             //Load view with errors
-        //             $this->view('sellers/complete_payment', $data);
-        //         }
-
-        //     } else {
-        //         //Get existing post from model
-        //         $advertisement=$this->sellerModel->getAdvertisementById($id);
-        //         //Check for owner
-        //         if($advertisement->email != $_SESSION['user_email']){
-        //             redirect('sellers/advertisements');
-        //         }
-        //         $data = [
-        //             'id' => $id,
-        //             'user_email' => $advertisement->email,
-        //             'title' => $advertisement->product_title,
-        //             'description' => $advertisement->p_description,
-        //             'price' => $advertisement->price,
-        //             'condition' => $advertisement->product_condition,
-        //             'image1' => $advertisement->image1,
-        //             'image2' => $advertisement->image2,
-        //             'image3' => $advertisement->image3,
-        //             'brand' => $advertisement->brand,
-        //             'model' => $advertisement->model_no,
-        //             'category' =>$advertisement->product_category,
-        //             'product_type'=>$advertisement->product_type,
-        //             'title_err' => '',
-        //             'description_err' => '',
-        //             'price_err' => '',
-        //             'condition_err' => '',
-        //             'image1_err' => '',
-        //             'image2_err' => '',
-        //             'image3_err' => '',
-        //             'brand_err' => '',
-        //             'model_err' => '',
-        //             'category_err' => ''
-        //         ];
-                
-
-        //         $this->view('sellers/complete_payment', $data);
-        //     }
-
-            
-        // }
-
         public function delete_advertisement($id){
             // if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 //Get existing post from model
@@ -1712,70 +1534,152 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             
         }
         public function dashboard(){
-            // $data['likes_dislikes']=$this->sellerModel->sellerDetailsWithLikeDislikeCount($_SESSION['user_email']);
-            $data['no_auctions']=$this->sellerModel->sellerNoAuctions($_SESSION['user_email']);
-            $data['no_fixed_ads']=$this->sellerModel->sellerNoFixedAds($_SESSION['user_email']);
-            $data['no_views']=$this->sellerModel->sellerNoViews($_SESSION['user_email']);
-            $data['feedbackcount']=$this->sellerModel->getFeedbacksCount($_SESSION['user_email']);
-            //View count with dates
-            $data['view_count']=$this->sellerModel->getViewsCount($_SESSION['user_email']);
-            if($data['view_count']==false){
-                $data['view_count']=0;
-                $data['empty_view_count']=1;
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $start_date = $_POST['start-date'];
+                $end_date = $_POST['end-date'];
+                
+                // Validate the date range
+                if (strtotime($start_date) > strtotime($end_date)) {
+                  echo "Error: Start date cannot be after end date.";
+                } elseif (strtotime($end_date) > strtotime('now')) {
+                  echo "Error: End date cannot be after today's date.";
+                } else {
 
-            }else{
-                $data['empty_view_count']=0;
-            }
-            //Likes count with dates
-            $data['likes_dates']=$this->sellerModel->sellerDetailsWithLikeCountDates($_SESSION['user_email']);
-            if(!$data['likes_dates']){
-                $data['likes_dates']=0;
-                $data['empty_likes_dates']=1;
-                $data['likes_date'] = [];
-                $data['likes_counts'] = [];
-                $data['startDate']= new DateTime(date('Y-m-d H:i:s'));
-                $data['endDate']= clone $data['startDate'];
-            }else{
-                $data['startDate'] = new DateTime(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' - 1 months')));
-                $data['endDate'] = clone $data['startDate'];
-                $data['endDate']->modify('+1 months');
-                $data['likes_date'] = [];
-                $data['empty_likes_dates']=0;
-                $data['likes_counts'] = [];
-                foreach ($data['likes_dates'] as $item) {
-                    $data['likes_date'][] = $item->date;
-                    $data['likes_counts'][] = $item->count;
+                    // $data['likes_dislikes']=$this->sellerModel->sellerDetailsWithLikeDislikeCount($_SESSION['user_email']);
+                    $data['no_auctions']=$this->sellerModel->sellerNoAuctions($_SESSION['user_email'],$start_date,$end_date);
+                    $data['no_fixed_ads']=$this->sellerModel->sellerNoFixedAds($_SESSION['user_email'],$start_date,$end_date);
+        
+                    $data['no_views']=$this->sellerModel->sellerNoViews($_SESSION['user_email'],$start_date,$end_date);
+                    $data['feedbackcount']=$this->sellerModel->getFeedbacksCount($_SESSION['user_email'],$start_date,$end_date);
+                    //View count with dates
+                    $data['view_count']=$this->sellerModel->getViewsCount($_SESSION['user_email'],$start_date,$end_date);
+                    if($data['view_count']==false){
+                        $data['view_count']=0;
+                        $data['empty_view_count']=1;
+        
+                    }else{
+                        $data['empty_view_count']=0;
+                    }
+                    //Likes count with dates
+                    $data['likes_dates']=$this->sellerModel->sellerDetailsWithLikeCountDates($_SESSION['user_email'],$start_date,$end_date);
+                    if(!$data['likes_dates']){
+                        $data['likes_dates']=0;
+                        $data['empty_likes_dates']=1;
+                        $data['likes_date'] = [];
+                        $data['likes_counts'] = [];
+                        $data['startDate']= new DateTime(date('Y-m-d H:i:s'));
+                        $data['endDate']= clone $data['startDate'];
+                    }else{
+                        $data['startDate'] = new DateTime(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' - 1 months')));
+                        $data['endDate'] = clone $data['startDate'];
+                        $data['endDate']->modify('+1 months');
+                        $data['likes_date'] = [];
+                        $data['empty_likes_dates']=0;
+                        $data['likes_counts'] = [];
+                        foreach ($data['likes_dates'] as $item) {
+                            $data['likes_date'][] = $item->date;
+                            $data['likes_counts'][] = $item->count;
+                        }
+                    }
+                    //Dislikes count with dates
+                    $data['dislikes_dates']=$this->sellerModel->sellerDetailsWithDislikeCountDates($_SESSION['user_email'],$start_date,$end_date);
+                    if(!$data['dislikes_dates']){
+                        $data['dislikes_dates']=0;
+                        $data['empty_dislikes_dates']=1;
+                        $data['dislikes_date'] = [];
+                        $data['dislikes_counts'] = [];
+                        $data['startDate_dislikes']= new DateTime(date('Y-m-d H:i:s'));
+                        $data['endDate_dislikes']= clone $data['startDate_dislikes'];
+                    }else{
+                        $data['startDate_dislikes'] = new DateTime(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' - 1 months')));
+                        $data['endDate_dislikes'] = clone $data['startDate_dislikes'];
+                        $data['endDate_dislikes']->modify('+1 months');
+                        $data['dislikes_date'] = [];
+                        $data['empty_dislikes_dates']=0;
+                        $data['dislikes_counts'] = [];
+                        foreach ($data['dislikes_dates'] as $item) {
+                            $data['dislikes_date'][] = $item->date;
+                            $data['dislikes_counts'][] = $item->count;
+                        }
+                    }
+        
+                    //Feedbacks count with related to rate
+                    $data['feedbacks_rate']=$this->sellerModel->getFeedbacksRate($_SESSION['user_email'],$start_date,$end_date);
+                    //Products count
+                    $data['products_count']=$this->sellerModel->getProductsCount($_SESSION['user_email']);
+        
+        
+                    $this->view('sellers/dashboard',$data);
                 }
-            }
-            //Dislikes count with dates
-            $data['dislikes_dates']=$this->sellerModel->sellerDetailsWithDislikeCountDates($_SESSION['user_email']);
-            if(!$data['dislikes_dates']){
-                $data['dislikes_dates']=0;
-                $data['empty_dislikes_dates']=1;
-                $data['dislikes_date'] = [];
-                $data['dislikes_counts'] = [];
-                $data['startDate_dislikes']= new DateTime(date('Y-m-d H:i:s'));
-                $data['endDate_dislikes']= clone $data['startDate_dislikes'];
-            }else{
-                $data['startDate_dislikes'] = new DateTime(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' - 1 months')));
-                $data['endDate_dislikes'] = clone $data['startDate_dislikes'];
-                $data['endDate_dislikes']->modify('+1 months');
-                $data['dislikes_date'] = [];
-                $data['empty_dislikes_dates']=0;
-                $data['dislikes_counts'] = [];
-                foreach ($data['dislikes_dates'] as $item) {
-                    $data['dislikes_date'][] = $item->date;
-                    $data['dislikes_counts'][] = $item->count;
-                }
-            }
-
-            //Feedbacks count with related to rate
-            $data['feedbacks_rate']=$this->sellerModel->getFeedbacksRate($_SESSION['user_email']);
-            //Products count
-            $data['products_count']=$this->sellerModel->getProductsCount($_SESSION['user_email']);
-
-
-            $this->view('sellers/dashboard',$data);
+              }
+              else{
+                  // $data['likes_dislikes']=$this->sellerModel->sellerDetailsWithLikeDislikeCount($_SESSION['user_email']);
+                  $data['no_auctions']=$this->sellerModel->sellerNoAuctions($_SESSION['user_email']);
+                  $data['no_fixed_ads']=$this->sellerModel->sellerNoFixedAds($_SESSION['user_email']);
+      
+                  $data['no_views']=$this->sellerModel->sellerNoViews($_SESSION['user_email']);
+                  $data['feedbackcount']=$this->sellerModel->getFeedbacksCount($_SESSION['user_email']);
+                  //View count with dates
+                  $data['view_count']=$this->sellerModel->getViewsCount($_SESSION['user_email']);
+                  if($data['view_count']==false){
+                      $data['view_count']=0;
+                      $data['empty_view_count']=1;
+      
+                  }else{
+                      $data['empty_view_count']=0;
+                  }
+                  //Likes count with dates
+                  $data['likes_dates']=$this->sellerModel->sellerDetailsWithLikeCountDates($_SESSION['user_email']);
+                  if(!$data['likes_dates']){
+                      $data['likes_dates']=0;
+                      $data['empty_likes_dates']=1;
+                      $data['likes_date'] = [];
+                      $data['likes_counts'] = [];
+                      $data['startDate']= new DateTime(date('Y-m-d H:i:s'));
+                      $data['endDate']= clone $data['startDate'];
+                  }else{
+                      $data['startDate'] = new DateTime(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' - 1 months')));
+                      $data['endDate'] = clone $data['startDate'];
+                      $data['endDate']->modify('+1 months');
+                      $data['likes_date'] = [];
+                      $data['empty_likes_dates']=0;
+                      $data['likes_counts'] = [];
+                      foreach ($data['likes_dates'] as $item) {
+                          $data['likes_date'][] = $item->date;
+                          $data['likes_counts'][] = $item->count;
+                      }
+                  }
+                  //Dislikes count with dates
+                  $data['dislikes_dates']=$this->sellerModel->sellerDetailsWithDislikeCountDates($_SESSION['user_email']);
+                  if(!$data['dislikes_dates']){
+                      $data['dislikes_dates']=0;
+                      $data['empty_dislikes_dates']=1;
+                      $data['dislikes_date'] = [];
+                      $data['dislikes_counts'] = [];
+                      $data['startDate_dislikes']= new DateTime(date('Y-m-d H:i:s'));
+                      $data['endDate_dislikes']= clone $data['startDate_dislikes'];
+                  }else{
+                      $data['startDate_dislikes'] = new DateTime(date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s'). ' - 1 months')));
+                      $data['endDate_dislikes'] = clone $data['startDate_dislikes'];
+                      $data['endDate_dislikes']->modify('+1 months');
+                      $data['dislikes_date'] = [];
+                      $data['empty_dislikes_dates']=0;
+                      $data['dislikes_counts'] = [];
+                      foreach ($data['dislikes_dates'] as $item) {
+                          $data['dislikes_date'][] = $item->date;
+                          $data['dislikes_counts'][] = $item->count;
+                      }
+                  }
+      
+                  //Feedbacks count with related to rate
+                  $data['feedbacks_rate']=$this->sellerModel->getFeedbacksRate($_SESSION['user_email']);
+                  //Products count
+                  $data['products_count']=$this->sellerModel->getProductsCount($_SESSION['user_email']);
+      
+      
+                  $this->view('sellers/dashboard',$data);
+              }
+              
         }
 
         public function rateBuyer(){
@@ -1794,9 +1698,6 @@ require dirname(APPROOT).'/app/phpmailer/src/SMTP.php';
             // echo $buyer_id;
             // echo $seller;
             $results1 = $this->sellerModel->checkAddedRate($email_seller, $email_buyer,$product_id);
-
-
-
             $date=date('Y-m-d H:i:s');
             if( empty($results1) ){
                 $results2 = $this-> sellerModel->rateBuyer($email_seller, $email_buyer,$product_id, $rating, $review, $date);

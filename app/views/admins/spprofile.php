@@ -69,13 +69,8 @@
 
 <?php require_once APPROOT . '/views/admins/navbar.php';?>
     <div class="container">
-        <div class="sidebar">
-                <a  href="<?php echo URLROOT;?>/admins/profiletest"><i class="fas fa-qrcode"></i> <span>My Profile</span></a>
-                <a href="<?php echo URLROOT;?>/admins/manageuser"> <i class="fa fa-cog" aria-hidden="true"></i><span>Manage Users</span></a>
-                <a href="#"> <i class="fas fa-bookmark" aria-hidden="true"></i><span>Flags</span></a>
-                <a class="current" href="<?php echo URLROOT;?>/admins/approval"> <i class="fas fa-check-circle" aria-hidden="true"></i><span>Approvals</span></a>
-                <!-- <a href="#"> <i class="fas fa-child"></i><span>Help</span></a>        -->
-        </div>
+    <?php require_once APPROOT . '/views/admins/sidebar.php';?>        
+
     <div class="poster_advertisements">
     <div class="form-display1">
     <h1>SP Profile Details</h1>

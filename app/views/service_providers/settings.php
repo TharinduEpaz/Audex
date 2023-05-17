@@ -128,27 +128,27 @@
       //if all of the form inputs are empty then display alert after clicking submit
       const form = document.getElementById('edit-settings-form');
 
-      form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        validateForm();
-      });
+      // form.addEventListener('submit', function(event) {
+      //   event.preventDefault();
+      //   validateForm();
+      // });
 
-      function validateForm() {
-        // get all form fields
-        const formFields = document.querySelectorAll('#myForm input, #myForm select, #myForm textarea');
+      // function validateForm() {
+      //   // get all form fields
+      //   const formFields = document.querySelectorAll('#myForm input, #myForm textarea');
 
-        // check if all fields are empty
-        const allFieldsEmpty = Array.from(formFields).every(field => field.value.trim() === '');
+      //   // check if all fields are empty
+      //   const allFieldsEmpty = Array.from(formFields).every(field => field.value.trim() === '');
 
-        // if all fields are empty, alert the user and don't submit the form
-        if (allFieldsEmpty) {
-          alert('Please fill out at least one field before submitting the form.');
-          return;
-        }
+      //   // if all fields are empty, alert the user and don't submit the form
+      //   if (!allFieldsEmpty) {
+      //     alert('Please fill out at least one field before submitting the form.');
+      //     return;
+      //   }
 
-        // if not all fields are empty, submit the form
-        form.submit();
-      }
+      //   // if not all fields are empty, submit the form
+      //   form.submit();
+      // }
       var uploadField = document.getElementById("profile");
 
       uploadField.onchange = function() {

@@ -405,6 +405,18 @@ date_default_timezone_set("Asia/Kolkata");
                 return false;
             }
         }
+        public function getsuspend($email){
+            $this->db->query('SELECT is_admin_suspend FROM user WHERE email = :email AND is_admin_suspend=1');
+            //Bind value
+            $this->db->bind(':email', $email);
+            $row = $this->db->execute();
+            //Check row
+            if($this->db->rowCount() > 0){
+                return 1;
+            }else{
+                return 0;
+            }
+        }
         
 
         //Get user id
@@ -1133,6 +1145,13 @@ date_default_timezone_set("Asia/Kolkata");
             $result = $this->db->resultSet();
             return $result;
         }
+        
+        // public function getServiceProviders(){
+            
+        //     $this->db->query('SELECT u., spv. FROM user u JOIN service_provider_view spv ON u.user_id = spv.user_id');
+        //     $result = $this->db->resultSet();
+        //     return $result;
+        // }
 
         public function searchItems($searchedTerm){
             $this->db->query('SELECT * FROM product WHERE product_title LIKE :searchedTerm AND is_paid = 1 ');
@@ -1354,6 +1373,7 @@ date_default_timezone_set("Asia/Kolkata");
             return $results;
 
         }
+        
 
         
         public function getServiceProvidersPublic($id){
@@ -1565,6 +1585,7 @@ date_default_timezone_set("Asia/Kolkata");
 
         }
 
+        // Sender inna chats tika gannawa
         public function getChats($data){
             $this->db->query('SELECT * FROM chat WHERE sender_email = :email OR receiver_email = :email ORDER BY chat_id DESC');
             //Bind value
@@ -1579,6 +1600,7 @@ date_default_timezone_set("Asia/Kolkata");
             }
 
         }
+        //Sender and reciever dennama inna chats tika gannawa
         public function getCurrentChat($email_sender,$receiver_email){
             $this->db->query('SELECT * FROM chat WHERE (sender_email = :email_sender AND receiver_email = :receiver_email) OR (sender_email = :receiver_email AND receiver_email = :email_sender)');
             //Bind value

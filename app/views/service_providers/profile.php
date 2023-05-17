@@ -58,14 +58,18 @@
                     <p><?php echo $data['details']->qualifications; ?></p>
                     <span>Achievements</span>
                     <p><?php echo $data['details']->achievements; ?></p>
+                  
+                    <input type="hidden" value="http://localhost/Audex/users/serviceProviderPublic?id=<?php echo $data['details']->user_id?>" id="myInput">
+                        <button onclick="myFunction1()"  class="copy-link-btn">Copy public link</button>
                 </div>
                 <div class="profile-description name-rating">
+                
                     <p id="profession">
                     
                         <?php echo $data['details']->profession; ?>
-                        <input type="hidden" value="http://localhost/Audex/users/serviceProviderPublic?id=<?php echo $data['details']->user_id?>" id="myInput">
-                        <button onclick="myFunction()" style="margin-left:20px" class="add-event-btn">Copy public link</button>
+                       
                     </p>
+                    
 
                     <?php echo $data['details']->description; ?>
                 </div>
@@ -173,7 +177,7 @@
 
     //if the description and profession is empty then display error message to complete the profile
 
-    var profession = document.getElementById("profession").innerText;
+    var profession = document.getElementById("profession").innerText.trim();
     console.log(profession);
     
     if(profession == ''){
@@ -181,7 +185,7 @@
     }
   
 
-    function myFunction() {
+    function myFunction1() {
   // Get the text field
   var copyText = document.getElementById("myInput");
 
@@ -193,12 +197,14 @@
   navigator.clipboard.writeText(copyText.value);
 
   // Alert the copied text
-//   alert("Copied the text: " + copyText.value);
+  alert("Copied the text: " + copyText.value);
 }
 
 
     
 </script>
+<script src="<?php echo URLROOT . '/public/js/form.js'; ?>"></script>
+
 
 </body>
 

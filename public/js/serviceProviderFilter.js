@@ -80,9 +80,10 @@ function debounce(func, delay) {
 
                     // to display half stars
                     let halfStars = '';
-                    if (result.Rating.indexOf('.') !== -1) {
-                        halfStars = '<i class="fa fa-star-half-o"></i>';
-                    }
+if (typeof result.Rating === 'string' && result.Rating.indexOf('.') !== -1) {
+    halfStars = '<i class="fa fa-star-half-o"></i>';
+}
+
 
                     var html = "<div class = 'sound-eng-profiles'>"+ 
                                 "<div class = 'profile-image'>"+ link+imgLink +"</a></div>"+

@@ -1,3 +1,15 @@
+.poster_advertisements1{
+  display: block;
+  position: absolute;
+  left: 240px;
+  width: calc(100% - 240px);
+  height: auto;
+  padding:1% 1% 1% 1%;
+  background: #E5E9F7;
+
+}
+
+
 .whitebox1 {
     background-color: rgb(255, 255, 255);
     min-height: 80vh;
@@ -132,7 +144,79 @@
  }
 
  .charts{
-  height: 20px;
+  height: 400px;
   width: 100%;
-  background-color: #808189;
+  background-color: #ffffff;
+  margin-bottom: 60px;
+  display: flex;
+  flex-direction: row;
+ }
+
+
+ .top-rated-sellers .seller-table .imgBx{
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-top: 10px;
+}
+ 
+
+ .top-rated-sellers .imgBx img{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+ }
+
+ .top-rated-sellers h3 {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+
+ .top-rated-sellers .seller-table tr{
+  /* display: flex; */
+  flex-direction: row;
+  justify-content:space-evenly;
+  align-items: center;
+ }
+
+ .top-rated-sellers .seller-table td{
+  margin-left: 10px;
+  padding-left: 30px;
+  
+  
+ }
+
+ .top-rated-sellers .seller-table .td-except{
+  margin-top: 30px;
+  margin-left: 20px;
+  text-align: center;
+ 
+ }
+
+ .seller-table{
+  width: 100%;
+ }
+
+ .graph1,.graph2{
+  
+    height: 400px;
+    margin-left: 20px;
+    width: 50%;
+    /* background-color: #808189; */
+   
+ }
+
+ .graph2{
+
+    margin-top: 15px;
  }

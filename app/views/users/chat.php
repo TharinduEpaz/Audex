@@ -77,7 +77,8 @@
                             <?php if($data['id']!=null){ ?>
                             <input type="text" name="message" id="message" placeholder="Enter your message">
                             <button type="submit" id="send_message"><i class="fas fa-paper-plane"></i></button>
-                            <?php }else{?>
+                            <?php }else{?> 
+                                <!-- Chat is not selected(input is disbling)  -->
                                 <input type="text" name="message" id="message" placeholder="Enter your message" disabled>
                                 <button type="submit" id="send_message" disabled><i class="fas fa-paper-plane" ></i></button>
                             <?php }?>
@@ -148,7 +149,6 @@
             console.log(data.message);
             if(data.message == 'Message Sent'){
                 document.getElementById('message').value = '';
-                // window.location.href = '<?php echo URLROOT?>/chat/'+receiver_email;
             }
             
         })
@@ -181,19 +181,23 @@
             // document.documentElement.innerHTML = html;
             // console.log(<?php echo $data['receiver_details']->user_id;?>);
             // console.log(data.message);
+
+            // Patte recievers chats tika(recievers email) pennana tika 
             for(var i=0;i< data.message['email_receivers'].length;i++){
                 var result = data.message['email_receivers'][i];
                 // console.log(result);
                 html1+="<div class='message'><a href='<?php echo URLROOT.'/users/chat/';?>"+result.user_id+"'><div class='image' style='background-image: url(<?php echo URLROOT.'/uploads/'?>"+result.profile_pic+");'></div><h5>"+result.first_name+' '+result.second_name+"</h5></a></div>"
 
             }
+            // Messages tika pennana tika
             for (var i = 0; i < data.message['current_chat'].length; i++) {
                 var result = data.message['current_chat'][i];
                 console.log(result);
-                if(result.sender_email == sender_email){
+                if(result.sender_email == sender_email){ 
+                    //Eka message ekai, ekko logged in user sender, nattn receiver
                     html+= "<div class ='typed'> <div class= 'type right blue'> <div class='msg'> "+ result.message + "<br> <p style='float: right;color:black;font-weight:600;font-size:8pt;' >"+ result.date+"</p> </div> </div> </div>"
                 }
-                else{
+                else{ // logged user is receiver
                     html+= "<div class ='typed'> <div class= 'type left white'> <div class='msg'> "+ result.message + "<br> <p style='float: right;color:black;font-weight:600;font-size:8pt;' >"+ result.date+"</p> </div> </div> </div>"
                     
                 }
@@ -206,9 +210,9 @@
                 //     console.log(result.product_title,result.price,result.product_category);
                 // })
                 // console.log(currentChat);
-               console.log(html1);
-                messages.innerHTML = html1;
-                currentChat.innerHTML = html;
+            //    console.log(html1);
+                messages.innerHTML = html1; //patte recievers chats tika pennana tika
+                currentChat.innerHTML = html; //Current messages tika pennana tika
         });
 
     }

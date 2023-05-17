@@ -17,13 +17,8 @@
 <body>
 <?php require_once APPROOT . '/views/admins/navbar.php';?>
     <div class="container">
-        <div class="sidebar">
-                <a href="<?php echo URLROOT;?>/admins/profiletest"><i class="fas fa-qrcode"></i> <span>My Profile</span></a>
-                <a class="current" href="<?php echo URLROOT;?>/admins/mangeuser"> <i class="fa fa-cog" aria-hidden="true"></i><span>Manage Users</span></a>
-                <a href="#"> <i class="fas fa-bookmark" aria-hidden="true"></i><span>Flags</span></a>
-                <a href="<?php echo URLROOT;?>/admins/approval"> <i class="fas fa-check-circle" aria-hidden="true"></i><span>Approvals</span></a>
-                <!-- <a href="#"> <i class="fas fa-child"></i><span>Help</span></a>        -->
-        </div>
+    <?php require_once APPROOT . '/views/admins/sidebar.php';?>        
+
     <div class="poster_advertisements_admin">
         <div class="white-box">
             <h1>Add Admin</h1>
@@ -66,4 +61,12 @@
     </div>
 </body>
 <script src="<?php echo URLROOT . '/public/js/form.js';?>"></script>
+<script>
+    //keeping the sidebar button clicked at the page
+    link = document.querySelector('#manage_users');
+    link.style.background = "#E5E9F7";
+    link.style.color = "red";
+    link.style.fontWeight = "800";
+
+</script>
 </html>
